@@ -25,10 +25,11 @@ path = { '/css/style.css': {'tools.staticfile.on': True, 'tools.staticfile.filen
              }
 
 htmlheader = """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-lang="en"> <head> <link rel="stylesheet" type="text/css" href="/css/style.css"
-/> <title>pyAggr3g470r - RSS Feed Reader</title> </head>"""
+                lang="en">\n<head>\n<link rel="stylesheet" type="text/css" href="/css/style.css"
+                />\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n
+                <title>pyAggr3g470r - RSS Feed Reader</title> </head>"""
 
-htmlfooter =  """</body></html>"""
+htmlfooter =  """</div></body></html>"""
 
 htmlnav = """<body><h1><a href="/">pyAggr3g470r - RSS Feed Reader</a></h1><a
 href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r (source code)</a>
@@ -40,9 +41,10 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """<br/><div class="right inner">"""
-        html += """ <h2>Search</h2> """
-        html += """ <form method=get action="q/"><input type="text" name="v" value=""> <input
-        type="submit" value="search"></form> """
+        html += """<h2>Search</h2>"""
+        html += """<form method=get action="q/"><input type="text" name="v" value=""> <input
+        type="submit" value="search"></form>"""
+        html += """<a href="f/">Management of feed</a>"""
         html += """</div> <div class="left inner">"""
 
 
@@ -58,6 +60,10 @@ class Root:
         html += htmlfooter
         return html
 
+    def f(self):
+        """
+        """
+        return "Hello world !"
 
 
     def retrieve_feed(self):
@@ -76,6 +82,7 @@ class Root:
         return dic
 
     index.exposed = True
+    f.exposed = True
 
 
 
