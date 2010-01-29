@@ -36,7 +36,7 @@ def retrieve_feed():
     """
     Parse the file 'feeds.lst' and launch a thread for each RSS feed.
     """
-    conn = sqlite3.connect("feed.db", isolation_level = None)
+    conn = sqlite3.connect("./var/feed.db", isolation_level = None)
     c = conn.cursor()
     c.execute('''create table rss_feed
                 (date text, feed_title text, feed_site_link text, article_title text , article_link text)''')
