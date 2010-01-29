@@ -1,0 +1,326 @@
+/* CSS based on the patrimoine ael website - initial source?*/
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: white;
+  color: black;
+}
+
+body { 
+  text-align: justify;
+  font: normal .9em/1.5em Cambria, Georgia, "Trebuchet MS", Verdana, sans-serif;
+  overflow-y: scroll;
+}
+
+code, pre {
+  font-size: 110%;
+}
+
+img {
+  border: 0px;
+}
+
+h1 {
+  font-size: 100%;
+  margin: 0em 0em;
+  padding: 0px;
+}
+
+h2 {
+  margin: 0.5em 0em;
+  padding: 0px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  font-size: 100%;
+  letter-spacing: 0em;
+  text-align: right;
+}
+
+h3 {
+  margin: 0em 0em 0.5em 0em;
+  font-size: 100%;
+  font-weight: bold;
+  text-align: left;
+}
+
+h1 a, h2 a, h3 a {
+  text-decoration: none;
+}
+
+h2 + h3 {
+  margin-top: 0.5em;
+}
+
+table {
+  margin-left: 2em;
+  margin-bottom: 1em;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding-right: 1em;
+  text-align: left;
+}
+
+th {
+  vertical-align: bottom;
+  border-bottom: 1px solid black;
+}
+
+td {
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+table.border td, table.border th {
+  border: 1px solid black;
+}
+
+p {
+  margin: 0.5em 0em;
+}
+
+ol.lower {
+  list-style-type: lower-alpha;
+}
+
+ol.upper {
+  list-style-type: upper-alpha;
+}
+
+ol.roman {
+  list-style-type: lower-roman;
+}
+
+ul {
+  margin: 0em 0em 0.5em 0.5em;
+  padding: 0em;
+}
+
+li {
+  margin: 0em 0em 0em 0.5em;
+  padding: 0em;
+}
+
+a:link, a:visited {
+  color: #003399;
+}
+
+dt {
+  margin: 0.5em 0em 0em 0em;
+  padding: 0em;
+  font-weight: bold;
+}
+
+dd {
+  margin: 0em;
+}
+
+hr {
+  color: white;
+  border-top: dotted black;
+  border-width: 1px 0px 0px 0px;
+  margin: 1em 0em;
+}
+
+/* Navigation bars */
+
+#heading {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 1;
+}
+
+#nav {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 2;
+}
+
+#heading, #nav, #nav ul {
+  margin: 0;
+  height: 1.8em;
+}
+
+#heading, #nav ul, #nav li {
+  background: #EEEEEE;
+  color: inherit;
+  border-bottom: 0px solid black;
+}
+
+#heading h1 {
+  margin: 0;
+  padding: 0.4em 0 0.4em 2em;
+  white-space: nowrap;
+}
+
+#nav ul {
+  display: block;
+  margin: 0 3em 0 0;
+  border-right: 0px solid #000000;
+}
+
+#nav li {
+  margin: 0em;
+  padding: 0.4em 1em 0.2em 1em;
+  display: block;
+  float: left;
+  border-left: 0px solid #000000;
+}
+
+pre {
+  margin-left: 2em;
+}
+
+.right {
+  clear: right;
+  float: right;
+  text-align: right;
+  margin: 0em 2em 0em 2em;
+  max-width: 36%;
+}
+
+img.right {
+  width: auto;
+}
+
+.inner .right {
+  margin-right: 0em;
+}
+
+.right blockquote {
+  float: right;
+  position: relative;
+  clear: both;
+  padding-top: 1em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+  font-style: italic;
+  width: 100%;
+  margin-right: 0em;
+}
+
+blockquote.right {
+  width: 50%;
+  margin-left: 50%;
+  margin-right: 0em;
+}
+
+/* Footer (W3C logos) */
+
+#w3c {
+  text-align: right;
+  padding: 0em 2em 0em 2em;
+  clear: both;
+}
+
+#w3c img {
+  padding-left: 10px;
+  padding-top: 1em;
+}
+
+/* Classes */
+
+.clear {
+  font-size: 1px;
+  line-height: 1px;
+  height: 0px;
+  clear: both;
+}
+
+.invisible {
+  display: none;
+}
+
+.inner {
+  margin-top: 3em;
+  padding: 0em 2em 0em 2em;
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.tex {
+  position: relative; top: 0.2em;
+  margin-left: -0.2em;
+  margin-right: -0.1em;
+}
+
+/* Photo album */
+
+#album {
+  margin: 0 auto;
+  padding: 3em 2em 0em 2em;
+}
+
+#thumbs {
+  background: white;
+  position: absolute;
+  left: 2em;
+  right: 2em;
+  margin-top: -100px;
+  padding-bottom: 0.5em;
+  overflow: auto;
+}
+
+#thumbs table {
+  margin: 0 auto;
+  position: relative;
+  max-width: 100%;
+  border-collapse: collapse;
+  border: 0px;
+}
+
+#pageselectors {
+  margin-top: 1em;
+  text-align: center;
+  padding-bottom: 100px;
+  margin-bottom: 0.5em;
+}
+
+#thumbs img, #photo img {
+  display: block;
+  margin: 0 auto;
+}
+
+#thumbs td {
+  width: 8em;
+  min-width: 100px;
+  text-align: center;
+  padding: 0.5em 0.5em 0em 0em;
+  border: 0px;
+  margin: 0px;
+}
+
+#photo {
+  text-align: center;
+}
+
+#thumbs img {
+  opacity: 0.99;
+  -moz-opacity: 0.99;
+}
+
+#thumbs img:hover {
+  opacity: 0.7;
+  -moz-opacity: 0.7;
+}
+
+#photo img {
+  max-width: 100%;
+  min-height: 300px;
+  max-height: 300px;
+  overflow: scroll;
+  margin-top: 0.5em;
+}
+
