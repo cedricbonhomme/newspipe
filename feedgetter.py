@@ -23,49 +23,67 @@ feeds_list = []
 list_of_threads = []
 
 
-
-
-def process(the_good_url):
-    """Request the URL
-
-    Executed in a thread.
+class FeedGetter(object):
     """
-    feeds_list.append(feedparser.parse(the_good_url))
-
-def retrieve_feed():
     """
-    Parse the file 'feeds.lst' and launch a thread for each RSS feed.
-    """
-    conn = sqlite3.connect("./var/feed.db", isolation_level = None)
-    c = conn.cursor()
-    c.execute('''create table if not exists rss_feed
-                (date text, feed_title text, feed_site_link text, \
-                article_title text, article_link text PRIMARY KEY)''')
+    def __init__(self):
+        # mutex to protect the SQLite base
+        self.locker = threading.Lock()
 
-    for a_feed in feeds_file.readlines():
-        # test if the URL is well formed
-        for url_regexp in url_finders:
-            if url_regexp.match(a_feed):
-                the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
-                try:
-                    # launch a new thread for the RSS feed
-                    thread = threading.Thread(None, process, \
-                                        None, (the_good_url,))
-                    thread.start()
-                    list_of_threads.append(thread)
-                except:
-                    pass
-                break
+        self.retrieve_feed()
 
-    # wait for all threads are done
-    for th in list_of_threads:
-        th.join()
+    def retrieve_feed(self):
+        """
+        Parse the file 'feeds.lst' and launch a thread for each RSS feed.
+        """
+        for a_feed in feeds_file.readlines():
+            # test if the URL is well formed
+            for url_regexp in url_finders:
+                if url_regexp.match(a_feed):
+                    the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
+                    try:
+                        # launch a new thread for the RSS feed
+                        thread = threading.Thread(None, self.process, \
+                                            None, (the_good_url,))
+                        thread.start()
+                        list_of_threads.append(thread)
+                    except:
+                        pass
+                    break
 
-    # when all jobs are done, insert articles in the base
-    for a_feed in feeds_list:
+        # wait for all threads are done
+        for th in list_of_threads:
+            th.join()
+
+    def process(self, the_good_url):
+        """Request the URL
+
+        Executed in a thread.
+        SQLite objects created in a thread can only be used in that same thread !
+        """
+        self.locker.acquire()
+
+        self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+        self.c = self.conn.cursor()
+        self.c.execute('''create table if not exists rss_feed
+                    (date text, feed_title text, feed_site_link text, \
+                    article_title text, article_link text PRIMARY KEY)''')
+
+        # add the articles in the base
+        self.add_into_sqlite(feedparser.parse(the_good_url))
+
+        self.conn.commit()
+        self.c.close()
+
+        self.locker.release()
+
+    def add_into_sqlite(self, a_feed):
+        """
+        Add the articles of the feed 'a_feed' in the SQLite base.
+        """
         for article in a_feed['entries']:
             try:
-                c.execute('insert into rss_feed values (?,?,?,?,?)', (\
+                self.c.execute('insert into rss_feed values (?,?,?,?,?)', (\
                         "-".join([str(i) for i in list(article.updated_parsed)]), \
                         a_feed.feed.title.encode('utf-8'), \
                         a_feed.feed.link.encode('utf-8'), \
@@ -73,9 +91,6 @@ def retrieve_feed():
                         article.link.encode('utf-8')))
             except sqlite3.IntegrityError:
                 pass
-
-    conn.commit()
-    c.close()
 
 
 if __name__ == "__main__":
@@ -86,4 +101,4 @@ if __name__ == "__main__":
         print "./feed.lst not found"
         exit(0)
 
-    retrieve_feed()
+    FeedGetter()
