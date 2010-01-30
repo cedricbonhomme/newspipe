@@ -54,8 +54,9 @@ class Root:
                     '">' + dic[rss_feed][0][1].encode('utf-8') + "</a></h2>"
 
             for article in dic[rss_feed]:
-                html += '<a href="' + article[3].encode('utf-8') + \
-                     '">' + article[2].encode('utf-8') + "</a><br />"
+                html += article[0].encode('utf-8') + " - " + \
+                        '<a href="' + article[3].encode('utf-8') + \
+                        '">' + article[2].encode('utf-8') + "</a><br />"
 
         html += htmlfooter
         return html
@@ -67,19 +68,25 @@ class Root:
 
 
     def retrieve_feed(self):
-        conn = sqlite3.connect("./var/feed.db", isolation_level = None)
-        c = conn.cursor()
-        list_of_articles = c.execute("SELECT * FROM rss_feed").fetchall()
-        c.close()
+        list_of_articles = None
+        try:
+            conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+            c = conn.cursor()
+            list_of_articles = c.execute("SELECT * FROM rss_feed").fetchall()
+            c.close()
+        except:
+            pass
 
-        dic = {}
-        for article in list_of_articles:
-            if article[2] not in dic:
-                dic[article[2]] = [(article[0], article[1], article[3], article[4])]
-            else:
-                dic[article[2]].append((article[0], article[1], article[3], article[4]))
+        if list_of_articles is not None:
+            dic = {}
+            for article in list_of_articles:
+                if article[2] not in dic:
+                    dic[article[2]] = [(article[0], article[1], article[3], article[4])]
+                else:
+                    dic[article[2]].append((article[0], article[1], article[3], article[4]))
 
-        return dic
+            return dic
+        return {}
 
     index.exposed = True
     f.exposed = True

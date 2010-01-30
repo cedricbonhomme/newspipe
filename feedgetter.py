@@ -12,6 +12,8 @@ import sqlite3
 import threading
 import feedparser
 
+from datetime import datetime
+
 url_finders = [ \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
@@ -84,7 +86,7 @@ class FeedGetter(object):
         for article in a_feed['entries']:
             try:
                 self.c.execute('insert into rss_feed values (?,?,?,?,?)', (\
-                        "-".join([str(i) for i in list(article.updated_parsed)]), \
+                        datetime(*article.updated_parsed[:6]), \
                         a_feed.feed.title.encode('utf-8'), \
                         a_feed.feed.link.encode('utf-8'), \
                         article.title.encode('utf-8'), \
