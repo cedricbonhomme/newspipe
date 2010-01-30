@@ -38,8 +38,9 @@ def retrieve_feed():
     """
     conn = sqlite3.connect("./var/feed.db", isolation_level = None)
     c = conn.cursor()
-    c.execute('''create table rss_feed
-                (date text, feed_title text, feed_site_link text, article_title text , article_link text)''')
+    c.execute('''create table if not exists rss_feed
+                (date text, feed_title text, feed_site_link text, \
+                article_title text, article_link text PRIMARY KEY)''')
 
     for a_feed in feeds_file.readlines():
         # test if the URL is well formed
@@ -63,12 +64,15 @@ def retrieve_feed():
     # when all jobs are done, insert articles in the base
     for a_feed in feeds_list:
         for article in a_feed['entries']:
-            c.execute('insert into rss_feed values (?,?,?,?,?)', (\
-                    "-".join([str(i) for i in list(article.updated_parsed)]), \
-                    a_feed.feed.title.encode('utf-8'), \
-                    a_feed.feed.link.encode('utf-8'), \
-                    article.title.encode('utf-8'), \
-                    article.link.encode('utf-8')))
+            try:
+                c.execute('insert into rss_feed values (?,?,?,?,?)', (\
+                        "-".join([str(i) for i in list(article.updated_parsed)]), \
+                        a_feed.feed.title.encode('utf-8'), \
+                        a_feed.feed.link.encode('utf-8'), \
+                        article.title.encode('utf-8'), \
+                        article.link.encode('utf-8')))
+            except sqlite3.IntegrityError:
+                pass
 
     conn.commit()
     c.close()
