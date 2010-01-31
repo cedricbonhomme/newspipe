@@ -81,9 +81,14 @@ class Root:
             dic = {}
             for article in list_of_articles:
                 if article[2] not in dic:
+
                     dic[article[2]] = [(article[0], article[1], article[3], article[4])]
                 else:
                     dic[article[2]].append((article[0], article[1], article[3], article[4]))
+
+            # sort articles by date for each feeds
+            for feeds in dic.keys():
+                dic[article[2]].sort(lambda x,y: cmp(y[0], x[0]))
 
             return dic
         return {}

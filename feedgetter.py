@@ -69,7 +69,8 @@ class FeedGetter(object):
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists rss_feed
                     (date text, feed_title text, feed_site_link text, \
-                    article_title text, article_link text PRIMARY KEY)''')
+                    article_title text, article_link text PRIMARY KEY, \
+                    article_content text)''')
 
         # add the articles in the base
         self.add_into_sqlite(feedparser.parse(the_good_url))
@@ -85,12 +86,17 @@ class FeedGetter(object):
         """
         for article in a_feed['entries']:
             try:
-                self.c.execute('insert into rss_feed values (?,?,?,?,?)', (\
+                content = article.description.encode('utf-8')
+            except Exception, e:
+                content = "No description"
+            try:
+                self.c.execute('insert into rss_feed values (?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         a_feed.feed.title.encode('utf-8'), \
                         a_feed.feed.link.encode('utf-8'), \
                         article.title.encode('utf-8'), \
-                        article.link.encode('utf-8')))
+                        article.link.encode('utf-8'), \
+                        content))
             except sqlite3.IntegrityError:
                 pass
 
