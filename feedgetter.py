@@ -9,6 +9,7 @@ __license__ = "GPLv3"
 
 import re
 import sqlite3
+import hashlib
 import threading
 import feedparser
 
@@ -68,9 +69,9 @@ class FeedGetter(object):
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists rss_feed
-                    (date text, feed_title text, feed_site_link text, \
-                    article_title text, article_link text PRIMARY KEY, \
-                    article_content text)''')
+                    (article_id text PRIMARY KEY, article_date text, \
+                    article_title text, article_link text, article_description text, \
+                    feed_title text, feed_site_link text)''')
 
         # add the articles in the base
         self.add_into_sqlite(feedparser.parse(the_good_url))
@@ -89,14 +90,20 @@ class FeedGetter(object):
                 content = article.description.encode('utf-8')
             except Exception, e:
                 content = "No description"
+
+            sha256_hash = hashlib.sha256()
+            sha256_hash.update(article.link.encode('utf-8'))
+            article_id = sha256_hash.hexdigest()
+
             try:
-                self.c.execute('insert into rss_feed values (?,?,?,?,?,?)', (\
+                self.c.execute('insert into rss_feed values (?,?,?,?,?,?,?)', (\
+                        article_id, \
                         datetime(*article.updated_parsed[:6]), \
-                        a_feed.feed.title.encode('utf-8'), \
-                        a_feed.feed.link.encode('utf-8'), \
                         article.title.encode('utf-8'), \
                         article.link.encode('utf-8'), \
-                        content))
+                        content, \
+                        a_feed.feed.title.encode('utf-8'), \
+                        a_feed.feed.link.encode('utf-8')))
             except sqlite3.IntegrityError:
                 pass
 

@@ -39,6 +39,7 @@ href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r (source co
 
 class Root:
     def index(self):
+        self.dic = {}
         html = htmlheader
         html += htmlnav
         html += """<br/><div class="right inner">"""
@@ -49,15 +50,17 @@ class Root:
         html += """</div> <div class="left inner">"""
 
 
-        dic = self.retrieve_feed()
-        for rss_feed in dic.keys():
-            html += '<h2><a href="' + rss_feed.encode('utf-8') + \
-                    '">' + dic[rss_feed][0][1].encode('utf-8') + "</a></h2>"
+        self.dic = self.retrieve_feed()
+        for rss_feed in self.dic.keys():
+            html += '<h2><a href="' + self.dic[rss_feed][0][5].encode('utf-8') + \
+                    '">' + rss_feed.encode('utf-8') + "</a></h2>"
 
-            for article in dic[rss_feed]:
-                html += article[0].encode('utf-8') + " - " + \
+            for article in self.dic[rss_feed]:
+                html += article[1].encode('utf-8') + " - " + \
                         '<a href="' + article[3].encode('utf-8') + \
-                        '">' + article[2].encode('utf-8') + "</a><br />"
+                        '">' + article[2].encode('utf-8') + "</a>" + \
+                        """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
+                        "<br />"
 
         html += htmlfooter
         return html
@@ -67,6 +70,19 @@ class Root:
         """
         return "Hello world !"
 
+    def description(self, article_id):
+        """
+        Display the description of an article.
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+        for rss_feed in self.dic.keys():
+            for article in self.dic[rss_feed]:
+                if article_id == article[0]:
+                    html += article[4].encode('utf-8')
+        html += htmlfooter
+        return html
 
     def retrieve_feed(self):
         list_of_articles = None
@@ -81,21 +97,21 @@ class Root:
         if list_of_articles is not None:
             dic = {}
             for article in list_of_articles:
-                if article[2] not in dic:
-
-                    dic[article[2]] = [(article[0], article[1], article[3], article[4])]
+                if article[5] not in dic:
+                    dic[article[5]] = [(article[0], article[1], article[2], article[3], article[4], article[6])]
                 else:
-                    dic[article[2]].append((article[0], article[1], article[3], article[4]))
+                    dic[article[5]].append((article[0], article[1], article[2], article[3], article[4], article[6]))
 
             # sort articles by date for each feeds
             for feeds in dic.keys():
-                dic[feeds].sort(lambda x,y: compare(y[0], x[0]))
+                dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
 
             return dic
         return {}
 
     index.exposed = True
     f.exposed = True
+    description.exposed = True
 
 
 def compare(stringtime1, stringtime2):
