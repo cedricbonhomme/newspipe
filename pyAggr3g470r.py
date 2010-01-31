@@ -11,6 +11,7 @@ import sqlite3
 import cherrypy
 import ConfigParser
 
+from datetime import datetime
 from cherrypy.lib.static import serve_file
 
 config = ConfigParser.RawConfigParser()
@@ -88,7 +89,7 @@ class Root:
 
             # sort articles by date for each feeds
             for feeds in dic.keys():
-                dic[article[2]].sort(lambda x,y: cmp(y[0], x[0]))
+                dic[feeds].sort(lambda x,y: compare(y[0], x[0]))
 
             return dic
         return {}
@@ -96,6 +97,32 @@ class Root:
     index.exposed = True
     f.exposed = True
 
+
+def compare(stringtime1, stringtime2):
+    """
+    Compare two dates in the format 'yyyy-mm-dd hh:mm:ss'.
+    """
+    date1, time1 = stringtime1.split(' ')
+    date2, time2 = stringtime2.split(' ')
+
+    year1, month1, day1 = date1.split('-')
+    year2, month2, day2 = date2.split('-')
+
+    hour1, minute1, second1 = time1.split(':')
+    hour2, minute2, second2 = time2.split(':')
+
+    datetime1 = datetime(year=int(year1), month=int(month1), day=int(day1), \
+                        hour=int(hour1), minute=int(minute1), second=int(second1))
+
+    datetime2 = datetime(year=int(year2), month=int(month2), day=int(day2), \
+                        hour=int(hour2), minute=int(minute2), second=int(second2))
+
+    if datetime1 < datetime2:
+        return -1
+    elif datetime1 > datetime2:
+        return 1
+    else:
+        return 0
 
 
 if __name__ == '__main__':
