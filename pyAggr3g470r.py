@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
-__date__ = "$Date: 2010/29/01 $"
+__version__ = "$Revision: 0.2 $"
+__date__ = "$Date: 2010/31/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -81,6 +81,7 @@ class Root:
             for article in self.dic[rss_feed]:
                 if article_id == article[0]:
                     html += article[4].encode('utf-8')
+                    html += """<hr />\n<a href="%s">Complete story</a>""" % article[3].encode('utf-8')
         html += htmlfooter
         return html
 
