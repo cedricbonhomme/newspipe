@@ -95,7 +95,7 @@ class Root:
                 if article_id == article[0]:
                     html += article[4].encode('utf-8')
                     html += """<hr />\n<a href="%s">Complete story</a>""" % (article[3].encode('utf-8'),)
-        html += htmlfooter
+        html += "<br />" + htmlfooter
         return html
 
     def all_articles(self, feed_title):
@@ -110,7 +110,7 @@ class Root:
             html += article[1].encode('utf-8') + " - " + \
                     '<a href="' + article[3].encode('utf-8') + \
                     '">' + article[2].encode('utf-8') + "</a>" + \
-                    """ - [<a href="/description/%s">description</a>]""" % (article[3].encode('utf-8'),) + \
+                    """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
                     "<br />\n"
 
         html += """<h4><a href="/">All feeds</a></h4>"""
