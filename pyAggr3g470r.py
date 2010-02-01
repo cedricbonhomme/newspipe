@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
-__date__ = "$Date: 2010/31/01 $"
+__version__ = "$Revision: 0.3 $"
+__date__ = "$Date: 2010/02/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -42,27 +42,33 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
+        self.dic = self.load_feed()
         html = htmlheader
         html += htmlnav
-        html += """<br/><div class="right inner">"""
-        html += """<h2>Search</h2>"""
-        html += """<form method=get action="q/"><input type="text" name="v" value=""> <input
-        type="submit" value="search"></form>"""
-        html += """<a href="f/">Management of feed</a>"""
-        html += """</div> <div class="left inner">"""
-
-        self.dic = self.load_feed()
+        html += """<div class="right inner">\n"""
+        html += """<h2>Search</h2>\n"""
+        html += """<form method=get action="q/"><input type="text" name="v" value=""><input
+        type="submit" value="search"></form>\n"""
+        html += """<a href="f/">Management of feed</a>\n"""
+        html += "<hr />\n"
+        html += "Your feeds:<br />\n"
         for rss_feed in self.dic.keys():
-            html += '<h2><a href="' + self.dic[rss_feed][0][5].encode('utf-8') + \
-                    '">' + rss_feed.encode('utf-8') + "</a></h2>"
+            html += """<a href="/#%s">%s</a><br />\n""" % (rss_feed.encode('utf-8'), \
+                                                            rss_feed.encode('UTF-8'))
+        html += """</div>\n<div class="left inner">\n"""
+
+        for rss_feed in self.dic.keys():
+            html += '<h2><a name="' + rss_feed.encode('utf-8') + '">' + \
+                        '<a href="' + self.dic[rss_feed][0][5].encode('utf-8') + \
+                        '">' + rss_feed.encode('utf-8') + "</a></a></h2>\n"
 
             for article in self.dic[rss_feed]:
                 html += article[1].encode('utf-8') + " - " + \
                         '<a href="' + article[3].encode('utf-8') + \
                         '">' + article[2].encode('utf-8') + "</a>" + \
                         """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
-                        "<br />"
-
+                        "<br />\n"
+            html += "<hr />\n"
         html += htmlfooter
         return html
 
