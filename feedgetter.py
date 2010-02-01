@@ -30,10 +30,21 @@ class FeedGetter(object):
     """
     """
     def __init__(self):
+        """
+        Initializes the base and variables.
+        """
+        # Create the base if not exists.
+        self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+        self.c = self.conn.cursor()
+        self.c.execute('''create table if not exists rss_feed
+                    (article_id text PRIMARY KEY, article_date text, \
+                    article_title text, article_link text, article_description text, \
+                    feed_title text, feed_site_link text)''')
+        self.conn.commit()
+        self.c.close()
+
         # mutex to protect the SQLite base
         self.locker = threading.Lock()
-
-        self.retrieve_feed()
 
     def retrieve_feed(self):
         """
@@ -64,21 +75,19 @@ class FeedGetter(object):
         Executed in a thread.
         SQLite objects created in a thread can only be used in that same thread !
         """
+        # Protect this part of code.
         self.locker.acquire()
 
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
-        self.c.execute('''create table if not exists rss_feed
-                    (article_id text PRIMARY KEY, article_date text, \
-                    article_title text, article_link text, article_description text, \
-                    feed_title text, feed_site_link text)''')
 
-        # add the articles in the base
+        # Add the articles in the base.
         self.add_into_sqlite(feedparser.parse(the_good_url))
 
         self.conn.commit()
         self.c.close()
 
+        # Release this part of code.
         self.locker.release()
 
     def add_into_sqlite(self, a_feed):
@@ -87,9 +96,9 @@ class FeedGetter(object):
         """
         for article in a_feed['entries']:
             try:
-                content = article.description.encode('utf-8')
+                description = article.description.encode('utf-8')
             except Exception, e:
-                content = "No description"
+                description = "No description available."
 
             sha256_hash = hashlib.sha256()
             sha256_hash.update(article.link.encode('utf-8'))
@@ -101,7 +110,7 @@ class FeedGetter(object):
                         datetime(*article.updated_parsed[:6]), \
                         article.title.encode('utf-8'), \
                         article.link.encode('utf-8'), \
-                        content, \
+                        description, \
                         a_feed.feed.title.encode('utf-8'), \
                         a_feed.feed.link.encode('utf-8')))
             except sqlite3.IntegrityError:
@@ -116,4 +125,5 @@ if __name__ == "__main__":
         print "./feed.lst not found"
         exit(0)
 
-    FeedGetter()
+    feed_getter = FeedGetter()
+    feed_getter.retrieve_feed()

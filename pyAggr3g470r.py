@@ -39,7 +39,9 @@ href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r (source co
 
 class Root:
     def index(self):
-        self.dic = {}
+        """
+        Main page containing the list of feeds and articles.
+        """
         html = htmlheader
         html += htmlnav
         html += """<br/><div class="right inner">"""
@@ -49,8 +51,7 @@ class Root:
         html += """<a href="f/">Management of feed</a>"""
         html += """</div> <div class="left inner">"""
 
-
-        self.dic = self.retrieve_feed()
+        self.dic = self.load_feed()
         for rss_feed in self.dic.keys():
             html += '<h2><a href="' + self.dic[rss_feed][0][5].encode('utf-8') + \
                     '">' + rss_feed.encode('utf-8') + "</a></h2>"
@@ -72,7 +73,7 @@ class Root:
 
     def description(self, article_id):
         """
-        Display the description of an article.
+        Display the description of an article in a new Web page.
         """
         html = htmlheader
         html += htmlnav
@@ -85,7 +86,10 @@ class Root:
         html += htmlfooter
         return html
 
-    def retrieve_feed(self):
+    def load_feed(self):
+        """
+        Load feeds in a dictionary.
+        """
         list_of_articles = None
         try:
             conn = sqlite3.connect("./var/feed.db", isolation_level = None)
@@ -95,8 +99,10 @@ class Root:
         except:
             pass
 
+        # The key of dic is the title of the feed:
+        # dic[feed_title] = (article_id, article_date, article_title, article_link, article_description, feed_link)
+        dic = {}
         if list_of_articles is not None:
-            dic = {}
             for article in list_of_articles:
                 if article[5] not in dic:
                     dic[article[5]] = [(article[0], article[1], article[2], article[3], article[4], article[6])]
@@ -108,7 +114,7 @@ class Root:
                 dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
 
             return dic
-        return {}
+        return dic
 
     index.exposed = True
     f.exposed = True
