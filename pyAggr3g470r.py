@@ -2,11 +2,12 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.3 $"
+__version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2010/02/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import base64
 import sqlite3
 import cherrypy
 import ConfigParser
@@ -22,17 +23,18 @@ bindhost = "0.0.0.0"
 
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
-path = { '/css/style.css': {'tools.staticfile.on': True, 'tools.staticfile.filename':path+'css/style.css'}
-             }
+path = { '/css/style.css': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/style.css'}}
 
 htmlheader = """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
                 lang="en">\n<head>\n<link rel="stylesheet" type="text/css" href="/css/style.css"
                 />\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n
                 <title>pyAggr3g470r - RSS Feed Reader</title> </head>"""
 
-htmlfooter =  """</div></body></html>"""
+htmlfooter =  """This software is under GPLv3 license.</div>
+                </body></html>"""
 
-htmlnav = """<body><h1><a href="/">pyAggr3g470r - RSS Feed Reader</a></h1><a
+htmlnav = """<body><h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1><a
 href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r (source code)</a>
 """
 
@@ -46,7 +48,6 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
-        html += """<h2>Search</h2>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
         html += """<a href="f/">Management of feed</a>\n"""
@@ -54,20 +55,25 @@ class Root:
         html += "Your feeds:<br />\n"
         for rss_feed in self.dic.keys():
             html += """<a href="/#%s">%s</a><br />\n""" % (rss_feed.encode('utf-8'), \
-                                                            rss_feed.encode('UTF-8'))
+                                    self.dic[rss_feed][0][5].encode('utf-8'))
         html += """</div>\n<div class="left inner">\n"""
 
         for rss_feed in self.dic.keys():
             html += '<h2><a name="' + rss_feed.encode('utf-8') + '">' + \
-                        '<a href="' + self.dic[rss_feed][0][5].encode('utf-8') + \
-                        '">' + rss_feed.encode('utf-8') + "</a></a></h2>\n"
+                        '<a href="' + self.dic[rss_feed][0][6].encode('utf-8') + \
+                        '">' + self.dic[rss_feed][0][5].encode('utf-8') + "</a></a></h2>\n"
 
-            for article in self.dic[rss_feed]:
+            # The main page display only 10 articles by feeds.
+            for article in self.dic[rss_feed][:10]:
                 html += article[1].encode('utf-8') + " - " + \
                         '<a href="' + article[3].encode('utf-8') + \
                         '">' + article[2].encode('utf-8') + "</a>" + \
                         """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
                         "<br />\n"
+            html += "<br />\n"
+
+            html += """[<a href="/all_articles/%s">All articles</a>]""" % (rss_feed,)
+            html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
         return html
@@ -88,7 +94,26 @@ class Root:
             for article in self.dic[rss_feed]:
                 if article_id == article[0]:
                     html += article[4].encode('utf-8')
-                    html += """<hr />\n<a href="%s">Complete story</a>""" % article[3].encode('utf-8')
+                    html += """<hr />\n<a href="%s">Complete story</a>""" % (article[3].encode('utf-8'),)
+        html += htmlfooter
+        return html
+
+    def all_articles(self, feed_title):
+        """
+        Display all articles of a feed ('feed_title').
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+
+        for article in self.dic[feed_title]:
+            html += article[1].encode('utf-8') + " - " + \
+                    '<a href="' + article[3].encode('utf-8') + \
+                    '">' + article[2].encode('utf-8') + "</a>" + \
+                    """ - [<a href="/description/%s">description</a>]""" % (article[3].encode('utf-8'),) + \
+                    "<br />\n"
+
+        html += """<h4><a href="/">All feeds</a></h4>"""
         html += htmlfooter
         return html
 
@@ -106,14 +131,19 @@ class Root:
             pass
 
         # The key of dic is the title of the feed:
-        # dic[feed_title] = (article_id, article_date, article_title, article_link, article_description, feed_link)
+        # dic[feed_title] = (article_id, article_date, article_title, article_link, article_description, feed_title, feed_link)
         dic = {}
         if list_of_articles is not None:
             for article in list_of_articles:
-                if article[5] not in dic:
-                    dic[article[5]] = [(article[0], article[1], article[2], article[3], article[4], article[6])]
+                feed_id = base64.b64encode(article[5].encode('utf-8'))
+                article_id = base64.b64encode(article[2].encode('utf-8'))
+
+                article_tuple = (article_id, article[0], article[1], article[2], article[3], article[4], article[5])
+
+                if feed_id not in dic:
+                    dic[feed_id] = [article_tuple]
                 else:
-                    dic[article[5]].append((article[0], article[1], article[2], article[3], article[4], article[6]))
+                    dic[feed_id].append(article_tuple)
 
             # sort articles by date for each feeds
             for feeds in dic.keys():
@@ -125,6 +155,7 @@ class Root:
     index.exposed = True
     f.exposed = True
     description.exposed = True
+    all_articles.exposed = True
 
 
 def compare(stringtime1, stringtime2):

@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.3 $"
+__version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2010/02/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
@@ -37,8 +37,8 @@ class FeedGetter(object):
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists rss_feed
-                    (article_id text PRIMARY KEY, article_date text, \
-                    article_title text, article_link text, article_description text, \
+                    (article_date text, article_title text, \
+                    article_link text PRIMARY KEY, article_description text, \
                     feed_title text, feed_site_link text)''')
         self.conn.commit()
         self.c.close()
@@ -105,8 +105,7 @@ class FeedGetter(object):
             article_id = sha256_hash.hexdigest()
 
             try:
-                self.c.execute('insert into rss_feed values (?,?,?,?,?,?,?)', (\
-                        article_id, \
+                self.c.execute('insert into rss_feed values (?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         article.title.encode('utf-8'), \
                         article.link.encode('utf-8'), \
