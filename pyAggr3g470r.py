@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.4 $"
-__date__ = "$Date: 2010/02/01 $"
+__version__ = "$Revision: 0.5 $"
+__date__ = "$Date: 2010/02/02 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -14,6 +14,8 @@ import ConfigParser
 
 from datetime import datetime
 from cherrypy.lib.static import serve_file
+
+import feedgetter
 
 config = ConfigParser.RawConfigParser()
 config.read("./cfg/pyAggr3g470r.cfg")
@@ -49,9 +51,10 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
+        html += """<a href="f/">Fetch all feeds</a>\n<br />\n"""
+        html += """<a href="m/">Management of feed</a>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
-        html += """<a href="f/">Management of feed</a>\n"""
         html += "<hr />\n"
         html += "Your feeds:<br />\n"
         for rss_feed in self.dic.keys():
@@ -79,10 +82,18 @@ class Root:
         html += htmlfooter
         return html
 
-    def f(self):
+    def m(self):
         """
         """
         return "Hello world !"
+
+    def f(self):
+        """
+        Fetch all feeds
+        """
+        feed_getter = feedgetter.FeedGetter()
+        feed_getter.retrieve_feed()
+        return self.index()
 
     def description(self, article_id):
         """
@@ -91,9 +102,11 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        for rss_feed in self.dic.keys():
-            for article in self.dic[rss_feed]:
+        for rss_feed_id in self.dic.keys():
+            for article in self.dic[rss_feed_id]:
                 if article_id == article[0]:
+                    html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
+                            (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
                     description = article[4].encode('utf-8')
                     if description:
                         html += description
@@ -103,15 +116,16 @@ class Root:
         html += "<hr />\n" + htmlfooter
         return html
 
-    def all_articles(self, feed_title):
+    def all_articles(self, feed_id):
         """
         Display all articles of a feed ('feed_title').
         """
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
+        html += """<h1>Articles of the feed %s</h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
 
-        for article in self.dic[feed_title]:
+        for article in self.dic[feed_id]:
             html += article[1].encode('utf-8') + " - " + \
                     '<a href="' + article[3].encode('utf-8') + \
                     '">' + article[2].encode('utf-8') + "</a>" + \
@@ -162,6 +176,7 @@ class Root:
         return dic
 
     index.exposed = True
+    m.exposed = True
     f.exposed = True
     description.exposed = True
     all_articles.exposed = True

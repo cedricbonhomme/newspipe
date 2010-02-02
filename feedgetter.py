@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.4 $"
-__date__ = "$Date: 2010/02/01 $"
+__version__ = "$Revision: 0.5 $"
+__date__ = "$Date: 2010/02/02 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -33,6 +33,11 @@ class FeedGetter(object):
         """
         Initializes the base and variables.
         """
+        try:
+            self.feeds_file = open("./var/feed.lst")
+        except:
+            print "./feed.lst not found"
+            exit(0)
         # Create the base if not exists.
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
@@ -50,7 +55,7 @@ class FeedGetter(object):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        for a_feed in feeds_file.readlines():
+        for a_feed in self.feeds_file.readlines():
             # test if the URL is well formed
             for url_regexp in url_finders:
                 if url_regexp.match(a_feed):
@@ -118,11 +123,5 @@ class FeedGetter(object):
 
 if __name__ == "__main__":
     # Point of entry in execution mode
-    try:
-        feeds_file = open("./var/feed.lst")
-    except:
-        print "./feed.lst not found"
-        exit(0)
-
     feed_getter = FeedGetter()
     feed_getter.retrieve_feed()
