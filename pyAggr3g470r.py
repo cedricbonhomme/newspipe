@@ -7,8 +7,8 @@ __date__ = "$Date: 2010/02/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import base64
 import sqlite3
+import hashlib
 import cherrypy
 import ConfigParser
 
@@ -141,8 +141,11 @@ class Root:
         dic = {}
         if list_of_articles is not None:
             for article in list_of_articles:
-                feed_id = base64.b64encode(article[5].encode('utf-8'))
-                article_id = base64.b64encode(article[2].encode('utf-8'))
+                sha256_hash = hashlib.sha256()
+                sha256_hash.update(article[5].encode('utf-8'))
+                feed_id = sha256_hash.hexdigest()
+                sha256_hash.update(article[2].encode('utf-8'))
+                article_id = sha256_hash.hexdigest()
 
                 article_tuple = (article_id, article[0], article[1], article[2], article[3], article[4], article[5])
 
