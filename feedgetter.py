@@ -98,7 +98,7 @@ class FeedGetter(object):
             try:
                 description = article.description.encode('utf-8')
             except Exception, e:
-                description = "No description available."
+                description = ""
 
             sha256_hash = hashlib.sha256()
             sha256_hash.update(article.link.encode('utf-8'))
