@@ -38,7 +38,8 @@ htmlfooter =  """This software is under GPLv3 license. You are welcome to copy, 
                 </body></html>"""
 
 htmlnav = """<body><h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1><a
-href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r (source code)</a>
+href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">
+pyAggr3g470r (source code)</a>
 """
 
 
@@ -47,25 +48,32 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        self.dic = self.load_feed()
+        self.dic, self.dic_info = self.load_feed()
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
-        html += """<a href="f/">Fetch all feeds</a>\n<br />\n"""
-        html += """<a href="m/">Management of feed</a>\n"""
+        html += """<a href="/f/">Fetch all feeds</a>\n<br />\n"""
+        html += """<a href="/m/">Management of feed</a>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
         html += "<hr />\n"
-        html += "Your feeds:<br />\n"
-        for rss_feed in self.dic.keys():
-            html += """<a href="/#%s">%s</a><br />\n""" % (rss_feed.encode('utf-8'), \
-                                    self.dic[rss_feed][0][5].encode('utf-8'))
+        html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
+        for rss_feed_id in self.dic.keys():
+
+            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
+                    title="Unread article(s)">%s</a> / %s)<br />\n""" % \
+                                (rss_feed_id.encode('utf-8'), \
+                                self.dic[rss_feed_id][0][5].encode('utf-8'), \
+                                rss_feed_id, self.dic_info[rss_feed_id][1], \
+                                self.dic_info[rss_feed_id][0])
+
         html += """</div>\n<div class="left inner">\n"""
 
         for rss_feed_id in self.dic.keys():
             html += '<h2><a name="' + rss_feed_id + '">' + \
                         '<a href="' + self.dic[rss_feed_id][0][6].encode('utf-8') + \
-                        '">' + self.dic[rss_feed_id][0][5].encode('utf-8') + "</a></a></h2>\n"
+                        '"  rel="noreferrer" target="_blank">' + \
+                        self.dic[rss_feed_id][0][5].encode('utf-8') + "</a></a></h2>\n"
 
             # The main page display only 10 articles by feeds.
             for article in self.dic[rss_feed_id][:10]:
@@ -78,7 +86,7 @@ class Root:
                     not_read_begin = ""
                     not_read_end = ""
 
-                html += article[1].encode('utf-8') + " - " + \
+                html += article[1].encode('utf-8') + \
                         not_read_begin + \
                         """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                 (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
@@ -86,7 +94,11 @@ class Root:
                         "<br />\n"
             html += "<br />\n"
 
-            html += """[<a href="/all_articles/%s">All articles</a>]""" % (rss_feed_id,)
+            html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
+            if self.dic_info[rss_feed_id][1] != 0:
+                html += """ <a href="/unread/%s" title="Unread article(s)"
+                        >Unread article(s) (%s)</a>""" % (rss_feed_id, \
+                                        self.dic_info[rss_feed_id][1])
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -116,7 +128,9 @@ class Root:
             for article in self.dic[rss_feed_id]:
                 if article_id == article[0]:
 
-                    self.mark_as_read(article[3])
+                    if article[7] == "0":
+                        self.mark_as_read(article[3]) # update the database
+                        article[7] == 1 # avoids to reload self.dic
 
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
                             (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
@@ -139,11 +153,45 @@ class Root:
         html += """<h1>Articles of the feed %s</h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
 
         for article in self.dic[feed_id]:
-            html += article[1].encode('utf-8') + " - " + \
-                    '<a href="' + article[3].encode('utf-8') + \
-                    '">' + article[2].encode('utf-8') + "</a>" + \
-                    """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
+
+            if article[7] == "0":
+                # not readed articles are in bold
+                not_read_begin = "<b>"
+                not_read_end = "</b>"
+            else:
+                not_read_begin = ""
+                not_read_end = ""
+
+            html += article[1].encode('utf-8') + \
+                    not_read_begin + \
+                    """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                            (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                    not_read_end + \
                     "<br />\n"
+
+        html += """<hr />\n<h4><a href="/">All feeds</a></h4>"""
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    def unread(self, feed_id):
+        """
+        Display all unread articles of a feed ('feed_title').
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+        html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
+                <br />""" % (feed_id, self.dic[feed_id][0][5].encode('utf-8'))
+
+        for article in self.dic[feed_id]:
+
+            if article[7] == "0":
+
+                html += article[1].encode('utf-8') + \
+                        """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                        "<br />\n"
 
         html += """<hr />\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
@@ -164,8 +212,11 @@ class Root:
             pass
 
         # The key of dic is the id of the feed:
-        # dic[feed_id] = (article_id, article_date, article_title, article_link, article_description, feed_title, feed_link)
-        dic = {}
+        # dic[feed_id] = (article_id, article_date, article_title,
+        #               article_link, article_description, feed_title,
+        #               feed_link, article_readed)
+        # dic_info[feed_id] = (nb_article, nb_article_readed)
+        dic, dic_info = {}, {}
         if list_of_articles is not None:
             for article in list_of_articles:
                 sha256_hash = hashlib.sha256()
@@ -186,8 +237,14 @@ class Root:
             for feeds in dic.keys():
                 dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
 
-            return dic
-        return dic
+            for rss_feed_id in dic.keys():
+                dic_info[rss_feed_id] = (len(dic.keys()), \
+                                        len([article for article in dic[rss_feed_id] \
+                                                                if article[7]=="0"]) \
+                                        )
+
+            return (dic, dic_info)
+        return (dic, dic_info)
 
     def mark_as_read(self, article_link):
         """
@@ -200,6 +257,9 @@ class Root:
             c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
             conn.commit()
             c.close()
+
+
+
         except Exception, e:
             pass
 
@@ -208,6 +268,7 @@ class Root:
     f.exposed = True
     description.exposed = True
     all_articles.exposed = True
+    unread.exposed = True
 
 
 def compare(stringtime1, stringtime2):
