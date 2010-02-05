@@ -238,7 +238,7 @@ class Root:
                 dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
 
             for rss_feed_id in dic.keys():
-                dic_info[rss_feed_id] = (len(dic.keys()), \
+                dic_info[rss_feed_id] = (len(dic[rss_feed_id]), \
                                         len([article for article in dic[rss_feed_id] \
                                                                 if article[7]=="0"]) \
                                         )
