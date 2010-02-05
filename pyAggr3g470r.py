@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.5 $"
-__date__ = "$Date: 2010/02/02 $"
+__version__ = "$Revision: 0.6 $"
+__date__ = "$Date: 2010/02/05 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
