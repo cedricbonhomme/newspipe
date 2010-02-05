@@ -69,10 +69,20 @@ class Root:
 
             # The main page display only 10 articles by feeds.
             for article in self.dic[rss_feed_id][:10]:
+
+                if article[7] == "0":
+                    # not readed articles are in bold
+                    not_read_begin = "<b>"
+                    not_read_end = "</b>"
+                else:
+                    not_read_begin = ""
+                    not_read_end = ""
+
                 html += article[1].encode('utf-8') + " - " + \
-                        '<a href="' + article[3].encode('utf-8') + \
-                        '">' + article[2].encode('utf-8') + "</a>" + \
-                        """ - [<a href="/description/%s">description</a>]""" % (article[0].encode('utf-8'),) + \
+                        not_read_begin + \
+                        """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                        not_read_end + \
                         "<br />\n"
             html += "<br />\n"
 
@@ -105,6 +115,9 @@ class Root:
         for rss_feed_id in self.dic.keys():
             for article in self.dic[rss_feed_id]:
                 if article_id == article[0]:
+
+                    self.mark_as_read(article[3])
+
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
                             (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
                     description = article[4].encode('utf-8')
@@ -151,7 +164,7 @@ class Root:
             pass
 
         # The key of dic is the id of the feed:
-        # dic[feed_if] = (article_id, article_date, article_title, article_link, article_description, feed_title, feed_link)
+        # dic[feed_id] = (article_id, article_date, article_title, article_link, article_description, feed_title, feed_link)
         dic = {}
         if list_of_articles is not None:
             for article in list_of_articles:
@@ -161,7 +174,8 @@ class Root:
                 sha256_hash.update(article[2].encode('utf-8'))
                 article_id = sha256_hash.hexdigest()
 
-                article_tuple = (article_id, article[0], article[1], article[2], article[3], article[4], article[5])
+                article_tuple = (article_id, article[0], article[1], \
+                    article[2], article[3], article[4], article[5], article[6])
 
                 if feed_id not in dic:
                     dic[feed_id] = [article_tuple]
@@ -174,6 +188,20 @@ class Root:
 
             return dic
         return dic
+
+    def mark_as_read(self, article_link):
+        """
+        Mark an article as read by setting the value of the field
+        'article_readed' of the SQLite database to 1.
+        """
+        try:
+            conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+            c = conn.cursor()
+            c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
+            conn.commit()
+            c.close()
+        except Exception, e:
+            pass
 
     index.exposed = True
     m.exposed = True

@@ -44,7 +44,8 @@ class FeedGetter(object):
         self.c.execute('''create table if not exists rss_feed
                     (article_date text, article_title text, \
                     article_link text PRIMARY KEY, article_description text, \
-                    feed_title text, feed_site_link text)''')
+                    feed_title text, feed_site_link text, \
+                    article_readed text)''')
         self.conn.commit()
         self.c.close()
 
@@ -110,13 +111,14 @@ class FeedGetter(object):
             article_id = sha256_hash.hexdigest()
 
             try:
-                self.c.execute('insert into rss_feed values (?,?,?,?,?,?)', (\
+                self.c.execute('insert into rss_feed values (?,?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         article.title.encode('utf-8'), \
                         article.link.encode('utf-8'), \
                         description, \
                         a_feed.feed.title.encode('utf-8'), \
-                        a_feed.feed.link.encode('utf-8')))
+                        a_feed.feed.link.encode('utf-8'), \
+                        "0"))
             except sqlite3.IntegrityError:
                 pass
 
