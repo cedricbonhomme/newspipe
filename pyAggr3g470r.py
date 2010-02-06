@@ -87,8 +87,8 @@ class Root:
                     not_read_end = ""
 
                 html += article[1].encode('utf-8') + \
-                        not_read_begin + \
-                        """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                        " - " + not_read_begin + \
+                        """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                 (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                         not_read_end + \
                         "<br />\n"
@@ -130,7 +130,7 @@ class Root:
 
                     if article[7] == "0":
                         self.mark_as_read(article[3]) # update the database
-                        article[7] == 1 # avoids to reload self.dic
+                        article[7] = "1" # avoids to reload self.dic
 
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
                             (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
@@ -163,8 +163,8 @@ class Root:
                 not_read_end = ""
 
             html += article[1].encode('utf-8') + \
-                    not_read_begin + \
-                    """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                    " - " + not_read_begin + \
+                    """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                             (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                     not_read_end + \
                     "<br />\n"
@@ -225,13 +225,13 @@ class Root:
                 sha256_hash.update(article[2].encode('utf-8'))
                 article_id = sha256_hash.hexdigest()
 
-                article_tuple = (article_id, article[0], article[1], \
-                    article[2], article[3], article[4], article[5], article[6])
+                article_list = [article_id, article[0], article[1], \
+                    article[2], article[3], article[4], article[5], article[6]]
 
                 if feed_id not in dic:
-                    dic[feed_id] = [article_tuple]
+                    dic[feed_id] = [article_list]
                 else:
-                    dic[feed_id].append(article_tuple)
+                    dic[feed_id].append(article_list)
 
             # sort articles by date for each feeds
             for feeds in dic.keys():
