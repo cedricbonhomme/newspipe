@@ -257,9 +257,6 @@ class Root:
             c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
             conn.commit()
             c.close()
-
-
-
         except Exception, e:
             pass
 

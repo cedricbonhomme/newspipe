@@ -39,6 +39,7 @@ class FeedGetter(object):
             print "./feed.lst not found"
             exit(0)
         # Create the base if not exists.
+        sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists rss_feed
