@@ -53,6 +53,7 @@ class Root:
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/f/">Fetch all feeds</a>\n<br />\n"""
+        html += """<a href="/mark_as_read/">Mark all articles as read</a>\n<br />\n"""
         html += """<a href="/m/">Management of feed</a>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
@@ -246,25 +247,30 @@ class Root:
             return (dic, dic_info)
         return (dic, dic_info)
 
-    def mark_as_read(self, article_link):
+    def mark_as_read(self, article_link = "All"):
         """
-        Mark an article as read by setting the value of the field
+        Mark an (or all) articles as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
         """
         try:
             conn = sqlite3.connect("./var/feed.db", isolation_level = None)
             c = conn.cursor()
-            c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
+            if article_link == "All":
+                c.execute("UPDATE rss_feed SET article_readed=1")
+            else:
+                c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
             conn.commit()
             c.close()
         except Exception, e:
             pass
+        return self.index()
 
     index.exposed = True
     m.exposed = True
     f.exposed = True
     description.exposed = True
     all_articles.exposed = True
+    mark_as_read.exposed = True
     unread.exposed = True
 
 
