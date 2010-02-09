@@ -53,7 +53,7 @@ class Root:
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/f/">Fetch all feeds</a>\n<br />\n"""
-        html += """<a href="/mark_as_read/">Mark all articles as read</a>\n<br />\n"""
+        html += """<a href="/mark_as_read/All:">Mark all articles as read</a>\n<br />\n"""
         html += """<a href="/m/">Management of feed</a>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
@@ -96,6 +96,7 @@ class Root:
             html += "<br />\n"
 
             html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
+            html += """ <a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.dic_info[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
@@ -130,8 +131,7 @@ class Root:
                 if article_id == article[0]:
 
                     if article[7] == "0":
-                        self.mark_as_read(article[3]) # update the database
-                        article[7] = "1" # avoids to reload self.dic
+                        self.mark_as_read("Article:"+article[3]) # update the database
 
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
                             (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
@@ -170,7 +170,8 @@ class Root:
                     not_read_end + \
                     "<br />\n"
 
-        html += """<hr />\n<h4><a href="/">All feeds</a></h4>"""
+        html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+        html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
         return html
@@ -194,7 +195,8 @@ class Root:
                                 (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                         "<br />\n"
 
-        html += """<hr />\n<h4><a href="/">All feeds</a></h4>"""
+        html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+        html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
         return html
@@ -247,23 +249,35 @@ class Root:
             return (dic, dic_info)
         return (dic, dic_info)
 
-    def mark_as_read(self, article_link = "All"):
+    def mark_as_read(self, target):
         """
-        Mark an (or all) articles as read by setting the value of the field
+        Mark one (or more) article(s) as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
         """
+        param, identifiant = target.split(':')
         try:
             conn = sqlite3.connect("./var/feed.db", isolation_level = None)
             c = conn.cursor()
-            if article_link == "All":
+            # Mark all articles as read.
+            if param == "All":
                 c.execute("UPDATE rss_feed SET article_readed=1")
-            else:
-                c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + article_link + "'")
+            # Mark all articles from a feed as read.
+            elif param == "Feed":
+                c.execute("UPDATE rss_feed SET article_readed=1 WHERE feed_site_link='" + self.dic[identifiant][0][6] + "'")
+            # Mark an article as read.
+            elif param == "Article":
+                c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + identifiant + "'")
             conn.commit()
             c.close()
         except Exception, e:
             pass
-        return self.index()
+
+        self.dic, self.dic_info = self.load_feed()
+
+        if param == "All":
+            return self.index()
+        elif param == "Feed":
+            return self.all_articles(identifiant)
 
     index.exposed = True
     m.exposed = True
