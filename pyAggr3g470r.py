@@ -96,7 +96,7 @@ class Root:
             html += "<br />\n"
 
             html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
-            html += """ <a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (rss_feed_id,)
+            html += """ <a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.dic_info[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
@@ -262,7 +262,7 @@ class Root:
             if param == "All":
                 c.execute("UPDATE rss_feed SET article_readed=1")
             # Mark all articles from a feed as read.
-            elif param == "Feed":
+            elif param == "Feed" or param == "Feed_FromMainPage":
                 c.execute("UPDATE rss_feed SET article_readed=1 WHERE feed_site_link='" + self.dic[identifiant][0][6] + "'")
             # Mark an article as read.
             elif param == "Article":
@@ -274,7 +274,7 @@ class Root:
 
         self.dic, self.dic_info = self.load_feed()
 
-        if param == "All":
+        if param == "All" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
             return self.all_articles(identifiant)
