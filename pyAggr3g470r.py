@@ -254,7 +254,7 @@ class Root:
         Mark one (or more) article(s) as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
         """
-        param, identifiant = target.split(':')
+        param, _, identifiant = target.partition(':')
         try:
             conn = sqlite3.connect("./var/feed.db", isolation_level = None)
             c = conn.cursor()
