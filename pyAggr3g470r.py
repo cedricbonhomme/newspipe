@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.6 $"
-__date__ = "$Date: 2010/02/05 $"
+__version__ = "$Revision: 0.7 $"
+__date__ = "$Date: 2010/02/15 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -113,7 +113,8 @@ class Root:
 
     def q(self, v=None):
         """
-        Search for a feed.
+        Search for a feed. Simply search for the string 'v'
+        in the description of the article.
         """
         querystring = v.encode('utf-8')
         print querystring
@@ -124,9 +125,7 @@ class Root:
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
 
         for rss_feed_id in self.dic.keys():
-
             for article in self.dic[rss_feed_id][:10]:
-
                 description = article[4].encode('utf-8')
                 if querystring in description:
                     if article[7] == "0":
