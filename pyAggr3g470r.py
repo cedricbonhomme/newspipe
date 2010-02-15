@@ -117,7 +117,6 @@ class Root:
         in the description of the article.
         """
         querystring = v.encode('utf-8')
-        print querystring
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
@@ -126,8 +125,8 @@ class Root:
 
         for rss_feed_id in self.dic.keys():
             for article in self.dic[rss_feed_id][:10]:
-                description = article[4].encode('utf-8')
-                if querystring in description:
+                article_content = article[4].encode('utf-8') + article[2].encode('utf-8')
+                if querystring.lower() in article_content.lower():
                     if article[7] == "0":
                         # not readed articles are in bold
                         not_read_begin = "<b>"
@@ -140,7 +139,8 @@ class Root:
                             " - " + not_read_begin + \
                             """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                            not_read_end + "<br />\n"
+                            not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
+                                    (article[6].encode('utf-8'), article[5].encode('utf-8'))
         html += "<hr />"
         html += htmlfooter
         return html
