@@ -111,6 +111,41 @@ class Root:
         """
         return "Hello world !"
 
+    def q(self, v=None):
+        """
+        Search for a feed.
+        """
+        querystring = v.encode('utf-8')
+        print querystring
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+
+        html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
+
+        for rss_feed_id in self.dic.keys():
+
+            for article in self.dic[rss_feed_id][:10]:
+
+                description = article[4].encode('utf-8')
+                if querystring in description:
+                    if article[7] == "0":
+                        # not readed articles are in bold
+                        not_read_begin = "<b>"
+                        not_read_end = "</b>"
+                    else:
+                        not_read_begin = ""
+                        not_read_end = ""
+
+                    html += article[1].encode('utf-8') + \
+                            " - " + not_read_begin + \
+                            """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                    (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                            not_read_end + "<br />\n"
+        html += "<hr />"
+        html += htmlfooter
+        return html
+
     def f(self):
         """
         Fetch all feeds
@@ -151,7 +186,7 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed %s</h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
+        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
 
         for article in self.dic[feed_id]:
 
@@ -282,6 +317,7 @@ class Root:
     index.exposed = True
     m.exposed = True
     f.exposed = True
+    q.exposed = True
     description.exposed = True
     all_articles.exposed = True
     mark_as_read.exposed = True

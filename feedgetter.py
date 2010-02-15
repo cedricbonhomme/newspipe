@@ -1,6 +1,8 @@
 #! /usr/local/bin/python
 #-*- coding: utf-8 -*-
 
+from __future__ import with_statement
+
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.6 $"
 __date__ = "$Date: 2010/02/05 $"
@@ -33,11 +35,6 @@ class FeedGetter(object):
         """
         Initializes the base and variables.
         """
-        try:
-            self.feeds_file = open("./var/feed.lst")
-        except:
-            print "./feed.lst not found"
-            exit(0)
         # Create the base if not exists.
         sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
@@ -57,20 +54,21 @@ class FeedGetter(object):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        for a_feed in self.feeds_file.readlines():
-            # test if the URL is well formed
-            for url_regexp in url_finders:
-                if url_regexp.match(a_feed):
-                    the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
-                    try:
-                        # launch a new thread for the RSS feed
-                        thread = threading.Thread(None, self.process, \
-                                            None, (the_good_url,))
-                        thread.start()
-                        list_of_threads.append(thread)
-                    except:
-                        pass
-                    break
+        with open("./var/feed.lst") as f:
+            for a_feed in f:
+                # test if the URL is well formed
+                for url_regexp in url_finders:
+                    if url_regexp.match(a_feed):
+                        the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
+                        try:
+                            # launch a new thread for the RSS feed
+                            thread = threading.Thread(None, self.process, \
+                                                None, (the_good_url,))
+                            thread.start()
+                            list_of_threads.append(thread)
+                        except:
+                            pass
+                        break
 
         # wait for all threads are done
         for th in list_of_threads:
