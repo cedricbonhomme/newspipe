@@ -52,9 +52,9 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
-        html += """<a href="/f/">Fetch all feeds</a>\n<br />\n"""
+        html += """<a href="/fetch/">Fetch all feeds</a>\n<br />\n"""
         html += """<a href="/mark_as_read/All:">Mark all articles as read</a>\n<br />\n"""
-        html += """<a href="/m/">Management of feed</a>\n"""
+        html += """<a href="/management/">Management of feed</a>\n"""
         html += """<form method=get action="q/"><input type="text" name="v" value=""><input
         type="submit" value="search"></form>\n"""
         html += "<hr />\n"
@@ -106,10 +106,39 @@ class Root:
         html += htmlfooter
         return html
 
-    def m(self):
+    def management(self):
         """
         """
-        return "Hello world !"
+        self.dic, self.dic_info = self.load_feed()
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">\n"""
+        html += "<h1>Add Feeds</h1>\n"
+        html += """<form method=get action="add_feed/"><input type="text" name="v" value="">\n<input
+        type="submit" value="OK"></form>\n"""
+
+        html += "<h1>Delete Feeds</h1>\n"
+        html += """<form method=get action="del_feed/"><select name="feed_list">\n"""
+        for feed_id in self.dic.keys():
+            html += """\t<option value="%s">%s</option>\n""" % \
+                    (feed_id, self.dic[feed_id][0][5].encode('utf-8'))
+        html += """</select></form>\n"""
+
+        html += "<hr />\n"
+
+        html += """The database contains a total of %s articles with
+                %s unread articles.<br /><br />""" % \
+                    (sum([feed[0] for feed in self.dic_info.values()]),
+                    sum([feed[1] for feed in self.dic_info.values()]))
+
+        html += """<form method=get action="/fetch/">\n<input
+        type="submit" value="Fetch all feeds"></form>\n"""
+        html += """<form method=get action="add_feed/">\n<input
+        type="submit" value="Delete all articles"></form>\n"""
+
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
 
     def q(self, v=None):
         """
@@ -145,7 +174,7 @@ class Root:
         html += htmlfooter
         return html
 
-    def f(self):
+    def fetch(self):
         """
         Fetch all feeds
         """
@@ -252,7 +281,7 @@ class Root:
         # dic[feed_id] = (article_id, article_date, article_title,
         #               article_link, article_description, feed_title,
         #               feed_link, article_readed)
-        # dic_info[feed_id] = (nb_article, nb_article_readed)
+        # dic_info[feed_id] = (nb_article, nb_article_unreaded)
         dic, dic_info = {}, {}
         if list_of_articles is not None:
             for article in list_of_articles:
@@ -314,8 +343,8 @@ class Root:
             return self.all_articles(identifiant)
 
     index.exposed = True
-    m.exposed = True
-    f.exposed = True
+    management.exposed = True
+    fetch.exposed = True
     q.exposed = True
     description.exposed = True
     all_articles.exposed = True
