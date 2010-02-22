@@ -213,6 +213,20 @@ class Root:
         """
         html = htmlheader
         html += htmlnav
+        html += """<div class="right inner">\n"""
+        html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
+        html += """<br />\n<form method=get action="q/"><input type="text" name="v" value=""><input
+        type="submit" value="search"></form>\n"""
+        html += "<hr />\n"
+        html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
+        for rss_feed_id in self.dic.keys():
+
+            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
+                    title="Unread article(s)">%s</a> / %s)<br />\n""" % \
+                                (rss_feed_id.encode('utf-8'), \
+                                self.dic[rss_feed_id][0][5].encode('utf-8'), \
+                                rss_feed_id, self.dic_info[rss_feed_id][1], \
+                                self.dic_info[rss_feed_id][0])
         html += """</div> <div class="left inner">"""
         html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
 
@@ -233,7 +247,6 @@ class Root:
                     not_read_end + \
                     "<br />\n"
 
-        html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
