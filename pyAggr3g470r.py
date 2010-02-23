@@ -152,7 +152,7 @@ class Root:
         article_content = ""
         for rss_feed_id in self.dic.keys():
                 for article in self.dic[rss_feed_id]:
-                    article_content += remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
+                    article_content += remove_html_tags(article[4].encode('utf-8'))
 
         words_gen = (word.strip(punctuation).lower() \
                         for word in article_content.split() \
