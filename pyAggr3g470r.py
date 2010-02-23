@@ -55,8 +55,8 @@ class Root:
         html += """<a href="/fetch/">Fetch all feeds</a>\n<br />\n"""
         html += """<a href="/mark_as_read/All:">Mark all articles as read</a>\n<br />\n"""
         html += """<a href="/management/">Management of feed</a>\n"""
-        html += """<form method=get action="q/"><input type="text" name="v" value=""><input
-        type="submit" value="search"></form>\n"""
+        html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
+        type="submit" value="Search"></form>\n"""
         html += "<hr />\n"
         html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
         for rss_feed_id in self.dic.keys():
@@ -140,20 +140,23 @@ class Root:
         html += htmlfooter
         return html
 
-    def q(self, v=None):
+    def q(self, querystring=None):
         """
-        Search for a feed. Simply search for the string 'v'
+        Search for a feed. Simply search for the string 'querystring'
         in the description of the article.
         """
-        querystring = v.encode('utf-8')
+        param, _, value = querystring.partition(':')
+        feed_id = None
+        if param == "Feed":
+            feed_id, _, querystring = value.partition(':')
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
 
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
 
-        for rss_feed_id in self.dic.keys():
-            for article in self.dic[rss_feed_id][:10]:
+        if feed_id is not None:
+            for article in self.dic[rss_feed_id]:
                 article_content = article[4].encode('utf-8') + article[2].encode('utf-8')
                 if querystring.lower() in article_content.lower():
                     if article[7] == "0":
@@ -168,8 +171,26 @@ class Root:
                             " - " + not_read_begin + \
                             """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                            not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
-                                    (article[6].encode('utf-8'), article[5].encode('utf-8'))
+                            not_read_end
+        else:
+            for rss_feed_id in self.dic.keys():
+                for article in self.dic[rss_feed_id]:
+                    article_content = article[4].encode('utf-8') + article[2].encode('utf-8')
+                    if querystring.lower() in article_content.lower():
+                        if article[7] == "0":
+                            # not readed articles are in bold
+                            not_read_begin = "<b>"
+                            not_read_end = "</b>"
+                        else:
+                            not_read_begin = ""
+                            not_read_end = ""
+
+                        html += article[1].encode('utf-8') + \
+                                " - " + not_read_begin + \
+                                """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                        (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
+                                        (article[6].encode('utf-8'), article[5].encode('utf-8'))
         html += "<hr />"
         html += htmlfooter
         return html
@@ -215,8 +236,8 @@ class Root:
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
-        html += """<br />\n<form method=get action="q/"><input type="text" name="v" value=""><input
-        type="submit" value="search"></form>\n"""
+        html += """<br />\n<form method=get action="/q/Feed"><input type="text" name="Feed:%s:querystring" value=""><input
+        type="submit" value="Search this feed"></form>\n""" % (feed_id,)
         html += "<hr />\n"
         html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
         for rss_feed_id in self.dic.keys():
