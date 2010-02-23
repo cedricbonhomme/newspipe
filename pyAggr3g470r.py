@@ -2,17 +2,22 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.7 $"
-__date__ = "$Date: 2010/02/15 $"
+__version__ = "$Revision: 0.8 $"
+__date__ = "$Date: 2010/02/23 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import re
+import os
+import pylab
 import sqlite3
 import hashlib
 import cherrypy
 import ConfigParser
 
 from datetime import datetime
+from string import punctuation
+from collections import defaultdict
 from cherrypy.lib.static import serve_file
 
 import feedgetter
@@ -26,15 +31,17 @@ bindhost = "0.0.0.0"
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
 path = { '/css/style.css': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/style.css'}}
+                'tools.staticfile.filename':path+'css/style.css'}, \
+        '/var/histogram.png':{'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'var/histogram.png'}}
 
 htmlheader = """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
                 lang="en">\n<head>\n<link rel="stylesheet" type="text/css" href="/css/style.css"
                 />\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n
                 <title>pyAggr3g470r - RSS Feed Reader</title> </head>"""
 
-htmlfooter =  """This software is under GPLv3 license. You are welcome to copy, modify or
-                redistribute the source code according to the GPLv3 license.</div>
+htmlfooter =  """<p>This software is under GPLv3 license. You are welcome to copy, modify or
+                redistribute the source code according to the GPLv3 license.</p></div>
                 </body></html>"""
 
 htmlnav = """<body><h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1><a
@@ -126,15 +133,44 @@ class Root:
 
         html += "<hr />\n"
 
-        html += """The database contains a total of %s articles with
-                %s unread articles.<br /><br />""" % \
+        html += """<p>The database contains a total of %s articles with
+                %s unread articles.<br />""" % \
                     (sum([feed[0] for feed in self.dic_info.values()]),
                     sum([feed[1] for feed in self.dic_info.values()]))
+        html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
+                    (os.path.abspath("./var/feed.db"), os.path.getsize("./var/feed.db"))
 
         html += """<form method=get action="/fetch/">\n<input
         type="submit" value="Fetch all feeds"></form>\n"""
         html += """<form method=get action="add_feed/">\n<input
         type="submit" value="Delete all articles"></form>\n"""
+
+        html += "<hr />\n"
+        html += "<h1>Statistics</h1>\n"
+        N = 10
+        words = {}
+        article_content = ""
+        for rss_feed_id in self.dic.keys():
+                for article in self.dic[rss_feed_id]:
+                    article_content += remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
+
+        words_gen = (word.strip(punctuation).lower() \
+                        for word in article_content.split() \
+                        if len(word) >= 5)
+        words = defaultdict(int)
+        for word in words_gen:
+            words[word] += 1
+
+        top_words = sorted(words.iteritems(),
+                        key=lambda(word, count): (-count, word))[:N]
+        html += "<table border=0>\n<tr><td>"
+        html += "<ol>\n"
+        for word, frequency in top_words:
+            html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
+                            (word, word, frequency)
+        html += "</ol>\n</td><td>"
+        create_histogram(top_words)
+        html += """<img src="/var/histogram.png" /></td></tr></table>"""
 
         html += "<hr />\n"
         html += htmlfooter
@@ -157,7 +193,7 @@ class Root:
 
         if feed_id is not None:
             for article in self.dic[rss_feed_id]:
-                article_content = article[4].encode('utf-8') + article[2].encode('utf-8')
+                article_content = remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
                 if querystring.lower() in article_content.lower():
                     if article[7] == "0":
                         # not readed articles are in bold
@@ -175,7 +211,7 @@ class Root:
         else:
             for rss_feed_id in self.dic.keys():
                 for article in self.dic[rss_feed_id]:
-                    article_content = article[4].encode('utf-8') + article[2].encode('utf-8')
+                    article_content = remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
                     if querystring.lower() in article_content.lower():
                         if article[7] == "0":
                             # not readed articles are in bold
@@ -385,6 +421,49 @@ class Root:
     mark_as_read.exposed = True
     unread.exposed = True
 
+def remove_html_tags(data):
+    """
+    Remove HTML tags for the search.
+    """
+    p = re.compile(r'<[^<]*?/?>')
+    return p.sub('', data)
+
+def create_histogram(words, file_name="./var/histogram.png"):
+    """
+    Create a histogram.
+    """
+    length = 10
+    ind = pylab.arange(length) # abscissa
+    width = 0.35 # bars width
+
+    w = [elem[0] for elem in words]
+    count = [int(elem[1]) for elem in words]
+
+    max_count = max(count)  # maximal weight
+
+    p = pylab.bar(ind, count, width, color='r')
+
+    pylab.ylabel("Count")
+    pylab.title("Most frequent words")
+    pylab.xticks(ind + (width / 2), range(1, len(w)+1))
+    pylab.xlim(-width, len(ind))
+
+    # changing the ordinate scale according to the max.
+    if max_count <= 100:
+        pylab.ylim(0, max_count + 5)
+        pylab.yticks(pylab.arange(0, max_count + 5, 5))
+    elif max_count <= 200:
+        pylab.ylim(0, max_count + 10)
+        pylab.yticks(pylab.arange(0, max_count + 10, 10))
+    elif max_count <= 600:
+        pylab.ylim(0, max_count + 25)
+        pylab.yticks(pylab.arange(0, max_count + 25, 25))
+    elif max_count <= 800:
+        pylab.ylim(0, max_count + 50)
+        pylab.yticks(pylab.arange(0, max_count + 50, 50))
+
+    pylab.savefig(file_name, dpi = 80)
+    pylab.close()
 
 def compare(stringtime1, stringtime2):
     """
