@@ -84,7 +84,7 @@ class Root:
 
         for rss_feed_id in self.dic.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                    target="_blank">%s"</a></a>
+                    target="_blank">%s</a></a>
                     <img src="%s" width="20" height="20" /></h2>\n""" % \
                         (rss_feed_id, self.dic[rss_feed_id][0][6].encode('utf-8'), \
                         self.dic[rss_feed_id][0][5].encode('utf-8'), \
