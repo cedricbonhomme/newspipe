@@ -3,7 +3,7 @@
 
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.8 $"
-__date__ = "$Date: 2010/02/23 $"
+__date__ = "$Date: 2010/02/24 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -29,6 +29,14 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'css/style.css'}, \
         '/css/img/delicious.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'css/img/delicious.png'}, \
+        '/css/img/digg.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/digg.png'}, \
+        '/css/img/reddit.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/reddit.png'}, \
+        '/css/img/scoopeo.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/scoopeo.png'}, \
+        '/css/img/blogmarks.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/blogmarks.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'var/histogram.png'}}
 
@@ -257,9 +265,31 @@ class Root:
                         html += "No description available."
                     html += """<hr />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                     (article[3].encode('utf-8'),)
+                    # Share this article:
+                    # on delicious
                     html += """<a href="http://delicious.com/post?url=%s&title=%s"
                             rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/delicious.png" title="Post on del.iciou.us" /></a>""" % \
+                            <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    # on Digg
+                    html += """<a href="http://digg.com/submit?url=%s&title=%s"
+                            rel="noreferrer" target="_blank">\n
+                            <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    # on reddit
+                    html += """<a href="http://reddit.com/submit?url=%s&title=%s"
+                            rel="noreferrer" target="_blank">\n
+                            <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    # on Scoopeo
+                    html += """<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                            rel="noreferrer" target="_blank">\n
+                            <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    # on Blogmarks
+                    html += """<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                            rel="noreferrer" target="_blank">\n
+                            <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
                                     (article[3].encode('utf-8'), article[2].encode('utf-8'))
         html += "<hr />\n" + htmlfooter
         return html
