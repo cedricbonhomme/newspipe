@@ -83,10 +83,12 @@ class Root:
         html += """</div>\n<div class="left inner">\n"""
 
         for rss_feed_id in self.dic.keys():
-            html += '<h2><a name="' + rss_feed_id + '">' + \
-                        '<a href="' + self.dic[rss_feed_id][0][6].encode('utf-8') + \
-                        '"  rel="noreferrer" target="_blank">' + \
-                        self.dic[rss_feed_id][0][5].encode('utf-8') + "</a></a></h2>\n"
+            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                    target="_blank">%s"</a></a>
+                    <img src="%s" width="20" height="20" /></h2>\n""" % \
+                        (rss_feed_id, self.dic[rss_feed_id][0][6].encode('utf-8'), \
+                        self.dic[rss_feed_id][0][5].encode('utf-8'), \
+                        self.dic_info[rss_feed_id][2].encode('utf-8'))
 
             # The main page display only 10 articles by feeds.
             for article in self.dic[rss_feed_id][:10]:
@@ -154,19 +156,20 @@ class Root:
         type="submit" value="Delete all articles"></form>\n"""
 
         html += "<hr />\n"
-        html += "<h1>Statistics</h1>\n"
-        top_words = utils.top_words(self.dic, 10)
+        if self.dic:
+            html += "<h1>Statistics</h1>\n"
+            top_words = utils.top_words(self.dic, 10)
 
-        html += "<table border=0>\n<tr><td>"
-        html += "<ol>\n"
-        for word, frequency in top_words:
-            html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
-                            (word, word, frequency)
-        html += "</ol>\n</td><td>"
-        utils.create_histogram(top_words)
-        html += """<img src="/var/histogram.png" /></td></tr></table>"""
+            html += "<table border=0>\n<tr><td>"
+            html += "<ol>\n"
+            for word, frequency in top_words:
+                html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
+                                (word, word, frequency)
+            html += "</ol>\n</td><td>"
+            utils.create_histogram(top_words)
+            html += """<img src="/var/histogram.png" /></td></tr></table>"""
+            html += "<hr />\n"
 
-        html += "<hr />\n"
         html += htmlfooter
         return html
 
@@ -384,13 +387,13 @@ class Root:
             c = conn.cursor()
             # Mark all articles as read.
             if param == "All":
-                c.execute("UPDATE rss_feed SET article_readed=1")
+                c.execute("UPDATE articles SET article_readed=1")
             # Mark all articles from a feed as read.
             elif param == "Feed" or param == "Feed_FromMainPage":
-                c.execute("UPDATE rss_feed SET article_readed=1 WHERE feed_site_link='" + self.dic[identifiant][0][6] + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE feed_site_link='" + self.dic[identifiant][0][6] + "'")
             # Mark an article as read.
             elif param == "Article":
-                c.execute("UPDATE rss_feed SET article_readed=1 WHERE article_link='" + identifiant + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + identifiant + "'")
             conn.commit()
             c.close()
         except Exception, e:

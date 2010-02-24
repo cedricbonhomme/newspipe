@@ -111,12 +111,13 @@ def load_feed():
     """
     Load feeds in a dictionary.
     """
+    list_of_feeds = None
     list_of_articles = None
     try:
         conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         c = conn.cursor()
-        list_of_articles = c.execute("SELECT * FROM rss_feed").fetchall()
-        c.close()
+        list_of_feeds = c.execute("SELECT * FROM feeds").fetchall()
+        #c.close()
     except:
         pass
 
@@ -124,33 +125,45 @@ def load_feed():
     # dic[feed_id] = (article_id, article_date, article_title,
     #               article_link, article_description, feed_title,
     #               feed_link, article_readed)
-    # dic_info[feed_id] = (nb_article, nb_article_unreaded)
+    # dic_info[feed_id] = (nb_article, nb_article_unreaded, feed_image)
     dic, dic_info = {}, {}
-    if list_of_articles is not None:
-        for article in list_of_articles:
-            sha256_hash = hashlib.sha256()
-            sha256_hash.update(article[5].encode('utf-8'))
-            feed_id = sha256_hash.hexdigest()
-            sha256_hash.update(article[2].encode('utf-8'))
-            article_id = sha256_hash.hexdigest()
+    if list_of_feeds is not None:
+        for feed in list_of_feeds:
+            feed_title = feed[0]
+            feed_site_link = feed[1]
+            feed_link = feed[2]
+            feed_image = feed[3]
 
-            article_list = [article_id, article[0], article[1], \
-                article[2], article[3], article[4], article[5], article[6]]
+            list_of_articles = c.execute(\
+                    "SELECT * FROM articles WHERE feed_link='" + \
+                    feed_link + "'").fetchall()
 
-            if feed_id not in dic:
-                dic[feed_id] = [article_list]
-            else:
-                dic[feed_id].append(article_list)
+            if list_of_articles is not None:
+                for article in list_of_articles:
+                    sha256_hash = hashlib.sha256()
+                    sha256_hash.update(article[5].encode('utf-8'))
+                    feed_id = sha256_hash.hexdigest()
+                    sha256_hash.update(article[2].encode('utf-8'))
+                    article_id = sha256_hash.hexdigest()
 
-        # sort articles by date for each feeds
-        for feeds in dic.keys():
-            dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
+                    article_list = [article_id, article[0], article[1], \
+                        article[2], article[3], feed_title, feed_link, article[4]]
 
-        for rss_feed_id in dic.keys():
-            dic_info[rss_feed_id] = (len(dic[rss_feed_id]), \
-                                    len([article for article in dic[rss_feed_id] \
-                                                            if article[7]=="0"]) \
-                                    )
+                    if feed_id not in dic:
+                        dic[feed_id] = [article_list]
+                    else:
+                        dic[feed_id].append(article_list)
+
+                # sort articles by date for each feeds
+                for feeds in dic.keys():
+                    dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
+
+                dic_info[feed_id] = (len(dic[feed_id]), \
+                                len([article for article in dic[feed_id] \
+                                    if article[7]=="0"]), \
+                                feed_image
+                                )
+        c.close()
 
         return (dic, dic_info)
     return (dic, dic_info)

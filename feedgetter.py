@@ -39,11 +39,13 @@ class FeedGetter(object):
         sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
-        self.c.execute('''create table if not exists rss_feed
+        self.c.execute('''create table if not exists feeds
+                    (feed_title text, feed_site_link text PRIMARY KEY, \
+                    feed_link text, feed_image_link text)''')
+        self.c.execute('''create table if not exists articles
                     (article_date text, article_title text, \
                     article_link text PRIMARY KEY, article_description text, \
-                    feed_title text, feed_site_link text, \
-                    article_readed text)''')
+                    article_readed text, feed_link text)''')
         self.conn.commit()
         self.c.close()
 
@@ -87,7 +89,7 @@ class FeedGetter(object):
         self.c = self.conn.cursor()
 
         # Add the articles in the base.
-        self.add_into_sqlite(feedparser.parse(the_good_url))
+        self.add_into_sqlite(the_good_url)
 
         self.conn.commit()
         self.c.close()
@@ -95,10 +97,25 @@ class FeedGetter(object):
         # Release this part of code.
         self.locker.release()
 
-    def add_into_sqlite(self, a_feed):
+    def add_into_sqlite(self, feed_link):
         """
         Add the articles of the feed 'a_feed' in the SQLite base.
         """
+        a_feed = feedparser.parse(feed_link)
+        if a_feed['entries'] == []:
+            return
+        try:
+            feed_image = a_feed.feed.image.href
+        except:
+            feed_image = ""
+        try:
+            self.c.execute('insert into feeds values (?,?,?,?)', (\
+                        a_feed.feed.title.encode('utf-8'), \
+                        a_feed.feed.link.encode('utf-8'), \
+                        feed_link, \
+                        feed_image))
+        except sqlite3.IntegrityError:
+                pass
         for article in a_feed['entries']:
             try:
                 description = article.description.encode('utf-8')
@@ -110,14 +127,13 @@ class FeedGetter(object):
             article_id = sha256_hash.hexdigest()
 
             try:
-                self.c.execute('insert into rss_feed values (?,?,?,?,?,?,?)', (\
+                self.c.execute('insert into articles values (?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         article.title.encode('utf-8'), \
                         article.link.encode('utf-8'), \
                         description, \
-                        a_feed.feed.title.encode('utf-8'), \
-                        a_feed.feed.link.encode('utf-8'), \
-                        "0"))
+                        "0", \
+                        feed_link))
             except sqlite3.IntegrityError:
                 pass
 
