@@ -8,6 +8,7 @@ __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
+import sqlite3
 import cherrypy
 import ConfigParser
 
@@ -24,8 +25,10 @@ bindhost = "0.0.0.0"
 
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
-path = { '/css/style.css': {'tools.staticfile.on': True, \
+path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'css/style.css'}, \
+        '/css/img/delicious.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/delicious.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'var/histogram.png'}}
 
@@ -254,8 +257,10 @@ class Root:
                         html += "No description available."
                     html += """<hr />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                     (article[3].encode('utf-8'),)
-                    html += """<a href="http://delicious.com/%s">Delicious</a>""" % \
-                                    (article[3].encode('utf-8'),)
+                    html += """<a href="http://delicious.com/post?url=%s&title=%s"
+                            rel="noreferrer" target="_blank">\n
+                            <img src="/css/img/delicious.png" title="Post on del.iciou.us" /></a>""" % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
         html += "<hr />\n" + htmlfooter
         return html
 
