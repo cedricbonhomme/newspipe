@@ -106,9 +106,8 @@ class FeedGetter(object):
             return
         try:
             feed_image = a_feed.feed.image.href
-            print feed_image
         except:
-            feed_image = ""
+            feed_image = "/css/img/feed-icon-28x28.png"
         try:
             self.c.execute('insert into feeds values (?,?,?,?)', (\
                         a_feed.feed.title.encode('utf-8'), \
