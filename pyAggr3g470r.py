@@ -27,6 +27,8 @@ cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bind
 
 path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'css/style.css'}, \
+        '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':path+'css/img/feed-icon-28x28.png'}, \
         '/css/img/delicious.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'css/img/delicious.png'}, \
         '/css/img/digg.png': {'tools.staticfile.on': True, \
@@ -83,12 +85,15 @@ class Root:
         html += """</div>\n<div class="left inner">\n"""
 
         for rss_feed_id in self.dic.keys():
+            feed_link = self.dic_info[rss_feed_id][2].encode('utf-8')
+            if not feed_link:
+                feed_link = "/css/img/feed-icon-28x28.png"
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
-                    <img src="%s" width="20" height="20" /></h2>\n""" % \
+                    <img src="%s" width="28" height="28" /></h2>\n""" % \
                         (rss_feed_id, self.dic[rss_feed_id][0][6].encode('utf-8'), \
                         self.dic[rss_feed_id][0][5].encode('utf-8'), \
-                        self.dic_info[rss_feed_id][2].encode('utf-8'))
+                        feed_link)
 
             # The main page display only 10 articles by feeds.
             for article in self.dic[rss_feed_id][:10]:

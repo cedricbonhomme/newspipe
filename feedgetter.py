@@ -106,6 +106,7 @@ class FeedGetter(object):
             return
         try:
             feed_image = a_feed.feed.image.href
+            print feed_image
         except:
             feed_image = ""
         try:
