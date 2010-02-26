@@ -42,19 +42,20 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':path+'var/histogram.png'}}
 
-htmlheader = """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-                lang="en">\n<head>\n<link rel="stylesheet" type="text/css" href="/css/style.css"
-                />\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n
-                <title>pyAggr3g470r - RSS Feed Reader</title> </head>"""
+htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
+            '<head>' + \
+            '\n\t<title>pyAggr3g470r - RSS Feed Reader</title>\n' + \
+            '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
+            '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
+            '</head>\n'
 
-htmlfooter =  """<p>This software is under GPLv3 license. You are welcome to copy, modify or
-                redistribute the source code according to the GPLv3 license.</p></div>\n
-                </body>\n</html>"""
+htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
+            'redistribute the source code according to the GPLv3 license.</p></div>\n' + \
+            '</body>\n</html>'
 
-htmlnav = """<body>\n<h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a
-href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">
-pyAggr3g470r (source code)</a>
-"""
+htmlnav = '<body>\n<h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
+        ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
+        'pyAggr3g470r (source code)</a>'
 
 
 class Root:
@@ -66,9 +67,9 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
-        html += """<a href="/fetch/">Fetch all feeds</a>\n<br />\n"""
-        html += """<a href="/mark_as_read/All:">Mark all articles as read</a>\n<br />\n"""
-        html += """<a href="/management/">Management of feed</a>\n"""
+        html += """<a href="/management/">Management</a><br />\n"""
+        html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
+        html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
         type="submit" value="Search"></form>\n"""
         html += "<hr />\n"
@@ -148,8 +149,8 @@ class Root:
 
         html += "<hr />\n"
 
-        html += """<p>The database contains a total of %s articles with
-                %s unread articles.<br />""" % \
+        html += """<p>The database contains a total of %s article(s) with
+                <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
                     (sum([feed[0] for feed in self.feeds.values()]),
                     sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
@@ -362,19 +363,28 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
+
+        if feed_id == "All":
+            html += "<h1>Unread article(s)</h1>"
+            for rss_feed_id in self.feeds.keys():
+                for article in self.articles[rss_feed_id]:
+                    if article[5] == "0":
+                        html += article[1].encode('utf-8') + \
+                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                        (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                "<br />\n"
+            html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
+        else:
+            html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
                 <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
+            for article in self.articles[feed_id]:
+                if article[5] == "0":
+                    html += article[1].encode('utf-8') + \
+                            """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                    (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                            "<br />\n"
 
-        for article in self.articles[feed_id]:
-
-            if article[5] == "0":
-
-                html += article[1].encode('utf-8') + \
-                        """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                        "<br />\n"
-
-        html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+            html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
