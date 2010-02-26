@@ -266,7 +266,8 @@ class Root:
                         self.mark_as_read("Article:"+article[3]) # update the database
 
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
-                            (article[2].encode('utf-8'), rss_feed_id, article[5].encode('utf-8'))
+                            (article[2].encode('utf-8'), rss_feed_id, \
+                            self.feeds[rss_feed_id][3].encode('utf-8'))
                     description = article[4].encode('utf-8')
                     if description:
                         html += description
