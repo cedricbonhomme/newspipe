@@ -62,7 +62,7 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        self.dic, self.dic_info = utils.load_feed()
+        self.articles, self.feeds = utils.load_feed()
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
@@ -72,30 +72,33 @@ class Root:
         html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
         type="submit" value="Search"></form>\n"""
         html += "<hr />\n"
-        html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
-        for rss_feed_id in self.dic.keys():
+        html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
+        for rss_feed_id in self.articles.keys():
 
             html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
                     title="Unread article(s)">%s</a> / %s)<br />\n""" % \
                                 (rss_feed_id.encode('utf-8'), \
-                                self.dic[rss_feed_id][0][5].encode('utf-8'), \
-                                rss_feed_id, self.dic_info[rss_feed_id][1], \
-                                self.dic_info[rss_feed_id][0])
+                                self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                rss_feed_id, self.feeds[rss_feed_id][1], \
+                                self.feeds[rss_feed_id][0])
 
         html += """</div>\n<div class="left inner">\n"""
 
-        for rss_feed_id in self.dic.keys():
+        for rss_feed_id in self.articles.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
-                    <img src="%s" width="28" height="28" /></h2>\n""" % \
-                        (rss_feed_id, self.dic[rss_feed_id][0][6].encode('utf-8'), \
-                        self.dic[rss_feed_id][0][5].encode('utf-8'), \
-                        self.dic_info[rss_feed_id][2].encode('utf-8'))
+                    <a href="%s" rel="noreferrer"
+                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                        (rss_feed_id, \
+                        self.feeds[rss_feed_id][5].encode('utf-8'), \
+                        self.feeds[rss_feed_id][3].encode('utf-8'), \
+                        self.feeds[rss_feed_id][4].encode('utf-8'), \
+                        self.feeds[rss_feed_id][2].encode('utf-8'))
 
             # The main page display only 10 articles by feeds.
-            for article in self.dic[rss_feed_id][:10]:
+            for article in self.articles[rss_feed_id][:10]:
 
-                if article[7] == "0":
+                if article[5] == "0":
                     # not readed articles are in bold
                     not_read_begin = "<b>"
                     not_read_end = "</b>"
@@ -113,10 +116,10 @@ class Root:
 
             html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
             html += """ <a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
-            if self.dic_info[rss_feed_id][1] != 0:
+            if self.feeds[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
-                                        self.dic_info[rss_feed_id][1])
+                                        self.feeds[rss_feed_id][1])
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -128,7 +131,7 @@ class Root:
     def management(self):
         """
         """
-        self.dic, self.dic_info = utils.load_feed()
+        self.articles, self.feeds = utils.load_feed()
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">\n"""
@@ -138,17 +141,17 @@ class Root:
 
         html += "<h1>Delete Feeds</h1>\n"
         html += """<form method=get action="del_feed/"><select name="feed_list">\n"""
-        for feed_id in self.dic.keys():
+        for feed_id in self.articles.keys():
             html += """\t<option value="%s">%s</option>\n""" % \
-                    (feed_id, self.dic[feed_id][0][5].encode('utf-8'))
+                    (feed_id, self.feeds[feed_id][3].encode('utf-8'))
         html += """</select></form>\n"""
 
         html += "<hr />\n"
 
         html += """<p>The database contains a total of %s articles with
                 %s unread articles.<br />""" % \
-                    (sum([feed[0] for feed in self.dic_info.values()]),
-                    sum([feed[1] for feed in self.dic_info.values()]))
+                    (sum([feed[0] for feed in self.feeds.values()]),
+                    sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath("./var/feed.db"), os.path.getsize("./var/feed.db"))
 
@@ -158,9 +161,9 @@ class Root:
         type="submit" value="Delete all articles"></form>\n"""
 
         html += "<hr />\n"
-        if self.dic:
+        if self.articles:
             html += "<h1>Statistics</h1>\n"
-            top_words = utils.top_words(self.dic, 10)
+            top_words = utils.top_words(self.articles, 10)
 
             html += "<table border=0>\n<tr><td>"
             html += "<ol>\n"
@@ -194,10 +197,10 @@ class Root:
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
 
         if feed_id is not None:
-            for article in self.dic[rss_feed_id]:
-                article_content = utils.remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
+            for article in self.articles[rss_feed_id]:
+                article_content = utils.remove_html_tags(article[4].encode('utf-8'))
                 if querystring.lower() in article_content.lower():
-                    if article[7] == "0":
+                    if article[5] == "0":
                         # not readed articles are in bold
                         not_read_begin = "<b>"
                         not_read_end = "</b>"
@@ -211,11 +214,11 @@ class Root:
                                     (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                             not_read_end
         else:
-            for rss_feed_id in self.dic.keys():
-                for article in self.dic[rss_feed_id]:
-                    article_content = utils.remove_html_tags(article[4].encode('utf-8') + article[2].encode('utf-8'))
+            for rss_feed_id in self.articles.keys():
+                for article in self.articles[rss_feed_id]:
+                    article_content = utils.remove_html_tags(article[4].encode('utf-8'))
                     if querystring.lower() in article_content.lower():
-                        if article[7] == "0":
+                        if article[5] == "0":
                             # not readed articles are in bold
                             not_read_begin = "<b>"
                             not_read_end = "</b>"
@@ -228,7 +231,8 @@ class Root:
                                 """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                         (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                                 not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (article[6].encode('utf-8'), article[5].encode('utf-8'))
+                                        (self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][3].encode('utf-8'))
         html += "<hr />"
         html += htmlfooter
         return html
@@ -254,11 +258,11 @@ class Root:
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        for rss_feed_id in self.dic.keys():
-            for article in self.dic[rss_feed_id]:
+        for rss_feed_id in self.articles.keys():
+            for article in self.articles[rss_feed_id]:
                 if article_id == article[0]:
 
-                    if article[7] == "0":
+                    if article[5] == "0":
                         self.mark_as_read("Article:"+article[3]) # update the database
 
                     html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
@@ -313,21 +317,21 @@ class Root:
         html += """<br />\n<form method=get action="/q/Feed"><input type="text" name="Feed:%s:querystring" value=""><input
         type="submit" value="Search this feed"></form>\n""" % (feed_id,)
         html += "<hr />\n"
-        html += """Your feeds (%s):<br />\n""" % len(self.dic.keys())
-        for rss_feed_id in self.dic.keys():
+        html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
+        for rss_feed_id in self.articles.keys():
 
             html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
                     title="Unread article(s)">%s</a> / %s)<br />\n""" % \
                                 (rss_feed_id.encode('utf-8'), \
-                                self.dic[rss_feed_id][0][5].encode('utf-8'), \
-                                rss_feed_id, self.dic_info[rss_feed_id][1], \
-                                self.dic_info[rss_feed_id][0])
+                                self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                rss_feed_id, self.feeds[rss_feed_id][1], \
+                                self.feeds[rss_feed_id][0])
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.dic[feed_id][0][5].encode('utf-8'))
+        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.feeds[feed_id][3].encode('utf-8'))
 
-        for article in self.dic[feed_id]:
+        for article in self.articles[feed_id]:
 
-            if article[7] == "0":
+            if article[5] == "0":
                 # not readed articles are in bold
                 not_read_begin = "<b>"
                 not_read_end = "</b>"
@@ -358,11 +362,11 @@ class Root:
         html += htmlnav
         html += """</div> <div class="left inner">"""
         html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
-                <br />""" % (feed_id, self.dic[feed_id][0][5].encode('utf-8'))
+                <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
 
-        for article in self.dic[feed_id]:
+        for article in self.articles[feed_id]:
 
-            if article[7] == "0":
+            if article[5] == "0":
 
                 html += article[1].encode('utf-8') + \
                         """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
@@ -392,7 +396,7 @@ class Root:
                 c.execute("UPDATE articles SET article_readed=1")
             # Mark all articles from a feed as read.
             elif param == "Feed" or param == "Feed_FromMainPage":
-                c.execute("UPDATE articles SET article_readed=1 WHERE feed_link='" + self.dic[identifiant][0][6] + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE feed_link='" + self.feeds[identifiant][4].encode('utf-8') + "'")
             # Mark an article as read.
             elif param == "Article":
                 c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + identifiant + "'")
@@ -401,7 +405,7 @@ class Root:
         except Exception, e:
             pass
 
-        self.dic, self.dic_info = utils.load_feed()
+        self.articles, self.feeds = utils.load_feed()
 
         if param == "All" or param == "Feed_FromMainPage":
             return self.index()

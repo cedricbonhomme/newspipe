@@ -122,21 +122,16 @@ def load_feed():
         pass
 
     # The key of dic is the id of the feed:
-    # dic[feed_id] = (article_id, article_date, article_title,
-    #               article_link, article_description, feed_title,
-    #               feed_link, article_readed)
-    # dic_info[feed_id] = (nb_article, nb_article_unreaded, feed_image)
-    dic, dic_info = {}, {}
+    # articles[feed_id] = (article_id, article_date, article_title,
+    #               article_link, article_description, article_readed)
+    # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
+    #               feed_title, feed_link, feed_site_link)
+    articles, feeds = {}, {}
     if list_of_feeds is not None:
         for feed in list_of_feeds:
-            feed_title = feed[0]
-            feed_site_link = feed[1]
-            feed_link = feed[2]
-            feed_image = feed[3]
-
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
-                    feed_link + "'").fetchall()
+                    feed[2] + "'").fetchall()
 
             if list_of_articles is not None:
                 for article in list_of_articles:
@@ -147,23 +142,23 @@ def load_feed():
                     article_id = sha256_hash.hexdigest()
 
                     article_list = [article_id, article[0], article[1], \
-                        article[2], article[3], feed_title, feed_link, article[4]]
+                        article[2], article[3], article[4]]
 
-                    if feed_id not in dic:
-                        dic[feed_id] = [article_list]
+                    if feed_id not in articles:
+                        articles[feed_id] = [article_list]
                     else:
-                        dic[feed_id].append(article_list)
+                        articles[feed_id].append(article_list)
 
                 # sort articles by date for each feeds
-                for feeds in dic.keys():
-                    dic[feeds].sort(lambda x,y: compare(y[1], x[1]))
+                for rss_feed_id in articles.keys():
+                    articles[rss_feed_id].sort(lambda x,y: compare(y[1], x[1]))
 
-                dic_info[feed_id] = (len(dic[feed_id]), \
-                                len([article for article in dic[feed_id] \
-                                    if article[7]=="0"]), \
-                                feed_image
+                feeds[feed_id] = (len(articles[feed_id]), \
+                                len([article for article in articles[feed_id] \
+                                    if article[5]=="0"]), \
+                                feed[3], feed[0], feed[2], feed[1] \
                                 )
         c.close()
 
-        return (dic, dic_info)
-    return (dic, dic_info)
+        return (articles, feeds)
+    return (articles, feeds)
