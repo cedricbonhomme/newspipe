@@ -73,7 +73,8 @@ class Tux(object):
             c.close()
         except Exception, e:
             pass
-        self.say_something(str(len(unread_articles)))
+        self.say_something("News to read !")
+        #self.say_something(str(len(unread_articles)))
         #for unread_article in unread_articles:
             #self.say_something()
 

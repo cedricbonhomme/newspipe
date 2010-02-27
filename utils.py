@@ -26,8 +26,8 @@ def remove_html_tags(data):
 
 def top_words(dic_articles, n=10):
     """
+    Return the n most frequent words in a list.
     """
-    N = 10
     words = {}
     articles_content = ""
     for rss_feed_id in dic_articles.keys():
@@ -40,7 +40,7 @@ def top_words(dic_articles, n=10):
     for word in words_gen:
         words[word] += 1
     top_words = sorted(words.iteritems(),
-                key=lambda(word, count): (-count, word))[:N]
+                key=lambda(word, count): (-count, word))[:n]
     return top_words
 
 def create_histogram(words, file_name="./var/histogram.png"):

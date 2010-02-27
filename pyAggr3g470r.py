@@ -322,8 +322,7 @@ class Root:
         html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
         for rss_feed_id in self.articles.keys():
 
-            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
-                    title="Unread article(s)">%s</a> / %s)<br />\n""" % \
+            html += """<a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s</a> / %s)<br />\n""" % \
                                 (rss_feed_id.encode('utf-8'), \
                                 self.feeds[rss_feed_id][3].encode('utf-8'), \
                                 rss_feed_id, self.feeds[rss_feed_id][1], \
@@ -370,9 +369,11 @@ class Root:
                 for article in self.articles[rss_feed_id]:
                     if article[5] == "0":
                         html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                        (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                                "<br />\n"
+                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
+                                from <i><a href="%s">%s</a></i><br />\n""" % \
+                                        (article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][3].encode('utf-8'))
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         else:
             html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
