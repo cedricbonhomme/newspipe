@@ -31,11 +31,11 @@ def top_words(dic_articles, n=10):
     words = {}
     articles_content = ""
     for rss_feed_id in dic_articles.keys():
-                for article in dic_articles[rss_feed_id]:
-                    articles_content += remove_html_tags(article[4].encode('utf-8'))
+        for article in dic_articles[rss_feed_id]:
+            articles_content += remove_html_tags(article[4].encode('utf-8'))
     words_gen = (word.strip(punctuation).lower() \
-                for word in articles_content.split() \
-                if len(word) >= 5)
+                        for word in articles_content.split() \
+                                if len(word) >= 5)
     words = defaultdict(int)
     for word in words_gen:
         words[word] += 1
@@ -103,13 +103,11 @@ def compare(stringtime1, stringtime2):
         return -1
     elif datetime1 > datetime2:
         return 1
-    else:
-        return 0
-
+    return 0
 
 def load_feed():
     """
-    Load feeds in a dictionary.
+    Load feeds and articles in a dictionary.
     """
     list_of_feeds = None
     list_of_articles = None
@@ -117,11 +115,9 @@ def load_feed():
         conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         c = conn.cursor()
         list_of_feeds = c.execute("SELECT * FROM feeds").fetchall()
-        #c.close()
     except:
         pass
 
-    # The key of dic is the id of the feed:
     # articles[feed_id] = (article_id, article_date, article_title,
     #               article_link, article_description, article_readed)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
@@ -148,6 +144,7 @@ def load_feed():
                         articles[feed_id] = [article_list]
                     else:
                         articles[feed_id].append(article_list)
+
 
                 # sort articles by date for each feeds
                 for rss_feed_id in articles.keys():

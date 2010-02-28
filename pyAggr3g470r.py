@@ -408,10 +408,12 @@ class Root:
                 c.execute("UPDATE articles SET article_readed=1")
             # Mark all articles from a feed as read.
             elif param == "Feed" or param == "Feed_FromMainPage":
-                c.execute("UPDATE articles SET article_readed=1 WHERE feed_link='" + self.feeds[identifiant][4].encode('utf-8') + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE feed_link='" + \
+                            self.feeds[identifiant][4].encode('utf-8') + "'")
             # Mark an article as read.
             elif param == "Article":
-                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + identifiant + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + \
+                            identifiant + "'")
             conn.commit()
             c.close()
         except Exception, e:
