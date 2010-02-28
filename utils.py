@@ -24,6 +24,8 @@ from oice.langdet import languages
 
 def detect_language(text):
     """
+    Detect the language of a text.
+    English, French or other (not detected).
     """
     try:
         text_stream = streams.Stream(StringIO(text))
@@ -35,7 +37,7 @@ def detect_language(text):
     elif lang == languages.english:
         return 'english'.encode('utf-8')
     else:
-        lang == 'other'
+        return 'other'
 
 def remove_html_tags(data):
     """
@@ -159,7 +161,8 @@ def load_feed():
                     article_id = sha256_hash.hexdigest()
 
                     if article[3] != "":
-                        language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8'))
+                        language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \
+                                            remove_html_tags(article[1]).encode('utf-8'))
                     else:
                         language = "other"
 
