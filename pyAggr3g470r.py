@@ -131,6 +131,7 @@ class Root:
 
     def management(self):
         """
+        Management of articles.
         """
         self.articles, self.feeds = utils.load_feed()
         html = htmlheader
@@ -174,7 +175,27 @@ class Root:
             html += "</ol>\n</td><td>"
             utils.create_histogram(top_words)
             html += """<img src="/var/histogram.png" /></td></tr></table>"""
-            html += "<hr />\n"
+
+        nb_french = 0
+        nb_english = 0
+        nb_other = 0
+        for rss_feed_id in self.articles.keys():
+            for article in self.articles[rss_feed_id]:
+                if article[6] == 'french':
+                    nb_french += 1
+                elif article[6] == 'english':
+                    nb_english += 1
+                else:
+                    nb_other +=1
+
+        html += "<h1>Languages</h1>\n"
+        html += "<ul>\n"
+        for language in ['english', 'french', 'other']:
+            html += """<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
+                    (locals()["nb_"+language],
+                    language, language)
+        html += "</ul>\n"
+        html += "<hr />\n"
 
         html += htmlfooter
         return html
@@ -274,7 +295,9 @@ class Root:
                         html += description
                     else:
                         html += "No description available."
-                    html += """<hr />\n<a href="%s">Complete story</a>\n<br />\n""" % \
+                    html += "<hr />\n"
+                    html += """This article is written in %s.""" % (article[6],)
+                    html += """<br /><a href="%s">Complete story</a>\n<br />\n""" % \
                                     (article[3].encode('utf-8'),)
                     # Share this article:
                     # on delicious
@@ -310,7 +333,7 @@ class Root:
 
     def all_articles(self, feed_id):
         """
-        Display all articles of a feed ('feed_title').
+        Display all articles of a feed.
         """
         html = htmlheader
         html += htmlnav
@@ -357,7 +380,7 @@ class Root:
 
     def unread(self, feed_id):
         """
-        Display all unread articles of a feed ('feed_title').
+        Display all unread articles of a feed.
         """
         html = htmlheader
         html += htmlnav
@@ -393,6 +416,30 @@ class Root:
 
     unread.exposed = True
 
+    def language(self, lang):
+        """
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+
+        html += """<h1>Article(s) written in %s</h1>""" % (lang,)
+
+        for rss_feed_id in self.articles.keys():
+            for article in self.articles[rss_feed_id]:
+                if article[6] == lang:
+                    html += article[1].encode('utf-8') + \
+                            """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
+                            from <i><a href="%s">%s</a></i><br />\n""" % \
+                                    (article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][3].encode('utf-8'))
+
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    language.exposed = True
 
     def mark_as_read(self, target):
         """

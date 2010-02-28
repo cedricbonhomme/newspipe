@@ -16,6 +16,26 @@ from datetime import datetime
 from string import punctuation
 from collections import defaultdict
 
+from StringIO import StringIO
+
+from oice.langdet import langdet
+from oice.langdet import streams
+from oice.langdet import languages
+
+def detect_language(text):
+    """
+    """
+    try:
+        text_stream = streams.Stream(StringIO(text))
+        lang = langdet.LanguageDetector.detect(text_stream)
+    except:
+        return 'other'
+    if lang == languages.french:
+        return 'french'.encode('utf-8')
+    elif lang == languages.english:
+        return 'english'.encode('utf-8')
+    else:
+        lang == 'other'
 
 def remove_html_tags(data):
     """
@@ -119,7 +139,8 @@ def load_feed():
         pass
 
     # articles[feed_id] = (article_id, article_date, article_title,
-    #               article_link, article_description, article_readed)
+    #               article_link, article_description, article_readed,
+    #               article_language)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link)
     articles, feeds = {}, {}
@@ -137,8 +158,13 @@ def load_feed():
                     sha256_hash.update(article[2].encode('utf-8'))
                     article_id = sha256_hash.hexdigest()
 
+                    if article[3] != "":
+                        language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8'))
+                    else:
+                        language = "other"
+
                     article_list = [article_id, article[0], article[1], \
-                        article[2], article[3], article[4]]
+                        article[2], article[3], article[4], language]
 
                     if feed_id not in articles:
                         articles[feed_id] = [article_list]
