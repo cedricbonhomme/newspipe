@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.8 $"
-__date__ = "$Date: 2010/02/24 $"
+__version__ = "$Revision: 0.9 $"
+__date__ = "$Date: 2010/03/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -50,7 +50,7 @@ htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
             '</head>\n'
 
 htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
-            'redistribute the source code according to the GPLv3 license.</p></div>\n' + \
+            ' redistribute the source code according to the GPLv3 license.</p></div>\n' + \
             '</body>\n</html>'
 
 htmlnav = '<body>\n<h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
@@ -149,11 +149,10 @@ class Root:
         html += """</select></form>\n"""
 
         html += "<hr />\n"
-
+        nb_articles = sum([feed[0] for feed in self.feeds.values()])
         html += """<p>The database contains a total of %s article(s) with
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
-                    (sum([feed[0] for feed in self.feeds.values()]),
-                    sum([feed[1] for feed in self.feeds.values()]))
+                    (nb_articles, sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath("./var/feed.db"), os.path.getsize("./var/feed.db"))
 
@@ -165,38 +164,36 @@ class Root:
         html += "<hr />\n"
         if self.articles:
             html += "<h1>Statistics</h1>\n"
+
             top_words = utils.top_words(self.articles, 10)
+            utils.create_histogram(top_words)
+
+            nb_french = 0
+            nb_english = 0
+            for rss_feed_id in self.articles.keys():
+                for article in self.articles[rss_feed_id]:
+                    if article[6] == 'french':
+                        nb_french += 1
+                    elif article[6] == 'english':
+                        nb_english += 1
+            nb_other = nb_articles - nb_french - nb_english
 
             html += "<table border=0>\n<tr><td>"
+            html += "<h3>Words count</h3>\n"
             html += "<ol>\n"
             for word, frequency in top_words:
                 html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
                                 (word, word, frequency)
-            html += "</ol>\n</td><td>"
-            utils.create_histogram(top_words)
+            html += "</ol>\n"
+            html += "<h3>Languages</h3>\n"
+            html += "<ul>\n"
+            for language in ['english', 'french', 'other']:
+                html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
+                                (locals()["nb_"+language], language, language)
+            html += "</ul>\n</td>\n<td>"
             html += """<img src="/var/histogram.png" /></td></tr></table>"""
 
-        nb_french = 0
-        nb_english = 0
-        nb_other = 0
-        for rss_feed_id in self.articles.keys():
-            for article in self.articles[rss_feed_id]:
-                if article[6] == 'french':
-                    nb_french += 1
-                elif article[6] == 'english':
-                    nb_english += 1
-                else:
-                    nb_other +=1
-
-        html += "<h1>Languages</h1>\n"
-        html += "<ul>\n"
-        for language in ['english', 'french', 'other']:
-            html += """<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
-                    (locals()["nb_"+language],
-                    language, language)
-        html += "</ul>\n"
         html += "<hr />\n"
-
         html += htmlfooter
         return html
 
@@ -296,7 +293,8 @@ class Root:
                     else:
                         html += "No description available."
                     html += "<hr />\n"
-                    html += """This article is written in %s.""" % (article[6],)
+                    html += """This article seems to be written in <a href="/language/%s">%s</a>.""" % \
+                                    (article[6], article[6])
                     html += """<br /><a href="%s">Complete story</a>\n<br />\n""" % \
                                     (article[3].encode('utf-8'),)
                     # Share this article:
@@ -416,15 +414,15 @@ class Root:
 
     unread.exposed = True
 
+
     def language(self, lang):
         """
+        Display articles by language.
         """
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-
-        html += """<h1>Article(s) written in %s</h1>""" % (lang,)
-
+        html += """<h1>Article(s) written in %s</h1>\n<br />\n""" % (lang,)
         for rss_feed_id in self.articles.keys():
             for article in self.articles[rss_feed_id]:
                 if article[6] == lang:
@@ -434,12 +432,12 @@ class Root:
                                     (article[0].encode('utf-8'), article[2].encode('utf-8'), \
                                     self.feeds[rss_feed_id][5].encode('utf-8'), \
                                     self.feeds[rss_feed_id][3].encode('utf-8'))
-
         html += "<hr />\n"
         html += htmlfooter
         return html
 
     language.exposed = True
+
 
     def mark_as_read(self, target):
         """

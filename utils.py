@@ -164,7 +164,7 @@ def load_feed():
                         language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \
                                             remove_html_tags(article[1]).encode('utf-8'))
                     else:
-                        language = "other"
+                        language = detect_language(remove_html_tags(article[1]).encode('utf-8'))
 
                     article_list = [article_id, article[0], article[1], \
                         article[2], article[3], article[4], language]
