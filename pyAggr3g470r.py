@@ -284,18 +284,20 @@ class Root:
                     if article[5] == "0":
                         self.mark_as_read("Article:"+article[3]) # update the database
 
-                    html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1><br />""" % \
-                            (article[2].encode('utf-8'), rss_feed_id, \
-                            self.feeds[rss_feed_id][3].encode('utf-8'))
+                    html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
+                                    (article[2].encode('utf-8'), rss_feed_id, \
+                                    self.feeds[rss_feed_id][3].encode('utf-8'))
                     description = article[4].encode('utf-8')
                     if description:
                         html += description
                     else:
                         html += "No description available."
-                    html += "<hr />\n"
-                    html += """This article seems to be written in <a href="/language/%s">%s</a>.""" % \
+                    html += "\n<hr />\n"
+                    html += """This article seems to be written in <a href="/language/%s">%s</a>.\n""" % \
                                     (article[6], article[6])
-                    html += """<br /><a href="%s">Complete story</a>\n<br />\n""" % \
+                    html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
+                                    (rss_feed_id, article_id)
+                    html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                     (article[3].encode('utf-8'),)
                     # Share this article:
                     # on delicious
@@ -437,6 +439,30 @@ class Root:
         return html
 
     language.exposed = True
+
+
+    def plain_text(self, target):
+        """
+        Display an article in plain text (without HTML tags).
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+        feed_id, article_id = target.split(':')
+        for article in self.articles[feed_id]:
+            if article_id == article[0]:
+                html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
+                                    (article[2].encode('utf-8'), feed_id, \
+                                    self.feeds[feed_id][3].encode('utf-8'))
+                description = utils.remove_html_tags(article[4].encode('utf-8'))
+                if description:
+                    html += description
+                else:
+                    html += "No description available."
+        html += "\n<hr />\n" + htmlfooter
+        return html
+
+    plain_text.exposed = True
 
 
     def mark_as_read(self, target):
