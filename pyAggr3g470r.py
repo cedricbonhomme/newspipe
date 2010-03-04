@@ -325,6 +325,9 @@ class Root:
                             rel="noreferrer" target="_blank">\n
                             <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
                                     (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    break
+            else:
+                continue
         html += "<hr />\n" + htmlfooter
         return html
 
