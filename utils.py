@@ -154,11 +154,11 @@ def load_feed():
 
             if list_of_articles is not None:
                 for article in list_of_articles:
-                    sha256_hash = hashlib.sha256()
-                    sha256_hash.update(article[5].encode('utf-8'))
-                    feed_id = sha256_hash.hexdigest()
-                    sha256_hash.update(article[2].encode('utf-8'))
-                    article_id = sha256_hash.hexdigest()
+                    sha1_hash = hashlib.sha1()
+                    sha1_hash.update(article[5].encode('utf-8'))
+                    feed_id = sha1_hash.hexdigest()
+                    sha1_hash.update(article[2].encode('utf-8'))
+                    article_id = sha1_hash.hexdigest()
 
                     if article[3] != "":
                         language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \

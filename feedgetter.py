@@ -11,7 +11,6 @@ __license__ = "GPLv3"
 
 import re
 import sqlite3
-import hashlib
 import threading
 import feedparser
 
