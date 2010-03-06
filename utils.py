@@ -27,6 +27,7 @@ def detect_language(text):
     Detect the language of a text.
     English, French or other (not detected).
     """
+    text = text.strip()
     try:
         text_stream = streams.Stream(StringIO(text))
         lang = langdet.LanguageDetector.detect(text_stream)

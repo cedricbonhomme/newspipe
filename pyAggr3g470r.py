@@ -50,7 +50,8 @@ htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
             '</head>\n'
 
 htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
-            ' redistribute the source code according to the GPLv3 license.</p></div>\n' + \
+            ' redistribute the source code according to the' + \
+            ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
 
 htmlnav = '<body>\n<h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
