@@ -109,8 +109,8 @@ class Root:
 
                 html += article[1].encode('utf-8') + \
                         " - " + not_read_begin + \
-                        """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                        """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                (rss_feed_id, article[0].encode('utf-8'),article[2].encode('utf-8')) + \
                         not_read_end + \
                         "<br />\n"
             html += "<br />\n"
@@ -270,64 +270,62 @@ class Root:
     fetch.exposed = True
 
 
-    def description(self, article_id):
+    def description(self, param):
         """
         Display the description of an article in a new Web page.
         """
+        feed_id, article_id = param.split(':')
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        for rss_feed_id in self.articles.keys():
-            for article in self.articles[rss_feed_id]:
-                if article_id == article[0]:
+        for article in self.articles[feed_id]:
+            if article_id == article[0]:
 
-                    if article[5] == "0":
-                        self.mark_as_read("Article:"+article[3]) # update the database
+                if article[5] == "0":
+                    self.mark_as_read("Article:"+article[3]) # update the database
 
-                    html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
-                                    (article[2].encode('utf-8'), rss_feed_id, \
-                                    self.feeds[rss_feed_id][3].encode('utf-8'))
-                    description = article[4].encode('utf-8')
-                    if description:
-                        html += description
-                    else:
-                        html += "No description available."
-                    html += "\n<hr />\n"
-                    html += """This article seems to be written in <a href="/language/%s">%s</a>.\n""" % \
-                                    (article[6], article[6])
-                    html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
-                                    (rss_feed_id, article_id)
-                    html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
-                                    (article[3].encode('utf-8'),)
-                    # Share this article:
-                    # on delicious
-                    html += """<a href="http://delicious.com/post?url=%s&title=%s"
-                            rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    # on Digg
-                    html += """<a href="http://digg.com/submit?url=%s&title=%s"
-                            rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    # on reddit
-                    html += """<a href="http://reddit.com/submit?url=%s&title=%s"
-                            rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    # on Scoopeo
-                    html += """<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
-                            rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    # on Blogmarks
-                    html += """<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
-                            rel="noreferrer" target="_blank">\n
-                            <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    break
-            else:
-                continue
+                html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
+                                (article[2].encode('utf-8'), feed_id, \
+                                self.feeds[feed_id][3].encode('utf-8'))
+                description = article[4].encode('utf-8')
+                if description:
+                    html += description
+                else:
+                    html += "No description available."
+                html += "\n<hr />\n"
+                html += """This article seems to be written in <a href="/language/%s">%s</a>.\n""" % \
+                                (article[6], article[6])
+                html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
+                                (feed_id, article_id)
+                html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
+                                (article[3].encode('utf-8'),)
+                # Share this article:
+                # on delicious
+                html += """<a href="http://delicious.com/post?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                # on Digg
+                html += """<a href="http://digg.com/submit?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                # on reddit
+                html += """<a href="http://reddit.com/submit?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                # on Scoopeo
+                html += """<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                # on Blogmarks
+                html += """<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                break
         html += "<hr />\n" + htmlfooter
         return html
 
@@ -368,8 +366,8 @@ class Root:
 
             html += article[1].encode('utf-8') + \
                     " - " + not_read_begin + \
-                    """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                            (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                    """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                            (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                     not_read_end + \
                     "<br />\n"
 
@@ -395,9 +393,9 @@ class Root:
                 for article in self.articles[rss_feed_id]:
                     if article[5] == "0":
                         html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
+                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
                                 from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
                                         self.feeds[rss_feed_id][5].encode('utf-8'), \
                                         self.feeds[rss_feed_id][3].encode('utf-8'))
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
@@ -407,8 +405,8 @@ class Root:
             for article in self.articles[feed_id]:
                 if article[5] == "0":
                     html += article[1].encode('utf-8') + \
-                            """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                    (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                            """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                    (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                             "<br />\n"
 
             html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
