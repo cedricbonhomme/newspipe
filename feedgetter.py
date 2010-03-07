@@ -121,10 +121,6 @@ class FeedGetter(object):
             except Exception, e:
                 description = ""
 
-            sha256_hash = hashlib.sha256()
-            sha256_hash.update(article.link.encode('utf-8'))
-            article_id = sha256_hash.hexdigest()
-
             try:
                 self.c.execute('insert into articles values (?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
