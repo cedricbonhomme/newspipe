@@ -167,17 +167,19 @@ class Root:
             html += "<h1>Statistics</h1>\n"
 
             top_words = utils.top_words(self.articles, 10)
-            utils.create_histogram(top_words)
+            if "pylab" not in utils.IMPORT_ERROR:
+                utils.create_histogram(top_words)
 
-            nb_french = 0
-            nb_english = 0
-            for rss_feed_id in self.articles.keys():
-                for article in self.articles[rss_feed_id]:
-                    if article[6] == 'french':
-                        nb_french += 1
-                    elif article[6] == 'english':
-                        nb_english += 1
-            nb_other = nb_articles - nb_french - nb_english
+            if "oice" not in utils.IMPORT_ERROR:
+                nb_french = 0
+                nb_english = 0
+                for rss_feed_id in self.articles.keys():
+                    for article in self.articles[rss_feed_id]:
+                        if article[6] == 'french':
+                            nb_french += 1
+                        elif article[6] == 'english':
+                            nb_english += 1
+                nb_other = nb_articles - nb_french - nb_english
 
             html += "<table border=0>\n<tr><td>"
             html += "<h3>Words count</h3>\n"
@@ -187,11 +189,16 @@ class Root:
                                 (word, word, frequency)
             html += "</ol>\n"
             html += "<h3>Languages</h3>\n"
-            html += "<ul>\n"
-            for language in ['english', 'french', 'other']:
-                html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
-                                (locals()["nb_"+language], language, language)
-            html += "</ul>\n</td>\n<td>"
+            if "oice" in utils.IMPORT_ERROR:
+                html += "Install the module "
+                html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
+                html += "</td>\n<td>"
+            else:
+                html += "<ul>\n"
+                for language in ['english', 'french', 'other']:
+                    html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
+                                    (locals()["nb_"+language], language, language)
+                html += "</ul>\n</td>\n<td>"
             html += """<img src="/var/histogram.png" /></td></tr></table>"""
 
         html += "<hr />\n"
@@ -427,15 +434,19 @@ class Root:
         html += htmlnav
         html += """</div> <div class="left inner">"""
         html += """<h1>Article(s) written in %s</h1>\n<br />\n""" % (lang,)
-        for rss_feed_id in self.articles.keys():
-            for article in self.articles[rss_feed_id]:
-                if article[6] == lang:
-                    html += article[1].encode('utf-8') + \
-                            """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
-                            from <i><a href="%s">%s</a></i><br />\n""" % \
-                                    (article[0].encode('utf-8'), article[2].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][3].encode('utf-8'))
+        if "oice" not in utils.IMPORT_ERROR:
+            for rss_feed_id in self.articles.keys():
+                for article in self.articles[rss_feed_id]:
+                    if article[6] == lang:
+                        html += article[1].encode('utf-8') + \
+                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
+                                from <i><a href="%s">%s</a></i><br />\n""" % \
+                                        (article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][3].encode('utf-8'))
+        else:
+            html += "Install the module "
+            html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
         html += "<hr />\n"
         html += htmlfooter
         return html

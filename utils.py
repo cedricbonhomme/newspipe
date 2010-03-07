@@ -7,8 +7,13 @@ __date__ = "$Date: 2010/02/24 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
+IMPORT_ERROR = []
+
 import re
-import pylab
+try:
+    import pylab
+except:
+    IMPORT_ERROR.append("pylab")
 import sqlite3
 import hashlib
 
@@ -18,9 +23,12 @@ from collections import defaultdict
 
 from StringIO import StringIO
 
-from oice.langdet import langdet
-from oice.langdet import streams
-from oice.langdet import languages
+try:
+    from oice.langdet import langdet
+    from oice.langdet import streams
+    from oice.langdet import languages
+except:
+    IMPORT_ERROR.append("oice")
 
 def detect_language(text):
     """
@@ -147,13 +155,13 @@ def load_feed():
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link)
     articles, feeds = {}, {}
-    if list_of_feeds is not None:
+    if list_of_feeds != []:
         for feed in list_of_feeds:
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
                     feed[2] + "'").fetchall()
 
-            if list_of_articles is not None:
+            if list_of_articles != []:
                 for article in list_of_articles:
                     sha1_hash = hashlib.sha1()
                     sha1_hash.update(article[5].encode('utf-8'))
@@ -161,11 +169,14 @@ def load_feed():
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
-                    if article[3] != "":
-                        language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \
-                                            remove_html_tags(article[1]).encode('utf-8'))
+                    if "oice" not in IMPORT_ERROR:
+                        if article[3] != "":
+                            language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \
+                                                remove_html_tags(article[1]).encode('utf-8'))
+                        else:
+                            language = detect_language(remove_html_tags(article[1]).encode('utf-8'))
                     else:
-                        language = detect_language(remove_html_tags(article[1]).encode('utf-8'))
+                        language = "IMPORT_ERROR"
 
                     article_list = [article_id, article[0], article[1], \
                         article[2], article[3], article[4], language]
