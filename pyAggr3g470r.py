@@ -64,7 +64,6 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        self.articles, self.feeds = utils.load_feed()
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
@@ -134,7 +133,6 @@ class Root:
         """
         Management of articles.
         """
-        self.articles, self.feeds = utils.load_feed()
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">\n"""
@@ -150,10 +148,9 @@ class Root:
         html += """</select></form>\n"""
 
         html += "<hr />\n"
-        nb_articles = sum([feed[0] for feed in self.feeds.values()])
         html += """<p>The database contains a total of %s article(s) with
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
-                    (nb_articles, sum([feed[1] for feed in self.feeds.values()]))
+                    (self.nb_articles, sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath("./var/feed.db"), os.path.getsize("./var/feed.db"))
 
@@ -165,11 +162,6 @@ class Root:
         html += "<hr />\n"
         if self.articles:
             html += "<h1>Statistics</h1>\n"
-
-            top_words = utils.top_words(self.articles, 10)
-            if "pylab" not in utils.IMPORT_ERROR:
-                utils.create_histogram(top_words)
-
             if "oice" not in utils.IMPORT_ERROR:
                 nb_french = 0
                 nb_english = 0
@@ -179,12 +171,12 @@ class Root:
                             nb_french += 1
                         elif article[6] == 'english':
                             nb_english += 1
-                nb_other = nb_articles - nb_french - nb_english
+                nb_other = self.nb_articles - nb_french - nb_english
 
             html += "<table border=0>\n<tr><td>"
             html += "<h3>Words count</h3>\n"
             html += "<ol>\n"
-            for word, frequency in top_words:
+            for word, frequency in self.top_words:
                 html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
                                 (word, word, frequency)
             html += "</ol>\n"
@@ -237,8 +229,8 @@ class Root:
 
                     html += article[1].encode('utf-8') + \
                             " - " + not_read_begin + \
-                            """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                    (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                            """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                    (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                             not_read_end
         else:
             for rss_feed_id in self.articles.keys():
@@ -255,8 +247,8 @@ class Root:
 
                         html += article[1].encode('utf-8') + \
                                 " - " + not_read_begin + \
-                                """<a href="/description/%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                        (article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                                 not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
                                         (self.feeds[rss_feed_id][5].encode('utf-8'), \
                                         self.feeds[rss_feed_id][3].encode('utf-8'))
@@ -273,6 +265,7 @@ class Root:
         """
         feed_getter = feedgetter.FeedGetter()
         feed_getter.retrieve_feed()
+        self.update()
         return self.index()
 
     fetch.exposed = True
@@ -439,9 +432,9 @@ class Root:
                 for article in self.articles[rss_feed_id]:
                     if article[6] == lang:
                         html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s" rel="noreferrer" target="_blank">%s</a>
+                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
                                 from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
                                         self.feeds[rss_feed_id][5].encode('utf-8'), \
                                         self.feeds[rss_feed_id][3].encode('utf-8'))
         else:
@@ -503,7 +496,7 @@ class Root:
         except Exception, e:
             pass
 
-        self.articles, self.feeds = utils.load_feed()
+        self.update()
 
         if param == "All" or param == "Feed_FromMainPage":
             return self.index()
@@ -513,9 +506,22 @@ class Root:
     mark_as_read.exposed = True
 
 
+    def update(self):
+        """
+        Synchronizes transient objects with the database,
+        computes the list of most frequent words and generates the histogram.
+        Called when an article is marked as read or when new articles are fetched.
+        """
+        self.articles, self.feeds = utils.load_feed()
+        if self.articles != {}:
+            self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
+            self.top_words = utils.top_words(self.articles, 10)
+            if "pylab" not in utils.IMPORT_ERROR:
+                utils.create_histogram(self.top_words)
 
 
 if __name__ == '__main__':
     # Point of entry in execution mode
     root = Root()
+    root.update()
     cherrypy.quickstart(root, config=path)
