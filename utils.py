@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
-__date__ = "$Date: 2010/03/07 $"
+__version__ = "$Revision: 0.3 $"
+__date__ = "$Date: 2010/03/10 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -29,6 +29,9 @@ try:
     from oice.langdet import languages
 except:
     IMPORT_ERROR.append("oice")
+
+import threading
+LOCKER = threading.Lock()
 
 def detect_language(text):
     """
@@ -140,6 +143,7 @@ def load_feed():
     """
     Load feeds and articles in a dictionary.
     """
+    LOCKER.acquire()
     list_of_feeds = None
     list_of_articles = None
     try:
@@ -197,6 +201,6 @@ def load_feed():
                                 feed[3], feed[0], feed[2], feed[1] \
                                 )
         c.close()
-
+        LOCKER.release()
         return (articles, feeds)
     return (articles, feeds)

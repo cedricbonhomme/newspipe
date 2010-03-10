@@ -12,12 +12,12 @@ html, body {
 
 body {
   text-align: justify;
-  font: normal .9em/1.5em Cambria, Georgia, "Trebuchet MS", Verdana, sans-serif;
+  font: normal .8em/1.5em Cambria, Georgia, "Trebuchet MS", Verdana, sans-serif;
 
 }
 
 code, pre {
-  font-size: 110%;
+  font-size: 100%;
 }
 
 img {

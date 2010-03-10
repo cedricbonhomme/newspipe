@@ -10,6 +10,7 @@ __license__ = "GPLv3"
 import os
 import sqlite3
 import cherrypy
+import threading
 import ConfigParser
 
 from cherrypy.lib.static import serve_file
@@ -275,11 +276,18 @@ class Root:
         """
         Display the description of an article in a new Web page.
         """
-        feed_id, article_id = param.split(':')
+        try:
+            feed_id, article_id = param.split(':')
+        except:
+            return self.error_page("Bad URL")
+        try:
+            articles_list = self.articles[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
-        for article in self.articles[feed_id]:
+        for article in articles_list:
             if article_id == article[0]:
 
                 if article[5] == "0":
@@ -337,6 +345,10 @@ class Root:
         """
         Display all articles of a feed.
         """
+        try:
+            articles_list = self.articles[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
         html = htmlheader
         html += htmlnav
         html += """<div class="right inner">\n"""
@@ -355,7 +367,7 @@ class Root:
         html += """</div> <div class="left inner">"""
         html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.feeds[feed_id][3].encode('utf-8'))
 
-        for article in self.articles[feed_id]:
+        for article in articles_list:
 
             if article[5] == "0":
                 # not readed articles are in bold
@@ -401,9 +413,13 @@ class Root:
                                         self.feeds[rss_feed_id][3].encode('utf-8'))
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         else:
+            try:
+                articles_list = self.articles[feed_id]
+            except KeyError:
+                return self.error_page("This feed do not exists.")
             html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
                 <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
-            for article in self.articles[feed_id]:
+            for article in articles_list:
                 if article[5] == "0":
                     html += article[1].encode('utf-8') + \
                             """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
@@ -423,6 +439,8 @@ class Root:
         """
         Display articles by language.
         """
+        if lang not in ['english', 'french', 'other']:
+            return self.error_page('This language is not supported.')
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
@@ -451,11 +469,19 @@ class Root:
         """
         Display an article in plain text (without HTML tags).
         """
+        try:
+            feed_id, article_id = target.split(':')
+        except:
+            return self.error_page("This article do not exists.")
+        try:
+            articles_list = self.articles[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
         html = htmlheader
         html += htmlnav
         html += """</div> <div class="left inner">"""
         feed_id, article_id = target.split(':')
-        for article in self.articles[feed_id]:
+        for article in articles_list:
             if article_id == article[0]:
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
                                     (article[2].encode('utf-8'), feed_id, \
@@ -471,11 +497,26 @@ class Root:
     plain_text.exposed = True
 
 
+    def error_page(self, message):
+        """
+        Display a message (bad feed id, bad article id, etc.)
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """</div> <div class="left inner">"""
+        html += """%s""" % message
+        html += "\n<hr />\n" + htmlfooter
+        return html
+
+    error_page.exposed = True
+
+
     def mark_as_read(self, target):
         """
         Mark one (or more) article(s) as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
         """
+        LOCKER.acquire()
         param, _, identifiant = target.partition(':')
         try:
             conn = sqlite3.connect("./var/feed.db", isolation_level = None)
@@ -496,12 +537,13 @@ class Root:
         except Exception, e:
             pass
 
-        self.update()
+        threading.Thread(None, self.update, None, ()).start()
 
         if param == "All" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
             return self.all_articles(identifiant)
+        LOCKER.release()
 
     mark_as_read.exposed = True
 
@@ -522,6 +564,7 @@ class Root:
 
 if __name__ == '__main__':
     # Point of entry in execution mode
+    LOCKER = threading.Lock()
     root = Root()
     root.update()
     cherrypy.quickstart(root, config=path)
