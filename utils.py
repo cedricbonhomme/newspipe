@@ -144,8 +144,8 @@ def load_feed():
     Load feeds and articles in a dictionary.
     """
     LOCKER.acquire()
-    list_of_feeds = None
-    list_of_articles = None
+    list_of_feeds = []
+    list_of_articles = []
     try:
         conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         c = conn.cursor()

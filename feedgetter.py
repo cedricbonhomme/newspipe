@@ -39,8 +39,8 @@ class FeedGetter(object):
         self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists feeds
-                    (feed_title text, feed_site_link text PRIMARY KEY, \
-                    feed_link text, feed_image_link text)''')
+                    (feed_title text, feed_site_link text, \
+                    feed_link text PRIMARY KEY, feed_image_link text)''')
         self.c.execute('''create table if not exists articles
                     (article_date text, article_title text, \
                     article_link text PRIMARY KEY, article_description text, \
