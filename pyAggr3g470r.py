@@ -8,6 +8,7 @@ __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
+import time
 import sqlite3
 import cherrypy
 import threading
@@ -21,6 +22,7 @@ import feedgetter
 config = ConfigParser.RawConfigParser()
 config.read("./cfg/pyAggr3g470r.cfg")
 path = config.get('global','path')
+sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
 
 bindhost = "0.0.0.0"
 
@@ -153,7 +155,7 @@ class Root:
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
-                    (os.path.abspath("./var/feed.db"), os.path.getsize("./var/feed.db"))
+                    (os.path.abspath(sqlite_base), os.path.getsize(sqlite_base))
 
         html += """<form method=get action="/fetch/">\n<input
         type="submit" value="Fetch all feeds"></form>\n"""
@@ -219,6 +221,8 @@ class Root:
         if feed_id is not None:
             for article in self.articles[rss_feed_id]:
                 article_content = utils.remove_html_tags(article[4].encode('utf-8'))
+                if not article_content:
+                    utils.remove_html_tags(article[2].encode('utf-8'))
                 if querystring.lower() in article_content.lower():
                     if article[5] == "0":
                         # not readed articles are in bold
@@ -237,6 +241,8 @@ class Root:
             for rss_feed_id in self.articles.keys():
                 for article in self.articles[rss_feed_id]:
                     article_content = utils.remove_html_tags(article[4].encode('utf-8'))
+                    if not article_content:
+                        utils.remove_html_tags(article[2].encode('utf-8'))
                     if querystring.lower() in article_content.lower():
                         if article[5] == "0":
                             # not readed articles are in bold
@@ -266,7 +272,7 @@ class Root:
         """
         feed_getter = feedgetter.FeedGetter()
         feed_getter.retrieve_feed()
-        self.update()
+        #self.update()
         return self.index()
 
     fetch.exposed = True
@@ -519,7 +525,7 @@ class Root:
         LOCKER.acquire()
         param, _, identifiant = target.partition(':')
         try:
-            conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+            conn = sqlite3.connect(sqlite_base, isolation_level = None)
             c = conn.cursor()
             # Mark all articles as read.
             if param == "All":
@@ -537,7 +543,7 @@ class Root:
         except Exception, e:
             pass
 
-        threading.Thread(None, self.update, None, ()).start()
+        #threading.Thread(None, self.update, None, ()).start()
 
         if param == "All" or param == "Feed_FromMainPage":
             return self.index()
@@ -548,7 +554,7 @@ class Root:
     mark_as_read.exposed = True
 
 
-    def update(self):
+    def update(self, path=None, event = None):
         """
         Synchronizes transient objects with the database,
         computes the list of most frequent words and generates the histogram.
@@ -560,6 +566,54 @@ class Root:
             self.top_words = utils.top_words(self.articles, 10)
             if "pylab" not in utils.IMPORT_ERROR:
                 utils.create_histogram(self.top_words)
+            print "Base (%s) loaded" % sqlite_base
+        else:
+            print "Base (%s) empty!" % sqlite_base
+
+
+    def watch_base(self):
+        """Monitor a file.
+
+        Detect the changes in base of feeds.
+        When a change is detected, reload the base.
+        """
+        mon = gamin.WatchMonitor()
+        mon.watch_file(sqlite_base, self.update)
+        time.sleep(10)
+        ret = mon.event_pending()
+        try:
+            print "Watching %s" % sqlite_base
+            while True:
+                ret = mon.event_pending()
+                if ret > 0:
+                    print "The base of feeds (%s) has changed.\nReloading..." % sqlite_base
+                    ret = mon.handle_one_event()
+                time.sleep(2)
+        except KeyboardInterrupt:
+            pass
+        print "Stop watching", sqlite_base
+        mon.stop_watch(sqlite_base)
+        del mon
+
+
+        def watch_base_classic(self):
+            """
+            Monitor the base of feeds if the module gamin is not
+            installed.
+            """
+            old_size = 0
+            try:
+                print "Watching %s" % sqlite_base
+                while True:
+                    time.sleep(5)
+                    # very simple test
+                    if os.path.getsize(sqlite_base) != old_size:
+                        print "The base of feeds (%s) has changed.\nReloading..." % sqlite_base
+                        self.update()
+                        old_size = os.path.getsize(sqlite_base)
+            except KeyboardInterrupt:
+                pass
+            print "Stop watching", sqlite_base
 
 
 if __name__ == '__main__':
@@ -567,4 +621,13 @@ if __name__ == '__main__':
     LOCKER = threading.Lock()
     root = Root()
     root.update()
+    try:
+        import gamin
+        thread_watch_base = threading.Thread(None, root.watch_base, None, ())
+    except:
+        print "The gamin module is not installed."
+        print "The base of feeds will be monitored"
+        thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
+    thread_watch_base.setDaemon(True)
+    thread_watch_base.start()
     cherrypy.quickstart(root, config=path)
