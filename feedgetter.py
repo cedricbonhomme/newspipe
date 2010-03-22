@@ -136,9 +136,7 @@ class FeedGetter(object):
                         feed_link))
                 result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
                                 a_feed.feed.link.encode('utf-8') + "'").fetchall()
-                print result
                 if result[0][0] == "1":
-                    print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                     # send the article
                     utils.send_mail(utils.mail_from, utils.mail_to, \
                                 a_feed.feed.title.encode('utf-8'), description)
