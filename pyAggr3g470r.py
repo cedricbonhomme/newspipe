@@ -554,6 +554,7 @@ class Root:
 
     def tuned(self, param):
         """
+        Enable or disable to notifications of news for a feed.
         """
         try:
             action, feed_id = param.split(':')
@@ -575,6 +576,7 @@ class Root:
                 pass
         conn.commit()
         c.close()
+        return self.index()
 
     tuned.exposed = True
 
