@@ -17,6 +17,9 @@ except:
 import sqlite3
 import hashlib
 
+import smtplib
+from email.mime.text import MIMEText
+
 from datetime import datetime
 from string import punctuation
 from collections import defaultdict
@@ -32,6 +35,17 @@ except:
 
 import threading
 LOCKER = threading.Lock()
+
+import os
+import ConfigParser
+config = ConfigParser.RawConfigParser()
+config.read("./cfg/pyAggr3g470r.cfg")
+path = config.get('global','path')
+sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
+mail_from = config.get('mail','mail_from')
+mail_to = config.get('mail','mail_to')
+mail_smtp = config.get('mail','smtp')
+
 
 def detect_language(text):
     """
@@ -114,6 +128,21 @@ def create_histogram(words, file_name="./var/histogram.png"):
     pylab.savefig(file_name, dpi = 80)
     pylab.close()
 
+def send_mail(mfrom, mto, feed_title, message):
+    """Send the warning via mail
+    """
+    mail = MIMEText(message)
+    mail['From'] = mfrom
+    mail['To'] = mto
+    mail['Subject'] = '[pyAggr3g470r] News from ' + feed_title
+    #email['Text'] = message
+
+    server = smtplib.SMTP(mail_smtp)
+    server.sendmail(mfrom, \
+                    mto, \
+                    mail.as_string())
+    server.quit()
+
 def compare(stringtime1, stringtime2):
     """
     Compare two dates in the format 'yyyy-mm-dd hh:mm:ss'.
@@ -157,7 +186,7 @@ def load_feed():
     #               article_link, article_description, article_readed,
     #               article_language)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
-    #               feed_title, feed_link, feed_site_link)
+    #               feed_title, feed_link, feed_site_link, mail)
     articles, feeds = {}, {}
     if list_of_feeds != []:
         for feed in list_of_feeds:
@@ -198,7 +227,7 @@ def load_feed():
                 feeds[feed_id] = (len(articles[feed_id]), \
                                 len([article for article in articles[feed_id] \
                                     if article[5]=="0"]), \
-                                feed[3], feed[0], feed[2], feed[1] \
+                                feed[3], feed[0], feed[2], feed[1] , feed[4]\
                                 )
         c.close()
         LOCKER.release()

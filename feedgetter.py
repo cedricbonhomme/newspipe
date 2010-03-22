@@ -16,6 +16,8 @@ import feedparser
 
 from datetime import datetime
 
+import utils
+
 url_finders = [ \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
@@ -40,7 +42,8 @@ class FeedGetter(object):
         self.c = self.conn.cursor()
         self.c.execute('''create table if not exists feeds
                     (feed_title text, feed_site_link text, \
-                    feed_link text PRIMARY KEY, feed_image_link text)''')
+                    feed_link text PRIMARY KEY, feed_image_link text,
+                    mail text)''')
         self.c.execute('''create table if not exists articles
                     (article_date text, article_title text, \
                     article_link text PRIMARY KEY, article_description text, \
@@ -108,12 +111,14 @@ class FeedGetter(object):
         except:
             feed_image = "/css/img/feed-icon-28x28.png"
         try:
-            self.c.execute('insert into feeds values (?,?,?,?)', (\
+            self.c.execute('insert into feeds values (?,?,?,?,?)', (\
                         a_feed.feed.title.encode('utf-8'), \
                         a_feed.feed.link.encode('utf-8'), \
                         feed_link, \
-                        feed_image))
+                        feed_image,
+                        "0"))
         except sqlite3.IntegrityError:
+                # feed already in the base
                 pass
         for article in a_feed['entries']:
             try:
@@ -129,7 +134,16 @@ class FeedGetter(object):
                         description, \
                         "0", \
                         feed_link))
+                result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
+                                a_feed.feed.link.encode('utf-8') + "'").fetchall()
+                print result
+                if result[0][0] == "1":
+                    print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    # send the article
+                    utils.send_mail(utils.mail_from, utils.mail_to, \
+                                a_feed.feed.title.encode('utf-8'), description)
             except sqlite3.IntegrityError:
+                # article already in the base
                 pass
 
 

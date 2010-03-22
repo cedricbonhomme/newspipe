@@ -12,38 +12,32 @@ import time
 import sqlite3
 import cherrypy
 import threading
-import ConfigParser
 
 from cherrypy.lib.static import serve_file
 
 import utils
 import feedgetter
 
-config = ConfigParser.RawConfigParser()
-config.read("./cfg/pyAggr3g470r.cfg")
-path = config.get('global','path')
-sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
-
 bindhost = "0.0.0.0"
 
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
 path = {'/css/style.css': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/style.css'}, \
+                'tools.staticfile.filename':utils.path+'css/style.css'}, \
         '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/feed-icon-28x28.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/feed-icon-28x28.png'}, \
         '/css/img/delicious.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/delicious.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/delicious.png'}, \
         '/css/img/digg.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/digg.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/digg.png'}, \
         '/css/img/reddit.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/reddit.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/reddit.png'}, \
         '/css/img/scoopeo.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/scoopeo.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/scoopeo.png'}, \
         '/css/img/blogmarks.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'css/img/blogmarks.png'}, \
+                'tools.staticfile.filename':utils.path+'css/img/blogmarks.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
-                'tools.staticfile.filename':path+'var/histogram.png'}}
+                'tools.staticfile.filename':utils.path+'var/histogram.png'}}
 
 htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
             '<head>' + \
@@ -119,6 +113,10 @@ class Root:
             html += "<br />\n"
 
             html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
+            if self.feeds[rss_feed_id][6] == "0":
+                html += """ <a href="/tuned/start:%s">Stay tuned</a>""" % (rss_feed_id,)
+            else:
+                html += """ <a href="/tuned/stop:%s">Stop staying tuned</a>""" %  (rss_feed_id,)
             html += """ <a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.feeds[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
@@ -155,7 +153,7 @@ class Root:
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, sum([feed[1] for feed in self.feeds.values()]))
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
-                    (os.path.abspath(sqlite_base), os.path.getsize(sqlite_base))
+                    (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
 
         html += """<form method=get action="/fetch/">\n<input
         type="submit" value="Fetch all feeds"></form>\n"""
@@ -525,7 +523,7 @@ class Root:
         LOCKER.acquire()
         param, _, identifiant = target.partition(':')
         try:
-            conn = sqlite3.connect(sqlite_base, isolation_level = None)
+            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
             c = conn.cursor()
             # Mark all articles as read.
             if param == "All":
@@ -554,6 +552,33 @@ class Root:
     mark_as_read.exposed = True
 
 
+    def tuned(self, param):
+        """
+        """
+        try:
+            action, feed_id = param.split(':')
+        except:
+            return self.error_page("Bad URL")
+        conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
+        c = conn.cursor()
+        if action == "start":
+            try:
+                c.execute("UPDATE feeds SET mail=1 WHERE feed_site_link='" +
+                            self.feeds[feed_id][5].encode('utf-8') + "'")
+            except:
+                pass
+        else:
+            try:
+                c.execute("UPDATE feeds SET mail=0 WHERE feed_site_link='" +
+                            self.feeds[feed_id][5].encode('utf-8') + "'")
+            except:
+                pass
+        conn.commit()
+        c.close()
+
+    tuned.exposed = True
+
+
     def update(self, path=None, event = None):
         """
         Synchronizes transient objects with the database,
@@ -566,9 +591,9 @@ class Root:
             self.top_words = utils.top_words(self.articles, 10)
             if "pylab" not in utils.IMPORT_ERROR:
                 utils.create_histogram(self.top_words)
-            print "Base (%s) loaded" % sqlite_base
+            print "Base (%s) loaded" % utils.sqlite_base
         else:
-            print "Base (%s) empty!" % sqlite_base
+            print "Base (%s) empty!" % utils.sqlite_base
 
 
     def watch_base(self):
@@ -578,15 +603,15 @@ class Root:
         When a change is detected, reload the base.
         """
         mon = gamin.WatchMonitor()
-        mon.watch_file(sqlite_base, self.update)
+        mon.watch_file(utils.sqlite_base, self.update)
         time.sleep(10)
         ret = mon.event_pending()
         try:
-            print "Watching %s" % sqlite_base
+            print "Watching %s" % utils.sqlite_base
             while True:
                 ret = mon.event_pending()
                 if ret > 0:
-                    print "The base of feeds (%s) has changed.\nReloading..." % sqlite_base
+                    print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
                     ret = mon.handle_one_event()
                 time.sleep(2)
         except KeyboardInterrupt:
@@ -603,17 +628,17 @@ class Root:
             """
             old_size = 0
             try:
-                print "Watching %s" % sqlite_base
+                print "Watching %s" % utils.sqlite_base
                 while True:
                     time.sleep(5)
                     # very simple test
-                    if os.path.getsize(sqlite_base) != old_size:
-                        print "The base of feeds (%s) has changed.\nReloading..." % sqlite_base
+                    if os.path.getsize(utils.sqlite_base) != old_size:
+                        print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
                         self.update()
-                        old_size = os.path.getsize(sqlite_base)
+                        old_size = os.path.getsize(utils.sqlite_base)
             except KeyboardInterrupt:
                 pass
-            print "Stop watching", sqlite_base
+            print "Stop watching", utils.sqlite_base
 
 
 if __name__ == '__main__':
@@ -626,7 +651,7 @@ if __name__ == '__main__':
         thread_watch_base = threading.Thread(None, root.watch_base, None, ())
     except:
         print "The gamin module is not installed."
-        print "The base of feeds will be monitored"
+        print "The base of feeds will be monitored with the simple method."
         thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
     thread_watch_base.setDaemon(True)
     thread_watch_base.start()
