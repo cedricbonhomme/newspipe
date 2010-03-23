@@ -4,7 +4,7 @@
 from __future__ import with_statement
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.7 $"
+__version__ = "$Revision: 0.8 $"
 __date__ = "$Date: 2010/03/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
@@ -128,6 +128,10 @@ class FeedGetter(object):
                     # send the article
                     utils.send_mail(utils.mail_from, utils.mail_to, \
                                         a_feed.feed.title.encode('utf-8'), description)
+                    threading.Thread(None, utils.send_mail, \
+                                        None, (utils.mail_from, utils.mail_to, \
+                                        a_feed.feed.title.encode('utf-8'), description) \
+                                    )
             except sqlite3.IntegrityError:
                 # article already in the base
                 pass

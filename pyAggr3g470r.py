@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.9 $"
+__version__ = "$Revision: 1.0 $"
 __date__ = "$Date: 2010/03/01 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
@@ -114,15 +114,15 @@ class Root:
             html += "<br />\n"
 
             html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
-            if self.feeds[rss_feed_id][6] == "0":
-                html += """ <a href="/tuned/start:%s">Stay tuned</a>""" % (rss_feed_id,)
-            else:
-                html += """ <a href="/tuned/stop:%s">Stop staying tuned</a>""" %  (rss_feed_id,)
             html += """ <a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.feeds[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
                                         self.feeds[rss_feed_id][1])
+            if self.feeds[rss_feed_id][6] == "0":
+                html += """<br />\n<a href="/mail_notification/start:%s">Stay tuned</a>""" % (rss_feed_id,)
+            else:
+                html += """<br />\n<a href="/mail_notification(/stop:%s">Stop staying tuned</a>""" %  (rss_feed_id,)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -553,7 +553,7 @@ class Root:
     mark_as_read.exposed = True
 
 
-    def tuned(self, param):
+    def mail_notification(self, param):
         """
         Enable or disable to notifications of news for a feed.
         """
@@ -579,7 +579,7 @@ class Root:
         c.close()
         return self.index()
 
-    tuned.exposed = True
+    mail_notification.exposed = True
 
 
     def update(self, path=None, event = None):

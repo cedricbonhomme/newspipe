@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.3 $"
+__version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2010/03/10 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
@@ -176,7 +176,7 @@ def create_base():
     Create the base if not exists.
     """
     sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
-    conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+    conn = sqlite3.connect(sqlite_base, isolation_level = None)
     c = conn.cursor()
     c.execute('''create table if not exists feeds
                 (feed_title text, feed_site_link text, \
@@ -197,7 +197,7 @@ def load_feed():
     list_of_feeds = []
     list_of_articles = []
     try:
-        conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+        conn = sqlite3.connect(sqlite_base, isolation_level = None)
         c = conn.cursor()
         list_of_feeds = c.execute("SELECT * FROM feeds").fetchall()
     except:
