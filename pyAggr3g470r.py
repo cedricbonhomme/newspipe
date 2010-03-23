@@ -650,8 +650,7 @@ if __name__ == '__main__':
     root = Root()
     if not os.path.isfile(utils.sqlite_base):
         utils.create_base()
-    else:
-        root.update()
+    root.update()
     try:
         import gamin
         thread_watch_base = threading.Thread(None, root.watch_base, None, ())
