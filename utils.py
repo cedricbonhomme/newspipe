@@ -168,6 +168,24 @@ def compare(stringtime1, stringtime2):
         return 1
     return 0
 
+def create_base():
+    """
+    Create the base if not exists.
+    """
+    sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
+    conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+    c = conn.cursor()
+    c.execute('''create table if not exists feeds
+                (feed_title text, feed_site_link text, \
+                feed_link text PRIMARY KEY, feed_image_link text,
+                mail text)''')
+    c.execute('''create table if not exists articles
+                (article_date text, article_title text, \
+                article_link text PRIMARY KEY, article_description text, \
+                article_readed text, feed_link text)''')
+    conn.commit()
+    c.close()
+
 def load_feed():
     """
     Load feeds and articles in a dictionary.
@@ -232,4 +250,5 @@ def load_feed():
         c.close()
         LOCKER.release()
         return (articles, feeds)
+    LOCKER.release()
     return (articles, feeds)

@@ -37,19 +37,7 @@ class FeedGetter(object):
         Initializes the base and variables.
         """
         # Create the base if not exists.
-        sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
-        self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
-        self.c = self.conn.cursor()
-        self.c.execute('''create table if not exists feeds
-                    (feed_title text, feed_site_link text, \
-                    feed_link text PRIMARY KEY, feed_image_link text,
-                    mail text)''')
-        self.c.execute('''create table if not exists articles
-                    (article_date text, article_title text, \
-                    article_link text PRIMARY KEY, article_description text, \
-                    article_readed text, feed_link text)''')
-        self.conn.commit()
-        self.c.close()
+        utils.create_base()
 
         # mutex to protect the SQLite base
         self.locker = threading.Lock()
