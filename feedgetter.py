@@ -127,7 +127,7 @@ class FeedGetter(object):
                 if result[0][0] == "1":
                     # send the article
                     utils.send_mail(utils.mail_from, utils.mail_to, \
-                                a_feed.feed.title.encode('utf-8'), description)
+                                        a_feed.feed.title.encode('utf-8'), description)
             except sqlite3.IntegrityError:
                 # article already in the base
                 pass

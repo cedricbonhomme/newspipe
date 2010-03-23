@@ -44,7 +44,9 @@ path = config.get('global','path')
 sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')
-mail_smtp = config.get('mail','smtp')
+smtp_server = config.get('mail','smtp')
+username =  config.get('mail','username')
+password =  config.get('mail','password')
 
 
 def detect_language(text):
@@ -137,7 +139,8 @@ def send_mail(mfrom, mto, feed_title, message):
     mail['Subject'] = '[pyAggr3g470r] News from ' + feed_title
     #email['Text'] = message
 
-    server = smtplib.SMTP(mail_smtp)
+    server = smtplib.SMTP(smtp_server)
+    server.login(username, password)
     server.sendmail(mfrom, \
                     mto, \
                     mail.as_string())
