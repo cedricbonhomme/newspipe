@@ -100,7 +100,7 @@ class FeedGetter(object):
             feed_image = "/css/img/feed-icon-28x28.png"
         try:
             self.c.execute('insert into feeds values (?,?,?,?,?)', (\
-                        a_feed.feed.title.encode('utf-8'), \
+                        utils.remove_html_tags(a_feed.feed.title.encode('utf-8')), \
                         a_feed.feed.link.encode('utf-8'), \
                         feed_link, \
                         feed_image,
@@ -117,7 +117,7 @@ class FeedGetter(object):
             try:
                 self.c.execute('insert into articles values (?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
-                        article.title.encode('utf-8'), \
+                        utils.remove_html_tags(article.title.encode('utf-8')), \
                         article.link.encode('utf-8'), \
                         description, \
                         "0", \

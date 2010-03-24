@@ -89,7 +89,7 @@ class Root:
                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                         (rss_feed_id, \
                         self.feeds[rss_feed_id][5].encode('utf-8'), \
-                        utils.remove_html_tags(self.feeds[rss_feed_id][3].encode('utf-8')), \
+                        self.feeds[rss_feed_id][3].encode('utf-8'), \
                         self.feeds[rss_feed_id][4].encode('utf-8'), \
                         self.feeds[rss_feed_id][2].encode('utf-8'))
 
@@ -107,8 +107,7 @@ class Root:
                 html += article[1].encode('utf-8') + \
                         " - " + not_read_begin + \
                         """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                (rss_feed_id, article[0].encode('utf-8'), \
-                                    utils.remove_html_tags(article[2].encode('utf-8'))) + \
+                                (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                         not_read_end + \
                         "<br />\n"
             html += "<br />\n"
