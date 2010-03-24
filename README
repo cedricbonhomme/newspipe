@@ -1,0 +1,51 @@
+==== Presentation ====
+pyAggr3g470r is a multi-threaded news aggregator with a web interface
+based on CherryPy. Articles are stored in a SQLite base.
+
+
+
+==== Features ====
+* notification by e-mail
+* language detection
+* TuxDroid support (for the notification of unread articles)
+
+
+
+==== Requierements ====
+=== Software required ===
+
+* Python (tested with 2.4 to 2.7)
+* CherryPy (version 3 and up)
+* sqlite
+
+=== Optional module ===
+These modules are not required but provides better features.
+
+== Language detection ==
+Name: oice.langdet
+Enable the detection of the language of articles.
+
+Installation:
+http://pypi.python.org/pypi/oice.langdet/
+
+
+== Histogram ==
+Name: matplotlib
+
+Installation:
+aptitude install python-matplotlib
+
+
+== Advanced monitoring ==
+Name: Gamin
+Enable a better monitoring of the base of feeds.
+
+Installation:
+aptitude install python-gamin
+
+http://people.gnome.org/~veillard/gamin/python.html
+
+
+==== License ====
+pyAggr3g470r is under GPLv3 license.
+http://www.gnu.org/licenses/gpl-3.0.txt
