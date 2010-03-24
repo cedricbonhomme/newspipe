@@ -120,9 +120,9 @@ class Root:
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
                                         self.feeds[rss_feed_id][1])
             if self.feeds[rss_feed_id][6] == "0":
-                html += """<br />\n<a href="/mail_notification/start:%s">Stay tuned</a>""" % (rss_feed_id,)
+                html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (rss_feed_id,)
             else:
-                html += """<br />\n<a href="/mail_notification(/stop:%s">Stop staying tuned</a>""" %  (rss_feed_id,)
+                html += """<br />\n<a href="/mail_notification(/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (rss_feed_id,)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -616,7 +616,7 @@ class Root:
                 if ret > 0:
                     print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
                     ret = mon.handle_one_event()
-                time.sleep(2)
+                time.sleep(1)
         except KeyboardInterrupt:
             pass
         print "Stop watching", sqlite_base
@@ -629,11 +629,12 @@ class Root:
             Monitor the base of feeds if the module gamin is not
             installed.
             """
+            time.sleep(10)
             old_size = 0
             try:
                 print "Watching %s" % utils.sqlite_base
                 while True:
-                    time.sleep(5)
+                    time.sleep(2)
                     # very simple test
                     if os.path.getsize(utils.sqlite_base) != old_size:
                         print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
@@ -649,8 +650,11 @@ if __name__ == '__main__':
     LOCKER = threading.Lock()
     root = Root()
     if not os.path.isfile(utils.sqlite_base):
+        # create the SQLite base if not exists
         utils.create_base()
+    # load the informations from base in memory
     root.update()
+    # launch the available base monitoring method (gamin or classic)
     try:
         import gamin
         thread_watch_base = threading.Thread(None, root.watch_base, None, ())

@@ -125,13 +125,11 @@ class FeedGetter(object):
                 result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
                                 a_feed.feed.link.encode('utf-8') + "'").fetchall()
                 if result[0][0] == "1":
-                    # send the article
-                    utils.send_mail(utils.mail_from, utils.mail_to, \
-                                        a_feed.feed.title.encode('utf-8'), description)
+                    # send the article by e-mail
                     threading.Thread(None, utils.send_mail, \
                                         None, (utils.mail_from, utils.mail_to, \
                                         a_feed.feed.title.encode('utf-8'), description) \
-                                    )
+                                    ).start()
             except sqlite3.IntegrityError:
                 # article already in the base
                 pass
