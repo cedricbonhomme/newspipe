@@ -2,6 +2,7 @@
 path = /home/cedric/prog/python/projects/pyaggr3g470r/
 sqlitebase = ./var/feed.db
 [mail]
+mail_from = pyAggr3g470r@mail.com
 mail_to = address_of_the_recipient@example.com
 smtp = smtp.example.com
 username = your_mail_address@example.com
