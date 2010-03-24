@@ -122,7 +122,7 @@ class Root:
             if self.feeds[rss_feed_id][6] == "0":
                 html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (rss_feed_id,)
             else:
-                html += """<br />\n<a href="/mail_notification(/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (rss_feed_id,)
+                html += """<br />\n<a href="/mail_notification/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (rss_feed_id,)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -385,7 +385,8 @@ class Root:
             html += article[1].encode('utf-8') + \
                     " - " + not_read_begin + \
                     """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                            (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                            (feed_id, article[0].encode('utf-8'), \
+                            utils.remove_html_tags(article[2].encode('utf-8'))) + \
                     not_read_end + \
                     "<br />\n"
 
