@@ -73,7 +73,7 @@ class Root:
         html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
         for rss_feed_id in self.articles.keys():
 
-            if self.feeds[rss_feed_id][1] != "0":
+            if self.feeds[rss_feed_id][1] != 0:
                 # not readed articles are in bold
                 not_read_begin = "<b>"
                 not_read_end = "</b>"
