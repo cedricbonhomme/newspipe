@@ -73,12 +73,21 @@ class Root:
         html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
         for rss_feed_id in self.articles.keys():
 
+            if self.feeds[rss_feed_id][1] != "0":
+                # not readed articles are in bold
+                not_read_begin = "<b>"
+                not_read_end = "</b>"
+            else:
+                not_read_begin = ""
+                not_read_end = ""
+
             html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
-                    title="Unread article(s)">%s</a> / %s)<br />\n""" % \
-                                (rss_feed_id.encode('utf-8'), \
-                                self.feeds[rss_feed_id][3].encode('utf-8'), \
-                                rss_feed_id, self.feeds[rss_feed_id][1], \
-                                self.feeds[rss_feed_id][0])
+                    title="Unread article(s)">%s%s%s</a> / %s)<br />\n""" % \
+                            (rss_feed_id.encode('utf-8'), \
+                            self.feeds[rss_feed_id][3].encode('utf-8'), \
+                            rss_feed_id, not_read_begin, \
+                            self.feeds[rss_feed_id][1], not_read_end, \
+                            self.feeds[rss_feed_id][0])
 
         html += """</div>\n<div class="left inner">\n"""
 
@@ -141,12 +150,13 @@ class Root:
         html += """<form method=get action="add_feed/"><input type="text" name="v" value="">\n<input
         type="submit" value="OK"></form>\n"""
 
-        html += "<h1>Delete Feeds</h1>\n"
-        html += """<form method=get action="del_feed/"><select name="feed_list">\n"""
-        for feed_id in self.articles.keys():
-            html += """\t<option value="%s">%s</option>\n""" % \
-                    (feed_id, self.feeds[feed_id][3].encode('utf-8'))
-        html += """</select></form>\n"""
+        if self.articles:
+            html += "<h1>Delete Feeds</h1>\n"
+            html += """<form method=get action="del_feed/"><select name="feed_list">\n"""
+            for feed_id in self.articles.keys():
+                html += """\t<option value="%s">%s</option>\n""" % \
+                        (feed_id, self.feeds[feed_id][3].encode('utf-8'))
+            html += """</select></form>\n"""
 
         html += "<hr />\n"
         html += """<p>The database contains a total of %s article(s) with
@@ -194,7 +204,7 @@ class Root:
                 html += "</ul>\n</td>\n<td>"
             html += """<img src="/var/histogram.png" /></td></tr></table>"""
 
-        html += "<hr />\n"
+            html += "<hr />\n"
         html += htmlfooter
         return html
 
@@ -539,8 +549,8 @@ class Root:
                             identifiant + "'")
             conn.commit()
             c.close()
-        except Exception, e:
-            pass
+        except Exception:
+            self.error_page("Impossible to mark this article as read (database error).")
 
         #threading.Thread(None, self.update, None, ()).start()
 
@@ -561,6 +571,8 @@ class Root:
             action, feed_id = param.split(':')
         except:
             return self.error_page("Bad URL")
+        if feed_id not in self.feeds.keys():
+            return self.error_page("This feed do not exists.")
         conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
         c = conn.cursor()
         if action == "start":
@@ -568,13 +580,13 @@ class Root:
                 c.execute("UPDATE feeds SET mail=1 WHERE feed_site_link='" +
                             self.feeds[feed_id][5].encode('utf-8') + "'")
             except:
-                pass
+                return self.error_page("Error")
         else:
             try:
                 c.execute("UPDATE feeds SET mail=0 WHERE feed_site_link='" +
                             self.feeds[feed_id][5].encode('utf-8') + "'")
             except:
-                pass
+                return self.error_page("Error")
         conn.commit()
         c.close()
         return self.index()
@@ -589,8 +601,8 @@ class Root:
         Called when an article is marked as read or when new articles are fetched.
         """
         self.articles, self.feeds = utils.load_feed()
+        self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
         if self.articles != {}:
-            self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
             self.top_words = utils.top_words(self.articles, 10)
             if "pylab" not in utils.IMPORT_ERROR:
                 utils.create_histogram(self.top_words)

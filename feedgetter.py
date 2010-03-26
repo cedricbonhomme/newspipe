@@ -75,7 +75,7 @@ class FeedGetter(object):
         # Protect this part of code.
         self.locker.acquire()
 
-        self.conn = sqlite3.connect("./var/feed.db", isolation_level = None)
+        self.conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
         self.c = self.conn.cursor()
 
         # Add the articles in the base.
