@@ -63,33 +63,8 @@ class Root:
         """
         html = htmlheader
         html += htmlnav
-        html += """<div class="right inner">\n"""
-        html += """<a href="/management/">Management</a><br />\n"""
-        html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
-        html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
-        html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
-        type="submit" value="Search"></form>\n"""
-        html += "<hr />\n"
-        html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
-        for rss_feed_id in self.articles.keys():
-
-            if self.feeds[rss_feed_id][1] != 0:
-                # not readed articles are in bold
-                not_read_begin = "<b>"
-                not_read_end = "</b>"
-            else:
-                not_read_begin = ""
-                not_read_end = ""
-
-            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
-                    title="Unread article(s)">%s%s%s</a> / %s)<br />\n""" % \
-                            (rss_feed_id.encode('utf-8'), \
-                            self.feeds[rss_feed_id][3].encode('utf-8'), \
-                            rss_feed_id, not_read_begin, \
-                            self.feeds[rss_feed_id][1], not_read_end, \
-                            self.feeds[rss_feed_id][0])
-
-        html += """</div>\n<div class="left inner">\n"""
+        html += self.create_right_menu()
+        html += """<div class="left inner">\n"""
 
         for rss_feed_id in self.articles.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -139,13 +114,51 @@ class Root:
     index.exposed = True
 
 
+    def create_right_menu(self):
+        """
+        Create the right menu.
+        """
+        html = """<div class="right inner">\n"""
+        html += """<a href="/management/">Management</a><br />\n"""
+        html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
+        html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
+        html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
+        type="submit" value="Search"></form>\n"""
+        html += "<hr />\n"
+        html += self.create_list_of_feeds()
+        html += "</div>\n"
+        return html
+
+    def create_list_of_feeds(self):
+        """
+        Create the list of feeds.
+        """
+        html = """Your feeds (%s):<br />\n""" % len(self.articles.keys())
+        for rss_feed_id in self.articles.keys():
+            if self.feeds[rss_feed_id][1] != 0:
+                # not readed articles are in bold
+                not_read_begin = "<b>"
+                not_read_end = "</b>"
+            else:
+                not_read_begin = ""
+                not_read_end = ""
+            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
+                    title="Unread article(s)">%s%s%s</a> / %s)<br />\n""" % \
+                            (rss_feed_id.encode('utf-8'), \
+                            self.feeds[rss_feed_id][3].encode('utf-8'), \
+                            rss_feed_id, not_read_begin, \
+                            self.feeds[rss_feed_id][1], not_read_end, \
+                            self.feeds[rss_feed_id][0])
+        return html
+
+
     def management(self):
         """
         Management of articles.
         """
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">\n"""
+        html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
         html += """<form method=get action="add_feed/"><input type="text" name="v" value="">\n<input
         type="submit" value="OK"></form>\n"""
@@ -157,6 +170,7 @@ class Root:
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select></form>\n"""
+            html += """<p><a href="/list_notification">Active e-mail notifications</a></p>\n"""
 
         html += "<hr />\n"
         html += """<p>The database contains a total of %s article(s) with
@@ -222,7 +236,7 @@ class Root:
             feed_id, _, querystring = value.partition(':')
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
+        html += """<div class="left inner">"""
 
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
 
@@ -300,7 +314,7 @@ class Root:
             return self.error_page("This feed do not exists.")
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
+        html += """<div class="left inner">"""
         for article in articles_list:
             if article_id == article[0]:
 
@@ -370,14 +384,7 @@ class Root:
         html += """<br />\n<form method=get action="/q/Feed"><input type="text" name="Feed:%s:querystring" value=""><input
         type="submit" value="Search this feed"></form>\n""" % (feed_id,)
         html += "<hr />\n"
-        html += """Your feeds (%s):<br />\n""" % len(self.articles.keys())
-        for rss_feed_id in self.articles.keys():
-
-            html += """<a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s</a> / %s)<br />\n""" % \
-                                (rss_feed_id.encode('utf-8'), \
-                                self.feeds[rss_feed_id][3].encode('utf-8'), \
-                                rss_feed_id, self.feeds[rss_feed_id][1], \
-                                self.feeds[rss_feed_id][0])
+        html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
         html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.feeds[feed_id][3].encode('utf-8'))
 
@@ -413,8 +420,7 @@ class Root:
         """
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
-
+        html += """<div class="left inner">"""
         if feed_id == "All":
             html += "<h1>Unread article(s)</h1>"
             for rss_feed_id in self.feeds.keys():
@@ -440,7 +446,6 @@ class Root:
                             """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
                             "<br />\n"
-
             html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
@@ -458,7 +463,7 @@ class Root:
             return self.error_page('This language is not supported.')
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
+        html += """<div class="left inner">"""
         html += """<h1>Article(s) written in %s</h1>\n<br />\n""" % (lang,)
         if "oice" not in utils.IMPORT_ERROR:
             for rss_feed_id in self.articles.keys():
@@ -494,7 +499,7 @@ class Root:
             return self.error_page("This feed do not exists.")
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
+        html += """<div class="left inner">"""
         feed_id, article_id = target.split(':')
         for article in articles_list:
             if article_id == article[0]:
@@ -518,7 +523,7 @@ class Root:
         """
         html = htmlheader
         html += htmlnav
-        html += """</div> <div class="left inner">"""
+        html += """<div class="left inner">"""
         html += """%s""" % message
         html += "\n<hr />\n" + htmlfooter
         return html
@@ -561,6 +566,27 @@ class Root:
         LOCKER.release()
 
     mark_as_read.exposed = True
+
+
+    def list_notification(self):
+        """
+        List all active e-mail notifications.
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """<div class="left inner">"""
+        html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
+        for rss_feed_id in self.feeds.keys():
+            if self.feeds[rss_feed_id][6] == "1":
+                html += """\t<a href="/all_articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
+                        (rss_feed_id, self.feeds[rss_feed_id][3].encode('utf-8'), rss_feed_id)
+
+        html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
+                        (utils.mail_to, utils.mail_to)
+        html += "\n<hr />\n" + htmlfooter
+        return html
+
+    list_notification.exposed = True
 
 
     def mail_notification(self, param):
