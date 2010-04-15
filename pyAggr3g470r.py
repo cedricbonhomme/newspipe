@@ -36,6 +36,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/scoopeo.png'}, \
         '/css/img/blogmarks.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/blogmarks.png'}, \
+        '/css/img/buzz.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/buzz.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'var/histogram.png'}}
 
@@ -337,11 +339,18 @@ class Root:
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                 (article[3].encode('utf-8'),)
                 # Share this article:
+                # on Buzz
+                html += """<a href="http://www.google.com/buzz/post?url=%s&message=%s"
+                        rel="noreferrer" target="_blank">\n
+                        <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+
                 # on delicious
                 html += """<a href="http://delicious.com/post?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
+
                 # on Digg
                 html += """<a href="http://digg.com/submit?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
@@ -362,6 +371,9 @@ class Root:
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
+
+                html += """<br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>""" % \
+                                (article[3].encode('utf-8'),)
                 break
         html += "<hr />\n" + htmlfooter
         return html
