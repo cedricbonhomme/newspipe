@@ -42,6 +42,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/heart_open.png'}, \
+        '/css/img/email.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/email.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'var/histogram.png'}}
 
@@ -71,6 +73,12 @@ class Root:
         html += htmlnav
         html += self.create_right_menu()
         html += """<div class="left inner">\n"""
+
+        if self.articles:
+            html += """<a href="/list_like/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
+                sum([len([article for article in self.articles[feed_id] if article[7]=="1"]) for feed_id in self.feeds.keys()])
+
+            html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications" /></a>\n"""
 
         for rss_feed_id in self.articles.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
