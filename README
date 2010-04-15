@@ -5,9 +5,11 @@ based on CherryPy. Articles are stored in a SQLite base.
 
 
 ==== Features ====
-* notification by e-mail
-* language detection
-* TuxDroid support (for the notification of unread articles)
+* notification of new articles by e-mail for selected feeds;
+* mark or unmark an article as favorites;
+* share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
+* language detection and search articles by language;
+* TuxDroid support (for the notification of unread articles).
 
 
 
@@ -18,8 +20,14 @@ based on CherryPy. Articles are stored in a SQLite base.
 * CherryPy (version 3 and up)
 * sqlite
 
+
 === Optional module ===
 These modules are not required but provides better features.
+These modules are:
+* oice.langdet
+* matplotlib
+* gamin.
+If you want to install these modules:
 
 == Language detection ==
 Name: oice.langdet
@@ -27,6 +35,8 @@ Enable the detection of the language of articles.
 
 Installation:
 http://pypi.python.org/pypi/oice.langdet/
+Download the archive, decompress, go to the folder and type:
+python setup.py install
 
 
 == Histogram ==

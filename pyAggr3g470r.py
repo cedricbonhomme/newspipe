@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.0 $"
-__date__ = "$Date: 2010/03/01 $"
+__version__ = "$Revision: 1.1 $"
+__date__ = "$Date: 2010/04/15 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -75,10 +75,12 @@ class Root:
         html += """<div class="left inner">\n"""
 
         if self.articles:
-            html += """<a href="/list_like/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
-                sum([len([article for article in self.articles[feed_id] if article[7]=="1"]) for feed_id in self.feeds.keys()])
+            html += """<a href="/list_favorites/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
+                (sum([len([article for article in self.articles[feed_id] if article[7] == "1"]) \
+                    for feed_id in self.feeds.keys()]),)
 
-            html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications" /></a>\n"""
+            html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
+                (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
 
         for rss_feed_id in self.articles.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -102,11 +104,16 @@ class Root:
                     not_read_begin = ""
                     not_read_end = ""
 
+                if article[7] == "1":
+                    like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                else:
+                    like = ""
+
                 html += article[1].encode('utf-8') + \
                         " - " + not_read_begin + \
                         """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                 (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                        not_read_end + \
+                        not_read_end + like + \
                         "<br />\n"
             html += "<br />\n"
 
@@ -184,9 +191,11 @@ class Root:
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select></form>\n"""
-            html += """<p><a href="/list_notification">Active e-mail notifications</a></p>\n"""
-            html += """<p>You like <a href="/list_like/">%s</a> article(s).</p>\n""" % \
-                        sum([len([article for article in self.articles[feed_id] if article[7]=="1"]) for feed_id in self.feeds.keys()])
+            html += """<p>Active e-mail notifications: <a href="/list_notification">%s</a></p>\n""" % \
+                        (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
+            html += """<p>You like <a href="/list_favorites/">%s</a> article(s).</p>\n""" % \
+                        (sum([len([article for article in self.articles[feed_id] if article[7] == "1"]) \
+                            for feed_id in self.feeds.keys()]), )
 
         html += "<hr />\n"
         html += """<p>The database contains a total of %s article(s) with
@@ -687,7 +696,7 @@ class Root:
     like.exposed = True
 
 
-    def list_like(self):
+    def list_favorites(self):
         """
         List of favorites articles
         """
@@ -708,7 +717,7 @@ class Root:
         html += htmlfooter
         return html
 
-    list_like.exposed = True
+    list_favorites.exposed = True
 
 
     def update(self, path=None, event = None):
