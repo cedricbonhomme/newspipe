@@ -115,13 +115,14 @@ class FeedGetter(object):
                 description = ""
 
             try:
-                self.c.execute('insert into articles values (?,?,?,?,?,?)', (\
+                self.c.execute('insert into articles values (?,?,?,?,?,?,?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         utils.remove_html_tags(article.title.encode('utf-8')), \
                         article.link.encode('utf-8'), \
                         description, \
                         "0", \
-                        feed_link))
+                        feed_link, \
+                        "0"))
                 result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
                                 a_feed.feed.link.encode('utf-8') + "'").fetchall()
                 if result[0][0] == "1":

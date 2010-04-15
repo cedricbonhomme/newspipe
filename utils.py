@@ -185,7 +185,7 @@ def create_base():
     c.execute('''create table if not exists articles
                 (article_date text, article_title text, \
                 article_link text PRIMARY KEY, article_description text, \
-                article_readed text, feed_link text)''')
+                article_readed text, feed_link text, like text)''')
     conn.commit()
     c.close()
 
@@ -205,7 +205,7 @@ def load_feed():
 
     # articles[feed_id] = (article_id, article_date, article_title,
     #               article_link, article_description, article_readed,
-    #               article_language)
+    #               article_language, like)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link, mail)
     articles, feeds = {}, {}
@@ -233,7 +233,7 @@ def load_feed():
                         language = "IMPORT_ERROR"
 
                     article_list = [article_id, article[0], article[1], \
-                        article[2], article[3], article[4], language]
+                        article[2], article[3], article[4], language, article[6]]
 
                     if feed_id not in articles:
                         articles[feed_id] = [article_list]

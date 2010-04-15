@@ -38,6 +38,10 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/blogmarks.png'}, \
         '/css/img/buzz.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/buzz.png'}, \
+        '/css/img/heart.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/heart.png'}, \
+        '/css/img/heart_open.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/heart_open.png'}, \
         '/var/histogram.png':{'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'var/histogram.png'}}
 
@@ -173,6 +177,8 @@ class Root:
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select></form>\n"""
             html += """<p><a href="/list_notification">Active e-mail notifications</a></p>\n"""
+            html += """<p>You like <a href="/list_like/">%s</a> article(s).</p>\n""" % \
+                        sum([len([article for article in self.articles[feed_id] if article[7]=="1"]) for feed_id in self.feeds.keys()])
 
         html += "<hr />\n"
         html += """<p>The database contains a total of %s article(s) with
@@ -326,6 +332,13 @@ class Root:
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
                                 (article[2].encode('utf-8'), feed_id, \
                                 self.feeds[feed_id][3].encode('utf-8'))
+                if article[7] == "1":
+                    html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
+                                (feed_id, article_id)
+                else:
+                    html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
+                                (feed_id, article_id)
+                html += "<br /><br />"
                 description = article[4].encode('utf-8')
                 if description:
                     html += description
@@ -630,6 +643,64 @@ class Root:
         return self.index()
 
     mail_notification.exposed = True
+
+
+    def like(self, param):
+        """
+        Mark or unmark an article as favorites.
+        """
+        try:
+            action, feed_id, article_id = param.split(':')
+        except:
+            return self.error_page("Bad URL")
+        try:
+            articles_list = self.articles[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
+        for article in articles_list:
+            if article_id == article[0]:
+                try:
+                    conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
+                    c = conn.cursor()
+                    # Mark all articles as read.
+                    if action == "yes":
+                        c.execute("UPDATE articles SET like=1 WHERE article_link='" + \
+                                    article[3] + "'")
+                    if action == "no":
+                        c.execute("UPDATE articles SET like=0 WHERE article_link='" + \
+                                    article[3] + "'")
+                    conn.commit()
+                    c.close()
+                except Exception:
+                    self.error_page("Impossible to like/dislike this article (database error).")
+                break
+        return self.description(feed_id+":"+article_id)
+
+    like.exposed = True
+
+
+    def list_like(self):
+        """
+        List of favorites articles
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """<div class="left inner">"""
+        html += "<h1>Your favorites articles</h1>"
+        for rss_feed_id in self.feeds.keys():
+            for article in self.articles[rss_feed_id]:
+                if article[7] == "1":
+                    html += article[1].encode('utf-8') + \
+                            """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
+                            from <i><a href="%s">%s</a></i><br />\n""" % \
+                                    (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][3].encode('utf-8'))
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    list_like.exposed = True
 
 
     def update(self, path=None, event = None):
