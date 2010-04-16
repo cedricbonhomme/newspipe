@@ -117,8 +117,8 @@ class Root:
                         "<br />\n"
             html += "<br />\n"
 
-            html += """<a href="/all_articles/%s">All articles</a>""" % (rss_feed_id,)
-            html += """ <a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
+            html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (rss_feed_id,)
+            html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.feeds[rss_feed_id][1] != 0:
                 html += """ <a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
@@ -440,12 +440,17 @@ class Root:
                 not_read_begin = ""
                 not_read_end = ""
 
+            if article[7] == "1":
+                like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+            else:
+                like = ""
+
             html += article[1].encode('utf-8') + \
                     " - " + not_read_begin + \
                     """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                             (feed_id, article[0].encode('utf-8'), \
                             utils.remove_html_tags(article[2].encode('utf-8'))) + \
-                    not_read_end + \
+                    not_read_end + like + \
                     "<br />\n"
 
         html += """\n<h4><a href="/">All feeds</a></h4>"""

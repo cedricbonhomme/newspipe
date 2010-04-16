@@ -12,8 +12,7 @@ html, body {
 
 body {
   text-align: justify;
-  font: normal .8em/1.5em Cambria, Georgia, "Trebuchet MS", Verdana, sans-serif;
-
+  font: 400 0.85em Cambria, Georgia, "Trebuchet MS", Verdana, sans-serif;
 }
 
 code, pre {
@@ -109,6 +108,11 @@ li {
 
 a:link, a:visited {
   color: #003399;
+  text-decoration:none
+}
+
+a:hover {
+  color: blue;
 }
 
 dt {
