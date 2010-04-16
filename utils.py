@@ -16,6 +16,7 @@ except:
     IMPORT_ERROR.append("pylab")
 import sqlite3
 import hashlib
+import operator
 
 import smtplib
 from email.mime.text import MIMEText
@@ -97,9 +98,10 @@ def tag_cloud(tags):
     """
     Generates a tags cloud.
     """
-    tags.sort(lambda x,y: cmp(x[0], y[0]))
-    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s">%s</a></font>' % \
-                    (min(1+p*7/max([tag[1] for tag in tags]), 7), x, x)) for (x, p) in tags])
+    tags.sort(key=operator.itemgetter(0))
+    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s">%s</a></font>\n' % \
+                    (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, word)) \
+                        for (word, count) in tags])
 
 def create_histogram(words, file_name="./var/histogram.png"):
     """
