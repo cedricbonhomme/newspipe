@@ -211,7 +211,7 @@ class Root:
 
         html += "<hr />\n"
         if self.articles:
-            html += "<h1>Statistics</h1>\n"
+            html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 nb_french = 0
                 nb_english = 0
@@ -223,7 +223,13 @@ class Root:
                             nb_english += 1
                 nb_other = self.nb_articles - nb_french - nb_english
 
-            html += "<table border=0>\n<tr><td>"
+            html += "<table border=0>\n"
+            html += '<tr><td colspan="2">'
+            html += "<h3>Tag cloud</h3>\n"
+            html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
+                        utils.tag_cloud(utils.top_words(self.articles, 50)) + '</div>'
+            html += "<td></tr>"
+            html += "<tr><td>"
             html += "<h3>Words count</h3>\n"
             html += "<ol>\n"
             for word, frequency in self.top_words:
@@ -241,7 +247,7 @@ class Root:
                     html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
                                     (locals()["nb_"+language], language, language)
                 html += "</ul>\n</td>\n<td>"
-            html += """<img src="/var/histogram.png" /></td></tr></table>"""
+            html += """<img src="/var/histogram.png" /></td></tr></table>\n<br />\n"""
 
             html += "<hr />\n"
         html += htmlfooter

@@ -85,13 +85,21 @@ def top_words(dic_articles, n=10):
             articles_content += remove_html_tags(article[4].encode('utf-8'))
     words_gen = (word.strip(punctuation).lower() \
                         for word in articles_content.split() \
-                                if len(word) >= 5)
+                                if len(word) >= 6)
     words = defaultdict(int)
     for word in words_gen:
         words[word] += 1
     top_words = sorted(words.iteritems(),
                 key=lambda(word, count): (-count, word))[:n]
     return top_words
+
+def tag_cloud(tags):
+    """
+    Generates a tags cloud.
+    """
+    tags.sort(lambda x,y: cmp(x[0], y[0]))
+    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s">%s</a></font>' % \
+                    (min(1+p*7/max([tag[1] for tag in tags]), 7), x, x)) for (x, p) in tags])
 
 def create_histogram(words, file_name="./var/histogram.png"):
     """
