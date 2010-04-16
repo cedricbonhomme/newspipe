@@ -120,7 +120,7 @@ class Root:
             html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (rss_feed_id,)
             html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.feeds[rss_feed_id][1] != 0:
-                html += """ <a href="/unread/%s" title="Unread article(s)"
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)"
                         >Unread article(s) (%s)</a>""" % (rss_feed_id, \
                                         self.feeds[rss_feed_id][1])
             if self.feeds[rss_feed_id][6] == "0":
