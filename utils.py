@@ -1,8 +1,6 @@
 #! /usr/local/bin/python
 #-*- coding: utf-8 -*-
 
-from __future__ import with_statement
-
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.5 $"
 __date__ = "$Date: 2010/04/15 $"
