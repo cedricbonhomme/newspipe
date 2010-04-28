@@ -74,7 +74,8 @@ def remove_html_tags(data):
     Remove HTML tags for the search.
     """
     p = re.compile(r'<[^<]*?/?>')
-    return p.sub('', data)
+    q = re.compile(r'&#[0-9]+;')
+    return p.sub('', q.sub('', data))
 
 def top_words(dic_articles, n=10, size=5):
     """
