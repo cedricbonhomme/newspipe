@@ -11,6 +11,7 @@ import os
 import time
 import sqlite3
 import cherrypy
+import operator
 import threading
 
 from cherrypy.lib.static import serve_file
@@ -173,7 +174,7 @@ class Root:
         return html
 
 
-    def management(self):
+    def management(self, word_size=6):
         """
         Management of articles.
         """
@@ -211,6 +212,9 @@ class Root:
 
         html += "<hr />\n"
         if self.articles:
+            self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
+            if "pylab" not in utils.IMPORT_ERROR:
+                utils.create_histogram(self.top_words[:10])
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 nb_french = 0
@@ -223,16 +227,25 @@ class Root:
                             nb_english += 1
                 nb_other = self.nb_articles - nb_french - nb_english
 
+            html += "Minimum size of a word: "
+            html += """<form method=get action="/management/"><select name="word_size">\n"""
+            for size in range(1,16):
+                if size == int(word_size):
+                    select = " selected='selected'"
+                else:
+                    select = ""
+                html += """\t<option value="%s" %s>%s</option>\n""" % (size, select,size)
+            html += """</select><input type="submit" value="OK"></form>\n"""
             html += "<table border=0>\n"
             html += '<tr><td colspan="2">'
             html += "<h3>Tag cloud</h3>\n"
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud(utils.top_words(self.articles, 50)) + '</div>'
+                        utils.tag_cloud(self.top_words) + '</div>'
             html += "<td></tr>"
             html += "<tr><td>"
             html += "<h3>Words count</h3>\n"
             html += "<ol>\n"
-            for word, frequency in self.top_words:
+            for word, frequency in sorted(self.top_words, key=operator.itemgetter(1), reverse=True)[:10]:
                 html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
                                 (word, word, frequency)
             html += "</ol>\n"
@@ -740,7 +753,7 @@ class Root:
         self.articles, self.feeds = utils.load_feed()
         self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
         if self.articles != {}:
-            self.top_words = utils.top_words(self.articles, 10)
+            self.top_words = utils.top_words(self.articles, 10, size=6)
             if "pylab" not in utils.IMPORT_ERROR:
                 utils.create_histogram(self.top_words)
             print "Base (%s) loaded" % utils.sqlite_base

@@ -1,6 +1,8 @@
 #! /usr/local/bin/python
 #-*- coding: utf-8 -*-
 
+from __future__ import with_statement
+
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.5 $"
 __date__ = "$Date: 2010/04/15 $"
@@ -14,8 +16,9 @@ try:
     import pylab
 except:
     IMPORT_ERROR.append("pylab")
-import sqlite3
+import string
 import hashlib
+import sqlite3
 import operator
 
 import smtplib
@@ -75,7 +78,7 @@ def remove_html_tags(data):
     p = re.compile(r'<[^<]*?/?>')
     return p.sub('', data)
 
-def top_words(dic_articles, n=10):
+def top_words(dic_articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
     """
@@ -84,9 +87,10 @@ def top_words(dic_articles, n=10):
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
             articles_content += remove_html_tags(article[4].encode('utf-8'))
-    words_gen = (word.strip(punctuation).lower() \
-                        for word in articles_content.split() \
-                                if len(word) >= 6)
+
+    words_gen = [word for word in articles_content.split() if len(word) > size]
+    words_gen = [word.strip(punctuation).lower() for word in words_gen]
+
     words = defaultdict(int)
     for word in words_gen:
         words[word] += 1
