@@ -110,6 +110,8 @@ def create_histogram(words, file_name="./var/histogram.png"):
     """
     Create a histogram.
     """
+    if "pylab" in IMPORT_ERROR:
+        return
     length = 10
     ind = pylab.arange(length) # abscissa
     width = 0.35 # bars width

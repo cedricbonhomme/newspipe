@@ -213,8 +213,7 @@ class Root:
         html += "<hr />\n"
         if self.articles:
             self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
-            if "pylab" not in utils.IMPORT_ERROR:
-                utils.create_histogram(self.top_words[:10])
+            utils.create_histogram(self.top_words[:10])
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 nb_french = 0
@@ -602,9 +601,9 @@ class Root:
         Mark one (or more) article(s) as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
         """
-        LOCKER.acquire()
         param, _, identifiant = target.partition(':')
         try:
+            LOCKER.acquire()
             conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
             c = conn.cursor()
             # Mark all articles as read.
@@ -622,14 +621,13 @@ class Root:
             c.close()
         except Exception:
             self.error_page("Impossible to mark this article as read (database error).")
-
-        #threading.Thread(None, self.update, None, ()).start()
+        finally:
+            LOCKER.release()
 
         if param == "All" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
             return self.all_articles(identifiant)
-        LOCKER.release()
 
     mark_as_read.exposed = True
 
@@ -737,6 +735,8 @@ class Root:
                                     (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
                                     self.feeds[rss_feed_id][5].encode('utf-8'), \
                                     self.feeds[rss_feed_id][3].encode('utf-8'))
+                    if article == self.articles[rss_feed_id][-1]:
+                        html += "<br />"
         html += "<hr />\n"
         html += htmlfooter
         return html
@@ -754,8 +754,7 @@ class Root:
         self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
         if self.articles != {}:
             self.top_words = utils.top_words(self.articles, 10, size=6)
-            if "pylab" not in utils.IMPORT_ERROR:
-                utils.create_histogram(self.top_words)
+            utils.create_histogram(self.top_words)
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base
