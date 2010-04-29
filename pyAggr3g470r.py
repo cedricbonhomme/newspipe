@@ -735,8 +735,6 @@ class Root:
                                     (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
                                     self.feeds[rss_feed_id][5].encode('utf-8'), \
                                     self.feeds[rss_feed_id][3].encode('utf-8'))
-                    if article == self.articles[rss_feed_id][-1]:
-                        html += "<br />"
         html += "<hr />\n"
         html += htmlfooter
         return html
