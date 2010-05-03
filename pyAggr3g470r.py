@@ -207,8 +207,13 @@ class Root:
 
         html += """<form method=get action="/fetch/">\n<input
         type="submit" value="Fetch all feeds"></form>\n"""
-        html += """<form method=get action="add_feed/">\n<input
+        html += """<form method=get action="/add_feed/">\n<input
         type="submit" value="Delete all articles"></form>\n"""
+        html += "<h1>Export articles</h1>"
+        html += """<form method=get action="/export/"><select name="export_method">\n"""
+        html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
+        html += """\t<option value="export_TXT">Text</option>\n"""
+        html += """</select><input type="submit" value="Export"></form>\n"""
 
         html += "<hr />\n"
         if self.articles:
@@ -740,6 +745,34 @@ class Root:
         return html
 
     list_favorites.exposed = True
+
+
+    def export(self, export_method):
+        """
+        Export articles stored in the SQLite database in a text files.
+        """
+        for rss_feed_id in self.feeds.keys():
+            folder = "./var/export/" + self.feeds[rss_feed_id][3]
+            try:
+                os.makedirs(folder)
+            except OSError:
+                return self.error_page(folder+" already exists.")
+            for article in self.articles[rss_feed_id]:
+                try:
+                    if export_method == "export_HTML":
+                        f = open(folder + "/" + article[2]+ ".html", "w")
+                        content = article[4].encode('utf-8')
+                    elif export_method == "export_TXT":
+                        f = open(folder + "/" + article[2], "w")
+                        content = utils.remove_html_tags(article[4].encode('utf-8'))
+                    f.write(content)
+                except IOError:
+                    pass
+                finally:
+                    f.close()
+        return self.management()
+
+    export.exposed = True
 
 
     def update(self, path=None, event = None):
