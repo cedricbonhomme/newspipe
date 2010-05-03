@@ -752,7 +752,7 @@ class Root:
         Export articles stored in the SQLite database in a text files.
         """
         for rss_feed_id in self.feeds.keys():
-            folder = "./var/export/" + self.feeds[rss_feed_id][3]
+            folder = utils.path + "var/export/" + self.feeds[rss_feed_id][3]
             try:
                 os.makedirs(folder)
             except OSError:
@@ -761,7 +761,10 @@ class Root:
                 try:
                     if export_method == "export_HTML":
                         f = open(folder + "/" + article[2]+ ".html", "w")
-                        content = article[4].encode('utf-8')
+                        content = htmlheader
+                        content += article[4].encode('utf-8')
+                        content += "<hr />\n"
+                        content += htmlfooter
                     elif export_method == "export_TXT":
                         f = open(folder + "/" + article[2], "w")
                         content = utils.remove_html_tags(article[4].encode('utf-8'))
