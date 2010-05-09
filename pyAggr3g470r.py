@@ -653,7 +653,7 @@ class Root:
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
         html += "\n<hr />\n" + htmlfooter
-        return html
+        return html"<h1>" + article[2].encode('utf-8') + "</h1><br /><br />"
 
     list_notification.exposed = True
 
@@ -749,25 +749,30 @@ class Root:
 
     def export(self, export_method):
         """
-        Export articles stored in the SQLite database in a text files.
+        Export articles stored in the SQLite database in text files.
         """
         for rss_feed_id in self.feeds.keys():
             folder = utils.path + "var/export/" + self.feeds[rss_feed_id][3]
+            folder = folder.replace(' ', '_')
             try:
                 os.makedirs(folder)
             except OSError:
-                return self.error_page(folder+" already exists.")
+                return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
             for article in self.articles[rss_feed_id]:
                 try:
                     if export_method == "export_HTML":
-                        f = open(folder + "/" + article[2]+ ".html", "w")
+                        name = folder + "/" + article[1]+ ".html"
+                        f = open(name.replace(' ', '_'), "w")
                         content = htmlheader
+                        content += "<h1>" + article[2].encode('utf-8') + "</h1><br />"
                         content += article[4].encode('utf-8')
                         content += "<hr />\n"
                         content += htmlfooter
                     elif export_method == "export_TXT":
-                        f = open(folder + "/" + article[2], "w")
-                        content = utils.remove_html_tags(article[4].encode('utf-8'))
+                        name = folder + "/" + article[1] + ".txt"
+                        f = open(name.replace(' ', '_'), "w")
+                        content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
+                        content += utils.remove_html_tags(article[4].encode('utf-8'))
                     f.write(content)
                 except IOError:
                     pass

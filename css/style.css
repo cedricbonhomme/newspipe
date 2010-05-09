@@ -59,6 +59,7 @@ table {
   margin-left: 2em;
   margin-bottom: 1em;
   border-collapse: collapse;
+  text-align: left;
 }
 
 th, td {
@@ -69,11 +70,13 @@ th, td {
 th {
   vertical-align: bottom;
   border-bottom: 1px solid black;
+  text-align: left;
 }
 
 td {
   vertical-align: top;
   padding-top: 5px;
+  text-align: left;
 }
 
 table.border td, table.border th {
