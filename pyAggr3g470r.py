@@ -653,7 +653,7 @@ class Root:
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
         html += "\n<hr />\n" + htmlfooter
-        return html"<h1>" + article[2].encode('utf-8') + "</h1><br /><br />"
+        return html
 
     list_notification.exposed = True
 
