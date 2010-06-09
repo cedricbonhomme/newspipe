@@ -20,6 +20,7 @@ import string
 import hashlib
 import sqlite3
 import operator
+import urlparse
 
 import smtplib
 from email.mime.text import MIMEText
@@ -209,6 +210,8 @@ def search_feed(url):
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page)
     for feed_link in soup('link', type='application/atom+xml'):
+        if url not in feed_link['href']:
+            return urlparse.urljoin(url, feed_link['href'])
         return feed_link['href']
     return None
 
