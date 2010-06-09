@@ -1,6 +1,8 @@
 #! /usr/local/bin/python
 #-*- coding: utf-8 -*-
 
+from __future__ import with_statement
+
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.6 $"
 __date__ = "$Date: 2010/04/29 $"
@@ -21,6 +23,9 @@ import operator
 
 import smtplib
 from email.mime.text import MIMEText
+
+import urllib2
+from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
 from string import punctuation
@@ -185,6 +190,27 @@ def compare(stringtime1, stringtime2):
     elif datetime1 > datetime2:
         return 1
     return 0
+
+def add_feed(feed_url):
+    """
+    Add the URL feed_url in the file feed.lst.
+    """
+    for ligne in open("./var/feed.lst", "r"):
+        if feed_url in ligne:
+            return False
+    with open("./var/feed.lst", "a") as f:
+        f.write(feed_url + "\n")
+        return True
+
+def search_feed(url):
+    """
+    Search a feed in a HTML page.
+    """
+    page = urllib2.urlopen(url)
+    soup = BeautifulSoup(page)
+    for feed_link in soup('link', type='application/atom+xml'):
+        return feed_link['href']
+    return None
 
 def create_base():
     """

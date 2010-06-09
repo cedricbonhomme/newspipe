@@ -182,8 +182,8 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
-        html += """<form method=get action="add_feed/"><input type="text" name="v" value="">\n<input
-        type="submit" value="OK"></form>\n"""
+        html += """<form method=get action="/add_feed/"><input type="text" name="url" value="">\n<input
+        type="submit" value="OKi"></form>\n"""
 
         if self.articles:
             html += "<h1>Delete Feeds</h1>\n"
@@ -745,6 +745,32 @@ class Root:
         return html
 
     list_favorites.exposed = True
+
+
+    def add_feed(self, url):
+        """
+        Add a new feed with the URL of a page.
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """<div class="left inner">"""
+        # search the feed in the HTML page with BeautifulSoup
+        feed_url = utils.search_feed(url)
+        # if a feed exists
+        if feed_url is not None:
+            result = utils.add_feed(feed_url)
+        # if the feed is not already in the file feed.lst
+        if result is False:
+            html +=  "<p>You are already following this feed!</p>"
+        else:
+            html += """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
+        html += "<br />"
+        html += """<a href="/management/">Back to the management page.</a><br />\n"""
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    add_feed.exposed = True
 
 
     def export(self, export_method):
