@@ -183,7 +183,7 @@ class Root:
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
         html += """<form method=get action="/add_feed/"><input type="text" name="url" value="">\n<input
-        type="submit" value="OKi"></form>\n"""
+        type="submit" value="OK"></form>\n"""
 
         if self.articles:
             html += "<h1>Delete Feeds</h1>\n"
