@@ -217,7 +217,8 @@ def remove_feed(feed_url):
     # Remove articles from this feed from the SQLite base.
     conn = sqlite3.connect(sqlite_base, isolation_level = None)
     c = conn.cursor()
-    c.execute("")
+    c.execute("DELETE FROM feeds WHERE feed_link='" + feed_url +"'")
+    c.execute("DELETE FROM articles WHERE feed_link='" + feed_url +"'")
     conn.commit()
     c.close()
 

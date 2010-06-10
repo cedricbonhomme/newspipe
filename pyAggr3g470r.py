@@ -781,7 +781,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         utils.remove_feed(self.feeds[url][4])
-        html+= """<p>All articles from this feed are removed from the base.</p><br />"""
+        html+= """<p>All articles from this feed are now removed from the base.</p><br />"""
         html += """<a href="/management/">Back to the management page.</a><br />\n"""
         html += "<hr />\n"
         html += htmlfooter
