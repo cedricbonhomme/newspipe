@@ -196,12 +196,30 @@ def add_feed(feed_url):
     """
     Add the URL feed_url in the file feed.lst.
     """
-    for ligne in open("./var/feed.lst", "r"):
-        if feed_url in ligne:
+    for line in open("./var/feed.lst", "r"):
+        if feed_url in line:
             return False
     with open("./var/feed.lst", "a") as f:
         f.write(feed_url + "\n")
         return True
+
+def remove_feed(feed_url):
+    """
+    Remove a feed from the file feed.lst and from the SQLite base.
+    """
+    feeds = []
+    # Remove the URL from the file feed.lst
+    for line in open("./var/feed.lst", "r"):
+        if feed_url not in line:
+            feeds.append(line.replace("\n", ""))
+    with open("./var/feed.lst", "w") as f:
+        f.write("\n".join(feeds))
+    # Remove articles from this feed from the SQLite base.
+    conn = sqlite3.connect(sqlite_base, isolation_level = None)
+    c = conn.cursor()
+    c.execute("")
+    conn.commit()
+    c.close()
 
 def search_feed(url):
     """
@@ -209,7 +227,9 @@ def search_feed(url):
     """
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page)
-    for feed_link in soup('link', type='application/atom+xml'):
+    feed_links = soup('link', type='application/atom+xml')
+    feed_links.append(soup('link', type='application/rss+xml'))
+    for feed_link in feed_links:
         if url not in feed_link['href']:
             return urlparse.urljoin(url, feed_link['href'])
         return feed_link['href']

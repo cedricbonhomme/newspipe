@@ -187,11 +187,11 @@ class Root:
 
         if self.articles:
             html += "<h1>Delete Feeds</h1>\n"
-            html += """<form method=get action="del_feed/"><select name="feed_list">\n"""
+            html += """<form method=get action="/remove_feed/"><select name="url">\n"""
             for feed_id in self.articles.keys():
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
-            html += """</select></form>\n"""
+            html += """</select><input type="submit" value="OK"></form>\n"""
             html += """<p>Active e-mail notifications: <a href="/list_notification">%s</a></p>\n""" % \
                         (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
             html += """<p>You like <a href="/list_favorites/">%s</a> article(s).</p>\n""" % \
@@ -771,6 +771,23 @@ class Root:
         return html
 
     add_feed.exposed = True
+
+
+    def remove_feed(self, url):
+        """
+        Remove a feed from the file fee.lst.
+        """
+        html = htmlheader
+        html += htmlnav
+        html += """<div class="left inner">"""
+        utils.remove_feed(self.feeds[url][4])
+        html+= """<p>All articles from this feed are removed from the base.</p><br />"""
+        html += """<a href="/management/">Back to the management page.</a><br />\n"""
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    remove_feed.exposed = True
 
 
     def export(self, export_method):
