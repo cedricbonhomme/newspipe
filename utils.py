@@ -4,8 +4,8 @@
 from __future__ import with_statement
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.6 $"
-__date__ = "$Date: 2010/04/29 $"
+__version__ = "$Revision: 0.7 $"
+__date__ = "$Date: 2010/06/10 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
