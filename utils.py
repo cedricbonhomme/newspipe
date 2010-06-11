@@ -167,25 +167,22 @@ def send_mail(mfrom, mto, feed_title, message):
                     mail.as_string())
     server.quit()
 
+def string_to_datetime(stringtime):
+    """
+    Convert a string to datetime.
+    """
+    date, time = stringtime.split(' ')
+    year, month, day = date.split('-')
+    hour, minute, second = time.split(':')
+    return datetime(year=int(year), month=int(month), day=int(day), \
+        hour=int(hour), minute=int(minute), second=int(second))
+
 def compare(stringtime1, stringtime2):
     """
     Compare two dates in the format 'yyyy-mm-dd hh:mm:ss'.
     """
-    date1, time1 = stringtime1.split(' ')
-    date2, time2 = stringtime2.split(' ')
-
-    year1, month1, day1 = date1.split('-')
-    year2, month2, day2 = date2.split('-')
-
-    hour1, minute1, second1 = time1.split(':')
-    hour2, minute2, second2 = time2.split(':')
-
-    datetime1 = datetime(year=int(year1), month=int(month1), day=int(day1), \
-                        hour=int(hour1), minute=int(minute1), second=int(second1))
-
-    datetime2 = datetime(year=int(year2), month=int(month2), day=int(day2), \
-                        hour=int(hour2), minute=int(minute2), second=int(second2))
-
+    datetime1 = string_to_datetime(stringtime1)
+    datetime2 = string_to_datetime(stringtime2)
     if datetime1 < datetime2:
         return -1
     elif datetime1 > datetime2:
@@ -196,12 +193,13 @@ def add_feed(feed_url):
     """
     Add the URL feed_url in the file feed.lst.
     """
-    for line in open("./var/feed.lst", "r"):
-        if feed_url in line:
-            return False
+    if os.path.exists("./var/feed.lst"):
+        for line in open("./var/feed.lst", "r"):
+            if feed_url in line:
+                return False
     with open("./var/feed.lst", "a") as f:
         f.write(feed_url + "\n")
-        return True
+    return True
 
 def remove_feed(feed_url):
     """
@@ -209,18 +207,22 @@ def remove_feed(feed_url):
     """
     feeds = []
     # Remove the URL from the file feed.lst
-    for line in open("./var/feed.lst", "r"):
-        if feed_url not in line:
-            feeds.append(line.replace("\n", ""))
-    with open("./var/feed.lst", "w") as f:
-        f.write("\n".join(feeds))
-    # Remove articles from this feed from the SQLite base.
-    conn = sqlite3.connect(sqlite_base, isolation_level = None)
-    c = conn.cursor()
-    c.execute("DELETE FROM feeds WHERE feed_link='" + feed_url +"'")
-    c.execute("DELETE FROM articles WHERE feed_link='" + feed_url +"'")
-    conn.commit()
-    c.close()
+    if os.path.exists("./var/feed.lst"):
+        for line in open("./var/feed.lst", "r"):
+            if feed_url not in line:
+                feeds.append(line.replace("\n", ""))
+        with open("./var/feed.lst", "w") as f:
+            f.write("\n".join(feeds))
+        # Remove articles from this feed from the SQLite base.
+        try:
+            conn = sqlite3.connect(sqlite_base, isolation_level = None)
+            c = conn.cursor()
+            c.execute("DELETE FROM feeds WHERE feed_link='" + feed_url +"'")
+            c.execute("DELETE FROM articles WHERE feed_link='" + feed_url +"'")
+            conn.commit()
+            c.close()
+        except:
+            pass
 
 def search_feed(url):
     """
@@ -275,16 +277,17 @@ def load_feed():
     #               feed_title, feed_link, feed_site_link, mail)
     articles, feeds = {}, {}
     if list_of_feeds != []:
+        sha1_hash = hashlib.sha1()
         for feed in list_of_feeds:
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
                     feed[2] + "'").fetchall()
 
+            sha1_hash.update(feed[2].encode('utf-8'))
+            feed_id = sha1_hash.hexdigest()
+
             if list_of_articles != []:
                 for article in list_of_articles:
-                    sha1_hash = hashlib.sha1()
-                    sha1_hash.update(article[5].encode('utf-8'))
-                    feed_id = sha1_hash.hexdigest()
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 

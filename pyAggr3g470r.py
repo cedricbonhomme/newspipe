@@ -187,7 +187,7 @@ class Root:
 
         if self.articles:
             html += "<h1>Delete Feeds</h1>\n"
-            html += """<form method=get action="/remove_feed/"><select name="url">\n"""
+            html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
             for feed_id in self.articles.keys():
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
@@ -773,15 +773,19 @@ class Root:
     add_feed.exposed = True
 
 
-    def remove_feed(self, url):
+    def remove_feed(self, feed_id):
         """
-        Remove a feed from the file fee.lst.
+        Remove a feed from the file feed.lst and from the SQLite base.
         """
         html = htmlheader
         html += htmlnav
         html += """<div class="left inner">"""
-        utils.remove_feed(self.feeds[url][4])
-        html+= """<p>All articles from this feed are now removed from the base.</p><br />"""
+        if feed_id in self.feeds.keys():
+            utils.remove_feed(self.feeds[feed_id][4])
+            html+= """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
+                (self.feeds[feed_id][3].encode('utf-8'),)
+        else:
+            return self.error_page("This feed do not exists.")
         html += """<a href="/management/">Back to the management page.</a><br />\n"""
         html += "<hr />\n"
         html += htmlfooter
