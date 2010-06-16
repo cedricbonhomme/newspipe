@@ -231,7 +231,7 @@ def search_feed(url):
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page)
     feed_links = soup('link', type='application/atom+xml')
-    feed_links.append(soup('link', type='application/rss+xml'))
+    feed_links.extend(soup('link', type='application/rss+xml'))
     for feed_link in feed_links:
         if url not in feed_link['href']:
             return urlparse.urljoin(url, feed_link['href'])
