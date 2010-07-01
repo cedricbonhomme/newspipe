@@ -113,7 +113,7 @@ class Root:
                 html += article[1].encode('utf-8') + \
                         " - " + not_read_begin + \
                         """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')[:150]) + \
                         not_read_end + like + \
                         "<br />\n"
             html += "<br />\n"
