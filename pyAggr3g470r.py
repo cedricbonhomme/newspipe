@@ -62,7 +62,8 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
 
-htmlnav = '<body>\n<h1><div class="right innerlogo"><img src="/css/img/tuxrss.png" />' + \
+htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/css/img/tuxrss.png"' + \
+        """ title="What's new today?"/></a>""" + \
         '</div><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
         'pyAggr3g470r (source code)</a>'
