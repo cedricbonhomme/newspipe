@@ -253,6 +253,12 @@ blockquote.right {
   clear: both;
 }
 
+.innerlogo {
+  margin-top: 0em;
+  padding: 0em 2em 0em 2em;
+  clear: both;
+}
+
 .left {
   float: left;
   position: absolute;

@@ -27,6 +27,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/style.css'}, \
         '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/feed-icon-28x28.png'}, \
+        '/css/img/tuxrss.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/tuxrss.png'}, \
         '/css/img/delicious.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/delicious.png'}, \
         '/css/img/digg.png': {'tools.staticfile.on': True, \
@@ -60,7 +62,8 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
 
-htmlnav = '<body>\n<h1><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
+htmlnav = '<body>\n<h1><div class="right innerlogo"><img src="/css/img/tuxrss.png" />' + \
+        '</div><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
         'pyAggr3g470r (source code)</a>'
 
