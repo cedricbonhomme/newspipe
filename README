@@ -19,6 +19,7 @@ based on CherryPy. Articles are stored in a SQLite base.
 * Python (tested with 2.4 to 2.7)
 * CherryPy (version 3 and up)
 * sqlite
+* BeautifulSoup
 
 
 === Optional module ===

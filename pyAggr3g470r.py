@@ -87,6 +87,9 @@ class Root:
             html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
 
+            html += """<a href="/unread/All">Unread article(s): %s</a>\n""" % \
+                (sum([feed[1] for feed in self.feeds.values()]),)
+
         for rss_feed_id in self.articles.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
@@ -760,8 +763,10 @@ class Root:
         html += """<div class="left inner">"""
         # search the feed in the HTML page with BeautifulSoup
         feed_url = utils.search_feed(url)
+        if feed_url is None:
+            self.error_page("Impossible to find a feed at this URL.")
         # if a feed exists
-        if feed_url is not None:
+        else:
             result = utils.add_feed(feed_url)
         # if the feed is not already in the file feed.lst
         if result is False:

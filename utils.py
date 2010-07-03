@@ -212,7 +212,7 @@ def remove_feed(feed_url):
             if feed_url not in line:
                 feeds.append(line.replace("\n", ""))
         with open("./var/feed.lst", "w") as f:
-            f.write("\n".join(feeds))
+            f.write("\n".join(feeds) + "\n")
         # Remove articles from this feed from the SQLite base.
         try:
             conn = sqlite3.connect(sqlite_base, isolation_level = None)
@@ -228,8 +228,12 @@ def search_feed(url):
     """
     Search a feed in a HTML page.
     """
-    page = urllib2.urlopen(url)
-    soup = BeautifulSoup(page)
+    soup = None
+    try:
+        page = urllib2.urlopen(url)
+        soup = BeautifulSoup(page)
+    except:
+        return None
     feed_links = soup('link', type='application/atom+xml')
     feed_links.extend(soup('link', type='application/rss+xml'))
     for feed_link in feed_links:
