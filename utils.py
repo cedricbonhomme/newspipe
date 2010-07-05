@@ -74,13 +74,15 @@ def detect_language(text):
     else:
         return 'other'
 
-def remove_html_tags(data):
+def clear_string(data):
     """
-    Remove HTML tags for the search.
+    Clear a string by removing HTML tags, HTML special caracters
+    and consecutive white spaces (more that one).
     """
     p = re.compile(r'<[^<]*?/?>')
     q = re.compile(r'&#[0-9]+;')
-    return p.sub('', q.sub('', data))
+    r = re.compile(r's+')
+    return p.sub('', q.sub('', r.sub('', data)))
 
 def top_words(dic_articles, n=10, size=5):
     """
@@ -90,7 +92,7 @@ def top_words(dic_articles, n=10, size=5):
     articles_content = ""
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
-            articles_content += remove_html_tags(article[4].encode('utf-8'))
+            articles_content += clear_string(article[4].encode('utf-8'))
 
     words_gen = [word for word in articles_content.split() if len(word) > size]
     words_gen = [word.strip(punctuation).lower() for word in words_gen]
@@ -300,10 +302,10 @@ def load_feed():
 
                     if "oice" not in IMPORT_ERROR:
                         if article[3] != "":
-                            language = detect_language(remove_html_tags(article[3][:80]).encode('utf-8') + \
-                                                remove_html_tags(article[1]).encode('utf-8'))
+                            language = detect_language(clear_string(article[3][:80]).encode('utf-8') + \
+                                                clear_string(article[1]).encode('utf-8'))
                         else:
-                            language = detect_language(remove_html_tags(article[1]).encode('utf-8'))
+                            language = detect_language(clear_string(article[1]).encode('utf-8'))
                     else:
                         language = "IMPORT_ERROR"
 

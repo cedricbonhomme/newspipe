@@ -297,9 +297,9 @@ class Root:
 
         if feed_id is not None:
             for article in self.articles[rss_feed_id]:
-                article_content = utils.remove_html_tags(article[4].encode('utf-8'))
+                article_content = utils.clear_string(article[4].encode('utf-8'))
                 if not article_content:
-                    utils.remove_html_tags(article[2].encode('utf-8'))
+                    utils.clear_string(article[2].encode('utf-8'))
                 if querystring.lower() in article_content.lower():
                     if article[5] == "0":
                         # not readed articles are in bold
@@ -317,9 +317,9 @@ class Root:
         else:
             for rss_feed_id in self.articles.keys():
                 for article in self.articles[rss_feed_id]:
-                    article_content = utils.remove_html_tags(article[4].encode('utf-8'))
+                    article_content = utils.clear_string(article[4].encode('utf-8'))
                     if not article_content:
-                        utils.remove_html_tags(article[2].encode('utf-8'))
+                        utils.clear_string(article[2].encode('utf-8'))
                     if querystring.lower() in article_content.lower():
                         if article[5] == "0":
                             # not readed articles are in bold
@@ -479,7 +479,7 @@ class Root:
                     " - " + not_read_begin + \
                     """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                             (feed_id, article[0].encode('utf-8'), \
-                            utils.remove_html_tags(article[2].encode('utf-8'))) + \
+                            utils.clear_string(article[2].encode('utf-8'))) + \
                     not_read_end + like + \
                     "<br />\n"
 
@@ -583,7 +583,7 @@ class Root:
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
                                     (article[2].encode('utf-8'), feed_id, \
                                     self.feeds[feed_id][3].encode('utf-8'))
-                description = utils.remove_html_tags(article[4].encode('utf-8'))
+                description = utils.clear_string(article[4].encode('utf-8'))
                 if description:
                     html += description
                 else:
@@ -828,7 +828,7 @@ class Root:
                         name = folder + "/" + article[1] + ".txt"
                         f = open(name.replace(' ', '_'), "w")
                         content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
-                        content += utils.remove_html_tags(article[4].encode('utf-8'))
+                        content += utils.clear_string(article[4].encode('utf-8'))
                     f.write(content)
                 except IOError:
                     pass
