@@ -4,8 +4,8 @@
 from __future__ import with_statement
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.7 $"
-__date__ = "$Date: 2010/06/10 $"
+__version__ = "$Revision: 0.8 $"
+__date__ = "$Date: 2010/07/05 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -31,6 +31,7 @@ from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 from string import punctuation
 from collections import defaultdict
+from collections import OrderedDict
 
 from StringIO import StringIO
 
@@ -279,10 +280,11 @@ def load_feed():
     #               article_language, like)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link, mail)
-    articles, feeds = {}, {}
+    articles, feeds = {}, OrderedDict()
     if list_of_feeds != []:
         sha1_hash = hashlib.sha1()
-        for feed in list_of_feeds:
+        print sorted(list_of_feeds)
+        for feed in sorted(list_of_feeds):
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
                     feed[2] + "'").fetchall()
@@ -322,6 +324,7 @@ def load_feed():
                                     if article[5]=="0"]), \
                                 feed[3], feed[0], feed[2], feed[1] , feed[4]\
                                 )
+
         c.close()
         LOCKER.release()
         return (articles, feeds)

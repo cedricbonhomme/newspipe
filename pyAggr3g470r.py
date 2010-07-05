@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.4 $"
-__date__ = "$Date: 2010/06/10 $"
+__version__ = "$Revision: 1.5 $"
+__date__ = "$Date: 2010/07/05 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -90,7 +90,7 @@ class Root:
             html += """<a href="/unread/All">Unread article(s): %s</a>\n""" % \
                 (sum([feed[1] for feed in self.feeds.values()]),)
 
-        for rss_feed_id in self.articles.keys():
+        for rss_feed_id in self.feeds.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
                     <a href="%s" rel="noreferrer"
@@ -163,7 +163,7 @@ class Root:
         Create the list of feeds.
         """
         html = """Your feeds (%s):<br />\n""" % len(self.articles.keys())
-        for rss_feed_id in self.articles.keys():
+        for rss_feed_id in self.feeds.keys():
             if self.feeds[rss_feed_id][1] != 0:
                 # not readed articles are in bold
                 not_read_begin = "<b>"
