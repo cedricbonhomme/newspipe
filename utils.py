@@ -283,8 +283,11 @@ def load_feed():
     articles, feeds = {}, OrderedDict()
     if list_of_feeds != []:
         sha1_hash = hashlib.sha1()
-        print sorted(list_of_feeds)
-        for feed in sorted(list_of_feeds):
+        # Case-insensitive sorting
+        tupleList = [(x[3].upper(), x) for x in list_of_feeds]
+        tupleList.sort(key=operator.itemgetter(0))
+
+        for feed in [x[1] for x in tupleList]:
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
                     feed[2] + "'").fetchall()
