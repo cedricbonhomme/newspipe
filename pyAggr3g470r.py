@@ -886,16 +886,16 @@ class Root:
         installed.
         """
         time.sleep(10)
-        old_size = 0
+        old_time = 0
         try:
             print "Watching %s" % utils.sqlite_base
             while True:
                 time.sleep(2)
                 # very simple test
-                if os.path.getsize(utils.sqlite_base) != old_size:
+                if os.path.getmtime(utils.sqlite_base) != old_time:
                     print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
                     self.update()
-                    old_size = os.path.getsize(utils.sqlite_base)
+                    old_time = os.path.getmtime(utils.sqlite_base)
         except KeyboardInterrupt:
             pass
         print "Stop watching", utils.sqlite_base
