@@ -28,7 +28,7 @@ from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
 from string import punctuation
-from collections import defaultdict
+from collections import Counter
 from collections import OrderedDict
 
 from StringIO import StringIO
@@ -97,7 +97,7 @@ def top_words(dic_articles, n=10, size=5):
     words_gen = [word for word in articles_content.split() if len(word) > size]
     words_gen = [word.strip(punctuation).lower() for word in words_gen]
 
-    words = defaultdict(int)
+    words = Counter()
     for word in words_gen:
         words[word] += 1
     top_words = sorted(words.iteritems(),
