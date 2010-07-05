@@ -284,7 +284,7 @@ def load_feed():
     if list_of_feeds != []:
         sha1_hash = hashlib.sha1()
         # Case-insensitive sorting
-        tupleList = [(x[3].upper(), x) for x in list_of_feeds]
+        tupleList = [(x[0].lower(), x) for x in list_of_feeds]
         tupleList.sort(key=operator.itemgetter(0))
 
         for feed in [x[1] for x in tupleList]:
