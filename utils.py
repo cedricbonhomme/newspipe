@@ -88,7 +88,6 @@ def top_words(dic_articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
     """
-    words = {}
     articles_content = ""
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
@@ -100,9 +99,7 @@ def top_words(dic_articles, n=10, size=5):
     words = Counter()
     for word in words_gen:
         words[word] += 1
-    top_words = sorted(words.iteritems(),
-                key=lambda(word, count): (-count, word))[:n]
-    return top_words
+    return words.most_common(n)
 
 def tag_cloud(tags):
     """
