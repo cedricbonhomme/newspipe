@@ -195,7 +195,7 @@ class Root:
         if self.articles:
             html += "<h1>Delete Feeds</h1>\n"
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
-            for feed_id in self.articles.keys():
+            for feed_id in self.feeds.keys():
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select><input type="submit" value="OK"></form>\n"""
