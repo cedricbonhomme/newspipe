@@ -88,14 +88,12 @@ def top_words(dic_articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
     """
-    articles_content = ""
+    words_gen = []
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
-            articles_content += clear_string(article[4].encode('utf-8'))
-
-    words_gen = [word for word in articles_content.split() if len(word) > size]
-    words_gen = [word.strip(punctuation).lower() for word in words_gen]
-
+            words_gen.extend([word.strip(punctuation).lower() \
+                            for word in clear_string(article[4].encode('utf-8')).split() \
+                            if len(word) > size])
     words = Counter()
     for word in words_gen:
         words[word] += 1
