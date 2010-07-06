@@ -81,8 +81,8 @@ def clear_string(data):
     """
     p = re.compile(r'<[^<]*?/?>')
     q = re.compile(r'&#[0-9]+;')
-    r = re.compile(r's+')
-    return p.sub('', q.sub('', r.sub('', data)))
+    r = re.compile(r'\s')
+    return p.sub('', q.sub('', r.sub(' ', data)))
 
 def top_words(dic_articles, n=10, size=5):
     """
