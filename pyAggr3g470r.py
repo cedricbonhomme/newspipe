@@ -81,14 +81,13 @@ class Root:
 
         if self.articles:
             html += """<a href="/list_favorites/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
-                (sum([len([article for article in self.articles[feed_id] if article[7] == "1"]) \
-                    for feed_id in self.feeds.keys()]),)
+                (self.nb_favorites,)
 
             html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
-                (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
+                (self.nb_mail_notifications,)
 
             html += """<a href="/unread/All">Unread article(s): %s</a>\n""" % \
-                (sum([feed[1] for feed in self.feeds.values()]),)
+                (self.nb_unread_articles,)
 
         for rss_feed_id in self.feeds.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -200,15 +199,14 @@ class Root:
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select><input type="submit" value="OK"></form>\n"""
             html += """<p>Active e-mail notifications: <a href="/list_notification">%s</a></p>\n""" % \
-                        (len([feed for feed in self.feeds.values() if feed[6] == "1"]),)
+                        (self.nb_mail_notifications,)
             html += """<p>You like <a href="/list_favorites/">%s</a> article(s).</p>\n""" % \
-                        (sum([len([article for article in self.articles[feed_id] if article[7] == "1"]) \
-                            for feed_id in self.feeds.keys()]), )
+                        (self.nb_favorites, )
 
         html += "<hr />\n"
         html += """<p>The database contains a total of %s article(s) with
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
-                    (self.nb_articles, sum([feed[1] for feed in self.feeds.values()]))
+                    (self.nb_articles, self.nb_unread_articles)
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
 
@@ -225,7 +223,6 @@ class Root:
         html += "<hr />\n"
         if self.articles:
             self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
-            utils.create_histogram(self.top_words[:10])
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 nb_french = 0
@@ -247,31 +244,19 @@ class Root:
                     select = ""
                 html += """\t<option value="%s" %s>%s</option>\n""" % (size, select,size)
             html += """</select><input type="submit" value="OK"></form>\n"""
-            html += "<table border=0>\n"
-            html += '<tr><td colspan="2">'
-            html += "<h3>Tag cloud</h3>\n"
+            html += "<br /><h3>Tag cloud</h3>\n"
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
-            html += "<td></tr>"
-            html += "<tr><td>"
-            html += "<h3>Words count</h3>\n"
-            html += "<ol>\n"
-            for word, frequency in sorted(self.top_words, key=operator.itemgetter(1), reverse=True)[:10]:
-                html += """\t<li><a href="/q/?querystring=%s">%s</a>: %s</li>\n""" % \
-                                (word, word, frequency)
-            html += "</ol>\n"
-            html += "<h3>Languages</h3>\n"
+            html += "<br /><h3>Languages</h3>\n"
             if "oice" in utils.IMPORT_ERROR:
                 html += "Install the module "
                 html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
-                html += "</td>\n<td>"
             else:
                 html += "<ul>\n"
                 for language in ['english', 'french', 'other']:
                     html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
                                     (locals()["nb_"+language], language, language)
-                html += "</ul>\n</td>\n<td>"
-            html += """<img src="/var/histogram.png" /></td></tr></table>\n<br />\n"""
+                html += "</ul>\n<br />"
 
             html += "<hr />\n"
         html += htmlfooter
@@ -349,7 +334,6 @@ class Root:
         """
         feed_getter = feedgetter.FeedGetter()
         feed_getter.retrieve_feed()
-        #self.update()
         return self.index()
 
     fetch.exposed = True
@@ -506,7 +490,8 @@ class Root:
                         html += article[1].encode('utf-8') + \
                                 """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
                                 from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
+                                        (rss_feed_id, article[0].encode('utf-8'), \
+                                        article[2].encode('utf-8'), \
                                         self.feeds[rss_feed_id][5].encode('utf-8'), \
                                         self.feeds[rss_feed_id][3].encode('utf-8'))
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
@@ -841,15 +826,19 @@ class Root:
 
     def update(self, path=None, event = None):
         """
-        Synchronizes transient objects with the database,
-        computes the list of most frequent words and generates the histogram.
-        Called when an article is marked as read or when new articles are fetched.
+        Synchronizes transient objects (dictionary of feed and articles)
+        with the database.
+        Called when a changes in the database is detected.
         """
         self.articles, self.feeds = utils.load_feed()
         self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
+        self.nb_unread_articles = sum([feed[1] for feed in self.feeds.values()])
+        self.nb_mail_notifications = len([feed for feed in self.feeds.values() \
+                                if feed[6] == "1"])
+        self.nb_favorites = sum([len([article for article in self.articles[feed_id] \
+                                if article[7] == "1"]) \
+                                    for feed_id in self.feeds.keys()])
         if self.articles != {}:
-            self.top_words = utils.top_words(self.articles, 10, size=6)
-            utils.create_histogram(self.top_words)
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base

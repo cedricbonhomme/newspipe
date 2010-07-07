@@ -10,10 +10,6 @@ __license__ = "GPLv3"
 IMPORT_ERROR = []
 
 import re
-try:
-    import pylab
-except:
-    IMPORT_ERROR.append("pylab")
 import string
 import hashlib
 import sqlite3
@@ -55,6 +51,12 @@ smtp_server = config.get('mail','smtp')
 username =  config.get('mail','username')
 password =  config.get('mail','password')
 
+url_finders = [ \
+    re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
+    re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
+    re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
+    re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+"), \
+]
 
 def detect_language(text):
     """
@@ -104,48 +106,9 @@ def tag_cloud(tags):
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
-    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s">%s</a></font>\n' % \
-                    (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, word)) \
+    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
+                    (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, count, word)) \
                         for (word, count) in tags])
-
-def create_histogram(words, file_name="./var/histogram.png"):
-    """
-    Create a histogram.
-    """
-    if "pylab" in IMPORT_ERROR:
-        return
-    length = 10
-    ind = pylab.arange(length) # abscissa
-    width = 0.35 # bars width
-
-    w = [elem[0] for elem in words]
-    count = [int(elem[1]) for elem in words]
-
-    max_count = max(count)  # maximal weight
-
-    p = pylab.bar(ind, count, width, color='r')
-
-    pylab.ylabel("Count")
-    pylab.title("Most frequent words")
-    pylab.xticks(ind + (width / 2), range(1, len(w)+1))
-    pylab.xlim(-width, len(ind))
-
-    # changing the ordinate scale according to the max.
-    if max_count <= 100:
-        pylab.ylim(0, max_count + 5)
-        pylab.yticks(pylab.arange(0, max_count + 5, 5))
-    elif max_count <= 200:
-        pylab.ylim(0, max_count + 10)
-        pylab.yticks(pylab.arange(0, max_count + 10, 10))
-    elif max_count <= 600:
-        pylab.ylim(0, max_count + 25)
-        pylab.yticks(pylab.arange(0, max_count + 25, 25))
-    elif max_count <= 800:
-        pylab.ylim(0, max_count + 50)
-        pylab.yticks(pylab.arange(0, max_count + 50, 50))
-
-    pylab.savefig(file_name, dpi = 80)
-    pylab.close()
 
 def send_mail(mfrom, mto, feed_title, message):
     """Send the warning via mail

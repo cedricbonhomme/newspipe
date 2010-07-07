@@ -16,13 +16,6 @@ from datetime import datetime
 
 import utils
 
-url_finders = [ \
-    re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
-    re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
-    re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
-    re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+"), \
-]
-
 feeds_list = []
 list_of_threads = []
 
@@ -47,7 +40,7 @@ class FeedGetter(object):
         with open("./var/feed.lst") as f:
             for a_feed in f:
                 # test if the URL is well formed
-                for url_regexp in url_finders:
+                for url_regexp in utils.url_finders:
                     if url_regexp.match(a_feed):
                         the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
                         try:
