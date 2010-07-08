@@ -47,8 +47,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/heart_open.png'}, \
         '/css/img/email.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/email.png'}, \
-        '/var/histogram.png':{'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'var/histogram.png'}}
+        '/css/img/cross.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'css/img/cross.png'}}
 
 htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
             '<head>' + \
@@ -368,6 +368,8 @@ class Root:
                                 (feed_id, article_id)
                 else:
                     html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
+                                (feed_id, article_id)
+                html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
                                 (feed_id, article_id)
                 html += "<br /><br />"
                 description = article[4].encode('utf-8')
@@ -786,6 +788,30 @@ class Root:
         return html
 
     remove_feed.exposed = True
+
+
+    def delete_article(self, param):
+        """
+        Delete an article.
+        """
+        try:
+            feed_id, article_id = param.split(':')
+            articles_list = self.articles[feed_id]
+        except:
+            return self.error_page("This article do not exists.")
+        for article in articles_list:
+            if article_id == article[0]:
+                try:
+                    conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
+                    c = conn.cursor()
+                    c.execute("DELETE FROM articles WHERE article_link='" + article[3] +"'")
+                    conn.commit()
+                    c.close()
+                except Exception, e:
+                    return e
+        return self.index()
+
+    delete_article.exposed = True
 
 
     def export(self, export_method):
