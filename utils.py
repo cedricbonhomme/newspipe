@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.8 $"
-__date__ = "$Date: 2010/07/05 $"
+__version__ = "$Revision: 0.9 $"
+__date__ = "$Date: 2010/07/08 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -216,6 +216,18 @@ def create_base():
                 (article_date text, article_title text, \
                 article_link text PRIMARY KEY, article_description text, \
                 article_readed text, feed_link text, like text)''')
+    conn.commit()
+    c.close()
+
+def drop_base():
+    """
+    Delete all articles from the database.
+    """
+    sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
+    conn = sqlite3.connect(sqlite_base, isolation_level = None)
+    c = conn.cursor()
+    c.execute('''DROP TABLE IF EXISTS feeds''')
+    c.execute('''DROP TABLE IF EXISTS articles''')
     conn.commit()
     c.close()
 

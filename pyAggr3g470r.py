@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.5 $"
-__date__ = "$Date: 2010/07/05 $"
+__version__ = "$Revision: 1.6 $"
+__date__ = "$Date: 2010/07/08 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -212,7 +212,7 @@ class Root:
 
         html += """<form method=get action="/fetch/">\n<input
         type="submit" value="Fetch all feeds"></form>\n"""
-        html += """<form method=get action="/add_feed/">\n<input
+        html += """<form method=get action="/drop_base">\n<input
         type="submit" value="Delete all articles"></form>\n"""
         html += "<h1>Export articles</h1>"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
@@ -814,6 +814,16 @@ class Root:
     delete_article.exposed = True
 
 
+    def drop_base(self):
+        """
+        Delete all articles
+        """
+        utils.drop_base()
+        return self.management()
+
+    drop_base.exposed = True
+
+
     def export(self, export_method):
         """
         Export articles stored in the SQLite database in text files.
@@ -905,8 +915,8 @@ class Root:
         try:
             print "Watching %s" % utils.sqlite_base
             while True:
-                time.sleep(2)
-                # very simple test
+                time.sleep(1)
+                # simple test (date of last modification: getmtime)
                 if os.path.getmtime(utils.sqlite_base) != old_time:
                     print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
                     self.update()
