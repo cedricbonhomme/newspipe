@@ -6,6 +6,7 @@ based on CherryPy. Articles are stored in a SQLite base.
 
 ==== Features ====
 * notification of new articles by e-mail for selected feeds;
+* export articles (HTML and raw text);
 * mark or unmark an article as favorites;
 * share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
 * language detection and search articles by language;
@@ -16,9 +17,10 @@ based on CherryPy. Articles are stored in a SQLite base.
 ==== Requierements ====
 === Software required ===
 
-* Python (tested with 2.4 to 2.7)
+* Python 2.7.*
+* SQLite
+* feedparser (http://feedparser.org/)
 * CherryPy (version 3 and up)
-* sqlite
 * BeautifulSoup
 
 
@@ -26,9 +28,9 @@ based on CherryPy. Articles are stored in a SQLite base.
 These modules are not required but provides better features.
 These modules are:
 * oice.langdet
-* matplotlib
 * gamin.
 If you want to install these modules:
+
 
 == Language detection ==
 Name: oice.langdet
@@ -39,14 +41,6 @@ http://pypi.python.org/pypi/oice.langdet/
 Download the archive, decompress, go to the folder and type:
 python setup.py install
 
-
-== Histogram ==
-Name: matplotlib
-
-Installation:
-aptitude install python-matplotlib
-
-
 == Advanced monitoring ==
 Name: Gamin
 Enable a better monitoring of the base of feeds.
@@ -55,6 +49,7 @@ Installation:
 aptitude install python-gamin
 
 http://people.gnome.org/~veillard/gamin/python.html
+
 
 
 ==== License ====
