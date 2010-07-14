@@ -125,6 +125,9 @@ class FeedGetter(object):
             except sqlite3.IntegrityError:
                 # article already in the base
                 pass
+            except:
+                # Missing information (updated_parsed, ...)
+                pass
 
 
 if __name__ == "__main__":
