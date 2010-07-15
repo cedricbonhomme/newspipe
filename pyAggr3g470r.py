@@ -155,13 +155,14 @@ class Root:
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += "</div>\n"
+
         return html
 
     def create_list_of_feeds(self):
         """
         Create the list of feeds.
         """
-        html = """Your feeds (%s):<br />\n""" % len(self.articles.keys())
+        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(self.articles.keys())
         for rss_feed_id in self.feeds.keys():
             if self.feeds[rss_feed_id][1] != 0:
                 # not readed articles are in bold
@@ -170,14 +171,15 @@ class Root:
             else:
                 not_read_begin = ""
                 not_read_end = ""
-            html += """<a href="/#%s">%s</a> (<a href="/unread/%s"
-                    title="Unread article(s)">%s%s%s</a> / %s)<br />\n""" % \
+            html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s"
+                    title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
                             (rss_feed_id.encode('utf-8'), \
                             self.feeds[rss_feed_id][3].encode('utf-8'), \
                             rss_feed_id, not_read_begin, \
                             self.feeds[rss_feed_id][1], not_read_end, \
                             self.feeds[rss_feed_id][0])
-        return html
+
+        return "</div>" + html
 
 
     def management(self, word_size=6):
