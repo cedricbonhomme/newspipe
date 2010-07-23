@@ -18,6 +18,7 @@ from cherrypy.lib.static import serve_file
 
 import utils
 import feedgetter
+import PyQRNative
 
 bindhost = "0.0.0.0"
 
@@ -48,7 +49,9 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
         '/css/img/email.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'css/img/email.png'}, \
         '/css/img/cross.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/cross.png'}}
+                'tools.staticfile.filename':utils.path+'css/img/cross.png'}, \
+        '/var/qrcode': {'tools.staticdir.on': True,
+                'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 
 htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
             '<head>' + \
@@ -359,6 +362,14 @@ class Root:
         for article in articles_list:
             if article_id == article[0]:
 
+                if not os.path.isfile("./var/qrcode/"+article_id+".png"):
+                    # QR code generation
+                    qr = PyQRNative.QRCode(5, PyQRNative.QRErrorCorrectLevel.L)
+                    qr.addData(article[3])
+                    qr.make()
+                    im = qr.makeImage()
+                    im.save("./var/qrcode/"+article_id+".png", format='png')
+
                 if article[5] == "0":
                     self.mark_as_read("Article:"+article[3]) # update the database
 
@@ -422,6 +433,9 @@ class Root:
 
                 html += """<br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>""" % \
                                 (article[3].encode('utf-8'),)
+
+                html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
+                                (article_id,)
                 break
         html += "<hr />\n" + htmlfooter
         return html
