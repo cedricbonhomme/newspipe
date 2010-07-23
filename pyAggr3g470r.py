@@ -362,13 +362,21 @@ class Root:
         for article in articles_list:
             if article_id == article[0]:
 
+                try:
+                    os.makedirs("./var/qrcode/")
+                except OSError:
+                    pass
                 if not os.path.isfile("./var/qrcode/"+article_id+".png"):
                     # QR code generation
-                    qr = PyQRNative.QRCode(5, PyQRNative.QRErrorCorrectLevel.L)
-                    qr.addData(article[3])
-                    qr.make()
-                    im = qr.makeImage()
-                    im.save("./var/qrcode/"+article_id+".png", format='png')
+                    try:
+                        qr = PyQRNative.QRCode(15, PyQRNative.QRErrorCorrectLevel.L)
+                        qr.addData(article[3])
+                        qr.make()
+                        im = qr.makeImage()
+                        im.save("./var/qrcode/"+article_id+".png", format='png')
+                    except Exception, e:
+                        # Code length overflow
+                        print e
 
                 if article[5] == "0":
                     self.mark_as_read("Article:"+article[3]) # update the database

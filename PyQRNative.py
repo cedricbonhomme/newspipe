@@ -278,9 +278,9 @@ class QRCode:
 
         if (buffer.getLengthInBits() > totalDataCount * 8):
             raise Exception("code length overflow. ("
-                + buffer.getLengthInBits()
+                + str(buffer.getLengthInBits())
                 + ">"
-                +  totalDataCount * 8
+                +  str(totalDataCount * 8)
                 + ")")
 
         #// end code
