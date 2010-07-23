@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.6 $"
-__date__ = "$Date: 2010/07/08 $"
+__version__ = "$Revision: 1.7 $"
+__date__ = "$Date: 2010/07/23 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -369,7 +369,7 @@ class Root:
                 if not os.path.isfile("./var/qrcode/"+article_id+".png"):
                     # QR code generation
                     try:
-                        qr = PyQRNative.QRCode(15, PyQRNative.QRErrorCorrectLevel.L)
+                        qr = PyQRNative.QRCode(6, PyQRNative.QRErrorCorrectLevel.L)
                         qr.addData(article[3])
                         qr.make()
                         im = qr.makeImage()
