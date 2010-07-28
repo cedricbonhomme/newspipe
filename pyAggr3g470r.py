@@ -53,12 +53,13 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
         '/var/qrcode': {'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 
-htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
-            '<head>' + \
-            '\n\t<title>pyAggr3g470r - RSS Feed Reader</title>\n' + \
-            '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
-            '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
-            '</head>\n'
+def htmlheader(nb_unread_articles=""):
+    return '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
+        '<head>' + \
+        '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - RSS Feed Reader</title>\n' + \
+        '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
+        '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
+        '</head>\n'
 
 htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
             ' redistribute the source code according to the' + \
@@ -77,7 +78,9 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        html = htmlheader
+        html = htmlheader((self.nb_unread_articles and \
+                            ['(' + str(self.nb_unread_articles) +') '] or \
+                            [""])[0])
         html += htmlnav
         html += self.create_right_menu()
         html += """<div class="left inner">\n"""
@@ -189,7 +192,7 @@ class Root:
         """
         Management of articles.
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
@@ -279,7 +282,7 @@ class Root:
         feed_id = None
         if param == "Feed":
             feed_id, _, querystring = value.partition(':')
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
 
@@ -356,7 +359,7 @@ class Root:
             articles_list = self.articles[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         for article in articles_list:
@@ -459,7 +462,7 @@ class Root:
             articles_list = self.articles[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
@@ -505,7 +508,7 @@ class Root:
         """
         Display all unread articles of a feed.
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         if feed_id == "All":
@@ -549,7 +552,7 @@ class Root:
         """
         if lang not in ['english', 'french', 'other']:
             return self.error_page('This language is not supported.')
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += """<h1>Article(s) written in %s</h1>\n<br />\n""" % (lang,)
@@ -585,7 +588,7 @@ class Root:
             articles_list = self.articles[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         feed_id, article_id = target.split(':')
@@ -609,7 +612,7 @@ class Root:
         """
         Display a message (bad feed id, bad article id, etc.)
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += """%s""" % message
@@ -659,7 +662,7 @@ class Root:
         """
         List all active e-mail notifications.
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
@@ -745,7 +748,7 @@ class Root:
         """
         List of favorites articles
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>Your favorites articles</h1>"
@@ -769,7 +772,7 @@ class Root:
         """
         Add a new feed with the URL of a page.
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         # search the feed in the HTML page with BeautifulSoup
@@ -797,7 +800,7 @@ class Root:
         """
         Remove a feed from the file feed.lst and from the SQLite base.
         """
-        html = htmlheader
+        html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         if feed_id in self.feeds.keys():
@@ -864,7 +867,7 @@ class Root:
                     if export_method == "export_HTML":
                         name = folder + "/" + article[1]+ ".html"
                         f = open(name.replace(' ', '_'), "w")
-                        content = htmlheader
+                        content = htmlheader()
                         content += "<h1>" + article[2].encode('utf-8') + "</h1><br />"
                         content += article[4].encode('utf-8')
                         content += "<hr />\n"
