@@ -11,10 +11,7 @@ import os
 import time
 import sqlite3
 import cherrypy
-import operator
 import threading
-
-from cherrypy.lib.static import serve_file
 
 import utils
 import feedgetter
@@ -245,12 +242,12 @@ class Root:
 
             html += "Minimum size of a word: "
             html += """<form method=get action="/management/"><select name="word_size">\n"""
-            for size in range(1,16):
+            for size in range(1, 16):
                 if size == int(word_size):
                     select = " selected='selected'"
                 else:
                     select = ""
-                html += """\t<option value="%s" %s>%s</option>\n""" % (size, select,size)
+                html += """\t<option value="%s" %s>%s</option>\n""" % (size, select, size)
             html += """</select><input type="submit" value="OK"></form>\n"""
             html += "<br /><h3>Tag cloud</h3>\n"
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
@@ -805,7 +802,7 @@ class Root:
         html += """<div class="left inner">"""
         if feed_id in self.feeds.keys():
             utils.remove_feed(self.feeds[feed_id][4])
-            html+= """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
+            html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
                 (self.feeds[feed_id][3].encode('utf-8'),)
         else:
             return self.error_page("This feed do not exists.")
