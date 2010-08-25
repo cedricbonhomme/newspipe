@@ -22,31 +22,31 @@ bindhost = "0.0.0.0"
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
 path = {'/css/style.css': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/style.css'}, \
+                'tools.staticfile.filename':utils.path+'/css/style.css'}, \
         '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/feed-icon-28x28.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/feed-icon-28x28.png'}, \
         '/css/img/tuxrss.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/tuxrss.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/tuxrss.png'}, \
         '/css/img/delicious.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/delicious.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/delicious.png'}, \
         '/css/img/digg.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/digg.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/digg.png'}, \
         '/css/img/reddit.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/reddit.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/reddit.png'}, \
         '/css/img/scoopeo.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/scoopeo.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/scoopeo.png'}, \
         '/css/img/blogmarks.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/blogmarks.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/blogmarks.png'}, \
         '/css/img/buzz.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/buzz.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/buzz.png'}, \
         '/css/img/heart.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/heart.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/heart_open.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/heart_open.png'}, \
         '/css/img/email.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/email.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/email.png'}, \
         '/css/img/cross.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'css/img/cross.png'}, \
+                'tools.staticfile.filename':utils.path+'/css/img/cross.png'}, \
         '/var/qrcode': {'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 

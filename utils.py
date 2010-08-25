@@ -43,7 +43,7 @@ import os
 import ConfigParser
 config = ConfigParser.RawConfigParser()
 config.read("./cfg/pyAggr3g470r.cfg")
-path = config.get('global','path')
+path = os.path.abspath(".")
 sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')

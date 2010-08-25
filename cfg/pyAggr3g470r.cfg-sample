@@ -1,5 +1,4 @@
 [global]
-path = /home/cedric/prog/python/projects/pyaggr3g470r/
 sqlitebase = ./var/feed.db
 [mail]
 mail_from = pyAggr3g470r@mail.com
