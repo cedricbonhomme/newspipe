@@ -853,7 +853,7 @@ class Root:
         Export articles stored in the SQLite database in text files.
         """
         for rss_feed_id in self.feeds.keys():
-            folder = utils.path + "var/export/" + self.feeds[rss_feed_id][3]
+            folder = utils.path + "/var/export/" + self.feeds[rss_feed_id][3]
             folder = folder.replace(' ', '_')
             try:
                 os.makedirs(folder)
