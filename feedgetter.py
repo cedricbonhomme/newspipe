@@ -100,10 +100,14 @@ class FeedGetter(object):
                 # feed already in the base
                 pass
         for article in a_feed['entries']:
+            description = ""
             try:
-                description = article.description.encode('utf-8')
-            except Exception, e:
-                description = ""
+                description = article.content[0].value.encode('utf-8')
+            except AttributeError:
+                try:
+                    description = article.description.encode('utf-8')
+                except Exception, e:
+                    description = ""
 
             try:
                 self.c.execute('insert into articles values (?,?,?,?,?,?,?)', (\
