@@ -20,6 +20,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 import urllib2
+import BaseHTTPServer
 from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
@@ -57,6 +58,24 @@ url_finders = [ \
     re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+"), \
 ]
+
+def detect_url_errors(list_of_urls):
+    """
+    Detect URL errors.
+    """
+    errors = []
+    for url in list_of_urls:
+        req = urllib2.Request(url)
+        try:
+            urllib2.urlopen(req)
+        except urllib2.HTTPError, e:
+            # server couldn't fulfill the request
+           errors.append((url, e.code, \
+                BaseHTTPServer.BaseHTTPRequestHandler.responses[e.code][1]))
+        except urllib2.URLError, e:
+            # failed to reach the server
+            errors.append((url, e.reason.errno ,e.reason.strerror))
+    return errors
 
 def detect_language(text):
     """
