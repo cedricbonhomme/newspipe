@@ -2,8 +2,8 @@
 #-*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.9 $"
-__date__ = "$Date: 2010/09/02 $"
+__version__ = "$Revision: 2.0 $"
+__date__ = "$Date: 2010/09/03 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -310,11 +310,24 @@ class Root:
                             not_read_end
         else:
             for rss_feed_id in self.articles.keys():
+                new_feed_section = True
                 for article in self.articles[rss_feed_id]:
                     article_content = utils.clear_string(article[4].encode('utf-8'))
                     if not article_content:
                         utils.clear_string(article[2].encode('utf-8'))
                     if querystring.lower() in article_content.lower():
+                        if new_feed_section is True:
+                            new_feed_section = False
+                            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                            target="_blank">%s</a></a>
+                            <a href="%s" rel="noreferrer"
+                            target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                (rss_feed_id, \
+                                self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                self.feeds[rss_feed_id][4].encode('utf-8'), \
+                                self.feeds[rss_feed_id][2].encode('utf-8'))
+
                         if article[5] == "0":
                             # not readed articles are in bold
                             not_read_begin = "<b>"
