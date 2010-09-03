@@ -69,10 +69,11 @@ class FeedGetter(object):
         self.conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
         self.c = self.conn.cursor()
 
-        # Add the articles in the base.
-        self.add_into_sqlite(the_good_url)
+        if utils.detect_url_errors([the_good_url]) == []:
+            # if ressource is available add the articles in the base.
+            self.add_into_sqlite(the_good_url)
 
-        self.conn.commit()
+            self.conn.commit()
         self.c.close()
 
         # Release this part of code.
