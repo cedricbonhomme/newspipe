@@ -598,6 +598,7 @@ class Root:
 
         timeline = Counter()
         for rss_feed_id in self.feeds.keys():
+            new_feed_section = True
             for article in self.articles[rss_feed_id]:
 
                 if querystring == "all":
@@ -622,6 +623,18 @@ class Root:
                                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
+
+                                if new_feed_section is True:
+                                    new_feed_section = False
+                                    html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                                    target="_blank">%s</a></a>
+                                    <a href="%s" rel="noreferrer"
+                                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                        (rss_feed_id, \
+                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][4].encode('utf-8'), \
+                                        self.feeds[rss_feed_id][2].encode('utf-8'))
 
                                 html += article[1].encode('utf-8') + \
                                         " - " + not_read_begin + \
