@@ -15,6 +15,7 @@ import hashlib
 import sqlite3
 import operator
 import urlparse
+import calendar
 
 import smtplib
 from email.mime.text import MIMEText
@@ -120,14 +121,22 @@ def top_words(dic_articles, n=10, size=5):
         words[word] += 1
     return words.most_common(n)
 
-def tag_cloud(tags):
+def tag_cloud(tags, query="word_count"):
     """
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
-    return ' '.join([('<font size="%d"><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
+    if query == "word_count":
+        return ' '.join([('<font size="%d"><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, count, word)) \
                         for (word, count) in tags])
+    if query == "year":
+        return ' '.join([('<font size="%d"><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
+                        (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, word)) \
+                            for (word, count) in tags])
+    return ' '.join([('<font size="%d"><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
+                        (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, calendar.month_name[int(word)])) \
+                            for (word, count) in tags])
 
 def send_mail(mfrom, mto, feed_title, message):
     """Send the warning via mail

@@ -145,7 +145,7 @@ hr {
 }
 
 /* Navigation bars */
-.nav_container { position:fixed; top:200px; right:60px; margin:0px; padding:0px; white-space:nowrap; z-index:11; clear:both;}
+.nav_container { position:fixed; top:220px; right:60px; margin:0px; padding:0px; white-space:nowrap; z-index:11; clear:both;}
 .nav_container.horizontal { position:absolute; white-space:normal; z-index:25; width:670px; }
 .nav_container.horizontal div { float:right; padding-right:10px; }
 

@@ -11,7 +11,10 @@ import os
 import time
 import sqlite3
 import cherrypy
+import calendar
 import threading
+
+from collections import Counter
 
 import utils
 import feedgetter
@@ -151,6 +154,7 @@ class Root:
         """
         html = """<div class="right inner">\n"""
         html += """<a href="/management/">Management</a><br />\n"""
+        html += """<a href="/history/">History</a><br />\n"""
         html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
         html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
@@ -571,6 +575,74 @@ class Root:
         return html
 
     language.exposed = True
+
+
+    def history(self, querystring="all"):
+        """
+        History
+        """
+        html = htmlheader()
+        html += htmlnav
+        html += """<div class="left inner">\n"""
+
+        if querystring == "all":
+            html += "<h1>Chose a year</h1></br >\n"
+        if "year" in querystring:
+            the_year = querystring.split('-')[0].split(':')[1]
+        if "month" in querystring:
+            the_month = querystring.split('-')[1].split(':')[1]
+            html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
+                    ", "+ the_year +".</h1><br />\n"
+
+        timeline = Counter()
+        for rss_feed_id in self.feeds.keys():
+            for article in self.articles[rss_feed_id]:
+
+                if querystring == "all":
+                    timeline[article[1].encode('utf-8').split(' ')[0].split('-')[0]] += 1
+
+                elif querystring[:4] == "year":
+
+                    if article[1].encode('utf-8').split(' ')[0].split('-')[0] == the_year:
+                        timeline[article[1].encode('utf-8').split(' ')[0].split('-')[1]] += 1
+
+                        if "month" in querystring:
+                            if article[1].encode('utf-8').split(' ')[0].split('-')[1] == the_month:
+                                if article[5] == "0":
+                                    # not readed articles are in bold
+                                    not_read_begin = "<b>"
+                                    not_read_end = "</b>"
+                                else:
+                                    not_read_begin = ""
+                                    not_read_end = ""
+
+                                if article[7] == "1":
+                                    like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                                else:
+                                    like = ""
+
+                                html += article[1].encode('utf-8') + \
+                                        " - " + not_read_begin + \
+                                        """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                                (rss_feed_id, article[0].encode('utf-8'), \
+                                                utils.clear_string(article[2].encode('utf-8'))) + \
+                                        not_read_end + like + \
+                                        "<br />\n"
+
+        if querystring == "all":
+            query = "year"
+        elif "year" in querystring:
+            query = "year:" + the_year + "-month"
+        if "month" not in querystring:
+            html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
+                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], \
+                                            query) + '</div>'
+
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    history.exposed = True
 
 
     def plain_text(self, target):
