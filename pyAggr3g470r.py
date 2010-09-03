@@ -515,15 +515,25 @@ class Root:
         if feed_id == "All":
             html += "<h1>Unread article(s)</h1>"
             for rss_feed_id in self.feeds.keys():
+                new_feed_section = True
                 for article in self.articles[rss_feed_id]:
                     if article[5] == "0":
+                        if new_feed_section is True:
+                            new_feed_section = False
+                            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                            target="_blank">%s</a></a>
+                            <a href="%s" rel="noreferrer"
+                            target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                (rss_feed_id, \
+                                self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                self.feeds[rss_feed_id][4].encode('utf-8'), \
+                                self.feeds[rss_feed_id][2].encode('utf-8'))
+
                         html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
-                                from <i><a href="%s">%s</a></i><br />\n""" % \
+                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a><br />\n""" % \
                                         (rss_feed_id, article[0].encode('utf-8'), \
-                                        article[2].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][3].encode('utf-8'))
+                                        article[2].encode('utf-8'))
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         else:
             try:
@@ -837,14 +847,24 @@ class Root:
         html += """<div class="left inner">"""
         html += "<h1>Your favorites articles</h1>"
         for rss_feed_id in self.feeds.keys():
+            new_feed_section = True
             for article in self.articles[rss_feed_id]:
                 if article[7] == "1":
+                    if new_feed_section is True:
+                        new_feed_section = False
+                        html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                        target="_blank">%s</a></a>
+                        <a href="%s" rel="noreferrer"
+                        target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                            (rss_feed_id, \
+                            self.feeds[rss_feed_id][5].encode('utf-8'), \
+                            self.feeds[rss_feed_id][3].encode('utf-8'), \
+                            self.feeds[rss_feed_id][4].encode('utf-8'), \
+                            self.feeds[rss_feed_id][2].encode('utf-8'))
+
                     html += article[1].encode('utf-8') + \
-                            """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
-                            from <i><a href="%s">%s</a></i><br />\n""" % \
-                                    (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][3].encode('utf-8'))
+                            """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a><br />\n""" % \
+                                    (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'))
         html += "<hr />\n"
         html += htmlfooter
         return html
