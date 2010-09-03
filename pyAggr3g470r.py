@@ -589,6 +589,8 @@ class Root:
             html += "<h1>Chose a year</h1></br >\n"
         if "year" in querystring:
             the_year = querystring.split('-')[0].split(':')[1]
+            if "month" not in querystring:
+                html += "<h1>Chose a month for " + the_year + "</h1></br >\n"
         if "month" in querystring:
             the_month = querystring.split('-')[1].split(':')[1]
             html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
