@@ -527,6 +527,7 @@ class Root:
         html += """<div class="left inner">"""
         if feed_id == "All":
             html += "<h1>Unread article(s)</h1>"
+            html += """\n<br />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n<hr />\n"""
             for rss_feed_id in self.feeds.keys():
                 new_feed_section = True
                 nb_unread = 0
@@ -551,7 +552,7 @@ class Root:
                                         article[2].encode('utf-8'))
 
                         if nb_unread == self.feeds[rss_feed_id][1]:
-                            html += """<br /><a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % \
+                            html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
                                         (rss_feed_id,)
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         else:
