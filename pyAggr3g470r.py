@@ -529,8 +529,10 @@ class Root:
             html += "<h1>Unread article(s)</h1>"
             for rss_feed_id in self.feeds.keys():
                 new_feed_section = True
+                nb_unread = 0
                 for article in self.articles[rss_feed_id]:
                     if article[5] == "0":
+                        nb_unread += 1
                         if new_feed_section is True:
                             new_feed_section = False
                             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -547,6 +549,10 @@ class Root:
                                 """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a><br />\n""" % \
                                         (rss_feed_id, article[0].encode('utf-8'), \
                                         article[2].encode('utf-8'))
+
+                        if nb_unread == self.feeds[rss_feed_id][1]:
+                            html += """<br /><a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % \
+                                        (rss_feed_id,)
             html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         else:
             try:
