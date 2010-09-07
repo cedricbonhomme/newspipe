@@ -398,6 +398,7 @@ class Root:
                 if article[5] == "0":
                     self.mark_as_read("Article:"+article[3]) # update the database
 
+                html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
                                 (article[2].encode('utf-8'), feed_id, \
                                 self.feeds[feed_id][3].encode('utf-8'))
@@ -415,7 +416,7 @@ class Root:
                     html += description
                 else:
                     html += "No description available."
-                html += "\n<hr />\n"
+                html += "\n</div>\n<hr />\n"
                 html += """This article seems to be written in <a href="/language/%s">%s</a>.\n""" % \
                                 (article[6], article[6])
                 html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
