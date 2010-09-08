@@ -234,15 +234,10 @@ class Root:
             self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
-                nb_french = 0
-                nb_english = 0
+                counter = Counter()
                 for rss_feed_id in self.articles.keys():
                     for article in self.articles[rss_feed_id]:
-                        if article[6] == 'french':
-                            nb_french += 1
-                        elif article[6] == 'english':
-                            nb_english += 1
-                nb_other = self.nb_articles - nb_french - nb_english
+                        counter[article[6]] += 1
 
             html += "Minimum size of a word: "
             html += """<form method=get action="/management/"><select name="word_size">\n"""
@@ -262,9 +257,9 @@ class Root:
                 html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
             else:
                 html += "<ul>\n"
-                for language in ['english', 'french', 'other']:
+                for language in ['english', 'french']:
                     html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
-                                    (locals()["nb_"+language], language, language)
+                                    (counter[language], language, language)
                 html += "</ul>\n<br />"
 
             html += "<hr />\n"

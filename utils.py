@@ -17,6 +17,12 @@ import operator
 import urlparse
 import calendar
 
+try:
+    # for high performance on list
+    from blist import *
+except:
+    pass
+
 import smtplib
 from email.mime.text import MIMEText
 
@@ -294,6 +300,7 @@ def load_feed():
             feed_id = sha1_hash.hexdigest()
 
             if list_of_articles != []:
+                list_of_articles.sort(lambda x,y: compare(y[0], x[0]))
                 for article in list_of_articles:
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
@@ -311,14 +318,12 @@ def load_feed():
                         article[2], article[3], article[4], language, article[6]]
 
                     if feed_id not in articles:
-                        articles[feed_id] = [article_list]
+                        try:
+                            articles[feed_id] = blist([article_list])
+                        except Exception:
+                            articles[feed_id] = [article_list]
                     else:
                         articles[feed_id].append(article_list)
-
-
-                # sort articles by date for each feeds
-                for rss_feed_id in articles.keys():
-                    articles[rss_feed_id].sort(lambda x,y: compare(y[1], x[1]))
 
                 feeds[feed_id] = (len(articles[feed_id]), \
                                 len([article for article in articles[feed_id] \
