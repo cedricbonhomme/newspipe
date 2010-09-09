@@ -419,40 +419,45 @@ class Root:
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                 (article[3].encode('utf-8'),)
                 # Share this article:
-                # on Buzz
-                html += """<a href="http://www.google.com/buzz/post?url=%s&message=%s"
+                # on Google Buzz
+                html += """\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on delicious
-                html += """<a href="http://delicious.com/post?url=%s&title=%s"
+                html += """\n<a href="http://delicious.com/post?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on Digg
-                html += """<a href="http://digg.com/submit?url=%s&title=%s"
+                html += """\n<a href="http://digg.com/submit?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on reddit
-                html += """<a href="http://reddit.com/submit?url=%s&title=%s"
+                html += """\n<a href="http://reddit.com/submit?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on Scoopeo
-                html += """<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                html += """\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
                         <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on Blogmarks
-                html += """<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                html += """\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n
-                        <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
+                        <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
-                html += """<br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>""" % \
+                # on Twitter
+                html += """\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+
+                # on Google Buzz with counter
+                html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n""" % \
                                 (article[3].encode('utf-8'),)
 
                 html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
