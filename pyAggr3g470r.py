@@ -42,6 +42,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/blogmarks.png'}, \
         '/css/img/buzz.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/buzz.png'}, \
+        '/css/img/identica.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/identica.png'}, \
         '/css/img/heart.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
@@ -419,6 +421,10 @@ class Root:
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                 (article[3].encode('utf-8'),)
                 # Share this article:
+                # on Identi.ca
+                html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" width="20" height="20"></a> &nbsp;&nbsp; \n""" % \
+                                (article[2].encode('utf-8'), article[3].encode('utf-8'))
+
                 # on Google Buzz
                 html += """\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                         rel="noreferrer" target="_blank">\n
@@ -457,7 +463,7 @@ class Root:
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on Google Buzz with counter
-                html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n""" % \
+                html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'),)
 
                 html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
