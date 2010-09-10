@@ -422,44 +422,44 @@ class Root:
                                 (article[3].encode('utf-8'),)
                 # Share this article:
                 # on Identi.ca
-                html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" width="20" height="20"></a> &nbsp;&nbsp; \n""" % \
+                html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                                 (article[2].encode('utf-8'), article[3].encode('utf-8'))
 
                 # on Google Buzz
-                html += """\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on delicious
-                html += """\n<a href="http://delicious.com/post?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on Digg
-                html += """\n<a href="http://digg.com/submit?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on reddit
-                html += """\n<a href="http://reddit.com/submit?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on Scoopeo
-                html += """\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                 # on Blogmarks
-                html += """\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n
+                html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                        rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on Twitter
-                html += """\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
+                html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
 
                 # on Google Buzz with counter
