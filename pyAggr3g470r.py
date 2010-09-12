@@ -1086,12 +1086,15 @@ class Root:
 
 if __name__ == '__main__':
     # Point of entry in execution mode
+    print "Launching pyAggr3g470r..."
     LOCKER = threading.Lock()
     root = Root()
     if not os.path.isfile(utils.sqlite_base):
         # create the SQLite base if not exists
+        print "Creating data base..."
         utils.create_base()
     # load the informations from base in memory
+    print "Loading informations from data base..."
     root.update()
     # launch the available base monitoring method (gamin or classic)
     try:
