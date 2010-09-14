@@ -383,7 +383,7 @@ class Root:
                 if not os.path.isfile("./var/qrcode/"+article_id+".png"):
                     # QR code generation
                     try:
-                        qr = PyQRNative.QRCode(6, PyQRNative.QRErrorCorrectLevel.L)
+                        qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
                         qr.addData(article[3])
                         qr.make()
                         im = qr.makeImage()
