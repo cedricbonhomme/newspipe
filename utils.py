@@ -16,6 +16,7 @@ import sqlite3
 import operator
 import urlparse
 import calendar
+import htmlentitydefs
 
 try:
     # for high performance on list
@@ -108,9 +109,32 @@ def clear_string(data):
     and consecutive white spaces (more that one).
     """
     p = re.compile(r'<[^<]*?/?>')
-    q = re.compile(r'&#[0-9]+;')
-    r = re.compile(r'\s')
-    return p.sub('', q.sub('', r.sub(' ', data)))
+    q = re.compile(r'\s')
+    return p.sub('', q.sub(' ', data))
+
+def unescape(text):
+    """
+    Removes HTML or XML character references and entities from a text string.
+    """
+    def fixup(m):
+        text = m.group(0)
+        if text[:2] == "&#":
+            # character reference
+            try:
+                if text[:3] == "&#x":
+                    return unichr(int(text[3:-1], 16))
+                else:
+                    return unichr(int(text[2:-1]))
+            except ValueError:
+                pass
+        else:
+            # named entity
+            try:
+                text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+            except KeyError:
+                pass
+        return text # leave as is
+    return re.sub("&#?\w+;", fixup, text)
 
 def top_words(dic_articles, n=10, size=5):
     """
@@ -121,7 +145,7 @@ def top_words(dic_articles, n=10, size=5):
         for article in dic_articles[rss_feed_id]:
             words_gen.extend([word.strip(punctuation).lower() \
                             for word in clear_string(article[4].encode('utf-8')).split() \
-                            if len(word) >= size])
+                            if len(word.strip(punctuation)) >= size])
     words = Counter()
     for word in words_gen:
         words[word] += 1
@@ -314,8 +338,9 @@ def load_feed():
                     else:
                         language = "IMPORT_ERROR"
 
-                    article_list = [article_id, article[0], article[1], \
-                        article[2], article[3], article[4], language, article[6]]
+                    article_list = [article_id, article[0], unescape(article[1]), \
+                                    article[2], unescape(article[3]), \
+                                    article[4], language, article[6]]
 
                     if feed_id not in articles:
                         try:

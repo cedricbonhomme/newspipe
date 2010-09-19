@@ -408,9 +408,10 @@ class Root:
                 html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
                                 (feed_id, article_id)
                 html += "<br /><br />"
-                description = article[4].encode('utf-8')
+                description = article[4]
                 if description:
-                    html += description
+                    #html += utils.unescape(description).encode('utf-8')
+                    html += description.encode('utf-8')
                 else:
                     html += "No description available."
                 html += "\n</div>\n<hr />\n"
