@@ -410,7 +410,6 @@ class Root:
                 html += "<br /><br />"
                 description = article[4]
                 if description:
-                    #html += utils.unescape(description).encode('utf-8')
                     html += description.encode('utf-8')
                 else:
                     html += "No description available."
