@@ -24,6 +24,7 @@ bindhost = "0.0.0.0"
 
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
+# static files
 path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/style.css'}, \
         '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
@@ -56,6 +57,10 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 
 def htmlheader(nb_unread_articles=""):
+    """
+    Return the header of the HTML page with the number of unread articles
+    in the 'title' HTML tag..
+    """
     return '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
         '<head>' + \
         '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - RSS Feed Reader</title>\n' + \
@@ -76,6 +81,10 @@ htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/css/i
 
 
 class Root:
+    """
+    Root class.
+    All pages of pyAggr3g470r are described in this class.
+    """
     def index(self):
         """
         Main page containing the list of feeds and articles.
@@ -97,6 +106,8 @@ class Root:
             html += """<a href="/unread/All">Unread article(s): %s</a>\n""" % \
                 (self.nb_unread_articles,)
 
+
+        # The main page display all the feeds.
         for rss_feed_id in self.feeds.keys():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>

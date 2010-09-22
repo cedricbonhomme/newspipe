@@ -9,8 +9,7 @@ based on CherryPy. Articles are stored in a SQLite base.
 * export articles (HTML and raw text);
 * mark or unmark an article as favorites;
 * share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
-* language detection and search articles by language;
-* TuxDroid support (for the notification of unread articles).
+* language detection and search articles by language.
 
 
 

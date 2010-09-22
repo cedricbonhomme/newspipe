@@ -103,15 +103,17 @@ class FeedGetter(object):
         for article in a_feed['entries']:
             description = ""
             try:
+                # article content
                 description = article.content[0].value.encode('utf-8')
             except AttributeError:
                 try:
+                    # article description
                     description = article.description.encode('utf-8')
                 except Exception, e:
                     description = ""
 
             try:
-                self.c.execute('insert into articles values (?,?,?,?,?,?,?)', (\
+                self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         utils.clear_string(article.title.encode('utf-8')), \
                         article.link.encode('utf-8'), \
@@ -123,10 +125,14 @@ class FeedGetter(object):
                                 a_feed.feed.link.encode('utf-8') + "'").fetchall()
                 if result[0][0] == "1":
                     # send the article by e-mail
-                    threading.Thread(None, utils.send_mail, \
-                                        None, (utils.mail_from, utils.mail_to, \
-                                        a_feed.feed.title.encode('utf-8'), description) \
-                                    ).start()
+                    try:
+                        threading.Thread(None, utils.send_mail, \
+                                            None, (utils.mail_from, utils.mail_to, \
+                                            a_feed.feed.title.encode('utf-8'), description) \
+                                        ).start()
+                    except Exception, e:
+                        # SMTP acces denied, to many SMTP connections, etc.
+                        print e
             except sqlite3.IntegrityError:
                 # article already in the base
                 pass

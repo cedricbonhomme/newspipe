@@ -50,6 +50,7 @@ LOCKER = threading.Lock()
 
 import os
 import ConfigParser
+# load the configuration
 config = ConfigParser.RawConfigParser()
 config.read("./cfg/pyAggr3g470r.cfg")
 path = os.path.abspath(".")
@@ -60,6 +61,7 @@ smtp_server = config.get('mail','smtp')
 username =  config.get('mail','username')
 password =  config.get('mail','password')
 
+# regular expression to chech URL
 url_finders = [ \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
@@ -70,6 +72,7 @@ url_finders = [ \
 def detect_url_errors(list_of_urls):
     """
     Detect URL errors.
+    Return a list of error(s).
     """
     errors = []
     for url in list_of_urls:
@@ -108,8 +111,8 @@ def clear_string(data):
     Clear a string by removing HTML tags, HTML special caracters
     and consecutive white spaces (more that one).
     """
-    p = re.compile(r'<[^<]*?/?>')
-    q = re.compile(r'\s')
+    p = re.compile(r'<[^<]*?/?>') # HTML tags
+    q = re.compile(r'\s') # consecutive white spaces
     return p.sub('', q.sub(' ', data))
 
 def unescape(text):
@@ -157,10 +160,12 @@ def tag_cloud(tags, query="word_count"):
     """
     tags.sort(key=operator.itemgetter(0))
     if query == "word_count":
+        # tags cloud from the management page
         return ' '.join([('<font size="%d"><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, count, word)) \
                         for (word, count) in tags])
     if query == "year":
+        # tags cloud for the history
         return ' '.join([('<font size="%d"><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
                         (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, word)) \
                             for (word, count) in tags])
@@ -213,6 +218,7 @@ def add_feed(feed_url):
     if os.path.exists("./var/feed.lst"):
         for line in open("./var/feed.lst", "r"):
             if feed_url in line:
+                # if the feed is already in the file
                 return False
     with open("./var/feed.lst", "a") as f:
         f.write(feed_url + "\n")
@@ -266,10 +272,12 @@ def create_base():
     sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
     conn = sqlite3.connect(sqlite_base, isolation_level = None)
     c = conn.cursor()
+    # table of feeds
     c.execute('''create table if not exists feeds
                 (feed_title text, feed_site_link text, \
                 feed_link text PRIMARY KEY, feed_image_link text,
                 mail text)''')
+    # table of articles
     c.execute('''create table if not exists articles
                 (article_date text, article_title text, \
                 article_link text PRIMARY KEY, article_description text, \
@@ -329,6 +337,7 @@ def load_feed():
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
+                    # check the presence of the module for language detection
                     if "oice" not in IMPORT_ERROR:
                         if article[3] != "":
                             language = detect_language(clear_string(article[3][:80]).encode('utf-8') + \
@@ -338,6 +347,7 @@ def load_feed():
                     else:
                         language = "IMPORT_ERROR"
 
+                    # informations about an article
                     article_list = [article_id, article[0], unescape(article[1]), \
                                     article[2], unescape(article[3]), \
                                     article[4], language, article[6]]
@@ -350,6 +360,7 @@ def load_feed():
                     else:
                         articles[feed_id].append(article_list)
 
+                # informations about a feed
                 feeds[feed_id] = (len(articles[feed_id]), \
                                 len([article for article in articles[feed_id] \
                                     if article[5]=="0"]), \
