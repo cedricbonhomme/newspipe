@@ -49,8 +49,10 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart_open.png'}, \
-        '/css/img/email.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/email.png'}, \
+        '/css/img/email-unread.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/email-unread.png'}, \
+        '/css/img/email-follow.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/email-follow.png'}, \
         '/css/img/cross.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/cross.png'}, \
         '/var/qrcode': {'tools.staticdir.on': True,
@@ -100,10 +102,10 @@ class Root:
             html += """<a href="/list_favorites/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
-            html += """<a href="/list_notification"><img src="/css/img/email.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
+            html += """<a href="/list_notification"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
-            html += """<a href="/unread/All">Unread article(s): %s</a>\n""" % \
+            html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
                 (self.nb_unread_articles,)
 
 
