@@ -105,8 +105,9 @@ class Root:
             html += """<a href="/list_notification"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
-            html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
-                (self.nb_unread_articles,)
+            if self.nb_unread_articles != 0:
+                html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
+                    (self.nb_unread_articles,)
 
 
         # The main page display all the feeds.
