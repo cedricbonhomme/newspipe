@@ -1,10 +1,18 @@
-! Presentation
+.. -*-restructuredtext-*-
+
+===========
+pyAggr3g470r
+============
+
+Presentation
+------------
 pyAggr3g470r is a multi-threaded news aggregator with a web interface
 based on CherryPy. Articles are stored in a SQLite base.
 
 
 
-! Features
+Features
+------------
 * notification of new articles by e-mail for selected feeds;
 * export articles (HTML and raw text);
 * mark or unmark an article as favorites;
@@ -13,7 +21,8 @@ based on CherryPy. Articles are stored in a SQLite base.
 
 
 
-! Requierements
+Requierements
+-------------
 !! Software required
 
 * Python 2.7.*
@@ -51,6 +60,7 @@ http://people.gnome.org/~veillard/gamin/python.html
 
 
 
-! License
+License
+------------
 pyAggr3g470r is under GPLv3 license.
 http://www.gnu.org/licenses/gpl-3.0.txt
