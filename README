@@ -13,48 +13,51 @@ based on CherryPy. Articles are stored in a SQLite base.
 
 Features
 ------------
-- notification of new articles by e-mail for selected feeds;
-- export articles (HTML and raw text);
-- mark or unmark an article as favorites;
-- share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
-- language detection and search articles by language.
+* notification of new articles by e-mail for selected feeds;
+* export articles (HTML and raw text);
+* mark or unmark an article as favorites;
+* share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
+* language detection and search articles by language.
 
 
 
 Requierements
 -------------
-!! Software required
+Software required
+~~~~~~~~~~~~~~~~~
+* Python 2.7.*
+* SQLite
+* feedparser (http://feedparser.org/)
+* CherryPy (version 3 and up)
+* BeautifulSoup
 
-- Python 2.7.*
-- SQLite
-- feedparser (http://feedparser.org/)
-- CherryPy (version 3 and up)
-- BeautifulSoup
 
-
-!! Optional module
+Optional module
+~~~~~~~~~~~~~~~
 These modules are not required but provides better features.
 These modules are:
-- oice.langdet
-- gamin.
+* oice.langdet
+* gamin.
 If you want to install these modules:
 
 
-!!! Language detection
+Language detection
+^^^^^^^^^^^^^^^^^^
 Name: oice.langdet
 Enable the detection of the language of articles.
 
 Installation:
 http://pypi.python.org/pypi/oice.langdet/
 Download the archive, decompress, go to the folder and type:
-   python setup.py install
+python setup.py install
 
-!!! Advanced monitoring
+Advanced monitoring
+^^^^^^^^^^^^^^^^^^^
 Name: Gamin
 Enable a better monitoring of the base of feeds.
 
 Installation:
-   aptitude install python-gamin
+aptitude install python-gamin
 
 http://people.gnome.org/~veillard/gamin/python.html
 
