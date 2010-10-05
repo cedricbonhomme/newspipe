@@ -83,7 +83,7 @@ def htmlheader(nb_unread_articles=""):
     """
     return '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
         '<head>' + \
-        '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - RSS Feed Reader</title>\n' + \
+        '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - News aggregator</title>\n' + \
         '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
         '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
         '</head>\n'
@@ -95,7 +95,7 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
 
 htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/css/img/tuxrss.png"' + \
         """ title="What's new today?"/></a>""" + \
-        '</div><a name="top"><a href="/">pyAggr3g470r - RSS Feed Reader</a></a></h1>\n<a' + \
+        '</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>\n<a' + \
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
         'pyAggr3g470r (source code)</a>'
 
