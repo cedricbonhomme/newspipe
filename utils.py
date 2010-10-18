@@ -162,12 +162,11 @@ def top_words(dic_articles, n=10, size=5):
     Return the n most frequent words in a list.
     """
     words = Counter()
+    wordre = re.compile(r'\b\w{%s,}\b' % size)
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
-            for good_word in [word.strip(punctuation).lower() \
-                            for word in clear_string(article[4].encode('utf-8')).split() \
-                            if len(word.strip(punctuation)) >= size]:
-                words[good_word] += 1
+            for word in wordre.findall(clear_string(article[4].encode('utf-8'))):
+                words[word.lower()] += 1
     return words.most_common(n)
 
 def tag_cloud(tags, query="word_count"):
