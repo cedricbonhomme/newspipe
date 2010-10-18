@@ -564,50 +564,53 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        if feed_id == "All":
-            html += "<h1>Unread article(s)</h1>"
-            html += """\n<br />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n<hr />\n"""
-            for rss_feed_id in self.feeds.keys():
-                new_feed_section = True
-                nb_unread = 0
-                for article in self.articles[rss_feed_id]:
+        if self.nb_unread_articles != 0:
+            if feed_id == "All":
+                html += "<h1>Unread article(s)</h1>"
+                html += """\n<br />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n<hr />\n"""
+                for rss_feed_id in self.feeds.keys():
+                    new_feed_section = True
+                    nb_unread = 0
+                    for article in self.articles[rss_feed_id]:
+                        if article[5] == "0":
+                            nb_unread += 1
+                            if new_feed_section is True:
+                                new_feed_section = False
+                                html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                                target="_blank">%s</a></a>
+                                <a href="%s" rel="noreferrer"
+                                target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                    (rss_feed_id, \
+                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][4].encode('utf-8'), \
+                                    self.feeds[rss_feed_id][2].encode('utf-8'))
+
+                            html += article[1].encode('utf-8') + \
+                                    """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a><br />\n""" % \
+                                            (rss_feed_id, article[0].encode('utf-8'), \
+                                            article[2].encode('utf-8'))
+
+                            if nb_unread == self.feeds[rss_feed_id][1]:
+                                html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
+                                            (rss_feed_id,)
+                html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
+            else:
+                try:
+                    articles_list = self.articles[feed_id]
+                except KeyError:
+                    return self.error_page("This feed do not exists.")
+                html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
+                    <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
+                for article in articles_list:
                     if article[5] == "0":
-                        nb_unread += 1
-                        if new_feed_section is True:
-                            new_feed_section = False
-                            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                            target="_blank">%s</a></a>
-                            <a href="%s" rel="noreferrer"
-                            target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                (rss_feed_id, \
-                                self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                self.feeds[rss_feed_id][3].encode('utf-8'), \
-                                self.feeds[rss_feed_id][4].encode('utf-8'), \
-                                self.feeds[rss_feed_id][2].encode('utf-8'))
-
                         html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a><br />\n""" % \
-                                        (rss_feed_id, article[0].encode('utf-8'), \
-                                        article[2].encode('utf-8'))
-
-                        if nb_unread == self.feeds[rss_feed_id][1]:
-                            html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
-                                        (rss_feed_id,)
-            html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
+                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                        (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                "<br />\n"
+                html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
         else:
-            try:
-                articles_list = self.articles[feed_id]
-            except KeyError:
-                return self.error_page("This feed do not exists.")
-            html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
-                <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
-            for article in articles_list:
-                if article[5] == "0":
-                    html += article[1].encode('utf-8') + \
-                            """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                    (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                            "<br />\n"
-            html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+            html += "<h1>No unread article(s)</h1>"
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
