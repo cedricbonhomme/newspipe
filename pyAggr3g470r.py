@@ -338,7 +338,7 @@ class Root:
                             " - " + not_read_begin + \
                             """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                            not_read_end
+                            not_read_end + """<br />\n"""
         else:
             for rss_feed_id in self.articles.keys():
                 new_feed_section = True
@@ -371,9 +371,7 @@ class Root:
                                 " - " + not_read_begin + \
                                 """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                         (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                                not_read_end + """ from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][3].encode('utf-8'))
+                                not_read_end + """<br />\n"""
         html += "<hr />"
         html += htmlfooter
         return html
