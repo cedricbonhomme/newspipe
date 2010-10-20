@@ -944,7 +944,7 @@ class Root:
         # search the feed in the HTML page with BeautifulSoup
         feed_url = utils.search_feed(url)
         if feed_url is None:
-            self.error_page("Impossible to find a feed at this URL.")
+            return self.error_page("Impossible to find a feed at this URL.")
         # if a feed exists
         else:
             result = utils.add_feed(feed_url)
