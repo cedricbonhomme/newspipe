@@ -26,6 +26,7 @@ __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
+import re
 import time
 import sqlite3
 import cherrypy
@@ -309,6 +310,7 @@ class Root:
         in the description of the article.
         """
         param, _, value = querystring.partition(':')
+        wordre = re.compile(r'\b%s\b' % param.lower())
         feed_id = None
         if param == "Feed":
             feed_id, _, querystring = value.partition(':')
@@ -323,7 +325,7 @@ class Root:
                 article_content = utils.clear_string(article[4].encode('utf-8'))
                 if not article_content:
                     utils.clear_string(article[2].encode('utf-8'))
-                if querystring.lower() in article_content.lower():
+                if wordre.findall(article_content.lower()) != []:
                     if article[5] == "0":
                         # not readed articles are in bold
                         not_read_begin = "<b>"
@@ -344,7 +346,7 @@ class Root:
                     article_content = utils.clear_string(article[4].encode('utf-8'))
                     if not article_content:
                         utils.clear_string(article[2].encode('utf-8'))
-                    if querystring.lower() in article_content.lower():
+                    if wordre.findall(article_content.lower()) != []:
                         if new_feed_section is True:
                             new_feed_section = False
                             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
