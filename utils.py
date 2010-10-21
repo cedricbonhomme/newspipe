@@ -162,7 +162,7 @@ def top_words(dic_articles, n=10, size=5):
     Return the n most frequent words in a list.
     """
     words = Counter()
-    wordre = re.compile(r'\b\w{%s,}\b' % size)
+    wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for rss_feed_id in dic_articles.keys():
         for article in dic_articles[rss_feed_id]:
             for word in wordre.findall(clear_string(article[4].encode('utf-8'))):
