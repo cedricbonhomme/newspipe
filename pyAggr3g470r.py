@@ -1031,35 +1031,37 @@ class Root:
 
     def export(self, export_method):
         """
-        Export articles stored in the SQLite database in text files.
+        Export articles stored in the SQLite database in text
+        (raw or HTML) files.
         """
         for rss_feed_id in self.feeds.keys():
-            folder = utils.path + "/var/export/" + self.feeds[rss_feed_id][3]
-            folder = folder.replace(' ', '_')
+            folder = utils.path + "/var/export/" + \
+                        utils.normalize_filename(self.feeds[rss_feed_id][3].strip().encode("utf-8"))
             try:
                 os.makedirs(folder)
             except OSError:
                 return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
+
             for article in self.articles[rss_feed_id]:
                 try:
+                    name = article[1].strip().replace(' ', '_')
+                    name = os.path.normpath(folder + "/" + name + ".html")
+                    f = open(name, "w")
+
                     # Export all articles in HTML format
                     if export_method == "export_HTML":
-                        name = folder + "/" + article[1]+ ".html"
-                        f = open(name.replace(' ', '_'), "w")
                         content = htmlheader()
                         content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                         content += """<h1><a href="%s">%s</a></h1><br />""" % \
                                     (article[3].encode('utf-8'), article[2].encode('utf-8'))
                         content += article[4].encode('utf-8')
-                        content += "</div>"
-                        content += "<hr />\n"
+                        content += "</div>\n<hr />\n"
                         content += htmlfooter
                     # Export all articles in raw text
                     elif export_method == "export_TXT":
-                        name = folder + "/" + article[1] + ".txt"
-                        f = open(name.replace(' ', '_'), "w")
                         content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
                         content += utils.clear_string(article[4].encode('utf-8'))
+
                     f.write(content)
                 except IOError:
                     pass

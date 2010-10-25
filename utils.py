@@ -34,6 +34,7 @@ import sqlite3
 import operator
 import urlparse
 import calendar
+import unicodedata
 import htmlentitydefs
 
 try:
@@ -156,6 +157,30 @@ def unescape(text):
                 pass
         return text # leave as is
     return re.sub("&#?\w+;", fixup, text)
+
+def not_combining(char):
+    return unicodedata.category(char) != 'Mn'
+
+def strip_accents(text, encoding):
+    """
+    Strip accents.
+
+    >>> print strip_accents("déjà", "utf-8")
+    deja
+    """
+    unicode_text= unicodedata.normalize('NFD', text.decode(encoding))
+    return filter(not_combining, unicode_text).encode(encoding)
+
+def normalize_filename(name):
+    """
+    Normalize a file name.
+    """
+    file_name = re.sub("[,'!?|&]", "", name)
+    file_name = re.sub("[\s.]", "_", file_name)
+    file_name = file_name.strip('_')
+    file_name = file_name.strip('.')
+    file_name = strip_accents(file_name, "utf-8")
+    return os.path.normpath(file_name)
 
 def top_words(dic_articles, n=10, size=5):
     """
