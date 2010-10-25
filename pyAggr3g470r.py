@@ -1045,11 +1045,11 @@ class Root:
             for article in self.articles[rss_feed_id]:
                 try:
                     name = article[1].strip().replace(' ', '_')
-                    f = open(name, "w")
 
                     # Export all articles in HTML format
                     if export_method == "export_HTML":
                         name = os.path.normpath(folder + "/" + name + ".html")
+                        f = open(name, "w")
                         content = htmlheader()
                         content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                         content += """<h1><a href="%s">%s</a></h1><br />""" % \
@@ -1060,6 +1060,7 @@ class Root:
                     # Export all articles in raw text
                     elif export_method == "export_TXT":
                         name = os.path.normpath(folder + "/" + name + ".txt")
+                        f = open(name, "w")
                         content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
                         content += utils.clear_string(article[4].encode('utf-8'))
 
