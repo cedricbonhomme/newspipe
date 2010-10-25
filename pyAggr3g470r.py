@@ -1034,8 +1034,10 @@ class Root:
                         name = folder + "/" + article[1]+ ".html"
                         f = open(name.replace(' ', '_'), "w")
                         content = htmlheader()
+                        content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                         content += "<h1>" + article[2].encode('utf-8') + "</h1><br />"
                         content += article[4].encode('utf-8')
+                        content += "</div>"
                         content += "<hr />\n"
                         content += htmlfooter
                     elif export_method == "export_TXT":
