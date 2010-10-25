@@ -110,6 +110,7 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
+        # if there are unread articles, display the number in the tab
         html = htmlheader((self.nb_unread_articles and \
                             ['(' + str(self.nb_unread_articles) +') '] or \
                             [""])[0])
@@ -152,11 +153,13 @@ class Root:
                     not_read_begin = ""
                     not_read_end = ""
 
+                # display a heart for faved articles
                 if article[7] == "1":
                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
 
+                # title of the article
                 html += article[1].encode('utf-8') + \
                         " - " + not_read_begin + \
                         """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
@@ -165,6 +168,7 @@ class Root:
                         "<br />\n"
             html += "<br />\n"
 
+            # some options for the current feed
             html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (rss_feed_id,)
             html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
             if self.feeds[rss_feed_id][1] != 0:
@@ -195,6 +199,7 @@ class Root:
         html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
         type="submit" value="Search"></form>\n"""
         html += "<hr />\n"
+        # insert the list of feeds in the menu
         html += self.create_list_of_feeds()
         html += "</div>\n"
 
@@ -248,32 +253,37 @@ class Root:
                         (self.nb_favorites, )
 
         html += "<hr />\n"
+
+        # Informations about the data base of articles, export funtions...
         html += """<p>The database contains a total of %s article(s) with
                 <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, self.nb_unread_articles)
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
 
-        html += """<form method=get action="/fetch/">\n<input
-        type="submit" value="Fetch all feeds"></form>\n"""
-        html += """<form method=get action="/drop_base">\n<input
-        type="submit" value="Delete all articles"></form>\n"""
-        html += "<h1>Export articles</h1>"
+        html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
+        html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
+        html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
         html += """</select><input type="submit" value="Export"></form>\n"""
 
-        html += "<hr />\n"
+        html += "<hr />\n\n"
+
+        # Some statistics
         if self.articles:
             self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
+                # counter object to count the number of
+                # french and english articles
                 counter = Counter()
                 for rss_feed_id in self.articles.keys():
                     for article in self.articles[rss_feed_id]:
                         counter[article[6]] += 1
 
+            # Tags cloud
             html += "Minimum size of a word: "
             html += """<form method=get action="/management/"><select name="word_size">\n"""
             for size in range(1, 16):
@@ -286,6 +296,8 @@ class Root:
             html += "<br /><h3>Tag cloud</h3>\n"
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
+
+            # Languages
             html += "<br /><h3>Languages</h3>\n"
             if "oice" in utils.IMPORT_ERROR:
                 html += "Install the module "
@@ -1030,6 +1042,7 @@ class Root:
                 return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
             for article in self.articles[rss_feed_id]:
                 try:
+                    # Export all articles in HTML format
                     if export_method == "export_HTML":
                         name = folder + "/" + article[1]+ ".html"
                         f = open(name.replace(' ', '_'), "w")
@@ -1041,6 +1054,7 @@ class Root:
                         content += "</div>"
                         content += "<hr />\n"
                         content += htmlfooter
+                    # Export all articles in raw text
                     elif export_method == "export_TXT":
                         name = folder + "/" + article[1] + ".txt"
                         f = open(name.replace(' ', '_'), "w")
@@ -1075,7 +1089,6 @@ class Root:
         else:
             print "Base (%s) empty!" % utils.sqlite_base
 
-
     def watch_base(self):
         """Monitor a file.
 
@@ -1099,7 +1112,6 @@ class Root:
         print "Stop watching", sqlite_base
         mon.stop_watch(sqlite_base)
         del mon
-
 
     def watch_base_classic(self):
         """
