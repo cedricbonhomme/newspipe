@@ -1035,7 +1035,8 @@ class Root:
                         f = open(name.replace(' ', '_'), "w")
                         content = htmlheader()
                         content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                        content += "<h1>" + article[2].encode('utf-8') + "</h1><br />"
+                        content += """<h1><a href="%s">%s</a></h1><br />""" % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
                         content += article[4].encode('utf-8')
                         content += "</div>"
                         content += "<hr />\n"
