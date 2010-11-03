@@ -267,6 +267,7 @@ class Root:
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
+        html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
         html += """</select><input type="submit" value="Export"></form>\n"""
 
         html += "<hr />\n\n"
@@ -1036,7 +1037,7 @@ class Root:
         """
         for rss_feed_id in self.feeds.keys():
             folder = utils.path + "/var/export/" + \
-                        utils.normalize_filename(self.feeds[rss_feed_id][3].strip().encode("utf-8"))
+                        utils.normalize_filename(self.feeds[rss_feed_id][3].strip().encode("utf-8").replace(':', '').lower())
             try:
                 os.makedirs(folder)
             except OSError:
@@ -1056,6 +1057,18 @@ class Root:
                                     (article[3].encode('utf-8'), article[2].encode('utf-8'))
                         content += article[4].encode('utf-8')
                         content += "</div>\n<hr />\n"
+                        content += htmlfooter
+                    # Export for dokuwiki
+                    # example: http://wiki.cedricbonhomme.org/doku.php/news-archives
+                    if export_method == "export_dokuwiki":
+                        name = os.path.normpath(folder + "/" + name.replace(':', '-') + ".txt")
+                        f = open(name, "w")
+                        content = "<html>"
+                        content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+                        content += """<h1><a href="%s">%s</a></h1><br />""" % \
+                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                        content += article[4].encode('utf-8')
+                        content += "</div></html>\n<hr />\n"
                         content += htmlfooter
                     # Export all articles in raw text
                     elif export_method == "export_TXT":
