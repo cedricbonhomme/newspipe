@@ -1068,8 +1068,7 @@ class Root:
                         content += """<h1><a href="%s">%s</a></h1><br />""" % \
                                     (article[3].encode('utf-8'), article[2].encode('utf-8'))
                         content += article[4].encode('utf-8')
-                        content += "</div></html>\n<hr />\n"
-                        content += htmlfooter
+                        content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
                     # Export all articles in raw text
                     elif export_method == "export_TXT":
                         name = os.path.normpath(folder + "/" + name + ".txt")
