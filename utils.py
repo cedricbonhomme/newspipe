@@ -392,15 +392,16 @@ def load_feed():
                     else:
                         language = "IMPORT_ERROR"
 
-                    # informations about an article
+                    # informations about the current article
                     article_list = [article_id, article[0], unescape(article[1]), \
                                     article[2], unescape(article[3]), \
                                     article[4], language, article[6]]
 
-
+                    # update the number of favorites articles
                     nb_favorites = nb_favorites + int(article[6])
 
-
+                    # add the informations about the current article
+                    # to the list of articles of the current feed
                     if feed_id not in articles:
                         try:
                             articles[feed_id] = blist([article_list])
