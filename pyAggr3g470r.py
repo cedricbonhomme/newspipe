@@ -274,7 +274,10 @@ class Root:
 
         # Some statistics
         if self.articles:
-            self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
+            if not hasattr(self, 'top_words') or os.path.getmtime(utils.sqlite_base) != self.last_top_words_update:
+                # only when the base has changed for best performance
+                self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
+                self.last_top_words_update = os.path.getmtime(utils.sqlite_base)
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 # counter object to count the number of
