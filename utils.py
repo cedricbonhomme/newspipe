@@ -363,6 +363,11 @@ def load_feed():
         tupleList = [(x[0].lower(), x) for x in list_of_feeds]
         tupleList.sort(key=operator.itemgetter(0))
 
+        nb_articles = 0
+        nb_unread_articles = 0
+        nb_mail_notifications = 0
+        nb_favorites = 0
+
         for feed in [x[1] for x in tupleList]:
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
@@ -392,6 +397,10 @@ def load_feed():
                                     article[2], unescape(article[3]), \
                                     article[4], language, article[6]]
 
+
+                    nb_favorites = nb_favorites + int(article[6])
+
+
                     if feed_id not in articles:
                         try:
                             articles[feed_id] = blist([article_list])
@@ -407,8 +416,12 @@ def load_feed():
                                 feed[3], feed[0], feed[2], feed[1] , feed[4]\
                                 )
 
+                nb_articles += feeds[feed_id][0]
+                nb_unread_articles += feeds[feed_id][1]
+                nb_mail_notifications += int(feeds[feed_id][6])
+
         c.close()
         LOCKER.release()
-        return (articles, feeds)
+        return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
     LOCKER.release()
-    return (articles, feeds)
+    return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)

@@ -1095,7 +1095,10 @@ class Root:
         with the database.
         Called when a changes in the database is detected.
         """
-        self.articles, self.feeds = utils.load_feed()
+        self.articles, self.feeds, \
+        self.nb_articles, self.nb_unread_articles, \
+        self.nb_favorites, self.nb_mail_notifications = utils.load_feed()
+        """
         self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
         self.nb_unread_articles = sum([feed[1] for feed in self.feeds.values()])
         self.nb_mail_notifications = len([feed for feed in self.feeds.values() \
@@ -1103,6 +1106,7 @@ class Root:
         self.nb_favorites = sum([len([article for article in self.articles[feed_id] \
                                 if article[7] == "1"]) \
                                     for feed_id in self.feeds.keys()])
+        """
         if self.articles != {}:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
