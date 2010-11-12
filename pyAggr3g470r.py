@@ -225,8 +225,7 @@ class Root:
                             rss_feed_id, not_read_begin, \
                             self.feeds[rss_feed_id][1], not_read_end, \
                             self.feeds[rss_feed_id][0])
-
-        return "</div>" + html
+        return html + "</div>"
 
 
     def management(self, word_size=6):
