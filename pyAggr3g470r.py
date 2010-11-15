@@ -196,8 +196,7 @@ class Root:
         html += """<a href="/history/">History</a><br />\n"""
         html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
         html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
-        html += """<form method=get action="/q/"><input type="text" name="querystring" value=""><input
-        type="submit" value="Search"></form>\n"""
+        html += """<form method=get action="/q/"><input type="search" name="querystring" value="Search" autofocus></form>\n"""
         html += "<hr />\n"
         # insert the list of feeds in the menu
         html += self.create_list_of_feeds()
@@ -236,7 +235,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
-        html += """<form method=get action="/add_feed/"><input type="text" name="url" value="">\n<input
+        html += """<form method=get action="/add_feed/"><input type="url" name="url" value="" autofocus>\n<input
         type="submit" value="OK"></form>\n"""
 
         if self.articles:
@@ -273,10 +272,7 @@ class Root:
 
         # Some statistics
         if self.articles:
-            if not hasattr(self, 'top_words') or os.path.getmtime(utils.sqlite_base) != self.last_top_words_update:
-                # only when the base has changed for best performance
-                self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
-                self.last_top_words_update = os.path.getmtime(utils.sqlite_base)
+            self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             if "oice" not in utils.IMPORT_ERROR:
                 # counter object to count the number of
@@ -287,16 +283,11 @@ class Root:
                         counter[article[6]] += 1
 
             # Tags cloud
-            html += "Minimum size of a word: "
-            html += """<form method=get action="/management/"><select name="word_size">\n"""
-            for size in range(1, 16):
-                if size == int(word_size):
-                    select = " selected='selected'"
-                else:
-                    select = ""
-                html += """\t<option value="%s" %s>%s</option>\n""" % (size, select, size)
-            html += """</select><input type="submit" value="OK"></form>\n"""
-            html += "<br /><h3>Tag cloud</h3>\n"
+            html += 'Minimum size of a word:'
+            html += '<form method=get action="/management/">'
+            html += '<input type="number" name="word_size" min=0 max="20">'
+            html += '<input type="submit" value="OK"></form>\n'
+            html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
 
@@ -740,7 +731,7 @@ class Root:
                         utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], \
                                             query) + '</div>'
 
-        html += "<hr />\n"
+        html += "<input type='search'>\n<hr />\n"
         html += htmlfooter
         return html
 
