@@ -196,7 +196,7 @@ class Root:
         html += """<a href="/history/">History</a><br />\n"""
         html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
         html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
-        html += """<form method=get action="/q/"><input type="search" name="querystring" value="Search" autofocus></form>\n"""
+        html += """<form method=get action="/q/"><input type="search" name="querystring" value="Search" maxlength='1024' autofocus></form>\n"""
         html += "<hr />\n"
         # insert the list of feeds in the menu
         html += self.create_list_of_feeds()
@@ -235,7 +235,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
-        html += """<form method=get action="/add_feed/"><input type="url" name="url" value="" autofocus>\n<input
+        html += """<form method=get action="/add_feed/"><input type="url" name="url" value="" maxlength='1024' autofocus>\n<input
         type="submit" value="OK"></form>\n"""
 
         if self.articles:
@@ -285,7 +285,7 @@ class Root:
             # Tags cloud
             html += 'Minimum size of a word:'
             html += '<form method=get action="/management/">'
-            html += '<input type="number" name="word_size" min=0 max="20">'
+            html += '<input type="number" name="word_size" value="6" min="0" max="20">'
             html += '<input type="submit" value="OK"></form>\n'
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
@@ -655,7 +655,7 @@ class Root:
     language.exposed = True
 
 
-    def history(self, querystring="all"):
+    def history(self, querystring="all", m=""):
         """
         History
         """
@@ -663,12 +663,17 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
 
+        if m != "":
+            #the_year, the_month = m.split('-')
+            querystring = """year:%s-month:%s""" % tuple(m.split('-'))
+
         if querystring == "all":
-            html += "<h1>Chose a year</h1></br >\n"
+            html += "<h1>Search with tags cloud</h1>\n"
+            html += "<h4>Choose a year</h4></br >\n"
         if "year" in querystring:
             the_year = querystring.split('-')[0].split(':')[1]
             if "month" not in querystring:
-                html += "<h1>Chose a month for " + the_year + "</h1></br >\n"
+                html += "<h1>Choose a month for " + the_year + "</h1></br >\n"
         if "month" in querystring:
             the_month = querystring.split('-')[1].split(':')[1]
             html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
@@ -730,8 +735,9 @@ class Root:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], \
                                             query) + '</div>'
-
-        html += "<input type='search'>\n<hr />\n"
+        html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
+        html += '<form>\n\t<input name="m" type="month">\n\t<input type="submit" value="Go">\n</form>'
+        html += '<hr />'
         html += htmlfooter
         return html
 
