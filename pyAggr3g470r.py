@@ -129,22 +129,22 @@ class Root:
         html += """<div class="left inner">\n"""
 
         if self.articles:
+            html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
+            html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
+            html += '&nbsp;&nbsp;&#124;&nbsp;&nbsp;'
+
             html += """<a href="/list_favorites/"><img src="/css/img/heart-22x22.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
-            html += """<a href="/list_notification"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
+            html += """<a href="/list_notification/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
-
-            html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
-            html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
-            html += '&nbsp;&#124;&nbsp;'
+            html += '&nbsp;&nbsp;&#124;&nbsp;&nbsp;'
             html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
-            html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
             if self.nb_unread_articles != 0:
                 html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
-
+        html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
 
         # The main page display all the feeds.
         for rss_feed_id in self.feeds.keys():
