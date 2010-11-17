@@ -70,10 +70,20 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart_open.png'}, \
         '/css/img/email-unread.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/email-unread.png'}, \
+        '/css/img/heart-22x22.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/heart-22x22.png'}, \
         '/css/img/email-follow.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/email-follow.png'}, \
         '/css/img/cross.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/cross.png'}, \
+        '/css/img/management.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/management.png'}, \
+        '/css/img/history.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/history.png'}, \
+        '/css/img/mark-as-read.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/mark-as-read.png'}, \
+        '/css/img/check-news.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/check-news.png'}, \
         '/var/qrcode': {'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 
@@ -119,12 +129,18 @@ class Root:
         html += """<div class="left inner">\n"""
 
         if self.articles:
-            html += """<a href="/list_favorites/"><img src="/css/img/heart.png" title="Your favorites (%s)" /></a>\n""" % \
+            html += """<a href="/list_favorites/"><img src="/css/img/heart-22x22.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
             html += """<a href="/list_notification"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
+
+            html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
+            html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
+            html += '&nbsp;&#124;&nbsp;'
+            html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
+            html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
             if self.nb_unread_articles != 0:
                 html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
@@ -192,10 +208,6 @@ class Root:
         Create the right menu.
         """
         html = """<div class="right inner">\n"""
-        html += """<a href="/management/">Management</a><br />\n"""
-        html += """<a href="/history/">History</a><br />\n"""
-        html += """<a href="/fetch/">Fetch all feeds</a><br />\n"""
-        html += """<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
         html += """<form method=get action="/q/"><input type="search" name="querystring" value="Search" maxlength='1024' autofocus></form>\n"""
         html += "<hr />\n"
         # insert the list of feeds in the menu
@@ -266,8 +278,7 @@ class Root:
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
         html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
-        html += """</select><input type="submit" value="Export"></form>\n"""
-
+        html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
         html += "<hr />\n\n"
 
         # Some statistics
@@ -285,7 +296,7 @@ class Root:
             # Tags cloud
             html += 'Minimum size of a word:'
             html += '<form method=get action="/management/">'
-            html += '<input type="number" name="word_size" value="6" min="0" max="20">'
+            html += """<input type="number" name="word_size" value="%s" min="2" max="15">""" % (word_size)
             html += '<input type="submit" value="OK"></form>\n'
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
