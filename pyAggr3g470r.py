@@ -131,7 +131,7 @@ class Root:
         if self.articles:
             html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
             html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
-            html += '&nbsp;&nbsp;&#124;&nbsp;&nbsp;'
+            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 
             html += """<a href="/list_favorites/"><img src="/css/img/heart-22x22.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
@@ -139,7 +139,7 @@ class Root:
             html += """<a href="/list_notification/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
-            html += '&nbsp;&nbsp;&#124;&nbsp;&nbsp;'
+            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
             if self.nb_unread_articles != 0:
                 html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
@@ -175,12 +175,20 @@ class Root:
                 else:
                     like = ""
 
-                # title of the article
-                html += article[1].encode('utf-8') + \
-                        " - " + not_read_begin + \
-                        """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')[:150]) + \
-                        not_read_end + like + \
+                # descrition for the CSS ToolTips
+                article_content = utils.clear_string(article[4].encode('utf-8'))
+                if article_content:
+                    description = " ".join(article_content[:500].split(' ')[:-1])
+                else:
+                    description = "No description."
+
+                # a description line per article (date, title of the article and
+                # CSS description tooltips on mouse over)
+                html += article[1].encode('utf-8') + " - " + \
+                        """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                                (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
+                                " ".join(article[2].encode('utf-8')[:150].split(' ')[:-1]), \
+                                not_read_end, description) + like + \
                         "<br />\n"
             html += "<br />\n"
 
