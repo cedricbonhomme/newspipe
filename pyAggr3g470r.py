@@ -187,7 +187,7 @@ class Root:
                 html += article[1].encode('utf-8') + " - " + \
                         """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                 (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
-                                " ".join(article[2].encode('utf-8')[:150].split(' ')[:-1]), \
+                                " ".join(article[2].encode('utf-8')[:400].split(' ')[:-1]), \
                                 not_read_end, description) + like + \
                         "<br />\n"
             html += "<br />\n"
@@ -284,6 +284,7 @@ class Root:
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
+        html += """\t<option value="export_RSS">RSS</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
         html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
@@ -1053,52 +1054,80 @@ class Root:
         Export articles stored in the SQLite database in text
         (raw or HTML) files.
         """
+        if export_method == "export_RSS":
+            content = """<?xml version="1.0" encoding="UTF-8"?>
+                <rss version="2.0"
+                    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+                    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+                    xmlns:dc="http://purl.org/dc/elements/1.1/"
+                    xmlns:atom="http://www.w3.org/2005/Atom"
+                    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+                    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+                    >
+
+                <channel>
+                <title>pyAggr3g470r RSS feed</title>
+                <link>http://</link>
+                <atom:link href="http://" rel="self" type="application/rss+xml" />
+                <description>Cedric Bonhomme feeds</description>
+                <pubDate>%s</pubDate>
+                <lastBuildDate>%s</lastBuildDate>
+                <generator>feeds.cgi</generator>
+
+                """ % (time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()), \
+                        time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
+
         for rss_feed_id in self.feeds.keys():
-            folder = utils.path + "/var/export/" + \
+            if export_method != "export_RSS":
+                folder = utils.path + "/var/export/" + \
                         utils.normalize_filename(self.feeds[rss_feed_id][3].strip().encode("utf-8").replace(':', '').lower())
-            try:
-                os.makedirs(folder)
-            except OSError:
-                return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
+                try:
+                    os.makedirs(folder)
+                except OSError:
+                    return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
 
             for article in self.articles[rss_feed_id]:
-                try:
-                    name = article[1].strip().replace(' ', '_')
+                name = article[1].strip().replace(' ', '_')
 
-                    # Export all articles in HTML format
-                    if export_method == "export_HTML":
-                        name = os.path.normpath(folder + "/" + name + ".html")
-                        f = open(name, "w")
-                        content = htmlheader()
-                        content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                        content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                        content += article[4].encode('utf-8')
-                        content += "</div>\n<hr />\n"
-                        content += htmlfooter
-                    # Export for dokuwiki
-                    # example: http://wiki.cedricbonhomme.org/doku.php/news-archives
-                    if export_method == "export_dokuwiki":
-                        name = os.path.normpath(folder + "/" + name.replace(':', '-') + ".txt")
-                        f = open(name, "w")
-                        content = "<html>"
-                        content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                        content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                    (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                        content += article[4].encode('utf-8')
-                        content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
-                    # Export all articles in raw text
-                    elif export_method == "export_TXT":
-                        name = os.path.normpath(folder + "/" + name + ".txt")
-                        f = open(name, "w")
-                        content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
-                        content += utils.clear_string(article[4].encode('utf-8'))
+                # Export all articles in HTML format
+                if export_method == "export_HTML":
+                    name = os.path.normpath(folder + "/" + name + ".html")
+                    content = htmlheader()
+                    content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+                    content += """<h1><a href="%s">%s</a></h1><br />""" % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    content += article[4].encode('utf-8')
+                    content += "</div>\n<hr />\n"
+                    content += htmlfooter
+                # Export for dokuwiki
+                # example: http://wiki.cedricbonhomme.org/doku.php/news-archives
+                elif export_method == "export_dokuwiki":
+                    name = os.path.normpath(folder + "/" + name.replace(':', '-') + ".txt")
+                    content = "<html>"
+                    content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+                    content += """<h1><a href="%s">%s</a></h1><br />""" % \
+                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                    content += article[4].encode('utf-8')
+                    content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
+                # Export all articles in RSS format
+                elif export_method == "export_RSS":
+                    content += """<item>\n<title>%s</title>\n<link>%s</link>\n""" % (article[2], article[3])
+                    content += """<pubDate>%s</pubDate>\n""" % (str(article[1]),)
+                    content += """<description><![CDATA[%s]]></description>""" % (article[4],)
+                    content += "</item>\n"
+                # Export all articles in raw text
+                elif export_method == "export_TXT":
+                    content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
+                    content += utils.clear_string(article[4].encode('utf-8'))
+                    name = os.path.normpath(folder + "/" + name + ".txt")
+                if export_method != "export_RSS":
+                    with open(name, "w") as f:
+                        f.write(content)
 
-                    f.write(content)
-                except IOError:
-                    pass
-                finally:
-                    f.close()
+        if export_method == "export_RSS":
+            content += "</channel>\n</rss>"
+            with open(os.path.normpath(utils.path + "/var/export/feeds.rss"), "w") as f:
+                f.write(content)
         return self.management()
 
     export.exposed = True
