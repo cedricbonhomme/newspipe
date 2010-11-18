@@ -68,10 +68,10 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart_open.png'}, \
-        '/css/img/email-unread.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/email-unread.png'}, \
-        '/css/img/heart-22x22.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/heart-22x22.png'}, \
+        '/css/img/unread.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/unread.png'}, \
+        '/css/img/heart-32x32.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/heart-32x32.png'}, \
         '/css/img/email-follow.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/email-follow.png'}, \
         '/css/img/cross.png': {'tools.staticfile.on': True, \
@@ -133,7 +133,7 @@ class Root:
             html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 
-            html += """<a href="/list_favorites/"><img src="/css/img/heart-22x22.png" title="Your favorites (%s)" /></a>\n""" % \
+            html += """<a href="/list_favorites/"><img src="/css/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
             html += """<a href="/list_notification/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
@@ -142,7 +142,7 @@ class Root:
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
             if self.nb_unread_articles != 0:
-                html += """<a href="/unread/All"><img src="/css/img/email-unread.png" title="Unread article(s): %s" /></a>\n""" % \
+                html += """<a href="/unread/All"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
         html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
 
