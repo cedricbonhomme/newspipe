@@ -187,7 +187,7 @@ class Root:
                 html += article[1].encode('utf-8') + " - " + \
                         """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                 (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
-                                " ".join(article[2].encode('utf-8')[:400].split(' ')[:-1]), \
+                                article[2].encode('utf-8')[:150], \
                                 not_read_end, description) + like + \
                         "<br />\n"
             html += "<br />\n"
