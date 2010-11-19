@@ -567,13 +567,20 @@ class Root:
             else:
                 like = ""
 
-            html += article[1].encode('utf-8') + \
-                    " - " + not_read_begin + \
-                    """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                            (feed_id, article[0].encode('utf-8'), \
-                            utils.clear_string(article[2].encode('utf-8'))) + \
-                    not_read_end + like + \
-                    "<br />\n"
+            # descrition for the CSS ToolTips
+            article_content = utils.clear_string(article[4].encode('utf-8'))
+            if article_content:
+                description = " ".join(article_content[:500].split(' ')[:-1])
+            else:
+                description = "No description."
+
+            # a description line per article (date, title of the article and
+            # CSS description tooltips on mouse over)
+            html += article[1].encode('utf-8') + " - " + \
+                    """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                            (feed_id, article[0].encode('utf-8'), not_read_begin, \
+                            article[2].encode('utf-8')[:150], \
+                            not_read_end, description) + like + "<br />\n"
 
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
