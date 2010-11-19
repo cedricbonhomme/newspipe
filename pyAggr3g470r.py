@@ -133,10 +133,10 @@ class Root:
             html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 
-            html += """<a href="/list_favorites/"><img src="/css/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
+            html += """<a href="/favorites/"><img src="/css/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
-            html += """<a href="/list_notification/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
+            html += """<a href="/notifications/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
@@ -265,9 +265,9 @@ class Root:
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed_id, self.feeds[feed_id][3].encode('utf-8'))
             html += """</select><input type="submit" value="OK"></form>\n"""
-            html += """<p>Active e-mail notifications: <a href="/list_notification">%s</a></p>\n""" % \
+            html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
                         (self.nb_mail_notifications,)
-            html += """<p>You like <a href="/list_favorites/">%s</a> article(s).</p>\n""" % \
+            html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
                         (self.nb_favorites, )
 
         html += "<hr />\n"
@@ -872,7 +872,7 @@ class Root:
     mark_as_read.exposed = True
 
 
-    def list_notification(self):
+    def notifications(self):
         """
         List all active e-mail notifications.
         """
@@ -890,7 +890,7 @@ class Root:
         html += "\n<hr />\n" + htmlfooter
         return html
 
-    list_notification.exposed = True
+    notifications.exposed = True
 
 
     def mail_notification(self, param):
@@ -958,7 +958,7 @@ class Root:
     like.exposed = True
 
 
-    def list_favorites(self):
+    def favorites(self):
         """
         List of favorites articles
         """
@@ -999,7 +999,7 @@ class Root:
         html += htmlfooter
         return html
 
-    list_favorites.exposed = True
+    favorites.exposed = True
 
 
     def add_feed(self, url):
