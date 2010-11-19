@@ -646,10 +646,20 @@ class Root:
                     <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
                 for article in articles_list:
                     if article[5] == "0":
-                        html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                        (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                                "<br />\n"
+                        # descrition for the CSS ToolTips
+                        article_content = utils.clear_string(article[4].encode('utf-8'))
+                        if article_content:
+                            description = " ".join(article_content[:500].split(' ')[:-1])
+                        else:
+                            description = "No description."
+
+                        # a description line per article (date, title of the article and
+                        # CSS description tooltips on mouse over)
+                        html += article[1].encode('utf-8') + " - " + \
+                                """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                                        (feed_id, article[0].encode('utf-8'), \
+                                        article[2].encode('utf-8')[:150], description)
+
                 html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
         else:
             html += "<h1>No unread article(s)</h1>"
