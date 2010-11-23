@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/"
+    xmlns:py="http://genshi.edgewall.org/"
+    version="2005-1">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:${book.UUID}"/>
+    <meta name="dtb:depth" content="${book.getTocMapHeight()}"/>
+    <meta name="dtb:totalPageCount" content="0"/>
+    <meta name="dtb:maxPageNumber" content="0"/>
+  </head>
+  <docTitle>
+    <text>${book.title}</text>
+  </docTitle>
+  <navMap>
+    <py:def function="navPoint(node)">
+    <navPoint id="navPoint-${node.playOrder}" playOrder="${node.playOrder}">
+      <navLabel><text>${node.title}</text></navLabel>
+      <content src="${node.href}"/>
+      <py:for each="child in node.children">
+      ${navPoint(child)}
+      </py:for>
+    </navPoint>
+    </py:def>
+    <py:for each="child in book.getTocMapRoot().children">
+    ${navPoint(child)}
+    </py:for>
+  </navMap>
+</ncx>

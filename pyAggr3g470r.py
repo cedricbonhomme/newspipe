@@ -491,6 +491,8 @@ class Root:
                                 (article[6], article[6])
                 html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
                                 (feed_id, article_id)
+                html += """\n<a href="/epub/%s:%s">Export to epub</a>\n""" % \
+                                (feed_id, article_id)
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                 (article[3].encode('utf-8'),)
                 # Share this article:
@@ -1100,6 +1102,10 @@ class Root:
     drop_base.exposed = True
 
 
+    #
+    # Export functions
+    #
+
     def export(self, export_method):
         """
         Export articles stored in the SQLite database in text
@@ -1150,6 +1156,7 @@ class Root:
                     content += article[4].encode('utf-8')
                     content += "</div>\n<hr />\n"
                     content += htmlfooter
+
                 # Export for dokuwiki
                 # example: http://wiki.cedricbonhomme.org/doku.php/news-archives
                 elif export_method == "export_dokuwiki":
@@ -1160,12 +1167,14 @@ class Root:
                                 (article[3].encode('utf-8'), article[2].encode('utf-8'))
                     content += article[4].encode('utf-8')
                     content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
+
                 # Export all articles in RSS format
                 elif export_method == "export_RSS":
                     content += """<item>\n<title>%s</title>\n<link>%s</link>\n""" % (article[2], article[3])
                     content += """<pubDate>%s</pubDate>\n""" % (str(article[1]),)
                     content += """<description><![CDATA[%s]]></description>""" % (article[4],)
                     content += "</item>\n"
+
                 # Export all articles in raw text
                 elif export_method == "export_TXT":
                     content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
@@ -1182,6 +1191,41 @@ class Root:
         return self.management()
 
     export.exposed = True
+
+
+    def epub(self, param):
+        """
+        Export article(s) to epub.
+        """
+        try:
+            from epub import ez_epub
+        except Exception, e:
+            return self.error_page(e)
+        try:
+            feed_id, article_id = param.split(':')
+        except:
+            return self.error_page("Bad URL")
+        try:
+            articles_list = self.articles[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
+        try:
+            folder = utils.path + "/var/export/epub/"
+            os.makedirs(folder)
+        except OSError:
+            return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
+        for article in articles_list:
+            if article_id == article[0]:
+                section = ez_epub.Section()
+                section.title = article[2]
+                section.paragraphs = [utils.clear_string(article[4])]
+                ez_epub.makeBook(article[2], [self.feeds[feed_id][3]], [section], \
+                        os.path.normpath(folder + "article"), lang='en-US', cover=None)
+                break
+
+    epub.exposed = True
+
+
 
 
     def update(self, path=None, event = None):
@@ -1206,6 +1250,11 @@ class Root:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base
+
+
+    #
+    # Monitoring functions
+    #
 
     def watch_base(self):
         """Monitor a file.

@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/">
+<head>
+  <title>${section.title}</title>
+  <style type="text/css">
+h1 {
+  text-align: center;
+}
+  </style>
+</head>
+<body>
+  <h1>${section.title}</h1>
+  <py:for each="p in section.paragraphs">
+  <p>$p</p>
+  </py:for>
+</body>
+</html>

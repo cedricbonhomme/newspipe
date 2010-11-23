@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/">
+<head>
+  <title>${book.title}</title>
+  <style type="text/css">
+.tocEntry-1 {
+}
+.tocEntry-2 {
+	text-indent: 1em;
+}
+.tocEntry-3 {
+	text-indent: 2em;
+}
+.tocEntry-4 {
+	text-indent: 3em;
+}
+  </style>
+</head>
+<body>
+  <py:def function="tocEntry(node)">
+    <div class="tocEntry-${node.depth}">
+      <a href="${node.href}">${node.title}</a>
+    </div>
+    <py:for each="child in node.children">
+    ${tocEntry(child)}
+    </py:for>
+  </py:def>
+  <py:for each="child in book.getTocMapRoot().children">
+  ${tocEntry(child)}
+  </py:for>
+</body>
+</html>
