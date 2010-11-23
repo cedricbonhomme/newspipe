@@ -393,11 +393,26 @@ class Root:
                             not_read_begin = ""
                             not_read_end = ""
 
-                        html += article[1].encode('utf-8') + \
-                                " - " + not_read_begin + \
-                                """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
-                                not_read_end + """<br />\n"""
+                        # display a heart for faved articles
+                        if article[7] == "1":
+                            like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                        else:
+                            like = ""
+
+                        # descrition for the CSS ToolTips
+                        article_content = utils.clear_string(article[4].encode('utf-8'))
+                        if article_content:
+                            description = " ".join(article_content[:500].split(' ')[:-1])
+                        else:
+                            description = "No description."
+
+                        # a description line per article (date, title of the article and
+                        # CSS description tooltips on mouse over)
+                        html += article[1].encode('utf-8') + " - " + \
+                                """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                                        (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
+                                        article[2].encode('utf-8')[:150], \
+                                        not_read_end, description) + like + "<br />\n"
         html += "<hr />"
         html += htmlfooter
         return html
