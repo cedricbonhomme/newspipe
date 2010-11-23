@@ -12,7 +12,6 @@ from genshi.template import TemplateLoader
 from lxml import etree
 
 class TocMapNode:
-
     def __init__(self):
         self.playOrder = 0
         self.title = ''
@@ -30,9 +29,7 @@ class TocMapNode:
         for child in self.children:
             child.__assignPlayOrder(nextPlayOrder)
 
-
 class EpubItem:
-
     def __init__(self):
         self.id = ''
         self.srcPath = ''
@@ -40,9 +37,7 @@ class EpubItem:
         self.mimeType = ''
         self.html = ''
 
-
 class EpubBook:
-
     def __init__(self):
         self.loader = TemplateLoader('./epub/templates')
 

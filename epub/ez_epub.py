@@ -5,7 +5,6 @@ import epub
 from genshi.template import TemplateLoader
 
 class Section:
-
     def __init__(self):
         self.title = ''
         self.paragraphs = []
@@ -35,4 +34,3 @@ def makeBook(title, authors, sections, outputDir, lang='en-US', cover=None):
     outputFile = outputDir + 'article.epub'
     book.createBook(outputDir)
     book.createArchive(outputDir, outputFile)
-    #book.checkEpub('epubcheck-1.0.5.jar', outputFile)
