@@ -491,7 +491,7 @@ class Root:
                                 (article[6], article[6])
                 html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
                                 (feed_id, article_id)
-                html += """\n<a href="/epub/%s:%s">Export to epub</a>\n""" % \
+                html += """ - <a href="/epub/%s:%s">Export to epub</a>\n""" % \
                                 (feed_id, article_id)
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
                                 (article[3].encode('utf-8'),)
@@ -1222,7 +1222,7 @@ class Root:
                 ez_epub.makeBook(article[2], [self.feeds[feed_id][3]], [section], \
                         os.path.normpath(folder + "article"), lang='en-US', cover=None)
                 break
-
+        return self.description(param)
     epub.exposed = True
 
 
