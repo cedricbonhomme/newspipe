@@ -213,13 +213,16 @@ def tag_cloud(tags, query="word_count"):
                         (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, calendar.month_name[int(word)])) \
                             for (word, count) in tags])
 
-def send_mail(mfrom, mto, feed_title, message):
-    """Send the warning via mail
+def send_mail(mfrom, mto, feed_title, article_title, description):
     """
-    mail = MIMEText(message)
+    Send the article via mail.
+    """
+    content = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
+                (feed_title + ": " + article_title, description)
+    mail = MIMEText(content)
     mail['From'] = mfrom
     mail['To'] = mto
-    mail['Subject'] = '[pyAggr3g470r] News from ' + feed_title
+    mail['Subject'] = '[pyAggr3g470r] - ' + feed_title + ": " + article_title
     #email['Text'] = message
 
     server = smtplib.SMTP(smtp_server)

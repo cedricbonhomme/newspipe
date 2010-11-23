@@ -131,6 +131,7 @@ class FeedGetter(object):
                     description = ""
 
             try:
+                # try. Will only success if the article is not already in the data base
                 self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
                         datetime(*article.updated_parsed[:6]), \
                         utils.clear_string(article.title.encode('utf-8')), \
@@ -142,17 +143,18 @@ class FeedGetter(object):
                 result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
                                 a_feed.feed.link.encode('utf-8') + "'").fetchall()
                 if result[0][0] == "1":
+                    # if subscribed to the current feed
                     # send the article by e-mail
                     try:
-                        threading.Thread(None, utils.send_mail, \
-                                            None, (utils.mail_from, utils.mail_to, \
-                                            a_feed.feed.title.encode('utf-8'), description) \
+                        threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \
+                                            a_feed.feed.title.encode('utf-8'), \
+                                            utils.clear_string(article.title.encode('utf-8')), description) \
                                         ).start()
                     except Exception, e:
                         # SMTP acces denied, to many SMTP connections, etc.
                         print e
             except sqlite3.IntegrityError:
-                # article already in the base
+                # article already in the data base
                 pass
             except:
                 # Missing information (updated_parsed, ...)
