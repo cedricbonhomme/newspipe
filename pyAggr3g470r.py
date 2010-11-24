@@ -216,7 +216,7 @@ class Root:
         Create the right menu.
         """
         html = """<div class="right inner">\n"""
-        html += """<form method=get action="/q/"><input type="search" name="querystring" value="" placeholder="Search articles" maxlength='1024'></form>\n"""
+        html += """<form method=get action="/q/"><input type="search" name="querystring" value="" placeholder="Search articles" maxlength=2048 autocomplete="on"></form>\n"""
         html += "<hr />\n"
         # insert the list of feeds in the menu
         html += self.create_list_of_feeds()
@@ -255,7 +255,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
-        html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength='1024'>\n<input
+        html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input
         type="submit" value="OK"></form>\n"""
 
         if self.articles:
