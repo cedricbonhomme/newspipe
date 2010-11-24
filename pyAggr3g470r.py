@@ -140,8 +140,8 @@ class Root:
                 (self.nb_mail_notifications,)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
             if self.nb_unread_articles != 0:
+                html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/All"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
         html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
