@@ -369,6 +369,11 @@ def load_feed():
     except:
         pass
 
+    nb_articles = 0
+    nb_unread_articles = 0
+    nb_mail_notifications = 0
+    nb_favorites = 0
+
     # articles[feed_id] = (article_id, article_date, article_title,
     #               article_link, article_description, article_readed,
     #               article_language, like)
@@ -380,11 +385,6 @@ def load_feed():
         # Case-insensitive sorting
         tupleList = [(x[0].lower(), x) for x in list_of_feeds]
         tupleList.sort(key=operator.itemgetter(0))
-
-        nb_articles = 0
-        nb_unread_articles = 0
-        nb_mail_notifications = 0
-        nb_favorites = 0
 
         for feed in [x[1] for x in tupleList]:
             list_of_articles = c.execute(\
