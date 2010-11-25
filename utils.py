@@ -44,6 +44,7 @@ except:
     pass
 
 import smtplib
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import urllib2
@@ -217,20 +218,34 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     """
     Send the article via mail.
     """
-    content = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
+    # Create the body of the message (a plain-text and an HTML version).
+    html = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
                 (feed_title + ": " + article_title, description)
-    mail = MIMEText(content)
-    mail['From'] = mfrom
-    mail['To'] = mto
-    mail['Subject'] = '[pyAggr3g470r] - ' + feed_title + ": " + article_title
-    #email['Text'] = message
+    text = clear_string(description)
 
-    server = smtplib.SMTP(smtp_server)
-    server.login(username, password)
-    server.sendmail(mfrom, \
-                    mto, \
-                    mail.as_string())
-    server.quit()
+    # Create message container - the correct MIME type is multipart/alternative.
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = '[pyAggr3g470r] ' + feed_title + ": " + article_title
+    msg['From'] = mfrom
+    msg['To'] = mto
+
+    # Record the MIME types of both parts - text/plain and text/html.
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
+
+    # Attach parts into message container.
+    # According to RFC 2046, the last part of a multipart message, in this case
+    # the HTML message, is best and preferred.
+    msg.attach(part1)
+    msg.attach(part2)
+
+    # Send the message via local SMTP server.
+    s = smtplib.SMTP(smtp_server)
+    s.login(username, password)
+    # sendmail function takes 3 arguments: sender's address, recipient's address
+    # and message to send - here it is sent as one string.
+    s.sendmail(mfrom, mto, msg.as_string())
+    s.quit()
 
 def string_to_datetime(stringtime):
     """
