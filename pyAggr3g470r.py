@@ -141,7 +141,7 @@ class Root:
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             if self.nb_unread_articles != 0:
-                html += '<a href="/mark_as_read/All"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
+                html += '<a href="/mark_as_read/"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/All"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
         html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
@@ -853,7 +853,7 @@ class Root:
     error_page.exposed = True
 
 
-    def mark_as_read(self, target):
+    def mark_as_read(self, target=""):
         """
         Mark one (or more) article(s) as read by setting the value of the field
         'article_readed' of the SQLite database to 1.
@@ -864,7 +864,7 @@ class Root:
             conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
             c = conn.cursor()
             # Mark all articles as read.
-            if param == "All":
+            if param == "":
                 c.execute("UPDATE articles SET article_readed=1 WHERE article_readed='0'")
             # Mark all articles from a feed as read.
             elif param == "Feed" or param == "Feed_FromMainPage":
@@ -881,7 +881,7 @@ class Root:
         finally:
             LOCKER.release()
 
-        if param == "All" or param == "Feed_FromMainPage":
+        if param == "" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
             return self.all_articles(identifiant)
