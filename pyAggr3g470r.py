@@ -142,7 +142,7 @@ class Root:
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             if self.nb_unread_articles != 0:
                 html += '<a href="/mark_as_read/"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
-                html += """<a href="/unread/All"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
+                html += """<a href="/unread/"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
         html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
 
@@ -274,7 +274,7 @@ class Root:
 
         # Informations about the data base of articles, export funtions...
         html += """<p>The database contains a total of %s article(s) with
-                <a href="/unread/All">%s unread article(s)</a>.<br />""" % \
+                <a href="/unread/">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, self.nb_unread_articles)
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
@@ -585,7 +585,7 @@ class Root:
     all_articles.exposed = True
 
 
-    def unread(self, feed_id):
+    def unread(self, feed_id=""):
         """
         Display all unread articles of a feed.
         """
@@ -593,9 +593,9 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         if self.nb_unread_articles != 0:
-            if feed_id == "All":
+            if feed_id == "":
                 html += "<h1>Unread article(s)</h1>"
-                html += """\n<br />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n<hr />\n"""
+                html += """\n<br />\n<a href="/mark_as_read/">Mark articles as read</a>\n<hr />\n"""
                 for rss_feed_id in self.feeds.keys():
                     new_feed_section = True
                     nb_unread = 0
@@ -631,7 +631,7 @@ class Root:
                             if nb_unread == self.feeds[rss_feed_id][1]:
                                 html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
                                             (rss_feed_id,)
-                html += """<hr />\n<a href="/mark_as_read/All:">Mark articles as read</a>\n"""
+                html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
             else:
                 try:
                     articles_list = self.articles[feed_id]
@@ -1185,15 +1185,6 @@ class Root:
         self.articles, self.feeds, \
         self.nb_articles, self.nb_unread_articles, \
         self.nb_favorites, self.nb_mail_notifications = utils.load_feed()
-        """
-        self.nb_articles = sum([feed[0] for feed in self.feeds.values()])
-        self.nb_unread_articles = sum([feed[1] for feed in self.feeds.values()])
-        self.nb_mail_notifications = len([feed for feed in self.feeds.values() \
-                                if feed[6] == "1"])
-        self.nb_favorites = sum([len([article for article in self.articles[feed_id] \
-                                if article[6] == "1"]) \
-                                    for feed_id in self.feeds.keys()])
-        """
         if self.articles != {}:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
