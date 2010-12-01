@@ -49,6 +49,7 @@ from datetime import datetime
 from string import punctuation
 from collections import Counter
 from collections import OrderedDict
+from collections import defaultdict
 
 from StringIO import StringIO
 
@@ -347,7 +348,7 @@ def load_feed():
     #               article_link, article_description, article_readed, like)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link, mail)
-    articles, feeds = {}, OrderedDict()
+    articles, feeds = defaultdict(list), OrderedDict()
     if list_of_feeds != []:
         sha1_hash = hashlib.sha1()
         # Case-insensitive sorting
@@ -378,7 +379,7 @@ def load_feed():
 
                     # add the informations about the current article
                     # to the list of articles of the current feed
-                    articles[feed_id] = articles.get(feed_id, [])
+                    #articles[feed_id] = articles.get(feed_id, [])
                     articles[feed_id].append(article_list)
 
                 # informations about a feed
