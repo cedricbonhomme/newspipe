@@ -37,12 +37,6 @@ import calendar
 import unicodedata
 import htmlentitydefs
 
-try:
-    # for high performance on list
-    from blist import *
-except:
-    pass
-
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -375,22 +369,17 @@ def load_feed():
                     article_id = sha1_hash.hexdigest()
 
                     # informations about the current article
-                    article_list = [article_id, article[0], unescape(article[1]), \
+                    article_list = (article_id, article[0], unescape(article[1]), \
                                     article[2], unescape(article[3]), \
-                                    article[4], article[6]]
+                                    article[4], article[6])
 
                     # update the number of favorites articles
                     nb_favorites = nb_favorites + int(article[6])
 
                     # add the informations about the current article
                     # to the list of articles of the current feed
-                    if feed_id not in articles:
-                        try:
-                            articles[feed_id] = blist([article_list])
-                        except Exception:
-                            articles[feed_id] = [article_list]
-                    else:
-                        articles[feed_id].append(article_list)
+                    articles[feed_id] = articles.get(feed_id, [])
+                    articles[feed_id].append(article_list)
 
                 # informations about a feed
                 feeds[feed_id] = (len(articles[feed_id]), \
