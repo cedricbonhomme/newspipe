@@ -379,7 +379,6 @@ def load_feed():
 
                     # add the informations about the current article
                     # to the list of articles of the current feed
-                    #articles[feed_id] = articles.get(feed_id, [])
                     articles[feed_id].append(article_list)
 
                 # informations about a feed
