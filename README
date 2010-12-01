@@ -52,7 +52,6 @@ Optional module
 ~~~~~~~~~~~~~~~
 These modules are not required but provides better features:
 * lxml and Genshi;
-* oice.langdet;
 * gamin.
 If you want to install these modules:
 
@@ -75,15 +74,6 @@ sudo python setup.py install
 cd ..
 rm -Rf Genshi
 
-Language detection
-^^^^^^^^^^^^^^^^^^
-Name: oice.langdet
-Enable the detection of the language of articles.
-
-Installation:
-http://pypi.python.org/pypi/oice.langdet/
-Download the archive, decompress, go to the folder and type:
-python setup.py install
 
 Advanced monitoring
 ^^^^^^^^^^^^^^^^^^^
