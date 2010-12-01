@@ -170,7 +170,7 @@ class Root:
                     not_read_end = ""
 
                 # display a heart for faved articles
-                if article[7] == "1":
+                if article[6] == "1":
                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
@@ -294,14 +294,6 @@ class Root:
         if self.articles:
             self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
-            if "oice" not in utils.IMPORT_ERROR:
-                # counter object to count the number of
-                # french and english articles
-                counter = Counter()
-                for rss_feed_id in self.articles.keys():
-                    for article in self.articles[rss_feed_id]:
-                        counter[article[6]] += 1
-
             # Tags cloud
             html += 'Minimum size of a word:'
             html += '<form method=get action="/management/">'
@@ -310,18 +302,6 @@ class Root:
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
-
-            # Languages
-            html += "<br /><h3>Languages</h3>\n"
-            if "oice" in utils.IMPORT_ERROR:
-                html += "Install the module "
-                html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
-            else:
-                html += "<ul>\n"
-                for language in ['english', 'french']:
-                    html += """\t<li>%s articles in <a href="/language/%s">%s</a></li>\n""" % \
-                                    (counter[language], language, language)
-                html += "</ul>\n<br />"
 
             html += "<hr />\n"
         html += htmlfooter
@@ -394,7 +374,7 @@ class Root:
                             not_read_end = ""
 
                         # display a heart for faved articles
-                        if article[7] == "1":
+                        if article[6] == "1":
                             like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                         else:
                             like = ""
@@ -472,7 +452,7 @@ class Root:
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
                                 (article[2].encode('utf-8'), feed_id, \
                                 self.feeds[feed_id][3].encode('utf-8'))
-                if article[7] == "1":
+                if article[6] == "1":
                     html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
                                 (feed_id, article_id)
                 else:
@@ -487,9 +467,7 @@ class Root:
                 else:
                     html += "No description available."
                 html += "\n</div>\n<hr />\n"
-                html += """This article seems to be written in <a href="/language/%s">%s</a>.\n""" % \
-                                (article[6], article[6])
-                html += """<br />\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
+                html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
                                 (feed_id, article_id)
                 html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % \
                                 (feed_id, article_id)
@@ -579,7 +557,7 @@ class Root:
                 not_read_begin = ""
                 not_read_end = ""
 
-            if article[7] == "1":
+            if article[6] == "1":
                 like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
@@ -688,36 +666,6 @@ class Root:
     unread.exposed = True
 
 
-    def language(self, lang):
-        """
-        Display articles by language.
-        """
-        if lang not in ['english', 'french', 'other']:
-            return self.error_page('This language is not supported.')
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += """<h1>Article(s) written in %s</h1>\n<br />\n""" % (lang,)
-        if "oice" not in utils.IMPORT_ERROR:
-            for rss_feed_id in self.articles.keys():
-                for article in self.articles[rss_feed_id]:
-                    if article[6] == lang:
-                        html += article[1].encode('utf-8') + \
-                                """ - <a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>
-                                from <i><a href="%s">%s</a></i><br />\n""" % \
-                                        (rss_feed_id, article[0].encode('utf-8'), article[2].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][3].encode('utf-8'))
-        else:
-            html += "Install the module "
-            html += """<a href="http://pypi.python.org/pypi/oice.langdet/">oice.langdet</a>"""
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
-
-    language.exposed = True
-
-
     def history(self, querystring="all", m=""):
         """
         History
@@ -765,7 +713,7 @@ class Root:
                                     not_read_begin = ""
                                     not_read_end = ""
 
-                                if article[7] == "1":
+                                if article[6] == "1":
                                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
@@ -986,7 +934,7 @@ class Root:
         for rss_feed_id in self.feeds.keys():
             new_feed_section = True
             for article in self.articles[rss_feed_id]:
-                if article[7] == "1":
+                if article[6] == "1":
                     if new_feed_section is True:
                         new_feed_section = False
                         html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -1243,7 +1191,7 @@ class Root:
         self.nb_mail_notifications = len([feed for feed in self.feeds.values() \
                                 if feed[6] == "1"])
         self.nb_favorites = sum([len([article for article in self.articles[feed_id] \
-                                if article[7] == "1"]) \
+                                if article[6] == "1"]) \
                                     for feed_id in self.feeds.keys()])
         """
         if self.articles != {}:

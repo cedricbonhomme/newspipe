@@ -58,13 +58,6 @@ from collections import OrderedDict
 
 from StringIO import StringIO
 
-try:
-    from oice.langdet import langdet
-    from oice.langdet import streams
-    from oice.langdet import languages
-except:
-    IMPORT_ERROR.append("oice")
-
 import threading
 LOCKER = threading.Lock()
 
@@ -107,24 +100,6 @@ def detect_url_errors(list_of_urls):
             # failed to reach the server
             errors.append((url, e.reason.errno ,e.reason.strerror))
     return errors
-
-def detect_language(text):
-    """
-    Detect the language of a text.
-    English, French or other (not detected).
-    """
-    text = text.strip()
-    try:
-        text_stream = streams.Stream(StringIO(text))
-        lang = langdet.LanguageDetector.detect(text_stream)
-    except:
-        return 'other'
-    if lang == languages.french:
-        return 'french'.encode('utf-8')
-    elif lang == languages.english:
-        return 'english'.encode('utf-8')
-    else:
-        return 'other'
 
 def clear_string(data):
     """
@@ -375,8 +350,7 @@ def load_feed():
     nb_favorites = 0
 
     # articles[feed_id] = (article_id, article_date, article_title,
-    #               article_link, article_description, article_readed,
-    #               article_language, like)
+    #               article_link, article_description, article_readed, like)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link, mail)
     articles, feeds = {}, OrderedDict()
@@ -400,20 +374,10 @@ def load_feed():
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
-                    # check the presence of the module for language detection
-                    if "oice" not in IMPORT_ERROR:
-                        if article[3] != "":
-                            language = detect_language(clear_string(article[3][:80]).encode('utf-8') + \
-                                                clear_string(article[1]).encode('utf-8'))
-                        else:
-                            language = detect_language(clear_string(article[1]).encode('utf-8'))
-                    else:
-                        language = "IMPORT_ERROR"
-
                     # informations about the current article
                     article_list = [article_id, article[0], unescape(article[1]), \
                                     article[2], unescape(article[3]), \
-                                    article[4], language, article[6]]
+                                    article[4], article[6]]
 
                     # update the number of favorites articles
                     nb_favorites = nb_favorites + int(article[6])
