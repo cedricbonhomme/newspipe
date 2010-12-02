@@ -37,6 +37,8 @@ import calendar
 import unicodedata
 import htmlentitydefs
 
+import articles
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -348,7 +350,8 @@ def load_feed():
     #               article_link, article_description, article_readed, like)
     # feeds[feed_id] = (nb_article, nb_article_unreaded, feed_image,
     #               feed_title, feed_link, feed_site_link, mail)
-    articles, feeds = defaultdict(list), OrderedDict()
+    #articles, feeds = defaultdict(list), OrderedDict()
+    feeds = OrderedDict()
     if list_of_feeds != []:
         sha1_hash = hashlib.sha1()
         # Case-insensitive sorting
@@ -363,6 +366,14 @@ def load_feed():
             sha1_hash.update(feed[2].encode('utf-8'))
             feed_id = sha1_hash.hexdigest()
 
+            feed_object = articles.Feed()
+            feed_object.feed_id = feed_id
+            feed_object.feed_title = feed[0]
+            feed_object.feed_image = feed[3]
+            feed_object.feed_link = feed[2]
+            feed_object.feed_site_link = feed[1]
+            feed_object.mail = feed[4]
+
             if list_of_articles != []:
                 list_of_articles.sort(lambda x,y: compare(y[0], x[0]))
                 for article in list_of_articles:
@@ -373,27 +384,41 @@ def load_feed():
                     article_list = (article_id, article[0], unescape(article[1]), \
                                     article[2], unescape(article[3]), \
                                     article[4], article[6])
+                    article_object = articles.Article()
+                    article_object.article_id = article_id
+                    article_object.article_date = article[0]
+                    article_object.article_title = unescape(article[1])
+                    article_object.article_link = article[2]
+                    article_object.article_description = unescape(article[3])
+                    article_object.article_readed = article[4]
+                    article_object.like = article[6]
+
+                    feed_object.articles.append(article_object)
 
                     # update the number of favorites articles
                     nb_favorites = nb_favorites + int(article[6])
 
-                    # add the informations about the current article
-                    # to the list of articles of the current feed
-                    articles[feed_id].append(article_list)
 
                 # informations about a feed
-                feeds[feed_id] = (len(articles[feed_id]), \
-                                len([article for article in articles[feed_id] \
-                                    if article[5]=="0"]), \
-                                feed[3], feed[0], feed[2], feed[1] , feed[4]\
-                                )
+                feed_object.nb_articles = len(feed_object.articles)
+                feed_object.nb_unread_articles = len([article for article in feed_object.articles \
+                                    if article.article_readed=="0"])
 
-                nb_articles += feeds[feed_id][0]
-                nb_unread_articles += feeds[feed_id][1]
-                nb_mail_notifications += int(feeds[feed_id][6])
+                feeds[feed_id] = feed_object
+
+                nb_articles += feed_object.nb_articles
+                nb_unread_articles += feed_object.nb_unread_articles
+                nb_mail_notifications += int(feed_object.mail)
 
         c.close()
         LOCKER.release()
-        return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
+        #return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
+        for feed in feeds.values():
+            print feed.feed_title
+            print feed.mail
+            print feed.articles[0].article_description
+            print
+            break
+        return (feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
     LOCKER.release()
     return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)

@@ -128,7 +128,7 @@ class Root:
         html += self.create_right_menu()
         html += """<div class="left inner">\n"""
 
-        if self.articles:
+        if self.feeds:
             html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
             html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
@@ -147,21 +147,21 @@ class Root:
         html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
 
         # The main page display all the feeds.
-        for rss_feed_id in self.feeds.keys():
+        for feed in self.feeds.values():
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
                     <a href="%s" rel="noreferrer"
                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                        (rss_feed_id, \
-                        self.feeds[rss_feed_id][5].encode('utf-8'), \
-                        self.feeds[rss_feed_id][3].encode('utf-8'), \
-                        self.feeds[rss_feed_id][4].encode('utf-8'), \
-                        self.feeds[rss_feed_id][2].encode('utf-8'))
+                        (feed.feed_id, \
+                        feed.feed_site_link.encode('utf-8'), \
+                        feed.feed_title.encode('utf-8'), \
+                        feed.feed_link.encode('utf-8'), \
+                        feed.feed_image.encode('utf-8'))
 
             # The main page display only 10 articles by feeds.
-            for article in self.articles[rss_feed_id][:10]:
+            for article in feed.articles[:10]:
 
-                if article[5] == "0":
+                if article.article_readed == "0":
                     # not readed articles are in bold
                     not_read_begin = "<b>"
                     not_read_end = "</b>"
@@ -170,13 +170,13 @@ class Root:
                     not_read_end = ""
 
                 # display a heart for faved articles
-                if article[6] == "1":
+                if article.like == "1":
                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
 
                 # descrition for the CSS ToolTips
-                article_content = utils.clear_string(article[4].encode('utf-8'))
+                article_content = utils.clear_string(article.article_description.encode('utf-8'))
                 if article_content:
                     description = " ".join(article_content[:500].split(' ')[:-1])
                 else:
@@ -184,25 +184,25 @@ class Root:
 
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
-                html += article[1].encode('utf-8') + " - " + \
+                html += article.article_date.encode('utf-8') + " - " + \
                         """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
-                                article[2].encode('utf-8')[:150], \
+                                (feed.feed_id, article.article_id.encode('utf-8'), not_read_begin, \
+                                article.article_title.encode('utf-8')[:150], \
                                 not_read_end, description) + like + \
                         "<br />\n"
             html += "<br />\n"
 
             # some options for the current feed
-            html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (rss_feed_id,)
-            html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (rss_feed_id,)
-            if self.feeds[rss_feed_id][1] != 0:
+            html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
+            html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
+            if feed.nb_unread_articles != 0:
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)"
-                        >Unread article(s) (%s)</a>""" % (rss_feed_id, \
-                                        self.feeds[rss_feed_id][1])
-            if self.feeds[rss_feed_id][6] == "0":
-                html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (rss_feed_id,)
+                        >Unread article(s) (%s)</a>""" % (feed.feed_id, \
+                                        feed.nb_unread_articles)
+            if feed.mail == "0":
+                html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
             else:
-                html += """<br />\n<a href="/mail_notification/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (rss_feed_id,)
+                html += """<br />\n<a href="/mail_notification/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed.feed_id,)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -228,9 +228,9 @@ class Root:
         """
         Create the list of feeds.
         """
-        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(self.articles.keys())
-        for rss_feed_id in self.feeds.keys():
-            if self.feeds[rss_feed_id][1] != 0:
+        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(self.feeds)
+        for feed in self.feeds.values():
+            if feed.nb_unread_articles != 0:
                 # not readed articles are in bold
                 not_read_begin = "<b>"
                 not_read_end = "</b>"
@@ -239,11 +239,11 @@ class Root:
                 not_read_end = ""
             html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s"
                     title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
-                            (rss_feed_id.encode('utf-8'), \
-                            self.feeds[rss_feed_id][3].encode('utf-8'), \
-                            rss_feed_id, not_read_begin, \
-                            self.feeds[rss_feed_id][1], not_read_end, \
-                            self.feeds[rss_feed_id][0])
+                            (feed.feed_id.encode('utf-8'), \
+                            feed.feed_title.encode('utf-8'), \
+                            feed.feed_id, not_read_begin, \
+                            feed.nb_unread_articles, not_read_end, \
+                            feed.nb_articles)
         return html + "</div>"
 
 
@@ -263,7 +263,7 @@ class Root:
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
             for feed_id in self.feeds.keys():
                 html += """\t<option value="%s">%s</option>\n""" % \
-                        (feed_id, self.feeds[feed_id][3].encode('utf-8'))
+                        (feed_id, feed.feed_title.encode('utf-8'))
             html += """</select><input type="submit" value="OK"></form>\n"""
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
                         (self.nb_mail_notifications,)
@@ -328,11 +328,11 @@ class Root:
 
         if feed_id is not None:
             for article in self.articles[rss_feed_id]:
-                article_content = utils.clear_string(article[4].encode('utf-8'))
+                article_content = utils.clear_string(article.article_description.encode('utf-8'))
                 if not article_content:
-                    utils.clear_string(article[2].encode('utf-8'))
+                    utils.clear_string(article.article_title.encode('utf-8'))
                 if wordre.findall(article_content) != []:
-                    if article[5] == "0":
+                    if article.article_readed == "0":
                         # not readed articles are in bold
                         not_read_begin = "<b>"
                         not_read_end = "</b>"
@@ -340,18 +340,18 @@ class Root:
                         not_read_begin = ""
                         not_read_end = ""
 
-                    html += article[1].encode('utf-8') + \
+                    html += article.article_date.encode('utf-8') + \
                             " - " + not_read_begin + \
                             """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                    (feed_id, article[0].encode('utf-8'), article[2].encode('utf-8')) + \
+                                    (feed_id, article.article_id.encode('utf-8'), article.article_title.encode('utf-8')) + \
                             not_read_end + """<br />\n"""
         else:
             for rss_feed_id in self.articles.keys():
                 new_feed_section = True
                 for article in self.articles[rss_feed_id]:
-                    article_content = utils.clear_string(article[4].encode('utf-8'))
+                    article_content = utils.clear_string(article.article_description.encode('utf-8'))
                     if not article_content:
-                        utils.clear_string(article[2].encode('utf-8'))
+                        utils.clear_string(article.article_title.encode('utf-8'))
                     if wordre.findall(article_content) != []:
                         if new_feed_section is True:
                             new_feed_section = False
@@ -361,11 +361,11 @@ class Root:
                             target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                 (rss_feed_id, \
                                 self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                self.feeds[rss_feed_id][3].encode('utf-8'), \
+                                feed.feed_title.encode('utf-8'), \
                                 self.feeds[rss_feed_id][4].encode('utf-8'), \
                                 self.feeds[rss_feed_id][2].encode('utf-8'))
 
-                        if article[5] == "0":
+                        if article.article_readed == "0":
                             # not readed articles are in bold
                             not_read_begin = "<b>"
                             not_read_end = "</b>"
@@ -374,13 +374,13 @@ class Root:
                             not_read_end = ""
 
                         # display a heart for faved articles
-                        if article[6] == "1":
+                        if article.like == "1":
                             like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                         else:
                             like = ""
 
                         # descrition for the CSS ToolTips
-                        article_content = utils.clear_string(article[4].encode('utf-8'))
+                        article_content = utils.clear_string(article.article_description.encode('utf-8'))
                         if article_content:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
@@ -388,10 +388,10 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article[1].encode('utf-8') + " - " + \
+                        html += article.article_date.encode('utf-8') + " - " + \
                                 """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                        (rss_feed_id, article[0].encode('utf-8'), not_read_begin, \
-                                        article[2].encode('utf-8')[:150], \
+                                        (rss_feed_id, article.article_id.encode('utf-8'), not_read_begin, \
+                                        article.article_title.encode('utf-8')[:150], \
                                         not_read_end, description) + like + "<br />\n"
         html += "<hr />"
         html += htmlfooter
@@ -420,14 +420,14 @@ class Root:
         except:
             return self.error_page("Bad URL")
         try:
-            articles_list = self.articles[feed_id]
+            feed = self.feeds[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        for article in articles_list:
-            if article_id == article[0]:
+        for article in feed.articles:
+            if article_id == article.article_id:
 
                 try:
                     os.makedirs("./var/qrcode/")
@@ -437,7 +437,7 @@ class Root:
                     # QR code generation
                     try:
                         qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
-                        qr.addData(article[3])
+                        qr.addData(article.article_link)
                         qr.make()
                         im = qr.makeImage()
                         im.save("./var/qrcode/"+article_id+".png", format='png')
@@ -445,79 +445,79 @@ class Root:
                         # Code length overflow
                         print e
 
-                if article[5] == "0":
-                    self.mark_as_read("Article:"+article[3]) # update the database
+                if article.article_readed == "0":
+                    self.mark_as_read("Article:"+article.article_link) # update the database
 
                 html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
-                                (article[2].encode('utf-8'), feed_id, \
-                                self.feeds[feed_id][3].encode('utf-8'))
-                if article[6] == "1":
+                                (article.article_title.encode('utf-8'), feed.feed_id, \
+                                feed.feed_title.encode('utf-8'))
+                if article.like == "1":
                     html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
-                                (feed_id, article_id)
+                                (feed.feed_id, article.article_id)
                 else:
                     html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
-                                (feed_id, article_id)
+                                (feed.feed_id, article.article_id)
                 html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
-                                (feed_id, article_id)
+                                (feed.feed_id, article.article_id)
                 html += "<br /><br />"
-                description = article[4]
+                description = article.article_description
                 if description:
                     html += description.encode('utf-8')
                 else:
                     html += "No description available."
                 html += "\n</div>\n<hr />\n"
                 html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
-                                (feed_id, article_id)
+                                (feed.feed_id, article.article_id)
                 html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % \
-                                (feed_id, article_id)
+                                (feed.feed_id, article.article_id)
                 html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
-                                (article[3].encode('utf-8'),)
+                                (article.article_link.encode('utf-8'),)
                 # Share this article:
                 # on Identi.ca
                 html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
-                                (article[2].encode('utf-8'), article[3].encode('utf-8'))
+                                (article.article_title.encode('utf-8'), article.article_link.encode('utf-8'))
 
                 # on Google Buzz
                 html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
                 # on delicious
                 html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
                 # on Digg
                 html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
                 # on reddit
                 html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
                 # on Scoopeo
                 html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
                 # on Blogmarks
                 html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
                         rel="noreferrer" target="_blank">\n\t
                         <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
                 # on Twitter
                 html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
                 # on Google Buzz with counter
                 html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
-                                (article[3].encode('utf-8'),)
+                                (article.article_link.encode('utf-8'),)
 
                 html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
                                 (article_id,)
@@ -533,7 +533,7 @@ class Root:
         Display all articles of a feed.
         """
         try:
-            articles_list = self.articles[feed_id]
+            feed = self.feeds[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
@@ -545,11 +545,11 @@ class Root:
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (self.feeds[feed_id][3].encode('utf-8'))
+        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed.feed_title.encode('utf-8'))
 
-        for article in articles_list:
+        for article in feed.articles:
 
-            if article[5] == "0":
+            if article.article_readed == "0":
                 # not readed articles are in bold
                 not_read_begin = "<b>"
                 not_read_end = "</b>"
@@ -557,13 +557,13 @@ class Root:
                 not_read_begin = ""
                 not_read_end = ""
 
-            if article[6] == "1":
+            if article.like == "1":
                 like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
             # descrition for the CSS ToolTips
-            article_content = utils.clear_string(article[4].encode('utf-8'))
+            article_content = utils.clear_string(article.article_description.encode('utf-8'))
             if article_content:
                 description = " ".join(article_content[:500].split(' ')[:-1])
             else:
@@ -571,10 +571,10 @@ class Root:
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
-            html += article[1].encode('utf-8') + " - " + \
+            html += article.article_date.encode('utf-8') + " - " + \
                     """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                            (feed_id, article[0].encode('utf-8'), not_read_begin, \
-                            article[2].encode('utf-8')[:150], \
+                            (feed.feed_id, article.article_id.encode('utf-8'), not_read_begin, \
+                            article.article_title.encode('utf-8')[:150], \
                             not_read_end, description) + like + "<br />\n"
 
         html += """\n<h4><a href="/">All feeds</a></h4>"""
@@ -596,11 +596,11 @@ class Root:
             if feed_id == "":
                 html += "<h1>Unread article(s)</h1>"
                 html += """\n<br />\n<a href="/mark_as_read/">Mark articles as read</a>\n<hr />\n"""
-                for rss_feed_id in self.feeds.keys():
+                for feed in self.feeds.values():
                     new_feed_section = True
                     nb_unread = 0
-                    for article in self.articles[rss_feed_id]:
-                        if article[5] == "0":
+                    for article in feed.articles:
+                        if article.article_readed == "0":
                             nb_unread += 1
                             if new_feed_section is True:
                                 new_feed_section = False
@@ -608,14 +608,14 @@ class Root:
                                 target="_blank">%s</a></a>
                                 <a href="%s" rel="noreferrer"
                                 target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                    (rss_feed_id, \
-                                    self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][3].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][4].encode('utf-8'), \
-                                    self.feeds[rss_feed_id][2].encode('utf-8'))
+                                    (feed.feed_id, \
+                                    feed.feed_site_link.encode('utf-8'), \
+                                    feed.feed_title.encode('utf-8'), \
+                                    feed.feed_link.encode('utf-8'), \
+                                    feed.feed_image.encode('utf-8'))
 
                             # descrition for the CSS ToolTips
-                            article_content = utils.clear_string(article[4].encode('utf-8'))
+                            article_content = utils.clear_string(article.article_description.encode('utf-8'))
                             if article_content:
                                 description = " ".join(article_content[:500].split(' ')[:-1])
                             else:
@@ -623,26 +623,26 @@ class Root:
 
                             # a description line per article (date, title of the article and
                             # CSS description tooltips on mouse over)
-                            html += article[1].encode('utf-8') + " - " + \
+                            html += article.article_date.encode('utf-8') + " - " + \
                                     """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                            (rss_feed_id, article[0].encode('utf-8'), \
-                                            article[2].encode('utf-8')[:150], description)
+                                            (feed.feed_id, article.article_id.encode('utf-8'), \
+                                            article.article_title.encode('utf-8')[:150], description)
 
-                            if nb_unread == self.feeds[rss_feed_id][1]:
+                            if nb_unread == feed.nb_unread_articles:
                                 html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
-                                            (rss_feed_id,)
+                                            (feed.feed_id,)
                 html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
             else:
                 try:
-                    articles_list = self.articles[feed_id]
+                    feed = self.feeds[feed_id]
                 except KeyError:
                     return self.error_page("This feed do not exists.")
                 html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
-                    <br />""" % (feed_id, self.feeds[feed_id][3].encode('utf-8'))
-                for article in articles_list:
-                    if article[5] == "0":
+                    <br />""" % (feed.feed_id, feed.feed_title.encode('utf-8'))
+                for article in feed.articles:
+                    if article.article_readed == "0":
                         # descrition for the CSS ToolTips
-                        article_content = utils.clear_string(article[4].encode('utf-8'))
+                        article_content = utils.clear_string(article.article_description.encode('utf-8'))
                         if article_content:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
@@ -650,12 +650,12 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article[1].encode('utf-8') + " - " + \
+                        html += article.article_date.encode('utf-8') + " - " + \
                                 """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                        (feed_id, article[0].encode('utf-8'), \
-                                        article[2].encode('utf-8')[:150], description)
+                                        (feed.feed_id, article.article_id.encode('utf-8'), \
+                                        article.article_title.encode('utf-8')[:150], description)
 
-                html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+                html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed.feed_id,)
         else:
             html += "<h1>No unread article(s)</h1>"
         html += """\n<h4><a href="/">All feeds</a></h4>"""
@@ -691,21 +691,21 @@ class Root:
                     ", "+ the_year +".</h1><br />\n"
 
         timeline = Counter()
-        for rss_feed_id in self.feeds.keys():
+        for feed in self.feeds.values():
             new_feed_section = True
-            for article in self.articles[rss_feed_id]:
+            for article in feed.articles:
 
                 if querystring == "all":
-                    timeline[article[1].encode('utf-8').split(' ')[0].split('-')[0]] += 1
+                    timeline[article.article_date.encode('utf-8').split(' ')[0].split('-')[0]] += 1
 
                 elif querystring[:4] == "year":
 
-                    if article[1].encode('utf-8').split(' ')[0].split('-')[0] == the_year:
-                        timeline[article[1].encode('utf-8').split(' ')[0].split('-')[1]] += 1
+                    if article.article_date.encode('utf-8').split(' ')[0].split('-')[0] == the_year:
+                        timeline[article.article_date.encode('utf-8').split(' ')[0].split('-')[1]] += 1
 
                         if "month" in querystring:
-                            if article[1].encode('utf-8').split(' ')[0].split('-')[1] == the_month:
-                                if article[5] == "0":
+                            if article.article_date.encode('utf-8').split(' ')[0].split('-')[1] == the_month:
+                                if article.article_readed == "0":
                                     # not readed articles are in bold
                                     not_read_begin = "<b>"
                                     not_read_end = "</b>"
@@ -713,7 +713,7 @@ class Root:
                                     not_read_begin = ""
                                     not_read_end = ""
 
-                                if article[6] == "1":
+                                if article.like == "1":
                                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
@@ -724,17 +724,17 @@ class Root:
                                     target="_blank">%s</a></a>
                                     <a href="%s" rel="noreferrer"
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                        (rss_feed_id, \
-                                        self.feeds[rss_feed_id][5].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][3].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][4].encode('utf-8'), \
-                                        self.feeds[rss_feed_id][2].encode('utf-8'))
+                                        (feed.feed_id, \
+                                        feed.feed_site_link.encode('utf-8'), \
+                                        feed.feed_title.encode('utf-8'), \
+                                        feed.feed_link.encode('utf-8'), \
+                                        feed.feed_image.encode('utf-8'))
 
-                                html += article[1].encode('utf-8') + \
+                                html += article.article_date.encode('utf-8') + \
                                         " - " + not_read_begin + \
                                         """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                                (rss_feed_id, article[0].encode('utf-8'), \
-                                                utils.clear_string(article[2].encode('utf-8'))) + \
+                                                (feed.feed_id, article.article_id.encode('utf-8'), \
+                                                utils.clear_string(article.article_title.encode('utf-8'))) + \
                                         not_read_end + like + \
                                         "<br />\n"
 
@@ -772,11 +772,11 @@ class Root:
         html += """<div class="left inner">"""
         feed_id, article_id = target.split(':')
         for article in articles_list:
-            if article_id == article[0]:
+            if article_id == article.article_id:
                 html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
-                                    (article[2].encode('utf-8'), feed_id, \
-                                    self.feeds[feed_id][3].encode('utf-8'))
-                description = utils.clear_string(article[4].encode('utf-8'))
+                                    (article.article_title.encode('utf-8'), feed_id, \
+                                    feed.feed_title.encode('utf-8'))
+                description = utils.clear_string(article.article_description.encode('utf-8'))
                 if description:
                     html += description
                 else:
@@ -845,10 +845,10 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
-        for rss_feed_id in self.feeds.keys():
-            if self.feeds[rss_feed_id][6] == "1":
+        for feed in self.feeds.values():
+            if feed.mail == "1":
                 html += """\t<a href="/all_articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
-                        (rss_feed_id, self.feeds[rss_feed_id][3].encode('utf-8'), rss_feed_id)
+                        (feed.feed_id, feed.feed_title.encode('utf-8'), feed.feed_id)
 
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
@@ -873,13 +873,13 @@ class Root:
         if action == "start":
             try:
                 c.execute("UPDATE feeds SET mail=1 WHERE feed_site_link='" +
-                            self.feeds[feed_id][5].encode('utf-8') + "'")
+                            self.feeds[feed_id].feed_site_link.encode('utf-8') + "'")
             except:
                 return self.error_page("Error")
         else:
             try:
                 c.execute("UPDATE feeds SET mail=0 WHERE feed_site_link='" +
-                            self.feeds[feed_id][5].encode('utf-8') + "'")
+                            self.feeds[feed_id].feed_site_link.encode('utf-8') + "'")
             except:
                 return self.error_page("Error")
         conn.commit()
@@ -898,21 +898,21 @@ class Root:
         except:
             return self.error_page("Bad URL")
         try:
-            articles_list = self.articles[feed_id]
+            feed = self.feeds[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
-        for article in articles_list:
-            if article_id == article[0]:
+        for article in feed.articles:
+            if article_id == article.article_id:
                 try:
                     conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
                     c = conn.cursor()
                     # Mark all articles as read.
                     if action == "yes":
                         c.execute("UPDATE articles SET like=1 WHERE article_link='" + \
-                                    article[3] + "'")
+                                    article.article_link + "'")
                     if action == "no":
                         c.execute("UPDATE articles SET like=0 WHERE article_link='" + \
-                                    article[3] + "'")
+                                    article.article_link + "'")
                     conn.commit()
                     c.close()
                 except Exception:
@@ -931,24 +931,24 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>Your favorites articles</h1>"
-        for rss_feed_id in self.feeds.keys():
+        for feed in self.feeds.values():
             new_feed_section = True
-            for article in self.articles[rss_feed_id]:
-                if article[6] == "1":
+            for article in feed.articles:
+                if article.like == "1":
                     if new_feed_section is True:
                         new_feed_section = False
                         html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                         target="_blank">%s</a></a>
                         <a href="%s" rel="noreferrer"
                         target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                            (rss_feed_id, \
-                            self.feeds[rss_feed_id][5].encode('utf-8'), \
-                            self.feeds[rss_feed_id][3].encode('utf-8'), \
-                            self.feeds[rss_feed_id][4].encode('utf-8'), \
-                            self.feeds[rss_feed_id][2].encode('utf-8'))
+                            (feed.feed_id, \
+                            feed.feed_site_link.encode('utf-8'), \
+                            feed.feed_title.encode('utf-8'), \
+                            feed.feed_link.encode('utf-8'), \
+                            feed.feed_image.encode('utf-8'))
 
                     # descrition for the CSS ToolTips
-                    article_content = utils.clear_string(article[4].encode('utf-8'))
+                    article_content = utils.clear_string(article.article_description.encode('utf-8'))
                     if article_content:
                         description = " ".join(article_content[:500].split(' ')[:-1])
                     else:
@@ -956,10 +956,10 @@ class Root:
 
                     # a description line per article (date, title of the article and
                     # CSS description tooltips on mouse over)
-                    html += article[1].encode('utf-8') + " - " + \
+                    html += article.article_date.encode('utf-8') + " - " + \
                             """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                    (rss_feed_id, article[0].encode('utf-8'), \
-                                    article[2].encode('utf-8')[:150], description)
+                                    (feed.feed_id, article.article_id.encode('utf-8'), \
+                                    article.article_title.encode('utf-8')[:150], description)
         html += "<hr />\n"
         html += htmlfooter
         return html
@@ -1005,7 +1005,7 @@ class Root:
         if feed_id in self.feeds.keys():
             utils.remove_feed(self.feeds[feed_id][4])
             html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
-                (self.feeds[feed_id][3].encode('utf-8'),)
+                (feed.feed_title.encode('utf-8'),)
         else:
             return self.error_page("This feed do not exists.")
         html += """<a href="/management/">Back to the management page.</a><br />\n"""
@@ -1026,11 +1026,11 @@ class Root:
         except:
             return self.error_page("This article do not exists.")
         for article in articles_list:
-            if article_id == article[0]:
+            if article_id == article.article_id:
                 try:
                     conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
                     c = conn.cursor()
-                    c.execute("DELETE FROM articles WHERE article_link='" + article[3] +"'")
+                    c.execute("DELETE FROM articles WHERE article_link='" + article.article_link +"'")
                     conn.commit()
                     c.close()
                 except Exception, e:
@@ -1085,14 +1085,14 @@ class Root:
         for rss_feed_id in self.feeds.keys():
             if export_method != "export_RSS":
                 folder = utils.path + "/var/export/" + \
-                        utils.normalize_filename(self.feeds[rss_feed_id][3].strip().encode("utf-8").replace(':', '').lower())
+                        utils.normalize_filename(feed.feed_title.strip().encode("utf-8").replace(':', '').lower())
                 try:
                     os.makedirs(folder)
                 except OSError:
                     return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
 
             for article in self.articles[rss_feed_id]:
-                name = article[1].strip().replace(' ', '_')
+                name = article.article_date.strip().replace(' ', '_')
 
                 # Export all articles in HTML format
                 if export_method == "export_HTML":
@@ -1100,8 +1100,8 @@ class Root:
                     content = htmlheader()
                     content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                     content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    content += article[4].encode('utf-8')
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+                    content += article.article_description.encode('utf-8')
                     content += "</div>\n<hr />\n"
                     content += htmlfooter
 
@@ -1112,21 +1112,21 @@ class Root:
                     content = "<html>"
                     content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                     content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                (article[3].encode('utf-8'), article[2].encode('utf-8'))
-                    content += article[4].encode('utf-8')
+                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+                    content += article.article_description.encode('utf-8')
                     content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
 
                 # Export all articles in RSS format
                 elif export_method == "export_RSS":
-                    content += """<item>\n<title>%s</title>\n<link>%s</link>\n""" % (article[2], article[3])
-                    content += """<pubDate>%s</pubDate>\n""" % (str(article[1]),)
-                    content += """<description><![CDATA[%s]]></description>""" % (article[4],)
+                    content += """<item>\n<title>%s</title>\n<link>%s</link>\n""" % (article.article_title, article.article_link)
+                    content += """<pubDate>%s</pubDate>\n""" % (str(article.article_date),)
+                    content += """<description><![CDATA[%s]]></description>""" % (article.article_description,)
                     content += "</item>\n"
 
                 # Export all articles in raw text
                 elif export_method == "export_TXT":
-                    content = "Title: " + article[2].encode('utf-8') + "\n\n\n"
-                    content += utils.clear_string(article[4].encode('utf-8'))
+                    content = "Title: " + article.article_title.encode('utf-8') + "\n\n\n"
+                    content += utils.clear_string(article.article_description.encode('utf-8'))
                     name = os.path.normpath(folder + "/" + name + ".txt")
                 if export_method != "export_RSS":
                     with open(name, "w") as f:
@@ -1163,11 +1163,11 @@ class Root:
         except OSError:
             return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
         for article in articles_list:
-            if article_id == article[0]:
+            if article_id == article.article_id:
                 section = ez_epub.Section()
-                section.title = article[2]
-                section.paragraphs = [utils.clear_string(article[4])]
-                ez_epub.makeBook(article[2], [self.feeds[feed_id][3]], [section], \
+                section.title = article.article_title
+                section.paragraphs = [utils.clear_string(article.article_description)]
+                ez_epub.makeBook(article.article_title, [feed.feed_title], [section], \
                         os.path.normpath(folder + "article"), lang='en-US', cover=None)
                 break
         return self.description(param)
@@ -1182,10 +1182,10 @@ class Root:
         with the database.
         Called when a changes in the database is detected.
         """
-        self.articles, self.feeds, \
+        self.feeds, \
         self.nb_articles, self.nb_unread_articles, \
         self.nb_favorites, self.nb_mail_notifications = utils.load_feed()
-        if self.articles != {}:
+        if self.feeds != {}:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base
