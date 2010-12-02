@@ -817,7 +817,7 @@ class Root:
             # Mark all articles from a feed as read.
             elif param == "Feed" or param == "Feed_FromMainPage":
                 c.execute("UPDATE articles SET article_readed=1 WHERE article_readed='0' AND feed_link='" + \
-                            self.feeds[identifiant][4].encode('utf-8') + "'")
+                            self.feeds[identifiant].feed_link.encode('utf-8') + "'")
             # Mark an article as read.
             elif param == "Article":
                 c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + \
@@ -1002,8 +1002,8 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        if feed_id in self.feeds.keys():
-            utils.remove_feed(self.feeds[feed_id][4])
+        if feed in self.feeds.values():
+            utils.remove_feed(feed.feed_link)
             html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
                 (feed.feed_title.encode('utf-8'),)
         else:
@@ -1022,10 +1022,10 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            articles_list = self.articles[feed_id]
+            feed = self.feeds[feed_id]
         except:
             return self.error_page("This article do not exists.")
-        for article in articles_list:
+        for article in feed.articles:
             if article_id == article.article_id:
                 try:
                     conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
@@ -1154,7 +1154,7 @@ class Root:
         except:
             return self.error_page("Bad URL")
         try:
-            articles_list = self.articles[feed_id]
+            feed = self.feeds[feed_id]
         except KeyError:
             return self.error_page("This feed do not exists.")
         try:
@@ -1162,7 +1162,7 @@ class Root:
             os.makedirs(folder)
         except OSError:
             return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
-        for article in articles_list:
+        for article in feed.articles:
             if article_id == article.article_id:
                 section = ez_epub.Section()
                 section.title = article.article_title
