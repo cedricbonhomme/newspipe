@@ -412,13 +412,6 @@ def load_feed():
 
         c.close()
         LOCKER.release()
-        #return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
-        for feed in feeds.values():
-            print feed.feed_title
-            print feed.mail
-            print feed.articles[0].article_description
-            print
-            break
         return (feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
     LOCKER.release()
-    return (articles, feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
+    return (feeds, nb_articles, nb_unread_articles, nb_favorites, nb_mail_notifications)
