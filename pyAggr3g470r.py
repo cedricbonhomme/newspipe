@@ -258,12 +258,12 @@ class Root:
         html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input
         type="submit" value="OK"></form>\n"""
 
-        if self.articles:
+        if self.feeds:
             html += "<h1>Delete Feeds</h1>\n"
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
-            for feed_id in self.feeds.keys():
+            for feed in self.feeds.values():
                 html += """\t<option value="%s">%s</option>\n""" % \
-                        (feed_id, feed.feed_title.encode('utf-8'))
+                        (feed.feed_id, feed.feed_title.encode('utf-8'))
             html += """</select><input type="submit" value="OK"></form>\n"""
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
                         (self.nb_mail_notifications,)
@@ -291,8 +291,8 @@ class Root:
         html += "<hr />\n\n"
 
         # Some statistics
-        if self.articles:
-            self.top_words = utils.top_words(self.articles, n=50, size=int(word_size))
+        if self.feeds:
+            self.top_words = utils.top_words(self.feeds, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             # Tags cloud
             html += 'Minimum size of a word:'
