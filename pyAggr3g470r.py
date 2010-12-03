@@ -895,26 +895,23 @@ class Root:
         except:
             return self.error_page("Bad URL")
         try:
-            feed = self.feeds[feed_id]
-        except KeyError:
-            return self.error_page("This feed do not exists.")
-        for article in feed.articles:
-            if article_id == article.article_id:
-                try:
-                    conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-                    c = conn.cursor()
-                    # Mark all articles as read.
-                    if action == "yes":
-                        c.execute("UPDATE articles SET like=1 WHERE article_link='" + \
-                                    article.article_link + "'")
-                    if action == "no":
-                        c.execute("UPDATE articles SET like=0 WHERE article_link='" + \
-                                    article.article_link + "'")
-                    conn.commit()
-                    c.close()
-                except Exception:
-                    self.error_page("Impossible to like/dislike this article (database error).")
-                break
+            article = self.feeds[feed_id].articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
+        try:
+            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
+            c = conn.cursor()
+            # Mark all articles as read.
+            if action == "yes":
+                c.execute("UPDATE articles SET like=1 WHERE article_link='" + \
+                            article.article_link + "'")
+            if action == "no":
+                c.execute("UPDATE articles SET like=0 WHERE article_link='" + \
+                            article.article_link + "'")
+            conn.commit()
+            c.close()
+        except Exception:
+            self.error_page("Impossible to like/dislike this article (database error).")
         return self.description(feed_id+":"+article_id)
 
     like.exposed = True
