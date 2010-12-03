@@ -1019,19 +1019,21 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            feed = self.feeds[feed_id]
         except:
-            return self.error_page("This article do not exists.")
-        for article in feed.articles:
-            if article_id == article.article_id:
-                try:
-                    conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-                    c = conn.cursor()
-                    c.execute("DELETE FROM articles WHERE article_link='" + article.article_link +"'")
-                    conn.commit()
-                    c.close()
-                except Exception, e:
-                    return e
+            return self.error_page("Bad URL.")
+        try:
+            feed = self.feeds[feed_id]
+            article = feed.articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
+        try:
+            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
+            c = conn.cursor()
+            c.execute("DELETE FROM articles WHERE article_link='" + article.article_link +"'")
+            conn.commit()
+            c.close()
+        except Exception, e:
+            return e
         return self.index()
 
     delete_article.exposed = True
@@ -1149,24 +1151,22 @@ class Root:
         try:
             feed_id, article_id = param.split(':')
         except:
-            return self.error_page("Bad URL")
+            return self.error_page("Bad URL.")
         try:
             feed = self.feeds[feed_id]
-        except KeyError:
-            return self.error_page("This feed do not exists.")
+            article = feed.articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
         try:
             folder = utils.path + "/var/export/epub/"
             os.makedirs(folder)
         except OSError:
             return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
-        for article in feed.articles:
-            if article_id == article.article_id:
-                section = ez_epub.Section()
-                section.title = article.article_title
-                section.paragraphs = [utils.clear_string(article.article_description)]
-                ez_epub.makeBook(article.article_title, [feed.feed_title], [section], \
-                        os.path.normpath(folder + "article"), lang='en-US', cover=None)
-                break
+        section = ez_epub.Section()
+        section.title = article.article_title
+        section.paragraphs = [utils.clear_string(article.article_description)]
+        ez_epub.makeBook(article.article_title, [feed.feed_title], [section], \
+                os.path.normpath(folder + "article"), lang='en-US', cover=None)
         return self.description(param)
     epub.exposed = True
 
