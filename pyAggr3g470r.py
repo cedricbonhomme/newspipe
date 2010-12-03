@@ -159,7 +159,7 @@ class Root:
                         feed.feed_image.encode('utf-8'))
 
             # The main page display only 10 articles by feeds.
-            for article in feed.articles[:10]:
+            for article in feed.articles.values()[:10]:
 
                 if article.article_readed == "0":
                     # not readed articles are in bold
@@ -421,107 +421,105 @@ class Root:
             return self.error_page("Bad URL")
         try:
             feed = self.feeds[feed_id]
-        except KeyError:
-            return self.error_page("This feed do not exists.")
+            article = feed.articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        for article in feed.articles:
-            if article_id == article.article_id:
+        try:
+            os.makedirs("./var/qrcode/")
+        except OSError:
+            pass
+        if not os.path.isfile("./var/qrcode/"+article_id+".png"):
+            # QR code generation
+            try:
+                qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
+                qr.addData(article.article_link)
+                qr.make()
+                im = qr.makeImage()
+                im.save("./var/qrcode/"+article_id+".png", format='png')
+            except Exception, e:
+                # Code length overflow
+                print e
 
-                try:
-                    os.makedirs("./var/qrcode/")
-                except OSError:
-                    pass
-                if not os.path.isfile("./var/qrcode/"+article_id+".png"):
-                    # QR code generation
-                    try:
-                        qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
-                        qr.addData(article.article_link)
-                        qr.make()
-                        im = qr.makeImage()
-                        im.save("./var/qrcode/"+article_id+".png", format='png')
-                    except Exception, e:
-                        # Code length overflow
-                        print e
+        if article.article_readed == "0":
+            self.mark_as_read("Article:"+article.article_link) # update the database
 
-                if article.article_readed == "0":
-                    self.mark_as_read("Article:"+article.article_link) # update the database
+        html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+        html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
+                        (article.article_title.encode('utf-8'), feed_id, \
+                        feed.feed_title.encode('utf-8'))
+        if article.like == "1":
+            html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
+                        (feed_id, article.article_id)
+        else:
+            html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
+                        (feed_id, article.article_id)
+        html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
+                        (feed_id, article.article_id)
+        html += "<br /><br />"
+        description = article.article_description
+        if description:
+            html += description.encode('utf-8')
+        else:
+            html += "No description available."
+        html += "\n</div>\n<hr />\n"
+        html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
+                        (feed_id, article.article_id)
+        html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % \
+                        (feed_id, article.article_id)
+        html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
+                        (article.article_link.encode('utf-8'),)
+        # Share this article:
+        # on Identi.ca
+        html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
+                        (article.article_title.encode('utf-8'), article.article_link.encode('utf-8'))
 
-                html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
-                                (article.article_title.encode('utf-8'), feed.feed_id, \
-                                feed.feed_title.encode('utf-8'))
-                if article.like == "1":
-                    html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
-                                (feed.feed_id, article.article_id)
-                else:
-                    html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
-                                (feed.feed_id, article.article_id)
-                html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
-                                (feed.feed_id, article.article_id)
-                html += "<br /><br />"
-                description = article.article_description
-                if description:
-                    html += description.encode('utf-8')
-                else:
-                    html += "No description available."
-                html += "\n</div>\n<hr />\n"
-                html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
-                                (feed.feed_id, article.article_id)
-                html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % \
-                                (feed.feed_id, article.article_id)
-                html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
-                                (article.article_link.encode('utf-8'),)
-                # Share this article:
-                # on Identi.ca
-                html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
-                                (article.article_title.encode('utf-8'), article.article_link.encode('utf-8'))
+        # on Google Buzz
+        html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
-                # on Google Buzz
-                html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on delicious
+        html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
-                # on delicious
-                html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on Digg
+        html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on reddit
+        html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on Scoopeo
+        html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on Blogmarks
+        html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
-                # on Digg
-                html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
-                # on reddit
-                html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
-                # on Scoopeo
-                html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
-                # on Blogmarks
-                html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
-                        rel="noreferrer" target="_blank">\n\t
-                        <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on Twitter
+        html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
+                        (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
 
-                # on Twitter
-                html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
-                                (article.article_link.encode('utf-8'), article.article_title.encode('utf-8'))
+        # on Google Buzz with counter
+        html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
+                        (article.article_link.encode('utf-8'),)
 
-                # on Google Buzz with counter
-                html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
-                                (article.article_link.encode('utf-8'),)
+        html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
+                        (article_id,)
 
-                html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
-                                (article_id,)
-                break
         html += "<hr />\n" + htmlfooter
         return html
 
@@ -547,7 +545,7 @@ class Root:
         html += """</div> <div class="left inner">"""
         html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed.feed_title.encode('utf-8'))
 
-        for article in feed.articles:
+        for article in feed.articles.values():
 
             if article.article_readed == "0":
                 # not readed articles are in bold
@@ -599,7 +597,7 @@ class Root:
                 for feed in self.feeds.values():
                     new_feed_section = True
                     nb_unread = 0
-                    for article in feed.articles:
+                    for article in feed.articles.values():
                         if article.article_readed == "0":
                             nb_unread += 1
                             if new_feed_section is True:
@@ -635,11 +633,11 @@ class Root:
             else:
                 try:
                     feed = self.feeds[feed_id]
-                except KeyError:
-                    return self.error_page("This feed do not exists.")
+                except:
+                    self.error_page("This feed do not exists.")
                 html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
                     <br />""" % (feed.feed_id, feed.feed_title.encode('utf-8'))
-                for article in feed.articles:
+                for article in feed.articles.values():
                     if article.article_readed == "0":
                         # descrition for the CSS ToolTips
                         article_content = utils.clear_string(article.article_description.encode('utf-8'))
@@ -693,7 +691,7 @@ class Root:
         timeline = Counter()
         for feed in self.feeds.values():
             new_feed_section = True
-            for article in feed.articles:
+            for article in feed.articles.values():
 
                 if querystring == "all":
                     timeline[article.article_date.encode('utf-8').split(' ')[0].split('-')[0]] += 1
@@ -762,25 +760,24 @@ class Root:
         try:
             feed_id, article_id = target.split(':')
         except:
-            return self.error_page("This article do not exists.")
+            return self.error_page("Bad URL.")
         try:
-            articles_list = self.articles[feed_id]
-        except KeyError:
-            return self.error_page("This feed do not exists.")
+            feed = self.feeds[feed_id]
+            article = feed.articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         feed_id, article_id = target.split(':')
-        for article in articles_list:
-            if article_id == article.article_id:
-                html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
-                                    (article.article_title.encode('utf-8'), feed_id, \
-                                    feed.feed_title.encode('utf-8'))
-                description = utils.clear_string(article.article_description.encode('utf-8'))
-                if description:
-                    html += description
-                else:
-                    html += "No description available."
+        html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
+                            (article.article_title.encode('utf-8'), feed_id, \
+                            feed.feed_title.encode('utf-8'))
+        description = utils.clear_string(article.article_description.encode('utf-8'))
+        if description:
+            html += description
+        else:
+            html += "No description available."
         html += "\n<hr />\n" + htmlfooter
         return html
 
@@ -933,7 +930,7 @@ class Root:
         html += "<h1>Your favorites articles</h1>"
         for feed in self.feeds.values():
             new_feed_section = True
-            for article in feed.articles:
+            for article in feed.articles.values():
                 if article.like == "1":
                     if new_feed_section is True:
                         new_feed_section = False

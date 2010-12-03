@@ -25,7 +25,7 @@ __date__ = "$Date: 2010/12/02 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
-
+from collections import OrderedDict
 
 class Feed(object):
     """
@@ -42,7 +42,7 @@ class Feed(object):
         self.mail = ""#mail
         self.nb_articles = ""#nb_articles
         self.nb_unread_articles = ""#nb_unread_articles
-        self.articles = []#articles_list
+        self.articles = OrderedDict()#articles_list
 
 
 class Article(object):

@@ -393,7 +393,7 @@ def load_feed():
                     article_object.article_readed = article[4]
                     article_object.like = article[6]
 
-                    feed_object.articles.append(article_object)
+                    feed_object.articles[article_id] = article_object
 
                     # update the number of favorites articles
                     nb_favorites = nb_favorites + int(article[6])
@@ -401,7 +401,7 @@ def load_feed():
 
                 # informations about a feed
                 feed_object.nb_articles = len(feed_object.articles)
-                feed_object.nb_unread_articles = len([article for article in feed_object.articles \
+                feed_object.nb_unread_articles = len([article for article in feed_object.articles.values() \
                                     if article.article_readed=="0"])
 
                 feeds[feed_id] = feed_object
