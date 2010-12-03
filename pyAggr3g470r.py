@@ -346,9 +346,9 @@ class Root:
                                     (feed_id, article.article_id.encode('utf-8'), article.article_title.encode('utf-8')) + \
                             not_read_end + """<br />\n"""
         else:
-            for rss_feed_id in self.articles.keys():
+            for feed in self.feeds.values():
                 new_feed_section = True
-                for article in self.articles[rss_feed_id]:
+                for article in feed.articles.values():
                     article_content = utils.clear_string(article.article_description.encode('utf-8'))
                     if not article_content:
                         utils.clear_string(article.article_title.encode('utf-8'))
@@ -359,11 +359,11 @@ class Root:
                             target="_blank">%s</a></a>
                             <a href="%s" rel="noreferrer"
                             target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                (rss_feed_id, \
-                                self.feeds[rss_feed_id][5].encode('utf-8'), \
+                                (feed.feed_id, \
+                                feed.feed_id.encode('utf-8'), \
                                 feed.feed_title.encode('utf-8'), \
-                                self.feeds[rss_feed_id][4].encode('utf-8'), \
-                                self.feeds[rss_feed_id][2].encode('utf-8'))
+                                feed.feed_link.encode('utf-8'), \
+                                feed.feed_image.encode('utf-8'))
 
                         if article.article_readed == "0":
                             # not readed articles are in bold
@@ -390,7 +390,7 @@ class Root:
                         # CSS description tooltips on mouse over)
                         html += article.article_date.encode('utf-8') + " - " + \
                                 """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                        (rss_feed_id, article.article_id.encode('utf-8'), not_read_begin, \
+                                        (feed.feed_id, article.article_id.encode('utf-8'), not_read_begin, \
                                         article.article_title.encode('utf-8')[:150], \
                                         not_read_end, description) + like + "<br />\n"
         html += "<hr />"
