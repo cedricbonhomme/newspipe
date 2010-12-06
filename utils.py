@@ -163,7 +163,7 @@ def top_words(feeds, n=10, size=5):
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for feed in feeds.values():
         for article in feed.articles.values():
-            for word in wordre.findall(clear_string(article.article_description.encode('utf-8'))):
+            for word in wordre.findall(clear_string(article.article_description)):
                 words[word.lower()] += 1
     return words.most_common(n)
 
@@ -366,11 +366,11 @@ def load_feed():
 
             # Current Feed object
             feed_object = articles.Feed()
-            feed_object.feed_id = feed_id
-            feed_object.feed_title = feed[0]
-            feed_object.feed_image = feed[3]
-            feed_object.feed_link = feed[2]
-            feed_object.feed_site_link = feed[1]
+            feed_object.feed_id = feed_id.encode('utf-8')
+            feed_object.feed_title = feed[0].encode('utf-8')
+            feed_object.feed_image = feed[3].encode('utf-8')
+            feed_object.feed_link = feed[2].encode('utf-8')
+            feed_object.feed_site_link = feed[1].encode('utf-8')
             feed_object.mail = feed[4]
 
             if list_of_articles != []:
@@ -382,11 +382,11 @@ def load_feed():
 
                     # Current Article object
                     article_object = articles.Article()
-                    article_object.article_id = article_id
-                    article_object.article_date = article[0]
-                    article_object.article_title = unescape(article[1])
-                    article_object.article_link = article[2]
-                    article_object.article_description = unescape(article[3])
+                    article_object.article_id = article_id.encode('utf-8')
+                    article_object.article_date = article[0].encode('utf-8')
+                    article_object.article_title = unescape(article[1]).encode('utf-8')
+                    article_object.article_link = article[2].encode('utf-8')
+                    article_object.article_description = unescape(article[3]).encode('utf-8')
                     article_object.article_readed = article[4]
                     article_object.like = article[6]
 

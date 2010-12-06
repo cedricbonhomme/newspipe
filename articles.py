@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 class Feed(object):
     """
-    Represent a stream (RSS, ATOM).
+    Represent a stream (RSS, ATOM, etc.).
     """
     def __init__(self):
         """
