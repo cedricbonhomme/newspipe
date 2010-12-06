@@ -1041,7 +1041,7 @@ class Root:
                 """ % (time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()), \
                         time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
 
-        for rss_feed_id in self.feeds.keys():
+        for feed in self.feeds.values():
             if export_method != "export_RSS":
                 folder = utils.path + "/var/export/" + \
                         utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
@@ -1050,7 +1050,7 @@ class Root:
                 except OSError:
                     return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
 
-            for article in self.articles[rss_feed_id]:
+            for article in feed.articles.values():
                 name = article.article_date.strip().replace(' ', '_')
 
                 # Export all articles in HTML format
