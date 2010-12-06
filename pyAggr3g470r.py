@@ -175,30 +175,30 @@ class Root:
                 else:
                     like = ""
 
-                # descrition for the CSS ToolTips
+                # Descrition for the CSS ToolTips
                 article_content = utils.clear_string(article.article_description.encode('utf-8'))
                 if article_content:
                     description = " ".join(article_content[:500].split(' ')[:-1])
                 else:
                     description = "No description."
+                # Title of the article
+                article_title = article.article_title.encode('utf-8')
+                if len(article_title) >= 110:
+                    article_title = article_title[:110] + " ..."
 
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
                 html += article.article_date.encode('utf-8') + " - " + \
                         """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                 (feed.feed_id, article.article_id.encode('utf-8'), not_read_begin, \
-                                article.article_title.encode('utf-8')[:150], \
-                                not_read_end, description) + like + \
-                        "<br />\n"
+                                article_title, not_read_end, description) + like + "<br />\n"
             html += "<br />\n"
 
             # some options for the current feed
             html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
             html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
             if feed.nb_unread_articles != 0:
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)"
-                        >Unread article(s) (%s)</a>""" % (feed.feed_id, \
-                                        feed.nb_unread_articles)
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed.feed_id, feed.nb_unread_articles)
             if feed.mail == "0":
                 html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
             else:
@@ -239,11 +239,9 @@ class Root:
                 not_read_end = ""
             html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s"
                     title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
-                            (feed.feed_id.encode('utf-8'), \
-                            feed.feed_title.encode('utf-8'), \
+                            (feed.feed_id.encode('utf-8'), feed.feed_title.encode('utf-8'), \
                             feed.feed_id, not_read_begin, \
-                            feed.nb_unread_articles, not_read_end, \
-                            feed.nb_articles)
+                            feed.nb_unread_articles, not_read_end, feed.nb_articles)
         return html + "</div>"
 
 
@@ -302,7 +300,6 @@ class Root:
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
-
             html += "<hr />\n"
         html += htmlfooter
         return html
@@ -315,6 +312,7 @@ class Root:
         Search for a feed. Simply search for the string 'querystring'
         in the description of the article.
         """
+        print querystring
         param, _, value = querystring.partition(':')
         wordre = re.compile(r'\b%s\b' % param, re.I)
         feed_id = None
@@ -323,11 +321,10 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
 
         if feed_id is not None:
-            for article in self.articles[rss_feed_id]:
+            for article in self.feeds[feed_id].articles.values():
                 article_content = utils.clear_string(article.article_description.encode('utf-8'))
                 if not article_content:
                     utils.clear_string(article.article_title.encode('utf-8'))
@@ -519,7 +516,6 @@ class Root:
 
         html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
                         (article_id,)
-
         html += "<hr />\n" + htmlfooter
         return html
 
@@ -538,8 +534,7 @@ class Root:
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
-        html += """<br />\n<form method=get action="/q/Feed"><input type="text" name="Feed:%s:querystring" value=""><input
-        type="submit" value="Search this feed"></form>\n""" % (feed_id,)
+        html += """<br />\n<form method=get action="/q/%s"><input type="search" name="querystring" value="" placeholder="Search this feed" maxlength=2048 autocomplete="on"></form>\n""" % ("Feed:"+feed_id,)
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
