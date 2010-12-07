@@ -1142,9 +1142,9 @@ class Root:
         except OSError:
             return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
         section = ez_epub.Section()
-        section.title = article.article_title.decode()
-        section.paragraphs = [utils.clear_string(article.article_description)]
-        ez_epub.makeBook(article.article_title.decode(), [feed.feed_title.decode()], [section], \
+        section.title = article.article_title.decode('utf-8')
+        section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
+        ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
                 os.path.normpath(folder + "article"), lang='en-US', cover=None)
         return self.article(param)
     epub.exposed = True
