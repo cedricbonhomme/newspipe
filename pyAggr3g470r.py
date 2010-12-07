@@ -40,7 +40,6 @@ import feedgetter
 import PyQRNative
 
 bindhost = "0.0.0.0"
-
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 
 # static files
@@ -120,7 +119,7 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        # if there are unread articles, display the number in the tab
+        # if there are unread articles, display the number in the tab of the browser
         html = htmlheader((self.nb_unread_articles and \
                             ['(' + str(self.nb_unread_articles) +') '] or \
                             [""])[0])
@@ -243,22 +242,26 @@ class Root:
 
     def management(self, word_size=6):
         """
-        Management of articles.
+        Management page.
+        Allows adding and deleting feeds. Export functions of the SQLite data base
+        and display some statistics.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
         html += "<h1>Add Feeds</h1>\n"
-        html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input
-        type="submit" value="OK"></form>\n"""
+        # Form: add a feed
+        html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input type="submit" value="OK"></form>\n"""
 
         if self.feeds:
+            # Form: delete a feed
             html += "<h1>Delete Feeds</h1>\n"
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
             for feed in self.feeds.values():
                 html += """\t<option value="%s">%s</option>\n""" % \
                         (feed.feed_id, feed.feed_title)
             html += """</select><input type="submit" value="OK"></form>\n"""
+
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
                         (self.nb_mail_notifications,)
             html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
@@ -266,13 +269,14 @@ class Root:
 
         html += "<hr />\n"
 
-        # Informations about the data base of articles, export funtions...
+        # Informations about the data base of articles
         html += """<p>The database contains a total of %s article(s) with
                 <a href="/unread/">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, self.nb_unread_articles)
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
 
+        # Export functions
         html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
         html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
         html += "<h1>Export articles</h1>\n\n"
@@ -284,7 +288,7 @@ class Root:
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
         html += "<hr />\n\n"
 
-        # Some statistics
+        # Some statistics (most frequent word)
         if self.feeds:
             self.top_words = utils.top_words(self.feeds, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
@@ -305,7 +309,7 @@ class Root:
 
     def q(self, querystring=None):
         """
-        Search for a feed. Simply search for the string 'querystring'
+        Simply search for the string 'querystring'
         in the description of the article.
         """
         param, _, value = querystring.partition(':')
@@ -332,8 +336,7 @@ class Root:
                         not_read_begin = ""
                         not_read_end = ""
 
-                    html += article.article_date + \
-                            " - " + not_read_begin + \
+                    html += article.article_date + " - " + not_read_begin + \
                             """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (feed_id, article.article_id, article.article_title) + \
                             not_read_end + """<br />\n"""
@@ -414,12 +417,13 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
+        # Generation of the QR Code for the current article
         try:
             os.makedirs("./var/qrcode/")
         except OSError:
             pass
-        if not os.path.isfile("./var/qrcode/"+article_id+".png"):
-            # QR code generation
+        if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
+            # QR Code generation
             try:
                 qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
                 qr.addData(article.article_link)
@@ -431,9 +435,11 @@ class Root:
                 print e
 
         if article.article_readed == "0":
-            self.mark_as_read("Article:"+article.article_link) # update the database
+            # if the current article is not yet readed, update the database
+            self.mark_as_read("Article:"+article.article_link)
 
         html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+        # Title of the article
         html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
                         (article.article_title, feed_id, feed.feed_title)
         if article.like == "1":
@@ -445,18 +451,20 @@ class Root:
         html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
                         (feed_id, article.article_id)
         html += "<br /><br />"
+
+        # Description (full content) of the article
         description = article.article_description
         if description:
             html += description
         else:
             html += "No description available."
+
+        # Footer menu
         html += "\n</div>\n<hr />\n"
-        html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % \
-                        (feed_id, article.article_id)
-        html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % \
-                        (feed_id, article.article_id)
-        html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % \
-                        (article.article_link,)
+        html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article.article_id)
+        html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article.article_id)
+        html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
+
         # Share this article:
         # on Identi.ca
         html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
@@ -503,8 +511,8 @@ class Root:
         html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
                         (article.article_link,)
 
-        html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % \
-                        (article_id,)
+        # QRCode (for smartphone)
+        html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % (article_id,)
         html += "<hr />\n" + htmlfooter
         return html
 
