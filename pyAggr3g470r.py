@@ -660,7 +660,7 @@ class Root:
 
                 html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed.feed_id,)
         else:
-            html += "<h1>No unread article(s)</h1>"
+            html += '<h1>No unread article(s)</h1>\n<br />\n<a href="/fetch/">Why not check for news?</a>'
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
         html += htmlfooter
