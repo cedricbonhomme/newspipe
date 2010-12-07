@@ -189,13 +189,13 @@ class Root:
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
                 html += article.article_date + " - " + \
-                        """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                 (feed.feed_id, article.article_id, not_read_begin, \
                                 article_title, not_read_end, description) + like + "<br />\n"
             html += "<br />\n"
 
             # some options for the current feed
-            html += """<a href="/all_articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
+            html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
             html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
             if feed.nb_unread_articles != 0:
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed.feed_id, feed.nb_unread_articles)
@@ -341,7 +341,7 @@ class Root:
                         not_read_end = ""
 
                     html += article.article_date + " - " + not_read_begin + \
-                            """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                            """<a href="/article/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                     (feed_id, article.article_id, article.article_title) + \
                             not_read_end + """<br />\n"""
         else:
@@ -384,7 +384,7 @@ class Root:
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
                         html += article.article_date + " - " + \
-                                """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                                """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                         (feed.feed_id, article.article_id, not_read_begin, \
                                         article.article_title[:150], not_read_end, description) + like + "<br />\n"
         html += "<hr />"
@@ -405,9 +405,9 @@ class Root:
     fetch.exposed = True
 
 
-    def description(self, param):
+    def article(self, param):
         """
-        Display the description of an article in a new Web page.
+        Display the article in parameter in a new Web page.
         """
         try:
             feed_id, article_id = param.split(':')
@@ -444,7 +444,7 @@ class Root:
 
         html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
         # Title of the article
-        html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n""" % \
+        html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n""" % \
                         (article.article_title, feed_id, feed.feed_title)
         if article.like == "1":
             html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
@@ -466,13 +466,13 @@ class Root:
         # Previous and following articles
         try:
             following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
-            html += """<div style="float:right;"><a href="/description/%s:%s" title="%s"><img src="/css/img/following-article.png" /></a></div>\n""" % \
+            html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/css/img/following-article.png" /></a></div>\n""" % \
                 (feed_id, following.article_id, following.article_title)
         except:
             pass
         try:
             previous = feed.articles.values()[feed.articles.keys().index(article_id) + 1]
-            html += """<div style="float:left;"><a href="/description/%s:%s" title="%s"><img src="/css/img/previous-article.png" /></a></div>\n""" % \
+            html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/css/img/previous-article.png" /></a></div>\n""" % \
                 (feed_id, previous.article_id, previous.article_title)
         except:
             pass
@@ -536,10 +536,10 @@ class Root:
         html += "<hr />\n" + htmlfooter
         return html
 
-    description.exposed = True
+    article.exposed = True
 
 
-    def all_articles(self, feed_id):
+    def articles(self, feed_id):
         """
         Display all articles of a feed.
         """
@@ -582,7 +582,7 @@ class Root:
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
             html += article.article_date + " - " + \
-                    """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                             (feed.feed_id, article.article_id, not_read_begin, \
                             article.article_title[:150], not_read_end, description) + like + "<br />\n"
 
@@ -591,7 +591,7 @@ class Root:
         html += htmlfooter
         return html
 
-    all_articles.exposed = True
+    articles.exposed = True
 
 
     def unread(self, feed_id=""):
@@ -629,7 +629,7 @@ class Root:
                             # a description line per article (date, title of the article and
                             # CSS description tooltips on mouse over)
                             html += article.article_date + " - " + \
-                                    """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                             (feed.feed_id, article.article_id, article.article_title[:150], description)
 
                             if nb_unread == feed.nb_unread_articles:
@@ -641,7 +641,7 @@ class Root:
                     feed = self.feeds[feed_id]
                 except:
                     self.error_page("This feed do not exists.")
-                html += """<h1>Unread article(s) of the feed <a href="/all_articles/%s">%s</a></h1>
+                html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
                     <br />""" % (feed.feed_id, feed.feed_title)
                 for article in feed.articles.values():
                     if article.article_readed == "0":
@@ -655,7 +655,7 @@ class Root:
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
                         html += article.article_date + " - " + \
-                                """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                                """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                         (feed.feed_id, article.article_id, article.article_title[:150], description)
 
                 html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed.feed_id,)
@@ -730,7 +730,7 @@ class Root:
                                         (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
                                 html += article.article_date + " - " + not_read_begin + \
-                                        """<a href="/description/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
+                                        """<a href="/article/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
                                         (feed.feed_id, article.article_id, \
                                         utils.clear_string(article.article_title)) + not_read_end + like + "<br />\n"
 
@@ -767,7 +767,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         feed_id, article_id = target.split(':')
-        html += """<h1><i>%s</i> from <a href="/all_articles/%s">%s</a></h1>\n<br />\n"""% \
+        html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n"""% \
                             (article.article_title, feed_id, feed.feed_title)
         description = utils.clear_string(article.article_description)
         if description:
@@ -824,7 +824,7 @@ class Root:
         if param == "" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
-            return self.all_articles(identifiant)
+            return self.articles(identifiant)
 
     mark_as_read.exposed = True
 
@@ -839,7 +839,7 @@ class Root:
         html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
         for feed in self.feeds.values():
             if feed.mail == "1":
-                html += """\t<a href="/all_articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
+                html += """\t<a href="/articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
                         (feed.feed_id, feed.feed_title, feed.feed_id)
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
@@ -904,7 +904,7 @@ class Root:
             c.close()
         except Exception:
             self.error_page("Impossible to like/dislike this article (database error).")
-        return self.description(feed_id+":"+article_id)
+        return self.article(feed_id+":"+article_id)
 
     like.exposed = True
 
@@ -939,7 +939,7 @@ class Root:
                     # a description line per article (date, title of the article and
                     # CSS description tooltips on mouse over)
                     html += article.article_date + " - " + \
-                            """<a class="tooltip" href="/description/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                            """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                     (feed.feed_id, article.article_id, article.article_title[:150], description)
         html += "<hr />\n"
         html += htmlfooter
@@ -1149,7 +1149,7 @@ class Root:
         section.paragraphs = [utils.clear_string(article.article_description)]
         ez_epub.makeBook(article.article_title.decode(), [feed.feed_title.decode()], [section], \
                 os.path.normpath(folder + "article"), lang='en-US', cover=None)
-        return self.description(param)
+        return self.article(param)
     epub.exposed = True
 
 
