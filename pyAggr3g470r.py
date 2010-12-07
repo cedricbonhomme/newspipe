@@ -416,7 +416,7 @@ class Root:
             self.error_page("This article do not exists.")
         html = htmlheader()
         html += htmlnav
-        html += """<div class="left inner">"""
+        html += """<div>"""
         # Generation of the QR Code for the current article
         try:
             os.makedirs("./var/qrcode/")
@@ -455,9 +455,9 @@ class Root:
         # Description (full content) of the article
         description = article.article_description
         if description:
-            html += description + "\n<br /><br />"
+            html += description + "\n<br /><br /><br />"
         else:
-            html += "No description available.\n<br /><br />"
+            html += "No description available.\n<br /><br /><br />"
 
         # Previous and following articles
         try:
@@ -1111,7 +1111,7 @@ class Root:
         section.title = article.article_title.decode('utf-8')
         section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
         ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
-                os.path.normpath(folder + "article"), lang='en-US', cover=None)
+                os.path.normpath(folder) + "article.epub", lang='en-US', cover=None)
         return self.article(param)
 
     epub.exposed = True

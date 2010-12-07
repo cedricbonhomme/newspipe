@@ -275,10 +275,6 @@ class EpubBook:
         fout.close()
         os.chdir(cwd)
 
-    @staticmethod
-    def checkEpub(checkerPath, epubPath):
-        subprocess.call(['java', '-jar', checkerPath, epubPath], shell = True)
-
     def createBook(self, rootDir):
         if self.titlePage:
             self.__makeTitlePage()
@@ -291,7 +287,6 @@ class EpubBook:
         self.__writeContainerXML()
         self.__writeContentOPF()
         self.__writeTocNCX()
-
 
 def test():
     def getMinimalHtml(text):
@@ -343,7 +338,6 @@ def test():
     rootDir = r'd:\epub\test'
     book.createBook(rootDir)
     EpubBook.createArchive(rootDir, rootDir + '.epub')
-    #EpubBook.checkEpub('epubcheck-1.0.5.jar', rootDir + '.epub')
 
 if __name__ == '__main__':
     test()
