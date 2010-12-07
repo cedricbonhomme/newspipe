@@ -25,10 +25,7 @@ __date__ = "$Date: 2010/10/25 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
-IMPORT_ERROR = []
-
 import re
-import string
 import hashlib
 import sqlite3
 import operator
@@ -51,7 +48,6 @@ from datetime import datetime
 from string import punctuation
 from collections import Counter
 from collections import OrderedDict
-from collections import defaultdict
 
 from StringIO import StringIO
 

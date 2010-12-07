@@ -44,7 +44,6 @@ class Feed(object):
         self.nb_unread_articles = ""#nb_unread_articles
         self.articles = OrderedDict()#articles_list
 
-
 class Article(object):
     """
     Represent an article.

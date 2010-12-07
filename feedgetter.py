@@ -25,7 +25,6 @@ __date__ = "$Date: 2010/09/02 $"
 __copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import re
 import sqlite3
 import threading
 import feedparser

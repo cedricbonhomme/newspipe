@@ -131,7 +131,7 @@ class Root:
         if self.feeds:
             html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
             html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
-            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
 
             html += """<a href="/favorites/"><img src="/css/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
@@ -785,8 +785,7 @@ class Root:
                             self.feeds[identifiant].feed_link + "'")
             # Mark an article as read.
             elif param == "Article":
-                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + \
-                            identifiant + "'")
+                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + identifiant + "'")
             conn.commit()
             c.close()
         except Exception:
@@ -814,7 +813,6 @@ class Root:
             if feed.mail == "1":
                 html += """\t<a href="/all_articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
                         (feed.feed_id, feed.feed_title, feed.feed_id)
-
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
         html += "\n<hr />\n" + htmlfooter
@@ -871,11 +869,9 @@ class Root:
             c = conn.cursor()
             # Mark all articles as read.
             if action == "yes":
-                c.execute("UPDATE articles SET like=1 WHERE article_link='" + \
-                            article.article_link + "'")
+                c.execute("UPDATE articles SET like=1 WHERE article_link='" + article.article_link + "'")
             if action == "no":
-                c.execute("UPDATE articles SET like=0 WHERE article_link='" + \
-                            article.article_link + "'")
+                c.execute("UPDATE articles SET like=0 WHERE article_link='" + article.article_link + "'")
             conn.commit()
             c.close()
         except Exception:
@@ -943,8 +939,7 @@ class Root:
             html +=  "<p>You are already following this feed!</p>"
         else:
             html += """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
-        html += "<br />"
-        html += """<a href="/management/">Back to the management page.</a><br />\n"""
+        html += """\n<br />\n<a href="/management/">Back to the management page.</a><br />\n"""
         html += "<hr />\n"
         html += htmlfooter
         return html
@@ -1012,7 +1007,6 @@ class Root:
     #
     # Export functions
     #
-
     def export(self, export_method):
         """
         Export articles stored in the SQLite database in text
@@ -1131,12 +1125,12 @@ class Root:
     epub.exposed = True
 
 
-
-
+    #
+    # Monitoring functions
+    #
     def update(self, path=None, event = None):
         """
-        Synchronizes transient objects (dictionary of feed and articles)
-        with the database.
+        Synchronizes transient objects (dictionary of feed and articles) with the database.
         Called when a changes in the database is detected.
         """
         self.feeds, \
@@ -1146,11 +1140,6 @@ class Root:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base
-
-
-    #
-    # Monitoring functions
-    #
 
     def watch_base(self):
         """Monitor a file.
@@ -1178,8 +1167,7 @@ class Root:
 
     def watch_base_classic(self):
         """
-        Monitor the base of feeds if the module gamin is not
-        installed.
+        Monitor the base of feeds if the module gamin is not installed.
         """
         time.sleep(10)
         old_time = 0
