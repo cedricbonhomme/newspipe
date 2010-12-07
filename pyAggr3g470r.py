@@ -286,7 +286,6 @@ class Root:
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
-        html += """\t<option value="export_RSS">RSS</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
         html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
@@ -1037,37 +1036,15 @@ class Root:
         Export articles stored in the SQLite database in text
         (raw or HTML) files.
         """
-        if export_method == "export_RSS":
-            content = """<?xml version="1.0" encoding="UTF-8"?>
-                <rss version="2.0"
-                    xmlns:content="http://purl.org/rss/1.0/modules/content/"
-                    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-                    xmlns:dc="http://purl.org/dc/elements/1.1/"
-                    xmlns:atom="http://www.w3.org/2005/Atom"
-                    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-                    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
-                    >
-
-                <channel>
-                <title>pyAggr3g470r news</title>
-                <link>http://</link>
-                <atom:link href="http://" rel="self" type="application/rss+xml" />
-                <description>pyAggr3g470r export</description>
-                <pubDate>%s</pubDate>
-                <lastBuildDate>%s</lastBuildDate>
-                <generator>feeds.cgi</generator>
-
-                """ % (time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()), \
-                        time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
-
         for feed in self.feeds.values():
-            if export_method != "export_RSS":
-                folder = utils.path + "/var/export/" + \
-                        utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
-                try:
-                    os.makedirs(folder)
-                except OSError:
-                    return self.error_page(utils.path + "var/export/"+" already exists.\nYou should delete this folder.")
+            # creates folder for each stream
+            folder = utils.path + "/var/export/" + \
+                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
+            try:
+                os.makedirs(folder)
+            except OSError:
+                # directories already exists (not a problem)
+                pass
 
             for article in feed.articles.values():
                 name = article.article_date.strip().replace(' ', '_')
@@ -1094,26 +1071,14 @@ class Root:
                     content += article.article_description
                     content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
 
-                # Export all articles in RSS format
-                elif export_method == "export_RSS":
-                    content += """<item>\n<title>%s</title>\n<link>%s</link>\n""" % (article.article_title, article.article_link)
-                    content += """<pubDate>%s</pubDate>\n""" % (str(article.article_date),)
-                    content += """<description><![CDATA[%s]]></description>""" % (article.article_description,)
-                    content += "</item>\n"
-
                 # Export all articles in raw text
                 elif export_method == "export_TXT":
                     content = "Title: " + article.article_title + "\n\n\n"
                     content += utils.clear_string(article.article_description)
                     name = os.path.normpath(folder + "/" + name + ".txt")
-                if export_method != "export_RSS":
-                    with open(name, "w") as f:
-                        f.write(content)
 
-        if export_method == "export_RSS":
-            content += "</channel>\n</rss>"
-            with open(os.path.normpath(utils.path + "/var/export/feeds.rss"), "w") as f:
-                f.write(content)
+                with open(name, "w") as f:
+                    f.write(content)
         return self.management()
 
     export.exposed = True
@@ -1121,7 +1086,7 @@ class Root:
 
     def epub(self, param):
         """
-        Export article(s) to epub.
+        Export an article to EPUB.
         """
         try:
             from epub import ez_epub
@@ -1140,13 +1105,15 @@ class Root:
             folder = utils.path + "/var/export/epub/"
             os.makedirs(folder)
         except OSError:
-            return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
+            # directories already exists (not a problem)
+            pass
         section = ez_epub.Section()
         section.title = article.article_title.decode('utf-8')
         section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
         ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
                 os.path.normpath(folder + "article"), lang='en-US', cover=None)
         return self.article(param)
+
     epub.exposed = True
 
 
