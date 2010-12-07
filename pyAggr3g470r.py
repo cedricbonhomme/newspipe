@@ -354,11 +354,8 @@ class Root:
                     if wordre.findall(article_content) != []:
                         if new_feed_section is True:
                             new_feed_section = False
-                            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                            target="_blank">%s</a></a>
-                            <a href="%s" rel="noreferrer"
-                            target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                (feed.feed_id, feed.feed_id, feed.feed_title, feed.feed_link, feed.feed_image)
+                            html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                (feed.feed_id, feed.feed_title, feed.feed_link, feed.feed_image)
 
                         if article.article_readed == "0":
                             # not readed articles are in bold
