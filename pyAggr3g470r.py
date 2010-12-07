@@ -455,12 +455,28 @@ class Root:
         # Description (full content) of the article
         description = article.article_description
         if description:
-            html += description
+            html += description + "\n<br />"
         else:
-            html += "No description available."
+            html += "No description available.\n<br />"
+
+        # Previous and following articles
+        try:
+            following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
+            html += """<div style="float:right;"><a href="/description/%s:%s" title="%s">Following</a></div>\n""" % \
+                (feed_id, following.article_id, following.article_title)
+        except:
+            pass
+        try:
+            previous = feed.articles.values()[feed.articles.keys().index(article_id) + 1]
+            html += """<div style="float:left;"><a href="/description/%s:%s" title="%s">Previous</a></div>\n""" % \
+                (feed_id, previous.article_id, previous.article_title)
+        except:
+            pass
+
+        html += "\n</div>\n"
 
         # Footer menu
-        html += "\n</div>\n<hr />\n"
+        html += "<hr />\n"
         html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article.article_id)
         html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article.article_id)
         html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
@@ -1125,9 +1141,9 @@ class Root:
         except OSError:
             return self.error_page(utils.path + "var/export/epub/"+" already exists.\nYou should delete this folder.")
         section = ez_epub.Section()
-        section.title = article.article_title
+        section.title = article.article_title.decode()
         section.paragraphs = [utils.clear_string(article.article_description)]
-        ez_epub.makeBook(article.article_title, [feed.feed_title], [section], \
+        ez_epub.makeBook(article.article_title.decode(), [feed.feed_title.decode()], [section], \
                 os.path.normpath(folder + "article"), lang='en-US', cover=None)
         return self.description(param)
     epub.exposed = True
