@@ -83,6 +83,10 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/mark-as-read.png'}, \
         '/css/img/check-news.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/check-news.png'}, \
+        '/css/img/previous-article.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/previous-article.png'}, \
+        '/css/img/following-article.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/following-article.png'}, \
         '/var/qrcode': {'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
 
@@ -455,20 +459,20 @@ class Root:
         # Description (full content) of the article
         description = article.article_description
         if description:
-            html += description + "\n<br />"
+            html += description + "\n<br /><br />"
         else:
-            html += "No description available.\n<br />"
+            html += "No description available.\n<br /><br />"
 
         # Previous and following articles
         try:
             following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
-            html += """<div style="float:right;"><a href="/description/%s:%s" title="%s">Following</a></div>\n""" % \
+            html += """<div style="float:right;"><a href="/description/%s:%s" title="%s"><img src="/css/img/following-article.png" /></a></div>\n""" % \
                 (feed_id, following.article_id, following.article_title)
         except:
             pass
         try:
             previous = feed.articles.values()[feed.articles.keys().index(article_id) + 1]
-            html += """<div style="float:left;"><a href="/description/%s:%s" title="%s">Previous</a></div>\n""" % \
+            html += """<div style="float:left;"><a href="/description/%s:%s" title="%s"><img src="/css/img/previous-article.png" /></a></div>\n""" % \
                 (feed_id, previous.article_id, previous.article_title)
         except:
             pass
