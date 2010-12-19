@@ -443,10 +443,10 @@ class Root:
         html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n""" % \
                         (article.article_title, feed_id, feed.feed_title)
         if article.like == "1":
-            html += """<a href="/like/no:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
+            html += """<a href="/like/0:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
                         (feed_id, article.article_id)
         else:
-            html += """<a href="/like/yes:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
+            html += """<a href="/like/1:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
                         (feed_id, article.article_id)
         html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
                         (feed_id, article.article_id)
@@ -759,17 +759,12 @@ class Root:
         """
         try:
             feed_id, article_id = target.split(':')
+            feed, article = self.feeds[feed_id], self.feeds[feed_id].articles[article_id]
         except:
-            return self.error_page("Bad URL.")
-        try:
-            feed = self.feeds[feed_id]
-            article = feed.articles[article_id]
-        except:
-            self.error_page("This article do not exists.")
+            return self.error_page("Bad URL. This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        feed_id, article_id = target.split(':')
         html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n"""% \
                             (article.article_title, feed_id, feed.feed_title)
         description = utils.clear_string(article.article_description)
@@ -858,15 +853,13 @@ class Root:
         """
         try:
             action, feed_id = param.split(':')
+            feed = self.feeds[feed_id]
         except:
-            return self.error_page("Bad URL")
-        if feed_id not in self.feeds.keys():
-            return self.error_page("This feed do not exists.")
+            return self.error_page("Bad URL. This feed do not exists.")
         conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
         try:
             c = conn.cursor()
-            c.execute("""UPDATE feeds SET mail=%s WHERE feed_site_link='%s'""" % \
-                        (action, self.feeds[feed_id].feed_site_link))
+            c.execute("""UPDATE feeds SET mail=%s WHERE feed_site_link='%s'""" % (action, self.feeds[feed_id].feed_site_link))
         except:
             return self.error_page("Error")
         finally:
@@ -883,24 +876,18 @@ class Root:
         """
         try:
             action, feed_id, article_id = param.split(':')
-        except:
-            return self.error_page("Bad URL")
-        try:
             article = self.feeds[feed_id].articles[article_id]
         except:
-            self.error_page("This article do not exists.")
+            return self.error_page("Bad URL. This article do not exists.")
+        conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
         try:
-            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
             c = conn.cursor()
-            # Mark all articles as read.
-            if action == "yes":
-                c.execute("UPDATE articles SET like=1 WHERE article_link='" + article.article_link + "'")
-            if action == "no":
-                c.execute("UPDATE articles SET like=0 WHERE article_link='" + article.article_link + "'")
-            conn.commit()
-            c.close()
+            c.execute("""UPDATE articles SET like=%s WHERE article_link='%s'""" % (action, article.article_link))
         except Exception:
             self.error_page("Impossible to like/dislike this article (database error).")
+        finally:
+            conn.commit()
+            c.close()
         return self.article(feed_id+":"+article_id)
 
     like.exposed = True
@@ -999,21 +986,18 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
+            article = self.feeds[feed_id].articles[article_id]
         except:
-            return self.error_page("Bad URL.")
-        try:
-            feed = self.feeds[feed_id]
-            article = feed.articles[article_id]
-        except:
-            self.error_page("This article do not exists.")
+            return self.error_page("Bad URL. This article do not exists.")
         try:
             conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
             c = conn.cursor()
             c.execute("DELETE FROM articles WHERE article_link='" + article.article_link +"'")
-            conn.commit()
-            c.close()
         except Exception, e:
             return e
+        finally:
+            conn.commit()
+            c.close()
         return self.index()
 
     delete_article.exposed = True
