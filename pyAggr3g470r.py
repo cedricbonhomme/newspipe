@@ -407,13 +407,9 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
+            feed, article = self.feeds[feed_id], self.feeds[feed_id].articles[article_id]
         except:
-            return self.error_page("Bad URL")
-        try:
-            feed = self.feeds[feed_id]
-            article = feed.articles[article_id]
-        except:
-            self.error_page("This article do not exists.")
+            return self.error_page("Bad URL. This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div>"""
