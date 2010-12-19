@@ -163,11 +163,9 @@ class Root:
 
                 if article.article_readed == "0":
                     # not readed articles are in bold
-                    not_read_begin = "<b>"
-                    not_read_end = "</b>"
+                    not_read_begin, not_read_end = "<b>", "</b>"
                 else:
-                    not_read_begin = ""
-                    not_read_end = ""
+                    not_read_begin, not_read_end = "", ""
 
                 # display a heart for faved articles
                 if article.like == "1":
@@ -232,13 +230,10 @@ class Root:
         for feed in self.feeds.values():
             if feed.nb_unread_articles != 0:
                 # not readed articles are in bold
-                not_read_begin = "<b>"
-                not_read_end = "</b>"
+                not_read_begin, not_read_end = "<b>", "</b>"
             else:
-                not_read_begin = ""
-                not_read_end = ""
-            html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s"
-                    title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
+                not_read_begin, not_read_end = "", ""
+            html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
                             (feed.feed_id, feed.feed_title, feed.feed_id, not_read_begin, \
                             feed.nb_unread_articles, not_read_end, feed.nb_articles)
         return html + "</div>"
@@ -262,8 +257,7 @@ class Root:
             html += "<h1>Delete Feeds</h1>\n"
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
             for feed in self.feeds.values():
-                html += """\t<option value="%s">%s</option>\n""" % \
-                        (feed.feed_id, feed.feed_title)
+                html += """\t<option value="%s">%s</option>\n""" % (feed.feed_id, feed.feed_title)
             html += """</select><input type="submit" value="OK"></form>\n"""
 
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
@@ -333,11 +327,9 @@ class Root:
                 if wordre.findall(article_content) != []:
                     if article.article_readed == "0":
                         # not readed articles are in bold
-                        not_read_begin = "<b>"
-                        not_read_end = "</b>"
+                        not_read_begin, not_read_end = "<b>", "</b>"
                     else:
-                        not_read_begin = ""
-                        not_read_end = ""
+                        not_read_begin, not_read_end = "", ""
 
                     html += article.article_date + " - " + not_read_begin + \
                             """<a href="/article/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
@@ -358,11 +350,9 @@ class Root:
 
                         if article.article_readed == "0":
                             # not readed articles are in bold
-                            not_read_begin = "<b>"
-                            not_read_end = "</b>"
+                            not_read_begin, not_read_end = "<b>", "</b>"
                         else:
-                            not_read_begin = ""
-                            not_read_end = ""
+                            not_read_begin, not_read_end = "", ""
 
                         # display a heart for faved articles
                         if article.like == "1":
@@ -553,11 +543,9 @@ class Root:
 
             if article.article_readed == "0":
                 # not readed articles are in bold
-                not_read_begin = "<b>"
-                not_read_end = "</b>"
+                not_read_begin, not_read_end = "<b>", "</b>"
             else:
-                not_read_begin = ""
-                not_read_end = ""
+                not_read_begin, not_read_end = "", ""
 
             if article.like == "1":
                 like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
@@ -699,11 +687,9 @@ class Root:
                             if article.article_date.split(' ')[0].split('-')[1] == the_month:
                                 if article.article_readed == "0":
                                     # not readed articles are in bold
-                                    not_read_begin = "<b>"
-                                    not_read_end = "</b>"
+                                    not_read_begin, not_read_end = "<b>", "</b>"
                                 else:
-                                    not_read_begin = ""
-                                    not_read_end = ""
+                                    not_read_begin, not_read_end = "", ""
 
                                 if article.like == "1":
                                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
