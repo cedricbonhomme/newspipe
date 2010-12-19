@@ -200,9 +200,9 @@ class Root:
             if feed.nb_unread_articles != 0:
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed.feed_id, feed.nb_unread_articles)
             if feed.mail == "0":
-                html += """<br />\n<a href="/mail_notification/start:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
+                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
             else:
-                html += """<br />\n<a href="/mail_notification/stop:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed.feed_id,)
+                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed.feed_id,)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -609,10 +609,7 @@ class Root:
                             nb_unread += 1
                             if new_feed_section is True:
                                 new_feed_section = False
-                                html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                                target="_blank">%s</a></a>
-                                <a href="%s" rel="noreferrer"
-                                target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                html += """<h2><a name="%s"><a href="%s" rel="noreferrer" target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                     (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
                             # descrition for the CSS ToolTips
@@ -716,6 +713,16 @@ class Root:
                                     like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
+                                # Descrition for the CSS ToolTips
+                                article_content = utils.clear_string(article.article_description)
+                                if article_content:
+                                    description = " ".join(article_content[:500].split(' ')[:-1])
+                                else:
+                                    description = "No description."
+                                # Title of the article
+                                article_title = article.article_title
+                                if len(article_title) >= 110:
+                                    article_title = article_title[:110] + " ..."
 
                                 if new_feed_section is True:
                                     new_feed_section = False
@@ -725,10 +732,10 @@ class Root:
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                         (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
-                                html += article.article_date + " - " + not_read_begin + \
-                                        """<a href="/article/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                        (feed.feed_id, article.article_id, \
-                                        utils.clear_string(article.article_title)) + not_read_end + like + "<br />\n"
+                                html += article.article_date + " - " + \
+                                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                                                (feed.feed_id, article.article_id, not_read_begin, \
+                                                article_title, not_read_end, description) + like + "<br />\n"
 
         if querystring == "all":
             query = "year"
@@ -835,7 +842,7 @@ class Root:
         html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
         for feed in self.feeds.values():
             if feed.mail == "1":
-                html += """\t<a href="/articles/%s">%s</a> - <a href="/mail_notification/stop:%s">Stop</a><br />\n""" % \
+                html += """\t<a href="/articles/%s">%s</a> - <a href="/mail_notification/0:%s">Stop</a><br />\n""" % \
                         (feed.feed_id, feed.feed_title, feed.feed_id)
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
                         (utils.mail_to, utils.mail_to)
@@ -856,21 +863,15 @@ class Root:
         if feed_id not in self.feeds.keys():
             return self.error_page("This feed do not exists.")
         conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-        c = conn.cursor()
-        if action == "start":
-            try:
-                c.execute("UPDATE feeds SET mail=1 WHERE feed_site_link='" +
-                            self.feeds[feed_id].feed_site_link + "'")
-            except:
-                return self.error_page("Error")
-        else:
-            try:
-                c.execute("UPDATE feeds SET mail=0 WHERE feed_site_link='" +
-                            self.feeds[feed_id].feed_site_link + "'")
-            except:
-                return self.error_page("Error")
-        conn.commit()
-        c.close()
+        try:
+            c = conn.cursor()
+            c.execute("""UPDATE feeds SET mail=%s WHERE feed_site_link='%s'""" % \
+                        (action, self.feeds[feed_id].feed_site_link))
+        except:
+            return self.error_page("Error")
+        finally:
+            conn.commit()
+            c.close()
         return self.index()
 
     mail_notification.exposed = True
