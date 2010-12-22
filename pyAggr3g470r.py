@@ -709,8 +709,7 @@ class Root:
                                 if new_feed_section is True:
                                     new_feed_section = False
                                     html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                                    target="_blank">%s</a></a>
-                                    <a href="%s" rel="noreferrer"
+                                    target="_blank">%s</a></a><a href="%s" rel="noreferrer"
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                         (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
@@ -718,7 +717,6 @@ class Root:
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                                 (feed.feed_id, article.article_id, not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
-
         if querystring == "all":
             query = "year"
         elif "year" in querystring:
@@ -797,7 +795,7 @@ class Root:
             conn.commit()
             c.close()
         except Exception:
-            self.error_page("Impossible to mark this article as read (database error).")
+            self.error_page("Impossible to mark this article as read.")
         finally:
             LOCKER.release()
 
@@ -889,10 +887,7 @@ class Root:
                 if article.like == "1":
                     if new_feed_section is True:
                         new_feed_section = False
-                        html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                        target="_blank">%s</a></a>
-                        <a href="%s" rel="noreferrer"
-                        target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                        html += """<h2><a name="%s"><a href="%s" rel="noreferrer"target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                             (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
                     # descrition for the CSS ToolTips
@@ -928,7 +923,7 @@ class Root:
         # if a feed exists
         else:
             result = utils.add_feed(feed_url)
-        # if the feed is not already in the file feed.lst
+        # if the feed is not in the file feed.lst
         if result is False:
             html +=  "<p>You are already following this feed!</p>"
         else:
