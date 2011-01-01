@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 1.0 $"
 __date__ = "$Date: 2010/09/02 $"
-__copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
+__copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import sqlite3

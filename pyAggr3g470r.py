@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 2.4 $"
 __date__ = "$Date: 2010/12/07 $"
-__copyright__ = "Copyright (c) 2010 Cedric Bonhomme"
+__copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
