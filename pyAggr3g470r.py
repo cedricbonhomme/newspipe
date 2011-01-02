@@ -454,10 +454,11 @@ class Root:
             pass
         try:
             previous = feed.articles.values()[feed.articles.keys().index(article_id) + 1]
+        except:
+            previous = feed.articles.values()[0]
+        finally:
             html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/css/img/previous-article.png" /></a></div>\n""" % \
                 (feed_id, previous.article_id, previous.article_title)
-        except:
-            pass
 
         html += "\n</div>\n"
 
