@@ -292,7 +292,7 @@ class Root:
             # Tags cloud
             html += 'Minimum size of a word:'
             html += '<form method=get action="/management/">'
-            html += """<input type="number" name="word_size" value="%s" min="2" max="15">""" % (word_size)
+            html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size)
             html += '<input type="submit" value="OK"></form>\n'
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
