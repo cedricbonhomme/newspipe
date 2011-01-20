@@ -472,19 +472,16 @@ class Root:
         # on Identi.ca
         html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                         (article.article_title, article.article_link)
-
         # on Google Buzz
         html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                 rel="noreferrer" target="_blank">\n\t
                 <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
-
         # on delicious
         html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
                 <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
-
         # on Digg
         html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
@@ -505,15 +502,12 @@ class Root:
                 rel="noreferrer" target="_blank">\n\t
                 <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
-
         # on Twitter
         html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
-
         # on Google Buzz with counter
         html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
                         (article.article_link,)
-
         # QRCode (for smartphone)
         html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % (article_id,)
         html += "<hr />\n" + htmlfooter
