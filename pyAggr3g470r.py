@@ -516,6 +516,58 @@ class Root:
     article.exposed = True
 
 
+    def feed(self, feed_id):
+        """
+        """
+        try:
+            feed = self.feeds[feed_id]
+        except KeyError:
+            return self.error_page("This feed do not exists.")
+        html = htmlheader()
+        html += htmlnav
+        html += """<div class="left inner">"""
+        html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles.</p>"
+        html += "<br /><p>Recent articles:</p>"
+        for article in feed.articles.values()[:10]:
+            if article.article_readed == "0":
+                # not readed articles are in bold
+                not_read_begin, not_read_end = "<b>", "</b>"
+            else:
+                not_read_begin, not_read_end = "", ""
+
+            # display a heart for faved articles
+            if article.like == "1":
+                like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+            else:
+                like = ""
+
+            # Descrition for the CSS ToolTips
+            article_content = utils.clear_string(article.article_description)
+            if article_content:
+                description = " ".join(article_content[:500].split(' ')[:-1])
+            else:
+                description = "No description."
+            # Title of the article
+            article_title = article.article_title
+            if len(article_title) >= 110:
+                article_title = article_title[:110] + " ..."
+
+            # a description line per article (date, title of the article and
+            # CSS description tooltips on mouse over)
+            html += article.article_date + " - " + \
+                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                            (feed.feed_id, article.article_id, not_read_begin, \
+                            article_title, not_read_end, description) + like + "<br />\n"
+        html += "<br />\n"
+        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
+
+        html += "<hr />"
+        html += htmlfooter
+        return html
+
+    feed.exposed = True
+
+
     def articles(self, feed_id):
         """
         Display all articles of a feed.
