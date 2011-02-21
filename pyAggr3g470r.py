@@ -194,8 +194,9 @@ class Root:
 
             # some options for the current feed
             html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
-            html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
+            html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
             if feed.nb_unread_articles != 0:
+                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed.feed_id, feed.nb_unread_articles)
             if feed.mail == "0":
                 html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
