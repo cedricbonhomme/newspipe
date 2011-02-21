@@ -528,6 +528,8 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles.</p>"
+        html += "<p>" + (feed.nb_unread_articles == 0 and ["All articles are read"] or [str(feed.nb_unread_articles) + \
+                " unread article" + (feed.nb_unread_articles == 1 and [""] or ["s"])[0]])[0] + ".</p>"
         html += "<br /><p>Recent articles:</p>"
         for article in feed.articles.values()[:10]:
             if article.article_readed == "0":
