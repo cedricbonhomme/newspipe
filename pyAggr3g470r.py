@@ -527,9 +527,17 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles.</p>"
+        html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles. "
+        html += "Representing " + str((round(float(feed.nb_articles) / self.nb_articles, 4)) * 100) + " % of the total "
+        html += "(" + str(self.nb_articles) + ").</p>"
         html += "<p>" + (feed.nb_unread_articles == 0 and ["All articles are read"] or [str(feed.nb_unread_articles) + \
                 " unread article" + (feed.nb_unread_articles == 1 and [""] or ["s"])[0]])[0] + ".</p>"
+        if feed.mail == "1":
+                html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
+                        (utils.mail_to, utils.mail_to)
+                html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
+                        (feed.feed_id, )
+
         html += "<br /><p>Recent articles:</p>"
         for article in feed.articles.values()[:10]:
             if article.article_readed == "0":
