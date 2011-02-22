@@ -519,6 +519,7 @@ class Root:
 
     def feed(self, feed_id):
         """
+        This page gives summary informations about a feed.
         """
         try:
             feed = self.feeds[feed_id]
@@ -572,26 +573,23 @@ class Root:
         html += "<br />\n"
         html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
 
+        favs = [article for article in feed.articles.values() if article.like == "1"]
+        if len(favs) != 0:
+            html += "<br /></br /><h1>Your favorites articles for this feed</h1>"
+            for article in favs:
+                if article.like == "1":
+                    # descrition for the CSS ToolTips
+                    article_content = utils.clear_string(article.article_description)
+                    if article_content:
+                        description = " ".join(article_content[:500].split(' ')[:-1])
+                    else:
+                        description = "No description."
 
-        html += "<br /></br /><h1>Your favorites articles for this feed</h1>"
-        for article in feed.articles.values():
-            if article.like == "1":
-                # descrition for the CSS ToolTips
-                article_content = utils.clear_string(article.article_description)
-                if article_content:
-                    description = " ".join(article_content[:500].split(' ')[:-1])
-                else:
-                    description = "No description."
-
-                # a description line per article (date, title of the article and
-                # CSS description tooltips on mouse over)
-                html += article.article_date + " - " + \
-                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                (feed.feed_id, article.article_id, article.article_title[:150], description)
-
-
-
-
+                    # a description line per article (date, title of the article and
+                    # CSS description tooltips on mouse over)
+                    html += article.article_date + " - " + \
+                            """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                                    (feed.feed_id, article.article_id, article.article_title[:150], description)
         html += "<hr />"
         html += htmlfooter
         return html
