@@ -517,7 +517,7 @@ class Root:
     article.exposed = True
 
 
-    def feed(self, feed_id):
+    def feed(self, feed_id, word_size=6):
         """
         This page gives summary informations about a feed.
         """
@@ -590,6 +590,18 @@ class Root:
                     html += article.article_date + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                     (feed.feed_id, article.article_id, article.article_title[:150], description)
+        dic = {}
+        dic[feed.feed_id] = self.feeds[feed.feed_id]
+        top_words = utils.top_words(dic, n=50, size=int(word_size))
+        html += "<br /></br /><h1>Tag cloud</h1>\n<br />\n"
+        # Tags cloud
+        html += 'Minimum size of a word:'
+        html += '<form method=get action="/management/">'
+        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size)
+        html += '<input type="submit" value="OK"></form>\n'
+        html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
+                    utils.tag_cloud(top_words) + '</div>'
+
         html += "<hr />"
         html += htmlfooter
         return html
