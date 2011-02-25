@@ -34,6 +34,7 @@ import calendar
 import threading
 
 from collections import Counter
+from cherrypy.lib.static import serve_file
 
 import utils
 import feedgetter
@@ -1232,6 +1233,8 @@ if __name__ == '__main__':
     print "Launching pyAggr3g470r..."
     LOCKER = threading.Lock()
     root = Root()
+    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/css/img/favicon.png"))
+    print os.path.join(utils.path + "/css/img/favicon.png")
     if not os.path.isfile(utils.sqlite_base):
         # create the SQLite base if not exists
         print "Creating data base..."
