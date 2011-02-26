@@ -1234,7 +1234,6 @@ if __name__ == '__main__':
     LOCKER = threading.Lock()
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/css/img/favicon.png"))
-    print os.path.join(utils.path + "/css/img/favicon.png")
     if not os.path.isfile(utils.sqlite_base):
         # create the SQLite base if not exists
         print "Creating data base..."
