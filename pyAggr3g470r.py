@@ -34,7 +34,6 @@ import calendar
 import threading
 
 from collections import Counter
-from cherrypy.lib.static import serve_file
 
 import utils
 import feedgetter
