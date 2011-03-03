@@ -170,15 +170,15 @@ def tag_cloud(tags, query="word_count"):
     tags.sort(key=operator.itemgetter(0))
     if query == "word_count":
         # tags cloud from the management page
-        return ' '.join([('<font size="%d"><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
+        return ' '.join([('<font size=%d><a href="/q/?querystring=%s" title="Count: %s">%s</a></font>\n' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, count, word)) \
                         for (word, count) in tags])
     if query == "year":
         # tags cloud for the history
-        return ' '.join([('<font size="%d"><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
+        return ' '.join([('<font size=%d><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
                         (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, word)) \
                             for (word, count) in tags])
-    return ' '.join([('<font size="%d"><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
+    return ' '.join([('<font size=%d><a href="/history/?querystring=%s:%s" title="Count: %s">%s</a></font>\n' % \
                         (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, count, calendar.month_name[int(word)])) \
                             for (word, count) in tags])
 
