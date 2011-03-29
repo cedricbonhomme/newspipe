@@ -63,6 +63,8 @@ path = {'/css/style.css': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/buzz.png'}, \
         '/css/img/identica.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/identica.png'}, \
+        '/css/img/diaspora.png': {'tools.staticfile.on': True, \
+                'tools.staticfile.filename':utils.path+'/css/img/diaspora.png'}, \
         '/css/img/heart.png': {'tools.staticfile.on': True, \
                 'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
         '/css/img/heart_open.png': {'tools.staticfile.on': True, \
@@ -471,7 +473,8 @@ class Root:
 
         # Share this article:
         # on Diaspora
-        html += """<a href="javascript:(function(){f='https://joindiaspora.com/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">Post to Diaspora</a>\n &nbsp;&nbsp; """ % \
+        html += """<a href="javascript:(function(){f='https://joindiaspora.com/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
+                <img src="/css/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title, "via pyAggr3g470r")
 
         # on Identi.ca
