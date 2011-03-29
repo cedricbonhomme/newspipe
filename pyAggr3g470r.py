@@ -470,6 +470,10 @@ class Root:
         html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
 
         # Share this article:
+        # on Diaspora
+        html += """<a href="javascript:(function(){f='https://joindiaspora.com/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">Post to Diaspora</a>\n &nbsp;&nbsp; """ % \
+                        (article.article_link, article.article_title, "via pyAggr3g470r")
+
         # on Identi.ca
         html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                         (article.article_title, article.article_link)
@@ -509,6 +513,7 @@ class Root:
         # on Google Buzz with counter
         html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
                         (article.article_link,)
+
         # QRCode (for smartphone)
         html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % (article_id,)
         html += "<hr />\n" + htmlfooter
@@ -597,10 +602,14 @@ class Root:
         # Tags cloud
         html += 'Minimum size of a word:'
         html += '<form method=get action="/management/">'
-        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size)
+        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size,)
         html += '<input type="submit" value="OK"></form>\n'
         html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                     utils.tag_cloud(top_words) + '</div>'
+
+        html += "<br />"
+        #html += """<form method=get action="/change_feed_url/"><input type="url" name="querrystring" placeholder="New URL for this feed" maxlength=2048 autocomplete="off">\n<input type="submit" value="OK"></form>\n""" % (feed.feed_id,)
+
 
         html += "<hr />"
         html += htmlfooter
@@ -1043,6 +1052,20 @@ class Root:
         return html
 
     remove_feed.exposed = True
+
+
+    def change_feed_url(self, querrystring):
+        """
+        """
+        html = htmlheader()
+        html += htmlnav
+        html += """<div class="left inner">"""
+
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    change_feed_url.exposed = True
 
 
     def delete_article(self, param):
