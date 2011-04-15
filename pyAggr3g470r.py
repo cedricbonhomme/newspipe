@@ -242,7 +242,7 @@ class Root:
         return html + "</div>"
 
 
-    def management(self, word_size=6):
+    def management(self, word_size=6, max_nb_articles=5):
         """
         Management page.
         Allows adding and deleting feeds. Export functions of the SQLite data base
@@ -277,9 +277,21 @@ class Root:
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
 
-        # Export functions
         html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
         html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
+
+
+        html += '<form method=get action="/set_max_articles/">'
+        html += "For each feed only load the "
+        html += """<input type="number" name="max_nb_articles" value="%s" min="5" max="5000" step="1" size="2">\n""" % (max_nb_articles)
+        html += " last articles."
+        if utils.MAX_NB_ARTICLES == -1:
+            html += "<br />All articles are currently loaded."
+        else:
+            html += "<br />For each feed only " + str(utils.MAX_NB_ARTICLES) + " articles are currently loaded."
+        html += "</form>"
+
+        # Export functions
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
@@ -1069,6 +1081,16 @@ class Root:
         return html
 
     change_feed_url.exposed = True
+
+
+    def set_max_articles(self, max_nb_articles=0):
+        """
+        """
+        utils.MAX_NB_ARTICLES = int(max_nb_articles)
+        self.update()
+        return self.management()
+
+    set_max_articles.exposed = True
 
 
     def delete_article(self, param):

@@ -67,6 +67,8 @@ smtp_server = config.get('mail','smtp')
 username =  config.get('mail','username')
 password =  config.get('mail','password')
 
+MAX_NB_ARTICLES = -1
+
 # regular expression to chech URL
 url_finders = [ \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
@@ -372,7 +374,7 @@ def load_feed():
             if list_of_articles != []:
                 list_of_articles.sort(lambda x,y: compare(y[0], x[0]))
                 # Walk through the list of articles for the current feed.
-                for article in list_of_articles:
+                for article in list_of_articles[:MAX_NB_ARTICLES]:
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
