@@ -62,13 +62,12 @@ config = ConfigParser.RawConfigParser()
 config.read("./cfg/pyAggr3g470r.cfg")
 path = os.path.abspath(".")
 sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
+MAX_NB_ARTICLES = int(config.get('global', 'max_nb_articles'))
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')
 smtp_server = config.get('mail','smtp')
 username =  config.get('mail','username')
 password =  config.get('mail','password')
-
-MAX_NB_ARTICLES = -1
 
 # regular expression to chech URL
 url_finders = [ \

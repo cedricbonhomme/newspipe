@@ -1,5 +1,6 @@
 [global]
 sqlitebase = ./var/feed.db
+max_nb_articles = 50
 [mail]
 mail_from = pyAggr3g470r@no-reply.com
 mail_to = address_of_the_recipient@example.com
