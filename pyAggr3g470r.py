@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 2.7 $"
 __date__ = "$Date: 2011/03/21 $"
-__revision__ = "$Date: 2011/04/15 $"
+__revision__ = "$Date: 2011/04/20 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -282,15 +282,16 @@ class Root:
         html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
 
 
-        html += '<form method=get action="/set_max_articles/">'
+        html += '<form method=get action="/set_max_articles/">\n'
         html += "For each feed only load the "
         html += """<input type="number" name="max_nb_articles" value="%s" min="5" max="5000" step="1" size="2">\n""" % (max_nb_articles)
         html += " last articles."
         if utils.MAX_NB_ARTICLES == -1:
-            html += "<br />All articles are currently loaded."
+            html += "<br />All articles are currently loaded.\n"
         else:
-            html += "<br />For each feed only " + str(utils.MAX_NB_ARTICLES) + " articles are currently loaded."
-        html += "</form>"
+            html += "<br />For each feed only " + str(utils.MAX_NB_ARTICLES) + " articles are currently loaded. "
+            html += '<a href="/set_max_articles/-1">Load all feeds.</a><br />\n'
+        html += "</form>\n"
 
         # Export functions
         html += "<h1>Export articles</h1>\n\n"
