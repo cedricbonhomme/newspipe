@@ -272,7 +272,7 @@ class Root:
         html += "<hr />\n"
 
         # Informations about the data base of articles
-        html += """<p>The database contains a total of %s article(s) with
+        html += """<p>%s article(s) are loaded from the database with
                 <a href="/unread/">%s unread article(s)</a>.<br />""" % \
                     (self.nb_articles, self.nb_unread_articles)
         html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
