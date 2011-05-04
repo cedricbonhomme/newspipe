@@ -290,7 +290,7 @@ class Root:
             html += "<br />All articles are currently loaded.\n"
         else:
             html += "<br />For each feed only " + str(utils.MAX_NB_ARTICLES) + " articles are currently loaded. "
-            html += '<a href="/set_max_articles/-1">Load all feeds.</a><br />\n'
+            html += '<a href="/set_max_articles/-1">Load all articles.</a><br />\n'
         html += "</form>\n"
 
         # Export functions
