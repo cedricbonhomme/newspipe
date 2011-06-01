@@ -103,7 +103,7 @@ def clear_string(data):
     """
     p = re.compile(r'<[^<]*?/?>') # HTML tags
     q = re.compile(r'\s') # consecutive white spaces
-    return p.sub('', q.sub(' ', data))
+    return p.sub('', q.sub(' ', data.replace('', '')))
 
 def unescape(text):
     """

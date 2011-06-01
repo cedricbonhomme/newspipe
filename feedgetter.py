@@ -28,6 +28,7 @@ __license__ = "GPLv3"
 import sqlite3
 import threading
 import feedparser
+from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
 
@@ -128,12 +129,14 @@ class FeedGetter(object):
                     description = article.description.encode('utf-8')
                 except Exception, e:
                     description = ""
+            description = str(BeautifulSoup(description))
+            title = str(BeautifulSoup(article.title.encode('utf-8')))
 
             try:
                 # try. Will only success if the article is not already in the data base
                 self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
                         datetime(*article.updated_parsed[:6]), \
-                        utils.clear_string(article.title.encode('utf-8')), \
+                        title, \
                         article.link.encode('utf-8'), \
                         description, \
                         "0", \
