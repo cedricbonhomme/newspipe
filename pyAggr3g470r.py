@@ -35,6 +35,7 @@ import calendar
 import threading
 
 from collections import Counter
+from BeautifulSoup import BeautifulSoup
 
 import utils
 import feedgetter
@@ -180,6 +181,7 @@ class Root:
                 article_content = utils.clear_string(article.article_description)
                 if article_content:
                     description = " ".join(article_content[:500].split(' ')[:-1])
+                    description = str(BeautifulSoup(description))
                 else:
                     description = "No description."
                 # Title of the article
