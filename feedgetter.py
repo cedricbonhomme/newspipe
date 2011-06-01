@@ -122,21 +122,21 @@ class FeedGetter(object):
             description = ""
             try:
                 # article content
-                description = article.content[0].value.encode('utf-8')
+                description = article.content[0].value
             except AttributeError:
                 try:
                     # article description
-                    description = article.description.encode('utf-8')
+                    description = article.description
                 except Exception, e:
                     description = ""
             description = str(BeautifulSoup(description))
-            title = str(BeautifulSoup(article.title.encode('utf-8')))
+            article_title = str(BeautifulSoup(article.title))
 
             try:
                 # try. Will only success if the article is not already in the data base
                 self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
                         datetime(*article.updated_parsed[:6]), \
-                        title, \
+                        article_title, \
                         article.link.encode('utf-8'), \
                         description, \
                         "0", \
@@ -150,7 +150,7 @@ class FeedGetter(object):
                     try:
                         threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \
                                             a_feed.feed.title.encode('utf-8'), \
-                                            utils.clear_string(article.title.encode('utf-8')), description) \
+                                            article_title, description) \
                                         ).start()
                     except Exception, e:
                         # SMTP acces denied, to many SMTP connections, etc.
