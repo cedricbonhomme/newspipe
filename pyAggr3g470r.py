@@ -36,7 +36,7 @@ import threading
 
 from collections import Counter
 from BeautifulSoup import BeautifulSoup
-from datetime import date
+import datetime
 
 import utils
 import feedgetter
@@ -564,12 +564,14 @@ class Root:
                 html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
                         (feed.feed_id, )
 
-        first_article = utils.string_to_datetime(feed.articles.values()[0].article_date)
-        last_article = utils.string_to_datetime(feed.articles.values()[-1].article_date)
-        delta = first_article - last_article
-        delta_today = date.today() - last_article
+        last_article = utils.string_to_datetime(feed.articles.values()[0].article_date)
+        first_article = utils.string_to_datetime(feed.articles.values()[-1].article_date)
+        delta = last_article - first_article
+        delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
         html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
-        html += "<p>Daily average: " + str(abs(delta.days)/feed.nb_articles) + "</p>\n"
+        html += """<p>Daily average: %s,""" % (str(abs(delta.days)/feed.nb_articles),)
+        html += """ between the %s and the %s.</p>\n""" % \
+	      (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
 
         html += "<br /><h1>Recent articles</h1>"
         for article in feed.articles.values()[:10]:
