@@ -569,9 +569,10 @@ class Root:
         delta = last_article - first_article
         delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
         html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
-        html += """<p>Daily average: %s,""" % (str(round(float(feed.nb_articles)/abs(delta.days), 2)),)
-        html += """ between the %s and the %s.</p>\n""" % \
-	      (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
+        if delta.days > 0:
+            html += """<p>Daily average: %s,""" % (str(round(float(feed.nb_articles)/abs(delta.days), 2)),)
+            html += """ between the %s and the %s.</p>\n""" % \
+	          (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
 
         html += "<br /><h1>Recent articles</h1>"
         for article in feed.articles.values()[:10]:
