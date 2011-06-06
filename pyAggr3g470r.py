@@ -556,23 +556,25 @@ class Root:
         html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles. "
         html += "Representing " + str((round(float(feed.nb_articles) / self.nb_articles, 4)) * 100) + " % of the total "
         html += "(" + str(self.nb_articles) + ").</p>"
-        html += "<p>" + (feed.nb_unread_articles == 0 and ["All articles are read"] or [str(feed.nb_unread_articles) + \
-                " unread article" + (feed.nb_unread_articles == 1 and [""] or ["s"])[0]])[0] + ".</p>"
+        if feed.articles.values() != []:
+            html += "<p>" + (feed.nb_unread_articles == 0 and ["All articles are read"] or [str(feed.nb_unread_articles) + \
+                    " unread article" + (feed.nb_unread_articles == 1 and [""] or ["s"])[0]])[0] + ".</p>"
         if feed.mail == "1":
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
                         (utils.mail_to, utils.mail_to)
                 html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
                         (feed.feed_id, )
 
-        last_article = utils.string_to_datetime(feed.articles.values()[0].article_date)
-        first_article = utils.string_to_datetime(feed.articles.values()[-1].article_date)
-        delta = last_article - first_article
-        delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
-        html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
-        if delta.days > 0:
-            html += """<p>Daily average: %s,""" % (str(round(float(feed.nb_articles)/abs(delta.days), 2)),)
-            html += """ between the %s and the %s.</p>\n""" % \
-	          (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
+        if feed.articles.values() != []:
+            last_article = utils.string_to_datetime(feed.articles.values()[0].article_date)
+            first_article = utils.string_to_datetime(feed.articles.values()[-1].article_date)
+            delta = last_article - first_article
+            delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
+            html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
+            if delta.days > 0:
+                html += """<p>Daily average: %s,""" % (str(round(float(feed.nb_articles)/abs(delta.days), 2)),)
+                html += """ between the %s and the %s.</p>\n""" % \
+	              (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
 
         html += "<br /><h1>Recent articles</h1>"
         for article in feed.articles.values()[:10]:
