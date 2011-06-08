@@ -639,7 +639,7 @@ class Root:
         html += "<br /></br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
         html += 'Minimum size of a word:'
-        html += '<form method=get action="/feed/">'
+        html += """<form method=get action="/feed/%s">""" % (feed.feed_id,)
         html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size,)
         html += '<input type="submit" value="OK"></form>\n'
         html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
