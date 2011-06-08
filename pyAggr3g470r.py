@@ -105,6 +105,7 @@ def htmlheader(nb_unread_articles=""):
         '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - News aggregator</title>\n' + \
         '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
         '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
+        '\n\t<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>\n' + \
         '</head>\n'
 
 htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
@@ -495,8 +496,13 @@ class Root:
                         (article.article_link, article.article_title, "via pyAggr3g470r")
 
         # on Identi.ca
-        html += """\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
+        html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                         (article.article_title, article.article_link)
+
+        # Google +1 button
+        html += """\n\n<div class="g-plusone" size="medium" href="%s" data-count="true"></div> &nbsp;&nbsp; """ % \
+                        (article.article_link,)
+
         # on Google Buzz
         html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                 rel="noreferrer" target="_blank">\n\t
