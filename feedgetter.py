@@ -133,9 +133,14 @@ class FeedGetter(object):
             article_title = str(BeautifulSoup(article.title))
 
             try:
+            	post_date = datetime(*article.updated_parsed[:6])
+            except:
+                post_date = datetime(*article.published_parsed[:6])
+
+            try:
                 # try. Will only success if the article is not already in the data base
                 self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
-                        datetime(*article.updated_parsed[:6]), \
+                        post_date, \
                         article_title, \
                         article.link.encode('utf-8'), \
                         description, \
@@ -158,9 +163,9 @@ class FeedGetter(object):
             except sqlite3.IntegrityError:
                 # article already in the data base
                 pass
-            except:
+            except Exception, e:
                 # Missing information (updated_parsed, ...)
-                pass
+                print e
 
 
 if __name__ == "__main__":
