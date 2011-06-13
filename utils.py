@@ -372,9 +372,11 @@ def load_feed():
             feed_object.mail = feed[4]
 
             if list_of_articles != []:
+                if MAX_NB_ARTICLES != -1:
+			list_of_articles = list_of_articles[:MAX_NB_ARTICLES]
                 list_of_articles.sort(lambda x,y: compare(y[0], x[0]))
                 # Walk through the list of articles for the current feed.
-                for article in list_of_articles[:MAX_NB_ARTICLES]:
+                for article in list_of_articles:
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
