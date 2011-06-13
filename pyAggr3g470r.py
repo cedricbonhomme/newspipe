@@ -288,7 +288,7 @@ class Root:
 
         html += '<form method=get action="/set_max_articles/">\n'
         html += "For each feed only load the "
-        html += """<input type="number" name="max_nb_articles" value="%s" min="5" max="5000" step="1" size="2">\n""" % (max_nb_articles)
+        html += """<input type="number" name="max_nb_articles" value="%s" min="1" step="1" size="2">\n""" % (max_nb_articles)
         html += " last articles."
         if utils.MAX_NB_ARTICLES == -1:
             html += "<br />All articles are currently loaded.\n"
@@ -1106,9 +1106,11 @@ class Root:
     change_feed_url.exposed = True
 
 
-    def set_max_articles(self, max_nb_articles=0):
+    def set_max_articles(self, max_nb_articles=1):
         """
         """
+        if max_nb_articles < -1 or max_nb_articles == 0:
+	    max_nb_articles = 1
         utils.MAX_NB_ARTICLES = int(max_nb_articles)
         self.update()
         return self.management()
