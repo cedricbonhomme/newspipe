@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 2.7 $"
 __date__ = "$Date: 2011/03/21 $"
-__revision__ = "$Date: 2011/04/20 $"
+__revision__ = "$Date: 2011/06/13 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -403,7 +403,7 @@ class Root:
 
     def fetch(self):
         """
-        Fetch all feeds
+        Fetch all feeds.
         """
         feed_getter = feedgetter.FeedGetter()
         feed_getter.retrieve_feed()
@@ -550,7 +550,9 @@ class Root:
 
     def feed(self, feed_id, word_size=6):
         """
-        This page gives summary informations about a feed.
+        This page gives summary informations about a feed (number of articles,
+        unread articles, average activity, tag cloud, e-mail notification and
+        favourite articles for the current feed.
         """
         try:
             feed = self.feeds[feed_id]
@@ -658,7 +660,7 @@ class Root:
 
     def articles(self, feed_id):
         """
-        Display all articles of a feed.
+        This page displays all articles of a feed.
         """
         try:
             feed = self.feeds[feed_id]
@@ -711,7 +713,7 @@ class Root:
 
     def unread(self, feed_id=""):
         """
-        Display all unread articles of a feed.
+        This page displays all unread articles of a feed.
         """
         html = htmlheader()
         html += htmlnav
@@ -783,14 +785,16 @@ class Root:
 
     def history(self, querystring="all", m=""):
         """
-        History
+        This page enables to browse articles chronologically.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
 
+	# Get the date from the tag cloud
+        # Format: /history/?querystring=year:2011-month:06 to get the
+        # list of articles of June, 2011.
         if m != "":
-            #the_year, the_month = m.split('-')
             querystring = """year:%s-month:%s""" % tuple(m.split('-'))
 
         if querystring == "all":
@@ -1094,6 +1098,7 @@ class Root:
 
     def change_feed_url(self, querrystring):
         """
+        Enables to change the URL of a feed already present in the database.
         """
         html = htmlheader()
         html += htmlnav
@@ -1108,6 +1113,8 @@ class Root:
 
     def set_max_articles(self, max_nb_articles=1):
         """
+        Enables to set the maximum of articles to be loaded per feed from
+        the data base.
         """
         if max_nb_articles < -1 or max_nb_articles == 0:
 	    max_nb_articles = 1
@@ -1143,7 +1150,7 @@ class Root:
 
     def drop_base(self):
         """
-        Delete all articles
+        Delete all articles.
         """
         utils.drop_base()
         return self.management()
