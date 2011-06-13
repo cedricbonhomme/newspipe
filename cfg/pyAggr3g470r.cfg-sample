@@ -7,3 +7,5 @@ mail_to = address_of_the_recipient@example.com
 smtp = smtp.example.com
 username = your_mail_address@example.com
 password = your_password
+[misc]
+diaspora_pod = joindiaspora.com

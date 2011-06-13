@@ -491,9 +491,9 @@ class Root:
 
         # Share this article:
         # on Diaspora
-        html += """<a href="javascript:(function(){f='https://joindiaspora.com/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
+        html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
                 <img src="/css/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
-                        (article.article_link, article.article_title, "via pyAggr3g470r")
+                        (utils.DIASPORA_POD, article.article_link, article.article_title, "via pyAggr3g470r")
 
         # on Identi.ca
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
