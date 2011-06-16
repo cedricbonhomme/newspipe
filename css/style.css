@@ -1,8 +1,8 @@
 /* CSS based on the patrimoine ael website - initial source?*/
 
 html, body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -375,4 +375,4 @@ blockquote.right {
         .critical { background: #FFCCAA; border: 1px solid #FF3334; }
         .help { background: #9FDAEE; border: 1px solid #2BB0D7; }
         .info { background: #9FDAEE; border: 1px solid #2BB0D7; }
-        .warning { background: #FFFFAA; border: 1px solid #FFAD33;
+        .warning { background: #FFFFAA; border: 1px solid #FFAD33; }
