@@ -447,7 +447,7 @@ class Root:
 
         html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
         # Title of the article
-        html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n""" % \
+        html += """<h1><i>%s</i> from <a href="/feed/%s">%s</a></h1>\n<br />\n""" % \
                         (article.article_title, feed_id, feed.feed_title)
         if article.like == "1":
             html += """<a href="/like/0:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
