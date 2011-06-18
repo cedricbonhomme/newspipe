@@ -635,6 +635,11 @@ class Root:
                     html += article.article_date + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                     (feed.feed_id, article.article_id, article.article_title[:150], description)
+
+
+        html += """\n<br /><br />\n<form method=post action="/change_feed_url/"><input type="url" name="new_feed_url" value="" placeholder="Enter a new URL for this feed." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
+                (feed.feed_link,)
+
         dic = {}
         dic[feed.feed_id] = self.feeds[feed.feed_id]
         top_words = utils.top_words(dic, n=50, size=int(word_size))
@@ -648,9 +653,6 @@ class Root:
                     utils.tag_cloud(top_words) + '</div>'
 
         html += "<br />"
-        #html += """<form method=get action="/change_feed_url/"><input type="url" name="querrystring" placeholder="New URL for this feed" maxlength=2048 autocomplete="off">\n<input type="submit" value="OK"></form>\n""" % (feed.feed_id,)
-
-
         html += "<hr />"
         html += htmlfooter
         return html
@@ -1096,14 +1098,16 @@ class Root:
     remove_feed.exposed = True
 
 
-    def change_feed_url(self, querrystring):
+    def change_feed_url(self, new_feed_url, old_feed_url):
         """
         Enables to change the URL of a feed already present in the database.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-
+        print cherrypy.request.params
+        utils.change_feed_url(old_feed_url, new_feed_url)
+        html += "<p>The URL of the feed has been changed.</p>"
         html += "<hr />\n"
         html += htmlfooter
         return html

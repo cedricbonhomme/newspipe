@@ -4,7 +4,7 @@ http://blog.cedricbonhomme.org/feed/
 http://bnjgat.fr/weblog/?feed/rss2
 http://standblog.org/blog/feed/atom
 http://www.haypocalc.com/blog/rss.php
-http://linuxfr.org/backend/news-homepage/rss20.rss
+http://linuxfr.org/news.atom
 http://rss.slashdot.org/Slashdot/slashdot
 http://theinvisiblethings.blogspot.com/feeds/posts/default
 http://torvalds-family.blogspot.com/feeds/posts/default
@@ -24,7 +24,7 @@ http://www.laquadrature.net/en/rss.xml
 http://static.fsf.org/fsforg/rss/blogs.xml
 http://esr.ibiblio.org/?feed=rss2
 http://www.maitre-eolas.fr/feed/atom
-http://linuxfr.org/backend/journaux/rss20.rss
+http://linuxfr.org/journaux.atom
 http://www.le-tigre.net/spip.php?page=backend
 http://www.schneier.com/blog/index.rdf
 http://www.handcrafted-games.com/index.php?feed/atom
