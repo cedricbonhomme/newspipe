@@ -500,7 +500,7 @@ class Root:
                         (article.article_title, article.article_link)
 
         # Google +1 button
-        html += """\n\n<div class="g-plusone" size="medium" href="%s" data-count="true"></div> &nbsp;&nbsp; """ % \
+        html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone> &nbsp;&nbsp; """ % \
                         (article.article_link,)
 
         # on Google Buzz
