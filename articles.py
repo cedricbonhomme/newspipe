@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.

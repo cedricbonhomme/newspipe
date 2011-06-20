@@ -1,0 +1,128 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+
+# pyAggr3g470r - A Web based news aggregator.
+# Copyright (C) 2010  Cédric Bonhomme - http://cedricbonhomme.org/
+#
+# For more information : http://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+__author__ = "Cedric Bonhomme"
+__version__ = "$Revision: 0.1 $"
+__date__ = "$Date: 2011/06/20 $"
+__copyright__ = "Copyright (c) Cedric Bonhomme"
+__license__ = "GPLv3"
+
+# This control file is inspired from Forban: http://www.foo.be/forban.
+
+import os
+import sys
+import time
+import subprocess
+import platform
+import signal
+
+PATH = os.path.abspath(".")
+SERVICE = "pyAggr3g470r"
+
+def service_start(servicename = None):
+    if servicename is not None:
+        service = servicename + ".py"
+        proc =  subprocess.Popen(["python",service])
+        time.sleep(0.15)
+        return proc.pid
+    return False
+
+def writepid (processname = None, pid = None):
+    pidpath = os.path.join(PATH,"var",processname+".pid")
+    if processname is not None and pid is not None:
+        f = open (pidpath,"w")
+        f.write(str(pid))
+        f.close()
+        return True
+    else:
+        return False
+
+def checkpid (servicename = None):
+    pidpath = os.path.join(PATH,"var",servicename+".pid")
+    if os.path.exists(pidpath):
+        return True
+    else:
+        return False
+
+def pidof(processname = None):
+    pidpath = os.path.join(PATH,"var",processname+".pid")
+    if processname is not None and os.path.exists(pidpath):
+        f = open (pidpath)
+        pid = f.read()
+        f.close()
+        return pid
+    else:
+        return False
+
+def rmpid (processname = None):
+    pidpath = os.path.join(PATH, "var", processname + ".pid")
+    if os.path.exists(pidpath):
+        os.unlink(pidpath)
+        return True
+    else:
+        return False
+
+def start():
+    if not checkpid(servicename = SERVICE):
+        pid = service_start(servicename = SERVICE)
+        writepid(processname = SERVICE, pid = pid)
+        print SERVICE + " is starting with pid: " + pidof(processname=SERVICE)
+    else:
+        print SERVICE + " could not be started (pid exists)"
+        retval=False 
+
+def stop():
+    print "Stopping pyAggr3g470r..."
+    retval=True
+    pid = pidof(processname=SERVICE)
+    if pid:
+        if platform.system() == "Windows":
+            import win32api
+            import win32con
+            phandle = win32api.OpenProcess(win32con.PROCESS_TERMINATE, 0, int(pid))
+            win32api.TerminateProcess(phandle, 0)
+            win32api.CloseHandle(phandle)
+            rmpid(processname=SERVICE)
+        else:
+            try:
+                os.kill(int(pid), signal.SIGKILL)
+            except OSError, e:
+                print SERVICE + " unsuccessfully stopped"
+                retval = False
+            print SERVICE
+            rmpid(processname=SERVICE)
+    return retval
+
+def usage():
+    print "pyAggr3g470r (start|stop|restart)"
+    exit (1)
+
+if __name__ == "__main__":
+    # Point of entry in execution mode.
+    if sys.argv[1] == "start":
+        start()
+    elif sys.argv[1] == "stop":
+        stop()
+    elif sys.argv[1] == "restart":
+        stop()
+        start()
+    else:
+        usage()
