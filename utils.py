@@ -255,7 +255,7 @@ def add_feed(feed_url):
 
 def change_feed_url(old_feed_url, new_feed_url):
     """
-    Change the URL of a feed.
+    Change the URL of a feed given in parameter.
     """
     # Replace the URL in the text file
     with open("./var/feed.lst", "r") as f:
@@ -273,6 +273,19 @@ def change_feed_url(old_feed_url, new_feed_url):
         c = conn.cursor()
         c.execute("UPDATE articles SET feed_link='" + new_feed_url + "' WHERE feed_link='" + old_feed_url +"'")
         c.execute("UPDATE feeds SET feed_link='" + new_feed_url + "' WHERE feed_link='" + old_feed_url +"'")
+        conn.commit()
+        c.close()
+    except Exception, e:
+        print e
+
+def change_feed_name(feed_url, new_feed_name):
+    """
+    Change the name of a feed given in parameter.
+    """
+    try:
+        conn = sqlite3.connect(sqlite_base, isolation_level = None)
+        c = conn.cursor()
+        c.execute('UPDATE feeds SET feed_title="' + new_feed_name + '" WHERE feed_link="' + feed_url +'"')
         conn.commit()
         c.close()
     except Exception, e:

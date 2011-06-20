@@ -643,11 +643,11 @@ class Root:
         #  - feed name;
         #  - URL of the feed (not the site);
         html += "<br />\n<h1>Edit this feed</h1>\n"
-        html += """\n\n<form method=post action="/change_feed_name/"><input type="text" name="new_feed_name" value="" placeholder="Enter a new name." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_name" value="%s" /></form>\n""" % \
+        html += """\n\n<form method=post action="/change_feed_name/"><input type="text" name="new_feed_name" value="" placeholder="Enter a new name." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
                 (feed.feed_link,)
         html += """\n\n<form method=post action="/change_feed_url/"><input type="url" name="new_feed_url" value="" placeholder="Enter a new URL to retrieve articles." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
                 (feed.feed_link,)
-        html += """\n\n<form method=post action="/change_feed_logo/"><input type="url" name="new_feed_logo" value="" placeholder="Enter the URL of the logo." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_logo" value="%s" /></form>\n""" % \
+        html += """\n\n<form method=post action="/change_feed_logo/"><input type="url" name="new_feed_logo" value="" placeholder="Enter the URL of the logo." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
                 (feed.feed_link,)
 
         dic = {}
@@ -1115,7 +1115,6 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        print cherrypy.request.params
         utils.change_feed_url(old_feed_url, new_feed_url)
         html += "<p>The URL of the feed has been changed.</p>"
         html += "<hr />\n"
@@ -1123,6 +1122,21 @@ class Root:
         return html
 
     change_feed_url.exposed = True
+    
+    def change_feed_name(self, feed_url, new_feed_name):
+        """
+        Enables to change the name of a feed.
+        """
+        html = htmlheader()
+        html += htmlnav
+        html += """<div class="left inner">"""
+        utils.change_feed_name(feed_url, new_feed_name)
+        html += "<p>The name of the feed has been changed.</p>"
+        html += "<hr />\n"
+        html += htmlfooter
+        return html
+
+    change_feed_name.exposed = True
 
 
     def set_max_articles(self, max_nb_articles=1):
