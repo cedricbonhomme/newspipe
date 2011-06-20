@@ -291,6 +291,19 @@ def change_feed_name(feed_url, new_feed_name):
     except Exception, e:
         print e
 
+def change_feed_logo(feed_url, new_feed_logo):
+    """
+    Change the logo of a feed given in parameter.
+    """
+    try:
+        conn = sqlite3.connect(sqlite_base, isolation_level = None)
+        c = conn.cursor()
+        c.execute('UPDATE feeds SET feed_image_link="' + new_feed_logo + '" WHERE feed_link="' + feed_url +'"')
+        conn.commit()
+        c.close()
+    except Exception, e:
+        print e
+
 def remove_feed(feed_url):
     """
     Remove a feed from the file feed.lst and from the SQLite base.
