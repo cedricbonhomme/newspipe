@@ -637,13 +637,23 @@ class Root:
                                     (feed.feed_id, article.article_id, article.article_title[:150], description)
 
 
-        html += """\n<br /><br />\n<form method=post action="/change_feed_url/"><input type="url" name="new_feed_url" value="" placeholder="Enter a new URL for this feed." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
+        # This section enables the user to edit informations about
+        # the current feed:
+        #  - feed logo;
+        #  - feed name;
+        #  - URL of the feed (not the site);
+        html += "<br />\n<h1>Edit this feed</h1>\n"
+        html += """\n\n<form method=post action="/change_feed_name/"><input type="url" name="new_feed_name" value="" placeholder="Enter a new name." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_name" value="%s" /></form>\n""" % \
+                (feed.feed_link,)
+        html += """\n\n<form method=post action="/change_feed_url/"><input type="url" name="new_feed_url" value="" placeholder="Enter a new URL to retrieve articles." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
+                (feed.feed_link,)
+        html += """\n\n<form method=post action="/change_feed_logo/"><input type="url" name="new_feed_logo" value="" placeholder="Enter the URL of the logo." maxlength=2048 autocomplete="on" size="50" /><input type="hidden" name="old_feed_logo" value="%s" /></form>\n""" % \
                 (feed.feed_link,)
 
         dic = {}
         dic[feed.feed_id] = self.feeds[feed.feed_id]
         top_words = utils.top_words(dic, n=50, size=int(word_size))
-        html += "<br /></br /><h1>Tag cloud</h1>\n<br />\n"
+        html += "</br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
         html += 'Minimum size of a word:'
         html += """<form method=get action="/feed/%s">""" % (feed.feed_id,)
