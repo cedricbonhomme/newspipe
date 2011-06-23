@@ -40,7 +40,7 @@ SERVICE = "pyAggr3g470r"
 def service_start(servicename = None):
     if servicename is not None:
         service = servicename + ".py"
-        proc =  subprocess.Popen(["python",service])
+        proc =  subprocess.Popen(["python",service], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         time.sleep(0.15)
         return proc.pid
     return False
