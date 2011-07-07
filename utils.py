@@ -59,7 +59,10 @@ import os
 import ConfigParser
 # load the configuration
 config = ConfigParser.RawConfigParser()
-config.read("./cfg/pyAggr3g470r.cfg")
+try:
+    config.read("./cfg/pyAggr3g470r.cfg")
+except:
+    config.read("./cfg/pyAggr3g470r.cfg-sample")
 path = os.path.abspath(".")
 sqlite_base = os.path.abspath(config.get('global', 'sqlitebase'))
 MAX_NB_ARTICLES = int(config.get('global', 'max_nb_articles'))
