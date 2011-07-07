@@ -20,8 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2010/12/02 $"
+__revisios__ = "$Date: 2011/07/07 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -33,16 +34,17 @@ class Feed(object):
     """
     def __init__(self):
         """
+        Represent the components of a feed.
         """
         self.feed_id = ""
-        self.feed_image = ""#feed_image
-        self.feed_title = ""#feed_title
-        self.feed_link = ""#feed_link
-        self.feed_site_link = ""#feed_site_link
-        self.mail = ""#mail
-        self.nb_articles = ""#nb_articles
-        self.nb_unread_articles = ""#nb_unread_articles
-        self.articles = OrderedDict()#articles_list
+        self.feed_image = ""
+        self.feed_title = ""
+        self.feed_link = ""
+        self.feed_site_link = ""
+        self.mail = ""
+        self.nb_articles = ""
+        self.nb_unread_articles = ""
+        self.articles = OrderedDict()
 
 class Article(object):
     """
@@ -50,11 +52,12 @@ class Article(object):
     """
     def __init__(self):
         """
+        Represent the components of an article.
         """
-        self.article_id = ""#article_id
-        self.article_date = ""#article_date
-        self.article_title = ""#article_title
-        self.article_link = ""#article_link
-        self.article_description = ""#article_description
-        self.article_readed = ""#article_readed
-        self.like = ""#like
+        self.article_id = ""
+        self.article_date = ""
+        self.article_title = ""
+        self.article_link = ""
+        self.article_description = ""
+        self.article_readed = ""
+        self.like = ""
