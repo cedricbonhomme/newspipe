@@ -25,6 +25,8 @@ __date__ = "$Date: 2010/09/02 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import os.path
+import traceback
 import sqlite3
 import threading
 import feedparser
@@ -159,13 +161,15 @@ class FeedGetter(object):
                                         ).start()
                     except Exception, e:
                         # SMTP acces denied, to many SMTP connections, etc.
-                        print e
+                        top = traceback.extract_stack()[-1]
+                        print ", ".join([type(e).__name__, os.path.basename(top[0]), str(top[1])])
             except sqlite3.IntegrityError:
                 # article already in the data base
                 pass
             except Exception, e:
                 # Missing information (updated_parsed, ...)
-                print e
+                top = traceback.extract_stack()[-1]
+                print ", ".join([type(e).__name__, os.path.basename(top[0]), str(top[1]), str(traceback.extract_stack()[-2][3])])
 
 
 if __name__ == "__main__":

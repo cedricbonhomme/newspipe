@@ -400,7 +400,6 @@ def load_feed():
     feeds = OrderedDict()
 
     if list_of_feeds != []:
-        sha1_hash = hashlib.sha1()
         # Case-insensitive sorting
         tupleList = [(x[0].lower(), x) for x in list_of_feeds]
         tupleList.sort(key=operator.itemgetter(0))
@@ -410,7 +409,7 @@ def load_feed():
             list_of_articles = c.execute(\
                     "SELECT * FROM articles WHERE feed_link='" + \
                     feed[2] + "'").fetchall()
-
+            sha1_hash = hashlib.sha1()
             sha1_hash.update(feed[2].encode('utf-8'))
             feed_id = sha1_hash.hexdigest()
 
@@ -426,9 +425,10 @@ def load_feed():
             if list_of_articles != []:
                 list_of_articles.sort(lambda x,y: compare(y[0], x[0]))
                 if MAX_NB_ARTICLES != -1:
-			list_of_articles = list_of_articles[:MAX_NB_ARTICLES]
+                    list_of_articles = list_of_articles[:MAX_NB_ARTICLES]
                 # Walk through the list of articles for the current feed.
                 for article in list_of_articles:
+                    sha1_hash = hashlib.sha1()
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
 
