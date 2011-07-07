@@ -1129,7 +1129,7 @@ class Root:
         return html
 
     change_feed_url.exposed = True
-    
+
     def change_feed_name(self, feed_url, new_feed_name):
         """
         Enables to change the name of a feed.
@@ -1144,7 +1144,7 @@ class Root:
         return html
 
     change_feed_name.exposed = True
-    
+
     def change_feed_logo(self, feed_url, new_feed_logo):
         """
         Enables to change the name of a feed.
@@ -1342,7 +1342,7 @@ class Root:
         Monitor the base of feeds if the module gamin is not installed.
         """
         time.sleep(10)
-        old_time = 0
+        old_time = os.path.getmtime(utils.sqlite_base)
         try:
             print "Watching %s" % utils.sqlite_base
             while True:
