@@ -117,7 +117,9 @@ def usage():
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
-    if sys.argv[1] == "start":
+    if len(sys.argv) == 1:
+        usage()
+    elif sys.argv[1] == "start":
         start()
     elif sys.argv[1] == "stop":
         stop()
