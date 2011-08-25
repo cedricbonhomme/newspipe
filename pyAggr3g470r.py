@@ -460,6 +460,12 @@ class Root:
         # Description (full content) of the article
         description = article.article_description
         if description:
+            p = re.compile(r'<code><')
+            q = re.compile(r'></code>')
+
+            description = p.sub('<code>&lt;', description)
+            description = q.sub('&gt;</code>', description)
+
             html += description + "\n<br /><br /><br />"
         else:
             html += "No description available.\n<br /><br /><br />"

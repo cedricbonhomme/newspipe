@@ -135,7 +135,7 @@ class FeedGetter(object):
             article_title = str(BeautifulSoup(article.title))
 
             try:
-            	post_date = datetime(*article.updated_parsed[:6])
+                post_date = datetime(*article.updated_parsed[:6])
             except:
                 post_date = datetime(*article.published_parsed[:6])
 
