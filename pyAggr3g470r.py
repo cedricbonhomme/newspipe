@@ -52,9 +52,21 @@ def error_page_404(status, message, traceback, version):
     html += "\n<hr />\n" + htmlfooter
     return html
 
+def handle_error():
+    """
+    Handle different type of errors.
+    """
+    html = htmlheader()
+    html += htmlnav
+    html += "<br /><br />Sorry, an error occured"
+    html += "\n<hr />\n" + htmlfooter
+    cherrypy.response.status = 500
+    cherrypy.response.body = [html]
+
 bindhost = "0.0.0.0"
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
 cherrypy.config.update({'error_page.404': error_page_404})
+_cp_config = {'request.error_response': handle_error}
 
 # static files
 path = {'/css/style.css': {'tools.staticfile.on': True, \
