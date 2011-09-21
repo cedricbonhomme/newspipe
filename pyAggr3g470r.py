@@ -44,9 +44,13 @@ import PyQRNative
 
 def error_page_404(status, message, traceback, version):
     """
-    Display an error if the page does not exists
+    Display an error if the page does not exist.
     """
-    return "Error %s - This page does not exist." % status
+    html = htmlheader()
+    html += htmlnav
+    html += "<br /><br />Error %s - This page does not exist." % status
+    html += "\n<hr />\n" + htmlfooter
+    return html
 
 bindhost = "0.0.0.0"
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
