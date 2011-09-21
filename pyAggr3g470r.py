@@ -41,8 +41,16 @@ import utils
 import feedgetter
 import PyQRNative
 
+
+def error_page_404(status, message, traceback, version):
+    """
+    Display an error if the page does not exists
+    """
+    return "Error %s - This page does not exist." % status
+
 bindhost = "0.0.0.0"
 cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
+cherrypy.config.update({'error_page.404': error_page_404})
 
 # static files
 path = {'/css/style.css': {'tools.staticfile.on': True, \
@@ -152,7 +160,7 @@ class Root:
                 html += '<a href="/mark_as_read/"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
-        html += '<a href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
+        html += '<a accesskey="F" href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
 
         # The main page display all the feeds.
         for feed in self.feeds.values():
