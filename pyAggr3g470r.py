@@ -901,7 +901,8 @@ class Root:
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                         (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
-                                html += article.article_date + " - " + \
+                                html += article.article_date.split(' ')[0][:2] + " (" + \
+					article.article_date.split(' ')[1]  + ") - " + \
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                                 (feed.feed_id, article.article_id, not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
