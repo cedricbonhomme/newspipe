@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 2.9 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2011/08/26 $"
+__revision__ = "$Date: 2011/09/26 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -63,61 +63,6 @@ def handle_error():
     cherrypy.response.status = 500
     cherrypy.response.body = [html]
 
-bindhost = "0.0.0.0"
-cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
-cherrypy.config.update({'error_page.404': error_page_404})
-_cp_config = {'request.error_response': handle_error}
-
-# static files
-path = {'/css/style.css': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/style.css'}, \
-        '/css/img/feed-icon-28x28.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/feed-icon-28x28.png'}, \
-        '/css/img/tuxrss.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/tuxrss.png'}, \
-        '/css/img/delicious.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/delicious.png'}, \
-        '/css/img/digg.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/digg.png'}, \
-        '/css/img/reddit.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/reddit.png'}, \
-        '/css/img/scoopeo.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/scoopeo.png'}, \
-        '/css/img/blogmarks.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/blogmarks.png'}, \
-        '/css/img/buzz.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/buzz.png'}, \
-        '/css/img/identica.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/identica.png'}, \
-        '/css/img/diaspora.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/diaspora.png'}, \
-        '/css/img/heart.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/heart.png'}, \
-        '/css/img/heart_open.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/heart_open.png'}, \
-        '/css/img/unread.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/unread.png'}, \
-        '/css/img/heart-32x32.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/heart-32x32.png'}, \
-        '/css/img/email-follow.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/email-follow.png'}, \
-        '/css/img/cross.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/cross.png'}, \
-        '/css/img/management.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/management.png'}, \
-        '/css/img/history.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/history.png'}, \
-        '/css/img/mark-as-read.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/mark-as-read.png'}, \
-        '/css/img/check-news.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/check-news.png'}, \
-        '/css/img/previous-article.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/previous-article.png'}, \
-        '/css/img/following-article.png': {'tools.staticfile.on': True, \
-                'tools.staticfile.filename':utils.path+'/css/img/following-article.png'}, \
-        '/var/qrcode': {'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(utils.path, './var/qrcode')}}
-
 def htmlheader(nb_unread_articles=""):
     """
     Return the header of the HTML page with the number of unread articles
@@ -136,7 +81,7 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
 
-htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/css/img/tuxrss.png"' + \
+htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png"' + \
         """ title="What's new today?"/></a>""" + \
         '</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>\n<a' + \
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
@@ -161,22 +106,22 @@ class Root:
         html += """<div class="left inner">\n"""
 
         if self.feeds:
-            html += '<a href="/management/"><img src="/css/img/management.png" title="Management" /></a>\n'
-            html += '<a href="/history/"><img src="/css/img/history.png" title="History" /></a>\n'
+            html += '<a href="/management/"><img src="/img/management.png" title="Management" /></a>\n'
+            html += '<a href="/history/"><img src="/img/history.png" title="History" /></a>\n'
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
 
-            html += """<a href="/favorites/"><img src="/css/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
+            html += """<a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
                 (self.nb_favorites,)
 
-            html += """<a href="/notifications/"><img src="/css/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
+            html += """<a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
                 (self.nb_mail_notifications,)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             if self.nb_unread_articles != 0:
-                html += '<a href="/mark_as_read/"><img src="/css/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
-                html += """<a href="/unread/"><img src="/css/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
+                html += '<a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
+                html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (self.nb_unread_articles,)
-        html += '<a accesskey="F" href="/fetch/"><img src="/css/img/check-news.png" title="Check for news" /></a>\n'
+        html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
 
         # The main page display all the feeds.
         for feed in self.feeds.values():
@@ -198,7 +143,7 @@ class Root:
 
                 # display a heart for faved articles
                 if article.like == "1":
-                    like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
 
@@ -399,7 +344,7 @@ class Root:
 
                         # display a heart for faved articles
                         if article.like == "1":
-                            like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                            like = """ <img src="/img/heart.png" title="I like this article!" />"""
                         else:
                             like = ""
 
@@ -472,12 +417,12 @@ class Root:
         html += """<h1><i>%s</i> from <a href="/feed/%s">%s</a></h1>\n<br />\n""" % \
                         (article.article_title, feed_id, feed.feed_title)
         if article.like == "1":
-            html += """<a href="/like/0:%s:%s"><img src="/css/img/heart.png" title="I like this article!" /></a>""" % \
+            html += """<a href="/like/0:%s:%s"><img src="/img/heart.png" title="I like this article!" /></a>""" % \
                         (feed_id, article.article_id)
         else:
-            html += """<a href="/like/1:%s:%s"><img src="/css/img/heart_open.png" title="Click if you like this article." /></a>""" % \
+            html += """<a href="/like/1:%s:%s"><img src="/img/heart_open.png" title="Click if you like this article." /></a>""" % \
                         (feed_id, article.article_id)
-        html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/css/img/cross.png" title="Delete this article" /></a>""" % \
+        html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/img/cross.png" title="Delete this article" /></a>""" % \
                         (feed_id, article.article_id)
         html += "<br /><br />"
 
@@ -497,7 +442,7 @@ class Root:
         # Previous and following articles
         try:
             following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
-            html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/css/img/following-article.png" /></a></div>\n""" % \
+            html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/img/following-article.png" /></a></div>\n""" % \
                 (feed_id, following.article_id, following.article_title)
         except:
             pass
@@ -506,7 +451,7 @@ class Root:
         except:
             previous = feed.articles.values()[0]
         finally:
-            html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/css/img/previous-article.png" /></a></div>\n""" % \
+            html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/img/previous-article.png" /></a></div>\n""" % \
                 (feed_id, previous.article_id, previous.article_title)
 
         html += "\n</div>\n"
@@ -520,11 +465,11 @@ class Root:
         # Share this article:
         # on Diaspora
         html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
-                <img src="/css/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
+                <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
                         (utils.DIASPORA_POD, article.article_link, article.article_title, "via pyAggr3g470r")
 
         # on Identi.ca
-        html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/css/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
+        html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                         (article.article_title, article.article_link)
 
         # Google +1 button
@@ -534,32 +479,32 @@ class Root:
         # on Google Buzz
         html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on delicious
         html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on Digg
         html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on reddit
         html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on Scoopeo
         html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on Blogmarks
         html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
-                <img src="/css/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
+                <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
         # on Twitter
         html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
@@ -622,7 +567,7 @@ class Root:
 
             # display a heart for faved articles
             if article.like == "1":
-                like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                like = """ <img src="/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
@@ -734,7 +679,7 @@ class Root:
                 not_read_begin, not_read_end = "", ""
 
             if article.like == "1":
-                like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                like = """ <img src="/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
@@ -880,7 +825,7 @@ class Root:
                                     not_read_begin, not_read_end = "", ""
 
                                 if article.like == "1":
-                                    like = """ <img src="/css/img/heart.png" title="I like this article!" />"""
+                                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
                                 # Descrition for the CSS ToolTips
@@ -1392,8 +1337,14 @@ if __name__ == '__main__':
     # Point of entry in execution mode
     print "Launching pyAggr3g470r..."
     LOCKER = threading.Lock()
+
     root = Root()
-    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/css/img/favicon.png"))
+    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
+    bindhost = "0.0.0.0"
+    cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
+    cherrypy.config.update({'error_page.404': error_page_404})
+    _cp_config = {'request.error_response': handle_error}
+
     if not os.path.isfile(utils.sqlite_base):
         # create the SQLite base if not exists
         print "Creating data base..."
@@ -1411,4 +1362,5 @@ if __name__ == '__main__':
         thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
     thread_watch_base.setDaemon(True)
     thread_watch_base.start()
-    cherrypy.quickstart(root, config=path)
+
+    cherrypy.quickstart(root, "/" ,config=utils.path + "/cfg/cherrypy.cfg")
