@@ -1340,8 +1340,7 @@ if __name__ == '__main__':
 
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
-    bindhost = "0.0.0.0"
-    cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': bindhost})
+    cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
     cherrypy.config.update({'error_page.404': error_page_404})
     _cp_config = {'request.error_response': handle_error}
 
