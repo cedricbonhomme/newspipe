@@ -26,6 +26,14 @@ __revision__ = "$Date: 2011/04/15 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+#
+# This file provides functions used for:
+# - the database management;
+# - generation of tags cloud;
+# - HTML processing;
+# - mail notifications.
+#
+
 import re
 import hashlib
 import sqlite3

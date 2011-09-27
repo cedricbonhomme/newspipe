@@ -26,6 +26,19 @@ __revision__ = "$Date: 2011/09/26 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+#
+# This file contains the "Root" class which describes
+# all pages of pyAggr3g470r. These pages are:
+# - main page;
+# - management;
+# - history;
+# - history;
+# - favorites;
+# - notifications;
+# - unread;
+# - feed summary.
+#
+
 import os
 import re
 import time

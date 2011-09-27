@@ -42,6 +42,9 @@ list_of_threads = []
 
 class FeedGetter(object):
     """
+    This class is in charge of retrieving feeds listed in ./var/feed.lst.
+    This class uses feedparser module from Mark Pilgrim.
+    For each feed a new thread is launched.
     """
     def __init__(self):
         """
