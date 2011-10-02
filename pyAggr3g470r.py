@@ -494,6 +494,13 @@ class Root:
                 rel="noreferrer" target="_blank">\n\t
                 <img src="/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
                         (article.article_link, article.article_title)
+                        
+        # on Pinboard
+        html += """\n\n<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
+                rel="noreferrer" target="_blank">\n\t
+                <img src="/img/pinboard.png" title="Share on Pinboard" /></a> &nbsp;&nbsp; """ % \
+                        (article.article_link, article.article_title)
+        
         # on delicious
         html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n\t
