@@ -476,6 +476,7 @@ class Root:
         html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
 
         # Share this article:
+        html += "Share this article:<br />\n"
         # on Diaspora
         html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
                 <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
@@ -484,16 +485,6 @@ class Root:
         # on Identi.ca
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
                         (article.article_title, article.article_link)
-
-        # Google +1 button
-        html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone> &nbsp;&nbsp; """ % \
-                        (article.article_link,)
-
-        # on Google Buzz
-        html += """\n\n<a href="http://www.google.com/buzz/post?url=%s&message=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/buzz.png" title="Share on Google Buzz" /></a> &nbsp;&nbsp; """ % \
-                        (article.article_link, article.article_title)
                         
         # on Pinboard
         html += """\n\n<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
@@ -529,9 +520,16 @@ class Root:
         # on Twitter
         html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
+
+
         # on Google Buzz with counter
-        html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n &nbsp;&nbsp; """ % \
+        html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n""" % \
                         (article.article_link,)
+                        
+        # Google +1 button
+        html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone>""" % \
+                        (article.article_link,)
+
 
         # QRCode (for smartphone)
         html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % (article_id,)
