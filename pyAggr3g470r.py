@@ -479,46 +479,46 @@ class Root:
         html += "Share this article:<br />\n"
         # on Diaspora
         html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
-                <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n &nbsp;&nbsp; """ % \
+                <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n""" % \
                         (utils.DIASPORA_POD, article.article_link, article.article_title, "via pyAggr3g470r")
 
         # on Identi.ca
-        html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a> &nbsp;&nbsp; \n""" % \
+        html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>""" % \
                         (article.article_title, article.article_link)
                         
         # on Pinboard
-        html += """\n\n<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/pinboard.png" title="Share on Pinboard" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/pinboard.png" title="Share on Pinboard" /></a>""" % \
                         (article.article_link, article.article_title)
         
         # on delicious
-        html += """\n\n<a href="http://delicious.com/post?url=%s&title=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/delicious.png" title="Share on del.iciou.us" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="http://delicious.com/post?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/delicious.png" title="Share on del.iciou.us" /></a>""" % \
                         (article.article_link, article.article_title)
         # on Digg
-        html += """\n\n<a href="http://digg.com/submit?url=%s&title=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/digg.png" title="Share on Digg" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="http://digg.com/submit?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/digg.png" title="Share on Digg" /></a>""" % \
                         (article.article_link, article.article_title)
         # on reddit
-        html += """\n\n<a href="http://reddit.com/submit?url=%s&title=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/reddit.png" title="Share on reddit" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="http://reddit.com/submit?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/reddit.png" title="Share on reddit" /></a>""" % \
                         (article.article_link, article.article_title)
         # on Scoopeo
-        html += """\n\n<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/scoopeo.png" title="Share on Scoopeo" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/scoopeo.png" title="Share on Scoopeo" /></a>""" % \
                         (article.article_link, article.article_title)
         # on Blogmarks
-        html += """\n\n<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
-                rel="noreferrer" target="_blank">\n\t
-                <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a> &nbsp;&nbsp; """ % \
+        html += """\n\n\t<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
+                rel="noreferrer" target="_blank">\n
+                <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
                         (article.article_link, article.article_title)
         # on Twitter
-        html += """\n\n<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
+        html += """\n\n\t<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
 
 
