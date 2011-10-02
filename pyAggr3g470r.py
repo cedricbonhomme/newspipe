@@ -32,7 +32,6 @@ __license__ = "GPLv3"
 # - main page;
 # - management;
 # - history;
-# - history;
 # - favorites;
 # - notifications;
 # - unread;
