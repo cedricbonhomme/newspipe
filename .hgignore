@@ -1,0 +1,18 @@
+# use glob syntax
+syntax: glob
+
+*.elc
+*.pyc
+*~
+*.png
+*.db
+
+# Temporary files (vim backups)
+*.swp
+
+
+CherryPy log files:
+*.log
+
+
+cfg/pyAggr3g470r.cfg
