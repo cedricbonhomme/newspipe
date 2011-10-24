@@ -50,6 +50,7 @@ from collections import Counter
 import datetime
 
 import utils
+import export
 import feedgetter
 import PyQRNative
 
@@ -279,6 +280,7 @@ class Root:
         # Export functions
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
+        html += """\t<option value="export_webzine" selected='selected'>Webzine</option>\n"""
         html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
         html += """\t<option value="export_TXT">Text</option>\n"""
         html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
@@ -1209,49 +1211,12 @@ class Root:
         Export articles stored in the SQLite database in text
         (raw or HTML) files.
         """
-        for feed in self.feeds.values():
-            # creates folder for each stream
-            folder = utils.path + "/var/export/" + \
-                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
-            try:
-                os.makedirs(folder)
-            except OSError:
-                # directories already exists (not a problem)
-                pass
-
-            for article in feed.articles.values():
-                name = article.article_date.strip().replace(' ', '_')
-
-                # Export all articles in HTML format
-                if export_method == "export_HTML":
-                    name = os.path.normpath(folder + "/" + name + ".html")
-                    content = htmlheader()
-                    content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                    content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                (article.article_link, article.article_title)
-                    content += article.article_description
-                    content += "</div>\n<hr />\n"
-                    content += htmlfooter
-
-                # Export for dokuwiki
-                # example: http://wiki.cedricbonhomme.org/doku.php/news-archives
-                elif export_method == "export_dokuwiki":
-                    name = os.path.normpath(folder + "/" + name.replace(':', '-') + ".txt")
-                    content = "<html>"
-                    content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                    content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                                (article.article_link, article.article_title)
-                    content += article.article_description
-                    content += '</div>\n<hr />Generated with <a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>\n</html>'
-
-                # Export all articles in raw text
-                elif export_method == "export_TXT":
-                    content = "Title: " + article.article_title + "\n\n\n"
-                    content += utils.clear_string(article.article_description)
-                    name = os.path.normpath(folder + "/" + name + ".txt")
-
-                with open(name, "w") as f:
-                    f.write(content)
+        if export_method == "export_webzine":
+            export.export_webzine(self.feeds)
+            return self.management()
+        else:
+            export.exports(self.feeds, export_method)
+        
         return self.management()
 
     export.exposed = True
