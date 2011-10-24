@@ -26,7 +26,7 @@ def export_webzine(feeds):
     """
     """
     index = htmlheader
-    index = "<br />\n<ul>"
+    index += "<br />\n<ul>"
     for feed in feeds.values():
         # creates a folder for each stream
         feed_folder = utils.path + "/var/export/webzine/" + \
