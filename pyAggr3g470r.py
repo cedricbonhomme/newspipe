@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 2.9 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2011/09/26 $"
+__revision__ = "$Date: 2011/10/24 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -280,10 +280,9 @@ class Root:
         # Export functions
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
-        html += """\t<option value="export_webzine" selected='selected'>Webzine</option>\n"""
-        html += """\t<option value="export_HTML" selected='selected'>HTML</option>\n"""
-        html += """\t<option value="export_TXT">Text</option>\n"""
-        html += """\t<option value="export_dokuwiki">DokuWiki</option>\n"""
+        html += """\t<option value="export_webzine" selected='selected'>Simple Webzine</option>\n"""
+        html += """\t<option value="export_html" selected='selected'>HTML</option>\n"""
+        html += """\t<option value="export_txt">Text</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
         html += "<hr />\n\n"
 
@@ -1203,20 +1202,12 @@ class Root:
     drop_base.exposed = True
 
 
-    #
-    # Export functions
-    #
     def export(self, export_method):
         """
-        Export articles stored in the SQLite database in text
-        (raw or HTML) files.
+        Export articles currently loaded from the SQLite database with
+        the appropriate function of the 'export' module.
         """
-        if export_method == "export_webzine":
-            export.export_webzine(self.feeds)
-            return self.management()
-        else:
-            export.exports(self.feeds, export_method)
-        
+        getattr(export, export_method)(self.feeds)
         return self.management()
 
     export.exposed = True
