@@ -281,7 +281,8 @@ class Root:
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
         html += """\t<option value="export_webzine" selected='selected'>Simple Webzine</option>\n"""
-        html += """\t<option value="export_html" selected='selected'>HTML</option>\n"""
+        html += """\t<option value="export_html">HTML</option>\n"""
+        html += """\t<option value="export_epub">ePub</option>\n"""
         html += """\t<option value="export_txt">Text</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
         html += "<hr />\n\n"
@@ -1207,7 +1208,10 @@ class Root:
         Export articles currently loaded from the SQLite database with
         the appropriate function of the 'export' module.
         """
-        getattr(export, export_method)(self.feeds)
+        try:
+            getattr(export, export_method)(self.feeds)
+        except Exception, e:
+            return self.error_page(e)
         return self.management()
 
     export.exposed = True

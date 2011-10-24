@@ -240,7 +240,7 @@ class EpubBook:
 
     def __writeItems(self):
         for item in self.getAllItems():
-            print item.id, item.destPath
+            #print item.id, item.destPath
             if item.html:
                 fout = open(os.path.join(self.rootDir, 'OEBPS', item.destPath), 'w')
                 fout.write(item.html)

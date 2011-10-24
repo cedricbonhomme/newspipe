@@ -158,3 +158,28 @@ def export_html(feeds):
 
                 with open(name, "w") as f:
                     f.write(content)
+
+def export_epub(feeds):
+    """
+    Export the articles given in parameter in ePub files.
+    """
+    from epub import ez_epub
+    for feed in feeds.values():
+            # creates folder for each stream
+            folder = utils.path + "/var/export/epub/" + \
+                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
+            try:
+                os.makedirs(folder)
+            except OSError:
+                # directories already exists (not a problem)
+                pass
+
+            for article in feed.articles.values():
+                name = article.article_date.strip().replace(' ', '_')
+                name = os.path.normpath(folder + "/" + name + ".epub")
+
+                section = ez_epub.Section()
+                section.title = article.article_title.decode('utf-8')
+                section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
+                ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
+                                    name, lang='en-US', cover=None)
