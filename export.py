@@ -186,6 +186,7 @@ def export_epub(feeds):
 
 def export_pdf(feeds):
     """
+    Export the articles given in parameter in PDF files.
     """
     from xhtml2pdf import pisa
     import cStringIO as StringIO
