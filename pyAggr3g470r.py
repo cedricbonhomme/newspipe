@@ -280,8 +280,7 @@ class Root:
         # Export functions
         html += "<h1>Export articles</h1>\n\n"
         html += """<form method=get action="/export/"><select name="export_method">\n"""
-        html += """\t<option value="export_webzine" selected='selected'>Simple Webzine</option>\n"""
-        html += """\t<option value="export_html">HTML</option>\n"""
+        html += """\t<option value="export_html" selected='selected'>HTML (simple Webzine)</option>\n"""
         html += """\t<option value="export_epub">ePub</option>\n"""
         html += """\t<option value="export_pdf">PDF</option>\n"""
         html += """\t<option value="export_txt">Text</option>\n"""

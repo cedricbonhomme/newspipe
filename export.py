@@ -30,7 +30,8 @@ __license__ = "GPLv3"
 # it is possible to export the database of articles in different formats:
 # - simple HTML webzine;
 # - text file;
-# - html file.
+# - ePub file;
+# - PDF file.
 #
 
 import os
@@ -53,7 +54,7 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
 
 
 
-def export_webzine(feeds):
+def export_html(feeds):
     """
     Export the articles given in parameter in a simple Webzine.
     """
@@ -126,35 +127,6 @@ def export_txt(feeds):
 
                 content = "Title: " + article.article_title + "\n\n\n"
                 content += utils.clear_string(article.article_description)
-
-                with open(name, "w") as f:
-                    f.write(content)    
-    
-def export_html(feeds):
-    """
-    Export the articles given in parameter in HTML files.
-    """
-    for feed in feeds.values():
-            # creates folder for each stream
-            folder = utils.path + "/var/export/html/" + \
-                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
-            try:
-                os.makedirs(folder)
-            except OSError:
-                # directories already exists (not a problem)
-                pass
-
-            for article in feed.articles.values():
-                name = article.article_date.strip().replace(' ', '_')
-                name = os.path.normpath(folder + "/" + name + ".html")
-
-                content = htmlheader
-                content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
-                content += """<h1><a href="%s">%s</a></h1><br />""" % \
-                            (article.article_link, article.article_title)
-                content += article.article_description
-                content += "</div>\n<hr />\n"
-                content += htmlfooter
 
                 with open(name, "w") as f:
                     f.write(content)
