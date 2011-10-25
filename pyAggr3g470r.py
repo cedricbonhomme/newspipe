@@ -521,11 +521,6 @@ class Root:
         # on Twitter
         html += """\n\n\t<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
-
-
-        # on Google Buzz with counter
-        html += """<br /><br />\n<a title="Share on Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="normal-count" data-url="%s"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>\n""" % \
-                        (article.article_link,)
                         
         # Google +1 button
         html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone>""" % \
