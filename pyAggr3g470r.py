@@ -283,6 +283,7 @@ class Root:
         html += """\t<option value="export_webzine" selected='selected'>Simple Webzine</option>\n"""
         html += """\t<option value="export_html">HTML</option>\n"""
         html += """\t<option value="export_epub">ePub</option>\n"""
+        html += """\t<option value="export_pdf">PDF</option>\n"""
         html += """\t<option value="export_txt">Text</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
         html += "<hr />\n\n"

@@ -183,3 +183,35 @@ def export_epub(feeds):
                 section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
                 ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
                                     name, lang='en-US', cover=None)
+
+def export_pdf(feeds):
+    """
+    """
+    from xhtml2pdf import pisa
+    import cStringIO as StringIO
+    for feed in feeds.values():
+            # creates folder for each stream
+            folder = utils.path + "/var/export/pdf/" + \
+                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
+            try:
+                os.makedirs(folder)
+            except OSError:
+                # directories already exists (not a problem)
+                pass
+
+            for article in feed.articles.values():
+                name = article.article_date.strip().replace(' ', '_')
+                name = os.path.normpath(folder + "/" + name + ".pdf")
+                
+                content = htmlheader
+                content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+                content += """<h1><a href="%s">%s</a></h1><br />""" % \
+                            (article.article_link, article.article_title)
+                content += article.article_description
+                content += "</div>\n<hr />\n"
+                content += htmlfooter
+
+                try:
+                    pdf = pisa.CreatePDF(StringIO.StringIO(content), file(name, "wb"))
+                except:
+                    pass
