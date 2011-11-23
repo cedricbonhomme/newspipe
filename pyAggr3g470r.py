@@ -474,6 +474,7 @@ class Root:
         html += "<hr />\n"
         html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article.article_id)
         html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article.article_id)
+        html += """ - <a href="/qrcode/%s:%s">Export to QR code</a>\n""" % (feed_id, article.article_id)
         html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
 
         # Share this article:
@@ -486,13 +487,13 @@ class Root:
         # on Identi.ca
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>""" % \
                         (article.article_title, article.article_link)
-                        
+
         # on Pinboard
         html += """\n\n\t<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/pinboard.png" title="Share on Pinboard" /></a>""" % \
                         (article.article_link, article.article_title)
-        
+
         # on delicious
         html += """\n\n\t<a href="http://delicious.com/post?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
@@ -521,7 +522,7 @@ class Root:
         # on Twitter
         html += """\n\n\t<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
-                        
+
         # Google +1 button
         html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone>""" % \
                         (article.article_link,)
@@ -1210,6 +1211,33 @@ class Root:
         return self.management()
 
     export.exposed = True
+
+    def qrcode(self, param):
+        """
+        Export an article to QRCode.
+        """
+        try:
+            feed_id, article_id = param.split(':')
+        except:
+            return self.error_page("Bad URL.")
+        try:
+            feed = self.feeds[feed_id]
+            article = feed.articles[article_id]
+        except:
+            self.error_page("This article do not exists.")
+        try:
+            qr = PyQRNative.QRCode(10, PyQRNative.QRErrorCorrectLevel.L)
+            qr.addData(article.article_link)
+            qr.make()
+            im = qr.makeImage()
+            im.save("./var/export/"+article_id+".png", format='png')
+        except Exception, e:
+            # Code length overflow
+            print e
+
+        return self.article(param)
+
+    qrcode.exposed = True
 
 
     def epub(self, param):
