@@ -52,7 +52,8 @@ import datetime
 import utils
 import export
 import feedgetter
-import PyQRNative
+from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
+from qrcode import qr
 
 
 def error_page_404(status, message, traceback, version):
@@ -444,19 +445,12 @@ class Root:
             pass
         if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
             # QR Code generation
-            try:
-                qr = PyQRNative.QRCode(40, PyQRNative.QRErrorCorrectLevel.L)
-                if len(description) <= 4296:
-                    print article.article_description
-                    qr.addData(article.article_description)
-                else:
-                    qr.addData(article.article_link)
-                qr.make()
-                im = qr.makeImage()
-                im.save("./var/qrcode/"+article_id+".png", format='png')
-            except Exception, e:
-                # Code length overflow
-                print e
+            if len(description) < 4296:
+                f = qr.QRUrl(url = description)
+            else:
+                f = qr.QRUrl(url = article.article_link)
+            f.make()
+            f.save("./var/qrcode/"+article_id+".png")
 
         # Previous and following articles
         try:
@@ -533,7 +527,7 @@ class Root:
 
 
         # QRCode (for smartphone)
-        html += """<br />\n<img src="/var/qrcode/%s.png" title="Share with your smartphone" />""" % (article_id,)
+        html += """<br />\n<a href="/var/qrcode/%s.png"><img src="/var/qrcode/%s.png" title="Share with your smartphone" width="500" height="500" /></a>""" % (article_id, article_id)
         html += "<hr />\n" + htmlfooter
         return html
 
