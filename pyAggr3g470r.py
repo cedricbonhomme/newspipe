@@ -405,22 +405,6 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div>"""
-        # Generation of the QR Code for the current article
-        try:
-            os.makedirs("./var/qrcode/")
-        except OSError:
-            pass
-        if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
-            # QR Code generation
-            try:
-                qr = PyQRNative.QRCode(7, PyQRNative.QRErrorCorrectLevel.L)
-                qr.addData(article.article_link)
-                qr.make()
-                im = qr.makeImage()
-                im.save("./var/qrcode/"+article_id+".png", format='png')
-            except Exception, e:
-                # Code length overflow
-                print e
 
         if article.article_readed == "0":
             # if the current article is not yet readed, update the database
@@ -453,6 +437,27 @@ class Root:
         else:
             html += "No description available.\n<br /><br /><br />"
 
+        # Generation of the QR Code for the current article
+        try:
+            os.makedirs("./var/qrcode/")
+        except OSError:
+            pass
+        if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
+            # QR Code generation
+            try:
+                qr = PyQRNative.QRCode(40, PyQRNative.QRErrorCorrectLevel.L)
+                if len(description) <= 4296:
+                    print article.article_description
+                    qr.addData(article.article_description)
+                else:
+                    qr.addData(article.article_link)
+                qr.make()
+                im = qr.makeImage()
+                im.save("./var/qrcode/"+article_id+".png", format='png')
+            except Exception, e:
+                # Code length overflow
+                print e
+
         # Previous and following articles
         try:
             following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
@@ -474,7 +479,6 @@ class Root:
         html += "<hr />\n"
         html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article.article_id)
         html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article.article_id)
-        html += """ - <a href="/qrcode/%s:%s">Export to QR code</a>\n""" % (feed_id, article.article_id)
         html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
 
         # Share this article:
@@ -1211,33 +1215,6 @@ class Root:
         return self.management()
 
     export.exposed = True
-
-    def qrcode(self, param):
-        """
-        Export an article to QRCode.
-        """
-        try:
-            feed_id, article_id = param.split(':')
-        except:
-            return self.error_page("Bad URL.")
-        try:
-            feed = self.feeds[feed_id]
-            article = feed.articles[article_id]
-        except:
-            self.error_page("This article do not exists.")
-        try:
-            qr = PyQRNative.QRCode(10, PyQRNative.QRErrorCorrectLevel.L)
-            qr.addData(article.article_link)
-            qr.make()
-            im = qr.makeImage()
-            im.save("./var/export/"+article_id+".png", format='png')
-        except Exception, e:
-            # Code length overflow
-            print e
-
-        return self.article(param)
-
-    qrcode.exposed = True
 
 
     def epub(self, param):
