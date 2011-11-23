@@ -29,11 +29,13 @@ based on CherryPy. Articles are stored in a SQLite base.
 
 Features
 ------------
-* notification of new articles by e-mail for selected feeds;
-* export articles (HTML, EPUB and raw text);
-* mark or unmark an article as favorites;
-* share an article on Google Buzz, del.icio.us, Digg, reddit, Scoopeo and Blogmarks;
-* language detection and search articles by language.
+* articles are stored in a SQLite database;
+* find an article with history;
+* e-mail notification;
+* export articles to HTML, EPUB, PDF or raw text;
+* mark or unmark articles as favorites;
+* share articles with Diaspora, Google Buzz, Pinboard, delicious, Identi.ca, Digg, reddit, Scoopeo, Blogmarks and Twitter;
+* generation of QR code with the content or URL of an article. So you can read an article later on your smartphone (or share with friends).
 
 
 
@@ -52,38 +54,13 @@ Optional module
 ~~~~~~~~~~~~~~~
 These modules are not required but provides better features:
 * lxml and Genshi;
+* For the QR code generation: http://hg.cedricbonhomme.org/qrcode/
 * gamin.
+
+
 If you want to install these modules:
 
-
-EPUB generation
-^^^^^^^^^^^^^^^^^^
-wget http://codespeak.net/lxml/lxml-2.2.8.tgz
-tar -xzvf lxml-2.2.8.tgz
-rm -f lxml-2.2.8.tgz
-cd lxml
-sudo python setup.py install
-cd ..
-rm -Rf lxml
-
-wget http://ftp.edgewall.com/pub/genshi/Genshi-0.6.tar.gz
-tar -xzvf Genshi-0.6.tar.gz
-rm -f Genshi-0.6.tar.gz
-cd Genshi
-sudo python setup.py install
-cd ..
-rm -Rf Genshi
-
-
-Advanced monitoring
-^^^^^^^^^^^^^^^^^^^
-Name: Gamin
-Enable a better monitoring of the base of feeds.
-
-Installation:
-aptitude install python-gamin
-
-http://people.gnome.org/~veillard/gamin/python.html
+sudo aptitude install python-gamin python-lxml python-genshi
 
 
 Donnation
