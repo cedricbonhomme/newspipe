@@ -54,8 +54,8 @@ Optional module
 ~~~~~~~~~~~~~~~
 These modules are not required but provides better features:
 * lxml and Genshi;
-* For the QR code generation: http://hg.cedricbonhomme.org/qrcode/
-* gamin.
+* Python Imaging Library for the generation of QR codes;
+* Gamin, detect changes in the database in a better way.
 
 
 If you want to install these modules:
