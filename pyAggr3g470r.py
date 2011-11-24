@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 3.0 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2011/10/25 $"
+__revision__ = "$Date: 2011/11/24 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -492,11 +492,6 @@ class Root:
                 <img src="/img/pinboard.png" title="Share on Pinboard" /></a>""" % \
                         (article.article_link, article.article_title)
 
-        # on delicious
-        html += """\n\n\t<a href="http://delicious.com/post?url=%s&title=%s"
-                rel="noreferrer" target="_blank">\n
-                <img src="/img/delicious.png" title="Share on del.iciou.us" /></a>""" % \
-                        (article.article_link, article.article_title)
         # on Digg
         html += """\n\n\t<a href="http://digg.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
@@ -516,9 +511,6 @@ class Root:
         html += """\n\n\t<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
-                        (article.article_link, article.article_title)
-        # on Twitter
-        html += """\n\n\t<a href="http://twitter.com/share" class="twitter-share-button" data-url="%s" data-text="%s" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>\n""" % \
                         (article.article_link, article.article_title)
 
         # Google +1 button
