@@ -445,8 +445,8 @@ class Root:
             pass
         if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
             # QR Code generation
-            if len(description) < 4296:
-                f = qr.QRUrl(url = description)
+            if len(utils.clear_string(description)) < 4296:
+                f = qr.QRUrl(url = utils.clear_string(description))
             else:
                 f = qr.QRUrl(url = article.article_link)
             f.make()
