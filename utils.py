@@ -417,9 +417,13 @@ def load_feed():
 
         # Walk through the list of feeds
         for feed in [x[1] for x in tupleList]:
-            list_of_articles = c.execute(\
-                    "SELECT * FROM articles WHERE feed_link='" + \
-                    feed[2] + "'").fetchall()
+            try:
+                list_of_articles = c.execute(\
+                        "SELECT * FROM articles WHERE feed_link='" + \
+                        feed[2] + "'").fetchall()
+            except:
+                LOCKER.release()
+                continue
             sha1_hash = hashlib.sha1()
             sha1_hash.update(feed[2].encode('utf-8'))
             feed_id = sha1_hash.hexdigest()
