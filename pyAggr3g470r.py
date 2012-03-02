@@ -228,7 +228,7 @@ class Root:
         return html + "</div>"
 
 
-    def management(self, word_size=6, max_nb_articles=5):
+    def management(self, max_nb_articles=5):
         """
         Management page.
         Allows adding and deleting feeds. Export functions of the SQLite data base
@@ -258,10 +258,11 @@ class Root:
 
         # Informations about the data base of articles
         html += """<p>%s article(s) are loaded from the database with
-                <a href="/unread/">%s unread article(s)</a>.<br />""" % \
+                <a href="/unread/">%s unread article(s)</a>.<br />\n""" % \
                     (self.nb_articles, self.nb_unread_articles)
-        html += """Database: %s.\n<br />Size: %s bytes.</p>\n""" % \
+        html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
                     (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
+        html += '<a href="/statistics/">Advanced statistics.</a></p>\n'
 
         html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
         html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
@@ -286,7 +287,20 @@ class Root:
         html += """\t<option value="export_pdf">PDF</option>\n"""
         html += """\t<option value="export_txt">Text</option>\n"""
         html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
-        html += "<hr />\n\n"
+        html += "<hr />"
+        html += htmlfooter
+        return html
+
+    management.exposed = True
+
+
+    def statistics(self, word_size=6):
+        """
+        More advanced statistics.
+        """
+        html = htmlheader()
+        html += htmlnav
+        html += """<div class="left inner">\n"""
 
         # Some statistics (most frequent word)
         if self.feeds:
@@ -301,12 +315,12 @@ class Root:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(self.top_words) + '</div>'
             html += "<hr />\n"
+
         html += htmlfooter
         return html
 
-    management.exposed = True
 
-
+    statistics.exposed = True
     def q(self, querystring=None):
         """
         Simply search for the string 'querystring'
