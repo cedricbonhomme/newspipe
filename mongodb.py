@@ -138,7 +138,8 @@ class Articles(object):
             collection = self.db[str(feed_id)]
             collection.update({"type": 1}, {"$set": {"article_readed": readed}}, multi=True)
         else:
-            collection.update({"article_id": article_id}, {"$set": {"article_readed": readed}})
+            for feed_id in self.db.collection_names():
+                self.mark_as_read(readed, feed_id, None)
 
     def list_collections(self):
         """

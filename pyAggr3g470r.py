@@ -961,7 +961,7 @@ class Root:
         
         # Mark all articles as read.
         if param == "":
-            pass
+            self.articles.mark_as_read(True, None, None)
         # Mark all articles from a feed as read.
         elif param == "Feed" or param == "Feed_FromMainPage":
             self.articles.mark_as_read(True, identifiant, None)
