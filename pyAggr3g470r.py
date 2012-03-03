@@ -1058,21 +1058,22 @@ class Root:
         """
         List of favorites articles
         """
+        feeds = self.articles.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>Your favorites articles</h1>"
-        for feed in self.feeds.values():
+        for feed in feeds:
             new_feed_section = True
-            for article in feed.articles.values():
-                if article.like == "1":
+            for article in self.articles.get_articles_from_collection(feed["feed_id"]):
+                if article["article_like"] == True:
                     if new_feed_section is True:
                         new_feed_section = False
                         html += """<h2><a name="%s"><a href="%s" rel="noreferrer"target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                            (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
+                            (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
                     # descrition for the CSS ToolTips
-                    article_content = utils.clear_string(article.article_description)
+                    article_content = utils.clear_string(article["article_description"])
                     if article_content:
                         description = " ".join(article_content[:500].split(' ')[:-1])
                     else:
@@ -1082,7 +1083,7 @@ class Root:
                     # CSS description tooltips on mouse over)
                     html += article.article_date + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                    (feed.feed_id, article.article_id, article.article_title[:150], description)
+                                    (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
         html += "<hr />\n"
         html += htmlfooter
         return html
