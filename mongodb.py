@@ -120,15 +120,26 @@ class Articles(object):
             for feed_id in self.db.collection_names():
                 unread_articles += self.nb_unread_articles(feed_id)
             return unread_articles
-                
-            
+
     def like_article(self, like, feed_id, article_id):
         """
         Like or unlike an article.
         """
         collection = self.db[str(feed_id)]
         collection.update({"article_id": article_id}, {"$set": {"article_like": like}})
-        
+
+    def mark_as_read(self, readed, feed_id=None, article_id=None):
+        """
+        """
+        if feed_id != None and article_id != None:
+            collection = self.db[str(feed_id)]
+            collection.update({"article_id": article_id}, {"$set": {"article_readed": readed}})
+        elif feed_id != None and article_id == None:
+            collection = self.db[str(feed_id)]
+            collection.update({"type": 1}, {"$set": {"article_readed": readed}}, multi=True)
+        else:
+            collection.update({"article_id": article_id}, {"$set": {"article_readed": readed}})
+
     def list_collections(self):
         """
         List all collections (feed).

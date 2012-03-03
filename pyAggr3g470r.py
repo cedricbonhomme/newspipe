@@ -198,10 +198,9 @@ class Root:
             # some options for the current feed
             html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
             html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
-            feed["nb_unread_articles"] = 0 #hack
-            if feed["nb_unread_articles"] != 0:
+            if self.articles.nb_unread_articles(feed["feed_id"]) != 0:
                 html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], feed["nb_unread_articles"])
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], self.articles.nb_unread_articles(feed["feed_id"]))
             if feed["mail"] == "0":
                 html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
             else:
@@ -435,7 +434,7 @@ class Root:
         try:
             feed_id, article_id = param.split(':')
             feed = self.articles.get_collection(feed_id)
-            articles = self.articles.get_articles_from_collection(feed["feed_id"])
+            articles = self.articles.get_articles_from_collection(feed_id)
             article = self.articles.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
@@ -445,7 +444,7 @@ class Root:
 
         if article["article_readed"] == False:
             # if the current article is not yet readed, update the database
-            self.mark_as_read("Article:"+article["article_link"])
+            self.mark_as_read("Article:"+article["article_id"]+":"+feed["feed_id"])
 
         html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
         # Title of the article
@@ -959,27 +958,16 @@ class Root:
         'article_readed' of the SQLite database to 1.
         """
         param, _, identifiant = target.partition(':')
-        try:
-            LOCKER.acquire()
-            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-            c = conn.cursor()
-            # Mark all articles as read.
-            if param == "":
-                c.execute("UPDATE articles SET article_readed=1 WHERE article_readed='0'")
-            # Mark all articles from a feed as read.
-            elif param == "Feed" or param == "Feed_FromMainPage":
-                c.execute("UPDATE articles SET article_readed=1 WHERE article_readed='0' AND feed_link='" + \
-                            self.feeds[identifiant].feed_link + "'")
-            # Mark an article as read.
-            elif param == "Article":
-                c.execute("UPDATE articles SET article_readed=1 WHERE article_link='" + identifiant + "'")
-            conn.commit()
-            c.close()
-        except Exception:
-            self.error_page("Impossible to mark this article as read.")
-        finally:
-            LOCKER.release()
-
+        
+        # Mark all articles as read.
+        if param == "":
+            pass
+        # Mark all articles from a feed as read.
+        elif param == "Feed" or param == "Feed_FromMainPage":
+            self.articles.mark_as_read(True, identifiant, None)
+        # Mark an article as read.
+        elif param == "Article":
+            self.articles.mark_as_read(True, identifiant.split(':')[1], identifiant.split(':')[0])
         if param == "" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
