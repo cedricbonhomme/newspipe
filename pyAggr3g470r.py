@@ -827,6 +827,7 @@ class Root:
         """
         This page enables to browse articles chronologically.
         """
+        feeds = self.articles.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -850,38 +851,38 @@ class Root:
                     ", "+ the_year +".</h1><br />\n"
 
         timeline = Counter()
-        for feed in self.feeds.values():
+        for feed in feeds:
             new_feed_section = True
-            for article in feed.articles.values():
+            for article in self.articles.get_articles_from_collection(feed["feed_id"]):
 
                 if querystring == "all":
-                    timeline[article.article_date.split(' ')[0].split('-')[0]] += 1
+                    timeline[str(article["article_date"]).split(' ')[0].split('-')[0]] += 1
 
                 elif querystring[:4] == "year":
 
-                    if article.article_date.split(' ')[0].split('-')[0] == the_year:
-                        timeline[article.article_date.split(' ')[0].split('-')[1]] += 1
+                    if str(article["article_date"]).split(' ')[0].split('-')[0] == the_year:
+                        timeline[str(article["article_date"]).split(' ')[0].split('-')[1]] += 1
 
                         if "month" in querystring:
-                            if article.article_date.split(' ')[0].split('-')[1] == the_month:
-                                if article.article_readed == "0":
+                            if str(article["article_date"]).split(' ')[0].split('-')[1] == the_month:
+                                if article["article_readed"] == False:
                                     # not readed articles are in bold
                                     not_read_begin, not_read_end = "<b>", "</b>"
                                 else:
                                     not_read_begin, not_read_end = "", ""
 
-                                if article.like == "1":
+                                if article["article_like"] == True:
                                     like = """ <img src="/img/heart.png" title="I like this article!" />"""
                                 else:
                                     like = ""
                                 # Descrition for the CSS ToolTips
-                                article_content = utils.clear_string(article.article_description)
+                                article_content = utils.clear_string(article["article_content"])
                                 if article_content:
                                     description = " ".join(article_content[:500].split(' ')[:-1])
                                 else:
                                     description = "No description."
                                 # Title of the article
-                                article_title = article.article_title
+                                article_title = article["article_title"]
                                 if len(article_title) >= 110:
                                     article_title = article_title[:110] + " ..."
 
@@ -890,12 +891,12 @@ class Root:
                                     html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                                     target="_blank">%s</a></a><a href="%s" rel="noreferrer"
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                        (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
+                                        (feed["feed_id"], feed["feed_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                                html += article.article_date.split(' ')[0][-2:] + " (" + \
-                                        article.article_date.split(' ')[1]  + ") - " + \
+                                html += str(article["article_date"]).split(' ')[0][-2:] + " (" + \
+                                        str(article["article_date"]).split(' ')[1]  + ") - " + \
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                                (feed.feed_id, article.article_id, not_read_begin, \
+                                                (feed["feed_id"], article["article_id"], not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
         if querystring == "all":
             query = "year"
