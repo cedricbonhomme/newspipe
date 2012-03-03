@@ -64,14 +64,17 @@ class Articles(object):
         collection = self.db[str(feed_id)]
         return collection.find({"article_id":article_id}).next()
         
-    def get_all_collections(self):
+    def get_all_collections(self, condition=None):
         """
         """
         feeds = []
         collections = self.db.collection_names()
         for collection_name in collections:
             if collection_name != "system.indexes":
-                cursor = self.db[collection_name].find({"type":0})
+                if condition is None:
+                    cursor = self.db[collection_name].find({"type":0})
+                else:
+                    cursor = self.db[collection_name].find({"type":0, condition[0]:condition[1]})
                 if cursor.count() != 0:
                     feeds.append(cursor.next())
         feeds = sorted(feeds, key=itemgetter('feed_title'))
