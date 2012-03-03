@@ -58,6 +58,12 @@ class Articles(object):
             articles.append(collection)
         return articles
 
+    def get_article(self, feed_id, article_id):
+        """
+        """
+        collection = self.db[str(feed_id)]
+        return collection.find({"article_id":article_id}).next()
+        
     def get_all_collections(self):
         """
         """

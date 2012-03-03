@@ -434,33 +434,35 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            feed, article = self.feeds[feed_id], self.feeds[feed_id].articles[article_id]
+            feed = self.articles.get_collection(feed_id)
+            articles = self.articles.get_articles_from_collection(feed["feed_id"])
+            article = self.articles.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div>"""
 
-        if article.article_readed == "0":
+        if article["article_readed"] == False:
             # if the current article is not yet readed, update the database
-            self.mark_as_read("Article:"+article.article_link)
+            self.mark_as_read("Article:"+article["article_link"])
 
         html += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
         # Title of the article
         html += """<h1><i>%s</i> from <a href="/feed/%s">%s</a></h1>\n<br />\n""" % \
-                        (article.article_title, feed_id, feed.feed_title)
-        if article.like == "1":
+                        (article["article_title"], feed_id, feed["feed_title"])
+        if article["article_like"] == True:
             html += """<a href="/like/0:%s:%s"><img src="/img/heart.png" title="I like this article!" /></a>""" % \
-                        (feed_id, article.article_id)
+                        (feed_id, article["article_id"])
         else:
             html += """<a href="/like/1:%s:%s"><img src="/img/heart_open.png" title="Click if you like this article." /></a>""" % \
-                        (feed_id, article.article_id)
+                        (feed_id, article["article_id"])
         html += """&nbsp;&nbsp;<a href="/delete_article/%s:%s"><img src="/img/cross.png" title="Delete this article" /></a>""" % \
-                        (feed_id, article.article_id)
+                        (feed_id, article["article_id"])
         html += "<br /><br />"
 
         # Description (full content) of the article
-        description = article.article_description
+        description = article["article_content"]
         if description:
             p = re.compile(r'<code><')
             q = re.compile(r'></code>')
@@ -485,74 +487,75 @@ class Root:
                 f = qr.QRUrl(url = utils.clear_string(description))
                 f.make()
             except:
-                f = qr.QRUrl(url = article.article_link)
+                f = qr.QRUrl(url = article["article_link"])
                 f.make()
             f.save("./var/qrcode/"+article_id+".png")
 
         # Previous and following articles
+        articles_list = articles.distinct("article_id")
         try:
-            following = feed.articles.values()[feed.articles.keys().index(article_id) - 1]
+            following = articles[articles_list.index(article_id) - 1]
             html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/img/following-article.png" /></a></div>\n""" % \
-                (feed_id, following.article_id, following.article_title)
-        except:
-            pass
+                (feed_id, following["article_id"], following["article_title"])
+        except Exception, e:
+            print e
         try:
-            previous = feed.articles.values()[feed.articles.keys().index(article_id) + 1]
+            previous = articles[articles_list.index(article_id) + 1]
         except:
-            previous = feed.articles.values()[0]
+            previous = articles[0]
         finally:
             html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/img/previous-article.png" /></a></div>\n""" % \
-                (feed_id, previous.article_id, previous.article_title)
+                (feed_id, previous["article_id"], previous["article_title"])
 
         html += "\n</div>\n"
 
         # Footer menu
         html += "<hr />\n"
-        html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article.article_id)
-        html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article.article_id)
-        html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
+        html += """\n<a href="/plain_text/%s:%s">Plain text</a>\n""" % (feed_id, article["article_id"])
+        html += """ - <a href="/epub/%s:%s">Export to EPUB</a>\n""" % (feed_id, article["article_id"])
+        html += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article["article_link"],)
 
         # Share this article:
         html += "Share this article:<br />\n"
         # on Diaspora
         html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
                 <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n""" % \
-                        (utils.DIASPORA_POD, article.article_link, article.article_title, "via pyAggr3g470r")
+                        (utils.DIASPORA_POD, article["article_link"], article["article_title"], "via pyAggr3g470r")
 
         # on Identi.ca
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>""" % \
-                        (article.article_title, article.article_link)
+                        (article["article_title"], article["article_link"])
 
         # on Pinboard
         html += """\n\n\t<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/pinboard.png" title="Share on Pinboard" /></a>""" % \
-                        (article.article_link, article.article_title)
+                        (article["article_link"], article["article_title"])
 
         # on Digg
         html += """\n\n\t<a href="http://digg.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/digg.png" title="Share on Digg" /></a>""" % \
-                        (article.article_link, article.article_title)
+                        (article["article_link"], article["article_title"])
         # on reddit
         html += """\n\n\t<a href="http://reddit.com/submit?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/reddit.png" title="Share on reddit" /></a>""" % \
-                        (article.article_link, article.article_title)
+                        (article["article_link"], article["article_title"])
         # on Scoopeo
         html += """\n\n\t<a href="http://scoopeo.com/scoop/new?newurl=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/scoopeo.png" title="Share on Scoopeo" /></a>""" % \
-                        (article.article_link, article.article_title)
+                        (article["article_link"], article["article_title"])
         # on Blogmarks
         html += """\n\n\t<a href="http://blogmarks.net/my/new.php?url=%s&title=%s"
                 rel="noreferrer" target="_blank">\n
                 <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a>""" % \
-                        (article.article_link, article.article_title)
+                        (article["article_link"], article["article_title"])
 
         # Google +1 button
         html += """\n\n<g:plusone size="standard" count="true" href="%s"></g:plusone>""" % \
-                        (article.article_link,)
+                        (article["article_link"],)
 
 
         # QRCode (for smartphone)
