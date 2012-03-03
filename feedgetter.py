@@ -30,6 +30,7 @@ import traceback
 import sqlite3
 import threading
 import feedparser
+import hashlib
 from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
@@ -118,7 +119,12 @@ class FeedGetter(object):
         except:
             feed_image = "/img/feed-icon-28x28.png"
 
-        collection_dic = {"collection_id": feed_link,\
+        sha1_hash = hashlib.sha1()
+        sha1_hash.update(feed_link.encode('utf-8'))
+        feed_id = sha1_hash.hexdigest()
+            
+        collection_dic = {"feed_id": feed_id, \
+                            "type": 0, \
                             "feed_image": feed_image, \
                             "feed_title": utils.clear_string(a_feed.feed.title.encode('utf-8')), \
                             "feed_link": feed_link, \
@@ -149,7 +155,12 @@ class FeedGetter(object):
                 post_date = datetime(*article.published_parsed[:6])
 
 
-            article = {"article_id": article.link.encode('utf-8'), \
+            sha1_hash = hashlib.sha1()
+            sha1_hash.update(article.link.encode('utf-8'))
+            article_id = sha1_hash.hexdigest()
+
+            article = {"article_id": article_id, \
+                    "type":1, \
                     "article_date": post_date, \
                     "article_link": article.link.encode('utf-8'), \
                     "article_title": article_title, \
@@ -160,7 +171,7 @@ class FeedGetter(object):
                 
             articles.append(article)
 
-        self.articles.add_articles(articles, feed_link)
+        self.articles.add_articles(articles, feed_id)
 
         # send new articles by e-mail if desired.
         #threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \

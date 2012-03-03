@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010  Cédric Bonhomme - http://cedricbonhomme.org/
+# Copyright (C) 2010-2012  Cédric Bonhomme - http://cedricbonhomme.org/
 #
 # For more information : http://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 #
@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 3.1 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2011/11/29 $"
+__revision__ = "$Date: 2012/03/03 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -51,6 +51,7 @@ import datetime
 
 import utils
 import export
+import mongodb
 import feedgetter
 from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
 from qrcode import qr
@@ -107,89 +108,104 @@ class Root:
     Root class.
     All pages of pyAggr3g470r are described in this class.
     """
+    def __init__(self):
+        """
+        """
+        self.articles = mongodb.Articles()
+
     def index(self):
         """
         Main page containing the list of feeds and articles.
         """
+        feeds = self.articles.get_all_collections()
+        
         # if there are unread articles, display the number in the tab of the browser
-        html = htmlheader((self.nb_unread_articles and \
-                            ['(' + str(self.nb_unread_articles) +') '] or \
+        html = htmlheader((self.articles.nb_unread_articles() and \
+                            ['(' + str(self.articles.nb_unread_articles()) +') '] or \
                             [""])[0])
         html += htmlnav
         html += self.create_right_menu()
         html += """<div class="left inner">\n"""
 
-        if self.feeds:
+        if feeds:
             html += '<a href="/management/"><img src="/img/management.png" title="Management" /></a>\n'
             html += '<a href="/history/"><img src="/img/history.png" title="History" /></a>\n'
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
 
             html += """<a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
-                (self.nb_favorites,)
+                (self.articles.nb_favorites(),)
 
             html += """<a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
-                (self.nb_mail_notifications,)
+                (self.articles.nb_mail_notifications(),)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            if self.nb_unread_articles != 0:
+            if self.articles.nb_unread_articles != 0:
                 html += '<a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
-                    (self.nb_unread_articles,)
+                    (self.articles.nb_unread_articles(),)
         html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
 
+
+        #for feed in feeds:
+            #for article in self.articles.get_articles_from_collection(feed["collection_id"]):
+                #try:
+                    #print article["article_title"], article["article_date"], article["article_readed"]
+                #except:
+                    #pass
+        
         # The main page display all the feeds.
-        for feed in self.feeds.values():
+        for feed in feeds:
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                     target="_blank">%s</a></a>
                     <a href="%s" rel="noreferrer"
                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                        (feed.feed_id, feed.feed_site_link, feed.feed_title, \
-                        feed.feed_link, feed.feed_image)
+                        (feed["feed_id"], feed["feed_link"], feed["feed_title"], \
+                        feed["feed_link"], feed["feed_image"])
 
             # The main page display only 10 articles by feeds.
-            for article in feed.articles.values()[:10]:
-
-                if article.article_readed == "0":
+            for article in self.articles.get_articles_from_collection(feed["feed_id"])[:10]:
+                if article["article_readed"] == False:
                     # not readed articles are in bold
                     not_read_begin, not_read_end = "<b>", "</b>"
                 else:
                     not_read_begin, not_read_end = "", ""
 
                 # display a heart for faved articles
-                if article.like == "1":
+                if article["article_like"] == True:
                     like = """ <img src="/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
 
                 # Descrition for the CSS ToolTips
-                article_content = utils.clear_string(article.article_description)
+                article_content = utils.clear_string(article["article_content"])
                 if article_content:
                     description = " ".join(article_content.split(' ')[:55])
                 else:
                     description = "No description."
                 # Title of the article
-                article_title = article.article_title
+                article_title = article["article_title"]
                 if len(article_title) >= 110:
                     article_title = article_title[:110] + " ..."
 
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
-                html += article.article_date + " - " + \
+                html += str(article["article_date"]) + " - " + \
                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                (feed.feed_id, article.article_id, not_read_begin, \
+                                (feed["feed_id"], article["article_id"], not_read_begin, \
                                 article_title, not_read_end, description) + like + "<br />\n"
             html += "<br />\n"
 
             # some options for the current feed
-            html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
-            html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
-            if feed.nb_unread_articles != 0:
-                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed.feed_id,)
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed.feed_id, feed.nb_unread_articles)
-            if feed.mail == "0":
-                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed.feed_id,)
+            html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
+            html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
+            feed["nb_unread_articles"] = 0 #hack
+            if feed["nb_unread_articles"] != 0:
+                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], feed["nb_unread_articles"])
+            if feed["mail"] == "0":
+                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
             else:
-                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed.feed_id,)
+                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
             html += """<h4><a href="/#top">Top</a></h4>"""
             html += "<hr />\n"
         html += htmlfooter
@@ -215,16 +231,19 @@ class Root:
         """
         Create the list of feeds.
         """
-        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(self.feeds)
-        for feed in self.feeds.values():
-            if feed.nb_unread_articles != 0:
+        feeds = self.articles.get_all_collections()
+        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(feeds)
+        for feed in feeds:
+            feed["nb_unread_articles"] = 0 #hack
+            if feed["nb_unread_articles"] != 0:
                 # not readed articles are in bold
                 not_read_begin, not_read_end = "<b>", "</b>"
             else:
                 not_read_begin, not_read_end = "", ""
+            feed["nb_articles"] = "5"
             html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
-                            (feed.feed_id, feed.feed_title, feed.feed_id, not_read_begin, \
-                            feed.nb_unread_articles, not_read_end, feed.nb_articles)
+                            (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
+                            self.articles.nb_unread_articles(feed["feed_id"]), not_read_end, self.articles.nb_articles(feed["feed_id"]))
         return html + "</div>"
 
 
@@ -319,8 +338,9 @@ class Root:
         html += htmlfooter
         return html
 
-
     statistics.exposed = True
+
+
     def q(self, querystring=None):
         """
         Simply search for the string 'querystring'
@@ -550,76 +570,77 @@ class Root:
         favourite articles for the current feed.
         """
         try:
-            feed = self.feeds[feed_id]
+            feed = self.articles.get_collection(feed_id)
+            articles = self.articles.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        html += "<p>The feed <b>" + feed.feed_title + "</b> contains <b>" + str(feed.nb_articles) + "</b> articles. "
-        html += "Representing " + str((round(float(feed.nb_articles) / self.nb_articles, 4)) * 100) + " % of the total "
-        html += "(" + str(self.nb_articles) + ").</p>"
-        if feed.articles.values() != []:
-            html += "<p>" + (feed.nb_unread_articles == 0 and ["All articles are read"] or [str(feed.nb_unread_articles) + \
-                    " unread article" + (feed.nb_unread_articles == 1 and [""] or ["s"])[0]])[0] + ".</p>"
-        if feed.mail == "1":
+        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(self.articles.nb_articles(feed_id)) + "</b> articles. "
+        html += "Representing " + str((round(float(self.articles.nb_articles(feed_id)) / 1000, 4)) * 100) + " % of the total " #hack
+        html += "(" + str(1000) + ").</p>"
+        if articles != []:
+            html += "<p>" + (self.articles.nb_unread_articles(feed_id) == 0 and ["All articles are read"] or [str(self.articles.nb_unread_articles(feed_id)) + \
+                    " unread article" + (self.articles.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
+        if feed["mail"] == True:
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
                         (utils.mail_to, utils.mail_to)
                 html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
-                        (feed.feed_id, )
+                        (feed[feed_id], )
 
-        if feed.articles.values() != []:
-            last_article = utils.string_to_datetime(feed.articles.values()[0].article_date)
-            first_article = utils.string_to_datetime(feed.articles.values()[-1].article_date)
+        if articles != []:
+            last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
+            first_article = utils.string_to_datetime(str(articles[self.articles.nb_articles(feed_id)-2]["article_date"]))
             delta = last_article - first_article
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
             html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
             if delta.days > 0:
-                html += """<p>Daily average: %s,""" % (str(round(float(feed.nb_articles)/abs(delta.days), 2)),)
+                html += """<p>Daily average: %s,""" % (str(round(float(self.articles.nb_articles(feed_id))/abs(delta.days), 2)),)
                 html += """ between the %s and the %s.</p>\n""" % \
-	              (feed.articles.values()[-1].article_date[:10], feed.articles.values()[0].article_date[:10])
+	              (str(articles[self.articles.nb_articles(feed_id)-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
 
         html += "<br /><h1>Recent articles</h1>"
-        for article in feed.articles.values()[:10]:
-            if article.article_readed == "0":
+        for article in articles[:10]:
+            if article["article_readed"] == False:
                 # not readed articles are in bold
                 not_read_begin, not_read_end = "<b>", "</b>"
             else:
                 not_read_begin, not_read_end = "", ""
 
             # display a heart for faved articles
-            if article.like == "1":
+            if article["article_like"] == True:
                 like = """ <img src="/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
             # Descrition for the CSS ToolTips
-            article_content = utils.clear_string(article.article_description)
+            article_content = utils.clear_string(article["article_content"])
             if article_content:
                 description = " ".join(article_content[:500].split(' ')[:-1])
             else:
                 description = "No description."
             # Title of the article
-            article_title = article.article_title
+            article_title = article["article_title"]
             if len(article_title) >= 110:
                 article_title = article_title[:110] + " ..."
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
-            html += article.article_date + " - " + \
+            html += str(article["article_date"]) + " - " + \
                     """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                            (feed.feed_id, article.article_id, not_read_begin, \
+                            (feed["feed_id"], article["article_id"], not_read_begin, \
                             article_title, not_read_end, description) + like + "<br />\n"
         html += "<br />\n"
-        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed.feed_id,)
+        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
 
-        favs = [article for article in feed.articles.values() if article.like == "1"]
+        favs = [article for article in articles if article["article_like"] == True]
         if len(favs) != 0:
             html += "<br /></br /><h1>Your favorites articles for this feed</h1>"
             for article in favs:
-                if article.like == "1":
+                if article["like"] == True:
                     # descrition for the CSS ToolTips
-                    article_content = utils.clear_string(article.article_description)
+                    article_content = utils.clear_string(article["article_content"])
                     if article_content:
                         description = " ".join(article_content[:500].split(' ')[:-1])
                     else:
@@ -627,9 +648,9 @@ class Root:
 
                     # a description line per article (date, title of the article and
                     # CSS description tooltips on mouse over)
-                    html += article.article_date + " - " + \
+                    html += str(article["article_date"]) + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                    (feed.feed_id, article.article_id, article.article_title[:150], description)
+                                    (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
 
         # This section enables the user to edit informations about
@@ -642,25 +663,25 @@ class Root:
                 '<input type="text" name="new_feed_name" value="" ' + \
                 'placeholder="Enter a new name (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
                 """<input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
-                    (feed.feed_link,)
+                    (feed["feed_link"],)
         html += '\n\n<form method=post action="/change_feed_url/">' + \
                 '<input type="url" name="new_feed_url" value="" ' + \
                 'placeholder="Enter a new URL in order to retrieve articles (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
                 """<input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
-                    (feed.feed_link,)
+                    (feed["feed_link"],)
         html += '\n\n<form method=post action="/change_feed_logo/">' + \
                 '<input type="url" name="new_feed_logo" value="" ' + \
                 'placeholder="Enter the URL of the logo (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
                 """<input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
-                    (feed.feed_link,)
+                    (feed["feed_link"],)
 
         dic = {}
-        dic[feed.feed_id] = self.feeds[feed.feed_id]
-        top_words = utils.top_words(dic, n=50, size=int(word_size))
+        #dic[feed.feed_id] = self.feeds[feed.feed_id]
+        top_words = utils.top_words([articles], n=50, size=int(word_size))
         html += "</br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
         html += 'Minimum size of a word:'
-        html += """<form method=get action="/feed/%s">""" % (feed.feed_id,)
+        html += """<form method=get action="/feed/%s">""" % (feed["feed_id"],)
         html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size,)
         html += '<input type="submit" value="OK"></form>\n'
         html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
@@ -678,8 +699,9 @@ class Root:
         """
         This page displays all articles of a feed.
         """
+        print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         try:
-            feed = self.feeds[feed_id]
+            feed = self.articles.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
@@ -690,23 +712,23 @@ class Root:
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed.feed_title)
+        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed_id,)
 
-        for article in feed.articles.values():
+        for article in feed:
 
-            if article.article_readed == "0":
+            if article["article_readed"] == False:
                 # not readed articles are in bold
                 not_read_begin, not_read_end = "<b>", "</b>"
             else:
                 not_read_begin, not_read_end = "", ""
 
-            if article.like == "1":
+            if article["article_like"] == True:
                 like = """ <img src="/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
             # descrition for the CSS ToolTips
-            article_content = utils.clear_string(article.article_description)
+            article_content = utils.clear_string(article["content"])
             if article_content:
                 description = " ".join(article_content[:500].split(' ')[:-1])
             else:
@@ -714,10 +736,10 @@ class Root:
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
-            html += article.article_date + " - " + \
+            html += str(article["article_date"]) + " - " + \
                     """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                            (feed.feed_id, article.article_id, not_read_begin, \
-                            article.article_title[:150], not_read_end, description) + like + "<br />\n"
+                            (feed_id, article["article_id"], not_read_begin, \
+                            article["article_title"][:150], not_read_end, description) + like + "<br />\n"
 
         html += """\n<h4><a href="/">All feeds</a></h4>"""
         html += "<hr />\n"
@@ -1321,25 +1343,26 @@ if __name__ == '__main__':
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
-    cherrypy.config.update({'error_page.404': error_page_404})
+    #cherrypy.config.update({'error_page.404': error_page_404})
     _cp_config = {'request.error_response': handle_error}
 
-    if not os.path.isfile(utils.sqlite_base):
-        # create the SQLite base if not exists
-        print "Creating data base..."
-        utils.create_base()
-    # load the informations from base in memory
-    print "Loading informations from data base..."
-    root.update()
-    # launch the available base monitoring method (gamin or classic)
-    try:
-        import gamin
-        thread_watch_base = threading.Thread(None, root.watch_base, None, ())
-    except:
-        print "The gamin module is not installed."
-        print "The base of feeds will be monitored with the simple method."
-        thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
-    thread_watch_base.setDaemon(True)
-    thread_watch_base.start()
+
+    #if not os.path.isfile(utils.sqlite_base):
+        ## create the SQLite base if not exists
+        #print "Creating data base..."
+        #utils.create_base()
+    ## load the informations from base in memory
+    #print "Loading informations from data base..."
+    #root.update()
+    ## launch the available base monitoring method (gamin or classic)
+    #try:
+        #import gamin
+        #thread_watch_base = threading.Thread(None, root.watch_base, None, ())
+    #except:
+        #print "The gamin module is not installed."
+        #print "The base of feeds will be monitored with the simple method."
+        #thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
+    #thread_watch_base.setDaemon(True)
+    #thread_watch_base.start()
 
     cherrypy.quickstart(root, "/" ,config=utils.path + "/cfg/cherrypy.cfg")

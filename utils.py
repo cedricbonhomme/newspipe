@@ -171,9 +171,9 @@ def top_words(feeds, n=10, size=5):
     """
     words = Counter()
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
-    for feed in feeds.values():
-        for article in feed.articles.values():
-            for word in wordre.findall(clear_string(article.article_description)):
+    for feed in feeds:
+        for article in feed:
+            for word in wordre.findall(clear_string(article["article_content"])):
                 words[word.lower()] += 1
     return words.most_common(n)
 

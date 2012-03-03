@@ -9,8 +9,9 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import time
-
 import pymongo
+
+from operator import itemgetter, attrgetter
 
 class Articles(object):
     """
@@ -26,25 +27,26 @@ class Articles(object):
         """
         Creates a new collection for a new feed.
         """
-        new_collection["type"] = 0
-        
-        name = str(new_collection["collection_id"])
-        pymongo.collection.Collection(self.db, name)
-        collection = self.db[name]
+        #pymongo.collection.Collection(self.db, new_collection["feed_id"])
+        collection = self.db[new_collection["feed_id"]]
         collection.create_index([("article_link", pymongo.ASCENDING)], {"unique":True, "sparse":True})
         collection.insert(new_collection)
 
-    def add_articles(self, articles, collection_id):
+    def add_articles(self, articles, feed_id):
         """
         Add article(s) in a collection.
         """
-        collection = self.db[str(collection_id)]
+        collection = self.db[str(feed_id)]
         for article in articles:
-            article["type"] = 1
             cursor = collection.find({"article_id":article["article_id"]})
             if cursor.count() == 0:
                 collection.insert(article)
 
+    def get_collection(self, feed_id):
+        """
+        """
+        return self.db[str(feed_id)].find().next()
+                
     def get_all_articles(self):
         """
         Return all articles from all collections.
@@ -56,12 +58,26 @@ class Articles(object):
             articles.append(collection)
         return articles
 
-    def get_articles_from_collection(self, collection_id):
+    def get_all_collections(self):
+        """
+        """
+        feeds = []
+        collections = self.db.collection_names()
+        for collection_name in collections:
+            if collection_name != "system.indexes":
+                cursor = self.db[collection_name].find({"type":0})
+                if cursor.count() != 0:
+                    feeds.append(cursor.next())
+        feeds = sorted(feeds, key=itemgetter('feed_title'))
+        return feeds
+        
+    def get_articles_from_collection(self, feed_id):
         """
         Return all the articles of a collection.
         """
-        collection = self.db[str(collection_id)]
-        return collection
+        collection = self.db[str(feed_id)]
+        cursor = collection.find({"type":1})
+        return cursor.sort([("article_date", pymongo.DESCENDING)])
         
     def print_articles_from_collection(self, collection_id):
         """
@@ -74,13 +90,34 @@ class Articles(object):
             print d
             print
         
-    def nb_users(self):
+    def nb_articles(self, feed_id=None):
         """
         Return the number of users.
         """
-        collection = self.db.users
-        collection.count()
+        if feed_id is not None:
+            collection = self.db[feed_id]
+        return collection.find({"type":1}).count()
 
+    def nb_favorites(self):
+        return "12"
+
+    def nb_mail_notifications(self):
+        return "42"
+
+    def nb_unread_articles(self, feed_id=None):
+        if feed_id is not None:
+            collection = self.db[feed_id]
+            cursor = collection.find({'article_readed':False})
+            return cursor.count()
+        else:
+            unread_articles = 0
+            for feed_id in self.db.collection_names():
+                unread_articles += self.nb_unread_articles(feed_id)
+            return unread_articles
+                
+            
+            
+        
     def list_collections(self):
         """
         List all collections (feed).
@@ -137,11 +174,23 @@ if __name__ == "__main__":
 
 
     # Print articles of the collection
-    articles.print_articles_from_collection("http://esr.ibiblio.org/?feed=rss2")
+    #articles.print_articles_from_collection("http://esr.ibiblio.org/?feed=rss2")
 
     
     print "All articles:"
     #print articles.get_all_articles()
+
+
+
+
+    for feed in articles.get_all_collections():
+        for article in articles.get_articles_from_collection(feed["feed_id"]):
+            try:
+                #print article["article_title"], article["article_date"]
+                pass
+            except:
+                pass
+
     
     # Drop the database
     #articles.drop_database()
