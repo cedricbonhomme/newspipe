@@ -702,7 +702,6 @@ class Root:
         """
         This page displays all articles of a feed.
         """
-        print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         try:
             feed = self.articles.get_articles_from_collection(feed_id)
         except KeyError:
@@ -832,7 +831,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">\n"""
 
-	# Get the date from the tag cloud
+        # Get the date from the tag cloud
         # Format: /history/?querystring=year:2011-month:06 to get the
         # list of articles of June, 2011.
         if m != "":
@@ -894,7 +893,7 @@ class Root:
                                         (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
                                 html += article.article_date.split(' ')[0][-2:] + " (" + \
-					article.article_date.split(' ')[1]  + ") - " + \
+                                        article.article_date.split(' ')[1]  + ") - " + \
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                                 (feed.feed_id, article.article_id, not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
@@ -1036,19 +1035,11 @@ class Root:
         Mark or unmark an article as favorites.
         """
         try:
-            action, feed_id, article_id = param.split(':')
-            article = self.feeds[feed_id].articles[article_id]
+            like, feed_id, article_id = param.split(':')
+            articles = self.articles.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
-        conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-        try:
-            c = conn.cursor()
-            c.execute("""UPDATE articles SET like=%s WHERE article_link='%s'""" % (action, article.article_link))
-        except Exception:
-            self.error_page("Impossible to like/dislike this article (database error).")
-        finally:
-            conn.commit()
-            c.close()
+        self.articles.like_article("1"==like, feed_id, article_id)
         return self.article(feed_id+":"+article_id)
 
     like.exposed = True
@@ -1294,49 +1285,6 @@ class Root:
             print "Base (%s) loaded" % utils.sqlite_base
         else:
             print "Base (%s) empty!" % utils.sqlite_base
-
-    def watch_base(self):
-        """Monitor a file.
-
-        Detect the changes in base of feeds.
-        When a change is detected, reload the base.
-        """
-        mon = gamin.WatchMonitor()
-        time.sleep(10)
-        mon.watch_file(utils.sqlite_base, self.update)
-        ret = mon.event_pending()
-        try:
-            print "Watching %s" % utils.sqlite_base
-            while True:
-                ret = mon.event_pending()
-                if ret > 0:
-                    print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
-                    ret = mon.handle_one_event()
-                time.sleep(1)
-        except KeyboardInterrupt:
-            pass
-        print "Stop watching", sqlite_base
-        mon.stop_watch(sqlite_base)
-        del mon
-
-    def watch_base_classic(self):
-        """
-        Monitor the base of feeds if the module gamin is not installed.
-        """
-        time.sleep(10)
-        old_time = os.path.getmtime(utils.sqlite_base)
-        try:
-            print "Watching %s" % utils.sqlite_base
-            while True:
-                time.sleep(1)
-                # simple test (date of last modification: getmtime)
-                if os.path.getmtime(utils.sqlite_base) != old_time:
-                    print "The base of feeds (%s) has changed.\nReloading..." % utils.sqlite_base
-                    self.update()
-                    old_time = os.path.getmtime(utils.sqlite_base)
-        except KeyboardInterrupt:
-            pass
-        print "Stop watching", utils.sqlite_base
 
 
 if __name__ == '__main__':

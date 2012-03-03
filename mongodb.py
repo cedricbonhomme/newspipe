@@ -122,7 +122,12 @@ class Articles(object):
             return unread_articles
                 
             
-            
+    def like_article(self, like, feed_id, article_id):
+        """
+        Like or unlike an article.
+        """
+        collection = self.db[str(feed_id)]
+        collection.update({"article_id": article_id}, {"$set": {"article_like": like}})
         
     def list_collections(self):
         """
