@@ -35,6 +35,7 @@ from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 
 import utils
+import mongodb
 
 feeds_list = []
 list_of_threads = []
@@ -52,6 +53,9 @@ class FeedGetter(object):
         """
         # Create the base if not exists.
         utils.create_base()
+
+        # MongoDB connections
+        self.articles = mongodb.Articles()
 
         # mutex to protect the SQLite base
         self.locker = threading.Lock()
@@ -113,16 +117,18 @@ class FeedGetter(object):
             feed_image = a_feed.feed.image.href
         except:
             feed_image = "/img/feed-icon-28x28.png"
-        try:
-            self.c.execute('insert into feeds values (?,?,?,?,?)', (\
-                        utils.clear_string(a_feed.feed.title.encode('utf-8')), \
-                        a_feed.feed.link.encode('utf-8'), \
-                        feed_link, \
-                        feed_image,
-                        "0"))
-        except sqlite3.IntegrityError:
-                # feed already in the base
-                pass
+
+        collection_dic = {"collection_id": feed_link,\
+                            "feed_image": feed_image, \
+                            "feed_title": utils.clear_string(a_feed.feed.title.encode('utf-8')), \
+                            "feed_link": feed_link, \
+                            "site_title": a_feed.feed.link.encode('utf-8'), \
+                            "mail": False \
+                        }
+            
+        self.articles.add_collection(collection_dic)
+
+        articles = []
         for article in a_feed['entries']:
             description = ""
             try:
@@ -142,37 +148,26 @@ class FeedGetter(object):
             except:
                 post_date = datetime(*article.published_parsed[:6])
 
-            try:
-                # try. Will only success if the article is not already in the data base
-                self.c.execute('insert into articles values (?, ?, ?, ?, ?, ?, ?)', (\
-                        post_date, \
-                        article_title, \
-                        article.link.encode('utf-8'), \
-                        description, \
-                        "0", \
-                        feed_link, \
-                        "0"))
-                result = self.c.execute("SELECT mail from feeds WHERE feed_site_link='" + \
-                                a_feed.feed.link.encode('utf-8') + "'").fetchall()
-                if result[0][0] == "1":
-                    # if subscribed to the current feed
-                    # send the article by e-mail
-                    try:
-                        threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \
-                                            a_feed.feed.title.encode('utf-8'), \
-                                            article_title, description) \
-                                        ).start()
-                    except Exception, e:
-                        # SMTP acces denied, to many SMTP connections, etc.
-                        top = traceback.extract_stack()[-1]
-                        print ", ".join([type(e).__name__, os.path.basename(top[0]), str(top[1])])
-            except sqlite3.IntegrityError:
-                # article already in the data base
-                pass
-            except Exception, e:
-                # Missing information (updated_parsed, ...)
-                top = traceback.extract_stack()[-1]
-                print ", ".join([type(e).__name__, os.path.basename(top[0]), str(top[1]), str(traceback.extract_stack()[-2][3])])
+
+            article = {"article_id": article.link.encode('utf-8'), \
+                    "article_date": post_date, \
+                    "article_link": article.link.encode('utf-8'), \
+                    "article_title": article_title, \
+                    "article_content": description, \
+                    "article_readed": False, \
+                    "article_like": False \
+                    }
+                
+            articles.append(article)
+
+        self.articles.add_articles(articles, feed_link)
+
+        # send new articles by e-mail if desired.
+        #threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \
+                            #a_feed.feed.title.encode('utf-8'), \
+                            #article_title, description) \
+                        #).start()
+
 
 
 if __name__ == "__main__":

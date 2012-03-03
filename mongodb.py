@@ -26,6 +26,8 @@ class Articles(object):
         """
         Creates a new collection for a new feed.
         """
+        new_collection["type"] = 0
+        
         name = str(new_collection["collection_id"])
         pymongo.collection.Collection(self.db, name)
         collection = self.db[name]
@@ -38,6 +40,7 @@ class Articles(object):
         """
         collection = self.db[str(collection_id)]
         for article in articles:
+            article["type"] = 1
             cursor = collection.find({"article_id":article["article_id"]})
             if cursor.count() == 0:
                 collection.insert(article)
@@ -48,8 +51,8 @@ class Articles(object):
         """
         articles = []
         collections = self.db.collection_names()
-        for colliection in collections:
-            collection = self.db.collection_id
+        for collection_name in collections:
+            collection = self.db[collection_name]
             articles.append(collection)
         return articles
 
@@ -69,6 +72,7 @@ class Articles(object):
         print "Article for the collection", collection_id
         for d in cursor:
             print d
+            print
         
     def nb_users(self):
         """
@@ -98,8 +102,7 @@ if __name__ == "__main__":
 
 
     # Create a collection for a stream
-    collection_dic = {"type": 0, \
-                        "collection_id": 42,\
+    collection_dic = {"collection_id": 42,\
                         "feed_image": "Image", \
                         "feed_title": "Title", \
                         "feed_link": "Link", \
@@ -107,13 +110,12 @@ if __name__ == "__main__":
                         "mail": True, \
                         }
     
-    articles.add_collection(collection_dic)
+    #articles.add_collection(collection_dic)
 
 
     
     # Add an article in the newly created collection
-    article_dic1 = {"type": 1, \
-                    "article_id": 51, \
+    article_dic1 = {"article_id": 51, \
                     "article_date": "Today", \
                     "article_link": "Link of the article", \
                     "article_title": "The title", \
@@ -122,8 +124,7 @@ if __name__ == "__main__":
                     "article_like": True \
                     }
 
-    article_dic2 = {"type": 1, \
-                    "article_id": 52, \
+    article_dic2 = {"article_id": 52, \
                     "article_date": "Yesterday", \
                     "article_link": "Link", \
                     "article_title": "Hello", \
@@ -132,15 +133,15 @@ if __name__ == "__main__":
                     "article_like": True \
                     }
     
-    articles.add_articles([article_dic1, article_dic2], 42)
+    #articles.add_articles([article_dic1, article_dic2], 42)
 
 
     # Print articles of the collection
-    articles.print_articles_from_collection(42)
+    articles.print_articles_from_collection("http://esr.ibiblio.org/?feed=rss2")
 
     
-    print
-    print articles.list_collections()
+    print "All articles:"
+    #print articles.get_all_articles()
     
     # Drop the database
-    articles.drop_database()
+    #articles.drop_database()
