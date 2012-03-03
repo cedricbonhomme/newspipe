@@ -677,7 +677,7 @@ class Root:
 
         dic = {}
         #dic[feed.feed_id] = self.feeds[feed.feed_id]
-        top_words = utils.top_words([articles], n=50, size=int(word_size))
+        top_words = utils.top_words(articles = self.articles.get_articles_from_collection(feed_id), n=50, size=int(word_size))
         html += "</br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
         html += 'Minimum size of a word:'

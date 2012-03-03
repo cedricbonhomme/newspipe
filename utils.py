@@ -165,16 +165,15 @@ def normalize_filename(name):
     file_name = strip_accents(file_name, "utf-8")
     return os.path.normpath(file_name)
 
-def top_words(feeds, n=10, size=5):
+def top_words(articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
     """
     words = Counter()
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
-    for feed in feeds:
-        for article in feed:
-            for word in wordre.findall(clear_string(article["article_content"])):
-                words[word.lower()] += 1
+    for article in articles:
+        for word in wordre.findall(clear_string(article["article_content"])):
+            words[word.lower()] += 1
     return words.most_common(n)
 
 def tag_cloud(tags, query="word_count"):
