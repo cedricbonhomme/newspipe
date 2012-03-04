@@ -27,7 +27,6 @@ __license__ = "GPLv3"
 
 import os.path
 import traceback
-import sqlite3
 import threading
 import feedparser
 import hashlib
@@ -52,14 +51,8 @@ class FeedGetter(object):
         """
         Initializes the base and variables.
         """
-        # Create the base if not exists.
-        utils.create_base()
-
         # MongoDB connections
         self.articles = mongodb.Articles()
-
-        # mutex to protect the SQLite base
-        self.locker = threading.Lock()
 
     def retrieve_feed(self):
         """
@@ -89,25 +82,12 @@ class FeedGetter(object):
         """Request the URL
 
         Executed in a thread.
-        SQLite objects created in a thread can only be used in that same thread !
         """
-        # Protect this part of code.
-        self.locker.acquire()
-
-        self.conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-        self.c = self.conn.cursor()
-
         if utils.detect_url_errors([the_good_url]) == []:
             # if ressource is available add the articles in the base.
-            self.add_into_sqlite(the_good_url)
+            self.add_into_database(the_good_url)
 
-            self.conn.commit()
-        self.c.close()
-
-        # Release this part of code.
-        self.locker.release()
-
-    def add_into_sqlite(self, feed_link):
+    def add_into_database(self, feed_link):
         """
         Add the articles of the feed 'a_feed' in the SQLite base.
         """

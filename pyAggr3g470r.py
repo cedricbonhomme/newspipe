@@ -41,7 +41,6 @@ __license__ = "GPLv3"
 import os
 import re
 import time
-import sqlite3
 import cherrypy
 import calendar
 import threading
@@ -1008,15 +1007,7 @@ class Root:
             feed = self.feeds[feed_id]
         except:
             return self.error_page("Bad URL. This feed do not exists.")
-        conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-        try:
-            c = conn.cursor()
-            c.execute("""UPDATE feeds SET mail=%s WHERE feed_site_link='%s'""" % (action, self.feeds[feed_id].feed_site_link))
-        except:
-            return self.error_page("Error")
-        finally:
-            conn.commit()
-            c.close()
+
         return self.index()
 
     mail_notification.exposed = True
@@ -1174,9 +1165,8 @@ class Root:
         the data base.
         """
         if max_nb_articles < -1 or max_nb_articles == 0:
-	    max_nb_articles = 1
+            max_nb_articles = 1
         utils.MAX_NB_ARTICLES = int(max_nb_articles)
-        self.update()
         return self.management()
 
     set_max_articles.exposed = True
@@ -1191,15 +1181,7 @@ class Root:
             article = self.feeds[feed_id].articles[article_id]
         except:
             return self.error_page("Bad URL. This article do not exists.")
-        try:
-            conn = sqlite3.connect(utils.sqlite_base, isolation_level = None)
-            c = conn.cursor()
-            c.execute("DELETE FROM articles WHERE article_link='" + article.article_link +"'")
-        except Exception, e:
-            return e
-        finally:
-            conn.commit()
-            c.close()
+
         return self.index()
 
     delete_article.exposed = True
@@ -1262,23 +1244,6 @@ class Root:
     epub.exposed = True
 
 
-    #
-    # Monitoring functions
-    #
-    def update(self, path=None, event = None):
-        """
-        Synchronizes transient objects (dictionary of feed and articles) with the database.
-        Called when a changes in the database is detected.
-        """
-        self.feeds, \
-        self.nb_articles, self.nb_unread_articles, \
-        self.nb_favorites, self.nb_mail_notifications = utils.load_feed()
-        if self.feeds != {}:
-            print "Base (%s) loaded" % utils.sqlite_base
-        else:
-            print "Base (%s) empty!" % utils.sqlite_base
-
-
 if __name__ == '__main__':
     # Point of entry in execution mode
     print "Launching pyAggr3g470r..."
@@ -1289,24 +1254,5 @@ if __name__ == '__main__':
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
     #cherrypy.config.update({'error_page.404': error_page_404})
     _cp_config = {'request.error_response': handle_error}
-
-
-    #if not os.path.isfile(utils.sqlite_base):
-        ## create the SQLite base if not exists
-        #print "Creating data base..."
-        #utils.create_base()
-    ## load the informations from base in memory
-    #print "Loading informations from data base..."
-    #root.update()
-    ## launch the available base monitoring method (gamin or classic)
-    #try:
-        #import gamin
-        #thread_watch_base = threading.Thread(None, root.watch_base, None, ())
-    #except:
-        #print "The gamin module is not installed."
-        #print "The base of feeds will be monitored with the simple method."
-        #thread_watch_base = threading.Thread(None, root.watch_base_classic, None, ())
-    #thread_watch_base.setDaemon(True)
-    #thread_watch_base.start()
 
     cherrypy.quickstart(root, "/" ,config=utils.path + "/cfg/cherrypy.cfg")
