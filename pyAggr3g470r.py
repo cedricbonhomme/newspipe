@@ -110,17 +110,17 @@ class Root:
     def __init__(self):
         """
         """
-        self.articles = mongodb.Articles()
+        self.mongo = mongodb.Articles()
 
     def index(self):
         """
         Main page containing the list of feeds and articles.
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         
         # if there are unread articles, display the number in the tab of the browser
-        html = htmlheader((self.articles.nb_unread_articles() and \
-                            ['(' + str(self.articles.nb_unread_articles()) +') '] or \
+        html = htmlheader((self.mongo.nb_unread_articles() and \
+                            ['(' + str(self.mongo.nb_unread_articles()) +') '] or \
                             [""])[0])
         html += htmlnav
         html += self.create_right_menu()
@@ -132,21 +132,21 @@ class Root:
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
 
             html += """<a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
-                (self.articles.nb_favorites(),)
+                (self.mongo.nb_favorites(),)
 
             html += """<a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
-                (self.articles.nb_mail_notifications(),)
+                (self.mongo.nb_mail_notifications(),)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            if self.articles.nb_unread_articles != 0:
+            if self.mongo.nb_unread_articles != 0:
                 html += '<a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
-                    (self.articles.nb_unread_articles(),)
+                    (self.mongo.nb_unread_articles(),)
         html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
 
 
         #for feed in feeds:
-            #for article in self.articles.get_articles_from_collection(feed["collection_id"]):
+            #for article in self.mongo.get_articles_from_collection(feed["collection_id"]):
                 #try:
                     #print article["article_title"], article["article_date"], article["article_readed"]
                 #except:
@@ -162,7 +162,7 @@ class Root:
                         feed["feed_link"], feed["feed_image"])
 
             # The main page display only 10 articles by feeds.
-            for article in self.articles.get_articles_from_collection(feed["feed_id"])[:10]:
+            for article in self.mongo.get_articles_from_collection(feed["feed_id"])[:10]:
                 if article["article_readed"] == False:
                     # not readed articles are in bold
                     not_read_begin, not_read_end = "<b>", "</b>"
@@ -197,9 +197,9 @@ class Root:
             # some options for the current feed
             html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
             html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
-            if self.articles.nb_unread_articles(feed["feed_id"]) != 0:
+            if self.mongo.nb_unread_articles(feed["feed_id"]) != 0:
                 html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], self.articles.nb_unread_articles(feed["feed_id"]))
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], self.mongo.nb_unread_articles(feed["feed_id"]))
             if feed["mail"] == "0":
                 html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
             else:
@@ -229,7 +229,7 @@ class Root:
         """
         Create the list of feeds.
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(feeds)
         for feed in feeds:
             feed["nb_unread_articles"] = 0 #hack
@@ -241,7 +241,7 @@ class Root:
             feed["nb_articles"] = "5"
             html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
                             (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
-                            self.articles.nb_unread_articles(feed["feed_id"]), not_read_end, self.articles.nb_articles(feed["feed_id"]))
+                            self.mongo.nb_unread_articles(feed["feed_id"]), not_read_end, self.mongo.nb_articles(feed["feed_id"]))
         return html + "</div>"
 
 
@@ -251,7 +251,7 @@ class Root:
         Allows adding and deleting feeds. Export functions of the SQLite data base
         and display some statistics.
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         
         html = htmlheader()
         html += htmlnav
@@ -269,16 +269,16 @@ class Root:
             html += """</select><input type="submit" value="OK"></form>\n"""
 
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
-                        (self.articles.nb_mail_notifications(),)
+                        (self.mongo.nb_mail_notifications(),)
             html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
-                        (self.articles.nb_favorites(), )
+                        (self.mongo.nb_favorites(), )
 
         html += "<hr />\n"
 
         # Informations about the data base of articles
         html += """<p>%s article(s) are loaded from the database with
                 <a href="/unread/">%s unread article(s)</a>.<br />\n""" % \
-                    (self.articles.nb_articles(), self.articles.nb_unread_articles())
+                    (self.mongo.nb_articles(), self.mongo.nb_unread_articles())
         #html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
                     #(os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
         html += '<a href="/statistics/">Advanced statistics.</a></p>\n'
@@ -434,9 +434,9 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            feed = self.articles.get_collection(feed_id)
-            articles = self.articles.get_articles_from_collection(feed_id)
-            article = self.articles.get_article(feed_id, article_id)
+            feed = self.mongo.get_collection(feed_id)
+            articles = self.mongo.get_articles_from_collection(feed_id)
+            article = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
         html = htmlheader()
@@ -573,19 +573,19 @@ class Root:
         favourite articles for the current feed.
         """
         try:
-            feed = self.articles.get_collection(feed_id)
-            articles = self.articles.get_articles_from_collection(feed_id)
+            feed = self.mongo.get_collection(feed_id)
+            articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(self.articles.nb_articles(feed_id)) + "</b> articles. "
-        html += "Representing " + str((round(float(self.articles.nb_articles(feed_id)) / 1000, 4)) * 100) + " % of the total " #hack
+        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(self.mongo.nb_articles(feed_id)) + "</b> articles. "
+        html += "Representing " + str((round(float(self.mongo.nb_articles(feed_id)) / 1000, 4)) * 100) + " % of the total " #hack
         html += "(" + str(1000) + ").</p>"
         if articles != []:
-            html += "<p>" + (self.articles.nb_unread_articles(feed_id) == 0 and ["All articles are read"] or [str(self.articles.nb_unread_articles(feed_id)) + \
-                    " unread article" + (self.articles.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
+            html += "<p>" + (self.mongo.nb_unread_articles(feed_id) == 0 and ["All articles are read"] or [str(self.mongo.nb_unread_articles(feed_id)) + \
+                    " unread article" + (self.mongo.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
         if feed["mail"] == True:
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
                         (utils.mail_to, utils.mail_to)
@@ -594,14 +594,14 @@ class Root:
 
         if articles != []:
             last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
-            first_article = utils.string_to_datetime(str(articles[self.articles.nb_articles(feed_id)-2]["article_date"]))
+            first_article = utils.string_to_datetime(str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"]))
             delta = last_article - first_article
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
             html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
             if delta.days > 0:
-                html += """<p>Daily average: %s,""" % (str(round(float(self.articles.nb_articles(feed_id))/abs(delta.days), 2)),)
+                html += """<p>Daily average: %s,""" % (str(round(float(self.mongo.nb_articles(feed_id))/abs(delta.days), 2)),)
                 html += """ between the %s and the %s.</p>\n""" % \
-	              (str(articles[self.articles.nb_articles(feed_id)-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
+	              (str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
 
         html += "<br /><h1>Recent articles</h1>"
         for article in articles[:10]:
@@ -680,7 +680,7 @@ class Root:
 
         dic = {}
         #dic[feed.feed_id] = self.feeds[feed.feed_id]
-        top_words = utils.top_words(articles = self.articles.get_articles_from_collection(feed_id), n=50, size=int(word_size))
+        top_words = utils.top_words(articles = self.mongo.get_articles_from_collection(feed_id), n=50, size=int(word_size))
         html += "</br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
         html += 'Minimum size of a word:'
@@ -703,7 +703,7 @@ class Root:
         This page displays all articles of a feed.
         """
         try:
-            feed = self.articles.get_articles_from_collection(feed_id)
+            feed = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
@@ -755,11 +755,11 @@ class Root:
         """
         This page displays all unread articles of a feed.
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        if self.articles.nb_unread_articles() != 0:
+        if self.mongo.nb_unread_articles() != 0:
 
             # List unread articles of all the database
             if feed_id == "":
@@ -770,7 +770,7 @@ class Root:
                     nb_unread = 0
 
                     # For all unread article of the current feed.
-                    for article in self.articles.get_articles_from_collection(feed["feed_id"], condition=("article_readed", False)):
+                    for article in self.mongo.get_articles_from_collection(feed["feed_id"], condition=("article_readed", False)):
                         nb_unread += 1
                         if new_feed_section is True:
                             new_feed_section = False
@@ -790,7 +790,7 @@ class Root:
                                 """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                         (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
-                        if nb_unread == self.articles.nb_unread_articles(feed["feed_id"]):
+                        if nb_unread == self.mongo.nb_unread_articles(feed["feed_id"]):
                             html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
                                         (feed["feed_id"],)
                 html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
@@ -798,14 +798,14 @@ class Root:
             # List unread articles of a feed
             else:
                 try:
-                    feed = self.articles.get_collection(feed_id)
+                    feed = self.mongo.get_collection(feed_id)
                 except:
                     self.error_page("This feed do not exists.")
                 html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
                     <br />""" % (feed_id, feed["feed_title"])
 
                 # For all unread article of the feed.
-                for article in self.articles.get_articles_from_collection(feed_id, condition=("article_readed", False)):
+                for article in self.mongo.get_articles_from_collection(feed_id, condition=("article_readed", False)):
                     # descrition for the CSS ToolTips
                     article_content = utils.clear_string(article["article_content"])
                     if article_content:
@@ -835,7 +835,7 @@ class Root:
         """
         This page enables to browse articles chronologically.
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -861,7 +861,7 @@ class Root:
         timeline = Counter()
         for feed in feeds:
             new_feed_section = True
-            for article in self.articles.get_articles_from_collection(feed["feed_id"]):
+            for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
 
                 if querystring == "all":
                     timeline[str(article["article_date"]).split(' ')[0].split('-')[0]] += 1
@@ -970,17 +970,17 @@ class Root:
         
         # Mark all articles as read.
         if param == "":
-            self.articles.mark_as_read(True, None, None)
+            self.mongo.mark_as_read(True, None, None)
         # Mark all articles from a feed as read.
         elif param == "Feed" or param == "Feed_FromMainPage":
-            self.articles.mark_as_read(True, identifiant, None)
+            self.mongo.mark_as_read(True, identifiant, None)
         # Mark an article as read.
         elif param == "Article":
-            self.articles.mark_as_read(True, identifiant.split(':')[1], identifiant.split(':')[0])
+            self.mongo.mark_as_read(True, identifiant.split(':')[1], identifiant.split(':')[0])
         if param == "" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
-            return self.articles(identifiant)
+            return self.mongo(identifiant)
 
     mark_as_read.exposed = True
 
@@ -992,7 +992,7 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        feeds = self.articles.get_all_collections(condition=("mail",True))
+        feeds = self.mongo.get_all_collections(condition=("mail",True))
         if feeds != []:
             html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
             for feed in feeds:
@@ -1029,10 +1029,10 @@ class Root:
         """
         try:
             like, feed_id, article_id = param.split(':')
-            articles = self.articles.get_article(feed_id, article_id)
+            articles = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
-        self.articles.like_article("1"==like, feed_id, article_id)
+        self.mongo.like_article("1"==like, feed_id, article_id)
         return self.article(feed_id+":"+article_id)
 
     like.exposed = True
@@ -1042,14 +1042,14 @@ class Root:
         """
         List of favorites articles
         """
-        feeds = self.articles.get_all_collections()
+        feeds = self.mongo.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += "<h1>Your favorites articles</h1>"
         for feed in feeds:
             new_feed_section = True
-            for article in self.articles.get_articles_from_collection(feed["feed_id"]):
+            for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
                 if article["article_like"] == True:
                     if new_feed_section is True:
                         new_feed_section = False
