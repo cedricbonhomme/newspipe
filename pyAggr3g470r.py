@@ -232,13 +232,11 @@ class Root:
         feeds = self.mongo.get_all_collections()
         html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(feeds)
         for feed in feeds:
-            feed["nb_unread_articles"] = 0 #hack
-            if feed["nb_unread_articles"] != 0:
+            if self.mongo.nb_unread_articles(feed["feed_id"]) != 0:
                 # not readed articles are in bold
                 not_read_begin, not_read_end = "<b>", "</b>"
             else:
                 not_read_begin, not_read_end = "", ""
-            feed["nb_articles"] = "5"
             html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
                             (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
                             self.mongo.nb_unread_articles(feed["feed_id"]), not_read_end, self.mongo.nb_articles(feed["feed_id"]))
