@@ -703,7 +703,8 @@ class Root:
         This page displays all articles of a feed.
         """
         try:
-            feed = self.mongo.get_articles_from_collection(feed_id)
+            feed = self.mongo.get_collection(feed_id)
+            articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
@@ -714,9 +715,9 @@ class Root:
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed_id,)
+        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed["feed_title"],)
 
-        for article in feed:
+        for article in articles:
 
             if article["article_readed"] == False:
                 # not readed articles are in bold
@@ -730,7 +731,7 @@ class Root:
                 like = ""
 
             # descrition for the CSS ToolTips
-            article_content = utils.clear_string(article["content"])
+            article_content = utils.clear_string(article["article_content"])
             if article_content:
                 description = " ".join(article_content[:500].split(' ')[:-1])
             else:
