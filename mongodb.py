@@ -42,11 +42,24 @@ class Articles(object):
             if cursor.count() == 0:
                 collection.insert(article)
 
+    def delete_feed(self, feed_id):
+        """
+        Delete a collection (feed with all articles).
+        """
+        self.db.drop_collection(feed_id)
+
+    def delete_article(self, feed_id, article_id):
+        """
+        Delete an article.
+        """
+        collection = self.db[str(feed_id)]
+        collection.find_and_modify(query={"article_id":article_id}, remove=True)
+
     def get_collection(self, feed_id):
         """
         """
         return self.db[str(feed_id)].find().next()
-                
+
     def get_all_articles(self):
         """
         Return all articles from all collections.
@@ -63,7 +76,7 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
         return collection.find({"article_id":article_id}).next()
-        
+
     def get_all_collections(self, condition=None):
         """
         """
@@ -79,7 +92,7 @@ class Articles(object):
                     feeds.append(cursor.next())
         feeds = sorted(feeds, key=itemgetter('feed_title'))
         return feeds
-        
+
     def get_articles_from_collection(self, feed_id, condition=None):
         """
         Return all the articles of a collection.
@@ -90,7 +103,7 @@ class Articles(object):
         else:
             cursor = collection.find({"type":1, condition[0]:condition[1]})
         return cursor.sort([("article_date", pymongo.DESCENDING)])
-        
+
     def print_articles_from_collection(self, collection_id):
         """
         Print the articles of a collection.
@@ -101,7 +114,7 @@ class Articles(object):
         for d in cursor:
             print d
             print
-        
+
     def nb_articles(self, feed_id=None):
         """
         Return the number of users.
@@ -175,7 +188,7 @@ class Articles(object):
         """
         collections = self.db.collection_names()
         return collections
-    
+
     # Functions on database
     def drop_database(self):
         """
