@@ -981,7 +981,7 @@ class Root:
         if param == "" or param == "Feed_FromMainPage":
             return self.index()
         elif param == "Feed":
-            return self.mongo(identifiant)
+            return self.articles(identifiant)
 
     mark_as_read.exposed = True
 
