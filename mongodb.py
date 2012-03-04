@@ -108,13 +108,35 @@ class Articles(object):
         """
         if feed_id is not None:
             collection = self.db[feed_id]
-        return collection.find({"type":1}).count()
+            cursor = collection.find({'type':1})
+            return cursor.count()
+        else:
+            nb_articles = 0
+            for feed_id in self.db.collection_names():
+               nb_articles += self.nb_articles(feed_id)
+            return nb_articles
 
-    def nb_favorites(self):
-        return "12"
+    def nb_favorites(self, feed_id=None):
+        if feed_id is not None:
+            collection = self.db[feed_id]
+            cursor = collection.find({'type':1, 'article_like':True})
+            return cursor.count()
+        else:
+            nb_favorites = 0
+            for feed_id in self.db.collection_names():
+                nb_favorites += self.nb_favorites(feed_id)
+            return nb_favorites
 
     def nb_mail_notifications(self):
-        return "42"
+        """
+        Return the number of subscribed feeds.
+        """
+        nb_mail_notifications = 0
+        for feed_id in self.db.collection_names():
+            collection = self.db[feed_id]
+            cursor = collection.find({'type':0, 'mail':True})
+            nb_mail_notifications += cursor.count()
+        return nb_mail_notifications
 
     def nb_unread_articles(self, feed_id=None):
         if feed_id is not None:

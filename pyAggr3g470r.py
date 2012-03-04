@@ -251,6 +251,8 @@ class Root:
         Allows adding and deleting feeds. Export functions of the SQLite data base
         and display some statistics.
         """
+        feeds = self.articles.get_all_collections()
+        
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -258,27 +260,27 @@ class Root:
         # Form: add a feed
         html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input type="submit" value="OK"></form>\n"""
 
-        if self.feeds:
+        if feeds:
             # Form: delete a feed
             html += "<h1>Delete Feeds</h1>\n"
             html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
-            for feed in self.feeds.values():
-                html += """\t<option value="%s">%s</option>\n""" % (feed.feed_id, feed.feed_title)
+            for feed in feeds:
+                html += """\t<option value="%s">%s</option>\n""" % (feed["feed_id"], feed["feed_title"])
             html += """</select><input type="submit" value="OK"></form>\n"""
 
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
-                        (self.nb_mail_notifications,)
+                        (self.articles.nb_mail_notifications(),)
             html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
-                        (self.nb_favorites, )
+                        (self.articles.nb_favorites(), )
 
         html += "<hr />\n"
 
         # Informations about the data base of articles
         html += """<p>%s article(s) are loaded from the database with
                 <a href="/unread/">%s unread article(s)</a>.<br />\n""" % \
-                    (self.nb_articles, self.nb_unread_articles)
-        html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
-                    (os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
+                    (self.articles.nb_articles(), self.articles.nb_unread_articles())
+        #html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
+                    #(os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
         html += '<a href="/statistics/">Advanced statistics.</a></p>\n'
 
         html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
