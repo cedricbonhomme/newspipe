@@ -161,10 +161,10 @@ class Articles(object):
         """
         if feed_id != None and article_id != None:
             collection = self.db[str(feed_id)]
-            collection.update({"article_id": article_id}, {"$set": {"article_readed": readed}})
+            collection.update({"article_id": article_id, "article_readed":not readed}, {"$set": {"article_readed": readed}})
         elif feed_id != None and article_id == None:
             collection = self.db[str(feed_id)]
-            collection.update({"type": 1}, {"$set": {"article_readed": readed}}, multi=True)
+            collection.update({"type": 1, "article_readed":not readed}, {"$set": {"article_readed": readed}}, multi=True)
         else:
             for feed_id in self.db.collection_names():
                 self.mark_as_read(readed, feed_id, None)
