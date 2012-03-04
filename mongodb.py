@@ -80,12 +80,15 @@ class Articles(object):
         feeds = sorted(feeds, key=itemgetter('feed_title'))
         return feeds
         
-    def get_articles_from_collection(self, feed_id):
+    def get_articles_from_collection(self, feed_id, condition=None):
         """
         Return all the articles of a collection.
         """
         collection = self.db[str(feed_id)]
-        cursor = collection.find({"type":1})
+        if condition is None:
+            cursor = collection.find({"type":1})
+        else:
+            cursor = collection.find({"type":1, condition[0]:condition[1]})
         return cursor.sort([("article_date", pymongo.DESCENDING)])
         
     def print_articles_from_collection(self, collection_id):

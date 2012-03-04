@@ -753,52 +753,30 @@ class Root:
         """
         This page displays all unread articles of a feed.
         """
+        feeds = self.articles.get_all_collections()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        if self.nb_unread_articles != 0:
+        if self.articles.nb_unread_articles() != 0:
+
+            # List unread articles of all the database
             if feed_id == "":
                 html += "<h1>Unread article(s)</h1>"
                 html += """\n<br />\n<a href="/mark_as_read/">Mark articles as read</a>\n<hr />\n"""
-                for feed in self.feeds.values():
+                for feed in feeds:
                     new_feed_section = True
                     nb_unread = 0
-                    for article in feed.articles.values():
-                        if article.article_readed == "0":
-                            nb_unread += 1
-                            if new_feed_section is True:
-                                new_feed_section = False
-                                html += """<h2><a name="%s"><a href="%s" rel="noreferrer" target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                    (feed.feed_id, feed.feed_site_link, feed.feed_title, feed.feed_link, feed.feed_image)
 
-                            # descrition for the CSS ToolTips
-                            article_content = utils.clear_string(article.article_description)
-                            if article_content:
-                                description = " ".join(article_content[:500].split(' ')[:-1])
-                            else:
-                                description = "No description."
+                    # For all unread article of the current feed.
+                    for article in self.articles.get_articles_from_collection(feed["feed_id"], condition=("article_readed", False)):
+                        nb_unread += 1
+                        if new_feed_section is True:
+                            new_feed_section = False
+                            html += """<h2><a name="%s"><a href="%s" rel="noreferrer" target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                                (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                            # a description line per article (date, title of the article and
-                            # CSS description tooltips on mouse over)
-                            html += article.article_date + " - " + \
-                                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                            (feed.feed_id, article.article_id, article.article_title[:150], description)
-
-                            if nb_unread == feed.nb_unread_articles:
-                                html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
-                                            (feed.feed_id,)
-                html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
-            else:
-                try:
-                    feed = self.feeds[feed_id]
-                except:
-                    self.error_page("This feed do not exists.")
-                html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
-                    <br />""" % (feed.feed_id, feed.feed_title)
-                for article in feed.articles.values():
-                    if article.article_readed == "0":
                         # descrition for the CSS ToolTips
-                        article_content = utils.clear_string(article.article_description)
+                        article_content = utils.clear_string(article["article_content"])
                         if article_content:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
@@ -806,11 +784,41 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article.article_date + " - " + \
+                        html += str(article["article_date"]) + " - " + \
                                 """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                        (feed.feed_id, article.article_id, article.article_title[:150], description)
+                                        (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
-                html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed.feed_id,)
+                        if nb_unread == self.articles.nb_unread_articles(feed["feed_id"]):
+                            html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
+                                        (feed["feed_id"],)
+                html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
+
+            # List unread articles of a feed
+            else:
+                try:
+                    feed = self.articles.get_collection(feed_id)
+                except:
+                    self.error_page("This feed do not exists.")
+                html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
+                    <br />""" % (feed_id, feed["feed_title"])
+
+                # For all unread article of the feed.
+                for article in self.articles.get_articles_from_collection(feed_id, condition=("article_readed", False)):
+                    # descrition for the CSS ToolTips
+                    article_content = utils.clear_string(article["article_content"])
+                    if article_content:
+                        description = " ".join(article_content[:500].split(' ')[:-1])
+                    else:
+                        description = "No description."
+
+                    # a description line per article (date, title of the article and
+                    # CSS description tooltips on mouse over)
+                    html += str(article["article_date"]) + " - " + \
+                            """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
+                                    (feed_id, article["article_id"], article["article_title"][:150], description)
+
+                html += """<hr />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>""" % (feed_id,)
+        # No unread article
         else:
             html += '<h1>No unread article(s)</h1>\n<br />\n<a href="/fetch/">Why not check for news?</a>'
         html += """\n<h4><a href="/">All feeds</a></h4>"""

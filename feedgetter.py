@@ -108,7 +108,7 @@ class FeedGetter(object):
                             "feed_image": feed_image, \
                             "feed_title": utils.clear_string(a_feed.feed.title.encode('utf-8')), \
                             "feed_link": feed_link, \
-                            "site_title": a_feed.feed.link.encode('utf-8'), \
+                            "site_link": a_feed.feed.link.encode('utf-8'), \
                             "mail": False \
                         }
             
