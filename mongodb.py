@@ -68,7 +68,7 @@ class Articles(object):
         collections = self.db.collection_names()
         for collection_name in collections:
             collection = self.db[collection_name]
-            articles.append(collection)
+            articles.extend([article for article in collection.find({'type':1})])
         return articles
 
     def get_article(self, feed_id, article_id):

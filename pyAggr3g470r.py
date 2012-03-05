@@ -315,13 +315,14 @@ class Root:
         """
         More advanced statistics.
         """
+        articles = self.mongo.get_all_articles()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
 
         # Some statistics (most frequent word)
-        if self.feeds:
-            self.top_words = utils.top_words(self.feeds, n=50, size=int(word_size))
+        if articles:
+            self.top_words = utils.top_words(articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             # Tags cloud
             html += 'Minimum size of a word:'
@@ -677,7 +678,6 @@ class Root:
                     (feed["feed_link"],)
 
         dic = {}
-        #dic[feed.feed_id] = self.feeds[feed.feed_id]
         top_words = utils.top_words(articles = self.mongo.get_articles_from_collection(feed_id), n=50, size=int(word_size))
         html += "</br /><h1>Tag cloud</h1>\n<br />\n"
         # Tags cloud
