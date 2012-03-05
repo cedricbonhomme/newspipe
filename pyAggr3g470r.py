@@ -372,9 +372,10 @@ class Root:
                                     (feed_id, article.article_id, article.article_title) + \
                             not_read_end + """<br />\n"""
         else:
+            articles = self.mongo.get_all_articles()
             for feed in self.feeds.values():
                 new_feed_section = True
-                for article in feed.articles.values():
+                for article in articles:
                     article_content = utils.clear_string(article.article_description)
                     if not article_content:
                         utils.clear_string(article.article_title)
