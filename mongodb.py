@@ -90,7 +90,7 @@ class Articles(object):
                     cursor = self.db[collection_name].find({"type":0, condition[0]:condition[1]})
                 if cursor.count() != 0:
                     feeds.append(cursor.next())
-        feeds = sorted(feeds, key=itemgetter('feed_title'))
+        feeds.sort(key = lambda elem: elem['feed_title'].lower())
         return feeds
 
     def get_articles_from_collection(self, feed_id, condition=None):
