@@ -117,10 +117,13 @@ class Root:
         Main page containing the list of feeds and articles.
         """
         feeds = self.mongo.get_all_collections()
-        
+        nb_unread_articles = self.mongo.nb_unread_articles()
+        nb_favorites = self.mongo.nb_favorites()
+        nb_mail_notifications = self.mongo.nb_mail_notifications()
+
         # if there are unread articles, display the number in the tab of the browser
-        html = htmlheader((self.mongo.nb_unread_articles() and \
-                            ['(' + str(self.mongo.nb_unread_articles()) +') '] or \
+        html = htmlheader((nb_unread_articles and \
+                            ['(' + str(nb_unread_articles) +') '] or \
                             [""])[0])
         html += htmlnav
         html += self.create_right_menu()
@@ -132,16 +135,16 @@ class Root:
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
 
             html += """<a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
-                (self.mongo.nb_favorites(),)
+                (nb_favorites,)
 
             html += """<a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
-                (self.mongo.nb_mail_notifications(),)
+                (nb_mail_notifications,)
 
             html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            if self.mongo.nb_unread_articles != 0:
+            if nb_unread_articles != 0:
                 html += '<a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
                 html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
-                    (self.mongo.nb_unread_articles(),)
+                    (nb_unread_articles,)
         html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
 
 
@@ -151,7 +154,7 @@ class Root:
                     #print article["article_title"], article["article_date"], article["article_readed"]
                 #except:
                     #pass
-        
+
         # The main page display all the feeds.
         for feed in feeds:
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
@@ -250,7 +253,7 @@ class Root:
         and display some statistics.
         """
         feeds = self.mongo.get_all_collections()
-        
+
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -967,7 +970,7 @@ class Root:
         'article_readed' of the SQLite database to 1.
         """
         param, _, identifiant = target.partition(':')
-        
+
         # Mark all articles as read.
         if param == "":
             self.mongo.mark_as_read(True, None, None)
@@ -1262,7 +1265,7 @@ if __name__ == '__main__':
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
-    #cherrypy.config.update({'error_page.404': error_page_404})
+    cherrypy.config.update({'error_page.404': error_page_404})
     _cp_config = {'request.error_response': handle_error}
 
     cherrypy.quickstart(root, "/" ,config=utils.path + "/cfg/cherrypy.cfg")
