@@ -43,7 +43,6 @@ import re
 import time
 import cherrypy
 import calendar
-import threading
 
 from collections import Counter
 import datetime
@@ -1253,7 +1252,6 @@ class Root:
 if __name__ == '__main__':
     # Point of entry in execution mode
     print "Launching pyAggr3g470r..."
-    LOCKER = threading.Lock()
 
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
