@@ -148,13 +148,6 @@ class Root:
         html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
 
 
-        #for feed in feeds:
-            #for article in self.mongo.get_articles_from_collection(feed["collection_id"]):
-                #try:
-                    #print article["article_title"], article["article_date"], article["article_readed"]
-                #except:
-                    #pass
-
         # The main page display all the feeds.
         for feed in feeds:
             html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
