@@ -364,38 +364,6 @@ def search_feed(url):
         return feed_link['href']
     return None
 
-def create_base():
-    """
-    Create the base if not exists.
-    """
-    sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
-    conn = sqlite3.connect(sqlite_base, isolation_level = None)
-    c = conn.cursor()
-    # table of feeds
-    c.execute('''create table if not exists feeds
-                (feed_title text, feed_site_link text, \
-                feed_link text PRIMARY KEY, feed_image_link text,
-                mail text)''')
-    # table of articles
-    c.execute('''create table if not exists articles
-                (article_date text, article_title text, \
-                article_link text PRIMARY KEY, article_description text, \
-                article_readed text, feed_link text, like text)''')
-    conn.commit()
-    c.close()
-
-def drop_base():
-    """
-    Delete all articles from the database.
-    """
-    sqlite3.register_adapter(str, lambda s : s.decode('utf-8'))
-    conn = sqlite3.connect(sqlite_base, isolation_level = None)
-    c = conn.cursor()
-    c.execute('''DROP TABLE IF EXISTS feeds''')
-    c.execute('''DROP TABLE IF EXISTS articles''')
-    conn.commit()
-    c.close()
-
 def load_feed():
     """
     Load feeds and articles in a dictionary.
