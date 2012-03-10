@@ -321,7 +321,7 @@ class Root:
 
         # Some statistics (most frequent word)
         if articles:
-            self.top_words = utils.top_words(articles, n=50, size=int(word_size))
+            top_words = utils.top_words(articles, n=50, size=int(word_size))
             html += "<h1>Statistics</h1>\n<br />\n"
             # Tags cloud
             html += 'Minimum size of a word:'
@@ -330,7 +330,7 @@ class Root:
             html += '<input type="submit" value="OK"></form>\n'
             html += '<br /><h3>Tag cloud</h3>\n'
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud(self.top_words) + '</div>'
+                        utils.tag_cloud(top_words) + '</div>'
             html += "<hr />\n"
 
         html += htmlfooter
