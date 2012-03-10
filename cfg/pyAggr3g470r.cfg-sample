@@ -1,5 +1,4 @@
 [global]
-sqlitebase = ./var/feed.db
 max_nb_articles = 50
 [MongoDB]
 address = 127.0.0.1
