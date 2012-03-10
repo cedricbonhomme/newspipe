@@ -1188,7 +1188,7 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            article = self.feeds[feed_id].articles[article_id]
+            self.mongo.delete_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
 
