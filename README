@@ -22,14 +22,14 @@ pyAggr3g470r
 
 Presentation
 ------------
-pyAggr3g470r is a multi-threaded news aggregator with a web interface
-based on CherryPy. Articles are stored in a SQLite base.
+pyAggr3g470r_ is a multi-threaded news aggregator with a web interface
+based on CherryPy_. Articles are stored in a MongoDB_ base.
 
 
 
 Features
 ------------
-* articles are stored in a SQLite database;
+* articles are stored in a MongoDB_ database;
 * find an article with history;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
@@ -43,24 +43,23 @@ Requierements
 -------------
 Software required
 ~~~~~~~~~~~~~~~~~
-* Python 2.7.*
-* SQLite
-* feedparser (http://feedparser.org/)
-* CherryPy (version 3 and up)
-* BeautifulSoup
+* Python_ 2.7.*;
+* MongoDB_ and PyMongo_;
+* feedparser_;
+* CherryPy_ (version 3 and up);
+* BeautifulSoup_.
 
 
 Optional module
 ~~~~~~~~~~~~~~~
-These modules are not required but provides better features:
+These modules are not required but enables more features:
 * lxml and Genshi;
-* Python Imaging Library for the generation of QR codes;
-* Gamin, detect changes in the database in a better way.
+* Python Imaging Library for the generation of QR codes.
 
 
 If you want to install these modules:
 
-sudo aptitude install python-gamin python-lxml python-genshi
+    sudo aptitude install  python-lxml python-genshi
 
 
 Donnation
@@ -72,5 +71,14 @@ Thank you!
 
 License
 ------------
-pyAggr3g470r is under GPLv3 license.
-http://www.gnu.org/licenses/gpl-3.0.txt
+pyAggr3g470r_ is under GPLv3_ license.
+
+
+.. _Python: http://python.org/
+.. _pyAggr3g470r: https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+.. _feedparser: http://feedparser.org/
+.. _MongoDB: http://www.mongodb.org/
+.. _PyMongo: https://github.com/mongodb/mongo-python-driver
+.. _CherryPy: http://cherrypy.org/
+.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
