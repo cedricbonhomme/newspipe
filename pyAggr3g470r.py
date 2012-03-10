@@ -245,7 +245,11 @@ class Root:
         and display some statistics.
         """
         feeds = self.mongo.get_all_collections()
-
+        nb_mail_notifications = self.mongo.nb_mail_notifications()
+        nb_favorites = self.mongo.nb_favorites()
+        nb_articles = self.mongo.nb_articles()
+        nb_unread_articles = self.mongo.nb_unread_articles()
+        
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -262,16 +266,16 @@ class Root:
             html += """</select><input type="submit" value="OK"></form>\n"""
 
             html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
-                        (self.mongo.nb_mail_notifications(),)
+                        (nb_mail_notifications,)
             html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
-                        (self.mongo.nb_favorites(), )
+                        (nb_favorites, )
 
         html += "<hr />\n"
 
         # Informations about the data base of articles
         html += """<p>%s article(s) are loaded from the database with
                 <a href="/unread/">%s unread article(s)</a>.<br />\n""" % \
-                    (self.mongo.nb_articles(), self.mongo.nb_unread_articles())
+                    (nb_articles, nb_unread_articles)
         #html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
                     #(os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
         html += '<a href="/statistics/">Advanced statistics.</a></p>\n'
