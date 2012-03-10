@@ -335,16 +335,6 @@ def remove_feed(feed_url):
                 feeds.append(line.replace("\n", ""))
         with open("./var/feed.lst", "w") as f:
             f.write("\n".join(feeds) + "\n")
-        # Remove articles from this feed from the SQLite base.
-        try:
-            conn = sqlite3.connect(sqlite_base, isolation_level = None)
-            c = conn.cursor()
-            c.execute("DELETE FROM feeds WHERE feed_link='" + feed_url +"'")
-            c.execute("DELETE FROM articles WHERE feed_link='" + feed_url +"'")
-            conn.commit()
-            c.close()
-        except:
-            pass
 
 def search_feed(url):
     """

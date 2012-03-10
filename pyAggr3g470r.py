@@ -1108,12 +1108,13 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        try:
-            utils.remove_feed(self.feeds[feed_id].feed_link)
-            html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
-                (self.feeds[feed_id].feed_title,)
-        except:
-            return self.error_page("This feed do not exists.")
+
+        feed = self.mongo.get_collection(feed_id)
+        self.mongo.delete_feed(feed_id)
+        utils.remove_feed(feed["feed_link"])
+
+        html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
+                (feed["feed_title"],)
         html += """<a href="/management/">Back to the management page.</a><br />\n"""
         html += "<hr />\n"
         html += htmlfooter
