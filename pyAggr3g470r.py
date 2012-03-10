@@ -241,7 +241,7 @@ class Root:
     def management(self, max_nb_articles=5):
         """
         Management page.
-        Allows adding and deleting feeds. Export functions of the SQLite data base
+        Allows adding and deleting feeds. Export functions of the MongoDB data base
         and display some statistics.
         """
         feeds = self.mongo.get_all_collections()
@@ -963,7 +963,7 @@ class Root:
     def mark_as_read(self, target=""):
         """
         Mark one (or more) article(s) as read by setting the value of the field
-        'article_readed' of the SQLite database to 1.
+        'article_readed' of the MongoDB database to 'True'.
         """
         param, _, identifiant = target.partition(':')
 
@@ -1103,7 +1103,7 @@ class Root:
 
     def remove_feed(self, feed_id):
         """
-        Remove a feed from the file feed.lst and from the SQLite base.
+        Remove a feed from the file feed.lst and from the MongoDB database.
         """
         html = htmlheader()
         html += htmlnav
@@ -1209,7 +1209,7 @@ class Root:
 
     def export(self, export_method):
         """
-        Export articles currently loaded from the SQLite database with
+        Export articles currently loaded from the MongoDB database with
         the appropriate function of the 'export' module.
         """
         try:
