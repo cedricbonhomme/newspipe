@@ -212,7 +212,7 @@ class Root:
         Create the right menu.
         """
         html = """<div class="right inner">\n"""
-        html += """<form method=get action="/q/"><input type="search" name="querystring" value="" placeholder="Search articles" maxlength=2048 autocomplete="on"></form>\n"""
+        html += """<form method=get action="/search/"><input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on"></form>\n"""
         html += "<hr />\n"
         # insert the list of feeds in the menu
         html += self.create_list_of_feeds()
@@ -339,20 +339,20 @@ class Root:
     statistics.exposed = True
 
 
-    def q(self, querystring=None):
+    def search(self, query=None):
         """
-        Simply search for the string 'querystring'
+        Simply search for the string 'query'
         in the description of the article.
         """
-        param, _, value = querystring.partition(':')
+        param, _, value = query.partition(':')
         wordre = re.compile(r'\b%s\b' % param, re.I)
         feed_id = None
         if param == "Feed":
-            feed_id, _, querystring = value.partition(':')
+            feed_id, _, query = value.partition(':')
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (querystring,)
+        html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (query,)
 
         if feed_id is not None:
             for article in self.feeds[feed_id].articles.values():
@@ -413,7 +413,7 @@ class Root:
         html += htmlfooter
         return html
 
-    q.exposed = True
+    search.exposed = True
 
 
     def fetch(self):
@@ -709,7 +709,7 @@ class Root:
         html += htmlnav
         html += """<div class="right inner">\n"""
         html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
-        html += """<br />\n<form method=get action="/q/%s"><input type="search" name="querystring" value="" placeholder="Search this feed" maxlength=2048 autocomplete="on"></form>\n""" % ("Feed:"+feed_id,)
+        html += """<br />\n<form method=get action="/search/%s"><input type="search" name="query" value="" placeholder="Search this feed" maxlength=2048 autocomplete="on"></form>\n""" % ("Feed:"+feed_id,)
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
@@ -830,7 +830,7 @@ class Root:
     unread.exposed = True
 
 
-    def history(self, querystring="all", m=""):
+    def history(self, query="all", m=""):
         """
         This page enables to browse articles chronologically.
         """
@@ -840,20 +840,20 @@ class Root:
         html += """<div class="left inner">\n"""
 
         # Get the date from the tag cloud
-        # Format: /history/?querystring=year:2011-month:06 to get the
+        # Format: /history/?query=year:2011-month:06 to get the
         # list of articles of June, 2011.
         if m != "":
-            querystring = """year:%s-month:%s""" % tuple(m.split('-'))
+            query = """year:%s-month:%s""" % tuple(m.split('-'))
 
-        if querystring == "all":
+        if query == "all":
             html += "<h1>Search with tags cloud</h1>\n"
             html += "<h4>Choose a year</h4></br >\n"
-        if "year" in querystring:
-            the_year = querystring.split('-')[0].split(':')[1]
-            if "month" not in querystring:
+        if "year" in query:
+            the_year = query.split('-')[0].split(':')[1]
+            if "month" not in query:
                 html += "<h1>Choose a month for " + the_year + "</h1></br >\n"
-        if "month" in querystring:
-            the_month = querystring.split('-')[1].split(':')[1]
+        if "month" in query:
+            the_month = query.split('-')[1].split(':')[1]
             html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
                     ", "+ the_year +".</h1><br />\n"
 
@@ -862,15 +862,15 @@ class Root:
             new_feed_section = True
             for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
 
-                if querystring == "all":
+                if query == "all":
                     timeline[str(article["article_date"]).split(' ')[0].split('-')[0]] += 1
 
-                elif querystring[:4] == "year":
+                elif query[:4] == "year":
 
                     if str(article["article_date"]).split(' ')[0].split('-')[0] == the_year:
                         timeline[str(article["article_date"]).split(' ')[0].split('-')[1]] += 1
 
-                        if "month" in querystring:
+                        if "month" in query:
                             if str(article["article_date"]).split(' ')[0].split('-')[1] == the_month:
                                 if article["article_readed"] == False:
                                     # not readed articles are in bold
@@ -905,11 +905,11 @@ class Root:
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                                 (feed["feed_id"], article["article_id"], not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
-        if querystring == "all":
+        if query == "all":
             query = "year"
-        elif "year" in querystring:
+        elif "year" in query:
             query = "year:" + the_year + "-month"
-        if "month" not in querystring:
+        if "month" not in query:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query) + '</div>'
         html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
