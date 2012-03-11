@@ -906,12 +906,12 @@ class Root:
                                                 (feed["feed_id"], article["article_id"], not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
         if query == "all":
-            query = "year"
+            query_string = "year"
         elif "year" in query:
-            query = "year:" + the_year + "-month"
+            query_string = "year:" + the_year + "-month"
         if "month" not in query:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query) + '</div>'
+                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query_string) + '</div>'
         html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
         html += '<form>\n\t<input name="m" type="month">\n\t<input type="submit" value="Go">\n</form>'
         html += '<hr />'
