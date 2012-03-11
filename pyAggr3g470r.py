@@ -927,15 +927,16 @@ class Root:
         """
         try:
             feed_id, article_id = target.split(':')
-            feed, article = self.feeds[feed_id], self.feeds[feed_id].articles[article_id]
+            feed = self.mongo.get_collection(feed_id)
+            article = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
         html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n"""% \
-                            (article.article_title, feed_id, feed.feed_title)
-        description = utils.clear_string(article.article_description)
+                            (article["article_title"], feed_id, feed["feed_title"])
+        description = utils.clear_string(article["article_content"])
         if description:
             html += description
         else:
