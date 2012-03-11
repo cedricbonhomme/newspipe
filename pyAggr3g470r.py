@@ -525,6 +525,10 @@ class Root:
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>""" % \
                         (article["article_title"], article["article_link"])
 
+        # on Hacker News
+        html += """\n\n<a href='javascript:window.location="http://news.ycombinator.com/submitlink?u="+encodeURIComponent("%s")+"&t="+encodeURIComponent("%s")'><img src="/img/hacker-news.png" title="Share on Hacker News" /></a>""" % \
+                        (article["article_link"], article["article_title"])
+                        
         # on Pinboard
         html += """\n\n\t<a href="https://api.pinboard.in/v1/posts/add?url=%s&description=%s"
                 rel="noreferrer" target="_blank">\n
