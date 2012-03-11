@@ -371,33 +371,33 @@ class Root:
                                     (feed_id, article.article_id, article.article_title) + \
                             not_read_end + """<br />\n"""
         else:
-            articles = self.mongo.get_all_articles()
-            for feed in self.feeds.values():
+            feeds = self.mongo.get_all_collections()
+            for feed in feeds:
                 new_feed_section = True
-                for article in articles:
-                    article_content = utils.clear_string(article.article_description)
+                for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
+                    article_content = utils.clear_string(article["article_content"])
                     if not article_content:
-                        utils.clear_string(article.article_title)
+                        utils.clear_string(article["article_title"])
                     if wordre.findall(article_content) != []:
                         if new_feed_section is True:
                             new_feed_section = False
                             html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                (feed.feed_id, feed.feed_title, feed.feed_link, feed.feed_image)
+                                (feed["feed_id"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                        if article.article_readed == "0":
+                        if article["article_readed"] == False:
                             # not readed articles are in bold
                             not_read_begin, not_read_end = "<b>", "</b>"
                         else:
                             not_read_begin, not_read_end = "", ""
 
                         # display a heart for faved articles
-                        if article.like == "1":
+                        if article["article_like"] == True:
                             like = """ <img src="/img/heart.png" title="I like this article!" />"""
                         else:
                             like = ""
 
                         # descrition for the CSS ToolTips
-                        article_content = utils.clear_string(article.article_description)
+                        article_content = utils.clear_string(article["article_content"])
                         if article_content:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
@@ -405,10 +405,10 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article.article_date + " - " + \
+                        html += str(article["article_date"]) + " - " + \
                                 """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                        (feed.feed_id, article.article_id, not_read_begin, \
-                                        article.article_title[:150], not_read_end, description) + like + "<br />\n"
+                                        (feed["feed_id"], article["article_id"], not_read_begin, \
+                                        article["article_title"][:150], not_read_end, description) + like + "<br />\n"
         html += "<hr />"
         html += htmlfooter
         return html
