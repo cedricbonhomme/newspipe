@@ -27,9 +27,8 @@ class Articles(object):
         """
         Creates a new collection for a new feed.
         """
-        #pymongo.collection.Collection(self.db, new_collection["feed_id"])
         collection = self.db[new_collection["feed_id"]]
-        collection.create_index([("article_link", pymongo.ASCENDING)], {"unique":True, "sparse":True})
+        #collection.create_index([("feed_link", pymongo.ASCENDING)], {"unique":True, "sparse":True})
         collection.insert(new_collection)
 
     def add_articles(self, articles, feed_id):
@@ -37,6 +36,10 @@ class Articles(object):
         Add article(s) in a collection.
         """
         collection = self.db[str(feed_id)]
+
+        collection.create_index([("article_link", pymongo.ASCENDING), ("article_date", pymongo.DESCENDING)], \
+                                        {"unique":False, "sparse":False})
+
         for article in articles:
             cursor = collection.find({"article_id":article["article_id"]})
             if cursor.count() == 0:
@@ -102,7 +105,8 @@ class Articles(object):
             cursor = collection.find({"type":1})
         else:
             cursor = collection.find({"type":1, condition[0]:condition[1]})
-        return cursor.sort([("article_date", pymongo.DESCENDING)])
+        #return cursor.sort([("article_date", pymongo.DESCENDING)])
+        return cursor
 
     def print_articles_from_collection(self, collection_id):
         """
@@ -245,16 +249,6 @@ if __name__ == "__main__":
     #print articles.get_all_articles()
 
 
-
-
-    for feed in articles.get_all_collections():
-        for article in articles.get_articles_from_collection(feed["feed_id"]):
-            try:
-                #print article["article_title"], article["article_date"]
-                pass
-            except:
-                pass
-
     
     # Drop the database
-    #articles.drop_database()
+    articles.drop_database()
