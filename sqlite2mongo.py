@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
-
 import sqlite3
+
 import mongodb
 
 SQLITE_BASE = "./var/feed.db"
 
 
-def load_feed():
+def sqlite2mongo():
     """
     Load feeds and articles in a dictionary.
     """
@@ -24,7 +24,6 @@ def load_feed():
     except:
         pass
 
-
     if list_of_feeds != []:
         # Walk through the list of feeds
         for feed in list_of_feeds:
@@ -38,7 +37,6 @@ def load_feed():
             sha1_hash.update(feed[2].encode('utf-8'))
             feed_id = sha1_hash.hexdigest()
 
-
             new_collection = {"feed_id" : feed_id.encode('utf-8'), \
                                 "type": 0, \
                                 "feed_image" : feed[3].encode('utf-8'), \
@@ -46,11 +44,9 @@ def load_feed():
                                 "feed_link" : feed[2].encode('utf-8'), \
                                 "site_link" : feed[1].encode('utf-8'), \
                                 "mail" : feed[4]=="1"}
-            
 
             mongo.add_collection(new_collection)
 
-            
             if list_of_articles != []:
                 # Walk through the list of articles for the current feed.
                 articles = []
@@ -58,7 +54,6 @@ def load_feed():
                     sha1_hash = hashlib.sha1()
                     sha1_hash.update(article[2].encode('utf-8'))
                     article_id = sha1_hash.hexdigest()
-
 
                     article = {"article_id": article_id.encode('utf-8'), \
                                 "type":1, \
@@ -72,11 +67,9 @@ def load_feed():
 
                     articles.append(article)
 
-
                 mongo.add_articles(articles, feed_id)
 
         c.close()
 
-
 if __name__ == "__main__":
-    load_feed()
+    sqlite2mongo()
