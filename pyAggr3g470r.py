@@ -1001,7 +1001,7 @@ class Root:
             html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
             for feed in feeds:
                 html += """\t<a href="/articles/%s">%s</a> - <a href="/mail_notification/0:%s">Stop</a><br />\n""" % \
-                        (feed["feed_id"], feed.feed_title, feed.feed_id)
+                        (feed["feed_id"], feed["feed_title"], feed["feed_id"])
         else:
             html += "<p>No active notifications.<p>\n"
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \

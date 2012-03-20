@@ -37,7 +37,7 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
 
-        collection.create_index([("article_link", pymongo.ASCENDING), ("article_date", pymongo.DESCENDING)], \
+        collection.create_index([("article_date", pymongo.DESCENDING)], \
                                         {"unique":False, "sparse":False})
 
         for article in articles:
@@ -105,8 +105,7 @@ class Articles(object):
             cursor = collection.find({"type":1})
         else:
             cursor = collection.find({"type":1, condition[0]:condition[1]})
-        #return cursor.sort([("article_date", pymongo.DESCENDING)])
-        return cursor
+        return cursor.sort([("article_date", pymongo.DESCENDING)])
 
     def print_articles_from_collection(self, collection_id):
         """
