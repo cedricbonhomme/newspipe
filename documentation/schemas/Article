@@ -6,7 +6,7 @@ Schema for a Article object
 
     {
         article_id: (str),
-        type: (str),
+        type: (int),
         article_date: (datetime),
         article_link: (str),
         article_title: (str),
@@ -18,3 +18,12 @@ Schema for a Article object
 
 Schema description
 ==================
+
+* article_id: the id of the article in hexadecimal digits (SHA1 hash of the article's URL);
+* type: equal to 1 for an article and to 0 for a feed;
+* article_date: the date of publication of the article;
+* article_link: the URL of the article;
+* article_title: the title of the article;
+* article_content: the content (description) of the article;
+* article_readed: set to True if the article is read, else False;
+* article_like: set to True for liked article, else False.

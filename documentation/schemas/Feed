@@ -2,18 +2,27 @@
 
 
 Schema for a Feed object
-===========================
+========================
 
     {
         feed_id: (str),
         type: (int),
-        feed_image: (datetime),
+        feed_image: (str),
         feed_title: (str),
         feed_link: (str),
         site_link: (str),
-        mail: (bool),
+        mail: (bool)
     }
 
 
 Schema description
 ==================
+
+
+* feed_id: the id of the feed in hexadecimal digits (SHA1 hash of the feed's URL);
+* type: equal to 1 for an article and to 0 for a feed;
+* feed_image: URL of the favicon of the feed;
+* feed_title: title of the feed;
+* feed_link: URL of the feed;
+* site_link: URL of the site;
+* mail: set to True if sibscribed to the feed, else False.
