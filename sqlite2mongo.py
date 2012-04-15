@@ -3,8 +3,11 @@
 
 import hashlib
 import sqlite3
-
 import mongodb
+
+import utils
+
+from datetime import datetime
 
 SQLITE_BASE = "./var/feed.db"
 
@@ -57,7 +60,7 @@ def sqlite2mongo():
 
                     article = {"article_id": article_id.encode('utf-8'), \
                                 "type":1, \
-                                "article_date": article[0].encode('utf-8'), \
+                                "article_date": utils.string_to_datetime(article[0]), \
                                 "article_link": article[2].encode('utf-8'), \
                                 "article_title": article[1].encode('utf-8'), \
                                 "article_content": article[3].encode('utf-8'), \
