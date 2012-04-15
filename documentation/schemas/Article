@@ -1,0 +1,20 @@
+.. -*-restructuredtext-*-
+
+
+Schema for a Article object
+===========================
+
+    {
+        article_id: (str),
+        type: (str),
+        article_date: (datetime),
+        article_link: (str),
+        article_title: (str),
+        article_content: (str),
+        article_readed: (bool),
+        article_like: (bool)
+    }
+
+
+Schema description
+==================
