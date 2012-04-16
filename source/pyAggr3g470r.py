@@ -593,7 +593,7 @@ class Root:
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
                         (utils.mail_to, utils.mail_to)
                 html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
-                        (feed[feed_id], )
+                        (feed_id, )
 
         if articles != []:
             last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
