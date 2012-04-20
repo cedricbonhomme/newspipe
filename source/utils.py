@@ -94,6 +94,17 @@ url_finders = [ \
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+"), \
 ]
 
+
+from base64 import urlsafe_b64encode, urlsafe_b64decode
+
+
+
+def uri_b64encode(s):
+     return urlsafe_b64encode(s).strip('=')
+
+def uri_b64decode(s):
+     return urlsafe_b64decode(s + '=' * (4 - len(s) % 4))
+
 def detect_url_errors(list_of_urls):
     """
     Detect URL errors.

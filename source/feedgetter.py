@@ -99,10 +99,8 @@ class FeedGetter(object):
         except:
             feed_image = "/img/feed-icon-28x28.png"
 
-        sha1_hash = hashlib.sha1()
-        sha1_hash.update(feed_link.encode('utf-8'))
-        feed_id = sha1_hash.hexdigest()
-            
+        feed_id = utils.uri_b64encode(feed_link.encode('utf-8'))
+
         collection_dic = {"feed_id": feed_id, \
                             "type": 0, \
                             "feed_image": feed_image, \
@@ -111,7 +109,7 @@ class FeedGetter(object):
                             "site_link": a_feed.feed.link.encode('utf-8'), \
                             "mail": False \
                         }
-            
+
         self.articles.add_collection(collection_dic)
 
         articles = []
@@ -134,10 +132,7 @@ class FeedGetter(object):
             except:
                 post_date = datetime(*article.published_parsed[:6])
 
-
-            sha1_hash = hashlib.sha1()
-            sha1_hash.update(article.link.encode('utf-8'))
-            article_id = sha1_hash.hexdigest()
+            article_id = utils.uri_b64encode(article.link.encode('utf-8'))
 
             article = {"article_id": article_id, \
                     "type":1, \
@@ -148,7 +143,7 @@ class FeedGetter(object):
                     "article_readed": False, \
                     "article_like": False \
                     }
-                
+
             articles.append(article)
 
         self.articles.add_articles(articles, feed_id)
