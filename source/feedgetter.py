@@ -26,11 +26,8 @@ __revision__ = "$Date: 2012/04/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import os.path
-import traceback
 import threading
 import feedparser
-import hashlib
 from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
@@ -38,9 +35,7 @@ from datetime import datetime
 import utils
 import mongodb
 
-feeds_list = []
 list_of_threads = []
-
 
 class FeedGetter(object):
     """
@@ -123,7 +118,7 @@ class FeedGetter(object):
                 try:
                     # article description
                     description = article.description
-                except Exception, e:
+                except Exception:
                     description = ""
             description = str(BeautifulSoup(description))
             article_title = str(BeautifulSoup(article.title))

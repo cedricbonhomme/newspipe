@@ -40,7 +40,6 @@ __license__ = "GPLv3"
 
 import os
 import re
-import time
 import cherrypy
 import calendar
 
@@ -355,7 +354,7 @@ class Root:
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (query,)
 
         if feed_id is not None:
-            for article in self.feeds[feed_id].articles.values():
+            for article in self.mongo.get_articles_from_collection(feed_id):
                 article_content = utils.clear_string(article.article_description)
                 if not article_content:
                     utils.clear_string(article.article_title)
@@ -1017,7 +1016,6 @@ class Root:
         """
         try:
             action, feed_id = param.split(':')
-            feed = self.feeds[feed_id]
         except:
             return self.error_page("Bad URL. This feed do not exists.")
 
@@ -1205,8 +1203,8 @@ class Root:
         """
         Delete all articles.
         """
-        utils.drop_base()
-        return self.management()
+        self.mongo.drop_database()
+        return self.index()
 
     drop_base.exposed = True
 
@@ -1217,7 +1215,7 @@ class Root:
         the appropriate function of the 'export' module.
         """
         try:
-            getattr(export, export_method)(self.feeds)
+            getattr(export, export_method)(self.mongo.get_all_articles())
         except Exception, e:
             return self.error_page(e)
         return self.management()
@@ -1238,8 +1236,10 @@ class Root:
         except:
             return self.error_page("Bad URL.")
         try:
-            feed = self.feeds[feed_id]
-            article = feed.articles[article_id]
+            feed_id, article_id = param.split(':')
+            feed = self.mongo.get_collection(feed_id)
+            articles = self.mongo.get_articles_from_collection(feed_id)
+            article = self.mongo.get_article(feed_id, article_id)
         except:
             self.error_page("This article do not exists.")
         try:
@@ -1249,9 +1249,9 @@ class Root:
             # directories already exists (not a problem)
             pass
         section = ez_epub.Section()
-        section.title = article.article_title.decode('utf-8')
-        section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
-        ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
+        section.title = article["article_title"].decode('utf-8')
+        section.paragraphs = [utils.clear_string(article["article_description"]).decode('utf-8')]
+        ez_epub.makeBook(article["article_title"].decode('utf-8'), [feed["feed_title"].decode('utf-8')], [section], \
                 os.path.normpath(folder) + "article.epub", lang='en-US', cover=None)
         return self.article(param)
 

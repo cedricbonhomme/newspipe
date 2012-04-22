@@ -51,11 +51,7 @@ import BaseHTTPServer
 from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
-from string import punctuation
 from collections import Counter
-from collections import OrderedDict
-
-from StringIO import StringIO
 
 import os
 import ConfigParser
@@ -116,7 +112,7 @@ def detect_url_errors(list_of_urls):
             urllib2.urlopen(req)
         except urllib2.HTTPError, e:
             # server couldn't fulfill the request
-           errors.append((url, e.code, \
+            errors.append((url, e.code, \
                 BaseHTTPServer.BaseHTTPRequestHandler.responses[e.code][1]))
         except urllib2.URLError, e:
             # failed to reach the server
