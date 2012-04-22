@@ -63,24 +63,7 @@ class Articles(object):
         """
         return self.db[str(feed_id)].find().next()
 
-    def get_all_articles(self):
-        """
-        Return all articles from all collections.
-        """
-        articles = []
-        collections = self.db.collection_names()
-        for collection_name in collections:
-            collection = self.db[collection_name]
-            articles.extend([article for article in collection.find({'type':1})])
-        return articles
-
-    def get_article(self, feed_id, article_id):
-        """
-        """
-        collection = self.db[str(feed_id)]
-        return collection.find({"article_id":article_id}).next()
-
-    def get_all_feeds(self, condition=None):
+        def get_all_feeds(self, condition=None):
         """
         """
         feeds = []
@@ -95,6 +78,24 @@ class Articles(object):
                     feeds.append(cursor.next())
         feeds.sort(key = lambda elem: elem['feed_title'].lower())
         return feeds
+
+    def get_all_articles(self):
+        """
+        Return all articles from all collections.
+        """
+        articles = []
+        collections = self.db.collection_names()
+        for collection_name in collections:
+            collection = self.db[collection_name]
+            articles.extend([article for article in collection.find({'type':1})])
+        return articles
+
+    def get_article(self, feed_id, article_id):
+        """
+        Get an article of a specified feed.
+        """
+        collection = self.db[str(feed_id)]
+        return collection.find({"article_id":article_id}).next()
 
     def get_articles_from_collection(self, feed_id, condition=None):
         """
@@ -122,11 +123,16 @@ class Articles(object):
             return nb_articles
 
     def nb_favorites(self, feed_id=None):
+        """
+        Return the number of favorites articles.
+        """
         if feed_id is not None:
+            # only for a feed
             collection = self.db[feed_id]
             cursor = collection.find({'type':1, 'article_like':True})
             return cursor.count()
         else:
+            # for all feeds
             nb_favorites = 0
             for feed_id in self.db.collection_names():
                 nb_favorites += self.nb_favorites(feed_id)
