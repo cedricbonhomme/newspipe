@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2012/03/03 $"
+__revision__ = "$Date: 2012/04/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import time
 import pymongo
 
 from operator import itemgetter, attrgetter
@@ -58,8 +57,9 @@ class Articles(object):
         collection = self.db[str(feed_id)]
         collection.find_and_modify(query={"article_id":article_id}, remove=True)
 
-    def get_collection(self, feed_id):
+    def get_feed(self, feed_id):
         """
+        Return information about a feed.
         """
         return self.db[str(feed_id)].find().next()
 
@@ -192,8 +192,6 @@ class Articles(object):
 if __name__ == "__main__":
     # Point of entry in execution mode.
     articles = Articles()
-
-
     # Create a collection for a stream
     collection_dic = {"collection_id": 42,\
                         "feed_image": "Image", \
@@ -202,11 +200,8 @@ if __name__ == "__main__":
                         "site_title": "Site link", \
                         "mail": True, \
                         }
-    
     #articles.add_collection(collection_dic)
 
-
-    
     # Add an article in the newly created collection
     article_dic1 = {"article_id": 51, \
                     "article_date": "Today", \
@@ -216,7 +211,6 @@ if __name__ == "__main__":
                     "article_readed": True, \
                     "article_like": True \
                     }
-
     article_dic2 = {"article_id": 52, \
                     "article_date": "Yesterday", \
                     "article_link": "Link", \
@@ -225,13 +219,12 @@ if __name__ == "__main__":
                     "article_readed": True, \
                     "article_like": True \
                     }
-    
+
     #articles.add_articles([article_dic1, article_dic2], 42)
-    
+
     print "All articles:"
     #print articles.get_all_articles()
 
 
-    
     # Drop the database
     articles.drop_database()

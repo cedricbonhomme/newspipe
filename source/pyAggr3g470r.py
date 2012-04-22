@@ -432,7 +432,7 @@ class Root:
         """
         try:
             feed_id, article_id = param.split(':')
-            feed = self.mongo.get_collection(feed_id)
+            feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
@@ -575,7 +575,7 @@ class Root:
         favourite articles for the current feed.
         """
         try:
-            feed = self.mongo.get_collection(feed_id)
+            feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
@@ -704,7 +704,7 @@ class Root:
         This page displays all articles of a feed.
         """
         try:
-            feed = self.mongo.get_collection(feed_id)
+            feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
@@ -800,7 +800,7 @@ class Root:
             # List unread articles of a feed
             else:
                 try:
-                    feed = self.mongo.get_collection(feed_id)
+                    feed = self.mongo.get_feed(feed_id)
                 except:
                     self.error_page("This feed do not exists.")
                 html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
@@ -929,7 +929,7 @@ class Root:
         """
         try:
             feed_id, article_id = target.split(':')
-            feed = self.mongo.get_collection(feed_id)
+            feed = self.mongo.get_feed(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
@@ -1111,7 +1111,7 @@ class Root:
         html += htmlnav
         html += """<div class="left inner">"""
 
-        feed = self.mongo.get_collection(feed_id)
+        feed = self.mongo.get_feed(feed_id)
         self.mongo.delete_feed(feed_id)
         utils.remove_feed(feed["feed_link"])
 
@@ -1237,7 +1237,7 @@ class Root:
             return self.error_page("Bad URL.")
         try:
             feed_id, article_id = param.split(':')
-            feed = self.mongo.get_collection(feed_id)
+            feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
