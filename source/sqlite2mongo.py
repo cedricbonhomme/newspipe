@@ -2,14 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-import mongodb
 
+import mongodb
 import utils
 
 from datetime import datetime
 
 SQLITE_BASE = "./var/feed.db"
-
 
 def sqlite2mongo():
     """

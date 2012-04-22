@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010  Cédric Bonhomme - http://cedricbonhomme.org/
+# Copyright (C) 2010-2012  Cédric Bonhomme - http://cedricbonhomme.org/
 #
 # For more information : http://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 #
@@ -20,8 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.0 $"
+__version__ = "$Revision: 1.1 $"
 __date__ = "$Date: 2010/09/02 $"
+__revision__ = "$Date: 2012/04/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -153,7 +154,6 @@ class FeedGetter(object):
                             #a_feed.feed.title.encode('utf-8'), \
                             #article_title, description) \
                         #).start()
-
 
 
 if __name__ == "__main__":
