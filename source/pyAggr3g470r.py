@@ -237,7 +237,7 @@ class Root:
         return html + "</div>"
 
 
-    def management(self, max_nb_articles=5):
+    def management(self):
         """
         Management page.
         Allows adding and deleting feeds. Export functions of the MongoDB data base
@@ -281,18 +281,6 @@ class Root:
 
         html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
         html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
-
-
-        html += '<form method=get action="/set_max_articles/">\n'
-        html += "For each feed only load the "
-        html += """<input type="number" name="max_nb_articles" value="%s" min="1" step="1" size="2">\n""" % (max_nb_articles)
-        html += " last articles."
-        if utils.MAX_NB_ARTICLES == -1:
-            html += "<br />All articles are currently loaded.\n"
-        else:
-            html += "<br />For each feed only " + str(utils.MAX_NB_ARTICLES) + " articles are currently loaded. "
-            html += '<a href="/set_max_articles/-1">Load all articles.</a><br />\n'
-        html += "</form>\n"
 
         # Export functions
         html += "<h1>Export articles</h1>\n\n"
@@ -1169,20 +1157,6 @@ class Root:
         return html
 
     change_feed_logo.exposed = True
-
-
-    def set_max_articles(self, max_nb_articles=1):
-        """
-        Enables to set the maximum of articles to be loaded per feed from
-        the data base.
-        """
-        if max_nb_articles < -1 or max_nb_articles == 0:
-            max_nb_articles = 1
-        utils.MAX_NB_ARTICLES = int(max_nb_articles)
-        return self.management()
-
-    set_max_articles.exposed = True
-
 
     def delete_article(self, param):
         """
