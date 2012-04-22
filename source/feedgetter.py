@@ -32,6 +32,7 @@ from BeautifulSoup import BeautifulSoup
 
 from datetime import datetime
 
+import conf
 import utils
 import mongodb
 
@@ -145,7 +146,7 @@ class FeedGetter(object):
         self.articles.add_articles(articles, feed_id)
 
         # send new articles by e-mail if desired.
-        #threading.Thread(None, utils.send_mail, None, (utils.mail_from, utils.mail_to, \
+        #threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
                             #a_feed.feed.title.encode('utf-8'), \
                             #article_title, description) \
                         #).start()

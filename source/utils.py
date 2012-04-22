@@ -34,6 +34,7 @@ __license__ = "GPLv3"
 # - mail notifications.
 #
 
+import os
 import re
 import sqlite3
 import operator
@@ -53,28 +54,6 @@ from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 from collections import Counter
 
-import os
-import ConfigParser
-# load the configuration
-config = ConfigParser.RawConfigParser()
-try:
-    config.read("./cfg/pyAggr3g470r.cfg")
-except:
-    config.read("./cfg/pyAggr3g470r.cfg-sample")
-path = os.path.abspath(".")
-
-MONGODB_ADDRESS = config.get('MongoDB', 'address')
-MONGODB_PORT = int(config.get('MongoDB', 'port'))
-MONGODB_USER = config.get('MongoDB', 'user')
-MONGODB_PASSWORD = config.get('MongoDB', 'password')
-
-mail_from = config.get('mail','mail_from')
-mail_to = config.get('mail','mail_to')
-smtp_server = config.get('mail','smtp')
-username =  config.get('mail','username')
-password =  config.get('mail','password')
-
-DIASPORA_POD = config.get('misc', 'diaspora_pod')
 
 # regular expression to chech URL
 url_finders = [ \

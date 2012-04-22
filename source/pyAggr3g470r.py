@@ -46,6 +46,7 @@ import calendar
 from collections import Counter
 import datetime
 
+import conf
 import utils
 import export
 import mongodb
@@ -108,7 +109,7 @@ class Root:
     def __init__(self):
         """
         """
-        self.mongo = mongodb.Articles(utils.MONGODB_ADDRESS, utils.MONGODB_PORT)
+        self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT)
 
     def index(self):
         """
@@ -506,7 +507,7 @@ class Root:
         # on Diaspora
         html += """<a href="javascript:(function(){f='https://%s/bookmarklet?url=%s&amp;title=%s&amp;notes=%s&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">\n\t
                 <img src="/img/diaspora.png" title="Share on Diaspora" /></a>\n""" % \
-                        (utils.DIASPORA_POD, article["article_link"], article["article_title"], "via pyAggr3g470r")
+                        (conf.DIASPORA_POD, article["article_link"], article["article_title"], "via pyAggr3g470r")
 
         # on Identi.ca
         html += """\n\n<a href="http://identi.ca/index.php?action=newnotice&status_textarea=%s: %s" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>""" % \
@@ -578,7 +579,7 @@ class Root:
                     " unread article" + (self.mongo.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
         if feed["mail"] == True:
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
-                        (utils.mail_to, utils.mail_to)
+                        (conf.mail_to, conf.mail_to)
                 html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
                         (feed_id, )
 
@@ -991,7 +992,7 @@ class Root:
         else:
             html += "<p>No active notifications.<p>\n"
         html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
-                        (utils.mail_to, utils.mail_to)
+                        (conf.mail_to, conf.mail_to)
         html += "\n<hr />\n" + htmlfooter
         return html
 
@@ -1217,7 +1218,7 @@ class Root:
         except:
             self.error_page("This article do not exists.")
         try:
-            folder = utils.path + "/var/export/epub/"
+            folder = conf.path + "/var/export/epub/"
             os.makedirs(folder)
         except OSError:
             # directories already exists (not a problem)
@@ -1237,9 +1238,9 @@ if __name__ == '__main__':
     print "Launching pyAggr3g470r..."
 
     root = Root()
-    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(utils.path + "/img/favicon.png"))
+    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
     cherrypy.config.update({'error_page.404': error_page_404})
     _cp_config = {'request.error_response': handle_error}
 
-    cherrypy.quickstart(root, "/" ,config=utils.path + "/cfg/cherrypy.cfg")
+    cherrypy.quickstart(root, "/" ,config=conf.path + "/cfg/cherrypy.cfg")
