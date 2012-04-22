@@ -63,7 +63,7 @@ class Articles(object):
         """
         return self.db[str(feed_id)].find().next()
 
-        def get_all_feeds(self, condition=None):
+    def get_all_feeds(self, condition=None):
         """
         """
         feeds = []
