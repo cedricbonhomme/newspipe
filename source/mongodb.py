@@ -107,17 +107,6 @@ class Articles(object):
             cursor = collection.find({"type":1, condition[0]:condition[1]})
         return cursor.sort([("article_date", pymongo.DESCENDING)])
 
-    def print_articles_from_collection(self, collection_id):
-        """
-        Print the articles of a collection.
-        """
-        collection = self.db[str(collection_id)]
-        cursor = collection.find({"type":1})
-        print "Article for the collection", collection_id
-        for d in cursor:
-            print d
-            print
-
     def nb_articles(self, feed_id=None):
         """
         Return the number of users.
@@ -238,11 +227,6 @@ if __name__ == "__main__":
                     }
     
     #articles.add_articles([article_dic1, article_dic2], 42)
-
-
-    # Print articles of the collection
-    #articles.print_articles_from_collection("http://esr.ibiblio.org/?feed=rss2")
-
     
     print "All articles:"
     #print articles.get_all_articles()
