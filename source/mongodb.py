@@ -80,7 +80,7 @@ class Articles(object):
         collection = self.db[str(feed_id)]
         return collection.find({"article_id":article_id}).next()
 
-    def get_all_collections(self, condition=None):
+    def get_all_feeds(self, condition=None):
         """
         """
         feeds = []

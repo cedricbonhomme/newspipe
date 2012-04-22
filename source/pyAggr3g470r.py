@@ -114,7 +114,7 @@ class Root:
         """
         Main page containing the list of feeds and articles.
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         nb_unread_articles = self.mongo.nb_unread_articles()
         nb_favorites = self.mongo.nb_favorites()
         nb_mail_notifications = self.mongo.nb_mail_notifications()
@@ -223,7 +223,7 @@ class Root:
         """
         Create the list of feeds.
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(feeds)
         for feed in feeds:
             if self.mongo.nb_unread_articles(feed["feed_id"]) != 0:
@@ -243,7 +243,7 @@ class Root:
         Allows adding and deleting feeds. Export functions of the MongoDB data base
         and display some statistics.
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         nb_mail_notifications = self.mongo.nb_mail_notifications()
         nb_favorites = self.mongo.nb_favorites()
         nb_articles = self.mongo.nb_articles()
@@ -370,7 +370,7 @@ class Root:
                                     (feed_id, article.article_id, article.article_title) + \
                             not_read_end + """<br />\n"""
         else:
-            feeds = self.mongo.get_all_collections()
+            feeds = self.mongo.get_all_feeds()
             for feed in feeds:
                 new_feed_section = True
                 for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
@@ -757,7 +757,7 @@ class Root:
         """
         This page displays all unread articles of a feed.
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
@@ -837,7 +837,7 @@ class Root:
         """
         This page enables to browse articles chronologically.
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -994,7 +994,7 @@ class Root:
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        feeds = self.mongo.get_all_collections(condition=("mail",True))
+        feeds = self.mongo.get_all_feeds(condition=("mail",True))
         if feeds != []:
             html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
             for feed in feeds:
@@ -1043,7 +1043,7 @@ class Root:
         """
         List of favorites articles
         """
-        feeds = self.mongo.get_all_collections()
+        feeds = self.mongo.get_all_feeds()
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
