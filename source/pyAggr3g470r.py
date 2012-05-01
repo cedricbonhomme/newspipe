@@ -1229,8 +1229,8 @@ class Root:
             pass
         section = ez_epub.Section()
         section.title = article["article_title"].decode('utf-8')
-        section.paragraphs = [utils.clear_string(article["article_description"]).decode('utf-8')]
-        ez_epub.makeBook(article["article_title"].decode('utf-8'), [feed["feed_title"].decode('utf-8')], [section], \
+        section.paragraphs = [utils.clear_string(article["article_content"])]
+        ez_epub.makeBook(article["article_title"], [feed["feed_title"]], [section], \
                 os.path.normpath(folder) + "article.epub", lang='en-US', cover=None)
         return self.article(param)
 
