@@ -186,6 +186,13 @@ class Articles(object):
             for feed_id in self.db.collection_names():
                 self.mark_as_read(readed, feed_id, None)
 
+    def update_feed(self, feed_id, changes):
+        """
+        Update a feed.
+        """
+        collection = self.db[str(feed_id)]
+        collection.update({"type": 0, "feed_id":feed_id}, {"$set": changes}, multi=True)
+
     def list_collections(self):
         """
         List all collections (feed).

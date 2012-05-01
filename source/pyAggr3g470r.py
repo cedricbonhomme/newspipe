@@ -656,18 +656,18 @@ class Root:
         html += '\n\n<form method=post action="/change_feed_name/">' + \
                 '<input type="text" name="new_feed_name" value="" ' + \
                 'placeholder="Enter a new name (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
-                    (feed["feed_link"],)
+                """<input type="hidden" name="feed_id" value="%s" /></form>\n""" % \
+                    (feed["feed_id"],)
         html += '\n\n<form method=post action="/change_feed_url/">' + \
                 '<input type="url" name="new_feed_url" value="" ' + \
                 'placeholder="Enter a new URL in order to retrieve articles (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
-                    (feed["feed_link"],)
+                """<input type="hidden" name="feed_id" value="%s" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
+                    (feed["feed_id"], feed["feed_link"])
         html += '\n\n<form method=post action="/change_feed_logo/">' + \
-                '<input type="url" name="new_feed_logo" value="" ' + \
+                '<input type="text" name="new_feed_logo" value="" ' + \
                 'placeholder="Enter the URL of the logo (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="feed_url" value="%s" /></form>\n""" % \
-                    (feed["feed_link"],)
+                """<input type="hidden" name="feed_id" value="%s" /></form>\n""" % \
+                    (feed["feed_id"],)
 
         dic = {}
         top_words = utils.top_words(articles = self.mongo.get_articles_from_collection(feed_id), n=50, size=int(word_size))
@@ -1101,13 +1101,14 @@ class Root:
 
     remove_feed.exposed = True
 
-    def change_feed_url(self, new_feed_url, old_feed_url):
+    def change_feed_url(self, feed_id, old_feed_url, new_feed_url):
         """
         Enables to change the URL of a feed already present in the database.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
+        self.mongo.update_feed(feed_id, {"feed_link":new_feed_url})
         utils.change_feed_url(old_feed_url, new_feed_url)
         html += "<p>The URL of the feed has been changed.</p>"
         html += "<hr />\n"
@@ -1116,14 +1117,14 @@ class Root:
 
     change_feed_url.exposed = True
 
-    def change_feed_name(self, feed_url, new_feed_name):
+    def change_feed_name(self, feed_id, new_feed_name):
         """
         Enables to change the name of a feed.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        utils.change_feed_name(feed_url, new_feed_name)
+        self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
         html += "<p>The name of the feed has been changed.</p>"
         html += "<hr />\n"
         html += htmlfooter
@@ -1131,14 +1132,14 @@ class Root:
 
     change_feed_name.exposed = True
 
-    def change_feed_logo(self, feed_url, new_feed_logo):
+    def change_feed_logo(self, feed_id, new_feed_logo):
         """
         Enables to change the name of a feed.
         """
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        utils.change_feed_logo(feed_url, new_feed_logo)
+        self.mongo.update_feed(feed_id, {"feed_image":new_feed_logo})
         html += "<p>The logo of the feed has been changed.</p>"
         html += "<hr />\n"
         html += htmlfooter
