@@ -479,20 +479,24 @@ class Root:
             f.save("./var/qrcode/"+article_id+".png")
 
         # Previous and following articles
-        articles_list = articles.distinct("article_id")
+        previous, following = None, None
+        liste = self.mongo.get_articles_from_collection(feed_id)
+        for current_article in self.mongo.get_articles_from_collection(feed_id):
+            articles.next()
+            if current_article["article_id"] == article_id:
+                break
+            following = current_article
+        if following is None:
+            following = liste[liste.count()-1]
         try:
-            following = articles[articles_list.index(article_id) - 1]
-            html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/img/following-article.png" /></a></div>\n""" % \
-                (feed_id, following["article_id"], following["article_title"])
-        except Exception, e:
-            print e
-        try:
-            previous = articles[articles_list.index(article_id) + 1]
-        except:
-            previous = articles[0]
-        finally:
-            html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/img/previous-article.png" /></a></div>\n""" % \
-                (feed_id, previous["article_id"], previous["article_title"])
+            previous = articles.next()
+        except StopIteration:
+            previous = liste[0]
+
+        html += """<div style="float:right;"><a href="/article/%s:%s" title="%s"><img src="/img/following-article.png" /></a></div>\n""" % \
+            (feed_id, following["article_id"], following["article_title"])
+        html += """<div style="float:left;"><a href="/article/%s:%s" title="%s"><img src="/img/previous-article.png" /></a></div>\n""" % \
+            (feed_id, previous["article_id"], previous["article_title"])
 
         html += "\n</div>\n"
 
