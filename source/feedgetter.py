@@ -26,6 +26,7 @@ __revision__ = "$Date: 2012/04/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import hashlib
 import threading
 import feedparser
 from BeautifulSoup import BeautifulSoup
@@ -96,7 +97,9 @@ class FeedGetter(object):
         except:
             feed_image = "/img/feed-icon-28x28.png"
 
-        feed_id = utils.uri_b64encode(feed_link.encode('utf-8'))
+        sha1_hash = hashlib.sha1()
+        sha1_hash.update(feed_link.encode('utf-8'))
+        feed_id = sha1_hash.hexdigest()
 
         collection_dic = {"feed_id": feed_id, \
                             "type": 0, \
@@ -129,7 +132,9 @@ class FeedGetter(object):
             except:
                 post_date = datetime(*article.published_parsed[:6])
 
-            article_id = utils.uri_b64encode(article.link.encode('utf-8'))
+            sha1_hash = hashlib.sha1()
+            sha1_hash.update(article.link.encode('utf-8'))
+            article_id = sha1_hash.hexdigest()
 
             article = {"article_id": article_id, \
                     "type":1, \

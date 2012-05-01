@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import hashlib
 import sqlite3
 
 import mongodb
@@ -34,7 +35,9 @@ def sqlite2mongo():
                         feed[2] + "'").fetchall()
             except:
                 continue
-            feed_id = utils.uri_b64encode(feed[2].encode('utf-8'))
+            sha1_hash = hashlib.sha1()
+            sha1_hash.update(feed[2].encode('utf-8'))
+            feed_id = sha1_hash.hexdigest()
 
             new_collection = {"feed_id" : feed_id.encode('utf-8'), \
                                 "type": 0, \
@@ -50,7 +53,9 @@ def sqlite2mongo():
                 # Walk through the list of articles for the current feed.
                 articles = []
                 for article in list_of_articles:
-                    article_id = utils.uri_b64encode(article[2].encode('utf-8'))
+                    sha1_hash = hashlib.sha1()
+                    sha1_hash.update(article[2].encode('utf-8'))
+                    article_id = sha1_hash.hexdigest()
 
                     article = {"article_id": article_id.encode('utf-8'), \
                                 "type":1, \
