@@ -103,29 +103,30 @@ def export_html(mongo_db):
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index.encode('utf-8'))
 
-def export_txt(feeds):
+def export_txt(mongo_db):
     """
     Export the articles given in parameter in text files.
     """
-    for feed in feeds.values():
+    feeds = mongo_db.get_all_feeds()
+    for feed in feeds:
             # creates folder for each stream
-            folder = utils.path + "/var/export/txt/" + \
-                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
+            folder = conf.path + "/var/export/txt/" + \
+                    utils.normalize_filename(feed["feed_title"].strip().replace(':', '').lower().encode('utf-8'))
             try:
                 os.makedirs(folder)
             except OSError:
                 # directories already exists (not a problem)
                 pass
 
-            for article in feed.articles.values():
-                name = article.article_date.strip().replace(' ', '_')
+            for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
+                name = article["article_date"].ctime().strip().replace(' ', '_')
                 name = os.path.normpath(folder + "/" + name + ".txt")
 
-                content = "Title: " + article.article_title + "\n\n\n"
-                content += utils.clear_string(article.article_description)
+                content = "Title: " + article["article_title"] + "\n\n\n"
+                content += utils.clear_string(article["article_content"])
 
                 with open(name, "w") as f:
-                    f.write(content)
+                    f.write(content.encode('utf-8'))
 
 def export_epub(feeds):
     """
