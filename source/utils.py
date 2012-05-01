@@ -244,8 +244,9 @@ def change_feed_url(old_feed_url, new_feed_url):
     # Replace the URL in the text file
     with open("./var/feed.lst", "r") as f:
         lines = f.readlines()
+    lines = map(str.strip, lines)
     try:
-        lines[lines.index(old_feed_url+"\n")] = new_feed_url + '\n'
+        lines[lines.index(old_feed_url)] = new_feed_url
     except:
         return
     with open("./var/feed.lst", "w") as f:
