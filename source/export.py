@@ -109,49 +109,50 @@ def export_txt(mongo_db):
     """
     feeds = mongo_db.get_all_feeds()
     for feed in feeds:
-            # creates folder for each stream
-            folder = conf.path + "/var/export/txt/" + \
-                    utils.normalize_filename(feed["feed_title"].strip().replace(':', '').lower().encode('utf-8'))
-            try:
-                os.makedirs(folder)
-            except OSError:
-                # directories already exists (not a problem)
-                pass
+        # creates folder for each stream
+        folder = conf.path + "/var/export/txt/" + \
+                utils.normalize_filename(feed["feed_title"].strip().replace(':', '').lower().encode('utf-8'))
+        try:
+            os.makedirs(folder)
+        except OSError:
+            # directories already exists (not a problem)
+            pass
 
-            for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
-                name = article["article_date"].ctime().strip().replace(' ', '_')
-                name = os.path.normpath(folder + "/" + name + ".txt")
+        for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
+            name = article["article_date"].ctime().strip().replace(' ', '_')
+            name = os.path.normpath(folder + "/" + name + ".txt")
 
-                content = "Title: " + article["article_title"] + "\n\n\n"
-                content += utils.clear_string(article["article_content"])
+            content = "Title: " + article["article_title"] + "\n\n\n"
+            content += utils.clear_string(article["article_content"])
 
-                with open(name, "w") as f:
-                    f.write(content.encode('utf-8'))
+            with open(name, "w") as f:
+                f.write(content.encode('utf-8'))
 
-def export_epub(feeds):
+def export_epub(mongo_db):
     """
     Export the articles given in parameter in ePub files.
     """
     from epub import ez_epub
-    for feed in feeds.values():
-            # creates folder for each stream
-            folder = utils.path + "/var/export/epub/" + \
-                    utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
-            try:
-                os.makedirs(folder)
-            except OSError:
-                # directories already exists (not a problem)
-                pass
+    feeds = mongo_db.get_all_feeds()
+    for feed in feeds:
+        # creates folder for each stream
+        folder = conf.path + "/var/export/epub/" + \
+                utils.normalize_filename(feed["feed_title"].strip().replace(':', '').lower().encode('utf-8'))
+        try:
+            os.makedirs(folder)
+        except OSError:
+            # directories already exists (not a problem)
+            pass
 
-            for article in feed.articles.values():
-                name = article.article_date.strip().replace(' ', '_')
-                name = os.path.normpath(folder + "/" + name + ".epub")
+        for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
+            name = article["article_date"].ctime().strip().replace(' ', '_')
+            name = os.path.normpath(folder + "/" + name + ".epub")
 
-                section = ez_epub.Section()
-                section.title = article.article_title.decode('utf-8')
-                section.paragraphs = [utils.clear_string(article.article_description).decode('utf-8')]
-                ez_epub.makeBook(article.article_title.decode('utf-8'), [feed.feed_title.decode('utf-8')], [section], \
-                                    name, lang='en-US', cover=None)
+            section = ez_epub.Section()
+            section.title = article["article_title"]
+            section.paragraphs = [utils.clear_string(article["article_content"])]
+            ez_epub.makeBook(article["article_title"], [feed["feed_title"]], [section], \
+                                name, lang='en-US', cover=None)
 
 def export_pdf(feeds):
     """

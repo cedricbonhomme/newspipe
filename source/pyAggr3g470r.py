@@ -1218,8 +1218,6 @@ class Root:
 
 if __name__ == '__main__':
     # Point of entry in execution mode
-    print "Launching pyAggr3g470r..."
-
     root = Root()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
