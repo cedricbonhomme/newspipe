@@ -565,6 +565,7 @@ class Root:
             articles = self.mongo.get_articles_from_collection(feed_id)
             nb_articles_feed = self.mongo.nb_articles(feed_id)
             nb_articles_total = self.mongo.nb_articles()
+            nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
@@ -574,8 +575,8 @@ class Root:
         html += "Representing " + str((round(float(nb_articles_feed) / nb_articles_total, 4)) * 100) + " percent of the total "
         html += "(" + str(nb_articles_total) + ").</p>"
         if articles != []:
-            html += "<p>" + (self.mongo.nb_unread_articles(feed_id) == 0 and ["All articles are read"] or [str(self.mongo.nb_unread_articles(feed_id)) + \
-                    " unread article" + (self.mongo.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
+            html += "<p>" + (nb_unread_articles_feed == 0 and ["All articles are read"] or [str(nb_unread_articles_feed) + \
+                    " unread article" + (nb_unread_articles_feed == 1 and [""] or ["s"])[0]])[0] + ".</p>"
         if feed["mail"] == True:
                 html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
                         (conf.mail_to, conf.mail_to)
@@ -589,9 +590,9 @@ class Root:
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
             html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
             if delta.days > 0:
-                html += """<p>Daily average: %s,""" % (str(round(float(nb_articles_feed)/abs(delta.days), 2)),)
+                html += """<p>Daily average: %s,""" % (str(round(float(nb_articles_feed) / abs(delta.days), 2)),)
                 html += """ between the %s and the %s.</p>\n""" % \
-	              (str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
+	              (str(articles[nb_articles_feed-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
 
         html += "<br /><h1>Recent articles</h1>"
         for article in articles[:10]:
