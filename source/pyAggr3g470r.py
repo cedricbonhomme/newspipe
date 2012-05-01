@@ -1171,9 +1171,11 @@ class Root:
         Export articles currently loaded from the MongoDB database with
         the appropriate function of the 'export' module.
         """
+        getattr(export, export_method)(self.mongo)
         try:
-            getattr(export, export_method)(self.mongo.get_all_articles())
+            getattr(export, export_method)(self.mongo)
         except Exception, e:
+            print e
             return self.error_page(e)
         return self.management()
 

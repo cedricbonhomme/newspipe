@@ -37,8 +37,8 @@ __license__ = "GPLv3"
 import os
 import hashlib
 
+import conf
 import utils
-
 
 htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
         '<head>' + \
@@ -52,60 +52,56 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
 
-
-
-def export_html(feeds):
+def export_html(mongo_db):
     """
     Export the articles given in parameter in a simple Webzine.
     """
+    feeds = mongo_db.get_all_feeds()
     index = htmlheader
     index += "<br />\n<ul>"
-    for feed in feeds.values():
+    for feed in feeds:
         # creates a folder for each stream
-        feed_folder = utils.path + "/var/export/webzine/" + \
-                utils.normalize_filename(feed.feed_id)
+        feed_folder = conf.path + "/var/export/webzine/" + \
+                utils.normalize_filename(feed["feed_id"])
         try:
             os.makedirs(feed_folder)
         except OSError:
             # directories already exists (not a problem)
             pass
 
-
         index += """<li><a href="%s">%s</a></a></li>\n""" % \
-                        (feed.feed_id, feed.feed_title)
+                        (feed["feed_id"], feed["feed_title"])
 
         posts = htmlheader
-        for article in feed.articles.values():
+        for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
 
-            post_file_name = os.path.normpath(feed_folder + "/" + article.article_id + ".html")
+            post_file_name = os.path.normpath(feed_folder + "/" + article["article_id"] + ".html")
             feed_index = os.path.normpath(feed_folder + "/index.html")
 
-            posts += article.article_date + " - " + \
+            posts += article["article_date"].ctime() + " - " + \
                     """<a href="./%s.html">%s</a>""" % \
-                            (article.article_id, article.article_title[:150]) + "<br />\n"
-
+                            (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
             a_post = htmlheader
             a_post += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1><br />""" % \
-                        (article.article_link, article.article_title)
-            a_post += article.article_description
+                        (article["article_link"], article["article_title"])
+            a_post += article["article_content"]
             a_post += "</div>\n<hr />\n"
-            a_post += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article.article_link,)
+            a_post += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article["article_link"],)
             a_post += "<hr />\n" + htmlfooter
 
-
             with open(post_file_name, "w") as f:
-                f.write(a_post)
+                f.write(a_post.encode('utf-8'))
 
         posts +=  htmlfooter
         with open(feed_index, "w") as f:
-            f.write(posts)
+            f.write(posts.encode('utf-8'))
 
     index += "\n</ul>\n<br />"
     index += htmlfooter
-    with open(utils.path + "/var/export/webzine/" + "index.html", "w") as f:
-        f.write(index)
+    with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
+        f.write(index.encode('utf-8'))
 
 def export_txt(feeds):
     """
