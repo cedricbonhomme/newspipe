@@ -563,14 +563,16 @@ class Root:
         try:
             feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
+            nb_articles_feed = self.mongo.nb_articles(feed_id)
+            nb_articles_total = self.mongo.nb_articles()
         except KeyError:
             return self.error_page("This feed do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
-        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(self.mongo.nb_articles(feed_id)) + "</b> articles. "
-        html += "Representing " + str((round(float(self.mongo.nb_articles(feed_id)) / 1000, 4)) * 100) + " % of the total " #hack
-        html += "(" + str(1000) + ").</p>"
+        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(nb_articles_feed) + "</b> articles. "
+        html += "Representing " + str((round(float(nb_articles_feed) / nb_articles_total, 4)) * 100) + " percent of the total "
+        html += "(" + str(nb_articles_total) + ").</p>"
         if articles != []:
             html += "<p>" + (self.mongo.nb_unread_articles(feed_id) == 0 and ["All articles are read"] or [str(self.mongo.nb_unread_articles(feed_id)) + \
                     " unread article" + (self.mongo.nb_unread_articles(feed_id) == 1 and [""] or ["s"])[0]])[0] + ".</p>"
@@ -587,7 +589,7 @@ class Root:
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
             html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
             if delta.days > 0:
-                html += """<p>Daily average: %s,""" % (str(round(float(self.mongo.nb_articles(feed_id))/abs(delta.days), 2)),)
+                html += """<p>Daily average: %s,""" % (str(round(float(nb_articles_feed)/abs(delta.days), 2)),)
                 html += """ between the %s and the %s.</p>\n""" % \
 	              (str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
 

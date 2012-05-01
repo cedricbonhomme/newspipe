@@ -110,7 +110,8 @@ class Articles(object):
 
     def nb_articles(self, feed_id=None):
         """
-        Return the number of users.
+        Return the number of articles of a feed
+        or of all the database.
         """
         if feed_id is not None:
             collection = self.db[feed_id]
@@ -124,7 +125,8 @@ class Articles(object):
 
     def nb_favorites(self, feed_id=None):
         """
-        Return the number of favorites articles.
+        Return the number of favorites articles of a feed
+        or of all the database.
         """
         if feed_id is not None:
             # only for a feed
@@ -150,6 +152,10 @@ class Articles(object):
         return nb_mail_notifications
 
     def nb_unread_articles(self, feed_id=None):
+        """
+        Return the number of unread articles of a feed
+        or of all the database.
+        """
         if feed_id is not None:
             collection = self.db[feed_id]
             cursor = collection.find({'article_readed':False})
