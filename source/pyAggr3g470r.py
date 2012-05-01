@@ -206,7 +206,6 @@ class Root:
 
     index.exposed = True
 
-
     def create_right_menu(self):
         """
         Create the right menu.
@@ -236,7 +235,6 @@ class Root:
                             (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
                             self.mongo.nb_unread_articles(feed["feed_id"]), not_read_end, self.mongo.nb_articles(feed["feed_id"]))
         return html + "</div>"
-
 
     def management(self):
         """
@@ -297,7 +295,6 @@ class Root:
 
     management.exposed = True
 
-
     def statistics(self, word_size=6):
         """
         More advanced statistics.
@@ -325,7 +322,6 @@ class Root:
         return html
 
     statistics.exposed = True
-
 
     def search(self, query=None):
         """
@@ -403,7 +399,6 @@ class Root:
 
     search.exposed = True
 
-
     def fetch(self):
         """
         Fetch all feeds.
@@ -413,7 +408,6 @@ class Root:
         return self.index()
 
     fetch.exposed = True
-
 
     def article(self, param):
         """
@@ -560,7 +554,6 @@ class Root:
 
     article.exposed = True
 
-
     def feed(self, feed_id, word_size=6):
         """
         This page gives summary informations about a feed (number of articles,
@@ -691,7 +684,6 @@ class Root:
 
     feed.exposed = True
 
-
     def articles(self, feed_id):
         """
         This page displays all articles of a feed.
@@ -744,7 +736,6 @@ class Root:
         return html
 
     articles.exposed = True
-
 
     def unread(self, feed_id=""):
         """
@@ -824,7 +815,6 @@ class Root:
         return html
 
     unread.exposed = True
-
 
     def history(self, query="all", m=""):
         """
@@ -915,7 +905,6 @@ class Root:
 
     history.exposed = True
 
-
     def plain_text(self, target):
         """
         Display an article in plain text (without HTML tags).
@@ -941,7 +930,6 @@ class Root:
 
     plain_text.exposed = True
 
-
     def error_page(self, message):
         """
         Display a message (bad feed id, bad article id, etc.)
@@ -954,7 +942,6 @@ class Root:
         return html
 
     error_page.exposed = True
-
 
     def mark_as_read(self, target=""):
         """
@@ -979,7 +966,6 @@ class Root:
 
     mark_as_read.exposed = True
 
-
     def notifications(self):
         """
         List all active e-mail notifications.
@@ -1002,7 +988,6 @@ class Root:
 
     notifications.exposed = True
 
-
     def mail_notification(self, param):
         """
         Enable or disable to notifications of news for a feed.
@@ -1015,7 +1000,6 @@ class Root:
         return self.index()
 
     mail_notification.exposed = True
-
 
     def like(self, param):
         """
@@ -1030,7 +1014,6 @@ class Root:
         return self.article(feed_id+":"+article_id)
 
     like.exposed = True
-
 
     def favorites(self):
         """
@@ -1068,7 +1051,6 @@ class Root:
 
     favorites.exposed = True
 
-
     def add_feed(self, url):
         """
         Add a new feed with the URL of a page.
@@ -1095,7 +1077,6 @@ class Root:
 
     add_feed.exposed = True
 
-
     def remove_feed(self, feed_id):
         """
         Remove a feed from the file feed.lst and from the MongoDB database.
@@ -1116,7 +1097,6 @@ class Root:
         return html
 
     remove_feed.exposed = True
-
 
     def change_feed_url(self, new_feed_url, old_feed_url):
         """
@@ -1177,7 +1157,6 @@ class Root:
 
     delete_article.exposed = True
 
-
     def drop_base(self):
         """
         Delete all articles.
@@ -1186,7 +1165,6 @@ class Root:
         return self.index()
 
     drop_base.exposed = True
-
 
     def export(self, export_method):
         """
@@ -1200,7 +1178,6 @@ class Root:
         return self.management()
 
     export.exposed = True
-
 
     def epub(self, param):
         """
