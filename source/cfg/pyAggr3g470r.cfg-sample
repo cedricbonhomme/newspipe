@@ -1,8 +1,6 @@
 [MongoDB]
-address = 127.0.0.1
+address = mongodb://username:password@127.0.0.1:27017
 port = 27017
-user = username
-password = pwd
 [mail]
 mail_from = pyAggr3g470r@no-reply.com
 mail_to = address_of_the_recipient@example.com
