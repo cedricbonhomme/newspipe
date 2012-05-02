@@ -50,7 +50,7 @@ class FeedGetter(object):
         Initializes the base and variables.
         """
         # MongoDB connections
-        self.articles = mongodb.Articles()
+        self.articles = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT)
 
     def retrieve_feed(self):
         """

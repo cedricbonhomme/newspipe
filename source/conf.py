@@ -39,8 +39,8 @@ path = os.path.abspath(".")
 
 MONGODB_ADDRESS = config.get('MongoDB', 'address')
 MONGODB_PORT = int(config.get('MongoDB', 'port'))
-MONGODB_USER = config.get('MongoDB', 'user')
-MONGODB_PASSWORD = config.get('MongoDB', 'password')
+#MONGODB_USER = config.get('MongoDB', 'user')
+#MONGODB_PASSWORD = config.get('MongoDB', 'password')
 
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')
