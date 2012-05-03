@@ -1,6 +1,9 @@
 [MongoDB]
-address = mongodb://username:password@127.0.0.1:27017
+address = mongodb.alwaysdata.com
 port = 27017
+dbname = bob_pyaggr3g470r
+user = bob
+password = password_of_bob
 [mail]
 mail_from = pyAggr3g470r@no-reply.com
 mail_to = address_of_the_recipient@example.com

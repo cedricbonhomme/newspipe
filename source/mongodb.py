@@ -15,12 +15,14 @@ from operator import itemgetter, attrgetter
 class Articles(object):
     """
     """
-    def __init__(self, url='localhost', port=27017):
+    def __init__(self, url='localhost', port=27017, db_name="pyaggr3g470r", user="", password=""):
         """
         Instantiates the connection.
         """
         self.connection = pymongo.connection.Connection(url, port)
-        self.db = self.connection.pyaggr3g470r
+        self.db = pymongo.database.Database(self.connection, db_name)
+        self.db.authenticate(user, password)
+        self.db = self.connection[db_name]
 
     def add_collection(self, new_collection):
         """

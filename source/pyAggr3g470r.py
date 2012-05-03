@@ -109,7 +109,8 @@ class Root:
     def __init__(self):
         """
         """
-        self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT)
+        self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
+                        conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
 
     def index(self):
         """
