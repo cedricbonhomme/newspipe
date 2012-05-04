@@ -22,7 +22,6 @@ class Articles(object):
         self.connection = pymongo.connection.Connection(url, port)
         self.db = pymongo.database.Database(self.connection, db_name)
         self.db.authenticate(user, password)
-        self.db = self.connection[db_name]
 
     def add_collection(self, new_collection):
         """
