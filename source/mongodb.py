@@ -56,7 +56,7 @@ class Articles(object):
         Delete an article.
         """
         collection = self.db[str(feed_id)]
-        collection.find_and_modify(query={"article_id":article_id}, remove=True)
+        collection.remove(spec_or_id={"article_id":article_id}, safe=True)
 
     def get_feed(self, feed_id):
         """
