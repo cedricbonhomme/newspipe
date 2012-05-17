@@ -98,15 +98,15 @@ class Articles(object):
         collection = self.db[str(feed_id)]
         return collection.find({"article_id":article_id}).next()
 
-    def get_articles_from_collection(self, feed_id, condition=None):
+    def get_articles_from_collection(self, feed_id, condition=None, limit=1000000000):
         """
         Return all the articles of a collection.
         """
         collection = self.db[str(feed_id)]
         if condition is None:
-            cursor = collection.find({"type":1})
+            cursor = collection.find({"type":1}, limit=limit)
         else:
-            cursor = collection.find({"type":1, condition[0]:condition[1]})
+            cursor = collection.find({"type":1, condition[0]:condition[1]}, limit=limit)
         return cursor.sort([("article_date", pymongo.DESCENDING)])
 
     def nb_articles(self, feed_id=None):
@@ -124,6 +124,16 @@ class Articles(object):
                nb_articles += self.nb_articles(feed_id)
             return nb_articles
 
+    def get_favorites(self, feed_id=None):
+        """
+        Return favorites articles.
+        """
+        if feed_id is not None:
+            # only for a feed
+            collection = self.db[feed_id]
+            cursor = collection.find({'type':1, 'article_like':True})
+            return cursor
+            
     def nb_favorites(self, feed_id=None):
         """
         Return the number of favorites articles of a feed
