@@ -30,7 +30,7 @@ __license__ = "GPLv3"
 import os
 import ConfigParser
 # load the configuration
-config = ConfigParser.RawConfigParser()
+config = ConfigParser.SafeConfigParser()
 try:
     config.read("./cfg/pyAggr3g470r.cfg")
 except:
