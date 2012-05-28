@@ -464,12 +464,10 @@ class Root:
         if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
             # QR Code generation
             try:
-                if len(utils.clear_string(description)) > 4296:
-                    raise Exception()
-                f = qr.QRUrl(url = utils.clear_string(description))
+                f = qr.QRUrl(url = article["article_link"])
                 f.make()
             except:
-                f = qr.QRUrl(url = article["article_link"])
+                f = qr.QRUrl(url = "URL too long.")
                 f.make()
             f.save("./var/qrcode/"+article_id+".png")
 
