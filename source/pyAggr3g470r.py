@@ -179,8 +179,8 @@ class Root:
                     description = "No description."
                 # Title of the article
                 article_title = article["article_title"]
-                if len(article_title) >= 110:
-                    article_title = article_title[:110] + " ..."
+                if len(article_title) >= 80:
+                    article_title = article_title[:80] + " ..."
 
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
@@ -615,8 +615,8 @@ class Root:
                 description = "No description."
             # Title of the article
             article_title = article["article_title"]
-            if len(article_title) >= 110:
-                article_title = article_title[:110] + " ..."
+            if len(article_title) >= 80:
+                article_title = article_title[:80] + " ..."
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
@@ -877,8 +877,8 @@ class Root:
                                     description = "No description."
                                 # Title of the article
                                 article_title = article["article_title"]
-                                if len(article_title) >= 110:
-                                    article_title = article_title[:110] + " ..."
+                                if len(article_title) >= 80:
+                                    article_title = article_title[:80] + " ..."
 
                                 if new_feed_section is True:
                                     new_feed_section = False
