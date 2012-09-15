@@ -85,6 +85,16 @@ Then, indicate the feeds to retrieve in the file ./var/feed.lst. One feed per li
 
 
 
+Launch
+------
+
+Finally launch pyAggr3g470r in a shell:
+
+.. code-block:: bash
+
+    cd /home/cedric/pyaggr3g470r/
+    pyAggr3g470r start
+
 
 
 Backup
