@@ -30,11 +30,12 @@ Features
 * generation of QR code with the content or URL of an article. So you can read an article later on your smartphone (or share with friends).
 
 
-
+Installation
+------------
 Requierements
--------------
+~~~~~~~~~~~~~
 Software required
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 * Python_ 2.7.*;
 * MongoDB_ and PyMongo_;
@@ -44,7 +45,7 @@ Software required
 
 
 Optional module
-~~~~~~~~~~~~~~~
+```````````````
 
 These modules are not required but enables more features:
 * lxml and Genshi;
@@ -56,6 +57,34 @@ If you want to install these modules:
 .. code-block:: bash
 
     $ sudo aptitude install  python-lxml python-genshi
+
+
+Setting
+~~~~~~~
+
+Rename the file **./cfg/pyAggr3g470r.cfg-sample** to **./cfg/pyAggr3g470r.cfg**.
+By default you don't have to edit this file (only to configure mail notification).
+
+Then, indicate the feeds to retrieve in the file ./var/feed.lst. One feed per line. For example :
+
+.. code-block:: cfg
+
+    http://blog.cedricbonhomme.org/feed/
+    http://linuxfr.org/backend/news-homepage/rss20.rss
+    http://rss.slashdot.org/Slashdot/slashdot
+    http://theinvisiblethings.blogspot.com/feeds/posts/default
+    http://torvalds-family.blogspot.com/feeds/posts/default
+    http://www.python.org/channews.rdf
+    http://www.kde.org/dotkdeorg.rdf
+    http://feeds.feedburner.com/internetactu/bcmJ
+    http://www.april.org/fr/rss.xml
+    http://www.framablog.org/index.php/feed/atom
+    http://formats-ouverts.org/rss.php
+    http://lwn.net/headlines/newrss
+    http://kernelnewbies.org/RecentChanges?action=rss_rc&ddiffs=1&unique=1
+
+
+
 
 
 Backup
