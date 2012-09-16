@@ -65,7 +65,7 @@ Setting
 Rename the file **./cfg/pyAggr3g470r.cfg-sample** to **./cfg/pyAggr3g470r.cfg**.
 By default you don't have to edit this file (only to configure mail notification).
 
-Then, indicate the feeds to retrieve in the file ./var/feed.lst. One feed per line. For example :
+Then, indicate the feeds to retrieve in the file **./var/feed.lst**. One feed per line. For example :
 
 .. code-block:: cfg
 
@@ -92,8 +92,8 @@ Finally launch pyAggr3g470r in a shell:
 
 .. code-block:: bash
 
-    cd /home/cedric/pyaggr3g470r/
-    pyAggr3g470r start
+    $ cd /home/cedric/pyaggr3g470r/
+    $ pyAggr3g470r start
 
 
 
@@ -118,12 +118,15 @@ Thank you!
 
 
 License
-------------
+-------
 pyAggr3g470r_ is under GPLv3_ license.
 
 
 
+Contact
+-------
 
+`My home page <http://cedricbonhomme.org/>`_.
 
 
 
@@ -135,14 +138,3 @@ pyAggr3g470r_ is under GPLv3_ license.
 .. _CherryPy: http://cherrypy.org/
 .. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
 .. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
-
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
