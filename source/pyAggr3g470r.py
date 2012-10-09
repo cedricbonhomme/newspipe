@@ -308,13 +308,12 @@ class Root:
         # Some statistics (most frequent word)
         if articles:
             top_words = utils.top_words(articles, n=50, size=int(word_size))
-            html += "<h1>Statistics</h1>\n<br />\n"
+            html += "<h1>Statistics</h1>\n"
+            html += "<h3>Tag cloud</h3>\n"
             # Tags cloud
-            html += 'Minimum size of a word:'
-            html += '<form method=get action="/statistics/">'
-            html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size)
-            html += '<input type="submit" value="OK"></form>\n'
-            html += '<br /><h3>Tag cloud</h3>\n'
+            html += '<form method=get action="/statistics/">\n'
+            html += "Minimum size of a word:\n"
+            html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2"></form>\n""" % (word_size)
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud(top_words) + '</div>'
             html += "<hr />\n"
