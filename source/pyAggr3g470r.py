@@ -702,7 +702,7 @@ class Root:
         html += "<hr />\n"
         html += self.create_list_of_feeds()
         html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i>%s</i></h1><br />""" % (feed["feed_title"],)
+        html += """<h1>Articles of the feed <i><a href="/feed/%s">%s</a></i></h1><br />""" % (feed_id, feed["feed_title"])
 
         for article in articles:
 
