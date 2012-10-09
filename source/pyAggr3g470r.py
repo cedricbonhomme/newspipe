@@ -624,8 +624,8 @@ class Root:
                     """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                             (feed["feed_id"], article["article_id"], not_read_begin, \
                             article_title, not_read_end, description) + like + "<br />\n"
+        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;\n""" % (feed["feed_id"],)
         html += "<br />\n"
-        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
 
 
         if self.mongo.nb_favorites(feed_id) != 0:
@@ -669,12 +669,11 @@ class Root:
 
         dic = {}
         top_words = utils.top_words(articles = self.mongo.get_articles_from_collection(feed_id), n=50, size=int(word_size))
-        html += "</br /><h1>Tag cloud</h1>\n<br />\n"
+        html += "</br />\n<h1>Tag cloud</h1>\n"
         # Tags cloud
-        html += 'Minimum size of a word:'
-        html += """<form method=get action="/feed/%s">""" % (feed["feed_id"],)
-        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2">""" % (word_size,)
-        html += '<input type="submit" value="OK"></form>\n'
+        html += """<form method=get action="/feed/%s">\n""" % (feed["feed_id"],)
+        html += "Minimum size of a word:\n"
+        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2"></form>\n""" % (word_size,)
         html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                     utils.tag_cloud(top_words) + '</div>'
 
