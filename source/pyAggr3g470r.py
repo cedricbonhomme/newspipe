@@ -389,7 +389,7 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article["article_date"].ctime() + " - " + \
+                        html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                                 """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                         (feed["feed_id"], article["article_id"], not_read_begin, \
                                         article["article_title"][:150], not_read_end, description) + like + "<br />\n"
@@ -619,7 +619,7 @@ class Root:
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
-            html += article["article_date"].ctime() + " - " + \
+            html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                     """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                             (feed["feed_id"], article["article_id"], not_read_begin, \
                             article_title, not_read_end, description) + like + "<br />\n"
@@ -639,7 +639,7 @@ class Root:
 
                 # a description line per article (date, title of the article and
                 # CSS description tooltips on mouse over)
-                html += article["article_date"].ctime() + " - " + \
+                html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                 (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
@@ -724,7 +724,7 @@ class Root:
 
             # a description line per article (date, title of the article and
             # CSS description tooltips on mouse over)
-            html += article["article_date"].ctime() + " - " + \
+            html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                     """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                             (feed_id, article["article_id"], not_read_begin, \
                             article["article_title"][:150], not_read_end, description) + like + "<br />\n"
@@ -771,7 +771,7 @@ class Root:
 
                         # a description line per article (date, title of the article and
                         # CSS description tooltips on mouse over)
-                        html += article["article_date"].ctime() + " - " + \
+                        html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                                 """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                         (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
@@ -800,7 +800,7 @@ class Root:
 
                     # a description line per article (date, title of the article and
                     # CSS description tooltips on mouse over)
-                    html += article["article_date"].ctime() + " - " + \
+                    html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                     (feed_id, article["article_id"], article["article_title"][:150], description)
 
@@ -1041,7 +1041,7 @@ class Root:
 
                     # a description line per article (date, title of the article and
                     # CSS description tooltips on mouse over)
-                    html += article["article_date"].ctime() + " - " + \
+                    html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
                             """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
                                     (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
         html += "<hr />\n"
