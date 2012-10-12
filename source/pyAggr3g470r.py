@@ -82,7 +82,7 @@ def htmlheader(nb_unread_articles=""):
     Return the header of the HTML page with the number of unread articles
     in the 'title' HTML tag..
     """
-    return '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
+    return '<!DOCTYPE html>\n' + \
         '<head>' + \
         '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - News aggregator</title>\n' + \
         '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \

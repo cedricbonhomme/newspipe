@@ -147,7 +147,7 @@ class AuthController(object):
         Login page.
         """
         msg = ""
-        return """<html>
+        return """<!DOCTYPE html>\n<html>
     <head>
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
     </head>
