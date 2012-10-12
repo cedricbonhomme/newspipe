@@ -149,19 +149,22 @@ class AuthController(object):
         msg = ""
         return """<!DOCTYPE html>\n<html>
     <head>
+        <title>pyAggr3g470r - News aggregator</title>
         <link rel="stylesheet" type="text/css" href="/css/log.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body>
-        <img src="/img/tuxrss.png" alt="pyAggr3g470r" />
-        <div id="center">
-        <div id="main">
-        <form method="post" action="/auth/login">
-            <input type="hidden" name="from_page" value="%(from_page)s" />
-            %(msg)s<br />
-            <input type="text" name="username" value="%(username)s" placeholder="Username" /><br />
-            <input type="password" name="password" placeholder="Password" /><br />
-            <input type="submit" value="Log in" />
-        </div><!-- end #main -->
+        <div>
+            <div id="logform">
+                <img src="/img/tuxrss.png" alt="pyAggr3g470r" />
+                <form method="post" action="/auth/login">
+                    <input type="hidden" name="from_page" value="%(from_page)s" />
+                    %(msg)s<br />
+                    <input type="text" name="username" value="%(username)s" placeholder="Username" /><br />
+                    <input type="password" name="password" placeholder="Password" /><br />
+                    <input type="submit" value="Log in" />
+                </form>
+            </div><!-- end #main -->
         </div><!-- end #center -->
     </body>
 </html>""" % locals()
