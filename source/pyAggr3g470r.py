@@ -51,6 +51,7 @@ import utils
 import export
 import mongodb
 import feedgetter
+from auth import AuthController, require, member_of, name_is
 from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
 from qrcode import qr
 
@@ -100,18 +101,37 @@ htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/img/t
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
         'pyAggr3g470r (source code)</a>'
 
+class RestrictedArea:
+
+    # all methods in this controller (and subcontrollers) is
+    # open only to members of the admin group
+
+    _cp_config = {
+        'auth.require': [member_of('admin')]
+    }
+
+    @cherrypy.expose
+    def index(self):
+        return """This is the admin only area."""
 
 class Root:
     """
     Root class.
     All pages of pyAggr3g470r are described in this class.
     """
+    _cp_config = {'request.error_response': handle_error, \
+                    'tools.sessions.on': True, \
+                    'tools.auth.on': True}
+
     def __init__(self):
         """
         """
+        self.auth = AuthController()
+        restricted = RestrictedArea()
+
         self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
                         conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
-
+    @require()
     def index(self):
         """
         Main page containing the list of feeds and articles.
@@ -220,6 +240,7 @@ class Root:
 
         return html
 
+    @require()
     def create_list_of_feeds(self):
         """
         Create the list of feeds.
@@ -237,6 +258,7 @@ class Root:
                             self.mongo.nb_unread_articles(feed["feed_id"]), not_read_end, self.mongo.nb_articles(feed["feed_id"]))
         return html + "</div>"
 
+    @require()
     def management(self):
         """
         Management page.
@@ -248,7 +270,7 @@ class Root:
         nb_favorites = self.mongo.nb_favorites()
         nb_articles = self.mongo.nb_articles()
         nb_unread_articles = self.mongo.nb_unread_articles()
-        
+
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">\n"""
@@ -1000,6 +1022,7 @@ class Root:
 
     mail_notification.exposed = True
 
+    @require()
     def like(self, param):
         """
         Mark or unmark an article as favorites.
@@ -1014,6 +1037,7 @@ class Root:
 
     like.exposed = True
 
+    @require()
     def favorites(self):
         """
         List of favorites articles
@@ -1050,6 +1074,7 @@ class Root:
 
     favorites.exposed = True
 
+    @require()
     def add_feed(self, url):
         """
         Add a new feed with the URL of a page.
@@ -1076,6 +1101,7 @@ class Root:
 
     add_feed.exposed = True
 
+    @require()
     def remove_feed(self, feed_id):
         """
         Remove a feed from the file feed.lst and from the MongoDB database.
@@ -1097,6 +1123,7 @@ class Root:
 
     remove_feed.exposed = True
 
+    @require()
     def change_feed_url(self, feed_id, old_feed_url, new_feed_url):
         """
         Enables to change the URL of a feed already present in the database.
@@ -1113,6 +1140,7 @@ class Root:
 
     change_feed_url.exposed = True
 
+    @require()
     def change_feed_name(self, feed_id, new_feed_name):
         """
         Enables to change the name of a feed.
@@ -1128,6 +1156,7 @@ class Root:
 
     change_feed_name.exposed = True
 
+    @require()
     def change_feed_logo(self, feed_id, new_feed_logo):
         """
         Enables to change the name of a feed.
@@ -1143,6 +1172,7 @@ class Root:
 
     change_feed_logo.exposed = True
 
+    @require()
     def delete_article(self, param):
         """
         Delete an article.
@@ -1157,6 +1187,7 @@ class Root:
 
     delete_article.exposed = True
 
+    @require()
     def drop_base(self):
         """
         Delete all articles.
@@ -1166,6 +1197,7 @@ class Root:
 
     drop_base.exposed = True
 
+    @require()
     def export(self, export_method):
         """
         Export articles currently loaded from the MongoDB database with
@@ -1181,6 +1213,7 @@ class Root:
 
     export.exposed = True
 
+    @require()
     def epub(self, param):
         """
         Export an article to EPUB.
@@ -1222,6 +1255,5 @@ if __name__ == '__main__':
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
     cherrypy.config.update({'error_page.404': error_page_404})
-    _cp_config = {'request.error_response': handle_error}
 
     cherrypy.quickstart(root, "/" ,config=conf.path + "/cfg/cherrypy.cfg")
