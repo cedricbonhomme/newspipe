@@ -149,7 +149,7 @@ class AuthController(object):
         msg = ""
         return """<!DOCTYPE html>\n<html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="/css/log.css" />
     </head>
     <body>
         <img src="/img/tuxrss.png" alt="pyAggr3g470r" />
