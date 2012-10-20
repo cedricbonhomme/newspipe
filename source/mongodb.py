@@ -55,8 +55,11 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
 
-        collection.create_index([("article_date", pymongo.DESCENDING)], \
+        try:
+            collection.create_index([("article_date", pymongo.DESCENDING)], \
                                         {"unique":False, "sparse":False})
+        except:
+            print "Oups"
 
         for article in articles:
             cursor = collection.find({"article_id":article["article_id"]})
