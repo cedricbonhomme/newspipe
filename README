@@ -59,6 +59,8 @@ These modules are not required but enables more features:
 
 If you want to install these modules:
 
+.. code-block:: bash
+
     $ sudo aptitude install  python-lxml python-genshi
 
 
@@ -66,6 +68,8 @@ Backup
 ------
 
 If you want to backup your database:
+
+.. code-block:: bash
 
     $ su
     $ /etc/init.d/mongodb stop
