@@ -19,7 +19,7 @@ based on CherryPy_. Articles are stored in a MongoDB_ base.
 
 
 Features
-------------
+--------
 
 * articles are stored in a MongoDB_ database;
 * find an article with history;
