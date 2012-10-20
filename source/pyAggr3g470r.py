@@ -114,7 +114,7 @@ class RestrictedArea:
     def index(self):
         return """This is the admin only area."""
 
-class Root:
+class pyAggr3g470r(object):
     """
     Root class.
     All pages of pyAggr3g470r are described in this class.
@@ -1251,7 +1251,7 @@ class Root:
 
 if __name__ == '__main__':
     # Point of entry in execution mode
-    root = Root()
+    root = pyAggr3g470r()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
     cherrypy.config.update({'error_page.404': error_page_404})
