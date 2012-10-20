@@ -24,8 +24,9 @@ Features
 
 Requierements
 -------------
+
 Software required
-~~~~~~~~~~~~~~~~~
+
 * Python_ 2.7.*;
 * MongoDB_ and PyMongo_;
 * feedparser_;
@@ -35,6 +36,7 @@ Software required
 
 Optional module
 ~~~~~~~~~~~~~~~
+
 These modules are not required but enables more features:
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
