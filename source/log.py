@@ -28,9 +28,11 @@ __license__ = "GPLv3"
 
 class Log(object):
     """
+    Log events. Especially events relative to authentication.
     """
     def __init__(self):
         """
+        Initialization of the logger.
         """
         import logging
         self.logger = logging.getLogger("pyaggr3g470r")
@@ -41,13 +43,25 @@ class Log(object):
         self.logger.setLevel(logging.INFO)
 
     def info(self, message):
+        """
+        Log notices.
+        """
         self.logger.info(message)
 
     def warning(self, message):
+        """
+        Log warnings.
+        """
         self.logger.warning(message)
 
     def error(self, message):
+        """
+        Log errors.
+        """
         self.logger.warning(message)
 
     def critical(self, message):
+        """
+        Log critical errors.
+        """
         self.logger.critical(message)

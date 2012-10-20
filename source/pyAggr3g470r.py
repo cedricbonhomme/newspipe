@@ -101,11 +101,11 @@ htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/img/t
         ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
         'pyAggr3g470r (source code)</a>'
 
-class RestrictedArea:
-
-    # all methods in this controller (and subcontrollers) is
-    # open only to members of the admin group
-
+class RestrictedArea(object):
+    """
+    All methods in this controller (and subcontrollers) is
+    open only to members of the admin group
+    """
     _cp_config = {
         'auth.require': [member_of('admin')]
     }
@@ -116,7 +116,7 @@ class RestrictedArea:
 
 class pyAggr3g470r(object):
     """
-    Root class.
+    Main class.
     All pages of pyAggr3g470r are described in this class.
     """
     _cp_config = {'request.error_response': handle_error, \
