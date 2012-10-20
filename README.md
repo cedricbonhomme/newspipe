@@ -3,22 +3,6 @@ pyAggr3g470r
 
 #### A simple Python news aggregator.
 
-.. Use headers in this order #=~-_
-
-:toc: yes
-:symrefs: yes
-:sortrefs: yes
-:compact: yes
-:subcompact: no
-:rfcedstyle: no
-:comments: no
-:inline: yes
-:private: yes
-
-:author: Cédric Bonhomme
-:contact: http://cedricbonhomme.org/
-
-
 Presentation
 ------------
 pyAggr3g470r_ is a multi-threaded news aggregator with a web interface
@@ -58,8 +42,6 @@ These modules are not required but enables more features:
 
 If you want to install these modules:
 
-.. code-block:: bash
-
     $ sudo aptitude install  python-lxml python-genshi
 
 
@@ -67,8 +49,6 @@ Backup
 ------
 
 If you want to backup your database:
-
-.. code-block:: bash
 
     $ su
     $ /etc/init.d/mongodb stop
@@ -85,13 +65,3 @@ Thank you!
 License
 ------------
 pyAggr3g470r_ is under GPLv3_ license.
-
-
-.. _Python: http://python.org/
-.. _pyAggr3g470r: https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
-.. _feedparser: http://feedparser.org/
-.. _MongoDB: http://www.mongodb.org/
-.. _PyMongo: https://github.com/mongodb/mongo-python-driver
-.. _CherryPy: http://cherrypy.org/
-.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
-.. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
