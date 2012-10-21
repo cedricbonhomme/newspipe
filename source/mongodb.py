@@ -227,11 +227,11 @@ class Articles(object):
         return collections
 
     # Functions on database
-    def drop_database(self):
+    def drop_database(self, db_name="pyaggr3g470r"):
         """
         Drop all the database
         """
-        self.connection.drop_database('pyaggr3g470r')
+        self.connection.drop_database(db_name)
 
 
 if __name__ == "__main__":
