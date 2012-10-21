@@ -227,6 +227,7 @@ class pyAggr3g470r(object):
 
     index.exposed = True
 
+    @require()
     def create_right_menu(self):
         """
         Create the right menu.
@@ -318,6 +319,7 @@ class pyAggr3g470r(object):
 
     management.exposed = True
 
+    @require()
     def statistics(self, word_size=6):
         """
         More advanced statistics.
@@ -345,6 +347,7 @@ class pyAggr3g470r(object):
 
     statistics.exposed = True
 
+    @require()
     def search(self, query=None):
         """
         Simply search for the string 'query'
@@ -421,6 +424,7 @@ class pyAggr3g470r(object):
 
     search.exposed = True
 
+    @require()
     def fetch(self):
         """
         Fetch all feeds.
@@ -431,6 +435,7 @@ class pyAggr3g470r(object):
 
     fetch.exposed = True
 
+    @require()
     def article(self, param):
         """
         Display the article in parameter in a new Web page.
@@ -574,6 +579,7 @@ class pyAggr3g470r(object):
 
     article.exposed = True
 
+    @require()
     def feed(self, feed_id, word_size=6):
         """
         This page gives summary informations about a feed (number of articles,
@@ -705,6 +711,7 @@ class pyAggr3g470r(object):
 
     feed.exposed = True
 
+    @require()
     def articles(self, feed_id):
         """
         This page displays all articles of a feed.
@@ -758,6 +765,7 @@ class pyAggr3g470r(object):
 
     articles.exposed = True
 
+    @require()
     def unread(self, feed_id=""):
         """
         This page displays all unread articles of a feed.
@@ -837,6 +845,7 @@ class pyAggr3g470r(object):
 
     unread.exposed = True
 
+    @require()
     def history(self, query="all", m=""):
         """
         This page enables to browse articles chronologically.
@@ -926,6 +935,7 @@ class pyAggr3g470r(object):
 
     history.exposed = True
 
+    @require()
     def plain_text(self, target):
         """
         Display an article in plain text (without HTML tags).
@@ -951,6 +961,7 @@ class pyAggr3g470r(object):
 
     plain_text.exposed = True
 
+    @require()
     def error_page(self, message):
         """
         Display a message (bad feed id, bad article id, etc.)
@@ -964,6 +975,7 @@ class pyAggr3g470r(object):
 
     error_page.exposed = True
 
+    @require()
     def mark_as_read(self, target=""):
         """
         Mark one (or more) article(s) as read by setting the value of the field
@@ -987,6 +999,7 @@ class pyAggr3g470r(object):
 
     mark_as_read.exposed = True
 
+    @require()
     def notifications(self):
         """
         List all active e-mail notifications.
@@ -1009,6 +1022,7 @@ class pyAggr3g470r(object):
 
     notifications.exposed = True
 
+    @require()
     def mail_notification(self, param):
         """
         Enable or disable to notifications of news for a feed.
