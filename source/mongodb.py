@@ -54,13 +54,7 @@ class Articles(object):
         Add article(s) in a collection.
         """
         collection = self.db[str(feed_id)]
-
-        try:
-            collection.create_index([("article_date", pymongo.DESCENDING)], \
-                                        {"unique":False, "sparse":False})
-        except:
-            print "Oups"
-
+        #collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
         for article in articles:
             cursor = collection.find({"article_id":article["article_id"]})
             if cursor.count() == 0:
