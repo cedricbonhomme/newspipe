@@ -1206,7 +1206,7 @@ class pyAggr3g470r(object):
         """
         Delete all articles.
         """
-        self.mongo.drop_database(conf.MONGODB_DBNAME)
+        self.mongo.drop_database()
         return self.index()
 
     drop_base.exposed = True

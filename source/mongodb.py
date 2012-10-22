@@ -37,8 +37,9 @@ class Articles(object):
         """
         Instantiates the connection.
         """
+        self.db_name = db_name
         self.connection = pymongo.connection.Connection(url, port)
-        self.db = pymongo.database.Database(self.connection, db_name)
+        self.db = pymongo.database.Database(self.connection, self.db_name)
         self.db.authenticate(user, password)
 
     def add_collection(self, new_collection):
@@ -81,6 +82,7 @@ class Articles(object):
 
     def get_all_feeds(self, condition=None):
         """
+        Return all feeds object.
         """
         feeds = []
         collections = self.db.collection_names()
@@ -97,13 +99,14 @@ class Articles(object):
 
     def get_all_articles(self):
         """
-        Return all articles from all collections.
+        Return articles of all feeds object (articles of all MongoDB articles collections).
+        All articles collections are of type 1.
         """
         articles = []
         collections = self.db.collection_names()
         for collection_name in collections:
             collection = self.db[collection_name]
-            articles.extend([article for article in collection.find({'type':1})])
+            articles.extend(collection.find({'type':1}))
         return articles
 
     def get_article(self, feed_id, article_id):
@@ -227,11 +230,11 @@ class Articles(object):
         return collections
 
     # Functions on database
-    def drop_database(self, db_name="pyaggr3g470r"):
+    def drop_database(self):
         """
         Drop all the database
         """
-        self.connection.drop_database(db_name)
+        self.connection.drop_database(self.db_name)
 
 
 if __name__ == "__main__":
