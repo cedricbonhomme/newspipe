@@ -5,14 +5,14 @@ pyAggr3g470r
 
 Presentation
 ------------
-pyAggr3g470r_ is a multi-threaded news aggregator with a web interface
-based on CherryPy_. Articles are stored in a MongoDB_ base.
+[pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is a multi-threaded news aggregator with a web interface
+based on [CherryPy](http://cherrypy.org/). Articles are stored in a [MongoDB](http://api.mongodb.org/python/current/) base.
 
 
 
 Features
 ------------
-* articles are stored in a MongoDB_ database;
+* articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * find an article with history;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
@@ -27,15 +27,14 @@ Requierements
 
 Software required
 
-* Python_ 2.7.*;
-* MongoDB_ and PyMongo_;
-* feedparser_;
-* CherryPy_ (version 3 and up);
-* BeautifulSoup_.
+* [Python](http://python.org/) 2.7;
+* [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/);
+* [feedparser](http://code.google.com/p/feedparser/);
+* [CherryPy](http://cherrypy.org/) (version 3 and up);
+* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
 
 
 Optional module
-~~~~~~~~~~~~~~~
 
 These modules are not required but enables more features:
 * lxml and Genshi;
@@ -66,4 +65,4 @@ Thank you!
 
 License
 ------------
-pyAggr3g470r_ is under GPLv3_ license.
+[pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt) license.
