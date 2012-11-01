@@ -62,6 +62,9 @@ If you want to install these modules:
 Setting
 ~~~~~~~
 
+List of feeds
+`````````````
+
 Rename the file **./cfg/pyAggr3g470r.cfg-sample** to **./cfg/pyAggr3g470r.cfg**.
 By default you don't have to edit this file (only to configure mail notification).
 
@@ -82,6 +85,13 @@ Then, indicate the feeds to retrieve in the file **./var/feed.lst**. One feed pe
     http://formats-ouverts.org/rss.php
     http://lwn.net/headlines/newrss
     http://kernelnewbies.org/RecentChanges?action=rss_rc&ddiffs=1&unique=1
+
+
+Create a new user
+`````````````````
+
+Add a username and a password in the file **./var/password** separated by a semicolon, one per line.
+The default user is *admin* with the password *admin*. The password should be hashed with the SHA1 function.
 
 
 
