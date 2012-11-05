@@ -992,10 +992,7 @@ class pyAggr3g470r(object):
         # Mark an article as read.
         elif param == "Article":
             self.mongo.mark_as_read(True, identifiant.split(':')[1], identifiant.split(':')[0])
-        if param == "" or param == "Feed_FromMainPage":
-            return self.index()
-        elif param == "Feed":
-            return self.articles(identifiant)
+        return self.index()
 
     mark_as_read.exposed = True
 
