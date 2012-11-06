@@ -186,7 +186,7 @@ class AuthController(object):
                 <form method="post" action="/auth/login">
                     <input type="hidden" name="from_page" value="%(from_page)s" />
                     %(msg)s<br />
-                    <input type="text" name="username" value="%(username)s" placeholder="Username" /><br />
+                    <input type="text" name="username" value="%(username)s" placeholder="Username" autofocus="autofocus" /><br />
                     <input type="password" name="password" placeholder="Password" /><br />
                     <input type="submit" value="Log in" />
                 </form>
