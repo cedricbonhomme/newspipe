@@ -78,7 +78,7 @@ class Articles(object):
         """
         Return information about a feed.
         """
-        return self.db[str(feed_id)].find().next()
+        return next(self.db[str(feed_id)].find())
 
     def get_all_feeds(self, condition=None):
         """
@@ -93,7 +93,7 @@ class Articles(object):
                 else:
                     cursor = self.db[collection_name].find({"type":0, condition[0]:condition[1]})
                 if cursor.count() != 0:
-                    feeds.append(cursor.next())
+                    feeds.append(next(cursor))
         feeds.sort(key = lambda elem: elem['feed_title'].lower())
         return feeds
 
@@ -114,7 +114,7 @@ class Articles(object):
         Get an article of a specified feed.
         """
         collection = self.db[str(feed_id)]
-        return collection.find({"article_id":article_id}).next()
+        return next(collection.find({"article_id":article_id}))
 
     def get_articles_from_collection(self, feed_id, condition=None, limit=1000000000):
         """
@@ -270,7 +270,7 @@ if __name__ == "__main__":
 
     #articles.add_articles([article_dic1, article_dic2], 42)
 
-    print "All articles:"
+    print("All articles:")
     #print articles.get_all_articles()
 
 

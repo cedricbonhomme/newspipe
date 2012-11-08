@@ -52,8 +52,8 @@ import export
 import mongodb
 import feedgetter
 from auth import AuthController, require, member_of, name_is
-from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
-from qrcode import qr
+#from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
+#from qrcode import qr
 
 
 def error_page_404(status, message, traceback, version):
@@ -193,7 +193,7 @@ class pyAggr3g470r(object):
 
                 # Descrition for the CSS ToolTips
                 article_content = utils.clear_string(article["article_content"])
-                if article_content:
+                if False:
                     description = " ".join(article_content.split(' ')[:55])
                 else:
                     description = "No description."
@@ -407,7 +407,7 @@ class pyAggr3g470r(object):
 
                         # descrition for the CSS ToolTips
                         article_content = utils.clear_string(article["article_content"])
-                        if article_content:
+                        if False:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
                             description = "No description."
@@ -481,7 +481,7 @@ class pyAggr3g470r(object):
             html += description + "\n<br /><br /><br />"
         else:
             html += "No description available.\n<br /><br /><br />"
-
+        """
         # Generation of the QR Code for the current article
         try:
             os.makedirs("./var/qrcode/")
@@ -496,19 +496,20 @@ class pyAggr3g470r(object):
                 f = qr.QRUrl(url = "URL too long.")
                 f.make()
             f.save("./var/qrcode/"+article_id+".png")
+        """
 
         # Previous and following articles
         previous, following = None, None
         liste = self.mongo.get_articles_from_collection(feed_id)
         for current_article in self.mongo.get_articles_from_collection(feed_id):
-            articles.next()
+            next(articles)
             if current_article["article_id"] == article_id:
                 break
             following = current_article
         if following is None:
             following = liste[liste.count()-1]
         try:
-            previous = articles.next()
+            previous = next(articles)
         except StopIteration:
             previous = liste[0]
 
@@ -926,7 +927,7 @@ class pyAggr3g470r(object):
             query_string = "year:" + the_year + "-month"
         if "month" not in query:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query_string) + '</div>'
+                        utils.tag_cloud([(elem, timeline[elem]) for elem in list(timeline.keys())], query_string) + '</div>'
         html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
         html += '<form>\n\t<input name="m" type="month">\n\t<input type="submit" value="Go">\n</form>'
         html += '<hr />'
@@ -1217,8 +1218,8 @@ class pyAggr3g470r(object):
         getattr(export, export_method)(self.mongo)
         try:
             getattr(export, export_method)(self.mongo)
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return self.error_page(e)
         return self.management()
 
@@ -1231,7 +1232,7 @@ class pyAggr3g470r(object):
         """
         try:
             from epub import ez_epub
-        except Exception, e:
+        except Exception as e:
             return self.error_page(e)
         try:
             feed_id, article_id = param.split(':')

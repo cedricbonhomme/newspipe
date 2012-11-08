@@ -37,18 +37,18 @@ __license__ = "GPLv3"
 import os
 import re
 import operator
-import urlparse
+import urllib.parse
 import calendar
 import unicodedata
-import htmlentitydefs
+import html.entities
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import urllib2
-import BaseHTTPServer
-from BeautifulSoup import BeautifulSoup
+import urllib.request, urllib.error, urllib.parse
+import http.server
+from bs4 import BeautifulSoup
 
 from datetime import datetime
 from collections import Counter
@@ -70,14 +70,14 @@ def detect_url_errors(list_of_urls):
     """
     errors = []
     for url in list_of_urls:
-        req = urllib2.Request(url)
+        req = urllib.request.Request(url)
         try:
-            urllib2.urlopen(req)
-        except urllib2.HTTPError, e:
+            urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
             # server couldn't fulfill the request
             errors.append((url, e.code, \
-                BaseHTTPServer.BaseHTTPRequestHandler.responses[e.code][1]))
-        except urllib2.URLError, e:
+                http.server.BaseHTTPRequestHandler.responses[e.code][1]))
+        except urllib.error.URLError as e:
             # failed to reach the server
             errors.append((url, e.reason.errno ,e.reason.strerror))
     return errors
@@ -87,9 +87,9 @@ def clear_string(data):
     Clear a string by removing HTML tags, HTML special caracters
     and consecutive white spaces (more that one).
     """
-    p = re.compile(r'<[^<]*?/?>') # HTML tags
-    q = re.compile(r'\s') # consecutive white spaces
-    return p.sub('', q.sub(' ', data))
+    p = re.compile(b'<[^<]*?/?>') # HTML tags
+    q = re.compile(b'\s') # consecutive white spaces
+    return p.sub(b'', q.sub(b' ', bytes(data, "utf-8"))).decode("utf-8", "strict")
 
 def unescape(text):
     """
@@ -101,15 +101,15 @@ def unescape(text):
             # character reference
             try:
                 if text[:3] == "&#x":
-                    return unichr(int(text[3:-1], 16))
+                    return chr(int(text[3:-1], 16))
                 else:
-                    return unichr(int(text[2:-1]))
+                    return chr(int(text[2:-1]))
             except ValueError:
                 pass
         else:
             # named entity
             try:
-                text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+                text = chr(html.entities.name2codepoint[text[1:-1]])
             except KeyError:
                 pass
         return text # leave as is
@@ -244,7 +244,7 @@ def change_feed_url(old_feed_url, new_feed_url):
     # Replace the URL in the text file
     with open("./var/feed.lst", "r") as f:
         lines = f.readlines()
-    lines = map(str.strip, lines)
+    lines = list(map(str.strip, lines))
     try:
         lines[lines.index(old_feed_url)] = new_feed_url
     except:
@@ -271,7 +271,7 @@ def search_feed(url):
     """
     soup = None
     try:
-        page = urllib2.urlopen(url)
+        page = urllib.request.urlopen(url)
         soup = BeautifulSoup(page)
     except:
         return None
@@ -279,6 +279,6 @@ def search_feed(url):
     feed_links.extend(soup('link', type='application/rss+xml'))
     for feed_link in feed_links:
         if url not in feed_link['href']:
-            return urlparse.urljoin(url, feed_link['href'])
+            return urllib.parse.urljoin(url, feed_link['href'])
         return feed_link['href']
     return None

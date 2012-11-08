@@ -160,8 +160,8 @@ def export_pdf(feeds):
     Export the articles given in parameter in PDF files.
     """
     from xhtml2pdf import pisa
-    import cStringIO as StringIO
-    for feed in feeds.values():
+    import io as StringIO
+    for feed in list(feeds.values()):
             # creates folder for each stream
             folder = utils.path + "/var/export/pdf/" + \
                     utils.normalize_filename(feed.feed_title.strip().replace(':', '').lower())
@@ -171,7 +171,7 @@ def export_pdf(feeds):
                 # directories already exists (not a problem)
                 pass
 
-            for article in feed.articles.values():
+            for article in list(feed.articles.values()):
                 name = article.article_date.strip().replace(' ', '_')
                 name = os.path.normpath(folder + "/" + name + ".pdf")
                 

@@ -62,11 +62,11 @@ def check_credentials(username, password):
         USERS[row[0]] = row[1]
 
     m = hashlib.sha1()
-    m.update(password)
-    if username in USERS.keys() and USERS[username] == m.hexdigest():
+    m.update(password.encode())
+    if username in list(USERS.keys()) and USERS[username] == m.hexdigest():
         return None
     else:
-        return u"Incorrect username or password."
+        return "Incorrect username or password."
 
     # An example implementation which uses an ORM could be:
     # u = User.get(username)

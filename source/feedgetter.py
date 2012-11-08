@@ -29,7 +29,7 @@ __license__ = "GPLv3"
 import hashlib
 import threading
 import feedparser
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from datetime import datetime
 
@@ -105,9 +105,9 @@ class FeedGetter(object):
         collection_dic = {"feed_id": feed_id, \
                             "type": 0, \
                             "feed_image": feed_image, \
-                            "feed_title": utils.clear_string(a_feed.feed.title.encode('utf-8')), \
+                            "feed_title": utils.clear_string(a_feed.feed.title), \
                             "feed_link": feed_link, \
-                            "site_link": a_feed.feed.link.encode('utf-8'), \
+                            "site_link": a_feed.feed.link, \
                             "mail": False \
                         }
 
@@ -140,7 +140,7 @@ class FeedGetter(object):
             article = {"article_id": article_id, \
                     "type":1, \
                     "article_date": post_date, \
-                    "article_link": article.link.encode('utf-8'), \
+                    "article_link": article.link, \
                     "article_title": article_title, \
                     "article_content": description, \
                     "article_readed": False, \
@@ -153,7 +153,7 @@ class FeedGetter(object):
 
         # send new articles by e-mail if desired.
         #threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
-                            #a_feed.feed.title.encode('utf-8'), \
+                            #a_feed.feed.title, \
                             #article_title, description) \
                         #).start()
 
