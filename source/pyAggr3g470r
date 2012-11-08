@@ -84,13 +84,13 @@ def start():
     if not checkpid(servicename = SERVICE):
         pid = service_start(servicename = SERVICE)
         writepid(processname = SERVICE, pid = pid)
-        print SERVICE + " is starting with pid: " + pidof(processname=SERVICE)
+        print(SERVICE + " is starting with pid: " + pidof(processname=SERVICE))
     else:
-        print SERVICE + " could not be started (pid exists)"
+        print(SERVICE + " could not be started (pid exists)")
         retval=False 
 
 def stop():
-    print "Stopping pyAggr3g470r..."
+    print("Stopping pyAggr3g470r...")
     retval=True
     pid = pidof(processname=SERVICE)
     if pid:
@@ -104,15 +104,15 @@ def stop():
         else:
             try:
                 os.kill(int(pid), signal.SIGKILL)
-            except OSError, e:
-                print SERVICE + " unsuccessfully stopped"
+            except OSError as e:
+                print(SERVICE + " unsuccessfully stopped")
                 retval = False
-            print SERVICE
+            print(SERVICE)
             rmpid(processname=SERVICE)
     return retval
 
 def usage():
-    print "pyAggr3g470r (start|stop|restart)"
+    print("pyAggr3g470r (start|stop|restart)")
     exit (1)
 
 if __name__ == "__main__":
