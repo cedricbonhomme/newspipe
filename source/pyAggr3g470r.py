@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 3.5 $"
+__version__ = "$Revision: 3.6 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2012/05/01 $"
+__revision__ = "$Date: 2012/11/8 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
