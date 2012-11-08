@@ -37,11 +37,11 @@ Requierements
 Software required
 `````````````````
 
-* Python_ 2.7.*;
+* Python_ 3.2.*;
 * MongoDB_ and PyMongo_;
 * feedparser_;
 * CherryPy_ (version 3 and up);
-* BeautifulSoup_.
+* BeautifulSoup4_.
 
 
 Optional module
@@ -146,5 +146,5 @@ Contact
 .. _MongoDB: http://www.mongodb.org/
 .. _PyMongo: https://github.com/mongodb/mongo-python-driver
 .. _CherryPy: http://cherrypy.org/
-.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _BeautifulSoup4: http://www.crummy.com/software/BeautifulSoup/
 .. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
