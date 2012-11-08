@@ -193,7 +193,7 @@ class pyAggr3g470r(object):
 
                 # Descrition for the CSS ToolTips
                 article_content = utils.clear_string(article["article_content"])
-                if False:
+                if article_content:
                     description = " ".join(article_content.split(' ')[:55])
                 else:
                     description = "No description."
@@ -407,7 +407,7 @@ class pyAggr3g470r(object):
 
                         # descrition for the CSS ToolTips
                         article_content = utils.clear_string(article["article_content"])
-                        if False:
+                        if article_content:
                             description = " ".join(article_content[:500].split(' ')[:-1])
                         else:
                             description = "No description."
