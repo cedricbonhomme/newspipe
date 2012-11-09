@@ -917,7 +917,7 @@ class pyAggr3g470r(object):
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
                                         (feed["feed_id"], feed["feed_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                                html += article["article_date"].strftime("%a %d (%H:%M:%S) ") + \
+                                html += article["article_date"].strftime("%a %d (%H:%M:%S) ") + " - " + \
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
                                                 (feed["feed_id"], article["article_id"], not_read_begin, \
                                                 article_title, not_read_end, description) + like + "<br />\n"
