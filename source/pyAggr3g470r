@@ -37,10 +37,10 @@ import signal
 PATH = os.path.abspath(".")
 SERVICE = "pyAggr3g470r"
 
-def service_start(servicename = None):
+def service_start(python_command, servicename = None):
     if servicename is not None:
         service = servicename + ".py"
-        proc =  subprocess.Popen(["python",service], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        proc =  subprocess.Popen([python_command, service], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         time.sleep(0.15)
         return proc.pid
     return False
@@ -80,9 +80,9 @@ def rmpid (processname = None):
     else:
         return False
 
-def start():
+def start(python_command):
     if not checkpid(servicename = SERVICE):
-        pid = service_start(servicename = SERVICE)
+        pid = service_start(python_command, servicename = SERVICE)
         writepid(processname = SERVICE, pid = pid)
         print(SERVICE + " is starting with pid: " + pidof(processname=SERVICE))
     else:
@@ -117,14 +117,17 @@ def usage():
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
+    python_command = "python"
+    if sys.version_info.major == 2:
+        python_command = "python3.2"
     if len(sys.argv) == 1:
         usage()
     elif sys.argv[1] == "start":
-        start()
+        start(python_command)
     elif sys.argv[1] == "stop":
         stop()
     elif sys.argv[1] == "restart":
         stop()
-        start()
+        start(python_command)
     else:
         usage()
