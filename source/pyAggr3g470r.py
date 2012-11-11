@@ -174,7 +174,7 @@ class pyAggr3g470r(object):
                     target="_blank">%s</a></a>
                     <a href="%s" rel="noreferrer"
                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                        (feed["feed_id"], feed["feed_link"], feed["feed_title"], \
+                        (feed["feed_id"], feed["site_link"], feed["feed_title"], \
                         feed["feed_link"], feed["feed_image"])
 
             # The main page display only 10 articles by feeds.
@@ -915,7 +915,7 @@ class pyAggr3g470r(object):
                                     html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
                                     target="_blank">%s</a></a><a href="%s" rel="noreferrer"
                                     target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                        (feed["feed_id"], feed["feed_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
+                                        (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
                                 html += article["article_date"].strftime("%a %d (%H:%M:%S) ") + " - " + \
                                         """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
@@ -1066,7 +1066,7 @@ class pyAggr3g470r(object):
                     if new_feed_section is True:
                         new_feed_section = False
                         html += """<h2><a name="%s"><a href="%s" rel="noreferrer"target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                            (feed["feed_id"], feed["feed_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
+                            (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
                     # descrition for the CSS ToolTips
                     article_content = utils.clear_string(article["article_content"])
