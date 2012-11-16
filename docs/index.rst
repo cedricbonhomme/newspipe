@@ -59,6 +59,25 @@ If you want to install these modules:
     $ sudo aptitude install  python-lxml python-genshi
 
 
+Script of installation
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+    sudo aptitude install python-feedparser python-beautifulsoup
+    sudo aptitude install python-pymongo python-imaging
+    wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
+    tar -xzvf CherryPy-3.2.2.tar.gz
+    rm -f CherryPy-3.2.2.tar.gz
+    cd CherryPy-3.2.2/
+    sudo python setup.py install
+    cd ..
+    sudo rm -Rf CherryPy-3.2.2/
+    hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
+    cd pyaggr3g470r/
+    cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
+
+
 Setting
 ~~~~~~~
 
@@ -92,26 +111,6 @@ Create a new user
 
 Add a username and a password in the file **./var/password** separated by a semicolon, one per line.
 The default user is *admin* with the password *admin*. The password should be hashed with the SHA1 function.
-
-
-
-Script of installation
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-    sudo aptitude install python-feedparser python-beautifulsoup
-    sudo aptitude install python-pymongo python-imaging
-    wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
-    tar -xzvf CherryPy-3.2.2.tar.gz
-    rm -f CherryPy-3.2.2.tar.gz
-    cd CherryPy-3.2.2/
-    sudo python setup.py install
-    cd ..
-    sudo rm -Rf CherryPy-3.2.2/
-    hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
-    cd pyaggr3g470r/
-    cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
 
 
 
