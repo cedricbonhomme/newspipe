@@ -95,14 +95,34 @@ The default user is *admin* with the password *admin*. The password should be ha
 
 
 
-Launch
-------
-
-Finally launch pyAggr3g470r in a shell:
+Script of installation
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    $ cd /home/cedric/pyaggr3g470r/
+    sudo aptitude install python-feedparser python-beautifulsoup
+    sudo aptitude install python-pymongo python-imaging
+    wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
+    tar -xzvf CherryPy-3.2.2.tar.gz
+    rm -f CherryPy-3.2.2.tar.gz
+    cd CherryPy-3.2.2/
+    sudo python setup.py install
+    cd ..
+    sudo rm -Rf CherryPy-3.2.2/
+    hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
+    cd pyaggr3g470r/
+    cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
+
+
+
+Launch
+------
+
+To launch pyAggr3g470r in a shell:
+
+.. code-block:: bash
+
+    $ cd ~/pyaggr3g470r/source/
     $ pyAggr3g470r start
 
 
