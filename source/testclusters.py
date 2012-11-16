@@ -2,11 +2,11 @@
 
 import clusters
 
-K = 10
+K = 8
 
-blognames,labels,data = clusters.readfile("blogdata1.txt")
+blognames,words,data = clusters.readfile("blogdata1.txt")
 
-#coords = clusters.scaledown(data)
+coords = clusters.scaledown(data)
 
 print "Generating clusters..."
 kclust = clusters.kcluster(data, k=K)
@@ -20,4 +20,4 @@ for i in range(K):
 
 
 
-#clusters.draw2d(coords,blognames,jpeg='mds2d.jpg')
+clusters.draw2d(coords,blognames,jpeg='mds2d.jpg')
