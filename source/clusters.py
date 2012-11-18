@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+
 import random
 
 from math import sqrt
