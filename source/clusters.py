@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
+import math
 import random
 
 from math import sqrt
@@ -50,6 +51,12 @@ def tanimoto(v1, v2):
         if v1[i] != 0 and v2[i] != 0:
             shr += 1 # in both
     return 1.0 - (float(shr) / (c1 + c2 - shr))
+
+def euclidian(v1, v2):
+    d = 0.0
+    for i in range(len(v1)):
+        d += (v1[i] - v2[i])**2
+    return math.sqrt(d)
 
 def kcluster(rows,distance=pearson,k=4):
   # Determine the minimum and maximum values for each point

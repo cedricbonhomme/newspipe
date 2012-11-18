@@ -10,7 +10,7 @@ blognames,words,data = clusters.readfile("blogdata1.txt")
 coords = clusters.scaledown(data)
 
 print "Generating clusters..."
-kclust = clusters.kcluster(data, k=K, distance=clusters.pearson)
+kclust = clusters.kcluster(data, k=K, distance=clusters.euclidian)
 print
 print "Clusters:"
 for i in range(K):
