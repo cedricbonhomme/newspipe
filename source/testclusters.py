@@ -2,14 +2,14 @@
 
 import clusters
 
-K = 8
+K = 7
 
 blognames,words,data = clusters.readfile("blogdata1.txt")
 
 coords = clusters.scaledown(data)
 
 print "Generating clusters..."
-kclust = clusters.kcluster(data, k=K)
+kclust = clusters.kcluster(data, k=K, distance=clusters.pearson)
 print
 print "Clusters:"
 for i in range(K):
