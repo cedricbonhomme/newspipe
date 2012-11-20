@@ -127,11 +127,10 @@ class FeedGetter(object):
                     description = ""
             description = str(BeautifulSoup(description))
             article_title = str(BeautifulSoup(article.title))
-
             try:
-                post_date = datetime(*article.updated_parsed[:6])
-            except:
                 post_date = datetime(*article.published_parsed[:6])
+            except:
+                post_date = datetime(*article.updated_parsed[:6])
 
             sha1_hash = hashlib.sha1()
             sha1_hash.update(article.link.encode('utf-8'))
