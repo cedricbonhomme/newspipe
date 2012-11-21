@@ -77,14 +77,14 @@ def handle_error():
     cherrypy.response.status = 500
     cherrypy.response.body = [html]
 
-def htmlheader(nb_unread_articles=""):
+def htmlheader(text=""):
     """
     Return the header of the HTML page with the number of unread articles
     in the 'title' HTML tag..
     """
     return '<!DOCTYPE html>\n' + \
         '<head>' + \
-        '\n\t<title>'+ nb_unread_articles +'pyAggr3g470r - News aggregator</title>\n' + \
+        '\n\t<title>'+ text +' - pyAggr3g470r - News aggregator</title>\n' + \
         '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
         '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
         '\n\t<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>\n' + \
@@ -143,7 +143,7 @@ class pyAggr3g470r(object):
 
         # if there are unread articles, display the number in the tab of the browser
         html = htmlheader((nb_unread_articles and \
-                            ['(' + str(nb_unread_articles) +') '] or \
+                            ['(' + str(nb_unread_articles) +')'] or \
                             [""])[0])
         html += htmlnav
         html += self.create_right_menu()
@@ -447,7 +447,7 @@ class pyAggr3g470r(object):
             article = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
-        html = htmlheader()
+        html = htmlheader(article["article_title"])
         html += htmlnav
         html += """<div>"""
 
