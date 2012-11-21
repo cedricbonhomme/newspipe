@@ -43,6 +43,10 @@ import re
 import cherrypy
 import calendar
 
+from mako.template import Template
+from mako.lookup import TemplateLookup
+lookup = TemplateLookup(directories=['templates'])
+
 from collections import Counter
 import datetime
 
@@ -947,18 +951,13 @@ class pyAggr3g470r(object):
             article = self.mongo.get_article(feed_id, article_id)
         except:
             return self.error_page("Bad URL. This article do not exists.")
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += """<h1><i>%s</i> from <a href="/articles/%s">%s</a></h1>\n<br />\n"""% \
-                            (article["article_title"], feed_id, feed["feed_title"])
         description = utils.clear_string(article["article_content"])
-        if description:
-            html += description
-        else:
-            html += "No description available."
-        html += "\n<hr />\n" + htmlfooter
-        return html
+        if not description:
+            description += "Unvailable"
+        tmpl = lookup.get_template("plain_text.html")
+        return tmpl.render(feed_title=feed["feed_title"], \
+                           article_title=article["article_title"], \
+                           description = description)
 
     plain_text.exposed = True
 
