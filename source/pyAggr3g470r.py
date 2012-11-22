@@ -1054,34 +1054,12 @@ class pyAggr3g470r(object):
         List of favorites articles
         """
         feeds = self.mongo.get_all_feeds()
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += "<h1>Your favorites articles</h1>"
+        articles = {}
         for feed in feeds:
-            new_feed_section = True
-            for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
-                if article["article_like"] == True:
-                    if new_feed_section is True:
-                        new_feed_section = False
-                        html += """<h2><a name="%s"><a href="%s" rel="noreferrer"target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                            (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
-
-                    # descrition for the CSS ToolTips
-                    article_content = utils.clear_string(article["article_content"])
-                    if article_content:
-                        description = " ".join(article_content[:500].split(' ')[:-1])
-                    else:
-                        description = "No description."
-
-                    # a description line per article (date, title of the article and
-                    # CSS description tooltips on mouse over)
-                    html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                            """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                    (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+            articles[feed["feed_id"]] = self.mongo.get_articles_from_collection(feed["feed_id"])
+        tmpl = lookup.get_template("favorites.html")
+        return tmpl.render(feeds=feeds, \
+                           articles=articles)
 
     favorites.exposed = True
 

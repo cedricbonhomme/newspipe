@@ -1,0 +1,37 @@
+## favorites.html
+<%inherit file="base.html"/>
+<%page enable_loop="True"/>
+<%
+import utils
+%>
+<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png" title="What's new today?"/></a>
+</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>
+<a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">pyAggr3g470r (source code)</a>
+<div class="left inner">
+    <h1>Your favorites articles</h1>
+    %for feed in feeds:
+        <%
+            new_feed_section = True
+        %>
+        %for article in articles[feed["feed_id"]]:
+            %if article["article_like"]:
+            <%
+                if new_feed_section:
+                    new_feed_section = False
+                    title = """<h2><a name="%s"><a href="%s" rel="noreferrer"target="_blank">%s</a></a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                            (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
+                else:
+                    title = ""
+                article_content = utils.clear_string(article["article_content"])
+                if article_content:
+                    description = " ".join(article_content[:500].split(' ')[:-1])
+                else:
+                    description = "No description."
+            %>
+            ${title}
+
+
+                ${article["article_date"].strftime('%Y-%m-%d %H:%M')} - <a class="tooltip" href="/article/${feed['feed_id']}:${article['article_id']}" rel="noreferrer" target="_blank">${article["article_title"][:150]}<span class="classic">${description}</span></a><br />
+            %endif
+        %endfor
+    %endfor
