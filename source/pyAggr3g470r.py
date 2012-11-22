@@ -276,50 +276,10 @@ class pyAggr3g470r(object):
         nb_articles = self.mongo.nb_articles()
         nb_unread_articles = self.mongo.nb_unread_articles()
 
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">\n"""
-        html += "<h1>Add Feeds</h1>\n"
-        # Form: add a feed
-        html += """<form method=get action="/add_feed/"><input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">\n<input type="submit" value="OK"></form>\n"""
-
-        if feeds:
-            # Form: delete a feed
-            html += "<h1>Delete Feeds</h1>\n"
-            html += """<form method=get action="/remove_feed/"><select name="feed_id">\n"""
-            for feed in feeds:
-                html += """\t<option value="%s">%s</option>\n""" % (feed["feed_id"], feed["feed_title"])
-            html += """</select><input type="submit" value="OK"></form>\n"""
-
-            html += """<p>Active e-mail notifications: <a href="/notifications/">%s</a></p>\n""" % \
-                        (nb_mail_notifications,)
-            html += """<p>You like <a href="/favorites/">%s</a> article(s).</p>\n""" % \
-                        (nb_favorites, )
-
-        html += "<hr />\n"
-
-        # Informations about the data base of articles
-        html += """<p>%s article(s) are stored in the database with
-                <a href="/unread/">%s unread article(s)</a>.<br />\n""" % \
-                    (nb_articles, nb_unread_articles)
-        #html += """Database: %s.\n<br />Size: %s bytes.<br />\n""" % \
-                    #(os.path.abspath(utils.sqlite_base), os.path.getsize(utils.sqlite_base))
-        html += '<a href="/statistics/">Advanced statistics.</a></p>\n'
-
-        html += """<form method=get action="/fetch/">\n<input type="submit" value="Fetch all feeds"></form>\n"""
-        html += """<form method=get action="/drop_base">\n<input type="submit" value="Delete all articles"></form>\n"""
-
-        # Export functions
-        html += "<h1>Export articles</h1>\n\n"
-        html += """<form method=get action="/export/"><select name="export_method">\n"""
-        html += """\t<option value="export_html" selected='selected'>HTML (simple Webzine)</option>\n"""
-        html += """\t<option value="export_epub">ePub</option>\n"""
-        html += """\t<option value="export_pdf">PDF</option>\n"""
-        html += """\t<option value="export_txt">Text</option>\n"""
-        html += """</select>\n\t<input type="submit" value="Export">\n</form>\n"""
-        html += "<hr />"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("management.html")
+        return tmpl.render(feeds=feeds, nb_mail_notifications=nb_mail_notifications, \
+                            nb_favorites=nb_favorites, nb_articles=nb_articles, \
+                            nb_unread_articles=nb_unread_articles)
 
     management.exposed = True
 

@@ -1,0 +1,50 @@
+## management.html
+<%inherit file="base.html"/>
+<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png" title="What's new today?"/></a>
+</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>
+<a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">pyAggr3g470r (source code)</a> 
+<div class="left inner">
+    <h1>Add Feeds</h1>
+    <form method=get action="/add_feed/">
+        <input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">
+        <input type="submit" value="OK">
+    </form>
+
+    %if feeds:
+        <h1>Delete Feeds</h1>
+        <form method=get action="/remove_feed/">
+            <select name="feed_id">
+                %for feed in feeds:
+                    <option value="${feed['feed_id']}">${feed['feed_title']}</option>
+                %endfor
+            </select>
+            <input type="submit" value="OK">
+        </form>
+
+        <p>Active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a></p>
+
+        <p>You like <a href="/favorites/">${nb_favorites}</a> article(s).</p>
+    %endif
+
+    <hr />
+
+    <p>${nb_articles} article(s) are stored in the database with <a href="/unread/">${nb_unread_articles} unread article(s)</a>.<br />
+    <a href="/statistics/">Advanced statistics.</a></p>
+
+    <form method=get action="/fetch/">
+        <input type="submit" value="Fetch all feeds">
+    </form>
+    <form method=get action="/drop_base">
+        <input type="submit" value="Delete all articles">
+    </form>
+
+    <h1>Export articles</h1>
+    <form method=get action="/export/">
+        <select name="export_method">
+            <option value="export_html" selected='selected'>HTML (simple Webzine)</option>
+            <option value="export_epub">ePub</option>
+            <option value="export_pdf">PDF</option>
+            <option value="export_txt">Text</option>
+        </select>
+        <input type="submit" value="Export">
+    </form>
