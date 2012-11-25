@@ -40,7 +40,7 @@ Software required
 * Python_ >= 3.2.3;
 * MongoDB_ and PyMongo_ >= 1.9;
 * feedparser_ >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
-* CherryPy_ >= 3.2.2 (for **pyAggr3g470r.py**, the Web interface);
+* CherryPy_ >= 3.2.2 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
 * BeautifulSoup_ >= 4.1.3 (automatically find a feed in a HTML page).
 
 
@@ -65,7 +65,7 @@ Script of installation
 .. code-block:: bash
 
     sudo aptitude install python-feedparser python-beautifulsoup
-    sudo aptitude install python-pymongo python-imaging
+    sudo aptitude install python-pymongo python3-mako
     wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
     tar -xzvf CherryPy-3.2.2.tar.gz
     rm -f CherryPy-3.2.2.tar.gz
@@ -165,5 +165,6 @@ Contact
 .. _MongoDB: http://www.mongodb.org/
 .. _PyMongo: https://github.com/mongodb/mongo-python-driver
 .. _CherryPy: http://cherrypy.org/
+.. _Mako: http://www.makotemplates.org/
 .. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
 .. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
