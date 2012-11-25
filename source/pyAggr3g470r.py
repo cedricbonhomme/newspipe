@@ -606,47 +606,8 @@ class pyAggr3g470r(object):
             articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
             return self.error_page("This feed do not exists.")
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="right inner">\n"""
-        html += """<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>""" % (feed_id,)
-        html += """<br />\n<form method=get action="/search/%s"><input type="search" name="query" value="" placeholder="Search this feed" maxlength=2048 autocomplete="on"></form>\n""" % ("Feed:"+feed_id,)
-        html += "<hr />\n"
-        html += self.create_list_of_feeds()
-        html += """</div> <div class="left inner">"""
-        html += """<h1>Articles of the feed <i><a href="/feed/%s">%s</a></i></h1><br />""" % (feed_id, feed["feed_title"])
-
-        for article in articles:
-
-            if article["article_readed"] == False:
-                # not readed articles are in bold
-                not_read_begin, not_read_end = "<b>", "</b>"
-            else:
-                not_read_begin, not_read_end = "", ""
-
-            if article["article_like"] == True:
-                like = """ <img src="/img/heart.png" title="I like this article!" />"""
-            else:
-                like = ""
-
-            # descrition for the CSS ToolTips
-            article_content = utils.clear_string(article["article_content"])
-            if article_content:
-                description = " ".join(article_content[:500].split(' ')[:-1])
-            else:
-                description = "No description."
-
-            # a description line per article (date, title of the article and
-            # CSS description tooltips on mouse over)
-            html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                            (feed_id, article["article_id"], not_read_begin, \
-                            article["article_title"][:150], not_read_end, description) + like + "<br />\n"
-
-        html += """\n<h4><a href="/">All feeds</a></h4>"""
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("articles.html")
+        return tmpl.render(articles=articles, feed=feed)
 
     articles.exposed = True
 
