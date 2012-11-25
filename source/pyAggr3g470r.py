@@ -289,25 +289,10 @@ class pyAggr3g470r(object):
         More advanced statistics.
         """
         articles = self.mongo.get_all_articles()
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">\n"""
-
-        # Some statistics (most frequent word)
-        if articles:
-            top_words = utils.top_words(articles, n=50, size=int(word_size))
-            html += "<h1>Statistics</h1>\n"
-            html += "<h3>Tag cloud</h3>\n"
-            # Tags cloud
-            html += '<form method=get action="/statistics/">\n'
-            html += "Minimum size of a word:\n"
-            html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2"></form>\n""" % (word_size)
-            html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud(top_words) + '</div>'
-            html += "<hr />\n"
-
-        html += htmlfooter
-        return html
+        top_words = utils.top_words(articles, n=50, size=int(word_size))
+        tag_cloud = utils.tag_cloud(top_words)
+        tmpl = lookup.get_template("statistics.html")
+        return tmpl.render(articles=articles, word_size=word_size, tag_cloud=tag_cloud)
 
     statistics.exposed = True
 

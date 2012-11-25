@@ -1,0 +1,17 @@
+## statistics.html
+<%inherit file="base.html"/>
+<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png" title="What's new today?"/></a>
+</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>
+<a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">pyAggr3g470r (source code)</a>
+<div class="left inner">
+    %if articles:
+        <h1>Statistics</h1>
+        <h3>Tag cloud</h3>
+        <form method=get action="/statistics/">
+            Minimum size of a word:
+            <input type="number" name="word_size" value="${word_size}" min="2" max="15" step="1" size="2">
+        </form>
+        <div style="width: 35%; overflow:hidden; text-align: justify">
+            ${tag_cloud}
+        </div>
+    %endif
