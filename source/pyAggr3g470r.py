@@ -842,21 +842,9 @@ class pyAggr3g470r(object):
         """
         List all active e-mail notifications.
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
         feeds = self.mongo.get_all_feeds(condition=("mail",True))
-        if feeds != []:
-            html += "<h1>You are receiving e-mails for the following feeds:</h1>\n"
-            for feed in feeds:
-                html += """\t<a href="/articles/%s">%s</a> - <a href="/mail_notification/0:%s">Stop</a><br />\n""" % \
-                        (feed["feed_id"], feed["feed_title"], feed["feed_id"])
-        else:
-            html += "<p>No active notifications.<p>\n"
-        html += """<p>Notifications are sent to: <a href="mail:%s">%s</a></p>""" % \
-                        (conf.mail_to, conf.mail_to)
-        html += "\n<hr />\n" + htmlfooter
-        return html
+        tmpl = lookup.get_template("notifications.html")
+        return tmpl.render(feeds=feeds, mail_to=conf.mail_to)
 
     notifications.exposed = True
 

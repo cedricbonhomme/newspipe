@@ -1,0 +1,17 @@
+## article.html
+<%inherit file="base.html"/>
+<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png" title="What's new today?"/></a>
+</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>
+<a href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">pyAggr3g470r (source code)</a>
+<div class="left inner">
+    %if feeds != []:
+        <h1>You are receiving e-mails for the following feeds:</h1>
+        <ul>
+        %for feed in feeds:
+            <li><a href="/feed/${feed['feed_id']}">${feed['feed_title']}</a> - <a href="/mail_notification/0:${feed['feed_id']}">Stop</a></li>
+        %endfor
+        </ul>
+    %else:
+        <p>No active notifications.<p>
+    %endif
+    <p>Notifications are sent to: <a href="mail:${mail_to}">${mail_to}</a></p>
