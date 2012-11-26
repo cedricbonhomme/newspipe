@@ -149,7 +149,7 @@ class pyAggr3g470r(object):
                             [""])[0])
         html += htmlnav
         html += self.create_right_menu()
-        html += """<div class="left inner">\n"""
+        html += """<div class="left inner">\n<div class="menubox" width='*'>"""
 
         if feeds:
             html += '<a href="/management/"><img src="/img/management.png" title="Management" /></a>\n'
@@ -168,6 +168,7 @@ class pyAggr3g470r(object):
                 html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
                     (nb_unread_articles,)
         html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
+        html += '</div>'
 
 
         # The main page display all the feeds.
