@@ -40,9 +40,9 @@ __license__ = "GPLv3"
 
 import os
 import re
-import cherrypy
 import calendar
 
+import cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup
 lookup = TemplateLookup(directories=['templates'])
@@ -275,7 +275,6 @@ class pyAggr3g470r(object):
         nb_favorites = self.mongo.nb_favorites()
         nb_articles = self.mongo.nb_articles()
         nb_unread_articles = self.mongo.nb_unread_articles()
-
         tmpl = lookup.get_template("management.html")
         return tmpl.render(feeds=feeds, nb_mail_notifications=nb_mail_notifications, \
                             nb_favorites=nb_favorites, nb_articles=nb_articles, \
@@ -779,7 +778,7 @@ class pyAggr3g470r(object):
             return self.error("Bad URL. This article do not exists.")
         description = utils.clear_string(article["article_content"])
         if not description:
-            description += "Unvailable"
+            description = "Unvailable"
         tmpl = lookup.get_template("plain_text.html")
         return tmpl.render(feed_title=feed["feed_title"], \
                            article_title=article["article_title"], \
