@@ -223,20 +223,6 @@ blockquote.right {
     margin-right: -0.1em;
 }
 
-
-/* Menu box */
-.menubox
-{
-
-padding:0px;
-border:2px solid gray;
-margin:0px;
-background:#C0C0C0;
-display: inline-block;
-}
-
-
-
 /* CSS ToolTips */
     .tooltip {
         color: #FFF;
