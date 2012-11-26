@@ -792,12 +792,8 @@ class pyAggr3g470r(object):
         """
         Display a message (bad feed id, bad article id, etc.)
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += """%s""" % message
-        html += "\n<hr />\n" + htmlfooter
-        return html
+        tmpl = lookup.get_template("error.html")
+        return tmpl.render(message=message)
 
     error_page.exposed = True
 
@@ -842,7 +838,6 @@ class pyAggr3g470r(object):
             action, feed_id = param.split(':')
         except:
             return self.error_page("Bad URL. This feed do not exists.")
-
         return self.index()
 
     mail_notification.exposed = True
