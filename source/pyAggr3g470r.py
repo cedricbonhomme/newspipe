@@ -101,9 +101,7 @@ htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, 
 
 htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png"' + \
         """ title="What's new today?"/></a>""" + \
-        '</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>\n<a' + \
-        ' href="http://bitbucket.org/cedricbonhomme/pyaggr3g470r/" rel="noreferrer" target="_blank">' + \
-        'pyAggr3g470r (source code)</a>'
+        '</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>\n'
 
 class RestrictedArea(object):
     """
