@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 3.6 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2012/11/8 $"
+__revision__ = "$Date: 2012/11/26 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -60,7 +60,7 @@ from auth import AuthController, require, member_of, name_is
 #from qrcode import qr
 
 
-def error_page_404(status, message, traceback, version):
+def error_404(status, message, traceback, version):
     """
     Display an error if the page does not exist.
     """
@@ -395,7 +395,7 @@ class pyAggr3g470r(object):
             articles = self.mongo.get_articles_from_collection(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
-            return self.error_page("Bad URL. This article do not exists.")
+            return self.error("Bad URL. This article do not exists.")
 
         if article["article_readed"] == False:
             # if the current article is not yet readed, update the database
@@ -463,7 +463,7 @@ class pyAggr3g470r(object):
             nb_articles_total = self.mongo.nb_articles()
             nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
         except KeyError:
-            return self.error_page("This feed do not exists.")
+            return self.error("This feed do not exists.")
         html = htmlheader()
         html += htmlnav
         html += """<div class="left inner">"""
@@ -590,7 +590,7 @@ class pyAggr3g470r(object):
             feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
         except KeyError:
-            return self.error_page("This feed do not exists.")
+            return self.error("This feed do not exists.")
         tmpl = lookup.get_template("articles.html")
         return tmpl.render(articles=articles, feed=feed)
 
@@ -646,7 +646,7 @@ class pyAggr3g470r(object):
                 try:
                     feed = self.mongo.get_feed(feed_id)
                 except:
-                    self.error_page("This feed do not exists.")
+                    self.error("This feed do not exists.")
                 html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
                     <br />""" % (feed_id, feed["feed_title"])
 
@@ -776,7 +776,7 @@ class pyAggr3g470r(object):
             feed = self.mongo.get_feed(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
-            return self.error_page("Bad URL. This article do not exists.")
+            return self.error("Bad URL. This article do not exists.")
         description = utils.clear_string(article["article_content"])
         if not description:
             description += "Unvailable"
@@ -788,14 +788,14 @@ class pyAggr3g470r(object):
     plain_text.exposed = True
 
     @require()
-    def error_page(self, message):
+    def error(self, message):
         """
         Display a message (bad feed id, bad article id, etc.)
         """
         tmpl = lookup.get_template("error.html")
         return tmpl.render(message=message)
 
-    error_page.exposed = True
+    error.exposed = True
 
     @require()
     def mark_as_read(self, target=""):
@@ -837,7 +837,7 @@ class pyAggr3g470r(object):
         try:
             action, feed_id = param.split(':')
         except:
-            return self.error_page("Bad URL. This feed do not exists.")
+            return self.error("Bad URL. This feed do not exists.")
         return self.index()
 
     mail_notification.exposed = True
@@ -851,7 +851,7 @@ class pyAggr3g470r(object):
             like, feed_id, article_id = param.split(':')
             articles = self.mongo.get_article(feed_id, article_id)
         except:
-            return self.error_page("Bad URL. This article do not exists.")
+            return self.error("Bad URL. This article do not exists.")
         self.mongo.like_article("1"==like, feed_id, article_id)
         return self.article(feed_id+":"+article_id)
 
@@ -883,7 +883,7 @@ class pyAggr3g470r(object):
         # search the feed in the HTML page with BeautifulSoup
         feed_url = utils.search_feed(url)
         if feed_url is None:
-            return self.error_page("Impossible to find a feed at this URL.")
+            return self.error("Impossible to find a feed at this URL.")
         # if a feed exists
         else:
             result = utils.add_feed(feed_url)
@@ -979,7 +979,7 @@ class pyAggr3g470r(object):
             feed_id, article_id = param.split(':')
             self.mongo.delete_article(feed_id, article_id)
         except:
-            return self.error_page("Bad URL. This article do not exists.")
+            return self.error("Bad URL. This article do not exists.")
 
         return self.index()
 
@@ -1006,7 +1006,7 @@ class pyAggr3g470r(object):
             getattr(export, export_method)(self.mongo)
         except Exception as e:
             print(e)
-            return self.error_page(e)
+            return self.error(e)
         return self.management()
 
     export.exposed = True
@@ -1019,18 +1019,18 @@ class pyAggr3g470r(object):
         try:
             from epub import ez_epub
         except Exception as e:
-            return self.error_page(e)
+            return self.error(e)
         try:
             feed_id, article_id = param.split(':')
         except:
-            return self.error_page("Bad URL.")
+            return self.error("Bad URL.")
         try:
             feed_id, article_id = param.split(':')
             feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles_from_collection(feed_id)
             article = self.mongo.get_article(feed_id, article_id)
         except:
-            self.error_page("This article do not exists.")
+            self.error("This article do not exists.")
         try:
             folder = conf.path + "/var/export/epub/"
             os.makedirs(folder)
@@ -1052,6 +1052,5 @@ if __name__ == '__main__':
     root = pyAggr3g470r()
     root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/img/favicon.png"))
     cherrypy.config.update({ 'server.socket_port': 12556, 'server.socket_host': "0.0.0.0"})
-    cherrypy.config.update({'error_page.404': error_page_404})
-
+    cherrypy.config.update({'error_page.404': error_404})
     cherrypy.quickstart(root, "/" ,config=conf.path + "/cfg/cherrypy.cfg")
