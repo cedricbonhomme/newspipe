@@ -147,119 +147,13 @@ class pyAggr3g470r(object):
         html = htmlheader((nb_unread_articles and \
                             ['(' + str(nb_unread_articles) +')'] or \
                             [""])[0])
-        html += htmlnav
-        html += self.create_right_menu()
-        html += """<div class="left inner">\n"""
 
-        if feeds:
-            html += '<a href="/management/"><img src="/img/management.png" title="Management" /></a>\n'
-            html += '<a href="/history/"><img src="/img/history.png" title="History" /></a>\n'
-            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n'
-
-            html += """<a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (%s)" /></a>\n""" % \
-                (nb_favorites,)
-
-            html += """<a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (%s)" /></a>\n""" % \
-                (nb_mail_notifications,)
-
-            html += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-            if nb_unread_articles != 0:
-                html += '<a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>\n'
-                html += """<a href="/unread/"><img src="/img/unread.png" title="Unread article(s): %s" /></a>\n""" % \
-                    (nb_unread_articles,)
-        html += '<a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>\n'
-
-
-        # The main page display all the feeds.
-        for feed in feeds:
-            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                    target="_blank">%s</a></a>
-                    <a href="%s" rel="noreferrer"
-                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                        (feed["feed_id"], feed["site_link"], feed["feed_title"], \
-                        feed["feed_link"], feed["feed_image"])
-
-            # The main page display only 10 articles by feeds.
-            for article in self.mongo.get_articles_from_collection(feed["feed_id"], limit=10):
-                if article["article_readed"] == False:
-                    # not readed articles are in bold
-                    not_read_begin, not_read_end = "<b>", "</b>"
-                else:
-                    not_read_begin, not_read_end = "", ""
-
-                # display a heart for faved articles
-                if article["article_like"] == True:
-                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
-                else:
-                    like = ""
-
-                # Descrition for the CSS ToolTips
-                article_content = utils.clear_string(article["article_content"])
-                if article_content:
-                    description = " ".join(article_content.split(' ')[:55])
-                else:
-                    description = "No description."
-                # Title of the article
-                article_title = article["article_title"]
-                if len(article_title) >= 80:
-                    article_title = article_title[:80] + " ..."
-
-                # a description line per article (date, title of the article and
-                # CSS description tooltips on mouse over)
-                html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                (feed["feed_id"], article["article_id"], not_read_begin, \
-                                article_title, not_read_end, description) + like + "<br />\n"
-            html += "<br />\n"
-
-            # some options for the current feed
-            html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
-            html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
-            if self.mongo.nb_unread_articles(feed["feed_id"]) != 0:
-                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], self.mongo.nb_unread_articles(feed["feed_id"]))
-            if feed["mail"] == "0":
-                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
-            else:
-                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
-            html += """<h4><a href="/#top">Top</a></h4>"""
-            html += "<hr />\n"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("index.html")
+        return tmpl.render(feeds=feeds, mongo=self.mongo, nb_favorites=nb_favorites, \
+                            nb_unread_articles=nb_unread_articles, \
+                            nb_mail_notifications=nb_mail_notifications)
 
     index.exposed = True
-
-    @require()
-    def create_right_menu(self):
-        """
-        Create the right menu.
-        """
-        html = """<div class="right inner">\n"""
-        html += """<form method=get action="/search/"><input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on"></form>\n"""
-        html += "<hr />\n"
-        # insert the list of feeds in the menu
-        html += self.create_list_of_feeds()
-        html += "</div>\n"
-
-        return html
-
-    @require()
-    def create_list_of_feeds(self):
-        """
-        Create the list of feeds.
-        """
-        feeds = self.mongo.get_all_feeds()
-        html = """<div class="nav_container">Your feeds (%s):<br />\n""" % len(feeds)
-        for feed in feeds:
-            if self.mongo.nb_unread_articles(feed["feed_id"]) != 0:
-                # not readed articles are in bold
-                not_read_begin, not_read_end = "<b>", "</b>"
-            else:
-                not_read_begin, not_read_end = "", ""
-            html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>""" % \
-                            (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
-                            self.mongo.nb_unread_articles(feed["feed_id"]), not_read_end, self.mongo.nb_articles(feed["feed_id"]))
-        return html + "</div>"
 
     @require()
     def management(self):

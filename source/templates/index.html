@@ -1,0 +1,103 @@
+## articles.html
+<%inherit file="base.html"/> 
+<%
+import utils
+%>
+<div class="right inner">
+    <form method=get action="/search/">
+        <input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on">
+    </form>
+    <hr />
+    <div class="nav_container">Your feeds (%s):<br />
+        <%
+            html = ""
+        %>
+        %for feed in feeds:
+            <%
+                if mongo.nb_unread_articles(feed["feed_id"]) != 0:
+                    # not readed articles are in bold
+                    not_read_begin, not_read_end = "<b>", "</b>"
+                else:
+                    not_read_begin, not_read_end = "", ""
+                html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>\n""" % \
+                            (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
+                            mongo.nb_unread_articles(feed["feed_id"]), not_read_end, mongo.nb_articles(feed["feed_id"]))
+            %>
+        %endfor
+        ${html}
+    </div>
+</div>
+
+<div class="left inner">
+    %if feeds:
+        <a href="/management/"><img src="/img/management.png" title="Management" /></a>
+        <a href="/history/"><img src="/img/history.png" title="History" /></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (${nb_favorites})" /></a>
+        <a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (${nb_mail_notifications})" /></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        %if nb_unread_articles != 0:
+            <a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>
+            <a href="/unread/"><img src="/img/unread.png" title="Unread article(s): ${nb_unread_articles}" /></a>
+        %endif
+    %endif
+    <a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>
+    <%
+        html = ""
+    %>
+    <%
+        for feed in feeds:
+            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
+                    target="_blank">%s</a></a>
+                    <a href="%s" rel="noreferrer"
+                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                        (feed["feed_id"], feed["site_link"], feed["feed_title"], \
+                        feed["feed_link"], feed["feed_image"])
+
+            # The main page display only 10 articles by feeds.
+            for article in mongo.get_articles_from_collection(feed["feed_id"], limit=10):
+                if article["article_readed"] == False:
+                    # not readed articles are in bold
+                    not_read_begin, not_read_end = "<b>", "</b>"
+                else:
+                    not_read_begin, not_read_end = "", ""
+
+                # display a heart for faved articles
+                if article["article_like"] == True:
+                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
+                else:
+                    like = ""
+
+                # Descrition for the CSS ToolTips
+                article_content = utils.clear_string(article["article_content"])
+                if article_content:
+                    description = " ".join(article_content.split(' ')[:55])
+                else:
+                    description = "No description."
+                # Title of the article
+                article_title = article["article_title"]
+                if len(article_title) >= 80:
+                    article_title = article_title[:80] + " ..."
+
+                # a description line per article (date, title of the article and
+                # CSS description tooltips on mouse over)
+                html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
+                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                                (feed["feed_id"], article["article_id"], not_read_begin, \
+                                article_title, not_read_end, description) + like + "<br />\n"
+            html += "<br />\n"
+
+            # some options for the current feed
+            html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
+            html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
+            if mongo.nb_unread_articles(feed["feed_id"]) != 0:
+                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))
+            if feed["mail"] == "0":
+                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
+            else:
+                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
+            html += """<h4><a href="/#top">Top</a></h4>"""
+            html += "<hr />\n"
+    %>
+    ${html}
