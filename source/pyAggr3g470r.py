@@ -149,8 +149,8 @@ class pyAggr3g470r(object):
                             [""])[0])
 
         tmpl = lookup.get_template("index.html")
-        return tmpl.render(feeds=feeds, mongo=self.mongo, nb_favorites=nb_favorites, \
-                            nb_unread_articles=nb_unread_articles, \
+        return tmpl.render(feeds=feeds, nb_feeds=len(feeds), mongo=self.mongo, \
+                            nb_favorites=nb_favorites, nb_unread_articles=nb_unread_articles, \
                             nb_mail_notifications=nb_mail_notifications)
 
     index.exposed = True
