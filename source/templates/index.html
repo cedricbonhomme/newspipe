@@ -49,11 +49,11 @@ import utils
     %>
     <%
         for feed in feeds:
-            html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                    target="_blank">%s</a></a>
+            html += """<a name="%s"></a>\n""" % (feed["feed_id"],)
+            html += """<h2><a href="%s" rel="noreferrer" target="_blank">%s</a>
                     <a href="%s" rel="noreferrer"
-                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                        (feed["feed_id"], feed["site_link"], feed["feed_title"], \
+                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n<br />""" % \
+                        (feed["site_link"], feed["feed_title"], \
                         feed["feed_link"], feed["feed_image"])
 
             # The main page display only 10 articles by feeds.
