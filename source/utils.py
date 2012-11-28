@@ -36,6 +36,7 @@ __license__ = "GPLv3"
 
 import os
 import re
+import glob
 import operator
 import urllib.parse
 import calendar
@@ -139,15 +140,29 @@ def normalize_filename(name):
     file_name = strip_accents(file_name, "utf-8")
     return os.path.normpath(file_name)
 
+def load_stop_words():
+    """
+    Load the stop words and return them in a list.
+    """
+    stop_words_lists = glob.glob('./var/stop_words/*.txt')
+    stop_words = []
+
+    for stop_wods_list in stop_words_lists:
+        with open(stop_wods_list, "r") as stop_wods_file:
+            stop_words += stop_wods_file.read().split(";")
+    return stop_words
+
 def top_words(articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
     """
+    stop_words = load_stop_words()
     words = Counter()
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for article in articles:
         for word in wordre.findall(clear_string(article["article_content"])):
-            words[word.lower()] += 1
+            if word.lower() not in stop_words:
+                words[word.lower()] += 1
     return words.most_common(n)
 
 def tag_cloud(tags, query="word_count"):
