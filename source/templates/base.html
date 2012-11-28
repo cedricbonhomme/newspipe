@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    %if nb_unread_articles is UNDEFINED:
+    %if header_text is UNDEFINED:
         <title>pyAggr3g470r</title>
-    %elif nb_unread_articles == 0:
+    %elif header_text == 0:
         <title>pyAggr3g470r</title>
     %else:
-        <title>${nb_unread_articles} - pyAggr3g470r</title>
+        <title>${header_text} - pyAggr3g470r</title>
     %endif
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

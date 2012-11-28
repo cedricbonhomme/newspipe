@@ -145,7 +145,7 @@ class pyAggr3g470r(object):
         tmpl = lookup.get_template("index.html")
         return tmpl.render(feeds=feeds, nb_feeds=len(feeds), mongo=self.mongo, \
                             nb_favorites=nb_favorites, nb_unread_articles=nb_unread_articles, \
-                            nb_mail_notifications=nb_mail_notifications)
+                            nb_mail_notifications=nb_mail_notifications, header_text=nb_unread_articles)
 
     index.exposed = True
 
@@ -329,7 +329,7 @@ class pyAggr3g470r(object):
             previous = liste[0]
 
         tmpl = lookup.get_template("article.html")
-        return tmpl.render(article=article, previous=previous, following=following, \
+        return tmpl.render(header_text=article["article_title"], article=article, previous=previous, following=following, \
                             diaspora=conf.DIASPORA_POD, feed=feed, description=description)
 
     article.exposed = True
