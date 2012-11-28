@@ -160,9 +160,8 @@ def top_words(articles, n=10, size=5):
     words = Counter()
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for article in articles:
-        for word in wordre.findall(clear_string(article["article_content"])):
-            if word.lower() not in stop_words:
-                words[word.lower()] += 1
+        for word in [elem.lower() for elem in wordre.findall(clear_string(article["article_content"])) if elem.lower() not in stop_words]:
+            words[word] += 1
     return words.most_common(n)
 
 def tag_cloud(tags, query="word_count"):
