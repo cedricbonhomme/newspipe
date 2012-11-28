@@ -58,10 +58,35 @@ hr {
     margin: 1em 0em;
 }
 
+/* Menu */
+.menu_container {
+    position:fixed;
+    margin:0px;
+    padding:0px;
+    z-index:4;
+}
+
 /* Navigation bars */
-.nav_container { position:fixed; top:145px; right:5px; margin:0px; padding:0px; white-space:nowrap; z-index:11; clear:both;}
-.nav_container.horizontal { position:absolute; white-space:normal; z-index:25; width:*; }
-.nav_container.horizontal div { float:right; padding-right:10px; }
+.nav_container {
+    position:fixed;
+    top:112px;
+    right:5px;
+    margin:0px;
+    padding:0px;
+    white-space:nowrap;
+    z-index:3;
+    clear:both;
+}
+.nav_container.horizontal {
+    position:absolute;
+    white-space:normal;
+    z-index:4;
+    width:*;
+}
+.nav_container.horizontal div {
+    float:right;
+    padding-right:10px;
+}
 
 #nav {
     position: absolute;
@@ -147,7 +172,6 @@ blockquote.right {
 
 .clear {
     font-size: 1px;
-
     height: 0px;
     clear: both;
 }
