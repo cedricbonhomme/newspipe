@@ -142,12 +142,6 @@ class pyAggr3g470r(object):
         nb_unread_articles = self.mongo.nb_unread_articles()
         nb_favorites = self.mongo.nb_favorites()
         nb_mail_notifications = self.mongo.nb_mail_notifications()
-
-        # if there are unread articles, display the number in the tab of the browser
-        html = htmlheader((nb_unread_articles and \
-                            ['(' + str(nb_unread_articles) +')'] or \
-                            [""])[0])
-
         tmpl = lookup.get_template("index.html")
         return tmpl.render(feeds=feeds, nb_feeds=len(feeds), mongo=self.mongo, \
                             nb_favorites=nb_favorites, nb_unread_articles=nb_unread_articles, \

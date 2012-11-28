@@ -2,7 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>pyAggr3g470r - News aggregator</title>
+    %if nb_unread_articles is UNDEFINED:
+        <title>pyAggr3g470r</title>
+    %elif nb_unread_articles == 0:
+        <title>pyAggr3g470r</title>
+    %else:
+        <title>${nb_unread_articles} - pyAggr3g470r</title>
+    %endif
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
@@ -11,7 +17,7 @@
     <div class="right innerlogo">
         <a href="/"><img src="/img/tuxrss.png" title="What's new today?"/></a>
     </div>
-    <a name="top"><a href="/"><h1>pyAggr3g470r - News aggregator</h1></a></a>
+    <a name="top"><a href="/"><h1>pyAggr3g470r</h1></a></a>
 
     ${self.body()}
 
