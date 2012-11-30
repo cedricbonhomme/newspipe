@@ -97,35 +97,33 @@ class Articles(object):
         feeds.sort(key = lambda elem: elem['feed_title'].lower())
         return feeds
 
-    def get_all_articles(self):
+    def get_articles(self, feed_id=None, article_id=None, condition=None, limit=1000000000):
         """
-        Return articles of all feeds object (articles of all MongoDB articles collections).
-        All articles collections are of type 1.
+        Return one or several articles.
+        The parameter "condition" is an optional requirement, for example:
+        get_articles(feed["feed_id"], condition=("article_readed", False)) will
+        return all unread articles of feed.
         """
-        articles = []
-        collections = self.db.collection_names()
-        for collection_name in collections:
-            collection = self.db[collection_name]
-            articles.extend(collection.find({'type':1}))
-        return articles
-
-    def get_article(self, feed_id, article_id):
-        """
-        Get an article of a specified feed.
-        """
-        collection = self.db[str(feed_id)]
-        return next(collection.find({"article_id":article_id}))
-
-    def get_articles_from_collection(self, feed_id, condition=None, limit=1000000000):
-        """
-        Return all the articles of a collection.
-        """
-        collection = self.db[str(feed_id)]
-        if condition is None:
-            cursor = collection.find({"type":1}, limit=limit)
-        else:
-            cursor = collection.find({"type":1, condition[0]:condition[1]}, limit=limit)
-        return cursor.sort([("article_date", pymongo.DESCENDING)])
+        if feed_id == None:
+            # Return all articles.
+            articles = []
+            collections = self.db.collection_names()
+            for collection_name in collections:
+                collection = self.db[collection_name]
+                articles.extend(collection.find({'type':1}))
+            return articles
+        elif feed_id != None and article_id == None:
+            # Return all the articles of a collection.
+            collection = self.db[str(feed_id)]
+            if condition is None:
+                cursor = collection.find({"type":1}, limit=limit)
+            else:
+                cursor = collection.find({"type":1, condition[0]:condition[1]}, limit=limit)
+            return cursor.sort([("article_date", pymongo.DESCENDING)])
+        elif feed_id != None and article_id != None:
+            # Return a precise article.
+            collection = self.db[str(feed_id)]
+            return next(collection.find({"article_id":article_id}))
 
     def nb_articles(self, feed_id=None):
         """

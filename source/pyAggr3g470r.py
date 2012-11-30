@@ -173,7 +173,7 @@ class pyAggr3g470r(object):
         """
         More advanced statistics.
         """
-        articles = self.mongo.get_all_articles()
+        articles = self.mongo.get_articless()
         top_words = utils.top_words(articles, n=50, size=int(word_size))
         tag_cloud = utils.tag_cloud(top_words)
         tmpl = lookup.get_template("statistics.html")
@@ -198,7 +198,7 @@ class pyAggr3g470r(object):
         html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (query,)
 
         if feed_id is not None:
-            for article in self.mongo.get_articles_from_collection(feed_id):
+            for article in self.mongo.get_articles(feed_id):
                 article_content = utils.clear_string(article.article_description)
                 if not article_content:
                     utils.clear_string(article.article_title)
@@ -217,7 +217,7 @@ class pyAggr3g470r(object):
             feeds = self.mongo.get_all_feeds()
             for feed in feeds:
                 new_feed_section = True
-                for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
+                for article in self.mongo.get_articles(feed["feed_id"]):
                     article_content = utils.clear_string(article["article_content"])
                     if not article_content:
                         utils.clear_string(article["article_title"])
@@ -277,8 +277,8 @@ class pyAggr3g470r(object):
         try:
             feed_id, article_id = param.split(':')
             feed = self.mongo.get_feed(feed_id)
-            articles = self.mongo.get_articles_from_collection(feed_id)
-            article = self.mongo.get_article(feed_id, article_id)
+            articles = self.mongo.get_articles(feed_id)
+            article = self.mongo.get_articles(feed_id, article_id)
         except:
             return self.error("Bad URL. This article do not exists.")
 
@@ -315,8 +315,8 @@ class pyAggr3g470r(object):
 
         # Previous and following articles
         previous, following = None, None
-        liste = self.mongo.get_articles_from_collection(feed_id)
-        for current_article in self.mongo.get_articles_from_collection(feed_id):
+        liste = self.mongo.get_articles(feed_id)
+        for current_article in self.mongo.get_articles(feed_id):
             next(articles)
             if current_article["article_id"] == article_id:
                 break
@@ -343,7 +343,7 @@ class pyAggr3g470r(object):
         """
         try:
             feed = self.mongo.get_feed(feed_id)
-            articles = self.mongo.get_articles_from_collection(feed_id, limit=10)
+            articles = self.mongo.get_articles(feed_id, limit=10)
             nb_articles_feed = self.mongo.nb_articles(feed_id)
             nb_articles_total = self.mongo.nb_articles()
             nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
@@ -450,7 +450,7 @@ class pyAggr3g470r(object):
                     (feed["feed_id"],)
 
         dic = {}
-        top_words = utils.top_words(articles = self.mongo.get_articles_from_collection(feed_id), n=50, size=int(word_size))
+        top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
         html += "</br />\n<h1>Tag cloud</h1>\n"
         # Tags cloud
         html += """<form method=get action="/feed/%s">\n""" % (feed["feed_id"],)
@@ -473,7 +473,7 @@ class pyAggr3g470r(object):
         """
         try:
             feed = self.mongo.get_feed(feed_id)
-            articles = self.mongo.get_articles_from_collection(feed_id)
+            articles = self.mongo.get_articles(feed_id)
         except KeyError:
             return self.error("This feed do not exists.")
         tmpl = lookup.get_template("articles.html")
@@ -501,7 +501,7 @@ class pyAggr3g470r(object):
                     nb_unread = 0
 
                     # For all unread article of the current feed.
-                    for article in self.mongo.get_articles_from_collection(feed["feed_id"], condition=("article_readed", False)):
+                    for article in self.mongo.get_articles(feed["feed_id"], condition=("article_readed", False)):
                         nb_unread += 1
                         if new_feed_section is True:
                             new_feed_section = False
@@ -536,7 +536,7 @@ class pyAggr3g470r(object):
                     <br />""" % (feed_id, feed["feed_title"])
 
                 # For all unread article of the feed.
-                for article in self.mongo.get_articles_from_collection(feed_id, condition=("article_readed", False)):
+                for article in self.mongo.get_articles(feed_id, condition=("article_readed", False)):
                     # descrition for the CSS ToolTips
                     article_content = utils.clear_string(article["article_content"])
                     if article_content:
@@ -592,7 +592,7 @@ class pyAggr3g470r(object):
         timeline = Counter()
         for feed in feeds:
             new_feed_section = True
-            for article in self.mongo.get_articles_from_collection(feed["feed_id"]):
+            for article in self.mongo.get_articles(feed["feed_id"]):
 
                 if query == "all":
                     timeline[str(article["article_date"]).split(' ')[0].split('-')[0]] += 1
@@ -659,7 +659,7 @@ class pyAggr3g470r(object):
         try:
             feed_id, article_id = target.split(':')
             feed = self.mongo.get_feed(feed_id)
-            article = self.mongo.get_article(feed_id, article_id)
+            article = self.mongo.get_articles(feed_id, article_id)
         except:
             return self.error("Bad URL. This article do not exists.")
         description = utils.clear_string(article["article_content"])
@@ -734,7 +734,7 @@ class pyAggr3g470r(object):
         """
         try:
             like, feed_id, article_id = param.split(':')
-            articles = self.mongo.get_article(feed_id, article_id)
+            articles = self.mongo.get_articles(feed_id, article_id)
         except:
             return self.error("Bad URL. This article do not exists.")
         self.mongo.like_article("1"==like, feed_id, article_id)
@@ -912,8 +912,8 @@ class pyAggr3g470r(object):
         try:
             feed_id, article_id = param.split(':')
             feed = self.mongo.get_feed(feed_id)
-            articles = self.mongo.get_articles_from_collection(feed_id)
-            article = self.mongo.get_article(feed_id, article_id)
+            articles = self.mongo.get_articles(feed_id)
+            article = self.mongo.get_articles(feed_id, article_id)
         except:
             self.error("This article do not exists.")
         try:

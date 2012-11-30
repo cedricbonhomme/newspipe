@@ -57,7 +57,7 @@ import utils
                         feed["feed_link"], feed["feed_image"])
 
             # The main page display only 10 articles by feeds.
-            for article in mongo.get_articles_from_collection(feed["feed_id"], limit=10):
+            for article in mongo.get_articles(feed["feed_id"], limit=10):
                 if article["article_readed"] == False:
                     # not readed articles are in bold
                     not_read_begin, not_read_end = "<b>", "</b>"
