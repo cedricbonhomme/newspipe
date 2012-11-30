@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.3 $"
+__version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2012/05/01 $"
+__revision__ = "$Date: 2012/11/30 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -221,13 +221,6 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
         collection.update({"type": 0, "feed_id":feed_id}, {"$set": changes}, multi=True)
-
-    def list_collections(self):
-        """
-        List all collections (feed).
-        """
-        collections = self.db.collection_names()
-        return collections
 
     # Functions on database
     def drop_database(self):
