@@ -110,8 +110,12 @@ class Articles(object):
             collections = self.db.collection_names()
             for collection_name in collections:
                 collection = self.db[collection_name]
-                articles.extend(collection.find({'type':1}))
+                if condition is None:
+                    articles.extend(collection.find({"type":1}, limit=limit))
+                else:
+                    articles.extend(collection.find({"type":1, condition[0]:condition[1]}, limit=limit))
             return articles
+
         elif feed_id != None and article_id == None:
             # Return all the articles of a collection.
             collection = self.db[str(feed_id)]
@@ -120,6 +124,7 @@ class Articles(object):
             else:
                 cursor = collection.find({"type":1, condition[0]:condition[1]}, limit=limit)
             return cursor.sort([("article_date", pymongo.DESCENDING)])
+
         elif feed_id != None and article_id != None:
             # Return a precise article.
             collection = self.db[str(feed_id)]
@@ -182,14 +187,9 @@ class Articles(object):
         or of all the database.
         """
         if feed_id is not None:
-            collection = self.db[feed_id]
-            cursor = collection.find({'article_readed':False})
-            return cursor.count()
+            return self.get_articles(feed_id=feed_id, condition=("article_readed", False)).count()
         else:
-            unread_articles = 0
-            for feed_id in self.db.collection_names():
-                unread_articles += self.nb_unread_articles(feed_id)
-            return unread_articles
+            return len(self.get_articles(condition=("article_readed", False)))
 
     def like_article(self, like, feed_id, article_id):
         """
