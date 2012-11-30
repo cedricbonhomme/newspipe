@@ -150,7 +150,7 @@ class Articles(object):
             # only for a feed
             collection = self.db[feed_id]
             cursor = collection.find({'type':1, 'article_like':True})
-            return cursor
+            return cursor.sort([("article_date", pymongo.DESCENDING)])
         else:
             favorites = []
             for feed_id in self.db.collection_names():
