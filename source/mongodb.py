@@ -151,23 +151,21 @@ class Articles(object):
             collection = self.db[feed_id]
             cursor = collection.find({'type':1, 'article_like':True})
             return cursor
-            
+        else:
+            favorites = []
+            for feed_id in self.db.collection_names():
+                favorites += self.get_favorites(feed_id)
+            return favorites
+
     def nb_favorites(self, feed_id=None):
         """
         Return the number of favorites articles of a feed
         or of all the database.
         """
         if feed_id is not None:
-            # only for a feed
-            collection = self.db[feed_id]
-            cursor = collection.find({'type':1, 'article_like':True})
-            return cursor.count()
+            return self.get_favorites(feed_id).count()
         else:
-            # for all feeds
-            nb_favorites = 0
-            for feed_id in self.db.collection_names():
-                nb_favorites += self.nb_favorites(feed_id)
-            return nb_favorites
+            return len(self.get_favorites())
 
     def nb_mail_notifications(self):
         """

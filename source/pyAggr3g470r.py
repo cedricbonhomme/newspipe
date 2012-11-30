@@ -750,7 +750,7 @@ class pyAggr3g470r(object):
         feeds = self.mongo.get_all_feeds()
         articles = {}
         for feed in feeds:
-            articles[feed["feed_id"]] = self.mongo.get_articles_from_collection(feed["feed_id"])
+            articles[feed["feed_id"]] = self.mongo.get_favorites(feed["feed_id"])
         tmpl = lookup.get_template("favorites.html")
         return tmpl.render(feeds=feeds, \
                            articles=articles)
