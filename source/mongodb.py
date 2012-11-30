@@ -104,7 +104,7 @@ class Articles(object):
         get_articles(feed["feed_id"], condition=("article_readed", False)) will
         return all unread articles of feed.
         """
-        if feed_id == None:
+        if feed_id == None and article_id == None:
             # Return all articles.
             articles = []
             collections = self.db.collection_names()
@@ -130,6 +130,21 @@ class Articles(object):
             collection = self.db[str(feed_id)]
             return next(collection.find({"article_id":article_id}))
 
+    def get_favorites(self, feed_id=None):
+        """
+        Return favorites articles.
+        """
+        if feed_id is not None:
+            # only for a feed
+            collection = self.db[feed_id]
+            cursor = collection.find({'type':1, 'article_like':True})
+            return cursor.sort([("article_date", pymongo.DESCENDING)])
+        else:
+            favorites = []
+            for feed_id in self.db.collection_names():
+                favorites += self.get_favorites(feed_id)
+            return favorites
+
     def nb_articles(self, feed_id=None):
         """
         Return the number of articles of a feed
@@ -145,20 +160,22 @@ class Articles(object):
                nb_articles += self.nb_articles(feed_id)
             return nb_articles
 
-    def get_favorites(self, feed_id=None):
+    def nb_unread_articles(self, feed_id=None):
         """
-        Return favorites articles.
+        Return the number of unread articles of a feed
+        or of all the database.
         """
         if feed_id is not None:
-            # only for a feed
-            collection = self.db[feed_id]
-            cursor = collection.find({'type':1, 'article_like':True})
-            return cursor.sort([("article_date", pymongo.DESCENDING)])
+            return self.get_articles(feed_id=feed_id, condition=("article_readed", False)).count()
         else:
-            favorites = []
-            for feed_id in self.db.collection_names():
-                favorites += self.get_favorites(feed_id)
-            return favorites
+            return len(self.get_articles(condition=("article_readed", False)))
+
+    def like_article(self, like, feed_id, article_id):
+        """
+        Like or unlike an article.
+        """
+        collection = self.db[str(feed_id)]
+        collection.update({"article_id": article_id}, {"$set": {"article_like": like}})
 
     def nb_favorites(self, feed_id=None):
         """
@@ -180,23 +197,6 @@ class Articles(object):
             cursor = collection.find({'type':0, 'mail':True})
             nb_mail_notifications += cursor.count()
         return nb_mail_notifications
-
-    def nb_unread_articles(self, feed_id=None):
-        """
-        Return the number of unread articles of a feed
-        or of all the database.
-        """
-        if feed_id is not None:
-            return self.get_articles(feed_id=feed_id, condition=("article_readed", False)).count()
-        else:
-            return len(self.get_articles(condition=("article_readed", False)))
-
-    def like_article(self, like, feed_id, article_id):
-        """
-        Like or unlike an article.
-        """
-        collection = self.db[str(feed_id)]
-        collection.update({"article_id": article_id}, {"$set": {"article_like": like}})
 
     def mark_as_read(self, readed, feed_id=None, article_id=None):
         """
