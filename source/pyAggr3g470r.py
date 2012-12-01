@@ -173,7 +173,7 @@ class pyAggr3g470r(object):
         """
         More advanced statistics.
         """
-        articles = self.mongo.get_articless()
+        articles = self.mongo.get_articles()
         top_words = utils.top_words(articles, n=50, size=int(word_size))
         tag_cloud = utils.tag_cloud(top_words)
         tmpl = lookup.get_template("statistics.html")
