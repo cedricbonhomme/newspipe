@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2012/11/30 $"
+__revision__ = "$Date: 2012/12/02 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -82,7 +82,8 @@ class Articles(object):
 
     def get_all_feeds(self, condition=None):
         """
-        Return all feeds object.
+        Return all feeds object. The returned list
+        is sorted by alphabetically (by feed name).
         """
         feeds = []
         collections = self.db.collection_names()
@@ -101,8 +102,8 @@ class Articles(object):
         """
         Return one or several articles.
         The parameter "condition" is an optional requirement, for example:
-        get_articles(feed["feed_id"], condition=("article_readed", False)) will
-        return all unread articles of feed.
+        get_articles(feed_id, condition=("article_readed", False)) will
+        return all unread articles of the feed 'feed_id'.
         """
         if feed_id == None and article_id == None:
             # Return all articles.
