@@ -758,6 +758,25 @@ class pyAggr3g470r(object):
     favorites.exposed = True
 
     @require()
+    def inactives(self, nb_days=365):
+        """
+        List of favorites articles
+        """
+        feeds = self.mongo.get_all_feeds()
+        today = datetime.datetime.now()
+        inactives = []
+        for feed in feeds:
+            more_recent_article = self.mongo.get_articles(feed["feed_id"], limit=1)
+            last_post = next(more_recent_article)["article_date"]
+            elapsed = today - last_post
+            if elapsed > datetime.timedelta(days=int(nb_days)):
+                inactives.append((feed, elapsed))
+        tmpl = lookup.get_template("inactives.html")
+        return tmpl.render(inactives=inactives, nb_days=int(nb_days))
+
+    inactives.exposed = True
+
+    @require()
     def add_feed(self, url):
         """
         Add a new feed with the URL of a page.

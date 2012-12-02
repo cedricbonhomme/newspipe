@@ -1,0 +1,13 @@
+## inactives.html
+<%inherit file="base.html"/>
+<div class="left inner">
+    %if inactives != []:
+        <h1>Feeds with no recent articles since ${nb_days} days:</h1>
+        <ul>
+        %for item in inactives:
+            <li><a href="/feed/${item[0]["feed_id"]}">${item[0]["feed_title"]}</a> (${item[1].days} days)</li>
+        %endfor
+        </ul>
+    %else:
+        <p>No inactive feeds.<p>
+    %endif
