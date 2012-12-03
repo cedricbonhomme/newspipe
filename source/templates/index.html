@@ -99,7 +99,6 @@ import utils
                 html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
             else:
                 html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
-            html += """<h4><a href="/#top">Top</a></h4>"""
-            html += "<hr />\n"
+            html += """<h4><a href="/#top">Top</a></h4>\n"""
     %>
     ${html}
