@@ -18,15 +18,21 @@
             <input type="submit" value="OK">
         </form>
 
-        <p>Active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a></p>
+	<hr />
 
-        <p>You like <a href="/favorites/">${nb_favorites}</a> article(s).</p>
+        <h1>Facts</h1>
+        <ul>
+	    <li>active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a>;</li>
+            <li>you like <a href="/favorites/">${nb_favorites}</a> article(s);</li>
+            <li><a href="/statistics/">tag clouds</a>;</li>
+            <li><a href="/inactives/">inactive feeds</a>.</li>
+        </ul>
     %endif
 
     <hr />
 
-    <p>${nb_articles} article(s) are stored in the database with <a href="/unread/">${nb_unread_articles} unread article(s)</a>.<br />
-    <a href="/statistics/">Advanced statistics.</a></p>
+    <h1>Database</h1>
+    <p>${nb_articles} article(s) are stored in the database with <a href="/unread/">${nb_unread_articles} unread article(s)</a>.
 
     <form method=get action="/fetch/">
         <input type="submit" value="Fetch all feeds">
@@ -34,6 +40,8 @@
     <form method=get action="/drop_base">
         <input type="submit" value="Delete all articles">
     </form>
+
+    <hr />
 
     <h1>Export articles</h1>
     <form method=get action="/export/">
