@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 3.6 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2012/11/26 $"
+__revision__ = "$Date: 2012/12/04 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
