@@ -192,69 +192,10 @@ class pyAggr3g470r(object):
         feed_id = None
         if param == "Feed":
             feed_id, _, query = value.partition(':')
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += """<h1>Articles containing the string <i>%s</i></h1><br />""" % (query,)
-
-        if feed_id is not None:
-            for article in self.mongo.get_articles(feed_id):
-                article_content = utils.clear_string(article.article_description)
-                if not article_content:
-                    utils.clear_string(article.article_title)
-                if wordre.findall(article_content) != []:
-                    if article.article_readed == "0":
-                        # not readed articles are in bold
-                        not_read_begin, not_read_end = "<b>", "</b>"
-                    else:
-                        not_read_begin, not_read_end = "", ""
-
-                    html += article.article_date + " - " + not_read_begin + \
-                            """<a href="/article/%s:%s" rel="noreferrer" target="_blank">%s</a>""" % \
-                                    (feed_id, article.article_id, article.article_title) + \
-                            not_read_end + """<br />\n"""
-        else:
-            feeds = self.mongo.get_all_feeds()
-            for feed in feeds:
-                new_feed_section = True
-                for article in self.mongo.get_articles(feed["feed_id"]):
-                    article_content = utils.clear_string(article["article_content"])
-                    if not article_content:
-                        utils.clear_string(article["article_title"])
-                    if wordre.findall(article_content) != []:
-                        if new_feed_section is True:
-                            new_feed_section = False
-                            html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                (feed["feed_id"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
-
-                        if article["article_readed"] == False:
-                            # not readed articles are in bold
-                            not_read_begin, not_read_end = "<b>", "</b>"
-                        else:
-                            not_read_begin, not_read_end = "", ""
-
-                        # display a heart for faved articles
-                        if article["article_like"] == True:
-                            like = """ <img src="/img/heart.png" title="I like this article!" />"""
-                        else:
-                            like = ""
-
-                        # descrition for the CSS ToolTips
-                        article_content = utils.clear_string(article["article_content"])
-                        if article_content:
-                            description = " ".join(article_content[:500].split(' ')[:-1])
-                        else:
-                            description = "No description."
-
-                        # a description line per article (date, title of the article and
-                        # CSS description tooltips on mouse over)
-                        html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                                """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                        (feed["feed_id"], article["article_id"], not_read_begin, \
-                                        article["article_title"][:150], not_read_end, description) + like + "<br />\n"
-        html += "<hr />"
-        html += htmlfooter
-        return html
+        feeds = self.mongo.get_all_feeds()
+        tmpl = lookup.get_template("search.html")
+        return tmpl.render(feeds=feeds, feed_id=feed_id, query=query, \
+                        wordre=wordre, mongo=self.mongo)
 
     search.exposed = True
 
