@@ -28,7 +28,7 @@ __license__ = "GPLv3"
 
 #
 # This file contains the "Root" class which describes
-# all pages of pyAggr3g470r. These pages are:
+# all pages (views) of pyAggr3g470r. These pages are:
 # - main page;
 # - management;
 # - history;
@@ -36,6 +36,8 @@ __license__ = "GPLv3"
 # - notifications;
 # - unread;
 # - feed summary.
+# Templates are described in ./templates with the Mako
+# template library.
 #
 
 import os
