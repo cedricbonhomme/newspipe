@@ -749,20 +749,12 @@ class pyAggr3g470r(object):
         """
         Remove a feed from the file feed.lst and from the MongoDB database.
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-
         feed = self.mongo.get_feed(feed_id)
         self.mongo.delete_feed(feed_id)
         utils.remove_feed(feed["feed_link"])
-
-        html += """<p>All articles from the feed <i>%s</i> are now removed from the base.</p><br />""" % \
-                (feed["feed_title"],)
-        html += """<a href="/management/">Back to the management page.</a><br />\n"""
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+        message = """All articles from the feed <i>%s</i> are now removed from the base.""" % (feed["feed_title"],)
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message=message)
 
     remove_feed.exposed = True
 
@@ -771,15 +763,10 @@ class pyAggr3g470r(object):
         """
         Enables to change the URL of a feed already present in the database.
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
         self.mongo.update_feed(feed_id, {"feed_link":new_feed_url})
         utils.change_feed_url(old_feed_url, new_feed_url)
-        html += "<p>The URL of the feed has been changed.</p>"
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message="The URL of the feed has been changed.")
 
     change_feed_url.exposed = True
 
@@ -788,14 +775,9 @@ class pyAggr3g470r(object):
         """
         Enables to change the name of a feed.
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
         self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
-        html += "<p>The name of the feed has been changed.</p>"
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message="The name of the feed has been changed.")
 
     change_feed_name.exposed = True
 
@@ -804,14 +786,9 @@ class pyAggr3g470r(object):
         """
         Enables to change the name of a feed.
         """
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
         self.mongo.update_feed(feed_id, {"feed_image":new_feed_logo})
-        html += "<p>The logo of the feed has been changed.</p>"
-        html += "<hr />\n"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message="The logo of the feed has been changed.")
 
     change_feed_logo.exposed = True
 
