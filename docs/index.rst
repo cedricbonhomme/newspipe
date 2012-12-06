@@ -13,7 +13,7 @@ Welcome to pyAggr3g470r's documentation!
 Presentation
 ------------
 
-pyAggr3g470r_ is a multi-threaded news aggregator with a web interface
+pyAggr3g470r_ is a news aggregator with a web interface
 based on CherryPy_. Articles are stored in a MongoDB_ base.
 
 
@@ -21,13 +21,13 @@ based on CherryPy_. Articles are stored in a MongoDB_ base.
 Features
 --------
 
-* articles are stored in a MongoDB_ database;
-* find an article with history;
+* articles are stored in a MongoDB_ database (local or remote);
+* article searching;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
-* mark or unmark articles as favorites;
-* share articles with Diaspora, Google Buzz, Pinboard, delicious, Identi.ca, Digg, reddit, Scoopeo, Blogmarks and Twitter;
-* generation of QR code with the content or URL of an article. So you can read an article later on your smartphone (or share with friends).
+* favorite articles;
+* sharing with Diaspora, Google Buzz, Pinboard, Identi.ca, Digg, reddit, Scoopeo, Blogmarks and Twitter;
+* generation of QR codes with URLs of articles.
 
 
 Installation
@@ -51,12 +51,11 @@ These modules are not required but enables more features:
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
-
-If you want to install these modules:
+Not yet tested with Python 3.2. If you want to install these modules:
 
 .. code-block:: bash
 
-    $ sudo aptitude install  python-lxml python-genshi
+    $ sudo aptitude install python3.2-lxml python-genshi
 
 
 Script of installation
@@ -64,7 +63,7 @@ Script of installation
 
 .. code-block:: bash
 
-    sudo aptitude install python-feedparser python-beautifulsoup
+    sudo aptitude install python3-feedparser python3-bs4
     sudo aptitude install python-pymongo python3-mako
     wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
     tar -xzvf CherryPy-3.2.2.tar.gz
