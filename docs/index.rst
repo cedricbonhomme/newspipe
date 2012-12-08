@@ -108,15 +108,14 @@ Then, indicate the feeds to retrieve in the file **./var/feed.lst**. One feed pe
 
 Create a new user
 `````````````````
-
 Add a username and a password in the file **./var/password** separated by a semicolon, one per line.
+
 The default user is *admin* with the password *admin*. The password should be hashed with the SHA1 function.
 
 
 
 Launch
 ------
-
 To launch pyAggr3g470r in a shell:
 
 .. code-block:: bash
@@ -128,7 +127,6 @@ To launch pyAggr3g470r in a shell:
 
 Backup
 ------
-
 If you want to backup your database:
 
 .. code-block:: bash
@@ -138,10 +136,20 @@ If you want to backup your database:
     $ cp /var/lib/mongodb/pyaggr3g470r.* ~
 
 
+Demo
+----
+* some `screen shots <http://picasaweb.google.com/cedric.photos/PyAggr3g470r>`_ of **pyAggr3g470r**;
+* an old `video <http://youtu.be/Eyxpqn9Rpnw>`_ of pyAggr3g470r;
+* an example of `HTML auto-generated archive <http://cedricbonhomme.org/news/>`_.
+
+
 
 Donnation
 ---------
-If you wish and if you like pyAggr3g470r, you can donate via bitcoin. My bitcoin address: 1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ
+If you wish and if you like pyAggr3g470r, you can donate via bitcoin.
+
+My bitcoin address: 1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ
+
 Thank you!
 
 
@@ -154,7 +162,6 @@ pyAggr3g470r_ is under GPLv3_ license.
 
 Contact
 -------
-
 `My home page <http://cedricbonhomme.org/>`_.
 
 
