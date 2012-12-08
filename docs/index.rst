@@ -48,10 +48,11 @@ Optional module
 ```````````````
 
 These modules are not required but enables more features:
+
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
-Not yet tested with Python 3.2. If you want to install these modules:
+Not yet tested with Python 3.2. Anyway, if you want to install these modules:
 
 .. code-block:: bash
 
