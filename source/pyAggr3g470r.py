@@ -292,120 +292,25 @@ class pyAggr3g470r(object):
             nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
         except KeyError:
             return self.error("This feed do not exists.")
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">"""
-        html += "<p>The feed <b>" + feed["feed_title"] + "</b> contains <b>" + str(nb_articles_feed) + "</b> articles. "
-        html += "Representing " + str((round(float(nb_articles_feed) / nb_articles_total, 4)) * 100) + " percent of the total "
-        html += "(" + str(nb_articles_total) + ").</p>"
-        if articles != []:
-            html += "<p>" + (nb_unread_articles_feed == 0 and ["All articles are read"] or [str(nb_unread_articles_feed) + \
-                    " unread article" + (nb_unread_articles_feed == 1 and [""] or ["s"])[0]])[0] + ".</p>"
-        if feed["mail"] == True:
-                html += """<p>You are receiving articles from this feed to the address: <a href="mail:%s">%s</a>. """ % \
-                        (conf.mail_to, conf.mail_to)
-                html += """<a href="/mail_notification/0:%s">Stop</a> receiving articles from this feed.</p>""" % \
-                        (feed_id, )
 
         if articles != []:
             last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
             first_article = utils.string_to_datetime(str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"]))
             delta = last_article - first_article
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
-            html += "<p>The last article was posted " + str(abs(delta_today.days))  + " day(s) ago.</p>"
-            if delta.days > 0:
-                html += """<p>Daily average: %s,""" % (str(round(float(nb_articles_feed) / abs(delta.days), 2)),)
-                html += """ between the %s and the %s.</p>\n""" % \
-	              (str(articles[nb_articles_feed-2]["article_date"])[:10], str(articles[0]["article_date"])[:10])
-
-        html += "<br /><h1>Recent articles</h1>"
-        for article in articles:
-            if article["article_readed"] == False:
-                # not readed articles are in bold
-                not_read_begin, not_read_end = "<b>", "</b>"
-            else:
-                not_read_begin, not_read_end = "", ""
-
-            # display a heart for faved articles
-            if article["article_like"] == True:
-                like = """ <img src="/img/heart.png" title="I like this article!" />"""
-            else:
-                like = ""
-
-            # Descrition for the CSS ToolTips
-            article_content = utils.clear_string(article["article_content"])
-            if article_content:
-                description = " ".join(article_content[:500].split(' ')[:-1])
-            else:
-                description = "No description."
-            # Title of the article
-            article_title = article["article_title"]
-            if len(article_title) >= 80:
-                article_title = article_title[:80] + " ..."
-
-            # a description line per article (date, title of the article and
-            # CSS description tooltips on mouse over)
-            html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                            (feed["feed_id"], article["article_id"], not_read_begin, \
-                            article_title, not_read_end, description) + like + "<br />\n"
-        html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;\n""" % (feed["feed_id"],)
-        html += "<br />\n"
-
-
-        if self.mongo.nb_favorites(feed_id) != 0:
-            html += "<br /></br /><h1>Your favorites articles for this feed</h1>"
-            for article in self.mongo.get_favorites(feed_id):
-                #descrition for the CSS ToolTips
-                article_content = utils.clear_string(article["article_content"])
-                if article_content:
-                    description = " ".join(article_content[:500].split(' ')[:-1])
-                else:
-                    description = "No description."
-
-                # a description line per article (date, title of the article and
-                # CSS description tooltips on mouse over)
-                html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s<span class="classic">%s</span></a><br />\n""" % \
-                                (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
-
-
-        # This section enables the user to edit informations about
-        # the current feed:
-        #  - feed logo;
-        #  - feed name;
-        #  - URL of the feed (not the site);
-        html += "<br />\n<h1>Edit this feed</h1>\n"
-        html += '\n\n<form method=post action="/change_feed_name/">' + \
-                '<input type="text" name="new_feed_name" value="" ' + \
-                'placeholder="Enter a new name (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="feed_id" value="%s" /></form>\n""" % \
-                    (feed["feed_id"],)
-        html += '\n\n<form method=post action="/change_feed_url/">' + \
-                '<input type="url" name="new_feed_url" value="" ' + \
-                'placeholder="Enter a new URL in order to retrieve articles (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="feed_id" value="%s" /><input type="hidden" name="old_feed_url" value="%s" /></form>\n""" % \
-                    (feed["feed_id"], feed["feed_link"])
-        html += '\n\n<form method=post action="/change_feed_logo/">' + \
-                '<input type="text" name="new_feed_logo" value="" ' + \
-                'placeholder="Enter the URL of the logo (then press Enter)." maxlength=2048 autocomplete="on" size="50" />' + \
-                """<input type="hidden" name="feed_id" value="%s" /></form>\n""" % \
-                    (feed["feed_id"],)
+            average = round(float(nb_articles_feed) / abs(delta.days), 2)
+            favorites = self.mongo.get_favorites(feed_id)
 
         dic = {}
         top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
-        html += "</br />\n<h1>Tag cloud</h1>\n"
-        # Tags cloud
-        html += """<form method=get action="/feed/%s">\n""" % (feed["feed_id"],)
-        html += "Minimum size of a word:\n"
-        html += """<input type="number" name="word_size" value="%s" min="2" max="15" step="1" size="2"></form>\n""" % (word_size,)
-        html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                    utils.tag_cloud(top_words) + '</div>'
+        tag_cloud = utils.tag_cloud(top_words)
 
-        html += "<br />"
-        html += "<hr />"
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("feed.html")
+        return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
+                            nb_articles_feed=nb_articles_feed, nb_articles_total=nb_articles_total, nb_unread_articles_feed=nb_unread_articles_feed, \
+                            first_post_date=first_article, end_post_date=last_article, \
+                            average=average, delta=delta, delta_today=delta_today, \
+                            tag_cloud=tag_cloud, word_size=word_size, mail_to=conf.mail_to)
 
     feed.exposed = True
 
