@@ -300,10 +300,8 @@ class pyAggr3g470r(object):
             delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
             average = round(float(nb_articles_feed) / abs(delta.days), 2)
             favorites = self.mongo.get_favorites(feed_id)
-
-        dic = {}
-        top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
-        tag_cloud = utils.tag_cloud(top_words)
+            top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
+            tag_cloud = utils.tag_cloud(top_words)
 
         tmpl = lookup.get_template("feed.html")
         return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
