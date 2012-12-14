@@ -114,6 +114,33 @@ Add a username and a password in the file **./var/password** separated by a semi
 
 The default user is *admin* with the password *admin*. The password should be hashed with the SHA1 function.
 
+Mail notification
+`````````````````
+If you wish to stay tuned from new articles of a feed by email, you have to edit the configuration file:
+
+* your mail address (address of the recipient of the news);
+* a SMTP server;
+* the address used by pyAggr3g470r to send the mail, and;
+* the corresponding password. 
+
+.. code-block:: cfg
+
+    [MongoDB]
+    address = mongodb.alwaysdata.com
+    port = 27017
+    dbname = bob_pyaggr3g470r
+    user = bob
+    password = password_of_bob
+    [mail]
+    mail_from = pyAggr3g470r@no-reply.com
+    mail_to = address_of_the_recipient@example.com
+    smtp = smtp.example.com
+    username = your_mail_address@example.com
+    password = your_password
+    [misc]
+    diaspora_pod = joindiaspora.com
+
+Then just click on "Stay tuned" for the desired feed(s) at the main page of pyAggr3g470r in your browser.
 
 
 Launch
