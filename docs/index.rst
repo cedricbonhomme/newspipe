@@ -16,6 +16,8 @@ Presentation
 pyAggr3g470r_ is a news aggregator with a web interface
 based on CherryPy_. Articles are stored in a MongoDB_ base.
 
+* `Ohloh page <http://www.ohloh.net/p/pyAggr3g470r>`_ of pyAggr3g470r;
+* `Freecode page <http://freecode.com/projects/pyaggr3g470r>`_ of pyAggr3g470r
 
 
 Features
