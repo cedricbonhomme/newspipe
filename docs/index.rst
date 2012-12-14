@@ -84,7 +84,7 @@ List of feeds
 `````````````
 
 Rename the file **./cfg/pyAggr3g470r.cfg-sample** to **./cfg/pyAggr3g470r.cfg**.
-By default you don't have to edit this file (only to configure mail notification).
+By default you don't have to edit this file (only in order to configure mail notification).
 
 Then, indicate the feeds to retrieve in the file **./var/feed.lst**. One feed per line. For example :
 
