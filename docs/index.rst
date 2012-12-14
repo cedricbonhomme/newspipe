@@ -17,7 +17,7 @@ pyAggr3g470r_ is a news aggregator with a web interface
 based on CherryPy_. Articles are stored in a MongoDB_ base.
 
 * `Ohloh page <http://www.ohloh.net/p/pyAggr3g470r>`_ of pyAggr3g470r;
-* `Freecode page <http://freecode.com/projects/pyaggr3g470r>`_ of pyAggr3g470r
+* `Freecode page <http://freecode.com/projects/pyaggr3g470r>`_ of pyAggr3g470r.
 
 
 Features
@@ -72,7 +72,7 @@ Script of installation
     tar -xzvf CherryPy-3.2.2.tar.gz
     rm -f CherryPy-3.2.2.tar.gz
     cd CherryPy-3.2.2/
-    sudo python setup.py install
+    sudo python3.2 setup.py install
     cd ..
     sudo rm -Rf CherryPy-3.2.2/
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
@@ -145,7 +145,7 @@ Then just click on "Stay tuned" for the desired feed(s) at the main page of pyAg
 
 Launch
 ------
-To launch pyAggr3g470r in a shell:
+To launch pyAggr3g470r:
 
 .. code-block:: bash
 
