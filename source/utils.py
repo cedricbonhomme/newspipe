@@ -83,22 +83,12 @@ def detect_url_errors(list_of_urls):
             errors.append((url, e.reason.errno ,e.reason.strerror))
     return errors
 
-def get_words(html):
-    # Remove all the HTML tags
-    txt=re.compile(r'<[^>]+>').sub('',html)
-
-    # Split words by all non-alpha characters
-    words=re.compile(r'[^A-Z^a-z]+').split(txt)
-
-    # Convert to lowercase
-    return [word.lower() for word in words if word!='']
-
 def clear_string(data):
     """
     Clear a string by removing HTML tags, HTML special caracters
     and consecutive white spaces (more that one).
     """
-    p = re.compile(b'<[^<]*?/?>') # HTML tags
+    p = re.compile(b'<[^>]+>') # HTML tags
     q = re.compile(b'\s') # consecutive white spaces
     return p.sub(b'', q.sub(b' ', bytes(data, "utf-8"))).decode("utf-8", "strict")
 
@@ -170,8 +160,7 @@ def top_words(articles, n=10, size=5):
     words = Counter()
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for article in articles:
-        #for word in [elem.lower() for elem in wordre.findall(clear_string(article["article_content"])) if elem.lower() not in stop_words]:
-        for word in [elem.lower() for elem in get_words(article["article_content"]) if elem.lower() not in stop_words]:
+        for word in [elem.lower() for elem in wordre.findall(clear_string(article["article_content"])) if elem.lower() not in stop_words]:
             words[word] += 1
     return words.most_common(n)
 
