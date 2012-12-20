@@ -83,6 +83,16 @@ def detect_url_errors(list_of_urls):
             errors.append((url, e.reason.errno ,e.reason.strerror))
     return errors
 
+def getwords(html):
+    # Remove all the HTML tags
+    txt=re.compile(r'<[^>]+>').sub('',html)
+
+    # Split words by all non-alpha characters
+    words=re.compile(r'[^A-Z^a-z]+').split(txt)
+
+    # Convert to lowercase
+    return [word.lower() for word in words if word!='']
+
 def clear_string(data):
     """
     Clear a string by removing HTML tags, HTML special caracters
