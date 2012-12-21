@@ -15,11 +15,11 @@ A documentation is available [here](https://pyaggr3g470r.readthedocs.org/).
 Features
 ------------
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database (local or remote);
-* search articles;
+* article searching;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
-* share articles with Diaspora, Google Buzz, Pinboard, Identi.ca, Digg, reddit, Scoopeo, Blogmarks and Twitter;
+* share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks;
 * generation of QR codes with URLs of articles.
 
 
