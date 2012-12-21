@@ -120,7 +120,7 @@ If you wish to stay tuned from new articles of a feed by email, you have to edit
 * the address used by pyAggr3g470r to send the mail, and;
 * the corresponding password. 
 
-.. code-block:: cfg
+.. code-block:: ini
 
     [MongoDB]
     address = mongodb.alwaysdata.com
