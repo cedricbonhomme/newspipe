@@ -441,15 +441,15 @@ class pyAggr3g470r(object):
             for article in self.mongo.get_articles(feed["feed_id"]):
 
                 if query == "all":
-                    timeline[str(article["article_date"]).split(' ')[0].split('-')[0]] += 1
+                    timeline[article["article_date"].strftime('%Y')] += 1
 
                 elif query[:4] == "year":
 
-                    if str(article["article_date"]).split(' ')[0].split('-')[0] == the_year:
-                        timeline[str(article["article_date"]).split(' ')[0].split('-')[1]] += 1
+                    if article["article_date"].strftime('%Y') == the_year:
+                        timeline[article["article_date"].strftime('%m')] += 1
 
                         if "month" in query:
-                            if str(article["article_date"]).split(' ')[0].split('-')[1] == the_month:
+                            if article["article_date"].strftime('%m') == the_month:
                                 if article["article_readed"] == False:
                                     # not readed articles are in bold
                                     not_read_begin, not_read_end = "<b>", "</b>"
@@ -488,7 +488,7 @@ class pyAggr3g470r(object):
             query_string = "year:" + the_year + "-month"
         if "month" not in query:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud([(elem, timeline[elem]) for elem in list(timeline.keys())], query_string) + '</div>'
+                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query_string) + '</div>'
         html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
         html += '<form>\n\t<input name="m" type="month">\n\t<input type="submit" value="Go">\n</form>'
         html += '<hr />'
