@@ -425,15 +425,15 @@ class pyAggr3g470r(object):
 
         if query == "all":
             html += "<h1>Search with tags cloud</h1>\n"
-            html += "<h4>Choose a year</h4></br >\n"
+            html += "<h4>Choose a year</h4>n"
         if "year" in query:
             the_year = query.split('-')[0].split(':')[1]
             if "month" not in query:
-                html += "<h1>Choose a month for " + the_year + "</h1></br >\n"
+                html += "<h1>Choose a month for " + the_year + "</h1>\n"
         if "month" in query:
             the_month = query.split('-')[1].split(':')[1]
             html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
-                    ", "+ the_year +".</h1><br />\n"
+                    ", "+ the_year +".</h1>\n"
 
         timeline = Counter()
         for feed in feeds:
