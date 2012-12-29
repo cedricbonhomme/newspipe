@@ -62,20 +62,14 @@ def error_404(status, message, traceback, version):
     """
     Display an error if the page does not exist.
     """
-    html = htmlheader()
-    html += htmlnav
-    html += "<br /><br />Error %s - This page does not exist." % status
-    html += "\n<hr />\n" + htmlfooter
+    html = "<br /><br />Error %s - This page does not exist." % status
     return html
 
 def handle_error():
     """
     Handle different type of errors.
     """
-    html = htmlheader()
-    html += htmlnav
-    html += "<br /><br />Sorry, an error occured"
-    html += "\n<hr />\n" + htmlfooter
+    html = "<br /><br />Sorry, an error occured"
     cherrypy.response.status = 500
     cherrypy.response.body = [html]
 
