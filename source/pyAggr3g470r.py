@@ -73,28 +73,6 @@ def handle_error():
     cherrypy.response.status = 500
     cherrypy.response.body = [html]
 
-def htmlheader(text=""):
-    """
-    Return the header of the HTML page with the number of unread articles
-    in the 'title' HTML tag..
-    """
-    return '<!DOCTYPE html>\n' + \
-        '<head>' + \
-        '\n\t<title>'+ text +' - pyAggr3g470r - News aggregator</title>\n' + \
-        '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
-        '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
-        '\n\t<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>\n' + \
-        '</head>\n'
-
-htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
-            ' redistribute the source code according to the' + \
-            ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
-            '</body>\n</html>'
-
-htmlnav = '<body>\n<h1><div class="right innerlogo"><a href="/"><img src="/img/tuxrss.png"' + \
-        """ title="What's new today?"/></a>""" + \
-        '</div><a name="top"><a href="/">pyAggr3g470r - News aggregator</a></a></h1>\n'
-
 class RestrictedArea(object):
     """
     All methods in this controller (and subcontrollers) is
@@ -468,8 +446,7 @@ class pyAggr3g470r(object):
         """
         Add a new feed with the URL of a page.
         """
-        html = htmlheader()
-        html += htmlnav
+        html = ""
         html += """<div class="left inner">"""
         # search the feed in the HTML page with BeautifulSoup
         feed_url = utils.search_feed(url)
@@ -485,7 +462,6 @@ class pyAggr3g470r(object):
             html += """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
         html += """\n<br />\n<a href="/management/">Back to the management page.</a><br />\n"""
         html += "<hr />\n"
-        html += htmlfooter
         return html
 
     add_feed.exposed = True
