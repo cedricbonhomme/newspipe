@@ -425,7 +425,7 @@ class pyAggr3g470r(object):
 
         if query == "all":
             html += "<h1>Search with tags cloud</h1>\n"
-            html += "<h4>Choose a year</h4>n"
+            html += "<h4>Choose a year</h4>\n"
         if "year" in query:
             the_year = query.split('-')[0].split(':')[1]
             if "month" not in query:
