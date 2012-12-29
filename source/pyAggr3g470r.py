@@ -489,8 +489,6 @@ class pyAggr3g470r(object):
         if "month" not in query:
             html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
                         utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query_string) + '</div>'
-        html += '<br /><br /><h1>Search with a month+year picker</h1>\n'
-        html += '<form>\n\t<input name="m" type="month">\n\t<input type="submit" value="Go">\n</form>'
         html += '<hr />'
         html += htmlfooter
         return html
