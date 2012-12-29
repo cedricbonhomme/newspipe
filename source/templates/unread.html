@@ -42,12 +42,13 @@ import utils
                                         (feed["feed_id"],)
                 html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
 
+
             # List unread articles of a feed
             else:
                 try:
                     feed = mongo.get_feed(feed_id)
                 except:
-                    error("This feed do not exists.")
+                    return "<p>This feed do not exists.</p>"
                 html += """<h1>Unread article(s) of the feed <a href="/articles/%s">%s</a></h1>
                     <br />""" % (feed_id, feed["feed_title"])
 

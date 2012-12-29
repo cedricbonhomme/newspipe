@@ -62,16 +62,17 @@ def error_404(status, message, traceback, version):
     """
     Display an error if the page does not exist.
     """
-    html = "<br /><br />Error %s - This page does not exist." % status
-    return html
+    message = "<pError %s - This page does not exist.</p>" % status
+    tmpl = lookup.get_template("error.html")
+    return tmpl.render(message=message)
 
 def handle_error():
     """
     Handle different type of errors.
     """
-    html = "<br /><br />Sorry, an error occured"
+    message = "<p>Sorry, an error occured.</p>"
     cherrypy.response.status = 500
-    cherrypy.response.body = [html]
+    cherrypy.response.body = [message]
 
 class RestrictedArea(object):
     """
@@ -332,8 +333,7 @@ class pyAggr3g470r(object):
             description = "Unvailable"
         tmpl = lookup.get_template("plain_text.html")
         return tmpl.render(feed_title=feed["feed_title"], \
-                           article_title=article["article_title"], \
-                           description = description)
+                           article_title=article["article_title"], description = description)
 
     plain_text.exposed = True
 
