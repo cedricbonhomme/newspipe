@@ -42,15 +42,11 @@ __license__ = "GPLv3"
 
 import os
 import re
-import calendar
-
+import datetime
 import cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup
 lookup = TemplateLookup(directories=['templates'])
-
-from collections import Counter
-import datetime
 
 import conf
 import utils
@@ -413,85 +409,8 @@ class pyAggr3g470r(object):
         This page enables to browse articles chronologically.
         """
         feeds = self.mongo.get_all_feeds()
-        html = htmlheader()
-        html += htmlnav
-        html += """<div class="left inner">\n"""
-
-        # Get the date from the tag cloud
-        # Format: /history/?query=year:2011-month:06 to get the
-        # list of articles of June, 2011.
-        if m != "":
-            query = """year:%s-month:%s""" % tuple(m.split('-'))
-
-        if query == "all":
-            html += "<h1>Search with tags cloud</h1>\n"
-            html += "<h4>Choose a year</h4>\n"
-        if "year" in query:
-            the_year = query.split('-')[0].split(':')[1]
-            if "month" not in query:
-                html += "<h1>Choose a month for " + the_year + "</h1>\n"
-        if "month" in query:
-            the_month = query.split('-')[1].split(':')[1]
-            html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + \
-                    ", "+ the_year +".</h1>\n"
-
-        timeline = Counter()
-        for feed in feeds:
-            new_feed_section = True
-            for article in self.mongo.get_articles(feed["feed_id"]):
-
-                if query == "all":
-                    timeline[article["article_date"].strftime('%Y')] += 1
-
-                elif query[:4] == "year":
-
-                    if article["article_date"].strftime('%Y') == the_year:
-                        timeline[article["article_date"].strftime('%m')] += 1
-
-                        if "month" in query:
-                            if article["article_date"].strftime('%m') == the_month:
-                                if article["article_readed"] == False:
-                                    # not readed articles are in bold
-                                    not_read_begin, not_read_end = "<b>", "</b>"
-                                else:
-                                    not_read_begin, not_read_end = "", ""
-
-                                if article["article_like"] == True:
-                                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
-                                else:
-                                    like = ""
-                                # Descrition for the CSS ToolTips
-                                article_content = utils.clear_string(article["article_content"])
-                                if article_content:
-                                    description = " ".join(article_content[:500].split(' ')[:-1])
-                                else:
-                                    description = "No description."
-                                # Title of the article
-                                article_title = article["article_title"]
-                                if len(article_title) >= 80:
-                                    article_title = article_title[:80] + " ..."
-
-                                if new_feed_section is True:
-                                    new_feed_section = False
-                                    html += """<h2><a name="%s"><a href="%s" rel="noreferrer"
-                                    target="_blank">%s</a></a><a href="%s" rel="noreferrer"
-                                    target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                                        (feed["feed_id"], feed["site_link"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
-
-                                html += article["article_date"].strftime("%a %d (%H:%M:%S) ") + " - " + \
-                                        """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                                (feed["feed_id"], article["article_id"], not_read_begin, \
-                                                article_title, not_read_end, description) + like + "<br />\n"
-        if query == "all":
-            query_string = "year"
-        elif "year" in query:
-            query_string = "year:" + the_year + "-month"
-        if "month" not in query:
-            html += '<div style="width: 35%; overflow:hidden; text-align: justify">' + \
-                        utils.tag_cloud([(elem, timeline[elem]) for elem in timeline.keys()], query_string) + '</div>'
-        html += '<hr />'
-        html += htmlfooter
-        return html
+        tmpl = lookup.get_template("history.html")
+        return tmpl.render(feeds=feeds, mongo=self.mongo, query=query, m=m)
 
     history.exposed = True
 
