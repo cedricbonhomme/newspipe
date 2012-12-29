@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 3.6 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2012/12/04 $"
+__revision__ = "$Date: 2012/12/19 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -446,8 +446,6 @@ class pyAggr3g470r(object):
         """
         Add a new feed with the URL of a page.
         """
-        html = ""
-        html += """<div class="left inner">"""
         # search the feed in the HTML page with BeautifulSoup
         feed_url = utils.search_feed(url)
         if feed_url is None:
@@ -457,12 +455,11 @@ class pyAggr3g470r(object):
             result = utils.add_feed(feed_url)
         # if the feed is not in the file feed.lst
         if result is False:
-            html +=  "<p>You are already following this feed!</p>"
+            message =  "<p>You are already following this feed!</p>"
         else:
-            html += """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
-        html += """\n<br />\n<a href="/management/">Back to the management page.</a><br />\n"""
-        html += "<hr />\n"
-        return html
+            message = """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message=message)
 
     add_feed.exposed = True
 
