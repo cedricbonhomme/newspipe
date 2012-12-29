@@ -62,7 +62,7 @@ def error_404(status, message, traceback, version):
     """
     Display an error if the page does not exist.
     """
-    message = "<pError %s - This page does not exist.</p>" % status
+    message = "<p>Error %s - This page does not exist.</p>" % status
     tmpl = lookup.get_template("error.html")
     return tmpl.render(message=message)
 
