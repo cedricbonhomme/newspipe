@@ -548,7 +548,6 @@ class pyAggr3g470r(object):
         try:
             getattr(export, export_method)(self.mongo)
         except Exception as e:
-            print(e)
             return self.error(e)
         return self.management()
 
