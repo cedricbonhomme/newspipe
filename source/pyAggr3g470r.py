@@ -266,7 +266,12 @@ class pyAggr3g470r(object):
             last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
             first_article = utils.string_to_datetime(str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"]))
             delta = last_article - first_article
-            delta_today = datetime.datetime.fromordinal(datetime.date.today().toordinal()) - last_article
+
+            last_post = articles[0]["article_date"]
+            today = datetime.datetime.now()
+            elapsed = today - last_post
+
+
             average = round(float(nb_articles_feed) / abs(delta.days), 2)
             favorites = self.mongo.get_favorites(feed_id)
             top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
@@ -276,7 +281,7 @@ class pyAggr3g470r(object):
         return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
                             nb_articles_feed=nb_articles_feed, nb_articles_total=nb_articles_total, nb_unread_articles_feed=nb_unread_articles_feed, \
                             first_post_date=first_article, end_post_date=last_article, \
-                            average=average, delta=delta, delta_today=delta_today, \
+                            average=average, delta=delta, elapsed=elapsed, \
                             tag_cloud=tag_cloud, word_size=word_size, mail_to=conf.mail_to)
 
     feed.exposed = True
