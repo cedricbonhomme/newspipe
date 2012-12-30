@@ -259,21 +259,18 @@ class pyAggr3g470r(object):
             nb_articles_feed = self.mongo.nb_articles(feed_id)
             nb_articles_total = self.mongo.nb_articles()
             nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
+            favorites = self.mongo.get_favorites(feed_id)
         except KeyError:
             return self.error("This feed do not exists.")
 
         if articles != []:
-            last_article = utils.string_to_datetime(str(articles[0]["article_date"]))
-            first_article = utils.string_to_datetime(str(articles[self.mongo.nb_articles(feed_id)-2]["article_date"]))
-            delta = last_article - first_article
-
-            last_post = articles[0]["article_date"]
             today = datetime.datetime.now()
-            elapsed = today - last_post
+            last_article = articles[0]["article_date"]
+            first_article = articles[self.mongo.nb_articles(feed_id)-2]["article_date"]
+            delta = last_article - first_article
+            elapsed = today - last_article
+            average = round(nb_articles_feed / abs(delta.days), 2)
 
-
-            average = round(float(nb_articles_feed) / abs(delta.days), 2)
-            favorites = self.mongo.get_favorites(feed_id)
             top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
             tag_cloud = utils.tag_cloud(top_words)
 
