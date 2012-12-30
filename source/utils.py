@@ -92,30 +92,6 @@ def clear_string(data):
     q = re.compile(b'\s') # consecutive white spaces
     return p.sub(b'', q.sub(b' ', bytes(data, "utf-8"))).decode("utf-8", "strict")
 
-def unescape(text):
-    """
-    Removes HTML or XML character references and entities from a text string.
-    """
-    def fixup(m):
-        text = m.group(0)
-        if text[:2] == "&#":
-            # character reference
-            try:
-                if text[:3] == "&#x":
-                    return chr(int(text[3:-1], 16))
-                else:
-                    return chr(int(text[2:-1]))
-            except ValueError:
-                pass
-        else:
-            # named entity
-            try:
-                text = chr(html.entities.name2codepoint[text[1:-1]])
-            except KeyError:
-                pass
-        return text # leave as is
-    return re.sub("&#?\w+;", fixup, text)
-
 def normalize_filename(name):
     """
     Normalize a file name.
