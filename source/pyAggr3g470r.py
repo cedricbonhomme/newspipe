@@ -549,7 +549,8 @@ class pyAggr3g470r(object):
             getattr(export, export_method)(self.mongo)
         except Exception as e:
             return self.error(e)
-        return self.management()
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message="<p>Export successfully terminated.<br />Check the folder: <b>./pyaggr3g470r/source/var/export/</b>.</p>")
 
     export.exposed = True
 
