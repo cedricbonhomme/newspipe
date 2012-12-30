@@ -126,8 +126,8 @@ def strip_accents(text, encoding):
     >>> print strip_accents("déjà", "utf-8")
     deja
     """
-    unicode_text= unicodedata.normalize('NFD', text.decode(encoding))
-    return filter(not_combining, unicode_text).encode(encoding)
+    unicode_text= unicodedata.normalize('NFD', text)
+    return filter(not_combining, unicode_text)
 
 def normalize_filename(name):
     """
@@ -137,7 +137,7 @@ def normalize_filename(name):
     file_name = re.sub("[\s.]", "_", file_name)
     file_name = file_name.strip('_')
     file_name = file_name.strip('.')
-    file_name = strip_accents(file_name, "utf-8")
+    #file_name = strip_accents(file_name, "utf-8")
     return os.path.normpath(file_name)
 
 def load_stop_words():

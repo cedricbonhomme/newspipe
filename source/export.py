@@ -74,7 +74,7 @@ def export_html(mongo_db):
                         (feed["feed_id"], feed["feed_title"])
 
         posts = htmlheader
-        for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
+        for article in mongo_db.get_articles(feed_id=feed["feed_id"]):
 
             post_file_name = os.path.normpath(feed_folder + "/" + article["article_id"] + ".html")
             feed_index = os.path.normpath(feed_folder + "/index.html")
@@ -93,16 +93,16 @@ def export_html(mongo_db):
             a_post += "<hr />\n" + htmlfooter
 
             with open(post_file_name, "w") as f:
-                f.write(a_post.encode('utf-8'))
+                f.write(a_post)
 
         posts +=  htmlfooter
         with open(feed_index, "w") as f:
-            f.write(posts.encode('utf-8'))
+            f.write(posts)
 
     index += "\n</ul>\n<br />"
     index += htmlfooter
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
-        f.write(index.encode('utf-8'))
+        f.write(index)
 
 def export_txt(mongo_db):
     """
