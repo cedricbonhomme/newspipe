@@ -145,7 +145,7 @@ def export_epub(mongo_db):
             # directories already exists (not a problem)
             pass
 
-        for article in mongo_db.get_articles_from_collection(feed["feed_id"]):
+        for article in mongo_db.get_articles(feed_id=feed["feed_id"]):
             name = article["article_date"].ctime().strip().replace(' ', '_')
             name = os.path.normpath(folder + "/" + name + ".epub")
 
