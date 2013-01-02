@@ -4,7 +4,7 @@
 import utils
 %>
 <div class="left inner">
-    <p>The feed <b>${feed['feed_title']}</b> contains <b>${nb_articles_feed}</b> articles.
+    <p>The feed <b>${feed['feed_title']}</b> contains <b>${format(nb_articles_feed, ',d')}</b> articles.
     Representing ${round((nb_articles_feed / nb_articles_total) * 100, 4)} percent of the total (${format(nb_articles_total, ',d')}).</p>
 
     %if articles:
