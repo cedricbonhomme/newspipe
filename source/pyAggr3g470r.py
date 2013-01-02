@@ -43,8 +43,6 @@ __license__ = "GPLv3"
 import os
 import re
 import datetime
-import locale
-locale.setlocale(locale.LC_ALL, 'en_US.utf8')
 
 import cherrypy
 from mako.template import Template
