@@ -5,7 +5,7 @@ import utils
 %>
 <div class="left inner">
     <p>The feed <b>${feed['feed_title']}</b> contains <b>${nb_articles_feed}</b> articles.
-    Representing ${round((nb_articles_feed / nb_articles_total) * 100, 4)} percent of the total (${nb_articles_total}).</p>
+    Representing ${round((nb_articles_feed / nb_articles_total) * 100, 4)} percent of the total (${format(nb_articles_total, ',d')}).</p>
 
     %if articles:
         <p>${(nb_unread_articles_feed == 0 and ["All articles are read"] or [str(nb_unread_articles_feed) + " unread article" + (nb_unread_articles_feed == 1 and [""] or ["s"])[0]])[0]}.</p>

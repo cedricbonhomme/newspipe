@@ -21,7 +21,7 @@ import utils
                     not_read_begin, not_read_end = "", ""
                 html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>\n""" % \
                             (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
-                            mongo.nb_unread_articles(feed["feed_id"]), not_read_end, mongo.nb_articles(feed["feed_id"]))
+                            format(mongo.nb_unread_articles(feed["feed_id"]), ',d'), not_read_end, format(mongo.nb_articles(feed["feed_id"]), ',d'))
             %>
         %endfor
         ${html}
