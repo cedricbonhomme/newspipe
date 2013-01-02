@@ -43,6 +43,9 @@ __license__ = "GPLv3"
 import os
 import re
 import datetime
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.utf8')
+
 import cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -130,8 +133,8 @@ class pyAggr3g470r(object):
         feeds = self.mongo.get_all_feeds()
         nb_mail_notifications = self.mongo.nb_mail_notifications()
         nb_favorites = self.mongo.nb_favorites()
-        nb_articles = self.mongo.nb_articles()
-        nb_unread_articles = self.mongo.nb_unread_articles()
+        nb_articles = locale.format("%d", self.mongo.nb_articles(), grouping=True)
+        nb_unread_articles = locale.format("%d", self.mongo.nb_unread_articles(), grouping=True)
         tmpl = lookup.get_template("management.html")
         return tmpl.render(feeds=feeds, nb_mail_notifications=nb_mail_notifications, \
                             nb_favorites=nb_favorites, nb_articles=nb_articles, \
