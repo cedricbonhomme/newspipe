@@ -476,7 +476,7 @@ class pyAggr3g470r(object):
         feed = self.mongo.get_feed(feed_id)
         self.mongo.delete_feed(feed_id)
         utils.remove_feed(feed["feed_link"])
-        message = """All articles from the feed <i>%s</i> are now removed from the base.""" % (feed["feed_title"],)
+        message = """<p>All articles from the feed <i>%s</i> are now removed from the base.</p>""" % (feed["feed_title"],)
         tmpl = lookup.get_template("confirmation.html")
         return tmpl.render(message=message)
 
@@ -490,7 +490,7 @@ class pyAggr3g470r(object):
         self.mongo.update_feed(feed_id, {"feed_link":new_feed_url})
         utils.change_feed_url(old_feed_url, new_feed_url)
         tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message="The URL of the feed has been changed.")
+        return tmpl.render(message="<p>The URL of the feed has been changed.</p>")
 
     change_feed_url.exposed = True
 
@@ -501,7 +501,7 @@ class pyAggr3g470r(object):
         """
         self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
         tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message="The name of the feed has been changed.")
+        return tmpl.render(message="<p>The name of the feed has been changed.</p>")
 
     change_feed_name.exposed = True
 
@@ -512,7 +512,7 @@ class pyAggr3g470r(object):
         """
         self.mongo.update_feed(feed_id, {"feed_image":new_feed_logo})
         tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message="The logo of the feed has been changed.")
+        return tmpl.render(message="<p>The logo of the feed has been changed.</p>")
 
     change_feed_logo.exposed = True
 
