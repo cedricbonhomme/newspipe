@@ -263,6 +263,7 @@ class pyAggr3g470r(object):
             nb_articles_total = self.mongo.nb_articles()
             nb_unread_articles_feed = self.mongo.nb_unread_articles(feed_id)
             favorites = self.mongo.get_favorites(feed_id)
+            nb_favorites = self.mongo.nb_favorites(feed_id)
         except KeyError:
             return self.error("<p>This feed do not exists.</p>")
 
@@ -280,7 +281,7 @@ class pyAggr3g470r(object):
         tmpl = lookup.get_template("feed.html")
         return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
                             nb_articles_feed=nb_articles_feed, nb_articles_total=nb_articles_total, nb_unread_articles_feed=nb_unread_articles_feed, \
-                            first_post_date=first_article, end_post_date=last_article, \
+                            nb_favorites = nb_favorites, first_post_date=first_article, end_post_date=last_article, \
                             average=average, delta=delta, elapsed=elapsed, \
                             tag_cloud=tag_cloud, word_size=word_size, mail_to=conf.mail_to)
 
