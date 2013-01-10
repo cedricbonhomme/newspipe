@@ -54,7 +54,7 @@ import utils
 import export
 import mongodb
 import feedgetter
-from auth import AuthController, require, member_of, name_is, change_username, change_password
+import auth
 #from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
 #from qrcode import qr
 
@@ -81,7 +81,7 @@ class RestrictedArea(object):
     open only to members of the admin group
     """
     _cp_config = {
-        'auth.require': [member_of('admin')]
+        'auth.auth.require': [auth.member_of('admin')]
     }
 
     @cherrypy.expose
@@ -102,12 +102,12 @@ class pyAggr3g470r(object):
     def __init__(self):
         """
         """
-        self.auth = AuthController()
+        self.auth = auth.AuthController()
         restricted = RestrictedArea()
 
         self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
                         conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
-    @require()
+    @auth.require()
     def index(self):
         """
         Main page containing the list of feeds and articles.
@@ -123,7 +123,7 @@ class pyAggr3g470r(object):
 
     index.exposed = True
 
-    @require()
+    @auth.require()
     def management(self):
         """
         Management page.
@@ -142,7 +142,7 @@ class pyAggr3g470r(object):
 
     management.exposed = True
 
-    @require()
+    @auth.require()
     def statistics(self, word_size=6):
         """
         More advanced statistics.
@@ -155,7 +155,7 @@ class pyAggr3g470r(object):
 
     statistics.exposed = True
 
-    @require()
+    @auth.require()
     def search(self, query=None):
         """
         Simply search for the string 'query'
@@ -173,7 +173,7 @@ class pyAggr3g470r(object):
 
     search.exposed = True
 
-    @require()
+    @auth.require()
     def fetch(self):
         """
         Fetch all feeds.
@@ -184,7 +184,7 @@ class pyAggr3g470r(object):
 
     fetch.exposed = True
 
-    @require()
+    @auth.require()
     def article(self, param):
         """
         Display the article in parameter in a new Web page.
@@ -249,7 +249,7 @@ class pyAggr3g470r(object):
 
     article.exposed = True
 
-    @require()
+    @auth.require()
     def feed(self, feed_id, word_size=6):
         """
         This page gives summary informations about a feed (number of articles,
@@ -287,7 +287,7 @@ class pyAggr3g470r(object):
 
     feed.exposed = True
 
-    @require()
+    @auth.require()
     def articles(self, feed_id):
         """
         This page displays all articles of a feed.
@@ -302,7 +302,7 @@ class pyAggr3g470r(object):
 
     articles.exposed = True
 
-    @require()
+    @auth.require()
     def unread(self, feed_id=""):
         """
         This page displays all unread articles of a feed.
@@ -312,7 +312,7 @@ class pyAggr3g470r(object):
         return tmpl.render(feeds=feeds, feed_id=feed_id, mongo=self.mongo)
     unread.exposed = True
 
-    @require()
+    @auth.require()
     def history(self, query="all", m=""):
         """
         This page enables to browse articles chronologically.
@@ -323,7 +323,7 @@ class pyAggr3g470r(object):
 
     history.exposed = True
 
-    @require()
+    @auth.require()
     def plain_text(self, target):
         """
         Display an article in plain text (without HTML tags).
@@ -343,7 +343,7 @@ class pyAggr3g470r(object):
 
     plain_text.exposed = True
 
-    @require()
+    @auth.require()
     def error(self, message):
         """
         Display a message (bad feed id, bad article id, etc.)
@@ -353,7 +353,7 @@ class pyAggr3g470r(object):
 
     error.exposed = True
 
-    @require()
+    @auth.require()
     def mark_as_read(self, target=""):
         """
         Mark one (or more) article(s) as read by setting the value of the field
@@ -374,7 +374,7 @@ class pyAggr3g470r(object):
 
     mark_as_read.exposed = True
 
-    @require()
+    @auth.require()
     def notifications(self):
         """
         List all active e-mail notifications.
@@ -385,7 +385,7 @@ class pyAggr3g470r(object):
 
     notifications.exposed = True
 
-    @require()
+    @auth.require()
     def mail_notification(self, param):
         """
         Enable or disable to notifications of news for a feed.
@@ -398,7 +398,7 @@ class pyAggr3g470r(object):
 
     mail_notification.exposed = True
 
-    @require()
+    @auth.require()
     def like(self, param):
         """
         Mark or unmark an article as favorites.
@@ -413,7 +413,7 @@ class pyAggr3g470r(object):
 
     like.exposed = True
 
-    @require()
+    @auth.require()
     def favorites(self):
         """
         List of favorites articles
@@ -428,7 +428,7 @@ class pyAggr3g470r(object):
 
     favorites.exposed = True
 
-    @require()
+    @auth.require()
     def inactives(self, nb_days=365):
         """
         List of favorites articles
@@ -447,7 +447,7 @@ class pyAggr3g470r(object):
 
     inactives.exposed = True
 
-    @require()
+    @auth.require()
     def add_feed(self, url):
         """
         Add a new feed with the URL of a page.
@@ -469,7 +469,7 @@ class pyAggr3g470r(object):
 
     add_feed.exposed = True
 
-    @require()
+    @auth.require()
     def remove_feed(self, feed_id):
         """
         Remove a feed from the file feed.lst and from the MongoDB database.
@@ -483,7 +483,7 @@ class pyAggr3g470r(object):
 
     remove_feed.exposed = True
 
-    @require()
+    @auth.require()
     def change_feed_url(self, feed_id, old_feed_url, new_feed_url):
         """
         Enables to change the URL of a feed already present in the database.
@@ -495,7 +495,7 @@ class pyAggr3g470r(object):
 
     change_feed_url.exposed = True
 
-    @require()
+    @auth.require()
     def change_feed_name(self, feed_id, new_feed_name):
         """
         Enables to change the name of a feed.
@@ -506,7 +506,7 @@ class pyAggr3g470r(object):
 
     change_feed_name.exposed = True
 
-    @require()
+    @auth.require()
     def change_feed_logo(self, feed_id, new_feed_logo):
         """
         Enables to change the name of a feed.
@@ -517,12 +517,12 @@ class pyAggr3g470r(object):
 
     change_feed_logo.exposed = True
 
-    @require()
+    @auth.require()
     def change_username(self, new_username):
         """
         Enables to change the username of a user.
         """
-        result = change_username(self.auth.username, new_username)
+        result = auth.change_username(self.auth.username, new_username)
         if result:
             message = "<p>Your username has been changed.</p>"
             tmpl = lookup.get_template("confirmation.html")
@@ -532,12 +532,12 @@ class pyAggr3g470r(object):
 
     change_username.exposed = True
 
-    @require()
+    @auth.require()
     def change_password(self, new_password):
         """
         Enables to change the password of a user.
         """
-        result = change_password(self.auth.username, new_password)
+        result = auth.change_password(self.auth.username, new_password)
         if result:
             message = "<p>Your password has been changed.</p>"
             tmpl = lookup.get_template("confirmation.html")
@@ -547,7 +547,7 @@ class pyAggr3g470r(object):
 
     change_password.exposed = True
 
-    @require()
+    @auth.require()
     def delete_article(self, param):
         """
         Delete an article.
@@ -562,7 +562,7 @@ class pyAggr3g470r(object):
 
     delete_article.exposed = True
 
-    @require()
+    @auth.require()
     def drop_base(self):
         """
         Delete all articles.
@@ -572,7 +572,7 @@ class pyAggr3g470r(object):
 
     drop_base.exposed = True
 
-    @require()
+    @auth.require()
     def export(self, export_method):
         """
         Export articles currently loaded from the MongoDB database with
@@ -588,7 +588,7 @@ class pyAggr3g470r(object):
 
     export.exposed = True
 
-    @require()
+    @auth.require()
     def epub(self, param):
         """
         Export an article to EPUB.
