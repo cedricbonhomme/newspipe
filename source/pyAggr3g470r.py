@@ -524,6 +524,7 @@ class pyAggr3g470r(object):
         """
         result = auth.change_username(self.auth.username, new_username)
         if result:
+            self.auth.username = new_username
             message = "<p>Your username has been changed.</p>"
             tmpl = lookup.get_template("confirmation.html")
             return tmpl.render(message=message)
