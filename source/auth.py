@@ -69,12 +69,12 @@ def change_password(username, new_password, password_file='./var/password'):
                 cw.writerow(user)
     return result
 
-def check_credentials(username, password):
+def check_credentials(username, password, password_file='./var/password'):
     """Verifies credentials for username and password.
     Returns None on success or a string describing the error on failure"""
     # Adapt to your needs
     USERS = {}
-    cr = csv.reader(open("./var/password", "r"), 'excel_french')
+    cr = csv.reader(open(password_file, "r"), 'excel_french')
     for row in cr:
         USERS[row[0]] = row[1]
 
