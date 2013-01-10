@@ -49,6 +49,25 @@ class excel_french(csv.Dialect):
 
 csv.register_dialect('excel_french', excel_french)
 
+def change_username(username, new_username, password_file='./var/password'):
+    """
+    Change the password corresponding to username.
+    """
+    users_list = []
+    result = False
+    with open(password_file, 'r') as csv_readfile_read:
+        cr = csv.reader(csv_readfile_read, 'excel_french')
+        users_list = [elem for elem in cr]
+    with open(password_file, 'w') as csv_file_write:
+        cw = csv.writer(csv_file_write, 'excel_french')
+        for user in users_list:
+            if user[0] == username:
+                cw.writerow([new_username, user[1]])
+                result = True
+            else:
+                cw.writerow(user)
+    return result
+
 def change_password(username, new_password, password_file='./var/password'):
     """
     Change the password corresponding to username.

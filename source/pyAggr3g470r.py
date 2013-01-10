@@ -54,7 +54,7 @@ import utils
 import export
 import mongodb
 import feedgetter
-from auth import AuthController, require, member_of, name_is, change_password
+from auth import AuthController, require, member_of, name_is, change_username, change_password
 #from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
 #from qrcode import qr
 
@@ -518,9 +518,24 @@ class pyAggr3g470r(object):
     change_feed_logo.exposed = True
 
     @require()
+    def change_username(self, new_username):
+        """
+        Enables to change the username of a user.
+        """
+        result = change_username(self.auth.username, new_username)
+        if result:
+            message = "<p>Your username has been changed.</p>"
+            tmpl = lookup.get_template("confirmation.html")
+            return tmpl.render(message=message)
+        else:
+            return self.error("<p>Impossible to change the username.</p>")
+
+    change_username.exposed = True
+
+    @require()
     def change_password(self, new_password):
         """
-        Enables to change the name of a feed.
+        Enables to change the password of a user.
         """
         result = change_password(self.auth.username, new_password)
         if result:
