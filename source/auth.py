@@ -63,7 +63,9 @@ def change_password(username, new_password, password_file='./var/password'):
         cw = csv.writer(csv_file_write, 'excel_french')
         for user in users_list:
             if user[0] == username:
-                cw.writerow([user[0], new_password])
+                m = hashlib.sha1()
+                m.update(new_password.encode())
+                cw.writerow([user[0], m.hexdigest()])
                 result = True
             else:
                 cw.writerow(user)

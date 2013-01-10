@@ -54,7 +54,7 @@ import utils
 import export
 import mongodb
 import feedgetter
-from auth import AuthController, require, member_of, name_is
+from auth import AuthController, require, member_of, name_is, change_password
 #from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
 #from qrcode import qr
 
@@ -516,6 +516,21 @@ class pyAggr3g470r(object):
         return tmpl.render(message="<p>The logo of the feed has been changed.</p>")
 
     change_feed_logo.exposed = True
+
+    @require()
+    def change_password(self, new_password):
+        """
+        Enables to change the name of a feed.
+        """
+        result = change_password(self.auth.username, new_password)
+        if result:
+            message = "<p>Your password has been changed.</p>"
+        else:
+            message = "<p>Impossible to change the password.</p>"
+        tmpl = lookup.get_template("confirmation.html")
+        return tmpl.render(message=message)
+
+    change_password.exposed = True
 
     @require()
     def delete_article(self, param):

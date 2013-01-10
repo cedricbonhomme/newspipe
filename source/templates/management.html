@@ -20,6 +20,7 @@
 
 	<hr />
 
+
         <h1>Facts</h1>
         <ul>
 	    <li>active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a>;</li>
@@ -30,6 +31,14 @@
     %endif
 
     <hr />
+
+    <h1>Account</h1>
+    <form method=get action="/change_password/">
+            Change your password: <input type="text" name="new_password" value="" />
+    </form>
+
+    <hr />
+
 
     <h1>Database</h1>
     <p>${nb_articles} article(s) are stored in the database with <a href="/unread/">${nb_unread_articles} unread article(s)</a>.
