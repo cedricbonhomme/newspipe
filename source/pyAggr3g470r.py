@@ -525,10 +525,10 @@ class pyAggr3g470r(object):
         result = change_password(self.auth.username, new_password)
         if result:
             message = "<p>Your password has been changed.</p>"
+            tmpl = lookup.get_template("confirmation.html")
+            return tmpl.render(message=message)
         else:
-            message = "<p>Impossible to change the password.</p>"
-        tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message=message)
+            return self.error("<p>Impossible to change the password.</p>")
 
     change_password.exposed = True
 
