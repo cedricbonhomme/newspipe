@@ -2,15 +2,17 @@
 <%inherit file="base.html"/>
 <div class="left inner">
     <h1>Subscriptions</h1>
-    <h3>Add Feeds</h3>
     <form method=get action="/add_feed/">
+        <p>
+        Add a feed:
         <input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">
         <input type="submit" value="OK">
+        </p>
     </form>
 
     %if feeds:
-        <h3>Delete Feeds</h3>
         <form method=get action="/remove_feed/">
+            Delete the feed:
             <select name="feed_id">
                 %for feed in feeds:
                     <option value="${feed['feed_id']}">${feed['feed_title']}</option>
@@ -18,13 +20,10 @@
             </select>
             <input type="submit" value="OK">
         </form>
-
-	<hr />
-
-
+        <hr />
         <h1>Facts</h1>
         <ul>
-	    <li>active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a>;</li>
+        <li>active e-mail notifications: <a href="/notifications/">${nb_mail_notifications}</a>;</li>
             <li>you like <a href="/favorites/">${nb_favorites}</a> article(s);</li>
             <li><a href="/statistics/">tag clouds</a>;</li>
             <li><a href="/inactives/">inactive feeds</a>.</li>
@@ -34,6 +33,7 @@
     <hr />
 
     <h1>Account</h1>
+    <p>
     <form method=get action="/change_username/">
             <input type="text" name="new_username" value="" placeholder="Enter a new username." />
     </form>
@@ -41,6 +41,7 @@
     <form method=get action="/change_password/">
             <input type="password" name="new_password" value="" placeholder="Enter a new password." />
     </form>
+    </p>
 
     <hr />
 
@@ -58,6 +59,7 @@
     <hr />
 
     <h1>Export articles</h1>
+    <p>
     <form method=get action="/export/">
         <select name="export_method">
             <option value="export_html" selected='selected'>HTML (simple Webzine)</option>
@@ -67,3 +69,4 @@
         </select>
         <input type="submit" value="Export">
     </form>
+    </p>
