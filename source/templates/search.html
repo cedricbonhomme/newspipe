@@ -5,7 +5,7 @@ import utils
 %>
 <div class="left inner">
 %if len(search_result) != 0:
-    <h1>Articles containing the string <i>${query}</i></h1>
+    <h1>Articles containing the string <i>${query}</i> (${sum([articles.count() for articles in search_result.values()])} results)</h1>
 %else:
     <h1>String <i>${query}</i> not found.</h1>
 %endif
