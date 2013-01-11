@@ -1,7 +1,6 @@
 ## search.html
 <%inherit file="base.html"/>
 <%
-import re
 import utils
 %>
 <div class="left inner">
@@ -21,7 +20,6 @@ import utils
         feed = mongo.get_feed(feed_id)
         print(search_result[feed["feed_id"]].count())
         for article in search_result[feed["feed_id"]]:
-            article_content = utils.clear_string(article["article_content"])
             if new_feed_section is True:
                 new_feed_section = False
                 html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
@@ -40,6 +38,7 @@ import utils
                 like = ""
 
             # descrition for the CSS ToolTips
+            article_content = utils.clear_string(article["article_content"])
             description = " ".join(article_content[:500].split(' ')[:-1])
 
             # a description line per article (date, title of the article and
