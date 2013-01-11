@@ -20,15 +20,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.5 $"
+__version__ = "$Revision: 0.6 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2012/12/02 $"
+__revision__ = "$Date: 2013/01/11 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import pymongo
-
-from operator import itemgetter, attrgetter
 
 class Articles(object):
     """
