@@ -5,8 +5,11 @@ import re
 import utils
 %>
 <div class="left inner">
-<h1>Articles containing the string <i>${query}</i></h1>
-<br />
+%if len(search_result) != 0:
+    <h1>Articles containing the string <i>${query}</i></h1>
+%else:
+    <h1>String <i>${query}</i> not found.</h1>
+%endif
 <%
     html = ""
     feed_id = None
