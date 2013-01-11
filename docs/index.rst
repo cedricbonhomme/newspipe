@@ -107,9 +107,8 @@ Then, indicate the feeds to retrieve in the file **./var/feed.lst**. One feed pe
 
 Create a new user
 `````````````````
-Add a username and a password in the file **./var/password** separated by a semicolon, one per line.
-
-The default user is *admin* with the password *admin*. The password should be hashed with the SHA1 function.
+The default username is *admin* with the password *admin*. You can change the username and password
+via the management page. Passwords are hashed and stored in the file **./var/password**.
 
 Mail notification
 `````````````````
