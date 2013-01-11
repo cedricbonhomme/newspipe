@@ -9,44 +9,43 @@ import utils
 <br />
 <%
     html = ""
+    feed_id = None
 %>
-%if feed_id is None:
-    %for feed in feeds:
-        <%
-            new_feed_section = True
-            for article in mongo.get_articles(feed["feed_id"]):
-                article_content = utils.clear_string(article["article_content"])
-                if not article_content:
-                    article_content = utils.clear_string(article["article_title"])
-                if wordre.findall(article_content) != []:
-                    if new_feed_section is True:
-                        new_feed_section = False
-                        html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
-                            (feed["feed_id"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                    if article["article_readed"] == False:
-                        # not readed articles are in bold
-                        not_read_begin, not_read_end = "<b>", "</b>"
-                    else:
-                        not_read_begin, not_read_end = "", ""
+%for feed_id in search_result.keys():
+    <%
+        new_feed_section = True
+        feed = mongo.get_feed(feed_id)
+        print(search_result[feed["feed_id"]].count())
+        for article in search_result[feed["feed_id"]]:
+            article_content = utils.clear_string(article["article_content"])
+            if new_feed_section is True:
+                new_feed_section = False
+                html += """<h2><a href="/articles/%s" rel="noreferrer" target="_blank">%s</a><a href="%s" rel="noreferrer" target="_blank"><img src="%s" width="28" height="28" /></a></h2>\n""" % \
+                    (feed["feed_id"], feed["feed_title"], feed["feed_link"], feed["feed_image"])
 
-                    # display a heart for faved articles
-                    if article["article_like"] == True:
-                        like = """ <img src="/img/heart.png" title="I like this article!" />"""
-                    else:
-                        like = ""
+            if article["article_readed"] == False:
+                # not readed articles are in bold
+                not_read_begin, not_read_end = "<b>", "</b>"
+            else:
+                not_read_begin, not_read_end = "", ""
 
-                    # descrition for the CSS ToolTips
-                    description = " ".join(article_content[:500].split(' ')[:-1])
+            # display a heart for faved articles
+            if article["article_like"] == True:
+                like = """ <img src="/img/heart.png" title="I like this article!" />"""
+            else:
+                like = ""
 
-                    # a description line per article (date, title of the article and
-                    # CSS description tooltips on mouse over)
-                    html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
-                            """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
-                                    (feed["feed_id"], article["article_id"], not_read_begin, \
-                                    article["article_title"][:150], not_read_end, description) + like + "<br />\n"
-        %>
-    %endfor
-%endif
-    ${html}
-        
+            # descrition for the CSS ToolTips
+            description = " ".join(article_content[:500].split(' ')[:-1])
+
+            # a description line per article (date, title of the article and
+            # CSS description tooltips on mouse over)
+            html += article["article_date"].strftime('%Y-%m-%d %H:%M') + " - " + \
+                    """<a class="tooltip" href="/article/%s:%s" rel="noreferrer" target="_blank">%s%s%s<span class="classic">%s</span></a>""" % \
+                            (feed["feed_id"], article["article_id"], not_read_begin, \
+                            article["article_title"][:150], not_read_end, description) + like + "<br />\n"
+    %>
+%endfor
+
+${html}

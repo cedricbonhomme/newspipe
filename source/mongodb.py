@@ -47,7 +47,8 @@ class Articles(object):
         Creates a new collection for a new feed.
         """
         collection = self.db[new_collection["feed_id"]]
-        #collection.create_index([("feed_link", pymongo.ASCENDING)], {"unique":True, "sparse":True})
+        collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
+        collection.ensure_index('article_content', pymongo.ASCENDING)
         collection.insert(new_collection)
 
     def add_articles(self, articles, feed_id):
@@ -56,6 +57,8 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
         #collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
+        #collection.ensure_index('article_content', pymongo.ASCENDING)
+        print(collection.index_information())
         for article in articles:
             cursor = collection.find({"article_id":article["article_id"]})
             if cursor.count() == 0:
@@ -218,6 +221,17 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
         collection.update({"type": 0, "feed_id":feed_id}, {"$set": changes}, multi=True)
+
+    def full_search(self, term):
+        """
+        Indexed full text search through content of articles.
+        """
+        articles = {}
+        for collection in self.get_all_feeds():
+            result = self.db[collection["feed_id"]].find({'article_content': {'$regex': term, "$options": 'i' }})
+            if result.count() != 0:
+                articles[collection["feed_id"]] = result.sort([("article_date", pymongo.DESCENDING)])
+        return articles
 
     # Functions on database
     def drop_database(self):

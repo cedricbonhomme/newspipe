@@ -162,14 +162,12 @@ class pyAggr3g470r(object):
         in the description of the article.
         """
         param, _, value = query.partition(':')
-        wordre = re.compile(r'\b%s\b' % param, re.I)
         feed_id = None
         if param == "Feed":
             feed_id, _, query = value.partition(':')
-        feeds = self.mongo.get_all_feeds()
+        search_result = self.mongo.full_search(param)
         tmpl = lookup.get_template("search.html")
-        return tmpl.render(feeds=feeds, feed_id=feed_id, query=query, \
-                        wordre=wordre, mongo=self.mongo)
+        return tmpl.render(search_result=search_result, query=query, feed_id=feed_id, mongo=self.mongo)
 
     search.exposed = True
 
