@@ -209,10 +209,9 @@ class AuthController(object):
         """
         Login page.
         """
-        msg = ""
         return """<!DOCTYPE html>\n<html>
     <head>
-        <title>pyAggr3g470r - News aggregator</title>
+        <title>pyAggr3g470r</title>
         <link rel="stylesheet" type="text/css" href="/css/log.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
