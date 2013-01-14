@@ -204,12 +204,12 @@ def add_feed(feed_url):
     """
     Add the URL feed_url in the file feed.lst.
     """
-    if os.path.exists("./var/feed.lst"):
-        for line in open("./var/feed.lst", "r"):
+    if os.path.exists(conf.FEED_LIST):
+        for line in open(conf.FEED_LIST, "r"):
             if feed_url in line:
                 # if the feed is already in the file
                 return False
-    with open("./var/feed.lst", "a") as f:
+    with open(conf.FEED_LIST, "a") as f:
         f.write(feed_url + "\n")
     return True
 
@@ -218,14 +218,14 @@ def change_feed_url(old_feed_url, new_feed_url):
     Change the URL of a feed given in parameter.
     """
     # Replace the URL in the text file
-    with open("./var/feed.lst", "r") as f:
+    with open(conf.FEED_LIST, "r") as f:
         lines = f.readlines()
     lines = list(map(str.strip, lines))
     try:
         lines[lines.index(old_feed_url)] = new_feed_url
     except:
         return
-    with open("./var/feed.lst", "w") as f:
+    with open(conf.FEED_LIST, "w") as f:
         f.write("\n".join(lines))
 
 def remove_feed(feed_url):
@@ -234,11 +234,11 @@ def remove_feed(feed_url):
     """
     feeds = []
     # Remove the URL from the file feed.lst
-    if os.path.exists("./var/feed.lst"):
-        for line in open("./var/feed.lst", "r"):
+    if os.path.exists(conf.FEED_LIST):
+        for line in open(conf.FEED_LIST, "r"):
             if feed_url not in line:
                 feeds.append(line.replace("\n", ""))
-        with open("./var/feed.lst", "w") as f:
+        with open(conf.FEED_LIST, "w") as f:
             f.write("\n".join(feeds) + "\n")
 
 def search_feed(url):
