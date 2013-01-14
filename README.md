@@ -41,6 +41,9 @@ These modules are not required but enables more features:
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
+Not yet tested with Python 3.2. Anyway, if you want to install these modules:
+
+    $ sudo aptitude install python3.2-lxml python-genshi
 
 Backup
 ------
