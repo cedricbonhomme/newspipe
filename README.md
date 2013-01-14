@@ -62,5 +62,10 @@ Thank you!
 
 
 License
-------------
+-------
 [pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt) license.
+
+
+Contact
+-------
+[My home page](http://cedricbonhomme.org/).
