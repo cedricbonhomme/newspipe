@@ -562,6 +562,16 @@ class pyAggr3g470r(object):
     delete_article.exposed = True
 
     @auth.require()
+    def logout(self):
+        """
+        Close the session.
+        """
+        return self.auth.logout()
+
+    logout.exposed = True
+
+
+    @auth.require()
     def drop_base(self):
         """
         Delete all articles.
