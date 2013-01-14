@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2012/10/12 $"
-__revision__ = "$Date: 2013/01/10 $"
+__revision__ = "$Date: 2013/01/14 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -90,9 +90,10 @@ def change_password(username, new_password, password_file='./var/password'):
     return result
 
 def check_credentials(username, password, password_file='./var/password'):
-    """Verifies credentials for username and password.
-    Returns None on success or a string describing the error on failure"""
-    # Adapt to your needs
+    """
+    Verifies credentials for username and password.
+    Returns None on success or a string describing the error on failure.
+    """
     USERS = {}
     cr = csv.reader(open(password_file, "r"), 'excel_french')
     for row in cr:
@@ -104,7 +105,6 @@ def check_credentials(username, password, password_file='./var/password'):
         return None
     else:
         return "Incorrect username or password."
-
     # An example implementation which uses an ORM could be:
     # u = User.get(username)
     # if u is None:
@@ -113,9 +113,11 @@ def check_credentials(username, password, password_file='./var/password'):
     #     return u"Incorrect password"
 
 def check_auth(*args, **kwargs):
-    """A tool that looks in config for 'auth.require'. If found and it
+    """
+    A tool that looks in config for 'auth.require'. If found and it
     is not None, a login is required and the entry is evaluated as a list of
-    conditions that the user must fulfill"""
+    conditions that the user must fulfill.
+    """
     conditions = cherrypy.request.config.get('auth.require', None)
     if conditions is not None:
         username = cherrypy.session.get(SESSION_KEY)
@@ -131,8 +133,10 @@ def check_auth(*args, **kwargs):
 cherrypy.tools.auth = cherrypy.Tool('before_handler', check_auth)
 
 def require(*conditions):
-    """A decorator that appends conditions to the auth.require config
-    variable."""
+    """
+    A decorator that appends conditions to the auth.require config
+    variable.
+    """
     def decorate(f):
         if not hasattr(f, '_cp_config'):
             f._cp_config = dict()
@@ -162,7 +166,9 @@ def name_is(reqd_username):
 # These might be handy
 
 def any_of(*conditions):
-    """Returns True if any of the conditions match"""
+    """
+    Returns True if any of the conditions match.
+    """
     def check():
         for c in conditions:
             if c():
@@ -173,14 +179,15 @@ def any_of(*conditions):
 # By default all conditions are required, but this might still be
 # needed if you want to use it inside of an any_of(...) condition
 def all_of(*conditions):
-    """Returns True if all of the conditions match"""
+    """
+    Returns True if all of the conditions match.
+    """
     def check():
         for c in conditions:
             if not c():
                 return False
         return True
     return check
-
 
 
 class AuthController(object):
