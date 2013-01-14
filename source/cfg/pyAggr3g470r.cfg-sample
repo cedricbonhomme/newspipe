@@ -12,3 +12,4 @@ username = your_mail_address@example.com
 password = your_password
 [misc]
 diaspora_pod = joindiaspora.com
+feed_list = ./var/feed.lst

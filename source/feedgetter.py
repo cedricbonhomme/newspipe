@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.2 $"
+__version__ = "$Revision: 1.3 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2012/11/8 $"
+__revision__ = "$Date: 2013/01/14 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -57,7 +57,7 @@ class FeedGetter(object):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        with open("./var/feed.lst") as f:
+        with open(conf.FEED_LIST) as f:
             for a_feed in f:
                 # test if the URL is well formed
                 for url_regexp in utils.url_finders:

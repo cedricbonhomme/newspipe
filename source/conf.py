@@ -50,3 +50,4 @@ username =  config.get('mail','username')
 password =  config.get('mail','password')
 
 DIASPORA_POD = config.get('misc', 'diaspora_pod')
+FEED_LIST = config.get('misc', 'feed_list')
