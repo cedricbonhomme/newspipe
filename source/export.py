@@ -36,7 +36,6 @@ __license__ = "GPLv3"
 #
 
 import os
-import hashlib
 
 import conf
 import utils
@@ -71,11 +70,11 @@ def export_html(mongo_db):
             # directories already exists (not a problem)
             pass
 
-        index += """<li><a href="%s">%s</a></a></li>\n""" % \
+        index += """<li><a href="%s">%s</a></li>\n""" % \
                         (feed["feed_id"], feed["feed_title"])
 
         posts = htmlheader
-        posts += """<h1>Articles of the feed %s.</h1>\n""" % (feed["feed_title"],)
+        posts += """<h1>Articles of the feed %s</h1>\n""" % (feed["feed_title"],)
         for article in mongo_db.get_articles(feed_id=feed["feed_id"]):
 
             post_file_name = os.path.normpath(feed_folder + "/" + article["article_id"] + ".html")
@@ -177,7 +176,7 @@ def export_pdf(feeds):
             for article in list(feed.articles.values()):
                 name = article.article_date.strip().replace(' ', '_')
                 name = os.path.normpath(folder + "/" + name + ".pdf")
-                
+
                 content = htmlheader
                 content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                 content += """<h1><a href="%s">%s</a></h1><br />""" % \
