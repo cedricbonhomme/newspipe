@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2011/10/24 $"
-__revision__ = "$Date: 2012/05/01 $"
+__revision__ = "$Date: 2013/01/18 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -41,14 +41,14 @@ import hashlib
 import conf
 import utils
 
-htmlheader = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n' + \
+htmlheader = '<!DOCTYPE html>\n' + \
         '<head>' + \
-        '\n\t<title>pyAggr3g470r - News aggregator</title>\n' + \
+        '\n\t<title>pyAggr3g470r</title>\n' + \
         '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
         '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
         '</head>\n'
 
-htmlfooter = '<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
+htmlfooter = '<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
             ' redistribute the source code according to the' + \
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
@@ -57,9 +57,10 @@ def export_html(mongo_db):
     """
     Export the articles given in parameter in a simple Webzine.
     """
+    nb_articles = format(mongo_db.nb_articles(), ",d")
     feeds = mongo_db.get_all_feeds()
     index = htmlheader
-    index += "<br />\n<ul>"
+    index += "\n<h1>List of feeds</h1>\n<ul>"
     for feed in feeds:
         # creates a folder for each stream
         feed_folder = conf.path + "/var/export/webzine/" + \
@@ -74,6 +75,7 @@ def export_html(mongo_db):
                         (feed["feed_id"], feed["feed_title"])
 
         posts = htmlheader
+        posts += """<h1>Articles of the feed %s.</h1>\n""" % (feed["feed_title"],)
         for article in mongo_db.get_articles(feed_id=feed["feed_id"]):
 
             post_file_name = os.path.normpath(feed_folder + "/" + article["article_id"] + ".html")
@@ -99,7 +101,8 @@ def export_html(mongo_db):
         with open(feed_index, "w") as f:
             f.write(posts)
 
-    index += "\n</ul>\n<br />"
+    index += "\n</ul>\n<br />\n"
+    index += """<p>Total: %s articles.</p>\n""" % (nb_articles,)
     index += htmlfooter
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index)
