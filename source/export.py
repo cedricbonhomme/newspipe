@@ -61,7 +61,8 @@ htmlheader = """<!DOCTYPE html>
         .author{text-decoration:none;display:block;float:right;margin-left:2em;font-size:small}
         .content{margin:1.00em 1.00em}
 </style>
-</head>"""
+</head>
+<body>"""
 
 htmlfooter = '\n<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
             ' redistribute the source code according to the' + \
