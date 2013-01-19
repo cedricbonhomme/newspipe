@@ -53,40 +53,43 @@ class FeedGetter(object):
         self.articles = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
                         conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
 
-    def retrieve_feed(self):
+    def retrieve_feed(self, feed_url=None, feed_original=None):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        with open(conf.FEED_LIST) as f:
-            for a_feed in f:
-                # test if the URL is well formed
-                for url_regexp in utils.url_finders:
-                    if url_regexp.match(a_feed):
-                        the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
-                        try:
-                            # launch a new thread for the RSS feed
-                            thread = threading.Thread(None, self.process, \
-                                                None, (the_good_url,))
-                            thread.start()
-                            list_of_threads.append(thread)
-                        except:
-                            pass
-                        break
+        if feed_url != None:
+            self.process(feed_url, feed_original)
+        else:
+            with open(conf.FEED_LIST) as f:
+                for a_feed in f:
+                    # test if the URL is well formed
+                    for url_regexp in utils.url_finders:
+                        if url_regexp.match(a_feed):
+                            the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
+                            try:
+                                # launch a new thread for the RSS feed
+                                thread = threading.Thread(None, self.process, \
+                                                    None, (the_good_url,))
+                                thread.start()
+                                list_of_threads.append(thread)
+                            except:
+                                pass
+                            break
 
-        # wait for all threads are done
-        for th in list_of_threads:
-            th.join()
+            # wait for all threads are done
+            for th in list_of_threads:
+                th.join()
 
-    def process(self, the_good_url):
+    def process(self, the_good_url, feed_original=None):
         """Request the URL
 
         Executed in a thread.
         """
         if utils.detect_url_errors([the_good_url]) == []:
             # if ressource is available add the articles in the base.
-            self.add_into_database(the_good_url)
+            self.add_into_database(the_good_url, feed_original)
 
-    def add_into_database(self, feed_link):
+    def add_into_database(self, feed_link, feed_original=None):
         """
         Add the articles of the feed 'a_feed' in the SQLite base.
         """
@@ -97,6 +100,9 @@ class FeedGetter(object):
             feed_image = a_feed.feed.image.href
         except:
             feed_image = "/img/feed-icon-28x28.png"
+
+        if feed_original != None:
+            feed_link = feed_original
 
         sha1_hash = hashlib.sha1()
         sha1_hash.update(feed_link.encode('utf-8'))
@@ -161,3 +167,23 @@ if __name__ == "__main__":
     # Point of entry in execution mode
     feed_getter = FeedGetter()
     feed_getter.retrieve_feed()
+
+    # If you want to get all articles of a blog:
+    """
+    for i in range(1,86):
+        feed_original = "http://esr.ibiblio.org/?feed=rss2"
+        feed = feed_original + "&paged=" + str(i)
+        print("Retrieving", feed, "...")
+        feed_getter.retrieve_feed(feed, feed_original)
+    """
+    """
+    for i in range(1,5):
+        feed_original = "http://spaf.wordpress.com/feed/"
+        feed = feed_original + "?paged=" + str(i)
+        print("Retrieving", feed, "...")
+        feed_getter.retrieve_feed(feed, feed_original)
+    """
+
+    # For a blogspot blog:
+    #feed_getter.retrieve_feed("http://www.blogger.com/feeds/4195135246107166251/posts/default", "http://neopythonic.blogspot.com/feeds/posts/default")
+    #feed_getter.retrieve_feed("http://www.blogger.com/feeds/8699431508730375743/posts/default", "http://python-history.blogspot.com/feeds/posts/default")
