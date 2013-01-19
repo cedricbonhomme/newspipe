@@ -80,7 +80,7 @@ def export_html(mongo_db):
     nb_articles = format(mongo_db.nb_articles(), ",d")
     feeds = mongo_db.get_all_feeds()
     index = HTML_HEADER
-    index += "\n<h1>List of feeds</h1>\n"
+    index += "<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
     for feed in feeds:
         # creates a folder for each stream
@@ -109,7 +109,7 @@ def export_html(mongo_db):
                             (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
             a_post = HTML_HEADER
-            a_post += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
+            a_post += '<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1>\n<br />""" % \
                         (article["article_link"], article["article_title"])
             a_post += article["article_content"]
