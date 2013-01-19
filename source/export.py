@@ -40,7 +40,7 @@ import os
 import conf
 import utils
 
-htmlheader = """<!DOCTYPE html>
+HTML_HEADER = """<!DOCTYPE html>
 <head>
 <title>pyAggr3g470r</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -62,12 +62,16 @@ htmlheader = """<!DOCTYPE html>
         .content{margin:1.00em 1.00em}
 </style>
 </head>
-<body>"""
+<body>
+"""
 
-htmlfooter = '\n<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
-            ' redistribute the source code according to the' + \
-            ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
-            '</body>\n</html>'
+HTML_FOOTER = """<hr />
+<p><a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a> is under GPLv3 license.
+You are welcome to copy, modify or redistribute the source code according to the
+<a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p>
+</body>
+</html>
+"""
 
 def export_html(mongo_db):
     """
@@ -75,7 +79,7 @@ def export_html(mongo_db):
     """
     nb_articles = format(mongo_db.nb_articles(), ",d")
     feeds = mongo_db.get_all_feeds()
-    index = htmlheader
+    index = HTML_HEADER
     index += "\n<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
     for feed in feeds:
@@ -91,7 +95,7 @@ def export_html(mongo_db):
         index += """<li><a href="%s">%s</a></li>\n""" % \
                         (feed["feed_id"], feed["feed_title"])
 
-        posts = htmlheader
+        posts = HTML_HEADER
         posts += """<h1>Articles of the feed <a href="%s">%s</a></h1>\n""" % (feed["site_link"], feed["feed_title"])
         posts += """<p>%s articles.</p>\n""" % (format(mongo_db.nb_articles(feed["feed_id"]), ",d"),)
 
@@ -104,24 +108,24 @@ def export_html(mongo_db):
                     """<a href="./%s.html">%s</a>""" % \
                             (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
-            a_post = htmlheader
+            a_post = HTML_HEADER
             a_post += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1>\n<br />""" % \
                         (article["article_link"], article["article_title"])
             a_post += article["article_content"]
             a_post += "</div>\n<hr />\n"
             a_post += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article["article_link"],)
-            a_post += htmlfooter
+            a_post += HTML_FOOTER
 
             with open(post_file_name, "w") as f:
                 f.write(a_post)
 
-        posts +=  htmlfooter
+        posts +=  HTML_FOOTER
         with open(feed_index, "w") as f:
             f.write(posts)
 
     index += "\n</ul>\n<br />\n"
-    index += htmlfooter
+    index += HTML_FOOTER
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index)
 
@@ -196,13 +200,13 @@ def export_pdf(feeds):
                 name = article.article_date.strip().replace(' ', '_')
                 name = os.path.normpath(folder + "/" + name + ".pdf")
 
-                content = htmlheader
+                content = HTML_HEADER
                 content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                 content += """<h1><a href="%s">%s</a></h1><br />""" % \
                             (article.article_link, article.article_title)
                 content += article.article_description
                 content += "</div>\n<hr />\n"
-                content += htmlfooter
+                content += HTML_FOOTER
 
                 try:
                     pdf = pisa.CreatePDF(StringIO.StringIO(content), file(name, "wb"))
