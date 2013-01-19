@@ -74,8 +74,9 @@ def export_html(mongo_db):
                         (feed["feed_id"], feed["feed_title"])
 
         posts = htmlheader
-        posts += """<h1>Articles of the feed %s</h1>\n""" % (feed["feed_title"],)
+        posts += """<h1>Articles of the feed <a href="%s">%s</a></h1>\n""" % (feed["site_link"], feed["feed_title"])
         posts += """<p>%s articles.</p>\n""" % (format(mongo_db.nb_articles(feed["feed_id"]), ",d"),)
+
         for article in mongo_db.get_articles(feed_id=feed["feed_id"]):
 
             post_file_name = os.path.normpath(feed_folder + "/" + article["article_id"] + ".html")
