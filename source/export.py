@@ -63,7 +63,7 @@ htmlheader = """<!DOCTYPE html>
 </style>
 </head>"""
 
-htmlfooter = '<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
+htmlfooter = '\n<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
             ' redistribute the source code according to the' + \
             ' <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p></div>\n' + \
             '</body>\n</html>'
@@ -75,7 +75,8 @@ def export_html(mongo_db):
     nb_articles = format(mongo_db.nb_articles(), ",d")
     feeds = mongo_db.get_all_feeds()
     index = htmlheader
-    index += "\n<h1>List of feeds</h1>\n<ul>"
+    index += "\n<h1>List of feeds</h1>\n"
+    index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
     for feed in feeds:
         # creates a folder for each stream
         feed_folder = conf.path + "/var/export/webzine/" + \
@@ -109,7 +110,7 @@ def export_html(mongo_db):
             a_post += article["article_content"]
             a_post += "</div>\n<hr />\n"
             a_post += """<br />\n<a href="%s">Complete story</a>\n<br />\n""" % (article["article_link"],)
-            a_post += "<hr />\n" + htmlfooter
+            a_post += htmlfooter
 
             with open(post_file_name, "w") as f:
                 f.write(a_post)
@@ -119,7 +120,6 @@ def export_html(mongo_db):
             f.write(posts)
 
     index += "\n</ul>\n<br />\n"
-    index += """<p>Total: %s articles.</p>\n""" % (nb_articles,)
     index += htmlfooter
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index)
