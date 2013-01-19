@@ -40,12 +40,28 @@ import os
 import conf
 import utils
 
-htmlheader = '<!DOCTYPE html>\n' + \
-        '<head>' + \
-        '\n\t<title>pyAggr3g470r</title>\n' + \
-        '\t<link rel="stylesheet" type="text/css" href="/css/style.css" />' + \
-        '\n\t<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>\n' + \
-        '</head>\n'
+htmlheader = """<!DOCTYPE html>
+<head>
+<title>pyAggr3g470r</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style type=text/css media=screen>
+        body{font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;margin:1.20em auto;width:80%;line-height:1.75}
+        blockquote{font-size:small;line-height:2.153846;margin:2.153846em 0;padding:0;font-style:oblique;border-left:1px dotted;margin-left:2.153846em;padding-left:2.153846em}
+        blockquote p{margin:2.153846em 0}
+        p+br{display:none}
+        h1{font-size:large}
+        h2,h3{font-size:medium}
+        hr{border-style:dotted;height:1px;border-width: 1px 0 0 0;margin:1.45em 0 1.4em;padding:0;}
+        a{text-decoration:none;color:#00008B}
+        #footer{clear:both;text-align:center;font-size:small}
+        img{border:0}
+        .horizontal,.simple li{margin:0;padding:0;list-style:none;display:inline}
+        .simple li:before{content:"+ "}
+        .simple > li:first-child:before{content:""}
+        .author{text-decoration:none;display:block;float:right;margin-left:2em;font-size:small}
+        .content{margin:1.00em 1.00em}
+</style>
+</head>"""
 
 htmlfooter = '<hr />\n<p>This software is under GPLv3 license. You are welcome to copy, modify or' + \
             ' redistribute the source code according to the' + \
