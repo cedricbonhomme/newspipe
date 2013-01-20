@@ -97,7 +97,7 @@ import utils
             if mongo.nb_unread_articles(feed["feed_id"]) != 0:
                 html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))
-            if feed["mail"] == "0":
+            if feed["mail"] == False:
                 html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
             else:
                 html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
