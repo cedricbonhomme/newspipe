@@ -108,7 +108,8 @@ class FeedGetter(object):
         sha1_hash.update(feed_link.encode('utf-8'))
         feed_id = sha1_hash.hexdigest()
 
-        if None == self.articles.get_feed(feed_id):
+        feed = self.articles.get_feed(feed_id)
+        if None == feed:
             collection_dic = {"feed_id": feed_id, \
                                 "type": 0, \
                                 "feed_image": feed_image, \
@@ -156,11 +157,11 @@ class FeedGetter(object):
 
         self.articles.add_articles(articles, feed_id)
 
-        # send new articles by e-mail if desired.
-        #threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
-                            #a_feed.feed.title, \
-                            #article_title, description) \
-                        #).start()
+        if feed["mail"]:
+            # send new articles by e-mail if desired.
+            threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
+                                                            a_feed.feed.title, \
+                                                            article_title, description)).start()
 
 
 if __name__ == "__main__":
