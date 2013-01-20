@@ -172,12 +172,16 @@ class pyAggr3g470r(object):
     search.exposed = True
 
     @auth.require()
-    def fetch(self):
+    def fetch(self, param=None):
         """
         Fetch all feeds.
         """
+        feed_link = None
+        if None != param:
+            # Fetch only the feed specified in parameter
+            feed_link = self.mongo.get_feed(param)["feed_link"]
         feed_getter = feedgetter.FeedGetter()
-        feed_getter.retrieve_feed()
+        feed_getter.retrieve_feed(feed_url=feed_link)
         return self.index()
 
     fetch.exposed = True

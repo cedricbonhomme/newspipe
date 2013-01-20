@@ -42,7 +42,7 @@ import utils
             <a href="/unread/"><img src="/img/unread.png" title="Unread article(s): ${nb_unread_articles}" /></a>
         %endif
     %endif
-    <a accesskey="F" href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>
+    <a href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="/logout/"><img src="/img/logout.png" title="Logout" /></a>
     </div><br/>
@@ -94,6 +94,7 @@ import utils
             # some options for the current feed
             html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
             html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
+            html += """<div class="right"><h2><a href="/fetch/%s"><img src="/img/check-news.png" title="Check this feed for news" /></a></h2></div>\n""" % (feed["feed_id"],)
             if mongo.nb_unread_articles(feed["feed_id"]) != 0:
                 html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))
