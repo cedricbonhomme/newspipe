@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.6 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2013/01/11 $"
+__revision__ = "$Date: 2013/01/20 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -74,7 +74,8 @@ class Articles(object):
 
     def get_feed(self, feed_id):
         """
-        Return information about a feed.
+        Return information about a feed (collection).
+        Return None if the collection does not exist.
         """
         try:
             return next(self.db[str(feed_id)].find())
@@ -277,4 +278,4 @@ if __name__ == "__main__":
 
 
     # Drop the database
-    articles.drop_database()
+    #articles.drop_database()
