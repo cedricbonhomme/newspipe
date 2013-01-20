@@ -39,7 +39,6 @@ import re
 import glob
 import operator
 import calendar
-import unicodedata
 import html.entities
 
 import smtplib
