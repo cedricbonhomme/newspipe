@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.3 $"
+__version__ = "$Revision: 1.4 $"
 __date__ = "$Date: 2010/12/07 $"
-__revision__ = "$Date: 2012/11/8 $"
+__revision__ = "$Date: 2013/01/20 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -38,7 +38,6 @@ import os
 import re
 import glob
 import operator
-import urllib.parse
 import calendar
 import unicodedata
 import html.entities
@@ -51,7 +50,6 @@ import urllib.request, urllib.error, urllib.parse
 import http.server
 from bs4 import BeautifulSoup
 
-from datetime import datetime
 from collections import Counter
 
 import conf
@@ -177,28 +175,6 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     # and message to send - here it is sent as one string.
     s.sendmail(mfrom, mto, msg.as_string())
     s.quit()
-
-def string_to_datetime(stringtime):
-    """
-    Convert a string to datetime.
-    """
-    date, time = stringtime.split(' ')
-    year, month, day = date.split('-')
-    hour, minute, second = time.split(':')
-    return datetime(year=int(year), month=int(month), day=int(day), \
-        hour=int(hour), minute=int(minute), second=int(second))
-
-def compare(stringtime1, stringtime2):
-    """
-    Compare two dates in the format 'yyyy-mm-dd hh:mm:ss'.
-    """
-    datetime1 = string_to_datetime(stringtime1)
-    datetime2 = string_to_datetime(stringtime2)
-    if datetime1 < datetime2:
-        return -1
-    elif datetime1 > datetime2:
-        return 1
-    return 0
 
 def add_feed(feed_url):
     """
