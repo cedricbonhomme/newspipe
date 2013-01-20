@@ -108,16 +108,16 @@ class FeedGetter(object):
         sha1_hash.update(feed_link.encode('utf-8'))
         feed_id = sha1_hash.hexdigest()
 
-        collection_dic = {"feed_id": feed_id, \
-                            "type": 0, \
-                            "feed_image": feed_image, \
-                            "feed_title": utils.clear_string(a_feed.feed.title), \
-                            "feed_link": feed_link, \
-                            "site_link": a_feed.feed.link, \
-                            "mail": False \
-                        }
-
-        self.articles.add_collection(collection_dic)
+        if None == self.articles.get_feed(feed_id):
+            collection_dic = {"feed_id": feed_id, \
+                                "type": 0, \
+                                "feed_image": feed_image, \
+                                "feed_title": utils.clear_string(a_feed.feed.title), \
+                                "feed_link": feed_link, \
+                                "site_link": a_feed.feed.link, \
+                                "mail": False \
+                            }
+            self.articles.add_collection(collection_dic)
 
         articles = []
         for article in a_feed['entries']:
