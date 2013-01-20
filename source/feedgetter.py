@@ -47,7 +47,7 @@ class FeedGetter(object):
     """
     def __init__(self):
         """
-        Initializes the base and variables.
+        Initializes the database connection.
         """
         # MongoDB connections
         self.articles = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
