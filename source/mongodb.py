@@ -76,7 +76,10 @@ class Articles(object):
         """
         Return information about a feed.
         """
-        return next(self.db[str(feed_id)].find())
+        try:
+            return next(self.db[str(feed_id)].find())
+        except:
+            return None
 
     def get_all_feeds(self, condition=None):
         """
