@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.3 $"
+__version__ = "$Revision: 1.4 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2013/01/14 $"
+__revision__ = "$Date: 2013/01/20 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -166,6 +166,7 @@ class FeedGetter(object):
 if __name__ == "__main__":
     # Point of entry in execution mode
     feed_getter = FeedGetter()
+    # Retrieve all feeds
     feed_getter.retrieve_feed()
 
     # If you want to get all articles of a blog:
