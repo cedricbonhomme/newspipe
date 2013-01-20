@@ -155,13 +155,12 @@ class FeedGetter(object):
 
             articles.append(article)
 
-        self.articles.add_articles(articles, feed_id)
-
-        if feed["mail"]:
-            # send new articles by e-mail if desired.
-            threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
+            if feed["mail"]:
+                # send new articles by e-mail if desired.
+                threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
                                                             a_feed.feed.title, \
                                                             article_title, description)).start()
+        self.articles.add_articles(articles, feed_id)
 
 
 if __name__ == "__main__":
