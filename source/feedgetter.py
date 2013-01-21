@@ -155,7 +155,7 @@ class FeedGetter(object):
 
             articles.append(article)
 
-            if feed["mail"] and self.articles.get_articles(feed_id, article_id) == False:
+            if conf.MAIL_ENABLED and feed["mail"] and self.articles.get_articles(feed_id, article_id) == False:
                 # if subscribed to the feed AND if article not already in the database
                 threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
                                                             a_feed.feed.title, \
