@@ -168,8 +168,12 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     msg.attach(part2)
 
     # Send the message via local SMTP server.
-    s = smtplib.SMTP(conf.smtp_server)
-    s.login(conf.username, conf.password)
+    try:
+        s = smtplib.SMTP(conf.smtp_server)
+        s.login(conf.username, conf.password)
+    except:
+        print("smtp error")
+        return
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     s.sendmail(mfrom, mto, msg.as_string())

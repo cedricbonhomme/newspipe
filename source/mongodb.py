@@ -131,7 +131,10 @@ class Articles(object):
         elif feed_id != None and article_id != None:
             # Return a precise article.
             collection = self.db[str(feed_id)]
-            return next(collection.find({"article_id":article_id}))
+            try:
+                return next(collection.find({"article_id":article_id}))
+            except:
+                return False
 
     def get_favorites(self, feed_id=None):
         """
