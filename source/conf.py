@@ -43,7 +43,7 @@ MONGODB_DBNAME = config.get('MongoDB', 'dbname')
 MONGODB_USER = config.get('MongoDB', 'user')
 MONGODB_PASSWORD = config.get('MongoDB', 'password')
 
-MAIL_ENABLED = bool(config.get('mail','enabled'))
+MAIL_ENABLED = bool(int(config.get('mail','enabled')))
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')
 smtp_server = config.get('mail','smtp')
