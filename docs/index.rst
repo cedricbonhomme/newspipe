@@ -112,12 +112,13 @@ via the management page. Passwords are hashed and stored in the file **./var/pas
 
 Mail notification
 `````````````````
-If you wish to stay tuned from new articles of a feed by email, you have to edit the configuration file:
+If you wish to stay tuned from new articles of a feed by email, you have to edit the the **main**
+section of the configuration file:
 
-* your mail address (address of the recipient of the news);
-* a SMTP server;
-* the address used by pyAggr3g470r to send the mail, and;
-* the corresponding password. 
+* set the value of *enabled* to 1;
+* set the *mail_to* value, your e-mail address (address of the recipient of the news);
+* set the *smtp* value, the address of the SMTP server, and;
+* set the *username* and *password* values for the authentication to the SMTP server.
 
 .. code-block:: ini
 
