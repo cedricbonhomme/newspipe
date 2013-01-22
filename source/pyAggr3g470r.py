@@ -385,7 +385,7 @@ class pyAggr3g470r(object):
         """
         feeds = self.mongo.get_all_feeds(condition=("mail",True))
         tmpl = lookup.get_template("notifications.html")
-        return tmpl.render(feeds=feeds, mail_to=conf.mail_to)
+        return tmpl.render(feeds=feeds, mail_to=conf.mail_to, mail_notification_enabled=conf.MAIL_ENABLED)
 
     notifications.exposed = True
 

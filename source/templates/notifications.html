@@ -11,4 +11,8 @@
     %else:
         <p>No active notifications.<p>
     %endif
-    <p>Notifications are sent to: <a href="mail:${mail_to}">${mail_to}</a></p>
+    <p>Notifications are sent to: <a href="mail:${mail_to}">${mail_to}</a>.
+    %if not mail_notification_enabled:
+        However e-mail notification is disabled in the configuration file.
+    %endif
+    </p>
