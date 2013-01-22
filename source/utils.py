@@ -171,13 +171,13 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     try:
         s = smtplib.SMTP(conf.smtp_server)
         s.login(conf.username, conf.password)
+    except Exception as e:
+        print(e)
+    else:
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
-    except Exception as e:
-        print(e)
-        return
 
 def add_feed(feed_url):
     """
