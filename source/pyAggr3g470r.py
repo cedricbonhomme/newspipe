@@ -269,8 +269,6 @@ class pyAggr3g470r(object):
         except KeyError:
             return self.error("<p>This feed do not exists.</p>")
 
-        mail_notification_enabled = conf.MAIL_ENABLED
-
         if articles != []:
             today = datetime.datetime.now()
             last_article = articles[0]["article_date"]
@@ -287,7 +285,8 @@ class pyAggr3g470r(object):
                             nb_articles_feed=nb_articles_feed, nb_articles_total=nb_articles_total, nb_unread_articles_feed=nb_unread_articles_feed, \
                             nb_favorites = nb_favorites, first_post_date=first_article, end_post_date=last_article, \
                             average=average, delta=delta, elapsed=elapsed, \
-                            tag_cloud=tag_cloud, word_size=word_size, mail_to=conf.mail_to, mail_notification_enabled=mail_notification_enabled)
+                            tag_cloud=tag_cloud, word_size=word_size, \
+                            mail_to=conf.mail_to, mail_notification_enabled=conf.MAIL_ENABLED)
 
     feed.exposed = True
 
