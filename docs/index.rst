@@ -128,6 +128,7 @@ If you wish to stay tuned from new articles of a feed by email, you have to edit
     user = bob
     password = password_of_bob
     [mail]
+    enabled = 0
     mail_from = pyAggr3g470r@no-reply.com
     mail_to = address_of_the_recipient@example.com
     smtp = smtp.example.com
