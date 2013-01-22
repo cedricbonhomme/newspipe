@@ -20,6 +20,13 @@
             </select>
             <input type="submit" value="OK">
         </form>
+    %endif
+
+    %if not mail_notification_enabled:
+        <p>E-mail notification is disabled in the configuration file.</p>
+    %endif
+
+    %if feeds:
         <hr />
         <h1>Facts</h1>
         <ul>
@@ -28,6 +35,10 @@
             <li><a href="/statistics/">tag clouds</a>;</li>
             <li><a href="/inactives/">inactive feeds</a>.</li>
         </ul>
+    %endif
+
+    %if not mail_notification_enabled:
+        <p>E-mail notification is disabled in the configuration file.</p>
     %endif
 
     <hr />

@@ -138,7 +138,8 @@ class pyAggr3g470r(object):
         tmpl = lookup.get_template("management.html")
         return tmpl.render(feeds=feeds, nb_mail_notifications=nb_mail_notifications, \
                             nb_favorites=nb_favorites, nb_articles=nb_articles, \
-                            nb_unread_articles=nb_unread_articles)
+                            nb_unread_articles=nb_unread_articles, \
+                            mail_notification_enabled=conf.MAIL_ENABLED)
 
     management.exposed = True
 
