@@ -112,7 +112,7 @@ via the management page. Passwords are hashed and stored in the file **./var/pas
 
 Mail notification
 `````````````````
-If you wish to stay tuned from new articles of a feed by email, you have to edit the the **main**
+If you wish to stay tuned from new articles of a feed by email, you have to edit the the **mail**
 section of the configuration file:
 
 * set the value of *enabled* to 1;
