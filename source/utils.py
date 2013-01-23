@@ -176,7 +176,8 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     else:
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
-        s.sendmail(mfrom, mto, msg.as_string())
+        #s.sendmail(mfrom, mto, msg.as_string())
+        s.send_message(msg)
         s.quit()
 
 def add_feed(feed_url):
