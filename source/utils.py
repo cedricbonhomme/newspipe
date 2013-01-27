@@ -204,9 +204,10 @@ def change_feed_url(old_feed_url, new_feed_url):
     try:
         lines[lines.index(old_feed_url)] = new_feed_url
     except:
-        return
+        return False
     with open(conf.FEED_LIST, "w") as f:
         f.write("\n".join(lines))
+    return True
 
 def remove_feed(feed_url):
     """
