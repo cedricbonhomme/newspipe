@@ -604,7 +604,7 @@ class pyAggr3g470r(object):
         except Exception as e:
             return self.error(e)
         tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message="<p>Export successfully terminated.<br />Check the folder: <b>./pyaggr3g470r/source/var/export/</b>.</p>")
+        return tmpl.render(message="<p>Export successfully terminated.<br />Check the folder: <b>" + conf.path + "/var/export/</b>.</p>")
 
     export.exposed = True
 
