@@ -5,7 +5,7 @@ import utils
 %>
 <div class="right inner">
     <form method=get action="/search/">
-        <input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on">
+        <input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on" />
     </form>
     <hr />
     <div class="nav_container">Your feeds (${nb_feeds}):<br />
@@ -15,7 +15,6 @@ import utils
         %for feed in feeds:
             <%
                 if mongo.nb_unread_articles(feed["feed_id"]) != 0:
-                    # not readed articles are in bold
                     not_read_begin, not_read_end = "<b>", "</b>"
                 else:
                     not_read_begin, not_read_end = "", ""
