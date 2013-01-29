@@ -41,10 +41,11 @@ import conf
 import utils
 
 HTML_HEADER = """<!DOCTYPE html>
+<html lang="en-US">
 <head>
 <title>pyAggr3g470r</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<style type=text/css media=screen>
+<meta charset="utf-8"/>
+<style media="screen">
         body{font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;margin:1.20em auto;width:80%;line-height:1.75}
         blockquote{font-size:small;line-height:2.153846;margin:2.153846em 0;padding:0;font-style:oblique;border-left:1px dotted;margin-left:2.153846em;padding-left:2.153846em}
         blockquote p{margin:2.153846em 0}
@@ -66,7 +67,9 @@ HTML_HEADER = """<!DOCTYPE html>
 """
 
 HTML_FOOTER = """<hr />
-<p><a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a> is under GPLv3 license.
+<p>This archive has been generated with
+<a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>.
+A software under GPLv3 license.
 You are welcome to copy, modify or redistribute the source code according to the
 <a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p>
 </body>
