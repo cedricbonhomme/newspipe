@@ -1,0 +1,15 @@
+## languages.html
+<%inherit file="base.html"/>
+<div class="left inner">
+    %for language in articles_sorted_by_languages.keys():
+        <h1>${language}</h1>
+        %for feed in articles_sorted_by_languages[language]:
+            <h2>${feed}</h2>
+            %for article in articles_sorted_by_languages[language][feed]:
+                ${article["article_title"]}
+                <br />
+            %endfor
+            <br />
+        %endfor
+        <br />
+    %endfor

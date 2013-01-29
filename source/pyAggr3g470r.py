@@ -452,6 +452,31 @@ class pyAggr3g470r(object):
     inactives.exposed = True
 
     @auth.require()
+    def languages(self):
+        """
+        Filter by languages.
+        """
+        try:
+            from guess_language import guess_language
+        except:
+            tmpl = lookup.get_template("error.html")
+            return tmpl.render(message="<p>Module <i>guess_language</i> not installed.</p>")
+        result = {}
+        feeds = self.mongo.get_all_feeds()
+        for feed in feeds:
+            for article in self.mongo.get_articles(feed["feed_id"]):
+                language = guess_language(utils.clear_string(article["article_content"]))
+                if language not in result.keys():
+                    result[language] = {}
+                if feed["feed_title"] not in result[language].keys():
+                    result[language][feed["feed_title"]] = []
+                result[language][feed["feed_title"]].append(article)
+        tmpl = lookup.get_template("languages.html")
+        return tmpl.render(articles_sorted_by_languages=result)
+
+    languages.exposed = True
+
+    @auth.require()
     def add_feed(self, url):
         """
         Add a new feed with the URL of a page.
