@@ -48,6 +48,7 @@ Optional module
 
 These modules are not required but enables more features:
 
+* guess_language_ and PyEnchant_ for the language detection;
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
@@ -210,4 +211,6 @@ Contact
 .. _CherryPy: http://cherrypy.org/
 .. _Mako: http://www.makotemplates.org/
 .. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _guess_language: https://bitbucket.org/spirit/guess_language/
+.. _PyEnchant: http://pypi.python.org/pypi/pyenchant
 .. _GPLv3: http://www.gnu.org/licenses/gpl-3.0.txt
