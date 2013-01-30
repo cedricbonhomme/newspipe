@@ -460,7 +460,7 @@ class pyAggr3g470r(object):
             from guess_language import guess_language
         except:
             tmpl = lookup.get_template("error.html")
-            return tmpl.render(message="<p>Module <i>guess_language</i> not installed.</p>")
+            return tmpl.render(message='<p>Module <i><a href="https://bitbucket.org/spirit/guess_language/">guess_language</a></i> not installed.</p>')
         result = {}
         feeds = self.mongo.get_all_feeds()
         for feed in feeds:
