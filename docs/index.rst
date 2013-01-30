@@ -65,6 +65,7 @@ Script of installation
 
     sudo aptitude install python3-feedparser python3-bs4
     sudo aptitude install python-pymongo python3-mako
+    # CherryPy, Minimalist Python Web Framework:
     wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
     tar -xzvf CherryPy-3.2.2.tar.gz
     rm -f CherryPy-3.2.2.tar.gz
@@ -72,6 +73,14 @@ Script of installation
     sudo python3.2 setup.py install
     cd ..
     sudo rm -Rf CherryPy-3.2.2/
+    # Language detection:
+    hg clone https://bitbucket.org/spirit/guess_language/
+    cd guess_language/
+    sudo python3.2 setup.py install
+    cd ..
+    sudo rm -Rf guess_language/
+    sudo aptitude install python3-pyenchant
+    # Finally, download pyAggr3g470r
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
     cd pyaggr3g470r/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
