@@ -25,6 +25,7 @@ Features
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
+* language detection;
 * sharing with Diaspora, Google Buzz, Pinboard, Identi.ca, Digg, reddit, Scoopeo, Blogmarks and Twitter;
 * generation of QR codes with URLs of articles.
 
