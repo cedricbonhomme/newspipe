@@ -19,6 +19,7 @@ Features
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
+* language detection;
 * share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks;
 * generation of QR codes with URLs of articles.
 
@@ -38,6 +39,7 @@ Optional module
 
 These modules are not required but enables more features:
 
+* [guess_language](https://bitbucket.org/spirit/guess_language/) and [PyEnchant](http://pypi.python.org/pypi/pyenchant) for the language detection;
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
