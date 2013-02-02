@@ -468,11 +468,11 @@ class pyAggr3g470r(object):
                 language = guess_language(utils.clear_string(article["article_content"]))
                 if language not in result.keys():
                     result[language] = {}
-                if feed["feed_title"] not in result[language].keys():
-                    result[language][feed["feed_title"]] = []
-                result[language][feed["feed_title"]].append(article)
+                if feed["feed_id"] not in result[language].keys():
+                    result[language][feed["feed_id"]] = []
+                result[language][feed["feed_id"]].append(article)
         tmpl = lookup.get_template("languages.html")
-        return tmpl.render(articles_sorted_by_languages=result)
+        return tmpl.render(articles_sorted_by_languages=result, mongo=self.mongo)
 
     languages.exposed = True
 
