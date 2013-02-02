@@ -11,7 +11,7 @@
         %for feed in articles_sorted_by_languages[language]:
             <h2>${feed}</h2>
             %for article in articles_sorted_by_languages[language][feed]:
-                ${article["article_title"]}
+                ${article["article_date"].strftime('%Y-%m-%d %H:%M')} - ${article["article_title"]}
                 <br />
             %endfor
             <br />
