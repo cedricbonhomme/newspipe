@@ -4,11 +4,11 @@
     <h1>Summary</h1>
     <ul>
     %for language in articles_sorted_by_languages.keys():
-        <li>${language}: ${sum(map(len, articles_sorted_by_languages[language].values()))} articles</li>
+        <li><a href="/#${language}">${language}</a>: ${sum(map(len, articles_sorted_by_languages[language].values()))} articles</li>
     %endfor
     </ul>
     %for language in articles_sorted_by_languages.keys():
-        <h1>${language}</h1>
+        <h1 id="${language}">${language}</h1>
         %for feed_id in articles_sorted_by_languages[language]:
             <%
                 feed = mongo.get_feed(feed_id)
