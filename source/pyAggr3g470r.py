@@ -466,10 +466,8 @@ class pyAggr3g470r(object):
         for feed in feeds:
             for article in self.mongo.get_articles(feed["feed_id"]):
                 language = guess_language_name(utils.clear_string(article["article_content"]))
-                if language not in result.keys():
-                    result[language] = {}
-                if feed["feed_id"] not in result[language].keys():
-                    result[language][feed["feed_id"]] = []
+                result.setdefault(language, {})
+                result[language].setdefault(feed["feed_id"], [])
                 result[language][feed["feed_id"]].append(article)
         tmpl = lookup.get_template("languages.html")
         return tmpl.render(articles_sorted_by_languages=result, mongo=self.mongo)
