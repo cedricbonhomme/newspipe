@@ -44,6 +44,8 @@ import os
 import re
 import datetime
 
+from collections import defaultdict
+
 import cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -466,8 +468,7 @@ class pyAggr3g470r(object):
         for feed in feeds:
             for article in self.mongo.get_articles(feed["feed_id"]):
                 language = guess_language_name(utils.clear_string(article["article_content"]))
-                result.setdefault(language, {})
-                result[language].setdefault(feed["feed_id"], [])
+                result.setdefault(language, defaultdict(list))
                 result[language][feed["feed_id"]].append(article)
         tmpl = lookup.get_template("languages.html")
         return tmpl.render(articles_sorted_by_languages=result, mongo=self.mongo)
