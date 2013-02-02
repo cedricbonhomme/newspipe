@@ -8,6 +8,7 @@
     %endfor
     </ul>
     %for language in articles_sorted_by_languages.keys():
+        <br />
         <h1 id="${language}">${language}</h1>
         %for feed_id in articles_sorted_by_languages[language]:
             <%
