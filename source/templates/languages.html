@@ -13,7 +13,7 @@
                 feed = mongo.get_feed(feed_id)
             %>
             <h2>${feed["feed_title"]}</h2>
-            %for article in articles_sorted_by_languages[language][feed_id]:
+            %for article in articles_sorted_by_languages[language][feed_id][:10]:
                 ${article["article_date"].strftime('%Y-%m-%d %H:%M')} - <a href="/article/${feed['feed_id']}:${article['article_id']}" rel="noreferrer" target="_blank">${article["article_title"]}</a>
                 <br />
             %endfor
