@@ -457,7 +457,7 @@ class pyAggr3g470r(object):
         Filter by languages.
         """
         try:
-            from guess_language import guess_language
+            from guess_language import guess_language_name
         except:
             tmpl = lookup.get_template("error.html")
             return tmpl.render(message='<p>Module <i><a href="https://bitbucket.org/spirit/guess_language/">guess_language</a></i> not installed.</p>')
@@ -465,7 +465,7 @@ class pyAggr3g470r(object):
         feeds = self.mongo.get_all_feeds()
         for feed in feeds:
             for article in self.mongo.get_articles(feed["feed_id"]):
-                language = guess_language(utils.clear_string(article["article_content"]))
+                language = guess_language_name(utils.clear_string(article["article_content"]))
                 if language not in result.keys():
                     result[language] = {}
                 if feed["feed_id"] not in result[language].keys():
