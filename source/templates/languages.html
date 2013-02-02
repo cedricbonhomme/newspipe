@@ -4,7 +4,7 @@
     <h1>Summary</h1>
     <ul>
     %for language in articles_sorted_by_languages.keys():
-        <li><a href="/#${language}">${language}</a>: ${sum(map(len, articles_sorted_by_languages[language].values()))} articles</li>
+        <li><a href="#${language}">${language}</a>: ${sum(map(len, articles_sorted_by_languages[language].values()))} articles</li>
     %endfor
     </ul>
     %for language in articles_sorted_by_languages.keys():
