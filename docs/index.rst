@@ -176,7 +176,7 @@ If you want to backup your database:
 
 Demo
 ----
-* some `screen shots <http://picasaweb.google.com/cedric.photos/PyAggr3g470r>`_ of **pyAggr3g470r**;
+* some `screen shots <https://plus.google.com/u/0/photos/106973022319954455496/albums/5449733578800221153>`_ of **pyAggr3g470r**;
 * an old `video <http://youtu.be/Eyxpqn9Rpnw>`_ of pyAggr3g470r;
 * an example of `HTML auto-generated archive <http://cedricbonhomme.org/news/>`_.
 
