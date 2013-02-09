@@ -35,7 +35,9 @@ __license__ = "GPLv3"
 # - favorites;
 # - notifications;
 # - unread;
-# - feed summary.
+# - feed summary;
+# - inactives;
+# - languages.
 # Templates are described in ./templates with the Mako
 # template library.
 #
