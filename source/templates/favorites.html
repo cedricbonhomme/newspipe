@@ -4,7 +4,7 @@
 import utils
 %>
 <div class="left inner">
-    <h1>Your favorites articles</h1>
+    <h1>Your favorites articles (${sum([elem.count() for elem in  articles.values()])})</h1>
     %for feed in feeds:
         <%
             new_feed_section = True
