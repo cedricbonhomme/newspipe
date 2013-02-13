@@ -40,10 +40,11 @@ import os
 import conf
 import utils
 
-HTML_HEADER = """<!DOCTYPE html>
+def HTML_HEADER(title="pyAggr3g470r"):
+    return """<!DOCTYPE html>
 <html lang="en-US">
 <head>
-<title>pyAggr3g470r</title>
+<title>%s</title>
 <meta charset="utf-8"/>
 <style media="screen">
         body{font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;margin:1.20em auto;width:80%;line-height:1.75}
@@ -64,7 +65,7 @@ HTML_HEADER = """<!DOCTYPE html>
 </style>
 </head>
 <body>
-"""
+""" % (title,)
 
 HTML_FOOTER = """<hr />
 <p>This archive has been generated with
@@ -82,7 +83,7 @@ def export_html(mongo_db):
     """
     nb_articles = format(mongo_db.nb_articles(), ",d")
     feeds = mongo_db.get_all_feeds()
-    index = HTML_HEADER
+    index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
     for feed in feeds:
@@ -98,7 +99,7 @@ def export_html(mongo_db):
         index += """<li><a href="%s">%s</a></li>\n""" % \
                         (feed["feed_id"], feed["feed_title"])
 
-        posts = HTML_HEADER
+        posts = HTML_HEADER(feed["feed_title"])
         posts += """<h1>Articles of the feed <a href="%s">%s</a></h1>\n""" % (feed["site_link"], feed["feed_title"])
         posts += """<p>%s articles.</p>\n""" % (format(mongo_db.nb_articles(feed["feed_id"]), ",d"),)
 
@@ -111,7 +112,7 @@ def export_html(mongo_db):
                     """<a href="./%s.html">%s</a>""" % \
                             (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
-            a_post = HTML_HEADER
+            a_post = HTML_HEADER(article["article_title"])
             a_post += '<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1>\n<br />""" % \
                         (article["article_link"], article["article_title"])
@@ -203,7 +204,7 @@ def export_pdf(feeds):
                 name = article.article_date.strip().replace(' ', '_')
                 name = os.path.normpath(folder + "/" + name + ".pdf")
 
-                content = HTML_HEADER
+                content = HTML_HEADER(article.article_title)
                 content += '\n<div style="width: 50%; overflow:hidden; text-align: justify; margin:0 auto">\n'
                 content += """<h1><a href="%s">%s</a></h1><br />""" % \
                             (article.article_link, article.article_title)
