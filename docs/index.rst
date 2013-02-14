@@ -173,6 +173,15 @@ If you want to backup your database:
     $ /etc/init.d/mongodb stop
     $ cp /var/lib/mongodb/pyaggr3g470r.* ~
 
+Alternatively you can use **mongodump**:
+
+    $ mongodump --db pyaggr3g470r
+
+And **mongorestore** to restore the database:
+
+    $ mongorestore --db pyaggr3g470r dump/pyaggr3g470r/
+
+**mongorestore** only performs inserts into the existing database.
 
 Demo
 ----
