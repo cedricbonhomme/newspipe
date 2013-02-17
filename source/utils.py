@@ -31,7 +31,7 @@ __license__ = "GPLv3"
 # - the database management;
 # - generation of tags cloud;
 # - HTML processing;
-# - mail notifications.
+# - e-mail notifications.
 #
 
 import os
@@ -58,7 +58,7 @@ url_finders = [ \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
     re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
-    re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+"), \
+    re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+") \
 ]
 
 def detect_url_errors(list_of_urls):
@@ -174,9 +174,6 @@ def send_mail(mfrom, mto, feed_title, article_title, description):
     except Exception as e:
         print(e)
     else:
-        # sendmail function takes 3 arguments: sender's address, recipient's address
-        # and message to send - here it is sent as one string.
-        #s.sendmail(mfrom, mto, msg.as_string())
         s.send_message(msg)
         s.quit()
 
