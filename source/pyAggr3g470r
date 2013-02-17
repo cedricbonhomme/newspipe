@@ -54,11 +54,9 @@ def writepid(processname = None, pid = None):
     """
     pidpath = os.path.join(PATH, "var", processname + ".pid")
     if processname is not None and pid is not None:
-        f = open (pidpath, "w")
-        f.write(str(pid))
-        f.close()
-        return True
-    else:
+        with open(pidpath, "w") as f:
+            f.write(str(pid))
+            return True
         return False
 
 def checkpid (servicename = None):
@@ -71,11 +69,9 @@ def checkpid (servicename = None):
 def pidof(processname = None):
     pidpath = os.path.join(PATH, "var", processname + ".pid")
     if processname is not None and os.path.exists(pidpath):
-        f = open (pidpath)
-        pid = f.read()
-        f.close()
-        return pid
-    else:
+        with open(pidpath) as f:
+            pid = f.read()
+            return pid
         return False
 
 def rmpid (processname = None):
@@ -93,7 +89,7 @@ def start(python_command):
         print(SERVICE + " is starting with pid: " + pidof(processname=SERVICE))
     else:
         print(SERVICE + " could not be started (pid exists)")
-        retval=False 
+        retval = False 
 
 def stop():
     print("Stopping pyAggr3g470r...")
