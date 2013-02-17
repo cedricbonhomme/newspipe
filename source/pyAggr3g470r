@@ -92,8 +92,11 @@ def start(python_command):
         retval = False 
 
 def stop():
+    """
+    Stop the process SERVICE.
+    """
     print("Stopping pyAggr3g470r...")
-    retval=True
+    retval = True
     pid = pidof(processname=SERVICE)
     if pid:
         if platform.system() == "Windows":
