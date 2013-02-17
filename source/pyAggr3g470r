@@ -20,8 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2011/06/20 $"
+__date__ = "$Date: 2013/02/17 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -37,7 +38,7 @@ import signal
 PATH = os.path.abspath(".")
 SERVICE = "pyAggr3g470r"
 
-def service_start(python_command, servicename = None):
+def service_start(python_command, servicename=None):
     """
     Starts a new service with Popen and returns the processus id.
     """
@@ -48,7 +49,7 @@ def service_start(python_command, servicename = None):
         return proc.pid
     return False
 
-def writepid(processname = None, pid = None):
+def writepid(processname=None, pid=None):
     """
     Writes the pid of processname in a file.
     """
@@ -59,14 +60,14 @@ def writepid(processname = None, pid = None):
             return True
         return False
 
-def checkpid (servicename = None):
+def checkpid(servicename=None):
     pidpath = os.path.join(PATH,"var", servicename + ".pid")
     if os.path.exists(pidpath):
         return True
     else:
         return False
 
-def pidof(processname = None):
+def pidof(processname=None):
     pidpath = os.path.join(PATH, "var", processname + ".pid")
     if processname is not None and os.path.exists(pidpath):
         with open(pidpath) as f:
@@ -74,7 +75,10 @@ def pidof(processname = None):
             return pid
         return False
 
-def rmpid (processname = None):
+def rmpid(processname=None):
+    """
+    Deletes the file which contains the PID.
+    """
     pidpath = os.path.join(PATH, "var", processname + ".pid")
     if os.path.exists(pidpath):
         os.unlink(pidpath)
@@ -83,9 +87,9 @@ def rmpid (processname = None):
         return False
 
 def start(python_command):
-    if not checkpid(servicename = SERVICE):
-        pid = service_start(python_command, servicename = SERVICE)
-        writepid(processname = SERVICE, pid = pid)
+    if not checkpid(servicename=SERVICE):
+        pid = service_start(python_command, servicename =SERVICE)
+        writepid(processname=SERVICE, pid=pid)
         print(SERVICE + " is starting with pid: " + pidof(processname=SERVICE))
     else:
         print(SERVICE + " could not be started (pid exists)")
@@ -95,7 +99,7 @@ def stop():
     """
     Stop the process SERVICE.
     """
-    print("Stopping pyAggr3g470r...")
+    print("Stopping " + SERVICE + "...")
     retval = True
     pid = pidof(processname=SERVICE)
     if pid:
