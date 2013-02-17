@@ -38,6 +38,9 @@ PATH = os.path.abspath(".")
 SERVICE = "pyAggr3g470r"
 
 def service_start(python_command, servicename = None):
+    """
+    Starts a new service with Popen and returns the processus id.
+    """
     if servicename is not None:
         service = servicename + ".py"
         proc =  subprocess.Popen([python_command, "-tt", service], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
@@ -45,10 +48,13 @@ def service_start(python_command, servicename = None):
         return proc.pid
     return False
 
-def writepid (processname = None, pid = None):
-    pidpath = os.path.join(PATH,"var",processname+".pid")
+def writepid(processname = None, pid = None):
+    """
+    Writes the pid of processname in a file.
+    """
+    pidpath = os.path.join(PATH, "var", processname + ".pid")
     if processname is not None and pid is not None:
-        f = open (pidpath,"w")
+        f = open (pidpath, "w")
         f.write(str(pid))
         f.close()
         return True
@@ -56,14 +62,14 @@ def writepid (processname = None, pid = None):
         return False
 
 def checkpid (servicename = None):
-    pidpath = os.path.join(PATH,"var",servicename+".pid")
+    pidpath = os.path.join(PATH,"var", servicename + ".pid")
     if os.path.exists(pidpath):
         return True
     else:
         return False
 
 def pidof(processname = None):
-    pidpath = os.path.join(PATH,"var",processname+".pid")
+    pidpath = os.path.join(PATH, "var", processname + ".pid")
     if processname is not None and os.path.exists(pidpath):
         f = open (pidpath)
         pid = f.read()
