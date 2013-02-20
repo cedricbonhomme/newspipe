@@ -112,7 +112,7 @@ def export_html(mongo_db):
                             (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
             a_post = HTML_HEADER(article["article_title"])
-            a_post += '<div style="overflow:hidden; text-align: justify; margin:0 auto">\n'
+            a_post += '<div style="width:60%; overflow:hidden; text-align:justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1>\n<br />""" % \
                         (article["article_link"], article["article_title"])
             a_post += article["article_content"]
