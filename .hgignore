@@ -11,7 +11,7 @@ syntax: glob
 *.swp
 
 
-CherryPy log files:
+# CherryPy log files:
 *.log
 
 
