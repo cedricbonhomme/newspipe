@@ -57,8 +57,8 @@ If you want to backup your database:
     $ cp /var/lib/mongodb/pyaggr3g470r.* ~
 
 
-Donnation
----------
+Donation
+--------
 If you wish and if you like pyAggr3g470r, you can donate via bitcoin. My bitcoin address: 1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ
 Thank you!
 
