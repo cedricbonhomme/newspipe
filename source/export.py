@@ -40,31 +40,15 @@ import os
 import conf
 import utils
 
-def HTML_HEADER(title="pyAggr3g470r"):
+def HTML_HEADER(title="pyAggr3g470r", css="./style.css"):
     return """<!DOCTYPE html>
 <html lang="en-US">
 <head>
 <title>%s</title>
 <meta charset="utf-8"/>
-<style media="screen">
-        body{font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;margin:1.20em auto;width:80%s;line-height:1.75}
-        blockquote{font-size:small;line-height:2.153846;margin:2.153846em 0;padding:0;font-style:oblique;border-left:1px dotted;margin-left:2.153846em;padding-left:2.153846em}
-        blockquote p{margin:2.153846em 0}
-        p+br{display:none}
-        h1{font-size:large}
-        h2,h3{font-size:medium}
-        hr{border-style:dotted;height:1px;border-width: 1px 0 0 0;margin:1.45em 0 1.4em;padding:0;}
-        a{text-decoration:none;color:#00008B}
-        #footer{clear:both;text-align:center;font-size:small}
-        img{border:0}
-        .horizontal,.simple li{margin:0;padding:0;list-style:none;display:inline}
-        .simple li:before{content:"+ "}
-        .simple > li:first-child:before{content:""}
-        .author{text-decoration:none;display:block;float:right;margin-left:2em;font-size:small}
-        .content{margin:1.00em 1.00em}
-</style>
+<link rel="stylesheet" href="%s" />
 </head>
-<body>""" % (title, "%")
+<body>""" % (title, css)
 
 HTML_FOOTER = """<hr />
 <p>This archive has been generated with
@@ -75,6 +59,90 @@ You are welcome to copy, modify or redistribute the source code according to the
 </body>
 </html>
 """
+
+CSS = """body {
+    font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;
+    margin:1.20em auto;
+    width:80%;
+    line-height:1.75;
+}
+
+blockquote {
+    font-size:small;
+    line-height:2.153846;
+    margin:2.153846em 0;
+    padding:0;font-style:oblique;
+    border-left:1px dotted;
+    margin-left:2.153846em;
+    padding-left:2.153846em;
+}
+
+blockquote p{
+    margin:2.153846em 0;
+}
+
+p+br {
+    display:none;
+}
+
+h1 {
+font-size:large;
+}
+
+h2,h3 {
+    font-size:medium;
+}
+
+hr {
+    border-style:dotted;
+    height:1px;
+    border-width: 1px 0 0 0;
+    margin:1.45em 0 1.4em;
+    padding:0;
+}
+
+a {
+    text-decoration:none;
+    color:#00008B;
+}
+
+#footer {
+    clear:both;
+    text-align:center;
+    font-size:small;
+}
+
+img {
+    border:0;
+}
+
+.horizontal,.simple li {
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:inline
+}
+
+.simple li:before {
+    content:"+ ";
+}
+
+.simple > li:first-child:before {
+    content:"";
+}
+
+.author {
+    text-decoration:none;
+    display:block;
+    float:right;
+    margin-left:2em;
+    font-size:small;
+}
+
+.content {
+    margin:1.00em 1.00em;
+}
+</style>"""
 
 def export_html(mongo_db):
     """
@@ -98,7 +166,7 @@ def export_html(mongo_db):
         index += """<li><a href="%s">%s</a></li>\n""" % \
                         (feed["feed_id"], feed["feed_title"])
 
-        posts = HTML_HEADER(feed["feed_title"])
+        posts = HTML_HEADER(feed["feed_title"], "../style.css")
         posts += """<h1>Articles of the feed <a href="%s">%s</a></h1>\n""" % (feed["site_link"], feed["feed_title"])
         posts += """<p>%s articles.</p>\n""" % (format(mongo_db.nb_articles(feed["feed_id"]), ",d"),)
 
@@ -111,7 +179,7 @@ def export_html(mongo_db):
                     """<a href="./%s.html">%s</a>""" % \
                             (article["article_id"], article["article_title"][:150]) + "<br />\n"
 
-            a_post = HTML_HEADER(article["article_title"])
+            a_post = HTML_HEADER(article["article_title"], "../style.css")
             a_post += '<div style="width:60%; overflow:hidden; text-align:justify; margin:0 auto">\n'
             a_post += """<h1><a href="%s">%s</a></h1>\n<br />""" % \
                         (article["article_link"], article["article_title"])
@@ -131,6 +199,8 @@ def export_html(mongo_db):
     index += HTML_FOOTER
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index)
+    with open(conf.path + "/var/export/webzine/" + "style.css", "w") as f:
+        f.write(CSS)
 
 def export_txt(mongo_db):
     """
