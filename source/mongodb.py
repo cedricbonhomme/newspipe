@@ -230,6 +230,7 @@ class Articles(object):
         """
         articles = {}
         for collection in self.get_all_feeds():
+            # TODO: test the full text search. Not all words are found with the search function
             result = self.db[collection["feed_id"]].find({'article_content': {'$regex': term, "$options": 'i' }})
             if result.count() != 0:
                 articles[collection["feed_id"]] = result.sort([("article_date", pymongo.DESCENDING)])
