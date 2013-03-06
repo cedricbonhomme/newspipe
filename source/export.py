@@ -141,8 +141,7 @@ img {
 
 .content {
     margin:1.00em 1.00em;
-}
-</style>"""
+}"""
 
 def export_html(mongo_db):
     """
