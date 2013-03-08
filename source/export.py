@@ -163,7 +163,7 @@ def export_html(mongo_db):
             # directories already exists (not a problem)
             pass
 
-        index += """<li><a href="%s">%s</a></li>\n""" % \
+        index += """    <li><a href="%s">%s</a></li>\n""" % \
                         (feed["feed_id"], feed["feed_title"])
 
         posts = HTML_HEADER(feed["feed_title"], "../style.css")
