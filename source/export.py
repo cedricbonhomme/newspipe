@@ -36,6 +36,7 @@ __license__ = "GPLv3"
 #
 
 import os
+import time
 
 import conf
 import utils
@@ -194,7 +195,8 @@ def export_html(mongo_db):
         with open(feed_index, "w") as f:
             f.write(posts)
 
-    index += "\n</ul>\n<br />\n"
+    index += "</ul>\n"
+    index += "<p>" + time.strftime("Generated on %d %b %Y at %H:%M.") + "</p>\n"
     index += HTML_FOOTER
     with open(conf.path + "/var/export/webzine/" + "index.html", "w") as f:
         f.write(index)
