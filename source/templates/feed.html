@@ -109,6 +109,12 @@ import utils
         <input type="hidden" name="feed_id" value="${feed['feed_id']}" />
     </form>
 
+    <form method=post action="/change_site_url/">
+        <input type="url" name="new_site_url" value="" placeholder="Enter a new URL for this site (then press Enter)." maxlength=2048 autocomplete="on" size="50" />
+        <input type="hidden" name="feed_id" value="${feed['feed_id']}" />
+        <input type="hidden" name="old_site_url" value="${feed['site_link']}" />
+    </form>
+
     <form method=post action="/change_feed_url/">
         <input type="url" name="new_feed_url" value="" placeholder="Enter a new URL in order to retrieve articles (then press Enter)." maxlength=2048 autocomplete="on" size="50" />
         <input type="hidden" name="feed_id" value="${feed['feed_id']}" />

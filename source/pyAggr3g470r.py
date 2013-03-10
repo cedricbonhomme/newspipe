@@ -514,6 +514,23 @@ class pyAggr3g470r(object):
     remove_feed.exposed = True
 
     @auth.require()
+    def change_site_url(self, feed_id, old_site_url, new_site_url):
+        """
+        Enables to change the URL of a site present in the database.
+        """
+        try:
+            self.mongo.update_feed(feed_id, {"site_link":new_site_url})
+            tmpl = lookup.get_template("confirmation.html")
+            message = "<p>The URL of the site has been changed.</p>"
+        except:
+            tmpl = lookup.get_template("error.html")
+            message = "<p>Error when changing the URL of the site.</p>"
+        finally:
+            return tmpl.render(message=message)
+
+    change_site_url.exposed = True
+
+    @auth.require()
     def change_feed_url(self, feed_id, old_feed_url, new_feed_url):
         """
         Enables to change the URL of a feed already present in the database.
