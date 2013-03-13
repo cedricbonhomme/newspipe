@@ -521,12 +521,9 @@ class pyAggr3g470r(object):
         try:
             self.mongo.update_feed(feed_id, {"site_link":new_site_url})
             tmpl = lookup.get_template("confirmation.html")
-            message = "<p>The URL of the site has been changed.</p>"
+            return tmpl.render(message="<p>The URL of the site has been changed.</p>")
         except:
-            tmpl = lookup.get_template("error.html")
-            message = "<p>Error when changing the URL of the site.</p>"
-        finally:
-            return tmpl.render(message=message)
+            return self.error("<p>Error when changing the URL of the site.</p>")
 
     change_site_url.exposed = True
 
@@ -539,11 +536,9 @@ class pyAggr3g470r(object):
         result = utils.change_feed_url(old_feed_url, new_feed_url)
         if result:
             tmpl = lookup.get_template("confirmation.html")
-            message = "<p>The URL of the feed has been changed.</p>"
+            return tmpl.render("<p>The URL of the feed has been changed.</p>")
         else:
-            tmpl = lookup.get_template("error.html")
-            message = "<p>Error when changing the URL of the feed.</p>"
-        return tmpl.render(message=message)
+            return self.error("<p>Error when changing the URL of the feed.</p>")
 
     change_feed_url.exposed = True
 
@@ -555,11 +550,9 @@ class pyAggr3g470r(object):
         try:
             self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
             tmpl = lookup.get_template("confirmation.html")
-            message = "<p>The name of the feed has been changed.</p>"
+            return tmpl.render("<p>The name of the feed has been changed.</p>")
         except:
-            tmpl = lookup.get_template("error.html")
-            message = "<p>Error when changing the name of the feed.</p>"
-        return tmpl.render(message=message)
+            return self.error("<p>Error when changing the name of the feed.</p>")
 
     change_feed_name.exposed = True
 
@@ -571,11 +564,9 @@ class pyAggr3g470r(object):
         try:
             self.mongo.update_feed(feed_id, {"feed_image":new_feed_logo})
             tmpl = lookup.get_template("confirmation.html")
-            message = "<p>The logo of the feed has been changed.</p>"
+            return tmpl.render("<p>The logo of the feed has been changed.</p>")
         except:
-            tmpl = lookup.get_template("error.html")
-            message = "<p>Error when changing the logo of the feed.</p>"
-        return tmpl.render(message=message)
+            return self.error("<p>Error when changing the logo of the feed.</p>")
 
     change_feed_logo.exposed = True
 
