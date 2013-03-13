@@ -536,7 +536,7 @@ class pyAggr3g470r(object):
         result = utils.change_feed_url(old_feed_url, new_feed_url)
         if result:
             tmpl = lookup.get_template("confirmation.html")
-            return tmpl.render("<p>The URL of the feed has been changed.</p>")
+            return tmpl.render(message="<p>The URL of the feed has been changed.</p>")
         else:
             return self.error("<p>Error when changing the URL of the feed.</p>")
 
@@ -550,7 +550,7 @@ class pyAggr3g470r(object):
         try:
             self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
             tmpl = lookup.get_template("confirmation.html")
-            return tmpl.render("<p>The name of the feed has been changed.</p>")
+            return tmpl.render(message="<p>The name of the feed has been changed.</p>")
         except:
             return self.error("<p>Error when changing the name of the feed.</p>")
 
@@ -564,7 +564,7 @@ class pyAggr3g470r(object):
         try:
             self.mongo.update_feed(feed_id, {"feed_image":new_feed_logo})
             tmpl = lookup.get_template("confirmation.html")
-            return tmpl.render("<p>The logo of the feed has been changed.</p>")
+            return tmpl.render(message="<p>The logo of the feed has been changed.</p>")
         except:
             return self.error("<p>Error when changing the logo of the feed.</p>")
 
