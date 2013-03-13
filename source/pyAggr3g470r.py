@@ -558,7 +558,7 @@ class pyAggr3g470r(object):
             message = "<p>The name of the feed has been changed.</p>"
         except:
             tmpl = lookup.get_template("error.html")
-            message = "<p>Error when changing the nameL of the feed.</p>"
+            message = "<p>Error when changing the name of the feed.</p>"
         return tmpl.render(message=message)
 
     change_feed_name.exposed = True
