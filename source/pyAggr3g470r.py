@@ -552,9 +552,14 @@ class pyAggr3g470r(object):
         """
         Enables to change the name of a feed.
         """
-        self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
-        tmpl = lookup.get_template("confirmation.html")
-        return tmpl.render(message="<p>The name of the feed has been changed.</p>")
+        try:
+            self.mongo.update_feed(feed_id, {"feed_title":new_feed_name})
+            tmpl = lookup.get_template("confirmation.html")
+            message = "<p>The name of the feed has been changed.</p>"
+        except:
+            tmpl = lookup.get_template("error.html")
+            message = "<p>Error when changing the nameL of the feed.</p>"
+        return tmpl.render(message=message)
 
     change_feed_name.exposed = True
 
