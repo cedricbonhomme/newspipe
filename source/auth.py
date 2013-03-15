@@ -225,7 +225,7 @@ class AuthController(object):
     <body>
         <div>
             <div id="logform">
-                <img src="/img/tuxrss.png" alt="pyAggr3g470r" />
+                <img src="/static/img/tuxrss.png" alt="pyAggr3g470r" />
                 <form method="post" action="/auth/login">
                     <input type="hidden" name="from_page" value="%(from_page)s" />
                     %(msg)s<br />
