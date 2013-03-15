@@ -218,9 +218,9 @@ class AuthController(object):
         """
         return """<!DOCTYPE html>\n<html>
     <head>
+        <meta charset="utf-8" />
         <title>pyAggr3g470r</title>
-        <link rel="stylesheet" type="text/css" href="/css/log.css" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="/css/log.css" />
     </head>
     <body>
         <div>
