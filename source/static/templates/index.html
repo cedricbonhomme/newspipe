@@ -30,20 +30,20 @@ import utils
 <div class="left inner">
     <div class="menu_container">
     %if feeds:
-        <a href="/management/"><img src="/img/management.png" title="Management" /></a>
-        <a href="/history/"><img src="/img/history.png" title="History" /></a>
+        <a href="/management/"><img src="/static/img/management.png" title="Management" /></a>
+        <a href="/history/"><img src="/static/img/history.png" title="History" /></a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/favorites/"><img src="/img/heart-32x32.png" title="Your favorites (${nb_favorites})" /></a>
-        <a href="/notifications/"><img src="/img/email-follow.png" title="Active e-mail notifications (${nb_mail_notifications})" /></a>
+        <a href="/favorites/"><img src="/static/img/heart-32x32.png" title="Your favorites (${nb_favorites})" /></a>
+        <a href="/notifications/"><img src="/static/img/email-follow.png" title="Active e-mail notifications (${nb_mail_notifications})" /></a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         %if nb_unread_articles != 0:
-            <a href="/mark_as_read/"><img src="/img/mark-as-read.png" title="Mark articles as read" /></a>
-            <a href="/unread/"><img src="/img/unread.png" title="Unread article(s): ${nb_unread_articles}" /></a>
+            <a href="/mark_as_read/"><img src="/static/img/mark-as-read.png" title="Mark articles as read" /></a>
+            <a href="/unread/"><img src="/static/img/unread.png" title="Unread article(s): ${nb_unread_articles}" /></a>
         %endif
     %endif
-    <a href="/fetch/"><img src="/img/check-news.png" title="Check for news" /></a>
+    <a href="/fetch/"><img src="/static/img/check-news.png" title="Check for news" /></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/logout/"><img src="/img/logout.png" title="Logout" /></a>
+    <a href="/logout/"><img src="/static/img/logout.png" title="Logout" /></a>
     </div><br/>
     <%
         html = ""
@@ -68,7 +68,7 @@ import utils
 
                 # display a heart for faved articles
                 if article["article_like"] == True:
-                    like = """ <img src="/img/heart.png" title="I like this article!" />"""
+                    like = """ <img src="/static/img/heart.png" title="I like this article!" />"""
                 else:
                     like = ""
 
@@ -94,7 +94,7 @@ import utils
             # some options for the current feed
             html += """<a href="/articles/%s">All articles</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
             html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
-            html += """<div class="right"><h2><a href="/fetch/%s"><img src="/img/check-news.png" title="Check this feed for news" /></a></h2></div>\n""" % (feed["feed_id"],)
+            html += """<div class="right"><h2><a href="/fetch/%s"><img src="/static/img/check-news.png" title="Check this feed for news" /></a></h2></div>\n""" % (feed["feed_id"],)
             if mongo.nb_unread_articles(feed["feed_id"]) != 0:
                 html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
                 html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))

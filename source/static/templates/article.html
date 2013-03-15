@@ -5,17 +5,17 @@
         <h1><i>${article["article_title"]}</i> from <a href="/feed/${feed['feed_id']}">${feed["feed_title"]}</a></h1>
         <br />
         %if article["article_like"]:
-            <a href="/like/0:${feed['feed_id']}:${article['article_id']}"><img src="/img/heart.png" title="I like this article!" /></a>
+            <a href="/like/0:${feed['feed_id']}:${article['article_id']}"><img src="/static/img/heart.png" title="I like this article!" /></a>
         %else:
-            <a href="/like/1:${feed['feed_id']}:${article['article_id']}"><img src="/img/heart_open.png" title="Click if you like this article." /></a>
+            <a href="/like/1:${feed['feed_id']}:${article['article_id']}"><img src="/static/img/heart_open.png" title="Click if you like this article." /></a>
         %endif
-        &nbsp;&nbsp;<a href="/delete_article/${feed['feed_id']}:${article['article_id']}"><img src="/img/cross.png" title="Delete this article" /></a>
+        &nbsp;&nbsp;<a href="/delete_article/${feed['feed_id']}:${article['article_id']}"><img src="/static/img/cross.png" title="Delete this article" /></a>
         <br /><br />
 
         ${description}
 
-        <div style="float:right;"><a href="/article/${feed['feed_id']}:${following['article_id']}" title="${following['article_title']}"><img src="/img/following-article.png" /></a></div>
-        <div style="float:left;"><a href="/article/${feed['feed_id']}:${previous['article_id']}" title="${previous['article_title']}"><img src="/img/previous-article.png" /></a></div>
+        <div style="float:right;"><a href="/article/${feed['feed_id']}:${following['article_id']}" title="${following['article_title']}"><img src="/static/img/following-article.png" /></a></div>
+        <div style="float:left;"><a href="/article/${feed['feed_id']}:${previous['article_id']}" title="${previous['article_title']}"><img src="/static/img/previous-article.png" /></a></div>
         </div>
 
         <hr />
@@ -27,29 +27,29 @@
 
         Share this article:<br />
         <a href="javascript:(function(){f='https://${diaspora}/bookmarklet?url=${article['article_link']}&amp;title=${article['article_title']}&amp;notes=via pyAggr3g470r&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">
-                <img src="/img/diaspora.png" title="Share on Diaspora" /></a>
+                <img src="/static/img/diaspora.png" title="Share on Diaspora" /></a>
 
-        <a href="http://identi.ca/index.php?action=newnotice&status_textarea=${article['article_title']}:${article['article_link']}" title="Share on Identi.ca" target="_blank"><img src="/img/identica.png" /></a>
+        <a href="http://identi.ca/index.php?action=newnotice&status_textarea=${article['article_title']}:${article['article_link']}" title="Share on Identi.ca" target="_blank"><img src="/static/img/identica.png" /></a>
 
         <a href="https://api.pinboard.in/v1/posts/add?url=${article['article_link']}&description=${article['article_title']}"
                 rel="noreferrer" target="_blank">
-                <img src="/img/pinboard.png" title="Share on Pinboard" /></a>
+                <img src="/static/img/pinboard.png" title="Share on Pinboard" /></a>
 
         <a href="http://digg.com/submit?url=${article['article_link']}&title=${article['article_title']}"
                 rel="noreferrer" target="_blank">
-                <img src="/img/digg.png" title="Share on Digg" /></a>
+                <img src="/static/img/digg.png" title="Share on Digg" /></a>
 
         <a href="http://reddit.com/submit?url=${article['article_link']}&title=${article['article_title']}"
                 rel="noreferrer" target="_blank">
-                <img src="/img/reddit.png" title="Share on reddit" /></a>
+                <img src="/static/img/reddit.png" title="Share on reddit" /></a>
 
         <a href="http://scoopeo.com/scoop/new?newurl=${article['article_link']}&title=${article['article_title']}"
                 rel="noreferrer" target="_blank">
-                <img src="/img/scoopeo.png" title="Share on Scoopeo" /></a>
+                <img src="/static/img/scoopeo.png" title="Share on Scoopeo" /></a>
 
         <a href="http://blogmarks.net/my/new.php?url=${article['article_link']}&title=${article['article_title']}"
                 rel="noreferrer" target="_blank">
-                <img src="/img/blogmarks.png" title="Share on Blogmarks" /></a>
+                <img src="/static/img/blogmarks.png" title="Share on Blogmarks" /></a>
 
         <g:plusone size="standard" count="true" href="${article['article_link']}"></g:plusone>
 
