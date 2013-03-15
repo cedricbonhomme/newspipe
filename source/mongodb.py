@@ -45,7 +45,7 @@ class Articles(object):
         Creates a new collection for a new feed.
         """
         collection = self.db[new_collection["feed_id"]]
-        collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
+        #collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
         collection.ensure_index('article_content', pymongo.ASCENDING)
         collection.insert(new_collection)
 
