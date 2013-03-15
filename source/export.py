@@ -67,7 +67,6 @@ CSS = """body {
     width:80%;
     line-height:1.75;
 }
-
 blockquote {
     font-size:small;
     line-height:2.153846;
@@ -77,23 +76,18 @@ blockquote {
     margin-left:2.153846em;
     padding-left:2.153846em;
 }
-
 blockquote p{
     margin:2.153846em 0;
 }
-
 p+br {
     display:none;
 }
-
 h1 {
 font-size:large;
 }
-
 h2,h3 {
     font-size:medium;
 }
-
 hr {
     border-style:dotted;
     height:1px;
@@ -101,37 +95,30 @@ hr {
     margin:1.45em 0 1.4em;
     padding:0;
 }
-
 a {
     text-decoration:none;
     color:#00008B;
 }
-
 #footer {
     clear:both;
     text-align:center;
     font-size:small;
 }
-
 img {
     border:0;
 }
-
 .horizontal,.simple li {
     margin:0;
     padding:0;
     list-style:none;
     display:inline
 }
-
 .simple li:before {
     content:"+ ";
 }
-
 .simple > li:first-child:before {
     content:"";
 }
-
 .author {
     text-decoration:none;
     display:block;
@@ -139,7 +126,6 @@ img {
     margin-left:2em;
     font-size:small;
 }
-
 .content {
     margin:1.00em 1.00em;
 }"""
