@@ -578,9 +578,8 @@ class pyAggr3g470r(object):
         result = auth.change_username(self.auth.username, new_username)
         if result:
             self.auth.username = new_username
-            message = "<p>Your username has been changed.</p>"
             tmpl = lookup.get_template("confirmation.html")
-            return tmpl.render(message=message)
+            return tmpl.render(message="<p>Your username has been changed.</p>")
         else:
             return self.error("<p>Impossible to change the username.</p>")
 
@@ -593,9 +592,8 @@ class pyAggr3g470r(object):
         """
         result = auth.change_password(self.auth.username, new_password)
         if result:
-            message = "<p>Your password has been changed.</p>"
             tmpl = lookup.get_template("confirmation.html")
-            return tmpl.render(message=message)
+            return tmpl.render(message="<p>Your password has been changed.</p>")
         else:
             return self.error("<p>Impossible to change the password.</p>")
 
