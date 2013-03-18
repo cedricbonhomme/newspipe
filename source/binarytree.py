@@ -88,7 +88,7 @@ class CBOrdTree(object):
             pass
         else:
             self.printTree(root.left)
-            print root.data,
+            print(root.data, end=' ')
             self.printTree(root.right)
 
     def printRevTree(self, root):
@@ -98,7 +98,7 @@ class CBOrdTree(object):
             pass
         else:
             self.printRevTree(root.right)
-            print root.data,
+            print(root.data, end=' ')
             self.printRevTree(root.left)
 
 if __name__ == "__main__":
@@ -108,21 +108,21 @@ if __name__ == "__main__":
     root = BTree.addNode(0)
     # ask the user to insert values
     for i in range(0, 5):
-        data = int(raw_input("insert the node value nr %d: " % i))
+        data = int(input("insert the node value nr %d: " % i))
         # insert values
         BTree.insert(root, data)
-    print
+    print()
 
     BTree.printTree(root)
-    print
+    print()
     BTree.printRevTree(root)
-    print
-    data = int(raw_input("insert a value to find: "))
+    print()
+    data = int(input("insert a value to find: "))
     if BTree.lookup(root, data):
-        print "found"
+        print("found")
     else:
-        print "not found"
+        print("not found")
 
-    print BTree.minValue(root)
-    print BTree.maxDepth(root)
-    print BTree.size(root)
+    print(BTree.minValue(root))
+    print(BTree.maxDepth(root))
+    print(BTree.size(root))
