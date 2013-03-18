@@ -192,7 +192,7 @@ class pyAggr3g470r(object):
     fetch.exposed = True
 
     @auth.require()
-    def article(self, param):
+    def article(self, param, plain_text=0):
         """
         Display the article in parameter in a new Web page.
         """
@@ -209,7 +209,10 @@ class pyAggr3g470r(object):
             self.mark_as_read("Article:"+article["article_id"]+":"+feed["feed_id"])
 
         # Description (full content) of the article
-        description = article["article_content"]
+        if plain_text == "1":
+            description = utils.clear_string(article["article_content"])
+        else:
+            description = article["article_content"]
         if description:
             p = re.compile(r'<code><')
             q = re.compile(r'></code>')
@@ -330,26 +333,6 @@ class pyAggr3g470r(object):
         return tmpl.render(feeds=feeds, mongo=self.mongo, query=query, m=m)
 
     history.exposed = True
-
-    @auth.require()
-    def plain_text(self, target):
-        """
-        Display an article in plain text (without HTML tags).
-        """
-        try:
-            feed_id, article_id = target.split(':')
-            feed = self.mongo.get_feed(feed_id)
-            article = self.mongo.get_articles(feed_id, article_id)
-        except:
-            return self.error("<p>Bad URL. This article do not exists.</p>")
-        description = utils.clear_string(article["article_content"])
-        if not description:
-            description = "Unvailable"
-        tmpl = lookup.get_template("plain_text.html")
-        return tmpl.render(feed_title=feed["feed_title"], \
-                           article_title=article["article_title"], description = description)
-
-    plain_text.exposed = True
 
     @auth.require()
     def error(self, message):
