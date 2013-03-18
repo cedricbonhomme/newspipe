@@ -5,7 +5,7 @@
 
 class CNode(object):
     """
-    Represent a node.
+    Represents a node.
     """
     def __init__(self, data):
         """
@@ -17,7 +17,7 @@ class CNode(object):
 
 class CBOrdTree(object):
     """
-    Represent a binary ordered tree.
+    Represents a binary ordered tree.
     """
     def __init__(self):
         """
