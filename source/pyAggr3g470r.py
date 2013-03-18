@@ -255,7 +255,7 @@ class pyAggr3g470r(object):
 
         tmpl = lookup.get_template("article.html")
         return tmpl.render(header_text=article["article_title"], article=article, previous=previous, following=following, \
-                            diaspora=conf.DIASPORA_POD, feed=feed, description=description)
+                            diaspora=conf.DIASPORA_POD, feed=feed, description=description, plain_text=plain_text)
 
     article.exposed = True
 
