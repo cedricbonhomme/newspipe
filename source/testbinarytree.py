@@ -9,9 +9,12 @@ sys.setrecursionlimit(10**6)
 
 import mongodb
 import binarytree
+import conf
 
 print("Loading articles from the database...")
-database = mongodb.Articles()
+database = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
+                            conf.MONGODB_DBNAME, conf.MONGODB_USER, \
+                            conf.MONGODB_PASSWORD)
 begin = time.time()
 articles = database.get_articles()
 end = time.time()
