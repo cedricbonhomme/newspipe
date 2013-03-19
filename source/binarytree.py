@@ -105,27 +105,47 @@ class CBOrdTree(object):
         else:
             return self.size(root.left) + 1 + self.size(root.right)
 
-    def printTree(self, root):
+    def pre_order_traversal(self, root, result=[]):
         """
-        Prints the tree path.
+        Depth-first. Pre-order traversal.
         """
         if root == None:
             pass
         else:
-            self.printTree(root.left)
-            print(root.data, end=' ')
-            self.printTree(root.right)
+            result.append(root.data)
+            self.in_order_traversal(root.left, result)
+            self.in_order_traversal(root.right, result)
+        return result
 
-    def printRevTree(self, root):
+    def in_order_traversal(self, root, result=[]):
         """
-        Prints the tree path in reverse order.
+        Depth-first. In-order traversal.
         """
         if root == None:
             pass
         else:
-            self.printRevTree(root.right)
-            print(root.data, end=' ')
-            self.printRevTree(root.left)
+            self.in_order_traversal(root.left, result)
+            result.append(root.data)
+            self.in_order_traversal(root.right, result)
+        return result
+
+    def post_order_traversal(self, root, result=[]):
+        """
+        Depth-first. Post-order traversal.
+        """
+        if root == None:
+            pass
+        else:
+            self.in_order_traversal(root.left, result)
+            self.in_order_traversal(root.right, result)
+            result.append(root.data)
+        return result
+
+    def __str__(self):
+        """
+        Pretty display.
+        """
+        return ", ".join([article["article_title"] for article in self.in_order_traversal(self.root)])
 
 if __name__ == "__main__":
     # Point of entry in execution mode.

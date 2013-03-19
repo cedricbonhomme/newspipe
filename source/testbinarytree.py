@@ -40,3 +40,4 @@ print("Newest article:")
 newest_article = BTree.maxValue(root)
 print((newest_article["article_date"].strftime('%Y-%m-%d %H:%M') + \
         " - " + newest_article["article_title"]))
+print(BTree)
