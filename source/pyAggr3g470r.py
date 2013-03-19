@@ -672,6 +672,6 @@ class pyAggr3g470r(object):
 if __name__ == '__main__':
     # Point of entry in execution mode
     root = pyAggr3g470r()
-    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "static/img/favicon.png"))
+    root.favicon_ico = cherrypy.tools.staticfile.handler(filename=os.path.join(conf.path + "/static/img/favicon.png"))
     cherrypy.config.update({'error_page.404': error_404})
     cherrypy.quickstart(root, "/" ,config=conf.path + "/cfg/cherrypy.cfg")
