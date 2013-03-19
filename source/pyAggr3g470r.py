@@ -405,6 +405,17 @@ class pyAggr3g470r(object):
     like.exposed = True
 
     @auth.require()
+    def subscriptions(self):
+        """
+        List all active e-mail notifications.
+        """
+        feeds = self.mongo.get_all_feeds()
+        tmpl = lookup.get_template("subscriptions.html")
+        return tmpl.render(feeds=feeds)
+
+    subscriptions.exposed = True
+
+    @auth.require()
     def favorites(self):
         """
         List of favorites articles

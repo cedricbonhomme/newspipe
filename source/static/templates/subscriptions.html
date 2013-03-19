@@ -1,0 +1,18 @@
+## subscriptions.html
+<%inherit file="base.html"/>
+<div class="left inner">
+    <h1>Subscriptions</h1>
+    %if feeds:
+        <ul>
+            %for feed in feeds:
+                    <li>${feed['feed_title']}</li>
+            %endfor
+        </ul>
+    %endif
+
+    <br />
+    <h1>Add a feed</h1>
+    <form method=get action="/add_feed/">
+        <input type="url" name="url" placeholder="URL of a site" maxlength=2048 autocomplete="off">
+        <input type="submit" value="OK">
+    </form>
