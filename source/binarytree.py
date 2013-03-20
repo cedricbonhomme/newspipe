@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# A binary ordered tree example
+# A binary ordered  example
 
-class CNode(object):
+class Node(object):
     """
     Represents a node.
     """
@@ -15,9 +15,9 @@ class CNode(object):
         self.right = None
         self.data = data
 
-class CBOrdTree(object):
+class OrderedBinaryTree(object):
     """
-    Represents a binary ordered tree.
+    Represents a binary ordered .
     """
     def __init__(self):
         """
@@ -29,7 +29,7 @@ class CBOrdTree(object):
         """
         Creates a new node and returns it.
         """
-        return CNode(data)
+        return Node(data)
 
     def insert(self, root, data):
         """
@@ -40,19 +40,19 @@ class CBOrdTree(object):
             # adds it and returns
             return self.addNode(data)
         else:
-            # enters into the tree
+            # enters into the
             if data['article_date'] <= root.data['article_date']:
                 # if the data is less than the stored one
-                # goes into the left-sub-tree
+                # goes into the left-sub-
                 root.left = self.insert(root.left, data)
             else:
-                # processes the right-sub-tree
+                # processes the right-sub-
                 root.right = self.insert(root.right, data)
             return root
 
     def lookup(self, root, target):
         """
-        Looks for a value into the tree.
+        Looks for a value into the .
         """
         if root == None:
             return 0
@@ -149,26 +149,26 @@ class CBOrdTree(object):
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
-    # create the binary tree
-    BTree = CBOrdTree()
+    # create the tree
+    tree = OrderedBinaryTree()
     # add the root node
-    root = BTree.addNode(0)
+    root = tree.addNode(0)
     # ask the user to insert values
     for i in range(0, 5):
         data = int(input("insert the node value nr %d: " % i))
         # insert values
-        BTree.insert(root, data)
+        tree.insert(root, data)
 
-    BTree.printTree(root)
+    tree.printTree(root)
     print()
-    BTree.printRevTree(root)
+    tree.printRevTree(root)
     print()
     data = int(input("Insert a value to find: "))
-    if BTree.lookup(root, data):
+    if tree.lookup(root, data):
         print("found")
     else:
         print("not found")
 
-    print(BTree.minValue(root))
-    print(BTree.maxDepth(root))
-    print(BTree.size(root))
+    print(tree.minValue(root))
+    print(tree.maxDepth(root))
+    print(tree.size(root))
