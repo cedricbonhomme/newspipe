@@ -21,11 +21,11 @@ class OrderedBinaryTree(object):
     """
     Represents a binary ordered .
     """
-    def __init__(self):
+    def __init__(self, root):
         """
         Initializes the root member.
         """
-        self.root = None
+        self.root = root
 
     def addNode(self, data):
         """
@@ -147,7 +147,8 @@ class OrderedBinaryTree(object):
         """
         Pretty display.
         """
-        return ", ".join([article["article_title"] for article in self.in_order_traversal(self.root)])
+        return ", ".join([article["article_title"] for article in \
+                                    self.in_order_traversal(self.root)])
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
