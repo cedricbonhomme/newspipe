@@ -115,8 +115,8 @@ class OrderedBinaryTree(object):
             pass
         else:
             result.append(root.data)
-            self.in_order_traversal(root.left, result)
-            self.in_order_traversal(root.right, result)
+            self.pre_order_traversal(root.left, result)
+            self.pre_order_traversal(root.right, result)
         return result
 
     def in_order_traversal(self, root, result=[]):
@@ -138,8 +138,8 @@ class OrderedBinaryTree(object):
         if root == None:
             pass
         else:
-            self.in_order_traversal(root.left, result)
-            self.in_order_traversal(root.right, result)
+            self.post_order_traversal(root.left, result)
+            self.post_order_traversal(root.right, result)
             result.append(root.data)
         return result
 
