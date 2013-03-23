@@ -21,7 +21,7 @@ class OrderedBinaryTree(object):
     """
     Represents a binary ordered .
     """
-    def __init__(self, root):
+    def __init__(self, root=None):
         """
         Initializes the root member.
         """
