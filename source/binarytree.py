@@ -1,7 +1,9 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# A binary ordered  example
+"""
+A binary ordered tree implementation.
+"""
 
 class Node(object):
     """
