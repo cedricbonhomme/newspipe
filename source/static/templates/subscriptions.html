@@ -5,7 +5,7 @@
     %if feeds:
         <ul>
             %for feed in feeds:
-                    <li>${feed['feed_title']}</li>
+                    <li><a href="/feed/${feed['feed_id']}">${feed['feed_title']}</a></li>
             %endfor
         </ul>
     %endif
