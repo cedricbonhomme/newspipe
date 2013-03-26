@@ -132,8 +132,8 @@ class FeedGetter(object):
                     description = article.description
                 except Exception:
                     description = ""
-            description = str(BeautifulSoup(description))
-            article_title = str(BeautifulSoup(article.title))
+            description = str(BeautifulSoup(description, "html.parser"))
+            article_title = str(BeautifulSoup(article.title, "html.parser"))
             try:
                 post_date = datetime(*article.published_parsed[:6])
             except:
