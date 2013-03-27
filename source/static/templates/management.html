@@ -2,7 +2,7 @@
 <%inherit file="base.html"/>
 <div class="left inner">
     <h1>Subscriptions</h1>
-    <p>Add a new subscription:</p>
+    <p>Add a new subscription (current <a href="/subscriptions/">subscriptions</a>):</p>
     <form method=get action="/add_feed/">
         <input type="url" name="url" placeholder="URL of a site or feed." maxlength=2048 autocomplete="off">
         <input type="submit" value="OK">
