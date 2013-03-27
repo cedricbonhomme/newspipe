@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import time
@@ -41,4 +42,4 @@ print("Newest article:")
 newest_article = tree.maxValue(tree.root)
 print((newest_article["article_date"].strftime('%Y-%m-%d %H:%M') + \
         " - " + newest_article["article_title"]))
-print(tree)
+#print(tree)
