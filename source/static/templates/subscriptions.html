@@ -8,4 +8,6 @@
                     <li><a href="/feed/${feed['feed_id']}">${feed['feed_title']}</a></li>
             %endfor
         </ul>
+    %else:
+        <p>No subscriptions.</p>
     %endif
