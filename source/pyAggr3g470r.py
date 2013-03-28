@@ -277,7 +277,7 @@ class pyAggr3g470r(object):
         except KeyError:
             return self.error("<p>This feed do not exists.</p>")
 
-        if articles != []:
+        if articles.count() != 0:
             today = datetime.datetime.now()
             last_article = articles[0]["article_date"]
             first_article = articles[self.mongo.nb_articles(feed_id)-2]["article_date"]
@@ -288,13 +288,16 @@ class pyAggr3g470r(object):
             top_words = utils.top_words(articles = self.mongo.get_articles(feed_id), n=50, size=int(word_size))
             tag_cloud = utils.tag_cloud(top_words)
 
-        tmpl = lookup.get_template("feed.html")
-        return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
+            tmpl = lookup.get_template("feed.html")
+            return tmpl.render(feed=feed, articles=articles, favorites=favorites, \
                             nb_articles_feed=nb_articles_feed, nb_articles_total=nb_articles_total, nb_unread_articles_feed=nb_unread_articles_feed, \
                             nb_favorites = nb_favorites, first_post_date=first_article, end_post_date=last_article, \
                             average=average, delta=delta, elapsed=elapsed, \
                             tag_cloud=tag_cloud, word_size=word_size, \
                             mail_to=conf.mail_to, mail_notification_enabled=conf.MAIL_ENABLED)
+
+        tmpl = lookup.get_template("feed.html")
+        return tmpl.render(feed=feed, articles=[])
 
     feed.exposed = True
 
