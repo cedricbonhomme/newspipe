@@ -14,7 +14,11 @@ import utils
 
 <div class="left inner">
     <h1>Articles of the feed <i><a href="/feed/${feed['feed_id']}">${feed['feed_title']}</a></i></h1>
-    <br />
+    %if articles.count() == 0:
+        <p>No articles yet.</p>
+    %else:
+        <br />
+    %endif
     %for article in articles:
         <%
             if article["article_readed"] == False:
