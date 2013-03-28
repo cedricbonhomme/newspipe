@@ -443,10 +443,11 @@ class pyAggr3g470r(object):
         inactives = []
         for feed in feeds:
             more_recent_article = self.mongo.get_articles(feed["feed_id"], limit=1)
-            last_post = next(more_recent_article)["article_date"]
-            elapsed = today - last_post
-            if elapsed > datetime.timedelta(days=int(nb_days)):
-                inactives.append((feed, elapsed))
+            if more_recent_article.count() != 0:
+                last_post = next(more_recent_article)["article_date"]
+                elapsed = today - last_post
+                if elapsed > datetime.timedelta(days=int(nb_days)):
+                    inactives.append((feed, elapsed))
         tmpl = lookup.get_template("inactives.html")
         return tmpl.render(inactives=inactives, nb_days=int(nb_days))
 
