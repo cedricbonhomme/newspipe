@@ -277,6 +277,8 @@ class pyAggr3g470r(object):
             nb_favorites = self.mongo.nb_favorites(feed_id)
         except KeyError:
             return self.error("<p>This feed do not exists.</p>")
+        if feed == None:
+            return self.error("<p>This feed do not exists.</p>")
 
         if articles.count() != 0:
             today = datetime.datetime.now()
