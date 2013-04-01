@@ -199,9 +199,11 @@ class pyAggr3g470r(object):
         """
         try:
             feed_id, article_id = param.split(':')
+            article = self.mongo.get_articles(feed_id, article_id)
+            if article == []:
+                return self.error("<p>This article do not exists.</p>")
             feed = self.mongo.get_feed(feed_id)
             articles = self.mongo.get_articles(feed_id)
-            article = self.mongo.get_articles(feed_id, article_id)
         except:
             return self.error("<p>Bad URL. This article do not exists.</p>")
 

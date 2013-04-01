@@ -134,7 +134,7 @@ class Articles(object):
             try:
                 return next(collection.find({"article_id":article_id}))
             except:
-                return False
+                return []
 
     def get_favorites(self, feed_id=None):
         """
