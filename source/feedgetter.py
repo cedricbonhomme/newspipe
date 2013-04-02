@@ -123,6 +123,7 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
             description = ""
+            article_title = ""
             try:
                 # article content
                 description = article.content[0].value
@@ -132,8 +133,14 @@ class FeedGetter(object):
                     description = article.description
                 except Exception:
                     description = ""
-            description = BeautifulSoup(description, "html.parser").decode()
-            article_title = BeautifulSoup(article.title, "html.parser").decode()
+            try:
+                description = BeautifulSoup(description, "html.parser").decode()
+                article_title = BeautifulSoup(article.title, "html.parser").decode()
+            except Exception as E:
+                print("Problem when retrieving " + feed_link)
+                print(E)
+                article_title = article.title
+
             try:
                 post_date = datetime(*article.published_parsed[:6])
             except:
