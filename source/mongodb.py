@@ -39,14 +39,21 @@ class Articles(object):
         self.connection = pymongo.connection.Connection(url, port)
         self.db = pymongo.database.Database(self.connection, self.db_name)
         self.db.authenticate(user, password)
+        collections = self.db.collection_names()
+        for collection_name in collections:
+            if collection_name != "system.indexes":
+                self.db[collection_name].ensure_index([("article_date", pymongo.DESCENDING)], \
+                                                        name="date_index", unique=False, \
+                                                        background=True)
+                self.db[collection_name].ensure_index([('article_content', pymongo.ASCENDING)], \
+                                                        name="content_index", unique=False, \
+                                                        background=True)
 
     def add_collection(self, new_collection):
         """
         Creates a new collection for a new feed.
         """
         collection = self.db[new_collection["feed_id"]]
-        collection.create_index([("article_date", pymongo.DESCENDING)], {"unique":False, "sparse":False})
-        collection.ensure_index('article_content', pymongo.ASCENDING)
         collection.insert(new_collection)
 
     def add_articles(self, articles, feed_id):
