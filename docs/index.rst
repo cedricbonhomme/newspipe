@@ -66,7 +66,9 @@ Script of installation
 .. code-block:: bash
 
     sudo aptitude install python3-feedparser python3-bs4
-    sudo aptitude install python-pymongo python3-mako
+    sudo aptitude install python3-mako
+    sudo aptitude install python3-pip
+    sudo pip-3.2 install pymongo
     # CherryPy, Minimalist Python Web Framework:
     wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
     tar -xzvf CherryPy-3.2.2.tar.gz
@@ -82,11 +84,14 @@ Script of installation
     cd ..
     sudo rm -Rf guess_language/
     sudo aptitude install python3-pyenchant
+    # Pillow, for the generation of QR Code
+    sudo pip-3.2 install pillow
     # Finally, download pyAggr3g470r
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
     cd pyaggr3g470r/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
 
+This script works with Python 3.2.
 
 Setting
 ~~~~~~~
