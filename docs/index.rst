@@ -83,7 +83,6 @@ Script of installation
     sudo python3.2 setup.py install
     cd ..
     sudo rm -Rf guess_language/
-    sudo aptitude install python3-pyenchant
     # PyEnchant, for the language detection
     sudo pip install pyenchant
     # Pillow, for the generation of QR Code
