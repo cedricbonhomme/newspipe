@@ -38,7 +38,8 @@ class Articles(object):
         self.db_name = db_name
         self.connection = pymongo.connection.Connection(url, port)
         self.db = pymongo.database.Database(self.connection, self.db_name)
-        self.db.authenticate(user, password)
+        if password != "":
+            self.db.authenticate(user, password)
         collections = self.db.collection_names()
         for collection_name in collections:
             if collection_name != "system.indexes":
