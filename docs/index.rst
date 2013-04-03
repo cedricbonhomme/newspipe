@@ -89,10 +89,11 @@ Script of installation
     sudo pip-3.2 install pillow
     # Finally, download pyAggr3g470r
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
-    cd pyaggr3g470r/
+    cd pyaggr3g470r/source/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
 
 This script works with Python 3.2.
+
 
 Setting
 ~~~~~~~
