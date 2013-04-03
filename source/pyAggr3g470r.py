@@ -216,14 +216,10 @@ class pyAggr3g470r(object):
             description = utils.clear_string(article["article_content"])
         else:
             description = article["article_content"]
-        if description:
-            p = re.compile(r'<code><')
-            q = re.compile(r'></code>')
-            description = p.sub('<code>&lt;', description)
-            description = q.sub('&gt;</code>', description)
-            description = description + "\n<br /><br /><br />"
+        if description != "":
+            description += "\n<br />\n"
         else:
-            description += "No description available.\n<br /><br /><br />"
+            description = "<p>No description available.</p>\n<br />\n"
         """
         # Generation of the QR Code for the current article
         try:
