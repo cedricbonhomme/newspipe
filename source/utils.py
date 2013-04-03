@@ -41,6 +41,12 @@ import operator
 import calendar
 import html.entities
 
+try:
+    from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
+    from qrcode import qr
+except:
+    pass
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -79,6 +85,23 @@ def detect_url_errors(list_of_urls):
             # failed to reach the server
             errors.append((url, e.reason.errno ,e.reason.strerror))
     return errors
+
+def generate_qr_code(article):
+    """
+    Generated a QR Code for the article given in parameter.
+    """
+    try:
+        os.makedirs("./var/qrcode/")
+    except OSError:
+        pass
+    if not os.path.isfile("./var/qrcode/" + article["article_id"] + ".png"):
+        # QR Code generation
+        try:
+            f = qr.QRUrl(url = article["article_link"])
+            f.make()
+            f.save("./var/qrcode/" + article["article_id"] + ".png")
+        except:
+            pass
 
 def clear_string(data):
     """

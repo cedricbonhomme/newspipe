@@ -60,9 +60,6 @@ import export
 import mongodb
 import feedgetter
 import auth
-#from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
-#from qrcode import qr
-
 
 def error_404(status, message, traceback, version):
     """
@@ -220,22 +217,9 @@ class pyAggr3g470r(object):
             description += "\n<br />\n"
         else:
             description = "<p>No description available.</p>\n<br />\n"
-        """
+        
         # Generation of the QR Code for the current article
-        try:
-            os.makedirs("./var/qrcode/")
-        except OSError:
-            pass
-        if not os.path.isfile("./var/qrcode/" + article_id + ".png"):
-            # QR Code generation
-            try:
-                f = qr.QRUrl(url = article["article_link"])
-                f.make()
-            except:
-                f = qr.QRUrl(url = "URL too long.")
-                f.make()
-            f.save("./var/qrcode/"+article_id+".png")
-        """
+        utils.generate_qr_code(article)
 
         # Previous and following articles
         previous, following = None, None
