@@ -137,7 +137,7 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                print("Problem when retrieving " + feed_link)
+                print("Problem when sanitizing the content of the feed: " + feed_link)
                 print(E)
                 article_title = article.title
 
