@@ -29,11 +29,13 @@ Requierements
 
 Software required
 
-* [Python](http://python.org/) >= 3.2.3;
+* [Python](http://python.org/) >= 3.2;
 * [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/) >= 1.9;
 * [feedparser](http://code.google.com/p/feedparser/) >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * [CherryPy](http://cherrypy.org/) >= 3.2.2 and [Mako](http://www.makotemplates.org/) (for **pyAggr3g470r.py**, the Web interface);
-* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) >= 4.1.3 (automatically find a feed in a HTML page).
+* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) >= 4.1.2 (automatically find a feed in a HTML page).
+
+Python 3.3 is recommend for better performances with large collections.
 
 Optional module
 
@@ -43,9 +45,9 @@ These modules are not required but enables more features:
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
-Not yet tested with Python 3.2. Anyway, if you want to install these modules:
+Not yet tested with Python 3.3. Anyway, if you want to install these modules:
 
-    $ sudo aptitude install python3.2-lxml python-genshi
+    $ sudo aptitude install python3.3-lxml python-genshi
 
 Backup
 ------

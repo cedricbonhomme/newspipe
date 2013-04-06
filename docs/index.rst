@@ -37,12 +37,13 @@ Requierements
 Software required
 `````````````````
 
-* Python_ >= 3.3;
+* Python_ >= 3.2;
 * MongoDB_ and PyMongo_ >= 1.9;
 * feedparser_ >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * CherryPy_ >= 3.2.4 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
-* BeautifulSoup_ >= 4.1.3 (automatically find a feed in a HTML page).
+* BeautifulSoup_ bs4 >= 4.1.2 (automatically find a feed in a HTML page).
 
+Python 3.3 is recommend for better performances with large collections.
 
 Optional module
 ```````````````
@@ -92,7 +93,7 @@ Script of installation
     cd pyaggr3g470r/source/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
 
-This script works with Python 3.2.
+This script works with Python 3.3.
 
 
 Setting
