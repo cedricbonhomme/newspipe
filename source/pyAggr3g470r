@@ -129,7 +129,7 @@ if __name__ == "__main__":
     python_command = "python"
     if sys.version_info.major == 2:
         # Ensures that code doesn't illegally mixed tabs and spaces
-        python_command = "python3.2"
+        python_command = "python3.3"
     if len(sys.argv) == 1:
         usage()
     elif sys.argv[1] == "start":
