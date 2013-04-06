@@ -37,10 +37,10 @@ Requierements
 Software required
 `````````````````
 
-* Python_ >= 3.2.3;
+* Python_ >= 3.3;
 * MongoDB_ and PyMongo_ >= 1.9;
 * feedparser_ >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
-* CherryPy_ >= 3.2.2 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
+* CherryPy_ >= 3.2.4 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
 * BeautifulSoup_ >= 4.1.3 (automatically find a feed in a HTML page).
 
 
@@ -53,11 +53,11 @@ These modules are not required but enables more features:
 * lxml and Genshi;
 * Python Imaging Library for the generation of QR codes.
 
-Not yet tested with Python 3.2. Anyway, if you want to install these modules:
+Not yet tested with Python 3.3. Anyway, if you want to install these modules:
 
 .. code-block:: bash
 
-    $ sudo aptitude install python3.2-lxml python-genshi
+    $ sudo aptitude install python3.3-lxml python-genshi
 
 
 Script of installation
@@ -68,25 +68,25 @@ Script of installation
     sudo aptitude install python3-feedparser python3-bs4
     sudo aptitude install python3-mako
     sudo aptitude install python3-pip
-    sudo pip-3.2 install pymongo
+    sudo pip-3.3 install pymongo
     # CherryPy, Minimalist Python Web Framework:
-    wget http://download.cherrypy.org/cherrypy/3.2.2/CherryPy-3.2.2.tar.gz
-    tar -xzvf CherryPy-3.2.2.tar.gz
-    rm -f CherryPy-3.2.2.tar.gz
-    cd CherryPy-3.2.2/
-    sudo python3.2 setup.py install
+    wget wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz
+    tar -xzvf 3.2.4.tar.gz
+    rm -f 3.2.4.tar.gz
+    cd 3.2.4/
+    sudo python3.3 setup.py install
     cd ..
-    sudo rm -Rf CherryPy-3.2.2/
+    sudo rm -Rf 3.2.4/
     # Language detection:
     hg clone https://bitbucket.org/spirit/guess_language/
     cd guess_language/
-    sudo python3.2 setup.py install
+    sudo python3.3 setup.py install
     cd ..
     sudo rm -Rf guess_language/
     # PyEnchant, for the language detection
     sudo pip install pyenchant
     # Pillow, for the generation of QR Code
-    sudo pip-3.2 install pillow
+    sudo pip-3.3 install pillow
     # Finally, download pyAggr3g470r
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
     cd pyaggr3g470r/source/
