@@ -66,9 +66,14 @@ Script of installation
 
 .. code-block:: bash
 
-    sudo aptitude install python3-feedparser python3-bs4
-    sudo aptitude install python3-mako
-    sudo aptitude install python3-pip
+    # Installation of Python
+
+    # Installation of Distribute and PIP
+
+    # Core requirements for pyAggr3g470r
+    sudo pip-3.3 install feedparser
+    sudo pip-3.3 install beautifulsoup4
+    sudo pip-3.3 install mako
     sudo pip-3.3 install pymongo
     # CherryPy, Minimalist Python Web Framework:
     wget wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz
@@ -85,7 +90,7 @@ Script of installation
     cd ..
     sudo rm -Rf guess_language/
     # PyEnchant, for the language detection
-    sudo pip install pyenchant
+    sudo pip-3.3 install pyenchant
     # Pillow, for the generation of QR Code
     sudo pip-3.3 install pillow
     # Finally, download pyAggr3g470r
