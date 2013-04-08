@@ -69,7 +69,7 @@ Script of installation
     # Installation of Python
     wget http://www.python.org/ftp/python/3.3.1/Python-3.3.1.tar.bz2
     tar -xvjf Python-3.3.1.tar.bz2
-    cd cd Python-3.3.1/
+    cd Python-3.3.1/
     ./configure
     make
     sudo make install
