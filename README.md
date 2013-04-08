@@ -29,7 +29,7 @@ Requierements
 
 Software required
 
-* [Python](http://python.org/) >= 3.2;
+* [Python](http://python.org/) >= 3.1;
 * [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/) >= 1.9;
 * [feedparser](http://code.google.com/p/feedparser/) >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * [CherryPy](http://cherrypy.org/) >= 3.2.2 and [Mako](http://www.makotemplates.org/) (for **pyAggr3g470r.py**, the Web interface);
