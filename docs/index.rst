@@ -37,7 +37,7 @@ Requierements
 Software required
 `````````````````
 
-* Python_ >= 3.2;
+* Python_ >= 3.1;
 * MongoDB_ and PyMongo_ >= 1.9;
 * feedparser_ >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * CherryPy_ >= 3.2.4 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
