@@ -67,22 +67,39 @@ Script of installation
 .. code-block:: bash
 
     # Installation of Python
-
+    wget http://www.python.org/ftp/python/3.3.1/Python-3.3.1.tar.bz2
+    tar -xvjf Python-3.3.1.tar.bz2
+    cd cd Python-3.3.1/
+    ./configure
+    make
+    sudo make install
+    cd ..
+    sudo rm -Rf Python-3.3.1/
     # Installation of Distribute and PIP
-
+    wget https://pypi.python.org/packages/source/d/distribute/distribute-0.6.36.tar.gz
+    tar -xzvf distribute-0.6.36.tar.gz
+    cd distribute-0.6.36/
+    sudo python3.3 setup.py install
+    cd ..
+    sudo rm -Rf distribute-0.6.36/
+    wget https://github.com/pypa/pip/archive/develop.tar.gz
+    tar -xzvf develop.tar.gz
+    cd develop/
+    sudo python3.3 setup.py install
+    cd ..
+    sudo rm -Rf develop/
     # Core requirements for pyAggr3g470r
     sudo pip-3.3 install feedparser
     sudo pip-3.3 install beautifulsoup4
     sudo pip-3.3 install mako
     sudo pip-3.3 install pymongo
     # CherryPy, Minimalist Python Web Framework:
-    wget wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz
-    tar -xzvf 3.2.4.tar.gz
-    rm -f 3.2.4.tar.gz
-    cd 3.2.4/
+    wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz -O cherrypy.tar.gz
+    tar -xzvf cherrypy.tar.gz
+    cd cherrypy/
     sudo python3.3 setup.py install
     cd ..
-    sudo rm -Rf 3.2.4/
+    sudo rm -Rf cherrypy/
     # Language detection:
     hg clone https://bitbucket.org/spirit/guess_language/
     cd guess_language/
@@ -97,8 +114,6 @@ Script of installation
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
     cd pyaggr3g470r/source/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
-
-This script works with Python 3.3.
 
 
 Setting
