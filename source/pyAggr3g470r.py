@@ -663,7 +663,7 @@ class pyAggr3g470r(object):
             # directories already exists (not a problem)
             pass
         section = ez_epub.Section()
-        section.title = article["article_title"].decode('utf-8')
+        section.title = article["article_title"]
         section.paragraphs = [utils.clear_string(article["article_content"])]
         ez_epub.makeBook(article["article_title"], [feed["feed_title"]], [section], \
                 os.path.normpath(folder) + "article.epub", lang='en-US', cover=None)
