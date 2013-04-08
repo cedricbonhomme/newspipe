@@ -162,11 +162,11 @@ section of the configuration file:
 .. code-block:: ini
 
     [MongoDB]
-    address = mongodb.alwaysdata.com
+    address = 127.0.0.1
     port = 27017
     dbname = bob_pyaggr3g470r
     user = bob
-    password = password_of_bob
+    password =
     [mail]
     enabled = 0
     mail_from = pyAggr3g470r@no-reply.com
