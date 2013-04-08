@@ -43,7 +43,7 @@ Software required
 * CherryPy_ >= 3.2.4 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
 * BeautifulSoup_ bs4 >= 4.1.2 (automatically find a feed in a HTML page).
 
-Python 3.3 is recommend for better performances with large collections.
+Python 3.3 is recommended (better performances with large collections).
 
 Optional module
 ```````````````
