@@ -69,6 +69,7 @@ Script of installation
     # Installation of Python
     wget http://www.python.org/ftp/python/3.3.1/Python-3.3.1.tar.bz2
     tar -xvjf Python-3.3.1.tar.bz2
+    rm Python-3.3.1.tar.bz2
     cd Python-3.3.1/
     ./configure
     make
@@ -78,28 +79,31 @@ Script of installation
     # Installation of Distribute and PIP
     wget https://pypi.python.org/packages/source/d/distribute/distribute-0.6.36.tar.gz
     tar -xzvf distribute-0.6.36.tar.gz
+    rm distribute-0.6.36.tar.gz
     cd distribute-0.6.36/
     sudo python3.3 setup.py install
     cd ..
     sudo rm -Rf distribute-0.6.36/
-    wget https://github.com/pypa/pip/archive/develop.tar.gz
-    tar -xzvf develop.tar.gz
-    cd develop/
+    wget https://github.com/pypa/pip/archive/develop.tar.gz -O pip-develop.tar.gz
+    tar -xzvf pip-develop.tar.gz
+    rm pip-develop.tar.gz
+    cd pip-develop/
     sudo python3.3 setup.py install
     cd ..
-    sudo rm -Rf develop/
+    sudo rm -Rf pip-develop/
     # Core requirements for pyAggr3g470r
     sudo pip-3.3 install feedparser
     sudo pip-3.3 install beautifulsoup4
     sudo pip-3.3 install mako
     sudo pip-3.3 install pymongo
     # CherryPy, Minimalist Python Web Framework:
-    wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz -O cherrypy.tar.gz
-    tar -xzvf cherrypy.tar.gz
-    cd cherrypy/
+    wget  https://bitbucket.org/cherrypy/cherrypy/get/3.2.4.tar.gz
+    tar -xzvf 3.2.4.tar.gz
+    rm 3.2.4.tar.gz
+    cd cherrypy-cherrypy-cd8acbc5f2b3/
     sudo python3.3 setup.py install
     cd ..
-    sudo rm -Rf cherrypy/
+    sudo rm -Rf cherrypy-cherrypy-cd8acbc5f2b3/
     # Language detection:
     hg clone https://bitbucket.org/spirit/guess_language/
     cd guess_language/
@@ -114,6 +118,7 @@ Script of installation
     hg clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r
     cd pyaggr3g470r/source/
     cp cfg/pyAggr3g470r.cfg-sample cfg/pyAggr3g470r.cfg
+    exit 0
 
 
 Setting
