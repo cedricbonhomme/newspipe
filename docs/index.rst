@@ -51,14 +51,8 @@ Optional module
 These modules are not required but enables more features:
 
 * guess_language_ and PyEnchant_ for the language detection;
-* lxml and Genshi;
-* Python Imaging Library for the generation of QR codes.
-
-Not yet tested with Python 3.3. Anyway, if you want to install these modules:
-
-.. code-block:: bash
-
-    $ sudo aptitude install python3.3-lxml python-genshi
+* lxml and Genshi for the generation of EPUB;
+* Pillow (friendly fork of Python Imaging Library) for the generation of QR codes.
 
 
 Script of installation
