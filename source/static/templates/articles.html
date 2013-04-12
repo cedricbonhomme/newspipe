@@ -27,7 +27,7 @@ import utils
                 not_read_begin, not_read_end = "", ""
 
             if article["article_like"] == True:
-                like = """ <img src="/img/heart.png" title="I like this article!" />"""
+                like = """<img src="/static/img/heart.png" title="I like this article!" />"""
             else:
                 like = ""
 
@@ -37,7 +37,7 @@ import utils
             else:
                 description = "No description."
         %>
-        ${article["article_date"].strftime('%Y-%m-%d %H:%M')} - <a class="tooltip" href="/article/${feed['feed_id']}:${article['article_id']}" rel="noreferrer" target="_blank">${not_read_begin}${article["article_title"][:150]}${not_read_end}<span class="classic">${description}</span></a>
+        ${article["article_date"].strftime('%Y-%m-%d %H:%M')} - <a class="tooltip" href="/article/${feed['feed_id']}:${article['article_id']}" rel="noreferrer" target="_blank">${not_read_begin}${article["article_title"][:150]}${not_read_end}<span class="classic">${description}</span></a> ${like}
         <br />
     %endfor
     <h4><a href="/">All feeds</a></h4>
