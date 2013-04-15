@@ -11,52 +11,58 @@
         %endif
         &nbsp;&nbsp;<a href="/delete_article/${feed['feed_id']}:${article['article_id']}"><img src="/static/img/cross.png" title="Delete this article" /></a>
         <br /><br />
-
         ${description}
-
-        <div style="float:right;"><a href="/article/${feed['feed_id']}:${following['article_id']}" title="${following['article_title']}"><img src="/static/img/following-article.png" /></a></div>
-        <div style="float:left;"><a href="/article/${feed['feed_id']}:${previous['article_id']}" title="${previous['article_title']}"><img src="/static/img/previous-article.png" /></a></div>
+        <div style="float:right;">
+            <a href="/article/${feed['feed_id']}:${following['article_id']}" title="${following['article_title']}">
+                <img src="/static/img/following-article.png" />
+            </a>
         </div>
+        <div style="float:left;">
+            <a href="/article/${feed['feed_id']}:${previous['article_id']}" title="${previous['article_title']}">
+                <img src="/static/img/previous-article.png" />
+            </a>
+        </div>
+    </div>
 
-        <hr />
-        %if plain_text == "1":
-            <a href="/article/${feed['feed_id']}:${article['article_id']}">HTML version</a>
-        %else:
-            <a href="/article/${feed['feed_id']}:${article['article_id']}/?plain_text=1">Plain text</a>
-        %endif
-        - <a href="/epub/${feed['feed_id']}:${article['article_id']}">Export to EPUB</a>
-        <br />
-        <a href="${article['article_link']}">Complete story</a>
-        <br />
+    <hr />
+    %if plain_text == "1":
+        <a href="/article/${feed['feed_id']}:${article['article_id']}">HTML version</a>
+    %else:
+        <a href="/article/${feed['feed_id']}:${article['article_id']}/?plain_text=1">Plain text</a>
+    %endif
+    - <a href="/epub/${feed['feed_id']}:${article['article_id']}">Export to EPUB</a>
+    <br />
+    <a href="${article['article_link']}">Complete story</a>
+    <br />
 
-        Share this article:<br />
-        <a href="javascript:(function(){f='https://${diaspora}/bookmarklet?url=${article['article_link']}&amp;title=${article['article_title']}&amp;notes=via pyAggr3g470r&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">
-                <img src="/static/img/diaspora.png" title="Share on Diaspora" /></a>
+    Share this article:<br />
+    <a href="javascript:(function(){f='https://${diaspora}/bookmarklet?url=${article['article_link']}&amp;title=${article['article_title']}&amp;notes=via pyAggr3g470r&amp;v=1&amp;';a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','diasporav1','location=yes,links=no,scrollbars=no,toolbar=no,width=620,height=250'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">
+            <img src="/static/img/diaspora.png" title="Share on Diaspora" /></a>
 
-        <a href="http://identi.ca/index.php?action=newnotice&status_textarea=${article['article_title']}:${article['article_link']}" title="Share on Identi.ca" target="_blank"><img src="/static/img/identica.png" /></a>
+    <a href="http://identi.ca/index.php?action=newnotice&status_textarea=${article['article_title']}:${article['article_link']}" title="Share on Identi.ca" target="_blank"><img src="/static/img/identica.png" /></a>
 
-        <a href="https://api.pinboard.in/v1/posts/add?url=${article['article_link']}&description=${article['article_title']}"
-                rel="noreferrer" target="_blank">
-                <img src="/static/img/pinboard.png" title="Share on Pinboard" /></a>
+    <a href="https://api.pinboard.in/v1/posts/add?url=${article['article_link']}&description=${article['article_title']}"
+            rel="noreferrer" target="_blank">
+            <img src="/static/img/pinboard.png" title="Share on Pinboard" /></a>
 
-        <a href="http://digg.com/submit?url=${article['article_link']}&title=${article['article_title']}"
-                rel="noreferrer" target="_blank">
-                <img src="/static/img/digg.png" title="Share on Digg" /></a>
+    <a href="http://digg.com/submit?url=${article['article_link']}&title=${article['article_title']}"
+            rel="noreferrer" target="_blank">
+            <img src="/static/img/digg.png" title="Share on Digg" /></a>
 
-        <a href="http://reddit.com/submit?url=${article['article_link']}&title=${article['article_title']}"
-                rel="noreferrer" target="_blank">
-                <img src="/static/img/reddit.png" title="Share on reddit" /></a>
+    <a href="http://reddit.com/submit?url=${article['article_link']}&title=${article['article_title']}"
+            rel="noreferrer" target="_blank">
+            <img src="/static/img/reddit.png" title="Share on reddit" /></a>
 
-        <a href="http://scoopeo.com/scoop/new?newurl=${article['article_link']}&title=${article['article_title']}"
-                rel="noreferrer" target="_blank">
-                <img src="/static/img/scoopeo.png" title="Share on Scoopeo" /></a>
+    <a href="http://scoopeo.com/scoop/new?newurl=${article['article_link']}&title=${article['article_title']}"
+            rel="noreferrer" target="_blank">
+            <img src="/static/img/scoopeo.png" title="Share on Scoopeo" /></a>
 
-        <a href="http://blogmarks.net/my/new.php?url=${article['article_link']}&title=${article['article_title']}"
-                rel="noreferrer" target="_blank">
-                <img src="/static/img/blogmarks.png" title="Share on Blogmarks" /></a>
+    <a href="http://blogmarks.net/my/new.php?url=${article['article_link']}&title=${article['article_title']}"
+            rel="noreferrer" target="_blank">
+            <img src="/static/img/blogmarks.png" title="Share on Blogmarks" /></a>
 
-        <g:plusone size="standard" count="true" href="${article['article_link']}"></g:plusone>
+    <g:plusone size="standard" count="true" href="${article['article_link']}"></g:plusone>
 
 
-        <br />
-        <a href="/var/qrcode/${article['article_id']}.png"><img src="/var/qrcode/${article['article_id']}.png" title="Share with your smartphone" width="500" height="500" /></a>
+    <br />
+    <a href="/var/qrcode/${article['article_id']}.png"><img src="/var/qrcode/${article['article_id']}.png" title="Share with your smartphone" width="500" height="500" /></a>
