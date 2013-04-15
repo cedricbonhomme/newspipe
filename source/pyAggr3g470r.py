@@ -210,7 +210,7 @@ class pyAggr3g470r(object):
 
         # Description (full content) of the article
         if plain_text == "1":
-            description = utils.clear_string(article["article_content"])
+            description = "<p>" + utils.clear_string(article["article_content"]) + "</p>"
         else:
             description = article["article_content"]
         if description != "":
