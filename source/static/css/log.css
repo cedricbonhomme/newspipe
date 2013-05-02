@@ -1,58 +1,22 @@
+html {
+    height: 100%;
+}
+
 body {
     font:normal medium 'Gill Sans','Gill Sans MT',Verdana,sans-serif;
     line-height:1.75;
-}
-
-a:link {
-    color:#1c73b7;
-    text-decoration:none;
-    outline:0;
-}
-
-a:visited {
-    color:#1c73b7;
-    text-decoration:none;
-    outline:0;
-}
-
-a:active {
-    color:#1c73b7;
-    text-decoration:none;
-    outline:0;
-}
-
-h1 {
-    font-size:x-large;
-    color:#0c85e5;
-}
-
-h2 {
-   font-size:medium;
-}
-
-h3 {
-    font-size:small;
-}
-
-hr {
-    der-style:dotted;
-    height:1px;
-    border-width: 1px 0 0 0;
-    margin:1.45em 0 1.4em;
-    padding:0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 #logform {
    text-align:center;
    clear: both;
    position: float;
+   vertical-align: center;
    margin-top: 10%;
-}
 
-#footer {
-   clear:both;
-   text-align:center;
-   font-size:small
 }
 
 img {
