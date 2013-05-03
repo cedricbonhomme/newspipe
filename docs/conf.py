@@ -184,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'pyAggr3g470r.tex', u'pyAggr3g470r Documentation',
-   u'Cédric Bonhomme', 'manual'),
+   u'Cédric Bonhomme', 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
