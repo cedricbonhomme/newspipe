@@ -11,7 +11,7 @@ import utils
             # List unread articles of all the database
             if feed_id == "":
                 html += "<h1>Unread article(s)</h1>"
-                html += """\n<br />\n<a href="/mark_as_read/">Mark articles as read</a>\n<hr />\n"""
+                html += """\n<br />\n<a href="/mark_as_read/">Mark all articles as read</a>\n<hr />\n"""
                 for feed in feeds:
                     new_feed_section = True
                     nb_unread = 0
@@ -38,7 +38,7 @@ import utils
                                         (feed["feed_id"], article["article_id"], article["article_title"][:150], description)
 
                         if nb_unread == mongo.nb_unread_articles(feed["feed_id"]):
-                            html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all articles from this feed as read</a>\n""" % \
+                            html += """<br />\n<a href="/mark_as_read/Feed:%s">Mark all as read</a>\n""" % \
                                         (feed["feed_id"],)
                 html += """<hr />\n<a href="/mark_as_read/">Mark articles as read</a>\n"""
 
