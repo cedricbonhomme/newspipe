@@ -30,14 +30,26 @@ import hashlib
 import threading
 import feedparser
 from bs4 import BeautifulSoup
-
 from datetime import datetime
+from contextlib import contextmanager
 
 import conf
 import utils
 import mongodb
 
 list_of_threads = []
+
+@contextmanager
+def opened_w_error(filename, mode="r"):
+    try:
+        f = open(filename, mode)
+    except IOError as err:
+        yield None, err
+    else:
+        try:
+            yield f, None
+        finally:
+            f.close()
 
 class FeedGetter(object):
     """
@@ -60,21 +72,24 @@ class FeedGetter(object):
         if feed_url != None:
             self.process(feed_url, feed_original)
         else:
-            with open(conf.FEED_LIST) as f:
-                for a_feed in f:
-                    # test if the URL is well formed
-                    for url_regexp in utils.url_finders:
-                        if url_regexp.match(a_feed):
-                            the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
-                            try:
-                                # launch a new thread for the RSS feed
-                                thread = threading.Thread(None, self.process, \
-                                                    None, (the_good_url,))
-                                thread.start()
-                                list_of_threads.append(thread)
-                            except:
-                                pass
-                            break
+            with opened_w_error(conf.FEED_LIST) as (f, err):
+                if err:
+                    print("List of feeds not found.")
+                else:
+                    for a_feed in f:
+                        # test if the URL is well formed
+                        for url_regexp in utils.url_finders:
+                            if url_regexp.match(a_feed):
+                                the_good_url = url_regexp.match(a_feed).group(0).replace("\n", "")
+                                try:
+                                    # launch a new thread for the RSS feed
+                                    thread = threading.Thread(None, self.process, \
+                                                        None, (the_good_url,))
+                                    thread.start()
+                                    list_of_threads.append(thread)
+                                except:
+                                    pass
+                                break
 
             # wait for all threads are done
             for th in list_of_threads:
