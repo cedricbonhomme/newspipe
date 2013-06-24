@@ -56,11 +56,17 @@
     <p>${nb_articles} article(s) are stored in the database with <a href="/unread/">${nb_unread_articles} unread article(s)</a>.
 
     <form method=get action="/fetch/">
-        <input type="submit" value="Fetch all feeds">
+        <input type="submit" value="Fetch all feeds" />
     </form>
     <form method=get action="/drop_base">
-        <input type="submit" value="Delete all articles">
+        <input type="submit" value="Delete all articles" />
     </form>
+    
+    <br />
+    <form method=get action="/index_base">
+        <input type="submit" value="Index database" /> (faster searches)
+    </form>
+    
 
     <hr />
 
