@@ -26,6 +26,8 @@ __revision__ = "$Date: 2013/06/24 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import os
+
 from whoosh.index import create_in, open_dir
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
@@ -73,7 +75,7 @@ def search(term):
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
-    #create_index()
-    results = search("Nothomb")
+    create_index()
+    """results = search("Nothomb")
     for article in results:
-        print(article)
+        print(article)"""
