@@ -5,7 +5,7 @@ import utils
 %>
 <div class="left inner">
 %if len(search_result) != 0:
-    <h1>Articles containing the string <i>${query}</i> (${sum([articles.count() for articles in search_result.values()])} results)</h1>
+    <h1>Articles containing the string <i>${query}</i> (${sum([len(articles) for articles in search_result.values()])} results)</h1>
 %else:
     <h1>String <i>${query}</i> not found.</h1>
 %endif
@@ -18,7 +18,6 @@ import utils
     <%
         new_feed_section = True
         feed = mongo.get_feed(feed_id)
-        print(search_result[feed["feed_id"]].count())
         for article in search_result[feed["feed_id"]]:
             if new_feed_section is True:
                 new_feed_section = False

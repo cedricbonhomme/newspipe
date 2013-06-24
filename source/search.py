@@ -71,7 +71,7 @@ def search(term):
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
         results = searcher.search(query)
-        return [article['title'] for article in results]
+        return [(article["feed_id"], article["article_id"]) for article in results]
 
 if __name__ == "__main__":
     # Point of entry in execution mode.

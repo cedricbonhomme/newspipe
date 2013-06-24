@@ -169,7 +169,11 @@ class pyAggr3g470r(object):
         feed_id = None
         if param == "Feed":
             feed_id, _, query = value.partition(':')
-        search_result = self.mongo.full_search(param)
+        search_result = defaultdict(list)
+        results = search.search(param)
+        for result in results:
+            article = self.mongo.get_articles(result[0], result[1])
+            search_result[result[0]].append(article)
         tmpl = lookup.get_template("search.html")
         return tmpl.render(search_result=search_result, query=query, feed_id=feed_id, mongo=self.mongo)
 
