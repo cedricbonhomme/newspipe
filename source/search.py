@@ -70,7 +70,7 @@ def search(term):
     ix = open_dir(indexdir)
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
-        results = searcher.search(query)
+        results = searcher.search(query, limit=None)
         return [(article["feed_id"], article["article_id"]) for article in results]
 
 if __name__ == "__main__":
