@@ -75,7 +75,7 @@ def search(term):
 
 if __name__ == "__main__":
     # Point of entry in execution mode.
-    create_index()
-    """results = search("Nothomb")
+    #create_index()
+    results = search("Nothomb")
     for article in results:
-        print(article)"""
+        print(article)

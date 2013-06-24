@@ -58,6 +58,7 @@ import conf
 import utils
 import export
 import mongodb
+import search
 import feedgetter
 import auth
 
@@ -607,7 +608,6 @@ class pyAggr3g470r(object):
 
     logout.exposed = True
 
-
     @auth.require()
     def drop_base(self):
         """
@@ -617,6 +617,16 @@ class pyAggr3g470r(object):
         return self.index()
 
     drop_base.exposed = True
+
+    @auth.require()
+    def index_base(self):
+        """
+        Launches the indexing of the database.
+        """
+        search.create_index()
+        return self.index()
+
+    index_base.exposed = True
 
     @auth.require()
     def export(self, export_method):
