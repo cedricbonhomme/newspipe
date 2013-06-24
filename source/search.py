@@ -4,7 +4,7 @@
 # pyAggr3g470r - A Web based news aggregator.
 # Copyright (C) 2010-2013  Cédric Bonhomme - http://cedricbonhomme.org/
 #
-# For more information : http://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+# For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@
 
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.1 $"
-__date__ = "$Date: 2010/06/24 $"
+__date__ = "$Date: 2013/06/24 $"
 __revision__ = "$Date: 2013/06/24 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from whoosh.index import create_in
+from whoosh.index import create_in, open_dir
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
@@ -34,29 +34,46 @@ import conf
 import utils
 import mongodb
 
+indexdir = "./var/indexdir"
+
 schema = Schema(title=TEXT(stored=True), \
                 content=TEXT, \
-                article_id=TEXT, \
-                feed_id=TEXT)
+                article_id=TEXT(stored=True), \
+                feed_id=TEXT(stored=True))
 
 def create_index():
     """
+    Creates the index.
     """
-    self.mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
+    mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
                         conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
-    feeds = self.mongo.get_all_feeds()
-    ix = create_in("indexdir", schema)
+    feeds = mongo.get_all_feeds()
+    if not os.path.exists(indexdir):
+        os.mkdir(indexdir)
+    ix = create_in(indexdir, schema)
     writer = ix.writer()
-    for article in mongo.get_articles(feed["feed_id"], limit=10)
-        writer.add_document(title=article["article_title"], \
-                            content=utils.clear_string(article["article_content"]))
+    for feed in feeds:
+        for article in mongo.get_articles(feed["feed_id"]):
+            writer.add_document(title=article["article_title"], \
+                                content=utils.clear_string(article["article_content"]), \
+                                article_id=article["article_id"] , \
+                                feed_id=feed["feed_id"])
     writer.commit()
 
-
-def search(index, term):
+def search(term):
     """
+    Search for `term` in the index.
+    Returns a list of articles.
     """
+    ix = open_dir(indexdir)
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
         results = searcher.search(query)
-        results[0]
+        return [article['title'] for article in results]
+
+if __name__ == "__main__":
+    # Point of entry in execution mode.
+    #create_index()
+    results = search("Nothomb")
+    for article in results:
+        print(article)
