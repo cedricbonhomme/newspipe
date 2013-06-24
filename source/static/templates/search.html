@@ -9,6 +9,11 @@ import utils
 %else:
     <h1>String <i>${query}</i> not found.</h1>
 %endif
+<br />
+<form method=get action="/index_base">
+    <input type="submit" value="Reindex database" />
+</form>
+
 <%
     html = ""
     feed_id = None
