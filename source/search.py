@@ -20,15 +20,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2013/06/24 $"
-__revision__ = "$Date: 2013/06/24 $"
+__revision__ = "$Date: 2013/06/25 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
 
 from whoosh.index import create_in, open_dir
+from whoosh.index import EmptyIndexError
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
 
@@ -67,7 +68,10 @@ def search(term):
     Search for `term` in the index.
     Returns a list of articles.
     """
-    ix = open_dir(indexdir)
+    try:
+        ix = open_dir(indexdir)
+    except (EmptyIndexError, OSError) as e:
+        raise EmptyIndexError
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
         results = searcher.search(query, limit=None)

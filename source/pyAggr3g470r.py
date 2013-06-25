@@ -48,6 +48,7 @@ import time
 import datetime
 
 from collections import defaultdict
+from whoosh.index import EmptyIndexError
 
 import cherrypy
 from mako.template import Template
@@ -170,7 +171,10 @@ class pyAggr3g470r(object):
         if param == "Feed":
             feed_id, _, query = value.partition(':')
         search_result = defaultdict(list)
-        results = search.search(param)
+        try:
+            results = search.search(param)
+        except EmptyIndexError as e:
+            return self.error('<p>The database has not been <a href="/index_base">indexed</a>.</p>')
         for result in results:
             article = self.mongo.get_articles(result[0], result[1])
             search_result[result[0]].append(article)
