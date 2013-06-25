@@ -15,7 +15,7 @@ A documentation is available [here](https://pyaggr3g470r.readthedocs.org/).
 Features
 ------------
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database (local or remote);
-* article searching;
+* fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
@@ -31,6 +31,7 @@ Software required
 
 * [Python](http://python.org/) >= 3.1;
 * [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/) >= 1.9;
+* [Whoosh](https://bitbucket.org/mchaput/whoosh) (article searching);
 * [feedparser](http://code.google.com/p/feedparser/) >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * [CherryPy](http://cherrypy.org/) >= 3.2.2 and [Mako](http://www.makotemplates.org/) (for **pyAggr3g470r.py**, the Web interface);
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) >= 4.1.2 (automatically find a feed in a HTML page).
