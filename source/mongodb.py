@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.7 $"
+__version__ = "$Revision: 0.8 $"
 __date__ = "$Date: 2012/03/03 $"
-__revision__ = "$Date: 2013/04/02 $"
+__revision__ = "$Date: 2013/06/25 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -45,9 +45,6 @@ class Articles(object):
             if collection_name != "system.indexes":
                 self.db[collection_name].ensure_index([("article_date", pymongo.DESCENDING)], \
                                                         name="date_index", unique=False, \
-                                                        background=True)
-                self.db[collection_name].ensure_index([('article_content', pymongo.ASCENDING)], \
-                                                        name="content_index", unique=False, \
                                                         background=True)
 
     def add_collection(self, new_collection):
