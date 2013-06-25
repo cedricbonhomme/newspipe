@@ -21,7 +21,7 @@ Features
 --------
 
 * articles are stored in a MongoDB_ database (local or remote);
-* fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
+* fast full-text indexing and searching thanks the Whoosh_ library;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
