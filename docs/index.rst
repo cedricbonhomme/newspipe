@@ -21,7 +21,7 @@ Features
 --------
 
 * articles are stored in a MongoDB_ database (local or remote);
-* article searching;
+* fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
 * favorite articles;
@@ -39,6 +39,7 @@ Software required
 
 * Python_ >= 3.1;
 * MongoDB_ and PyMongo_ >= 1.9;
+* Whoosh_ (article searching);
 * feedparser_ >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
 * CherryPy_ >= 3.2.4 and Mako_ (for **pyAggr3g470r.py**, the Web interface);
 * BeautifulSoup_ bs4 >= 4.1.2 (automatically find a feed in a HTML page).
@@ -86,6 +87,7 @@ Script of installation
     cd ..
     sudo rm -Rf pip-develop/
     # Core requirements for pyAggr3g470r
+    sudo pip-3.3 install whoosh
     sudo pip-3.3 install feedparser
     sudo pip-3.3 install beautifulsoup4
     sudo pip-3.3 install mako
@@ -244,6 +246,7 @@ Contact
 .. _pyAggr3g470r: https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 .. _feedparser: http://feedparser.org/
 .. _MongoDB: http://www.mongodb.org/
+.. _Whoosh: https://bitbucket.org/mchaput/whoosh
 .. _PyMongo: https://github.com/mongodb/mongo-python-driver
 .. _CherryPy: http://cherrypy.org/
 .. _Mako: http://www.makotemplates.org/
