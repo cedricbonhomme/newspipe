@@ -47,7 +47,6 @@ import re
 import time
 import datetime
 
-from operator import attrgetter
 from collections import defaultdict
 from whoosh.index import EmptyIndexError
 
