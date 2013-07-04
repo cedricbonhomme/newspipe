@@ -229,18 +229,6 @@ class Articles(object):
         collection = self.db[str(feed_id)]
         collection.update({"type": 0, "feed_id":feed_id}, {"$set": changes}, multi=True)
 
-    def full_search(self, term):
-        """
-        Indexed full text search through content of articles.
-        """
-        articles = {}
-        for collection in self.get_all_feeds():
-            # TODO: test the full text search. Not all words are found with the search function
-            result = self.db[collection["feed_id"]].find({'article_content': {'$regex': term, "$options": 'i' }})
-            if result.count() != 0:
-                articles[collection["feed_id"]] = result.sort([("article_date", pymongo.DESCENDING)])
-        return articles
-
     # Functions on database
     def drop_database(self):
         """
