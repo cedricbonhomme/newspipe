@@ -47,6 +47,7 @@ import re
 import time
 import datetime
 
+from operator import attrgetter
 from collections import defaultdict
 from whoosh.index import EmptyIndexError
 
@@ -178,8 +179,10 @@ class pyAggr3g470r(object):
         for result in results:
             article = self.mongo.get_articles(result[0], result[1])
             search_result[result[0]].append(article)
+        sorted_search_result = {feed_id: sorted(articles, key=lambda t: t['article_date'], reverse=True) \
+                                    for feed_id, articles in search_result.items()}
         tmpl = lookup.get_template("search.html")
-        return tmpl.render(search_result=search_result, query=query, feed_id=feed_id, mongo=self.mongo)
+        return tmpl.render(search_result=sorted_search_result, query=query, feed_id=feed_id, mongo=self.mongo)
 
     search.exposed = True
 
