@@ -116,9 +116,8 @@ def stop():
             except OSError as e:
                 print(SERVICE + " unsuccessfully stopped")
                 retval = False
-            os.unlink(os.path.join(PATH,"var", SERVICE + ".pid"))
-            print(SERVICE)
-            rmpid(processname=SERVICE)
+            finally:
+                rmpid(processname=SERVICE)
     return retval
 
 def usage():
