@@ -206,13 +206,16 @@ def add_feed(feed_url):
     """
     Add the URL feed_url in the file feed.lst.
     """
+    feeds = []
     if os.path.exists(conf.FEED_LIST):
         for line in open(conf.FEED_LIST, "r"):
+            feeds.append(line.replace("\n", ""))
             if feed_url in line:
                 # if the feed is already in the file
                 return False
-    with open(conf.FEED_LIST, "a") as f:
-        f.write(feed_url + "\n")
+    feeds.append(feed_url)
+    with open(conf.FEED_LIST, "w") as f:
+        f.write("\n".join(feeds) + "\n")
     return True
 
 def change_feed_url(old_feed_url, new_feed_url):
