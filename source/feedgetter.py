@@ -178,7 +178,7 @@ class FeedGetter(object):
 
             articles.append(article)
 
-            if self.articles.get_articles(feed_id, article_id) == False:
+            if self.articles.get_articles(feed_id, article_id) == []:
                 # add the article to the Whoosh index
                 search.add_to_index([article], feed)
 
