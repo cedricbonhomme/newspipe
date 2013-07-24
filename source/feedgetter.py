@@ -34,6 +34,7 @@ from datetime import datetime
 from contextlib import contextmanager
 
 import conf
+import search
 import utils
 import mongodb
 
@@ -176,6 +177,9 @@ class FeedGetter(object):
                     }
 
             articles.append(article)
+
+            # add the article to the Whoosh index
+            #search.add_to_index([article], feed)
 
             if conf.MAIL_ENABLED and feed["mail"] and self.articles.get_articles(feed_id, article_id) == False:
                 # if subscribed to the feed AND if article not already in the database

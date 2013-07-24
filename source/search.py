@@ -63,6 +63,22 @@ def create_index():
                                 feed_id=feed["feed_id"])
     writer.commit()
 
+def add_to_index(articles, feed):
+    """
+    Add a list of articles to the index.
+    """
+    try:
+        ix = open_dir(indexdir)
+    except (EmptyIndexError, OSError) as e:
+        raise EmptyIndexError
+    writer = ix.writer()
+    for article in articles:
+        writer.add_document(title=article["article_title"], \
+                            content=utils.clear_string(article["article_content"]), \
+                            article_id=article["article_id"] , \
+                            feed_id=feed["feed_id"])
+    writer.commit()
+
 def search(term):
     """
     Search for `term` in the index.
