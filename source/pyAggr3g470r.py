@@ -177,7 +177,8 @@ class pyAggr3g470r(object):
             return self.error('<p>The database has not been <a href="/index_base">indexed</a>.</p>')
         for result in results:
             article = self.mongo.get_articles(result[0], result[1])
-            search_result[result[0]].append(article)
+            if article != []:
+                search_result[result[0]].append(article)
         sorted_search_result = {feed_id: sorted(articles, key=lambda t: t['article_date'], reverse=True) \
                                     for feed_id, articles in search_result.items()}
         tmpl = lookup.get_template("search.html")
