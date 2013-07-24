@@ -56,6 +56,7 @@ import http.server
 from bs4 import BeautifulSoup
 
 from collections import Counter
+from contextlib import contextmanager
 
 import conf
 
@@ -66,6 +67,18 @@ url_finders = [ \
     re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+") \
 ]
+
+@contextmanager
+def opened_w_error(filename, mode="r"):
+    try:
+        f = open(filename, mode)
+    except IOError as err:
+        yield None, err
+    else:
+        try:
+            yield f, None
+        finally:
+            f.close()
 
 def detect_url_errors(list_of_urls):
     """
@@ -130,8 +143,11 @@ def load_stop_words():
     stop_words = []
 
     for stop_wods_list in stop_words_lists:
-        with open(stop_wods_list, "r") as stop_wods_file:
-            stop_words += stop_wods_file.read().split(";")
+        with opened_w_error(stop_wods_list, "r") as (stop_wods_file, err):
+            if err:
+                stop_words = []
+            else:
+                stop_words += stop_wods_file.read().split(";")
     return stop_words
 
 def top_words(articles, n=10, size=5):
@@ -206,8 +222,11 @@ def add_feed(feed_url):
     """
     Add the URL feed_url in the file feed.lst.
     """
-    with open(conf.FEED_LIST, "r") as f:
-        lines = f.readlines()
+    with opened_w_error(conf.FEED_LIST, "r") as (f, err):
+        if err:
+            return False
+        else:
+            lines = f.readlines()
     lines = list(map(str.strip, lines))
     if feed_url in lines:
         return False
@@ -221,30 +240,42 @@ def change_feed_url(old_feed_url, new_feed_url):
     Change the URL of a feed given in parameter.
     """
     # Replace the URL in the text file
-    with open(conf.FEED_LIST, "r") as f:
-        lines = f.readlines()
+    with opened_w_error(conf.FEED_LIST, "r") as (f, err):
+        if err:
+            return False
+        else:
+            lines = f.readlines()
     lines = list(map(str.strip, lines))
     try:
         lines[lines.index(old_feed_url)] = new_feed_url
     except:
         return False
-    with open(conf.FEED_LIST, "w") as f:
-        f.write("\n".join(lines))
+    with opened_w_error(conf.FEED_LIST, "w") as (f, err):
+        if err:
+            return False
+        else:
+            f.write("\n".join(lines))
     return True
 
 def remove_feed(feed_url):
     """
     Remove a feed from the file feed.lst and from the SQLite base.
     """
-    with open(conf.FEED_LIST, "r") as f:
-        lines = f.readlines()
+    with opened_w_error(conf.FEED_LIST, "r") as (f, err):
+        if err:
+            return False
+        else:
+            lines = f.readlines()
     lines = list(map(str.strip, lines))
     try:
         del lines[lines.index(feed_url)]
     except:
         return False
-    with open(conf.FEED_LIST, "w") as f:
-        f.write("\n".join(lines))
+    with opened_w_error(conf.FEED_LIST, "w") as (f, err):
+        if err:
+            return False
+        else:
+            f.write("\n".join(lines))
     return True
 
 def search_feed(url):
