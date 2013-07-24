@@ -236,14 +236,16 @@ def remove_feed(feed_url):
     """
     Remove a feed from the file feed.lst and from the SQLite base.
     """
-    feeds = []
-    # Remove the URL from the file feed.lst
-    if os.path.exists(conf.FEED_LIST):
-        for line in open(conf.FEED_LIST, "r"):
-            if feed_url not in line:
-                feeds.append(line.replace("\n", ""))
-        with open(conf.FEED_LIST, "w") as f:
-            f.write("\n".join(feeds))
+    with open(conf.FEED_LIST, "r") as f:
+        lines = f.readlines()
+    lines = list(map(str.strip, lines))
+    try:
+        del lines[lines.index(feed_url)]
+    except:
+        return False
+    with open(conf.FEED_LIST, "w") as f:
+        f.write("\n".join(lines))
+    return True
 
 def search_feed(url):
     """
