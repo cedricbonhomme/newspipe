@@ -32,6 +32,7 @@ from whoosh.index import create_in, open_dir
 from whoosh.index import EmptyIndexError
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
+from whoosh.writing import AsyncWriter
 
 import conf
 import utils
@@ -66,12 +67,14 @@ def create_index():
 def add_to_index(articles, feed):
     """
     Add a list of articles to the index.
+    Here an AsyncWriter is used because the function will
+    be called in multiple threads by the feedgetter module.
     """
     try:
         ix = open_dir(indexdir)
     except (EmptyIndexError, OSError) as e:
         raise EmptyIndexError
-    writer = ix.writer()
+    writer = AsyncWriter(ix)
     for article in articles:
         writer.add_document(title=article["article_title"], \
                             content=utils.clear_string(article["article_content"]), \

@@ -178,12 +178,13 @@ class FeedGetter(object):
 
             articles.append(article)
 
-            # add the article to the Whoosh index
-            #search.add_to_index([article], feed)
+            if self.articles.get_articles(feed_id, article_id) == False:
+                # add the article to the Whoosh index
+                search.add_to_index([article], feed)
 
-            if conf.MAIL_ENABLED and feed["mail"] and self.articles.get_articles(feed_id, article_id) == False:
-                # if subscribed to the feed AND if article not already in the database
-                threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
+                if conf.MAIL_ENABLED and feed["mail"]:
+                    # if subscribed to the feed
+                    threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
                                                             a_feed.feed.title, \
                                                             article_title, description)).start()
         self.articles.add_articles(articles, feed_id)
