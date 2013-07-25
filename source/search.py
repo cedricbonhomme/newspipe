@@ -110,9 +110,20 @@ def search(term):
         results = searcher.search(query, limit=None)
         return [(article["feed_id"], article["article_id"]) for article in results]
 
+def nb_documents():
+    """
+    Return the number of undeleted documents.
+    """
+    try:
+        ix = open_dir(indexdir)
+    except (EmptyIndexError, OSError) as e:
+        raise EmptyIndexError
+    return ix.doc_count()
+
 if __name__ == "__main__":
     # Point of entry in execution mode.
     #create_index()
+    print(nb_documents())
     results = search("Nothomb")
     for article in results:
         print(article)
