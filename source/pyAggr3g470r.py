@@ -139,11 +139,13 @@ class pyAggr3g470r(object):
         nb_favorites = self.mongo.nb_favorites()
         nb_articles = format(self.mongo.nb_articles(), ",d")
         nb_unread_articles = format(self.mongo.nb_unread_articles(), ",d")
+        nb_indexed_documents = format(search.nb_documents(), ",d")
         tmpl = lookup.get_template("management.html")
         return tmpl.render(feeds=feeds, nb_mail_notifications=nb_mail_notifications, \
                             nb_favorites=nb_favorites, nb_articles=nb_articles, \
                             nb_unread_articles=nb_unread_articles, \
-                            mail_notification_enabled=conf.MAIL_ENABLED)
+                            mail_notification_enabled=conf.MAIL_ENABLED, \
+                            nb_indexed_documents=nb_indexed_documents)
 
     management.exposed = True
 
