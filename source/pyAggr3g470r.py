@@ -602,9 +602,12 @@ class pyAggr3g470r(object):
         """
         try:
             feed_id, article_id = param.split(':')
+            # Delete from the MonfoDB database
             self.mongo.delete_article(feed_id, article_id)
-        except:
-            return self.error("<p>Bad URL. This article do not exists.</p>")
+            # Delete from the Whoosh index
+            search.delete_article(feed_id, article_id)
+        except Exception as e:
+            return self.error("<p>Bad URL. This article do not exists.</p>"+str(e))
 
         return self.index()
 

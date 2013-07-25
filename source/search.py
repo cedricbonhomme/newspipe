@@ -31,6 +31,7 @@ import os
 from whoosh.index import create_in, open_dir
 from whoosh.index import EmptyIndexError
 from whoosh.fields import *
+from whoosh.query import *
 from whoosh.qparser import QueryParser
 from whoosh.writing import AsyncWriter
 
@@ -80,6 +81,19 @@ def add_to_index(articles, feed):
                             content=utils.clear_string(article["article_content"]), \
                             article_id=article["article_id"] , \
                             feed_id=feed["feed_id"])
+    writer.commit()
+
+def delete_article(feed_id, article_id):
+    """
+    Delete an article from the index.
+    """
+    try:
+        ix = open_dir(indexdir)
+    except (EmptyIndexError, OSError) as e:
+        raise EmptyIndexError
+    writer = ix.writer()
+    document = And([Term("feed_id", feed_id), Term("article_id", article_id)])
+    writer.delete_by_query(document)
     writer.commit()
 
 def search(term):
