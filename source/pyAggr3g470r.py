@@ -606,8 +606,8 @@ class pyAggr3g470r(object):
             self.mongo.delete_article(feed_id, article_id)
             # Delete from the Whoosh index
             search.delete_article(feed_id, article_id)
-        except Exception as e:
-            return self.error("<p>Bad URL. This article do not exists.</p>"+str(e))
+        except:
+            return self.error("<p>Bad URL. This article do not exists.</p>")
 
         return self.index()
 
