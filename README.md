@@ -15,6 +15,7 @@ A documentation is available [here](https://pyaggr3g470r.readthedocs.org/).
 Features
 ------------
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database (local or remote);
+* HTTP proxy support;
 * fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;

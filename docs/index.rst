@@ -21,6 +21,7 @@ Features
 --------
 
 * articles are stored in a MongoDB_ database (local or remote);
+* HTTP proxy support;
 * fast full-text indexing and searching thanks the Whoosh_ library;
 * e-mail notification;
 * export articles to HTML, EPUB, PDF or raw text;
@@ -177,8 +178,16 @@ section of the configuration file:
     password = your_password
     [misc]
     diaspora_pod = joindiaspora.com
+    feed_list = ./var/feed.lst
+    http_proxy = 127.0.0.1:8118
 
 Then just click on "Stay tuned" for the desired feed(s) at the main page of pyAggr3g470r in your browser.
+
+HTTP proxy
+``````````
+You can specify the address of a proxy in the configuration file (in the *misc* section).
+For example `127.0.0.1:8118` if you are using Privoxy/Tor. If you are not using a proxy just
+leave the value of `http_proxy` to blank.
 
 
 Launch
