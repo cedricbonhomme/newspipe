@@ -66,6 +66,10 @@ class FeedGetter(object):
         # MongoDB connections
         self.articles = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
                         conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
+        if conf.HTTP_PROXY == "":
+            self.proxy = urllib.request.ProxyHandler({})
+        else:
+            self.proxy = urllib.request.ProxyHandler({"http":conf.HTTP_PROXY})
 
     def retrieve_feed(self, feed_url=None, feed_original=None):
         """
@@ -110,11 +114,7 @@ class FeedGetter(object):
         """
         Add the articles of the feed 'a_feed' in the SQLite base.
         """
-        if conf.HTTP_PROXY == "":
-            proxy = urllib.request.ProxyHandler({})
-        else:
-            proxy = urllib.request.ProxyHandler({"http":conf.HTTP_PROXY})
-        a_feed = feedparser.parse(feed_link, handlers = [proxy])
+        a_feed = feedparser.parse(feed_link, handlers = [self.proxy])
         if a_feed['entries'] == []:
             return
         try:
