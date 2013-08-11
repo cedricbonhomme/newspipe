@@ -14,3 +14,4 @@ password = your_password
 [misc]
 diaspora_pod = joindiaspora.com
 feed_list = ./var/feed.lst
+http_proxy = 127.0.0.1:8118

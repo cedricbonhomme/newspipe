@@ -20,14 +20,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.6 $"
+__version__ = "$Revision: 1.7 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2013/06/10 $"
+__revision__ = "$Date: 2013/08/11 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import hashlib
 import threading
+import urllib.request
 import feedparser
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -109,7 +110,11 @@ class FeedGetter(object):
         """
         Add the articles of the feed 'a_feed' in the SQLite base.
         """
-        a_feed = feedparser.parse(feed_link)
+        if conf.HTTP_PROXY == "":
+            proxy = urllib.request.ProxyHandler({})
+        else:
+            proxy = urllib.request.ProxyHandler({"http":conf.HTTP_PROXY})
+        a_feed = feedparser.parse(feed_link, handlers = [proxy])
         if a_feed['entries'] == []:
             return
         try:
