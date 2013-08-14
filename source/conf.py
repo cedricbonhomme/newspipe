@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2012/04/22 $"
-__revision__ = "$Date: 2012/04/22 $"
+__revision__ = "$Date: 2013/08/15 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3" 
 
@@ -43,6 +43,10 @@ MONGODB_DBNAME = config.get('MongoDB', 'dbname')
 MONGODB_USER = config.get('MongoDB', 'user')
 MONGODB_PASSWORD = config.get('MongoDB', 'password')
 
+HTTP_PROXY = config.get('feedparser', 'http_proxy')
+USER_AGENT = config.get('feedparser', 'user_agent')
+FEED_LIST = config.get('feedparser', 'feed_list')
+
 MAIL_ENABLED = bool(int(config.get('mail','enabled')))
 mail_from = config.get('mail','mail_from')
 mail_to = config.get('mail','mail_to')
@@ -51,5 +55,3 @@ username =  config.get('mail','username')
 password =  config.get('mail','password')
 
 DIASPORA_POD = config.get('misc', 'diaspora_pod')
-FEED_LIST = config.get('misc', 'feed_list')
-HTTP_PROXY = config.get('misc', 'http_proxy')

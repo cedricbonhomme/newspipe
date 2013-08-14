@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.7 $"
+__version__ = "$Revision: 1.8 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2013/08/11 $"
+__revision__ = "$Date: 2013/08/15 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -70,6 +70,7 @@ class FeedGetter(object):
             self.proxy = urllib.request.ProxyHandler({})
         else:
             self.proxy = urllib.request.ProxyHandler({"http":conf.HTTP_PROXY})
+        feedparser.USER_AGENT = conf.USER_AGENT
 
     def retrieve_feed(self, feed_url=None, feed_original=None):
         """
