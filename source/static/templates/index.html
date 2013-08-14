@@ -96,12 +96,12 @@ import utils
             html += """<a href="/feed/%s">Feed summary</a>&nbsp;&nbsp;&nbsp;""" % (feed["feed_id"],)
             html += """<div class="right"><h2><a href="/fetch/%s"><img src="/static/img/check-news.png" title="Check this feed for news" /></a></h2></div>\n""" % (feed["feed_id"],)
             if mongo.nb_unread_articles(feed["feed_id"]) != 0:
-                html += """&nbsp;&nbsp;<a href="/mark_as_read/Feed_FromMainPage:%s">Mark all as read</a>""" % (feed["feed_id"],)
-                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s" title="Unread article(s)">Unread article(s) (%s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))
+                html += """&nbsp;&nbsp;<a href="/mark_as_read/">Mark all as read</a>"""
+                html += """&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/unread/%s">%s unread article(s)</a>""" % (feed["feed_id"], mongo.nb_unread_articles(feed["feed_id"]))
             if feed["mail"] == False:
-                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Stay tuned</a>""" % (feed["feed_id"],)
+                html += """<br />\n<a href="/mail_notification/1:%s" title="By e-mail">Enable email notifications</a>""" % (feed["feed_id"],)
             else:
-                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Stop staying tuned</a>""" %  (feed["feed_id"],)
+                html += """<br />\n<a href="/mail_notification/0:%s" title="By e-mail">Disable email notifications</a>""" %  (feed["feed_id"],)
             html += """<h4><a href="/#top">Top</a></h4>\n"""
     %>
     ${html}
