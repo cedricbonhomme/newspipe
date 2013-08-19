@@ -384,6 +384,8 @@ class pyAggr3g470r(object):
         """
         try:
             action, feed_id = param.split(':')
+            new_value = 1 == int(action)
+            self.mongo.update_feed(feed_id, {"mail":new_value})
         except:
             return self.error("<p>Bad URL. This feed do not exists.</p>")
         return self.index()
