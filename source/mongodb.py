@@ -30,6 +30,8 @@ import pymongo
 
 class Articles(object):
     """
+    This class is responsible of the management of the MongoDB
+    database.
     """
     def __init__(self, url='localhost', port=27017, db_name="pyaggr3g470r", user="", password=""):
         """
@@ -211,6 +213,7 @@ class Articles(object):
 
     def mark_as_read(self, readed, feed_id=None, article_id=None):
         """
+        Mark one or several articles as read.
         """
         if feed_id != None and article_id != None:
             collection = self.db[str(feed_id)]
