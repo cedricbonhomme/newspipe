@@ -284,7 +284,8 @@ def search_feed(url):
     """
     soup = None
     try:
-        page = urllib.request.urlopen(url)
+        req = urllib.request.Request(url, headers={'User-Agent' : conf.USER_AGENT})
+        page = urllib.request.urlopen(req)
         soup = BeautifulSoup(page)
     except:
         return None
