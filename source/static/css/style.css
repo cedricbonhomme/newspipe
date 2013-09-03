@@ -67,13 +67,15 @@ hr {
 /* Navigation bars */
 .nav_container {
     position:fixed;
-    top:112px;
     right:5px;
-    margin:0px;
-    padding:0px;
+    margin:5px;
+    padding:5px;
     white-space:nowrap;
     z-index:3;
     clear:both;
+    border-style:dashed;
+    border-width:thin;
+    border-color:#98bf21;
 }
 .nav_container.horizontal {
     position:absolute;
