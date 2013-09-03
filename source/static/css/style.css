@@ -2,7 +2,6 @@ html, body {
     margin: 0px 0px 0px 5px;
     padding: 0px 0px 0px 0px;
     height: 100%;
-    overflow-x: hidden;
     background-color: white;
     color: black;
     text-align: justify;
@@ -154,19 +153,6 @@ blockquote.right {
     margin-right: 0em;
 }
 
-/* Footer (W3C logos) */
-
-#w3c {
-    text-align: right;
-    padding: 0em 2em 0em 2em;
-    clear: both;
-}
-
-#w3c img {
-    padding-left: 10px;
-    padding-top: 1em;
-}
-
 /* Classes */
 
 .clear {
@@ -187,7 +173,7 @@ blockquote.right {
 
 .innerlogo {
     margin-top: 0em;
-    padding: 0em 0em 0em 1em;
+    padding: 0em 0em 0em 0em;
     clear: both;
 }
 
