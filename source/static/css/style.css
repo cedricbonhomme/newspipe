@@ -166,7 +166,7 @@ blockquote.right {
 }
 
 .inner {
-    margin-top: 1em;
+    margin-top: 0em;
     padding: 0em 0em 0em 0em;
     clear: both;
 }
