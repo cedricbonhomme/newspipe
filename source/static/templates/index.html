@@ -8,7 +8,7 @@ import utils
         <input type="search" name="query" value="" placeholder="Search articles" maxlength=2048 autocomplete="on" />
     </form>
     <hr />
-    <div class="nav_container">Your feeds (${nb_feeds}):<br />
+    <div class="nav_container"><div align="center"><i><a href="/subscriptions/">Subscriptions</a></i> (${nb_feeds})<br /></div>
         <%
             html = ""
         %>
@@ -18,7 +18,9 @@ import utils
                     not_read_begin, not_read_end = "<b>", "</b>"
                 else:
                     not_read_begin, not_read_end = "", ""
-                html += """<div><a href="/#%s">%s</a> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>\n""" % \
+                html += """<div style='float:left'><a href="/#%s">%s</a></div>
+        <div style='float:right'> (<a href="/unread/%s" title="Unread article(s)">%s%s%s</a> / %s)</div>
+        <div style="clear:both"></div>\n""" % \
                             (feed["feed_id"], feed["feed_title"], feed["feed_id"], not_read_begin, \
                             format(mongo.nb_unread_articles(feed["feed_id"]), ',d'), not_read_end, format(mongo.nb_articles(feed["feed_id"]), ',d'))
             %>
