@@ -17,7 +17,7 @@ from collections import Counter
         if "year" in query:
             the_year = query.split('-')[0].split(':')[1]
             if "month" not in query:
-                html += "<h1>Choose a month for " + the_year + "</h1>\n"
+                html += "<h1>Choose a month for the year " + the_year + "</h1>\n"
         if "month" in query:
             the_month = query.split('-')[1].split(':')[1]
             html += "<h1>Articles of "+ calendar.month_name[int(the_month)] + ", "+ the_year +".</h1>\n"
