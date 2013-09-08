@@ -101,7 +101,7 @@ def open_url(url):
         # server couldn't fulfill the request
         error = (url, e.code, \
                         http.server.BaseHTTPRequestHandler.responses[e.code][1])
-        pyaggr3g470r_log.error(url + " " + e.code + " " + \
+        pyaggr3g470r_log.error(url + " " + str(e.code) + " " + \
                                 http.server.BaseHTTPRequestHandler.responses[e.code][1])
         return (False, error)
     except urllib.error.URLError as e:
@@ -111,7 +111,7 @@ def open_url(url):
             pyaggr3g470r_log.error(url + " " + e.reason)
         else:
             error = (url, e.reason.errno, e.reason.strerror)
-            pyaggr3g470r_log.error(url + " " + e.reason.errno + " " + \
+            pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + \
                                     e.reason.strerror)
         return (False, error)
 
