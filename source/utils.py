@@ -68,6 +68,9 @@ url_finders = [ \
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+") \
 ]
 
+import log
+pyaggr3g470r_log = log.Log()
+
 @contextmanager
 def opened_w_error(filename, mode="r"):
     try:
@@ -97,13 +100,18 @@ def open_url(url):
     except urllib.error.HTTPError as e:
         # server couldn't fulfill the request
         errors.append((url, e.code, \
-        http.server.BaseHTTPRequestHandler.responses[e.code][1]))
+                        http.server.BaseHTTPRequestHandler.responses[e.code][1]))
+        pyaggr3g470r_log.error(url + " " + e.code + " " + \
+                                http.server.BaseHTTPRequestHandler.responses[e.code][1])
     except urllib.error.URLError as e:
         # failed to reach the server
         if type(e.reason) == str:
             errors.append((url, e.reason, e.reason))
+            pyaggr3g470r_log.error(URL + " " + e.reason)
         else:
             errors.append((url, e.reason.errno, e.reason.strerror))
+            pyaggr3g470r_log.error(URL + " " + e.reason.errno + " " + \
+                                    e.reason.strerror)
     return (False, errors)
 
 def generate_qr_code(article):
