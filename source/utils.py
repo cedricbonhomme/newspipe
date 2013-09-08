@@ -85,7 +85,7 @@ def opened_w_error(filename, mode="r"):
 
 def open_url(url):
     """
-    Open an URL with proxy and the user-agent
+    Open an URL with the proxy and the user-agent
     specified in the configuration file.
     """
     if conf.HTTP_PROXY == "":
@@ -99,20 +99,21 @@ def open_url(url):
         return (True, opener.open(url))
     except urllib.error.HTTPError as e:
         # server couldn't fulfill the request
-        errors.append((url, e.code, \
-                        http.server.BaseHTTPRequestHandler.responses[e.code][1]))
+        error = (url, e.code, \
+                        http.server.BaseHTTPRequestHandler.responses[e.code][1])
         pyaggr3g470r_log.error(url + " " + e.code + " " + \
                                 http.server.BaseHTTPRequestHandler.responses[e.code][1])
+        return (False, error)
     except urllib.error.URLError as e:
         # failed to reach the server
         if type(e.reason) == str:
-            errors.append((url, e.reason, e.reason))
-            pyaggr3g470r_log.error(URL + " " + e.reason)
+            error = (url, e.reason, e.reason)
+            pyaggr3g470r_log.error(url + " " + e.reason)
         else:
-            errors.append((url, e.reason.errno, e.reason.strerror))
-            pyaggr3g470r_log.error(URL + " " + e.reason.errno + " " + \
+            error = (url, e.reason.errno, e.reason.strerror)
+            pyaggr3g470r_log.error(url + " " + e.reason.errno + " " + \
                                     e.reason.strerror)
-    return (False, errors)
+        return (False, error)
 
 def generate_qr_code(article):
     """
