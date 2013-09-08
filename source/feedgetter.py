@@ -69,7 +69,7 @@ class FeedGetter(object):
         if conf.HTTP_PROXY == "":
             self.proxy = urllib.request.ProxyHandler({})
         else:
-            self.proxy = urllib.request.ProxyHandler({"http":conf.HTTP_PROXY})
+            self.proxy = urllib.request.ProxyHandler({"http" : conf.HTTP_PROXY})
         feedparser.USER_AGENT = conf.USER_AGENT
 
     def retrieve_feed(self, feed_url=None, feed_original=None):

@@ -86,17 +86,26 @@ def detect_url_errors(list_of_urls):
     Return a list of error(s).
     """
     errors = []
+    if conf.HTTP_PROXY == "":
+        proxy = {}
+    else:
+        proxy = {"http" : conf.HTTP_PROXY}
+    opener = urllib.request.FancyURLopener(proxy)
     for url in list_of_urls:
-        req = urllib.request.Request(url)
         try:
-            urllib.request.urlopen(req)
+            opener = urllib.request.build_opener()
+            opener.addheaders = [('User-agent', conf.USER_AGENT)]
+            opener.open(url)
         except urllib.error.HTTPError as e:
             # server couldn't fulfill the request
             errors.append((url, e.code, \
                 http.server.BaseHTTPRequestHandler.responses[e.code][1]))
         except urllib.error.URLError as e:
             # failed to reach the server
-            errors.append((url, e.reason.errno ,e.reason.strerror))
+            if type(e.reason) == str:
+                errors.append((url, e.reason, e.reason))
+            else:
+                errors.append((url, e.reason.errno, e.reason.strerror))
     return errors
 
 def generate_qr_code(article):
