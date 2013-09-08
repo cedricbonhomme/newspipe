@@ -231,6 +231,8 @@ class Articles(object):
         """
         collection = self.db[str(feed_id)]
         collection.update({"type": 0, "feed_id":feed_id}, {"$set": changes}, multi=True)
+        if "feed_id" in changes.keys():
+            self.db[str(feed_id)].rename(str(changes["feed_id"]))
 
     # Functions on database
     def drop_database(self):

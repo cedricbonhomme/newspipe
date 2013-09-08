@@ -536,7 +536,12 @@ class pyAggr3g470r(object):
         """
         Enables to change the URL of a feed already present in the database.
         """
+        import hashlib
+        sha1_hash = hashlib.sha1()
+        sha1_hash.update(new_feed_url.encode('utf-8'))
+        new_feed_id = sha1_hash.hexdigest()
         self.mongo.update_feed(feed_id, {"feed_link":new_feed_url})
+        self.mongo.update_feed(feed_id, {"feed_id":new_feed_id})
         result = utils.change_feed_url(old_feed_url, new_feed_url)
         if result:
             tmpl = lookup.get_template("confirmation.html")
