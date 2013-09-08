@@ -39,6 +39,9 @@ import search
 import utils
 import mongodb
 
+import log
+pyaggr3g470r_log = log.Log()
+
 list_of_threads = []
 
 @contextmanager
@@ -81,7 +84,7 @@ class FeedGetter(object):
         else:
             with opened_w_error(conf.FEED_LIST) as (f, err):
                 if err:
-                    print("List of feeds not found.")
+                    pyaggr3g470r_log.error("List of feeds not found.")
                 else:
                     for a_feed in f:
                         # test if the URL is well formed
@@ -159,8 +162,7 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                print("Problem when sanitizing the content of the feed: " + feed_link)
-                print(E)
+                pyaggr3g470r_log.error("Problem when sanitizing the content of the feed: " + feed_link)
                 article_title = article.title
 
             try:
