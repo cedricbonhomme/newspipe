@@ -490,10 +490,14 @@ class pyAggr3g470r(object):
         else:
             result = utils.add_feed(feed_url)
         # if the feed is not in the file feed.lst
+        import hashlib
+        sha1_hash = hashlib.sha1()
+        sha1_hash.update(feed_url.encode('utf-8'))
+        feed_id = sha1_hash.hexdigest()
         if result is False:
-            message =  "<p>You are already following this feed!</p>"
+            message =  """<p>You are already following <a href="/feed/%s">this feed</a>!</p>""" % (feed_id,)
         else:
-            message = """<p>Feed added. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""
+            message = """<p><a href="/feed/%s">Feed added</a>. You can now <a href="/fetch/">fetch your feeds</a>.</p>"""  % (feed_id,)
         tmpl = lookup.get_template("confirmation.html")
         return tmpl.render(message=message)
 
