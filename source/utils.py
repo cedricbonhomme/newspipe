@@ -80,33 +80,31 @@ def opened_w_error(filename, mode="r"):
         finally:
             f.close()
 
-def detect_url_errors(list_of_urls):
+def open_url(url):
     """
-    Detect URL errors.
-    Return a list of error(s).
+    Open an URL with proxy and the user-agent
+    specified in the configuration file.
     """
-    errors = []
     if conf.HTTP_PROXY == "":
         proxy = {}
     else:
         proxy = {"http" : conf.HTTP_PROXY}
     opener = urllib.request.FancyURLopener(proxy)
-    for url in list_of_urls:
-        try:
-            opener = urllib.request.build_opener()
-            opener.addheaders = [('User-agent', conf.USER_AGENT)]
-            opener.open(url)
-        except urllib.error.HTTPError as e:
-            # server couldn't fulfill the request
-            errors.append((url, e.code, \
-                http.server.BaseHTTPRequestHandler.responses[e.code][1]))
-        except urllib.error.URLError as e:
-            # failed to reach the server
-            if type(e.reason) == str:
-                errors.append((url, e.reason, e.reason))
-            else:
-                errors.append((url, e.reason.errno, e.reason.strerror))
-    return errors
+    try:
+        opener = urllib.request.build_opener()
+        opener.addheaders = [('User-agent', conf.USER_AGENT)]
+        return (True, opener.open(url))
+    except urllib.error.HTTPError as e:
+        # server couldn't fulfill the request
+        errors.append((url, e.code, \
+        http.server.BaseHTTPRequestHandler.responses[e.code][1]))
+    except urllib.error.URLError as e:
+        # failed to reach the server
+        if type(e.reason) == str:
+            errors.append((url, e.reason, e.reason))
+        else:
+            errors.append((url, e.reason.errno, e.reason.strerror))
+    return (False, errors)
 
 def generate_qr_code(article):
     """
@@ -291,10 +289,13 @@ def search_feed(url):
     """
     Search a feed in a HTML page.
     """
-    soup = None
+    soup, page = None, None
     try:
-        req = urllib.request.Request(url, headers={'User-Agent' : conf.USER_AGENT})
-        page = urllib.request.urlopen(req)
+        result = open_url(url)
+        if result[0] == True:
+            page = open_url(url)[1]
+        else:
+            return None
         soup = BeautifulSoup(page)
     except:
         return None

@@ -107,7 +107,7 @@ class FeedGetter(object):
 
         Executed in a thread.
         """
-        if utils.detect_url_errors([the_good_url]) == []:
+        if utils.open_url(the_good_url)[0] == True:
             # if ressource is available add the articles in the base.
             self.add_into_database(the_good_url, feed_original)
 
