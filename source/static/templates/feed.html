@@ -130,6 +130,10 @@ import utils
         <input type="hidden" name="feed_id" value="${feed['feed_id']}" />
     </form>
 
+    <form method=get action="/remove_feed/${feed['feed_id']}">
+        <p><input type="submit" value="Unsubscribe" />
+        (deletes corresponding articles)</p>
+    </form>
 
     %if articles != []:
         </br />
