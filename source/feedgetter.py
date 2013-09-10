@@ -144,6 +144,7 @@ class FeedGetter(object):
                                 "mail": False \
                             }
             self.articles.add_collection(collection_dic)
+            feed = self.articles.get_feed(feed_id)
 
         articles = []
         for article in a_feed['entries']:
@@ -188,7 +189,12 @@ class FeedGetter(object):
 
             if self.articles.get_articles(feed_id, article_id) == []:
                 # add the article to the Whoosh index
-                search.add_to_index([article], feed)
+                try:
+                    search.add_to_index([article], feed)
+                except:
+                    print("Whoosh error.")
+                    pyaggr3g470r_log.error("Whoosh error.")
+                    continue
 
                 if conf.MAIL_ENABLED and feed["mail"]:
                     # if subscribed to the feed
