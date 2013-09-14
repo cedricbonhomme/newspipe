@@ -10,7 +10,9 @@ import utils
         <br />
         Address of the feed: <a href="${feed['feed_link']}">${feed['feed_link']}</a>.
         <br />
-        Address of the site: <a href="${feed['site_link']}">${feed['site_link']}</a>.</p>
+        Address of the site: <a href="${feed['site_link']}">${feed['site_link']}</a>.
+        <br />
+        Logo: <img src="${feed['feed_image']}" width="28px" height="28px" /></p>
 
         <p>${(nb_unread_articles_feed == 0 and ["All articles are read"] or ['<a href="/unread/'+feed["feed_id"] + ' ">'+str(nb_unread_articles_feed)+'</a>' + ' unread article' + (nb_unread_articles_feed == 1 and [""] or ["s"])[0]])[0]}.</p>
     %else:
