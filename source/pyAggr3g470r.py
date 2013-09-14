@@ -53,7 +53,7 @@ from whoosh.index import EmptyIndexError
 import cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup
-lookup = TemplateLookup(directories=['static/templates'])
+lookup = TemplateLookup(directories=['templates'])
 
 import conf
 import utils
