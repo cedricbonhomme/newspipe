@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyAggr3g470r'
-copyright = u'2010-2013, Cédric Bonhomme'
+copyright = u'2010-2013, CÃ©dric Bonhomme'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'pyAggr3g470r.tex', u'pyAggr3g470r Documentation',
-   u'Cédric Bonhomme', 'howto'),
+   u'CÃ©dric Bonhomme', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -214,7 +214,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'pyaggr3g470r', u'pyAggr3g470r Documentation',
-     [u'Cédric Bonhomme'], 1)
+     [u'CÃ©dric Bonhomme'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -228,7 +228,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'pyAggr3g470r', u'pyAggr3g470r Documentation',
-   u'Cédric Bonhomme', 'pyAggr3g470r', 'One line description of project.',
+   u'CÃ©dric Bonhomme', 'pyAggr3g470r', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -240,3 +240,4 @@ texinfo_documents = [
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
+
