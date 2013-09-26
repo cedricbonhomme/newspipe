@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyAggr3g470r'
-copyright = u'2010-2013, CÃ©dric Bonhomme'
+copyright = u'2010-2013, Cédric Bonhomme'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'pyAggr3g470r.tex', u'pyAggr3g470r Documentation',
-   u'CÃ©dric Bonhomme', 'manual'),
+   u'Cédric Bonhomme', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -228,7 +228,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'pyAggr3g470r', u'pyAggr3g470r Documentation',
-   u'CÃ©dric Bonhomme', 'pyAggr3g470r', 'One line description of project.',
+   u'Cédric Bonhomme', 'pyAggr3g470r', 'One line description of project.',
    'Miscellaneous'),
 ]
 
