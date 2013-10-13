@@ -17,7 +17,8 @@ mail = Mail()
 
 @app.route('/')
 def home():
-    feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
+    #feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
+    feeds = models.Feed.objects().fields(slice__articles=[0,9])
     return render_template('home.html', feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
@@ -33,7 +34,7 @@ def about():
 @app.route('/feeds/', methods=['GET'])
 def feeds():
     feeds = models.Feed.objects()
-    return render_template('feedss.html', feeds=feeds)
+    return render_template('feeds.html', feeds=feeds)
 
 @app.route('/feed/<feed_id>', methods=['GET'])
 def feed(feed_id=None):
@@ -48,9 +49,18 @@ def article(article_id=None):
         article.save()
     return render_template('article.html', article=article)
 
+@app.route('/delete/<article_id>', methods=['GET'])
+def delete(article_id=None):
+    article = models.Article.objects(id=article_id).first()
+    article.delete()
+    article.save()
+    return redirect(url_for('home'))
+
 @app.route('/articles/<feed_id>', methods=['GET'])
 def articles(feed_id=None):
     feed = models.Feed.objects(id=feed_id).first()
+    #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+    #feed.save()
     return render_template('articles.html', feed=feed)
 
 @app.route('/favorites/', methods=['GET'])

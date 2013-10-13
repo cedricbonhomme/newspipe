@@ -102,7 +102,6 @@ class FeedGetter(object):
 
             exist = models.Article.objects(link=article.link).first()
             if exist != None:
-                print("Already downloaded!")
                 continue
 
             description = ""
@@ -149,6 +148,7 @@ class FeedGetter(object):
                                                             article_title, description)).start()
             """
         feed.articles.extend(articles)
+        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
         feed.save()
 
 

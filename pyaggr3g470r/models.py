@@ -29,8 +29,12 @@ class Feed(Document):
     link = StringField(required=True)
     site_link = StringField(required=True)
     mail = BooleanField()
-    articles = ListField(ReferenceField('Article', dbref = False))
+    articles = SortedListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
+
+    meta = {
+        'ordering': ['+title']
+    }
 
     def __str__(self):
         return 'Feed: %s' % self.title
@@ -44,12 +48,21 @@ class Article(Document):
     like = BooleanField()
     retrieved_date = DateTimeField(required=True, default=datetime.now)
 
+    meta = {
+        'ordering': ['-date'],
+        'indexes': [
+            {'fields': ['-date'],
+              'sparse': True, 'types': False },
+        ]
+    }
+
     def __str__(self):
         return 'Article: %s' % self.title
 
 if __name__ == "__main__":
     # Point of entry in execution mode
-    connect('pyaggr3g470r1')
+    db = connect('pyaggr3g470r1')
+    db.drop_database('pyaggr3g470r1')
 
     Feed.drop_collection()
     try:
@@ -64,8 +77,9 @@ if __name__ == "__main__":
     feeds = mongo.get_all_feeds()
     for feed in feeds:
         articles = []
-
-        for article in mongo.get_articles(feed["feed_id"]):
+        feed_articles = mongo.get_articles(feed["feed_id"])
+        #feed_articles = sorted(feed_articles, key=lambda t: t['article_date'], reverse=True)
+        for article in feed_articles:
             article1 = Article(date=article["article_date"], link=article["article_link"], \
                        title=article["article_title"], content=article["article_content"], \
                         readed=article["article_readed"], like=article["article_like"], \
@@ -77,6 +91,8 @@ if __name__ == "__main__":
             except:
                 # pas de méthode save() pour un objet EmbeddedDocument.
                 pass
+
+        sorted(articles, key=lambda t: t.date, reverse=True)
 
         feed1 = Feed(title=feed["feed_title"], link=feed["feed_link"],
                  site_link=feed["site_link"], mail=feed["mail"],
