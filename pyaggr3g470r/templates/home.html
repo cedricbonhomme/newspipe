@@ -8,7 +8,7 @@
             <a href="/articles/{{ feed.id }}"><i class="glyphicon glyphicon-th-list"></i></a>
             </div>
         </div>
-    {% for number in range(0, feed.articles[:10]|sort(attribute='date')|length-2, 3) %}
+    {% for number in range(0, feed.articles|sort(attribute='date')|length-2, 3) %}
         <div class="row">
             <div class="col-xs-6 col-sm-4 col-md-4">
                  {% if feed.articles[number].readed %}<h3>{% else %}<h1>{% endif %}
