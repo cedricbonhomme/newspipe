@@ -6,17 +6,25 @@
             <div class="col-md-6 col-md-offset-3"><h1>{{ feed.title }}</h1></div>
         </div>
     {% for number in range(0, feed.articles[:10]|length-2, 3) %}
+
+       
         <div class="row">
             <div class="col-xs-6 col-sm-4 col-md-4">
-                <h2>{{ feed.articles[number].title }}<h2>
+                 {% if feed.articles[number].readed %}<h3>{% else %}<h1>{% endif %}
+                    {{ feed.articles[number].title }}<h2>
+                  {% if feed.articles[number].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number].date }}</h6>
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4">
-                <h2>{{ feed.articles[number+1].title }}<h2>
+                 {% if feed.articles[number+1].readed %}<h3>{% else %}<h1>{% endif %}
+                    {{ feed.articles[number+1].title }}<h2>
+                  {% if feed.articles[number+1].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number+1].date }}</h6>
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4">
-                <h2>{{ feed.articles[number+2].title }}<h2>
+                 {% if feed.articles[number+2].readed %}<h3>{% else %}<h1>{% endif %}
+                    {{ feed.articles[number+2].title }}<h2>
+                  {% if feed.articles[number+2].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number+2].date }}</h6>
             </div>
         </div>

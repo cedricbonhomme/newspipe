@@ -15,7 +15,7 @@ mail = Mail()
 
 @app.route('/')
 def home():
-    feeds = models.Feed.objects()
+    feeds = models.Feed.objects().order_by('title')
     return render_template('home.html', feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
