@@ -50,3 +50,8 @@ def article(article_id=None):
 def articles(feed_id=None):
     feed = models.Feed.objects(id=feed_id).first()
     return render_template('articles.html', feed=feed)
+
+@app.route('/favorites/', methods=['GET'])
+def favorites():
+    feed = models.Feed.objects().fields(articles.like=True)
+    return render_template('favorites.html', feed=feed)
