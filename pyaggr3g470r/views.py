@@ -62,3 +62,8 @@ def favorites():
                 favorites[feed.title].append(article)
 
     return render_template('favorites.html', favorites=favorites)
+
+@app.route('/management/', methods=['GET'])
+def management():
+    nb_article = len(models.Article.objects())
+    return render_template('management.html', nb_article=nb_article)
