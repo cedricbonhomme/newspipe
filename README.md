@@ -7,9 +7,7 @@ pyAggr3g470r
 Presentation
 ------------
 [pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is a news aggregator with a web interface
-based on [CherryPy](http://cherrypy.org/). Articles are stored in a [MongoDB](http://api.mongodb.org/python/current/) base.
-
-A documentation is available [here](https://pyaggr3g470r.readthedocs.org/).
+based on [Flask](http://flask.pocoo.org/). Articles are stored in a [MongoDB](http://api.mongodb.org/python/current/) base.
 
 
 Features
@@ -18,11 +16,10 @@ Features
 * HTTP proxy support;
 * fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
-* export articles to HTML, EPUB, PDF or raw text;
+* export articles to HTML, raw text;
 * favorite articles;
 * language detection;
-* share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks;
-* generation of QR codes with URLs of articles.
+* share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks.
 
 
 Requierements
@@ -34,18 +31,15 @@ Software required
 * [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/) >= 1.9;
 * [Whoosh](https://bitbucket.org/mchaput/whoosh) (article searching);
 * [feedparser](http://code.google.com/p/feedparser/) >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
-* [CherryPy](http://cherrypy.org/) >= 3.2.2 and [Mako](http://www.makotemplates.org/) (for **pyAggr3g470r.py**, the Web interface);
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) >= 4.1.2 (automatically find a feed in a HTML page).
 
-Python 3.3 is recommended (better performances with large collections).
+Python 2.7.
 
 Optional module
 
-These modules are not required but enables more features:
+The module below is not required but enables more features:
 
 * [guess_language](https://bitbucket.org/spirit/guess_language/) and [PyEnchant](http://pypi.python.org/pypi/pyenchant) for the language detection;
-* lxml and Genshi for the generation of EPUB;
-* Pillow (friendly fork of Python Imaging Library) for the generation of QR codes.
 
 
 Backup
