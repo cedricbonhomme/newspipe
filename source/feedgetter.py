@@ -116,7 +116,7 @@ class FeedGetter(object):
 
     def add_into_database(self, feed_link, feed_original=None):
         """
-        Add the articles of the feed 'a_feed' in the SQLite base.
+        Add the articles of the feed 'a_feed' in the database.
         """
         a_feed = feedparser.parse(feed_link, handlers = [self.proxy])
         if a_feed['entries'] == []:

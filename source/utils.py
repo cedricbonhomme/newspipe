@@ -275,7 +275,7 @@ def change_feed_url(old_feed_url, new_feed_url):
 
 def remove_feed(feed_url):
     """
-    Remove a feed from the file feed.lst and from the SQLite base.
+    Remove a feed from the file feed.lst and from the database.
     """
     with opened_w_error(conf.FEED_LIST, "r") as (f, err):
         if err:
