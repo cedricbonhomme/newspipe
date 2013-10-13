@@ -47,7 +47,7 @@ class Article(DynamicDocument):
     like = BooleanField()
     retrieved_date = DateTimeField(required=True, default=datetime.now)
 
-    def __unicode__(self):
+    def __str__(self):
         return 'Article: %s' % self.title
 
 if __name__ == "__main__":

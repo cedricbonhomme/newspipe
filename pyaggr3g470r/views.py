@@ -35,5 +35,11 @@ def feeds():
 
 @app.route('/feed/<feed_id>', methods=['GET'])
 def feed(feed_id=None):
-    feed = models.Watch.objects(id=feed_id).first()
+    feed = models.Article.objects(id=feed_id).first()
     return render_template('feed.html', feed=feed)
+
+@app.route('/article/<article_id>', methods=['GET'])
+def article(article_id=None):
+    article = models.Article.objects(id=article_id).first()
+    print article.content
+    return render_template('article.html', article=article)

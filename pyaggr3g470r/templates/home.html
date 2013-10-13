@@ -11,19 +11,19 @@
         <div class="row">
             <div class="col-xs-6 col-sm-4 col-md-4">
                  {% if feed.articles[number].readed %}<h3>{% else %}<h1>{% endif %}
-                    {{ feed.articles[number].title }}<h2>
+                     <a href="/article/{{ feed.articles[number].id }}">{{ feed.articles[number].title }}</a><h2>
                   {% if feed.articles[number].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number].date }}</h6>
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4">
                  {% if feed.articles[number+1].readed %}<h3>{% else %}<h1>{% endif %}
-                    {{ feed.articles[number+1].title }}<h2>
+                     <a href="/article/{{ feed.articles[number+1].id }}">{{ feed.articles[number+1].title }}</a><h2>
                   {% if feed.articles[number+1].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number+1].date }}</h6>
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4">
                  {% if feed.articles[number+2].readed %}<h3>{% else %}<h1>{% endif %}
-                    {{ feed.articles[number+2].title }}<h2>
+                     <a href="/article/{{ feed.articles[number+2].id }}">{{ feed.articles[number+2].title }}</a><h2>
                   {% if feed.articles[number+2].readed %}</h3>{% else %}</h1>{% endif %}
                 <h6>{{ feed.articles[number+2].date }}</h6>
             </div>

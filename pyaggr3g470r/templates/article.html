@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+            <h1>{{ article.title }}</h1>
+            <h6>{{ article.date }}</h6>
+    </div>
+    <div class="jumbotron">
+            {{ article.content|safe }}
+    </div>
+</div><!-- /.container -->
+{% endblock %}
