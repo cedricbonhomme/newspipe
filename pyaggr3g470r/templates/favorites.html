@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    {% for feed in favorites %}
+            <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+            <h1>{{ feed }}</h1>
+            </div>
+        </div>
+    {% for number in range(0, favorites[feed]|length-2, 3) %}
+        <div class="row">
+            <div class="col-xs-6 col-sm-4 col-md-4">
+                 <h2><a href="/article/{{ favorites[feed][number].id }}">{{ favorites[feed][number].title }}</a><h2>
+                <h6>{{ favorites[feed][number].date }}</h6>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4">
+                  <h2><a href="/article/{{ favorites[feed][number+1].id }}">{{ favorites[feed][number+1].title }}</a><h2>
+                <h6>{{ favorites[feed][number+1].date }}</h6>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4">
+                  <h2><a href="/article/{{ favorites[feed][number+2].id }}">{{ favorites[feed][number+2].title }}</a><h2>
+                <h6>{{ favorites[feed][number+2].date }}</h6>
+            </div>
+        </div>
+    {% endfor %}
+    {% endfor %}
+</div><!-- /.container -->
+{% endblock %}

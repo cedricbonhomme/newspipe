@@ -32,7 +32,7 @@ class Feed(Document):
     articles = ListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
 
-    def __unicode__(self):
+    def __str__(self):
         return 'Feed: %s' % self.title
 
 class Article(Document):

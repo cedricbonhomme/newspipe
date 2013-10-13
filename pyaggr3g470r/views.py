@@ -5,6 +5,8 @@ from flask import render_template, request, flash, session, url_for, redirect
 from wtforms import TextField, PasswordField, SubmitField, validators
 from flask.ext.mail import Message, Mail
 
+from collections import defaultdict
+
 #from forms import ContactForm, SignupForm, SigninForm
 from pyaggr3g470r import app, db
 
@@ -53,5 +55,10 @@ def articles(feed_id=None):
 
 @app.route('/favorites/', methods=['GET'])
 def favorites():
-    feed = models.Feed.objects().fields(articles.like=True)
-    return render_template('favorites.html', feed=feed)
+    favorites = defaultdict(list)
+    for feed in models.Feed.objects():
+        for article in feed.articles:
+            if article.like:
+                favorites[feed.title].append(article)
+
+    return render_template('favorites.html', favorites=favorites)
