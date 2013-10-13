@@ -11,9 +11,8 @@ syntax: glob
 *.swp
 
 
-# CherryPy log files:
+# Log files:
 *.log
 
 
-cfg/pyAggr3g470r.cfg
-var/export/*
+*.cfg

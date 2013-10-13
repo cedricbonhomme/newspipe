@@ -1,0 +1,17 @@
+BeautifulSoup
+requests
+readability-lxml
+docx
+pdfminer
+mongoengine
+elasticsearch
+Flask
+flask-mongoengine
+Flask-DebugToolbar
+Flask-Admin
+Flask-Login
+Flask-Principal
+Flask-WTF
+Flask-Mail
+WTForms
+blinker
