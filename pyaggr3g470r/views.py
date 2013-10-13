@@ -41,5 +41,9 @@ def feed(feed_id=None):
 @app.route('/article/<article_id>', methods=['GET'])
 def article(article_id=None):
     article = models.Article.objects(id=article_id).first()
-    print article.content
     return render_template('article.html', article=article)
+
+@app.route('/articles/<feed_id>', methods=['GET'])
+def articles(feed_id=None):
+    feed = models.Feed.objects(id=feed_id).first()
+    return render_template('articles.html', feed=feed)
