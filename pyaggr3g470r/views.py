@@ -41,6 +41,9 @@ def feed(feed_id=None):
 @app.route('/article/<article_id>', methods=['GET'])
 def article(article_id=None):
     article = models.Article.objects(id=article_id).first()
+    if not article.readed:
+        article.readed = True
+        article.save()
     return render_template('article.html', article=article)
 
 @app.route('/articles/<feed_id>', methods=['GET'])

@@ -24,21 +24,18 @@ class User(Document, UserMixin):
     def __unicode__(self):
         return self.nickname
 
-class Feed(DynamicDocument):
+class Feed(Document):
     title = StringField(required=True)
     link = StringField(required=True)
-    image = StringField(required=True)
     site_link = StringField(required=True)
     mail = BooleanField()
-    #articles = ListField(EmbeddedDocumentField('Article'))
     articles = ListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
 
     def __unicode__(self):
         return 'Feed: %s' % self.title
 
-#class Article(EmbeddedDocument):
-class Article(DynamicDocument):
+class Article(Document):
     date = DateTimeField(required=True)
     link = StringField(required=True)
     title = StringField(required=True)
@@ -61,10 +58,9 @@ if __name__ == "__main__":
     except:
         pass
 
-    import conf
     import mongodb
-    mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
-                        conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
+    mongo = mongodb.Articles("127.0.0.1", 27017, \
+                        "pyaggr3g470r", "***", "")
     feeds = mongo.get_all_feeds()
     for feed in feeds:
         articles = []
@@ -72,7 +68,8 @@ if __name__ == "__main__":
         for article in mongo.get_articles(feed["feed_id"]):
             article1 = Article(date=article["article_date"], link=article["article_link"], \
                        title=article["article_title"], content=article["article_content"], \
-                        readed=article["article_readed"], like=article["article_like"])
+                        readed=article["article_readed"], like=article["article_like"], \
+                        retrieved_date=article["article_date"])
 
             articles.append(article1)
             try:
@@ -82,10 +79,10 @@ if __name__ == "__main__":
                 pass
 
         feed1 = Feed(title=feed["feed_title"], link=feed["feed_link"],
-                 image=feed["feed_image"], site_link=feed["site_link"], mail=feed["mail"],
+                 site_link=feed["site_link"], mail=feed["mail"],
                  articles=articles)
         feed1.save()
 
 
-    for feed in Feed.objects:
-        print(feed.articles[0].title)
+    #for feed in Feed.objects:
+        #print(feed.articles[0].title)
