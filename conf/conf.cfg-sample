@@ -1,17 +1,13 @@
 [database]
-name = tardys
+name = pyaggr3g470r1
 address = 127.0.0.1
 port = 27017
 username = root
 password = root
-[elasticsearch]
-host = 127.0.0.1
-port = 9200
 [crawler]
 user_agent = Mozilla/5.0 (X11; Debian; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/24.0
 thread_time_out = 10.0
 get_time_out = 5.0
-content_type = text/html;application/pdf;application/vnd.oasis.opendocument.text;application/vnd.openxmlformats-officedocument.wordprocessingml.document
 [webserver]
 debug = 1
 host = 0.0.0.0
@@ -20,7 +16,8 @@ username = admin
 password = e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4
 secretkey = 123456790
 [mail]
-host = arthur.tudor.lu
+host =
 port = 25
 ssl = 0
-username = cedric.bonhomme@tudor.lu
+username = 
+password =

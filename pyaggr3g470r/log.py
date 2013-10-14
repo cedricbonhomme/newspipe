@@ -36,7 +36,7 @@ class Log(object):
         """
         import logging
         self.logger = logging.getLogger("pyaggr3g470r")
-        hdlr = logging.FileHandler('pyaggr3g470r/var/pyaggr3g470r.log')
+        hdlr = logging.FileHandler('./var/pyaggr3g470r.log')
         formater = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         hdlr.setFormatter(formater)
         self.logger.addHandler(hdlr)
