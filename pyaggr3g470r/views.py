@@ -59,7 +59,7 @@ def delete(article_id=None):
 @app.route('/articles/<feed_id>', methods=['GET'])
 def articles(feed_id=None):
     feed = models.Feed.objects(id=feed_id).first()
-    #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=False)
+    #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
     #feed.save()
     return render_template('articles.html', feed=feed)
 
