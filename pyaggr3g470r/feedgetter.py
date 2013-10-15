@@ -39,8 +39,8 @@ import conf
 import search
 import utils
 
-import log
-pyaggr3g470r_log = log.Log()
+#import log
+#pyaggr3g470r_log = log.Log()
 
 list_of_threads = []
 
@@ -120,7 +120,7 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                pyaggr3g470r_log.error("Problem when sanitizing the content of the feed: " + feed.link)
+                #pyaggr3g470r_log.error("Problem when sanitizing the content of the feed: " + feed.link)
                 article_title = article.title
 
             try:
@@ -139,7 +139,7 @@ class FeedGetter(object):
                     search.add_to_index([article], feed)
                 except:
                     print("Whoosh error.")
-                    pyaggr3g470r_log.error("Whoosh error.")
+                    #pyaggr3g470r_log.error("Whoosh error.")
                     continue
 
                 if conf.MAIL_ENABLED and feed["mail"]:
