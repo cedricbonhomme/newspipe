@@ -108,8 +108,7 @@ def open_url(url):
             #pyaggr3g470r_log.error(url + " " + e.reason)
         else:
             error = (url, e.reason.errno, e.reason.strerror)
-            #pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + \
-                                    e.reason.strerror)
+            #pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + e.reason.strerror)
         return (False, error)
 
 def generate_qr_code(article):
