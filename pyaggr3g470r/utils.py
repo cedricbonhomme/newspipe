@@ -66,8 +66,8 @@ url_finders = [ \
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+") \
 ]
 
-import log
-pyaggr3g470r_log = log.Log()
+#import log
+#pyaggr3g470r_log = log.Log()
 
 @contextmanager
 def opened_w_error(filename, mode="r"):
@@ -99,17 +99,16 @@ def open_url(url):
         # server couldn't fulfill the request
         error = (url, e.code, \
                         http.server.BaseHTTPRequestHandler.responses[e.code][1])
-        pyaggr3g470r_log.error(url + " " + str(e.code) + " " + \
-                                http.server.BaseHTTPRequestHandler.responses[e.code][1])
+        #pyaggr3g470r_log.error(url + " " + str(e.code) + " " + http.server.BaseHTTPRequestHandler.responses[e.code][1])
         return (False, error)
     except urllib.error.URLError as e:
         # failed to reach the server
         if type(e.reason) == str:
             error = (url, e.reason, e.reason)
-            pyaggr3g470r_log.error(url + " " + e.reason)
+            #pyaggr3g470r_log.error(url + " " + e.reason)
         else:
             error = (url, e.reason.errno, e.reason.strerror)
-            pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + \
+            #pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + \
                                     e.reason.strerror)
         return (False, error)
 
