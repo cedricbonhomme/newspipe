@@ -9,7 +9,6 @@ from flask.ext.mongoengine import MongoEngine
 
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib.mongoengine import ModelView
-#from flask_debugtoolbar import DebugToolbarExtension
 
 import conf
 from models import *
@@ -34,10 +33,6 @@ db.init_app(app)
 
 from views import mail
 mail.init_app(app)
-
-# For Flask-DebugToolbar
-#app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-#toolbar = DebugToolbarExtension(app)
 
 # Administration panel
 admin = Admin(app, name='pyAggr3g470r')
