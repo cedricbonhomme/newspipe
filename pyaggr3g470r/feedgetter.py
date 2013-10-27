@@ -102,7 +102,6 @@ class FeedGetter(object):
 
             exist = models.Article.objects(link=article.link).first()
             if exist != None:
-                print "Already in database"
                 continue
 
             description = ""
