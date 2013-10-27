@@ -18,8 +18,11 @@ mail = Mail()
 @app.route('/')
 def home():
     #feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
-    feeds = models.Feed.objects().fields(slice__articles=[0,9])
-    return render_template('home.html', feeds=feeds)
+    #feeds = models.Feed.objects().fields(slice__articles=[0,9])
+    feeds = models.Feed.objects()
+    for feed in feeds:
+        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+    return render_template('home.html', feeds=feeds.fields(slice__articles=[0,9]))
 
 @app.route('/fetch/', methods=['GET'])
 def fetch():
@@ -60,7 +63,6 @@ def delete(article_id=None):
 def articles(feed_id=None):
     feed = models.Feed.objects(id=feed_id).first()
     feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-    feed.save()
     return render_template('articles.html', feed=feed)
 
 @app.route('/favorites/', methods=['GET'])
