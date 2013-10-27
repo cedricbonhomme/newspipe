@@ -148,7 +148,7 @@ class FeedGetter(object):
                                                             article_title, description)).start()
             """
         feed.articles.extend(articles)
-        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+        #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
         feed.save()
 
 

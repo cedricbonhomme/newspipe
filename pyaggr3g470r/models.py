@@ -78,7 +78,7 @@ if __name__ == "__main__":
     for feed in feeds:
         articles = []
         feed_articles = mongo.get_articles(feed["feed_id"])
-        #feed_articles = sorted(feed_articles, key=lambda t: t['article_date'], reverse=True)
+        feed_articles = sorted(feed_articles, key=lambda t: t['article_date'], reverse=True)
         for article in feed_articles:
             article1 = Article(date=article["article_date"], link=article["article_link"], \
                        title=article["article_title"], content=article["article_content"], \
@@ -86,11 +86,7 @@ if __name__ == "__main__":
                         retrieved_date=article["article_date"])
 
             articles.append(article1)
-            try:
-                article1.save()
-            except:
-                # pas de méthode save() pour un objet EmbeddedDocument.
-                pass
+            article1.save()
 
         sorted(articles, key=lambda t: t.date, reverse=True)
 
@@ -98,7 +94,3 @@ if __name__ == "__main__":
                  site_link=feed["site_link"], mail=feed["mail"],
                  articles=articles)
         feed1.save()
-
-
-    #for feed in Feed.objects:
-        #print(feed.articles[0].title)

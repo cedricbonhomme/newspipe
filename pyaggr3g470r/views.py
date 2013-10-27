@@ -18,11 +18,8 @@ mail = Mail()
 @app.route('/')
 def home():
     #feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
-    #feeds = models.Feed.objects().fields(slice__articles=[0,9])
-    feeds = models.Feed.objects()
-    for feed in feeds:
-        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-    return render_template('home.html', feeds=feeds.fields(slice__articles=[0,9]))
+    feeds = models.Feed.objects().fields(slice__articles=[0,9])
+    return render_template('home.html', feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
 def fetch():
