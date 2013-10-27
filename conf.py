@@ -28,7 +28,6 @@ WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = int(config.get('webserver', 'port'))
 WEBSERVER_USERNAME = config.get('webserver', 'username')
 WEBSERVER_PASSWORD = config.get('webserver', 'password')
-WEBSERVER_SECRETKEY = config.get('webserver', 'secretkey')
 
 MAIL_HOST = config.get('mail', 'host')
 MAIL_PORT = int(config.get('mail', 'port'))

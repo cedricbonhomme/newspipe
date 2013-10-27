@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.debug = True
 
 # Create dummy secrey key so we can use sessions
-app.config['SECRET_KEY'] = conf.WEBSERVER_SECRETKEY
+app.config['SECRET_KEY'] = os.urandom(12)
 
 app.config['MONGODB_SETTINGS'] = {'DB': conf.DATABASE_NAME}
 app.config["MAIL_SERVER"] = conf.MAIL_HOST
