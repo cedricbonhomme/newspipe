@@ -41,22 +41,10 @@ class FeedView(ModelView):
     column_filters = ['title', 'link']
 
     column_searchable_list = ('title', 'link')
-
-    form_ajax_refs = {
-        'tags': {
-            'fields': ('title', 'link')
-        }
-    }
 class ArticleView(ModelView):
     column_filters = ['title', 'link']
 
     column_searchable_list = ('title', 'link')
-
-    form_ajax_refs = {
-        'tags': {
-            'fields': ('title', 'link')
-        }
-    }
 admin.add_view(FeedView(Feed))
 admin.add_view(ArticleView(Article))
 

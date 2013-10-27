@@ -29,7 +29,7 @@ class Feed(Document):
     link = StringField(required=True)
     site_link = StringField(required=True)
     mail = BooleanField()
-    articles = SortedListField(ReferenceField('Article', dbref = False))
+    articles = ListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
 
     meta = {
