@@ -18,7 +18,7 @@ mail = Mail()
 @app.route('/')
 def home():
     #feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
-    feeds = models.Feed.objects().fields(slice__articles=[0,9])
+    feeds = models.Feed.objects().fields(slice__articles=9)
     return render_template('home.html', feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
@@ -71,6 +71,12 @@ def favorites():
                 favorites[feed.title].append(article)
 
     return render_template('favorites.html', favorites=favorites)
+
+@app.route('/unread/', methods=['GET'])
+def unread():
+    feeds = models.Feed.objects().filter()
+
+    return render_template('unread.html', favorites=favorites)
 
 @app.route('/management/', methods=['GET'])
 def management():
