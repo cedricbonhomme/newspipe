@@ -2,8 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-            <h2>{{ article.title }}</h2>
-            <h4>{{ article.link }}</h4>
+            <h2><a href="{{ article.link  }}">{{ article.title }}</a></h2>
             <h6>{{ article.date }}</h6>
             <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove"></i></a>
     </div>
