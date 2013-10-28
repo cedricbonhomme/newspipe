@@ -3,6 +3,7 @@
 <div class="container">
     <div class="jumbotron">
         <h2>{{ feed.title }}</h2>
+        <h3>{{ feed.articles|length  }} articles.</h3>
     </div>
     {% for number in range(0, feed.articles|length-2, 3) %}
         <div class="row">
