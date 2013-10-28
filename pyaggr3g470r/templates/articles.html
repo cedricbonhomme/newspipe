@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    <div class="jumbotron">
+        <h2>{{ feed.title }}</h2>
+    </div>
     {% for number in range(0, feed.articles|length-2, 3) %}
         <div class="row">
             {% for n in range(number, number+3) %}
