@@ -74,9 +74,9 @@ def favorites():
 
 @app.route('/unread/', methods=['GET'])
 def unread():
-    feeds = models.Feed.objects().filter()
-
-    return render_template('unread.html', favorites=favorites)
+    feeds = models.Feed.objects().filter(articles__readed=False)
+    print len(feeds)
+    return render_template('unread.html', feeds=feeds)
 
 @app.route('/management/', methods=['GET'])
 def management():
