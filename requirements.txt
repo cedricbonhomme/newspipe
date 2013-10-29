@@ -1,3 +1,5 @@
+feedparser
+whoosh
 BeautifulSoup
 mongoengine
 Flask
