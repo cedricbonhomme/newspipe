@@ -12,7 +12,11 @@ class User(Document, UserMixin):
     lastname = StringField(required = True)
     email = EmailField(required=True, unique=True)
     pwdhash = StringField(required=True)
+    #feeds = ListField(DocumentField('Article'))
     created_at = DateTimeField(required=True, default=datetime.now)
+
+    def get_id(self):
+        return self.email
 
     def set_password(self, password):
         self.pwdhash = generate_password_hash(password)
@@ -22,7 +26,7 @@ class User(Document, UserMixin):
 
     #required for administrative interface
     def __unicode__(self):
-        return self.nickname
+        return self.email
 
 class Feed(Document):
     title = StringField(required=True)

@@ -38,12 +38,15 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/fetch">Fetch</a></li>
-            <li><a href="/management/">Management</a></li>
-            <li><a href="#services">History</a></li>
-            <li><a href="/favorites/">Favorites</a></li>
-            <li><a href="/unread/">Unread</a></li>
-            <li><a href="/about/">About</a></li>
+            {% if g.user.is_authenticated() %}
+                <li><a href="/fetch">Fetch</a></li>
+                <li><a href="/management/">Management</a></li>
+                <li><a href="#services">History</a></li>
+                <li><a href="/favorites/">Favorites</a></li>
+                <li><a href="/unread/">Unread</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
