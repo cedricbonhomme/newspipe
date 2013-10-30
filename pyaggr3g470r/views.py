@@ -75,10 +75,13 @@ def favorites():
 @app.route('/unread/', methods=['GET'])
 def unread():
     feeds = models.Feed.objects().filter(articles__readed=False)
+    
+    unread_articles = models.Article.objects.filter(readed = False)
+    
     print len(feeds)
     return render_template('unread.html', feeds=feeds)
 
 @app.route('/management/', methods=['GET'])
 def management():
-    nb_article = len(models.Article.objects())
+    nb_article = models.Article.objects().count()
     return render_template('management.html', nb_article=nb_article)
