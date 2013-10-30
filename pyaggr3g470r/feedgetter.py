@@ -44,18 +44,6 @@ import utils
 
 list_of_threads = []
 
-@contextmanager
-def opened_w_error(filename, mode="r"):
-    try:
-        f = open(filename, mode)
-    except IOError as err:
-        yield None, err
-    else:
-        try:
-            yield f, None
-        finally:
-            f.close()
-
 class FeedGetter(object):
     """
     This class is in charge of retrieving feeds listed in ./var/feed.lst.
@@ -148,7 +136,7 @@ class FeedGetter(object):
                                                             article_title, description)).start()
             """
         feed.articles.extend(articles)
-        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+        #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
         feed.save()
 
 
