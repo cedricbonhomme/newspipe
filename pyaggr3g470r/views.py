@@ -140,10 +140,13 @@ def favorites():
 @app.route('/unread/', methods=['GET'])
 @login_required
 def unread():
-    feeds = models.Feed.objects().filter(articles__readed=False)
-    unread_articles = models.Article.objects.filter(readed = False)
-    print len(feeds)
-    return render_template('unread.html', feeds=feeds)
+    feeds = models.Feed.objects()
+    result = []
+    for feed in feeds:
+        feed.articles = [article for article in feed.articles if not article.readed]
+        if len(feed.articles) != 0:
+            result.append(feed)
+    return render_template('unread.html', feeds=result)
 
 @app.route('/management/', methods=['GET'])
 @login_required
