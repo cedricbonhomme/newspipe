@@ -99,7 +99,7 @@ def feeds():
 @app.route('/feed/<feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
-    feed = models.Article.objects(id=feed_id).first()
+    feed = models.Feed.objects(id=feed_id).first()
     return render_template('feed.html', feed=feed)
 
 @app.route('/article/<article_id>', methods=['GET'])

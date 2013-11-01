@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>{{ feed.title }}</h1>
+        <p>This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.id }}">articles</a>.</p>
+        <p>Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a>.</p>
+        <p>Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>.</p>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
