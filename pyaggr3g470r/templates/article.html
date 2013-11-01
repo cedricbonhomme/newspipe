@@ -2,9 +2,9 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-            <h2><a href="{{ article.link  }}">{{ article.title }}</a></h2>
-            <h6>{{ article.date }}</h6>
-            <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove"></i></a>
+        <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove"></i></a>
+        <h2><a href="{{ article.link  }}">{{ article.title }}</a></h2>
+        <h6>{{ article.date }}</h6>
     </div>
     <div class="jumbotron">
             {{ article.content|safe }}
