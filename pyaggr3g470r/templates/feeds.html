@@ -11,6 +11,7 @@
                     <th>Title</th>
                     <th>Site</th>
                     <th>Articles</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,7 @@
                     <td><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
                     <td>{{ feed.articles|count }}</td>
+                    <td><a href="/delete_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a></td>
             </tr>
             {% endfor %}
             </tbody>
