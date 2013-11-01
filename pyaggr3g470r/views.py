@@ -116,10 +116,30 @@ def article(article_id=None):
 @app.route('/delete/<article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
-    article = models.Article.objects(id=article_id).first()
-    article.delete()
-    article.save()
-    return redirect(url_for('home'))
+    user = models.User.objects(email=g.user.email).first()
+    # delete the article
+    for feed in user.feeds:
+        for article in feed.articles:
+            if str(article.id) == article_id:
+                feed.articles.remove(article)
+                article.delete()
+                user.save()
+                return redirect(url_for('home'))
+
+@app.route('/delete_feed/<feed_id>', methods=['GET'])
+@login_required
+def delete_feed(feed_id=None):
+    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    # delete all articles (Document objects)
+    for feed in user.feeds:
+        if str(feed.oid) == feed_id:
+            for article in feed.articles:
+                article.delete()
+            feed.articles = []
+            # delete the feed (EmbeddedDocument object)
+            models.User.objects(email=g.user.email, feeds__oid=feed_id).update_one(pull__feeds__oid = feed_id)
+            user.save()
+            return redirect(url_for('home'))
 
 @app.route('/articles/<feed_id>', methods=['GET'])
 @login_required

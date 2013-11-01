@@ -77,18 +77,6 @@ if __name__ == "__main__":
     user1 = User(firstname="Cédric", lastname="Bonhomme", \
                 email="kimble.mandel@gmail.com", pwdhash=generate_password_hash("admin"))
     user1.save()
-    user2 = User(firstname="Carole", lastname="Niesel", \
-                email="carole.niesel@gmail.com", pwdhash=generate_password_hash("secret"))
-    user2.save()
-
-    user2 = User.objects(email="carole.niesel@gmail.com").first()
-    feed1user2 =  Feed(title='Zaubette - une maitresse qui ouvre son cartable', \
-                       link='http://zaubette.eklablog.com/rss/', \
-                       site_link='http://zaubette.eklablog.com/', \
-                       mail = False)
-    user2.feeds.append(feed1user2)
-    user2.save()
-
 
     import mongodb
     mongo = mongodb.Articles("127.0.0.1", 27017, \
