@@ -51,7 +51,7 @@ class ArticleView(ModelView):
     column_searchable_list = ('title', 'link')
 admin.add_view(FeedView(Feed))
 admin.add_view(ArticleView(Article))
-admin.add_view(UserView(User))
+#admin.add_view(UserView(User))
 
 
 from pyaggr3g470r import views

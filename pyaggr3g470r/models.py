@@ -7,12 +7,14 @@ from datetime import datetime
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
+import bson.objectid
+
 class User(Document, UserMixin):
     firstname  = StringField(required=True)
     lastname = StringField(required = True)
     email = EmailField(required=True, unique=True)
     pwdhash = StringField(required=True)
-    #feeds = ListField(DocumentField('Article'))
+    feeds = ListField(EmbeddedDocumentField('Feed'))
     created_at = DateTimeField(required=True, default=datetime.now)
 
     def get_id(self):
@@ -28,7 +30,8 @@ class User(Document, UserMixin):
     def __unicode__(self):
         return self.email
 
-class Feed(Document):
+class Feed(EmbeddedDocument):
+    oid = ObjectIdField(default=bson.objectid.ObjectId , primary_key=True)
     title = StringField(required=True)
     link = StringField(required=True)
     site_link = StringField(required=True)
@@ -68,12 +71,12 @@ if __name__ == "__main__":
     db = connect('pyaggr3g470r1')
     db.drop_database('pyaggr3g470r1')
 
-    Feed.drop_collection()
-    try:
-        Article.drop_collection()
-        # pas de méthode save() pour un objet EmbeddedDocument.
-    except:
-        pass
+
+    from werkzeug import generate_password_hash
+    password = generate_password_hash("admin")
+    user1 = User(firstname="Cédric", lastname="Bonhomme", \
+                email="kimble.mandel@gmail.com", pwdhash=password)
+
 
     import mongodb
     mongo = mongodb.Articles("127.0.0.1", 27017, \
@@ -97,4 +100,6 @@ if __name__ == "__main__":
         feed1 = Feed(title=feed["feed_title"], link=feed["feed_link"],
                  site_link=feed["site_link"], mail=feed["mail"],
                  articles=articles)
-        feed1.save()
+        #feed1.save()
+        user1.feeds.append(feed1)
+        user1.save()

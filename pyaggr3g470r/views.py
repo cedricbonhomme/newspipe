@@ -73,9 +73,9 @@ def logout():
 @app.route('/')
 @login_required
 def home():
-    #feeds = models.Feed.objects().order_by('title').fields(slice__articles=[0,9])
     user = g.user
-    feeds = models.Feed.objects().fields(slice__articles=9)
+    #feeds = models.User.objects(email=g.user.email).order_by('title').fields(slice__feeds__articles=9).first().feeds
+    feeds = models.User.objects(email=g.user.email).fields(slice__feeds__articles=9).first().feeds
     return render_template('home.html', user=user, feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
@@ -93,18 +93,21 @@ def about():
 @app.route('/feeds/', methods=['GET'])
 @login_required
 def feeds():
-    feeds = models.Feed.objects()
+    feeds = models.User.objects(email=g.user.email).first().feeds
     return render_template('feeds.html', feeds=feeds)
 
 @app.route('/feed/<feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
-    feed = models.Feed.objects(id=feed_id).first()
-    return render_template('feed.html', feed=feed)
+    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    for feed in user.feeds:
+        if str(feed.oid) == feed_id:
+            return render_template('feed.html', feed=feed)
 
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required
 def article(article_id=None):
+    #user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     article = models.Article.objects(id=article_id).first()
     if not article.readed:
         article.readed = True
@@ -122,9 +125,11 @@ def delete(article_id=None):
 @app.route('/articles/<feed_id>', methods=['GET'])
 @login_required
 def articles(feed_id=None):
-    feed = models.Feed.objects(id=feed_id).first()
-    #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-    return render_template('articles.html', feed=feed)
+    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    for feed in user.feeds:
+        if str(feed.oid) == feed_id:
+            #feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+            return render_template('articles.html', feed=feed)
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
@@ -140,9 +145,9 @@ def favorites():
 @app.route('/unread/', methods=['GET'])
 @login_required
 def unread():
-    feeds = models.Feed.objects()
+    user = models.User.objects(email=g.user.email).first()
     result = []
-    for feed in feeds:
+    for feed in user.feeds:
         feed.articles = [article for article in feed.articles if not article.readed]
         if len(feed.articles) != 0:
             result.append(feed)
@@ -151,7 +156,8 @@ def unread():
 @app.route('/management/', methods=['GET'])
 @login_required
 def management():
-    nb_feeds = models.Feed.objects().count()
-    nb_articles = models.Article.objects().count()
-    nb_unread_articles = models.Article.objects(readed=False).count()
+    user = models.User.objects(email=g.user.email).first()
+    nb_feeds = len(user.feeds)
+    nb_articles = sum([len(feed) for feed in user.feeds])
+    nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
     return render_template('management.html', nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)

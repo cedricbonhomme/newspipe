@@ -4,7 +4,7 @@
     <h1>You are subscribed to the following feeds</h1>
     <ul>
     {% for feed in feeds %}
-        <li><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></li>
+        <li><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></li>
     {% endfor %}
     </ul>
 </div><!-- /.container -->
