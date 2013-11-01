@@ -2,10 +2,29 @@
 {% block content %}
 <div class="container">
     <h1>You are subscribed to the following feeds</h1>
-    <ul>
-    {% for feed in feeds %}
-        <li><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></li>
-    {% endfor %}
-    </ul>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Site</th>
+                    <th>Articles</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for feed in feeds %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></td>
+                    <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
+                    <td>{{ feed.articles|count }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div><!-- /.container -->
 {% endblock %}
