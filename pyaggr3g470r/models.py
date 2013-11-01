@@ -14,7 +14,7 @@ class User(Document, UserMixin):
     lastname = StringField(required = True)
     email = EmailField(required=True, unique=True)
     pwdhash = StringField(required=True)
-    feeds = SortedListField(EmbeddedDocumentField('Feed'), ordering='title', reverse=False)
+    feeds = ListField(EmbeddedDocumentField('Feed'))
     created_at = DateTimeField(required=True, default=datetime.now)
 
     def get_id(self):

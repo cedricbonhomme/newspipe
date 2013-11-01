@@ -175,6 +175,7 @@ def add_feed():
         new_feed = models.Feed(title=form.title.data, link=form.link.data, site_link=form.site_link.data)
 
         user.feeds.append(new_feed)
+        user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
         user.save()
         return redirect(url_for('home'))
     return render_template('management.html', form=form)
