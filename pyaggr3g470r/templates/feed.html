@@ -2,8 +2,8 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        <h1>{{ feed.title }}</h1>
-        <a href="/delete_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-remove"></i></a>
+        <h2>{{ feed.title }}</h2>
+        <a href="/delete_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
         <p>This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.id }}">articles</a>.</p>
         <p>Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a>.</p>
         <p>Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>.</p>
