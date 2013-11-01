@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>You are subscribed to the following feeds</h1>
+    <ul>
+    {% for feed in feeds %}
+        <li><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></li>
+    {% endfor %}
+    </ul>
+</div><!-- /.container -->
+{% endblock %}
