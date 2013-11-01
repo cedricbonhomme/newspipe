@@ -151,5 +151,7 @@ def unread():
 @app.route('/management/', methods=['GET'])
 @login_required
 def management():
-    nb_article = models.Article.objects().count()
-    return render_template('management.html', nb_article=nb_article)
+    nb_feeds = models.Feed.objects().count()
+    nb_articles = models.Article.objects().count()
+    nb_unread_articles = models.Article.objects(readed=False).count()
+    return render_template('management.html', nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)

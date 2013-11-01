@@ -3,12 +3,12 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Subscriptions</h1>
-        
+        <p>You are subscribed to {{ nb_feeds }} <a href="/feeds">feeds</a>.</p>
     </div>
 
     <div class="jumbotron">
         <h1>Database</h1>
-        <p>{{ nb_article }} articles are stored in the database.</p>
+        <p>{{ nb_articles }} articles are stored in the database with {{ nb_unread_articles }} <a href="/unread/">unread articles</a>.</p>
     </div>
 </div><!-- /.container -->
 {% endblock %}
