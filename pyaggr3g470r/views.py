@@ -8,7 +8,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, login_require
 
 from collections import defaultdict
 
-from forms import SigninForm
+from forms import SigninForm, AddFeedForm
 from pyaggr3g470r import app, db
 
 
@@ -74,14 +74,13 @@ def logout():
 @login_required
 def home():
     user = g.user
-    #feeds = models.User.objects(email=g.user.email).order_by('title').fields(slice__feeds__articles=9).first().feeds
     feeds = models.User.objects(email=g.user.email).fields(slice__feeds__articles=9).first().feeds
     return render_template('home.html', user=user, feeds=feeds)
 
 @app.route('/fetch/', methods=['GET'])
 @login_required
 def fetch():
-    feed_getter = feedgetter.FeedGetter()
+    feed_getter = feedgetter.FeedGetter(g.user.email)
     feed_getter.retrieve_feed()
     return redirect(url_for('home'))
 
@@ -156,8 +155,26 @@ def unread():
 @app.route('/management/', methods=['GET'])
 @login_required
 def management():
+    form = AddFeedForm()
     user = models.User.objects(email=g.user.email).first()
     nb_feeds = len(user.feeds)
-    nb_articles = sum([len(feed) for feed in user.feeds])
+    nb_articles = sum([len(feed.articles) for feed in user.feeds])
     nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
-    return render_template('management.html', nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
+    return render_template('management.html', form=form, \
+                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
+
+@app.route('/add_feed/', methods=['GET', 'POST'])
+@login_required
+def add_feed():
+    user = models.User.objects(email=g.user.email).first()
+    form = AddFeedForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('management.html', form=form)
+        new_feed = models.Feed(title=form.title.data, link=form.link.data, site_link=form.site_link.data)
+
+        user.feeds.append(new_feed)
+        user.save()
+        return redirect(url_for('home'))
+    return render_template('management.html', form=form)

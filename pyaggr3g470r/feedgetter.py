@@ -50,23 +50,23 @@ class FeedGetter(object):
     This class uses feedparser module from Mark Pilgrim.
     For each feed a new thread is launched.
     """
-    def __init__(self):
+    def __init__(self, email):
         """
         Initializes the database connection.
         """
         #feedparser.USER_AGENT = conf.USER_AGENT
         feedparser.USER_AGENT = "pyAggr3g470r"
+        self.user = models.User.objects(email=email).first()
 
     def retrieve_feed(self):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        feeds = models.Feed.objects()
-        for feed in feeds:
+        for feed in self.user.feeds:
             try:
                 # launch a new thread for the RSS feed
                 thread = threading.Thread(None, self.process, \
-                                           None, (feed,))
+                                           None, (feed, ))
                 thread.start()
                 list_of_threads.append(thread)
             except:
@@ -88,8 +88,7 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            exist = models.Article.objects(link=article.link).first()
-            if exist != None:
+            if article.link in [farticle.link for farticle in feed.articles]:
                 continue
 
             description = ""
@@ -137,7 +136,8 @@ class FeedGetter(object):
             """
         feed.articles.extend(articles)
         feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-        feed.save()
+        #feed.save()
+        self.user.save()
 
 
 if __name__ == "__main__":

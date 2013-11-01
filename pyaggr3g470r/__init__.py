@@ -5,7 +5,6 @@ import os
 
 from flask import Flask, session, g
 from flask.ext.mongoengine import MongoEngine
-from flask.ext.login import LoginManager, AnonymousUserMixin
 
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib.mongoengine import ModelView
@@ -38,9 +37,11 @@ mail.init_app(app)
 admin = Admin(app, name='pyAggr3g470r')
 # Add administrative views here
 class UserView(ModelView):
-    column_filters = ['firstname', 'lastname']
-
-    column_searchable_list = ('firstname', 'lastname')
+    form_subdocuments = {
+        'feeds': {
+            'form_columns': ('title', 'link')
+        }
+    }
 class FeedView(ModelView):
     column_filters = ['title', 'link']
 
@@ -49,9 +50,9 @@ class ArticleView(ModelView):
     column_filters = ['title', 'link']
 
     column_searchable_list = ('title', 'link')
+#admin.add_view(UserView(User))
 admin.add_view(FeedView(Feed))
 admin.add_view(ArticleView(Article))
-#admin.add_view(UserView(User))
 
 
 from pyaggr3g470r import views

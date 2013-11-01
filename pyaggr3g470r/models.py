@@ -14,7 +14,7 @@ class User(Document, UserMixin):
     lastname = StringField(required = True)
     email = EmailField(required=True, unique=True)
     pwdhash = StringField(required=True)
-    feeds = ListField(EmbeddedDocumentField('Feed'))
+    feeds = SortedListField(EmbeddedDocumentField('Feed'), ordering='title', reverse=True)
     created_at = DateTimeField(required=True, default=datetime.now)
 
     def get_id(self):
@@ -35,7 +35,7 @@ class Feed(EmbeddedDocument):
     title = StringField(required=True)
     link = StringField(required=True)
     site_link = StringField(required=True)
-    mail = BooleanField()
+    mail = BooleanField(default=False)
     articles = ListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
 
@@ -75,7 +75,19 @@ if __name__ == "__main__":
     from werkzeug import generate_password_hash
     password = generate_password_hash("admin")
     user1 = User(firstname="Cédric", lastname="Bonhomme", \
-                email="kimble.mandel@gmail.com", pwdhash=password)
+                email="kimble.mandel@gmail.com", pwdhash=generate_password_hash("admin"))
+    user1.save()
+    user2 = User(firstname="Carole", lastname="Niesel", \
+                email="carole.niesel@gmail.com", pwdhash=generate_password_hash("secret"))
+    user2.save()
+
+    user2 = User.objects(email="carole.niesel@gmail.com").first()
+    feed1user2 =  Feed(title='Zaubette - une maitresse qui ouvre son cartable', \
+                       link='http://zaubette.eklablog.com/rss/', \
+                       site_link='http://zaubette.eklablog.com/', \
+                       mail = False)
+    user2.feeds.append(feed1user2)
+    user2.save()
 
 
     import mongodb

@@ -24,3 +24,17 @@ class SigninForm(Form):
         else:
             self.email.errors.append("Invalid e-mail or password")
             return False
+
+class AddFeedForm(Form):
+    title = TextField("Title", [validators.Required("Please enter a title.")])
+    link = TextField("Feed link", [validators.Required("Please enter a link.")])
+    site_link = TextField("Site link", [validators.Required("Please enter a site URL.")])
+    submit = SubmitField("Add feed")
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        return True
