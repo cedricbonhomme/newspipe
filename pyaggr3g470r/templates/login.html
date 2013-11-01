@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
-
 {% block content %}
-<div align="center">
-  <h2>Log In</h2>
+<div class="container">
+    <div class="jumbotron">
+        <h2>Log In</h2>
 
-  {% for message in form.email.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+        {% for message in form.email.errors %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
 
-  {% for message in form.password.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+        {% for message in form.password.errors %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
 
-  <form action="{{ url_for('login') }}" method=post>
-    {{ form.hidden_tag() }}
+        <form action="{{ url_for('login') }}" method=post>
+            {{ form.hidden_tag() }}
 
-    {{ form.email.label }}
-    {{ form.email }}
-    <br />
-    {{ form.password.label }}
-    {{ form.password }}
+            <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class_="form-control", placeholder="Your email") }}
+            </div>
 
-    <br />
-    {{ form.submit(class_="btn") }}
-  </form>
-</div>
+            <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class_="form-control", placeholder="Your Password") }}
+            </div>
 
+            {{ form.submit(class_="btn") }}
+        </form>
+    </div>
+</div><!-- /.container -->
 {% endblock %}
