@@ -33,7 +33,7 @@ class User(Document, UserMixin):
 class Feed(EmbeddedDocument):
     oid = ObjectIdField(default=bson.objectid.ObjectId , primary_key=True)
     title = StringField(required=True)
-    link = StringField(required=True)
+    link = StringField(required=True, unique=True)
     site_link = StringField(required=True)
     mail = BooleanField(default=False)
     articles = ListField(ReferenceField('Article', dbref = False))
