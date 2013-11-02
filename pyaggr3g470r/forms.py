@@ -9,7 +9,7 @@ import models
 class SigninForm(Form):
     email = TextField("Email", [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
     password = PasswordField('Password', [validators.Required("Please enter a password.")])
-    submit = SubmitField("Sign In")
+    submit = SubmitField("Log In")
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
