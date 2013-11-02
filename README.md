@@ -18,7 +18,6 @@ Features
 * e-mail notification;
 * export articles to HTML, raw text;
 * favorite articles;
-* language detection;
 * share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks.
 
 
@@ -27,19 +26,15 @@ Requierements
 
 Software required
 
-* [Python](http://python.org/) >= 3.1;
-* [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/) >= 1.9;
+* [Python](http://python.org/);
+* [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/);
 * [Whoosh](https://bitbucket.org/mchaput/whoosh) (article searching);
-* [feedparser](http://code.google.com/p/feedparser/) >= 5.1.2 (for **feedgetter.py**, the RSS feed parser);
-* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) >= 4.1.2 (automatically find a feed in a HTML page).
+* [feedparser](http://code.google.com/p/feedparser/);
+* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
 
-Python 2.7.
+Python >= 2.7.
 
 Optional module
-
-The module below is not required but enables more features:
-
-* [guess_language](https://bitbucket.org/spirit/guess_language/) and [PyEnchant](http://pypi.python.org/pypi/pyenchant) for the language detection;
 
 
 Backup
