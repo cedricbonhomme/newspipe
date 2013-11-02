@@ -129,7 +129,7 @@ def delete(article_id=None):
 @app.route('/delete_feed/<feed_id>', methods=['GET'])
 @login_required
 def delete_feed(feed_id=None):
-    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    user = models.User.objects(email=g.user.email).first()
     # delete all articles (Document objects)
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
@@ -137,7 +137,7 @@ def delete_feed(feed_id=None):
                 article.delete()
             feed.articles = []
             # delete the feed (EmbeddedDocument object)
-            models.User.objects(email=g.user.email, feeds__oid=feed_id).update_one(pull__feeds__oid = feed_id)
+            user.feeds.remove(feed)
             user.save()
             return redirect(url_for('home'))
 

@@ -43,6 +43,10 @@ class Feed(EmbeddedDocument):
         'ordering': ['+title']
     }
 
+    def __eq__(self, other):
+        return self.title == other.title
+
+
     def __str__(self):
         return 'Feed: %s' % self.title
 
