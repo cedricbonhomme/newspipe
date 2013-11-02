@@ -147,7 +147,7 @@ def articles(feed_id=None):
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
-            return render_template('articles.html', feed=user.feeds)
+            return render_template('articles.html', feed=feed)
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
