@@ -44,8 +44,7 @@ class Feed(EmbeddedDocument):
     }
 
     def __eq__(self, other):
-        return self.title == other.title
-
+        return self.oid == other.oid
 
     def __str__(self):
         return 'Feed: %s' % self.title
