@@ -147,18 +147,18 @@ def articles(feed_id=None):
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
-    return render_template('articles.html', feed=user.feeds[0])
+            return render_template('articles.html', feed=user.feeds)
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
 def favorites():
-    favorites = defaultdict(list)
-    for feed in models.Feed.objects():
-        for article in feed.articles:
-            if article.like:
-                favorites[feed.title].append(article)
-
-    return render_template('favorites.html', favorites=favorites)
+    user = models.User.objects(email=g.user.email).first()
+    result = []
+    for feed in user.feeds:
+        feed.articles = [article for article in feed.articles if article.like]
+        if len(feed.articles) != 0:
+            result.append(feed)
+    return render_template('favorites.html', feeds=result)
 
 @app.route('/unread/', methods=['GET'])
 @login_required
