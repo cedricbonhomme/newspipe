@@ -6,7 +6,6 @@ Flask
 flask-mongoengine
 Flask-Admin
 Flask-Login
-Flask-Principal
 Flask-WTF
 Flask-Mail
 WTForms
