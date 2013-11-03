@@ -24,17 +24,11 @@ Features
 Requierements
 -------------
 
-Software required
-
-* [Python](http://python.org/);
-* [MongoDB](http://www.mongodb.org/) and [PyMongo](http://api.mongodb.org/python/current/);
-* [Whoosh](https://bitbucket.org/mchaput/whoosh) (article searching);
-* [feedparser](http://code.google.com/p/feedparser/);
-* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
-
 Python >= 2.7.
 
-Optional module
+To install the required libraries:
+
+    $ sudo pip install --upgrade -r requirements.txt
 
 
 Backup
