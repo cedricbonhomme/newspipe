@@ -88,7 +88,7 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            if article.link in [farticle.link for farticle in feed.articles]:
+            if article.link in feed.articles:
                 continue
 
             description = ""

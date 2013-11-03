@@ -66,6 +66,9 @@ class Article(Document):
         ]
     }
 
+    def __eq__(self, other):
+        return self.link == other
+
     def __str__(self):
         return 'Article: %s' % self.title
 
