@@ -18,15 +18,13 @@ Features
 * e-mail notification;
 * export articles to HTML, raw text;
 * favorite articles;
-* share articles with Diaspora, Google +, Pinboard, Identi.ca, Digg, reddit, Scoopeo, and Blogmarks.
+* share articles with Google +, Pinboard, Identi.ca, Digg and reddit.
 
 
 Requierements
 -------------
 
-Python >= 2.7.
-
-To install the required libraries:
+Python >= 2.7. To install the required libraries:
 
     $ sudo pip install --upgrade -r requirements.txt
 
