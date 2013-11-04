@@ -113,6 +113,13 @@ def article(article_id=None):
         article.save()
     return render_template('article.html', article=article)
 
+@app.route('/mark_as_read/', methods=['GET'])
+@login_required
+def mark_as_read():
+    #user = models.User.objects(email=g.user.email).first()
+    models.Article.objects(readed=False).update(set__readed=True)
+    return redirect(url_for('home'))
+
 @app.route('/delete/<article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
