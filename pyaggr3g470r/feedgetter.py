@@ -88,7 +88,7 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            if models.Article.objects(link=article.link).first() == None:
+            if models.Article.objects(link=article.link).first() != None:
                 continue
 
             description = ""
