@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     {% if feeds|count == 0  %}
-        <p>No unread articles.</p>
+        <h1>No unread articles.</h1>
     {% else %}
         {% for feed in feeds %}
             <div class="row">
@@ -36,6 +36,6 @@
                 </div>
             {% endif %}
         {% endfor %}
-    {% endif}
+    {% endif %}
 </div><!-- /.container -->
 {% endblock %}
