@@ -2,24 +2,6 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        <h1>Add a feed</h1>
-        <form action="/add_feed/" method="post" name="save">
-            {{ form.hidden_tag() }}
-
-            {{ form.title.label }}
-            {{ form.title(class_="form-control") }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
-
-            {{ form.link.label }}
-            {{ form.link(class_="form-control") }} {% for error in form.link.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
-
-            {{ form.site_link.label }}
-            {{ form.site_link(class_="form-control") }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
-
-            {{ form.submit(class_="btn") }}
-        </form>
-    </div>
-
-    <div class="jumbotron">
         <h1>Your subscriptions</h1>
         <p>You are subscribed to {{ nb_feeds }} <a href="/feeds">feeds</a>.</p>
         <p>{{ nb_articles }} articles are stored in the database with {{ nb_unread_articles }} <a href="/unread/">unread articles</a>.</p>

@@ -54,7 +54,7 @@ class AddFeedForm(Form):
     title = TextField("Title", [validators.Required("Please enter a title.")])
     link = TextField("Feed link", [validators.Required("Please enter a link.")])
     site_link = TextField("Site link", [validators.Required("Please enter a site URL.")])
-    submit = SubmitField("Add feed")
+    submit = SubmitField("Save")
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

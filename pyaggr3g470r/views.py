@@ -159,21 +159,6 @@ def delete(article_id=None):
                 user.save()
                 return redirect(url_for('home'))
 
-@app.route('/delete_feed/<feed_id>', methods=['GET'])
-@login_required
-def delete_feed(feed_id=None):
-    user = models.User.objects(email=g.user.email).first()
-    # delete all articles (Document objects)
-    for feed in user.feeds:
-        if str(feed.oid) == feed_id:
-            for article in feed.articles:
-                article.delete()
-            feed.articles = []
-            # delete the feed (EmbeddedDocument object)
-            user.feeds.remove(feed)
-            user.save()
-            return redirect(url_for('home'))
-
 @app.route('/articles/<feed_id>', methods=['GET'])
 @login_required
 def articles(feed_id=None):
@@ -215,19 +200,56 @@ def management():
     return render_template('management.html', form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
 
-@app.route('/add_feed/', methods=['GET', 'POST'])
+@app.route('/edit_feed/', methods=['GET', 'POST'])
+@app.route('/edit_feed/<feed_id>', methods=['GET', 'POST'])
 @login_required
-def add_feed():
+def edit_feed(feed_id=None):
+    """
+    Add or edit a feed.
+    """
     user = models.User.objects(email=g.user.email).first()
     form = AddFeedForm()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('management.html', form=form)
-        new_feed = models.Feed(title=form.title.data, link=form.link.data, site_link=form.site_link.data)
+            return render_template('edit_feed.html', form=form)
+        if feed_id != None:
+            # Edit an existing feed
+            for feed in user.feeds:
+                if str(feed.oid) == feed_id:
+                    form.populate_obj(feed)
+                    user.save()
+                    flash('Feed "' + feed.title + '" successfully updated', 'success')
+                    return redirect('/feed/'+feed_id)
+        else:
+            # Create a new feed
+            new_feed = models.Feed(title=form.title.data, link=form.link.data, site_link=form.site_link.data)
+            user.feeds.append(new_feed)
+            user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
+            user.save()
+            return redirect(url_for('home'))
 
-        user.feeds.append(new_feed)
-        user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-        user.save()
-        return redirect(url_for('home'))
-    return render_template('management.html', form=form)
+    if request.method == 'GET':
+        if feed_id != None:
+            for feed in user.feeds:
+                if str(feed.oid) == feed_id:
+                    form = AddFeedForm(obj=feed)
+                    return render_template('edit_feed.html', action="Edit the feed", form=form, feed=feed)
+
+        # Return an empty form in order to create a new feed
+        return render_template('edit_feed.html', action="Add a feed", form=form)
+
+@app.route('/delete_feed/<feed_id>', methods=['GET'])
+@login_required
+def delete_feed(feed_id=None):
+    user = models.User.objects(email=g.user.email).first()
+    # delete all articles (Document objects)
+    for feed in user.feeds:
+        if str(feed.oid) == feed_id:
+            for article in feed.articles:
+                article.delete()
+            feed.articles = []
+            # delete the feed (EmbeddedDocument object)
+            user.feeds.remove(feed)
+            user.save()
+            return redirect(url_for('home'))
