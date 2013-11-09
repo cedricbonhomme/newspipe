@@ -3,11 +3,8 @@
 
 import os
 
-from flask import Flask, session, g
+from flask import Flask
 from flask.ext.mongoengine import MongoEngine
-
-from flask.ext.admin import Admin
-from flask.ext.admin.contrib.mongoengine import ModelView
 
 import conf
 from models import *
@@ -32,27 +29,5 @@ db.init_app(app)
 
 from views import mail
 mail.init_app(app)
-
-# Administration panel
-admin = Admin(app, name='pyAggr3g470r')
-# Add administrative views here
-class UserView(ModelView):
-    form_subdocuments = {
-        'feeds': {
-            'form_columns': ('title', 'link')
-        }
-    }
-class FeedView(ModelView):
-    column_filters = ['title', 'link']
-
-    column_searchable_list = ('title', 'link')
-class ArticleView(ModelView):
-    column_filters = ['title', 'link']
-
-    column_searchable_list = ('title', 'link')
-#admin.add_view(UserView(User))
-admin.add_view(FeedView(Feed))
-admin.add_view(ArticleView(Article))
-
 
 from pyaggr3g470r import views

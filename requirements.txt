@@ -4,7 +4,6 @@ BeautifulSoup
 mongoengine
 Flask
 flask-mongoengine
-Flask-Admin
 Flask-Login
 Flask-WTF
 Flask-Mail
