@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<script src="https://apis.google.com/js/plusone.js"></script>
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="jumbotron">
@@ -13,6 +17,12 @@
     </div>
     <div class="jumbotron">
         {{ article.content|safe }}
+    </div>
+    <div class="jumbotron">
+        <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
+            <img src="/static/img/pinboard.png" title="Share on Pinboard" />
+        </a>
+        <g:plusone size="standard" count="true" href="{{ article.link  }}"></g:plusone>
     </div>
 </div><!-- /.container -->
 {% endblock %}
