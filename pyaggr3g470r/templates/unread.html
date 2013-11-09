@@ -9,6 +9,7 @@
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title }}</h1>
                 <a href="/articles/{{ feed.oid }}"><i class="glyphicon glyphicon-th-list"></i></a>
+                <h3>{{ feed.articles|length }} unread articles.</h3>
                 </div>
             </div>
             {% for number in range(0, feed.articles|length-(feed.articles|length % 3), 3) %}
@@ -25,7 +26,7 @@
             {% endfor %}
             {% if feed.articles|length % 3 != 0 %}
                 <div class="row">
-                    {% for n in range(0, feed.articles|length % 3) %}
+                    {% for n in range(feed.articles|length-(feed.articles|length % 3), feed.articles|length) %}
                         <div class="col-xs-6 col-sm-4 col-md-4">
                             {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
                                 <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title }}</a><h2>
