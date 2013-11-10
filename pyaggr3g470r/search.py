@@ -52,7 +52,7 @@ def create_index():
     """
     feeds = models.Feed.objects()
     if not os.path.exists(indexdir):
-        os.mkdir(indexdir)
+        os.makedirs(indexdir)
     ix = create_in(indexdir, schema)
     writer = ix.writer()
     for feed in feeds:
@@ -73,7 +73,7 @@ def add_to_index(articles, feed):
         ix = open_dir(indexdir)
     except (EmptyIndexError, OSError) as e:
         if not os.path.exists(indexdir):
-            os.mkdir(indexdir)
+            os.makedirs(indexdir)
         ix = create_in(indexdir, schema)
     writer = AsyncWriter(ix)
     for article in articles:
