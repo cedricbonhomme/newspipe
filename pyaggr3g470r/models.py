@@ -60,7 +60,7 @@ class Feed(EmbeddedDocument):
     title = StringField(required=True)
     link = StringField(required=True, unique=True)
     site_link = StringField(required=True)
-    mail = BooleanField(default=False)
+    email_notification = BooleanField(default=False)
     articles = ListField(ReferenceField('Article', dbref = False))
     created_date = DateTimeField(required=True, default=datetime.now)
 

@@ -7,13 +7,16 @@
             {{ form.hidden_tag() }}
 
             {{ form.title.label }}
-            {{ form.title(class_="form-control") }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
+            {{ form.title(class_="form-control") }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.link.label }}
-            {{ form.link(class_="form-control") }} {% for error in form.link.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
+            {{ form.link(class_="form-control") }} {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.site_link.label }}
-            {{ form.site_link(class_="form-control") }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}</span>{% endfor %}
+            {{ form.site_link(class_="form-control") }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.email_notification.label }}
+            {{ form.email_notification(class_="form-control") }}
 
             {{ form.submit(class_="btn") }}
         </form>

@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 from flask.ext.wtf import Form
-from wtforms import TextField, TextAreaField, PasswordField, SubmitField, validators
+from wtforms import TextField, TextAreaField, PasswordField, BooleanField, SubmitField, validators
 
 import models
 
@@ -52,8 +52,9 @@ class SigninForm(Form):
 
 class AddFeedForm(Form):
     title = TextField("Title", [validators.Required("Please enter a title.")])
-    link = TextField("Feed link", [validators.Required("Please enter a link.")])
+    link = TextField("Feed link", [validators.Required("Please enter a link for the feed.")])
     site_link = TextField("Site link", [validators.Required("Please enter a site URL.")])
+    email_notification = BooleanField("Email notification", default=False)
     submit = SubmitField("Save")
 
     def __init__(self, *args, **kwargs):
