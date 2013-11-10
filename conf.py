@@ -26,8 +26,6 @@ DATABASE_ADDRESS = config.get('database', 'address')
 WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = int(config.get('webserver', 'port'))
-WEBSERVER_USERNAME = config.get('webserver', 'username')
-WEBSERVER_PASSWORD = config.get('webserver', 'password')
 
 MAIL_HOST = config.get('mail', 'host')
 MAIL_PORT = int(config.get('mail', 'port'))
