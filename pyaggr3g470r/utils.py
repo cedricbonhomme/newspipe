@@ -40,17 +40,10 @@ import glob
 import operator
 import calendar
 
-try:
-    from qrcode.pyqrnative.PyQRNative import QRCode, QRErrorCorrectLevel, CodeOverflowException
-    from qrcode import qr
-except:
-    pass
-
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import requests
 from BeautifulSoup import BeautifulSoup
 
 from collections import Counter
@@ -110,23 +103,6 @@ def open_url(url):
             error = (url, e.reason.errno, e.reason.strerror)
             #pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + e.reason.strerror)
         return (False, error)
-
-def generate_qr_code(article):
-    """
-    Generated a QR Code for the article given in parameter.
-    """
-    try:
-        os.makedirs("./var/qrcode/")
-    except OSError:
-        pass
-    if not os.path.isfile("./var/qrcode/" + article["article_id"] + ".png"):
-        # QR Code generation
-        try:
-            f = qr.QRUrl(url = article["article_link"])
-            f.make()
-            f.save("./var/qrcode/" + article["article_id"] + ".png")
-        except:
-            pass
 
 def clear_string(data):
     """
