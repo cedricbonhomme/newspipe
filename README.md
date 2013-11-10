@@ -10,7 +10,7 @@ based on [Flask](http://flask.pocoo.org/). Articles are stored in a [MongoDB](ht
 
 Features
 ------------
-* articles are stored in a [MongoDB](http://www.mongodb.org/) database (local or remote);
+* articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
 
@@ -21,10 +21,15 @@ Python >= 2.7. To install the required libraries:
 
     $ sudo pip install --upgrade -r requirements.txt
 
-Installation
-------------
+Configuration
+-------------
 
-You can use the script initialization.py to create your user.
+You can use the script **initialization.py** to create your user.
+Configuration is done via the file **conf/conf.cfg**.
+
+    $ python initialization.py database_name firstname lastname email password
+    $ cp conf/conf.cfg-sample conf/conf.cfg
+    $ python runserver.py
 
 Backup
 ------
