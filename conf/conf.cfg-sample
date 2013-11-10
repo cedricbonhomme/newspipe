@@ -4,17 +4,17 @@ address = 127.0.0.1
 port = 27017
 username = root
 password = root
-[crawler]
-user_agent = Mozilla/5.0 (X11; Debian; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/24.0
-thread_time_out = 10.0
-get_time_out = 5.0
 [webserver]
 debug = 1
 host = 0.0.0.0
 port = 5000
 [mail]
-host =
-port = 25
-ssl = 0
-username = 
-password =
+enabled = 1
+host = smtp.googlemail.com
+port = 465
+tls = 0
+ssl = 1
+username = your-gmail-username
+password = your-gmail-password
+mail_from = pyAggr3g470r@no-reply.com
+mail_to = recipent-email

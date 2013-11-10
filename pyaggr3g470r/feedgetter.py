@@ -39,6 +39,9 @@ import conf
 import search
 import utils
 
+from flask.ext.mail import Message
+from pyaggr3g470r import app, mail
+
 #import log
 #pyaggr3g470r_log = log.Log()
 
@@ -89,6 +92,7 @@ class FeedGetter(object):
         for article in a_feed['entries']:
 
             if models.Article.objects(link=article.link).first() != None:
+                # if article already in the database continue with the next article
                 continue
 
             description = ""
@@ -119,21 +123,23 @@ class FeedGetter(object):
             articles.append(article)
 
             """
-            if self.articles.get_articles(feed_id, article_id) == []:
-                # add the article to the Whoosh index
-                try:
-                    search.add_to_index([article], feed)
-                except:
-                    print("Whoosh error.")
-                    #pyaggr3g470r_log.error("Whoosh error.")
-                    continue
+            # add the article to the Whoosh index
+            try:
+                search.add_to_index([article], feed)
+            except:
+                print("Whoosh error.")
+                #pyaggr3g470r_log.error("Whoosh error.")
+                continue"""
 
-                if conf.MAIL_ENABLED and feed["mail"]:
-                    # if subscribed to the feed
-                    threading.Thread(None, utils.send_mail, None, (conf.mail_from, conf.mail_to, \
-                                                            a_feed.feed.title, \
-                                                            article_title, description)).start()
-            """
+            if conf.MAIL_ENABLED and feed.email_notification:
+                # if subscribed to the feed
+                with app.app_context():
+                    msg = Message('[pyAggr3g470r] ' + feed.title + ' : ' + article.title, \
+                                sender = conf.MAIL_FROM, recipients = [conf.MAIL_TO])
+                    msg.body = utils.clear_string(description)
+                    msg.html = description
+                    mail.send(msg)
+
         feed.articles.extend(articles)
         feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
         #feed.save()

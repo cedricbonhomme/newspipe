@@ -40,10 +40,6 @@ import glob
 import operator
 import calendar
 
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
 from BeautifulSoup import BeautifulSoup
 
 from collections import Counter
@@ -109,9 +105,9 @@ def clear_string(data):
     Clear a string by removing HTML tags, HTML special caracters
     and consecutive white spaces (more that one).
     """
-    p = re.compile(b'<[^>]+>') # HTML tags
-    q = re.compile(b'\s') # consecutive white spaces
-    return p.sub(b'', q.sub(b' ', bytes(data, "utf-8"))).decode("utf-8", "strict")
+    p = re.compile('<[^>]+>') # HTML tags
+    q = re.compile('\s') # consecutive white spaces
+    return p.sub('', q.sub(' ', data))
 
 def normalize_filename(name):
     """
@@ -170,41 +166,6 @@ def tag_cloud(tags, query="word_count"):
     return ' '.join([('<font size=%d><a href="/history/?query=%s:%s" title="Count: %s">%s</a></font>\n' % \
                         (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, format(count, ',d'), calendar.month_name[int(word)])) \
                             for (word, count) in tags])
-
-def send_mail(mfrom, mto, feed_title, article_title, description):
-    """
-    Send the article via mail.
-    """
-    # Create the body of the message (a plain-text and an HTML version).
-    html = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
-                (feed_title + ": " + article_title, description)
-    text = clear_string(description)
-
-    # Create message container - the correct MIME type is multipart/alternative.
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = '[pyAggr3g470r] ' + feed_title + ": " + article_title
-    msg['From'] = mfrom
-    msg['To'] = mto
-
-    # Record the MIME types of both parts - text/plain and text/html.
-    part1 = MIMEText(text, 'plain', 'utf-8')
-    part2 = MIMEText(html, 'html', 'utf-8')
-
-    # Attach parts into message container.
-    # According to RFC 2046, the last part of a multipart message, in this case
-    # the HTML message, is best and preferred.
-    msg.attach(part1)
-    msg.attach(part2)
-
-    # Send the message via local SMTP server.
-    try:
-        s = smtplib.SMTP(conf.smtp_server)
-        s.login(conf.username, conf.password)
-    except Exception as e:
-        print(e)
-    else:
-        s.send_message(msg)
-        s.quit()
 
 def search_feed(url):
     """

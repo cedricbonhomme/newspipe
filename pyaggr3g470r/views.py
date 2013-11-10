@@ -29,7 +29,7 @@ __license__ = "GPLv3"
 
 from flask import render_template, request, flash, session, url_for, redirect, g
 from wtforms import TextField, PasswordField, SubmitField, validators
-from flask.ext.mail import Message, Mail
+
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 
 from collections import defaultdict
@@ -41,7 +41,6 @@ from pyaggr3g470r import app, db
 import feedgetter
 import models
 
-mail = Mail()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
