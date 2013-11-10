@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2013/06/24 $"
-__revision__ = "$Date: 2013/06/25 $"
+__revision__ = "$Date: 2013/11/10 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -37,8 +37,9 @@ from whoosh.writing import AsyncWriter
 
 import conf
 import utils
+import models
 
-indexdir = "./var/indexdir"
+indexdir = "./pyaggr3g470r/var/indexdir"
 
 schema = Schema(title=TEXT(stored=True), \
                 content=TEXT, \
@@ -49,19 +50,17 @@ def create_index():
     """
     Creates the index.
     """
-    mongo = mongodb.Articles(conf.MONGODB_ADDRESS, conf.MONGODB_PORT, \
-                        conf.MONGODB_DBNAME, conf.MONGODB_USER, conf.MONGODB_PASSWORD)
-    feeds = mongo.get_all_feeds()
+    feeds = models.Feed.objects()
     if not os.path.exists(indexdir):
         os.mkdir(indexdir)
     ix = create_in(indexdir, schema)
     writer = ix.writer()
     for feed in feeds:
-        for article in mongo.get_articles(feed["feed_id"]):
-            writer.add_document(title=article["article_title"], \
-                                content=utils.clear_string(article["article_content"]), \
-                                article_id=article["article_id"] , \
-                                feed_id=feed["feed_id"])
+        for article in feed.articles:
+            writer.add_document(title=article.title, \
+                                content=utils.clear_string(article.content), \
+                                article_id=str(article.id).decode(), \
+                                feed_id=str(feed.oid).decode())
     writer.commit()
 
 def add_to_index(articles, feed):
@@ -73,13 +72,15 @@ def add_to_index(articles, feed):
     try:
         ix = open_dir(indexdir)
     except (EmptyIndexError, OSError) as e:
-        raise EmptyIndexError
+        if not os.path.exists(indexdir):
+            os.mkdir(indexdir)
+        ix = create_in(indexdir, schema)
     writer = AsyncWriter(ix)
     for article in articles:
-        writer.add_document(title=article["article_title"], \
-                            content=utils.clear_string(article["article_content"]), \
-                            article_id=article["article_id"] , \
-                            feed_id=feed["feed_id"])
+        writer.add_document(title=article.title, \
+                            content=utils.clear_string(article.content), \
+                            article_id=str(article.id).decode(), \
+                            feed_id=str(feed.oid).decode())
     writer.commit()
 
 def delete_article(feed_id, article_id):

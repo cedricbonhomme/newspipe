@@ -20,19 +20,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.9 $"
+__version__ = "$Revision: 2.0 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2013/11/05 $"
+__revision__ = "$Date: 2013/11/10 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import hashlib
 import threading
 
 import feedparser
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
-from contextlib import contextmanager
 
 import models
 import conf
@@ -81,7 +79,7 @@ class FeedGetter(object):
 
     def process(self, feed):
         """
-        Comment
+        Retrieves articles form the feed and add them to the database.
         """
         #a_feed = feedparser.parse(feed_link, handlers = [self.proxy])
         a_feed = feedparser.parse(feed.link)
@@ -118,21 +116,21 @@ class FeedGetter(object):
             except:
                 post_date = datetime(*article.updated_parsed[:6])
 
+            # save the article
             article = models.Article(post_date, article.link, article_title, description, False, False)
             article.save()
             articles.append(article)
 
-            """
             # add the article to the Whoosh index
             try:
                 search.add_to_index([article], feed)
-            except:
-                print("Whoosh error.")
+            except Exception as e:
+                print("Whoosh error: " + str(e))
                 #pyaggr3g470r_log.error("Whoosh error.")
-                continue"""
+                continue
 
+            # email notification
             if conf.MAIL_ENABLED and feed.email_notification:
-                # if subscribed to the feed
                 with app.app_context():
                     msg = Message('[pyAggr3g470r] ' + feed.title + ' : ' + article.title, \
                                 sender = conf.MAIL_FROM, recipients = [conf.MAIL_TO])
@@ -140,9 +138,9 @@ class FeedGetter(object):
                     msg.html = description
                     mail.send(msg)
 
+        # add the articles to the list of articles for the current feed
         feed.articles.extend(articles)
         feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-        #feed.save()
         self.user.save()
 
 
