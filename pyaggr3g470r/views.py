@@ -146,6 +146,17 @@ def mark_as_read():
     models.Article.objects(readed=False).update(set__readed=True)
     return redirect(url_for('home'))
 
+@app.route('/like/<article_id>', methods=['GET'])
+@login_required
+def like(article_id=None):
+    """
+    Mark or unmark an article as favorites.
+    """
+    #user = models.User.objects(email=g.user.email).first()
+    models.Article.objects(id=article_id).update(set__like= \
+                                        (not models.Article.objects(id=article_id).first().like))
+    return redirect("/article/"+article_id)
+
 @app.route('/delete/<article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):

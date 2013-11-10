@@ -9,9 +9,9 @@
         <h2><a href="{{ article.link  }}">{{ article.title }}</a></h2>
         <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="Delete this article"></i></a>
         {% if article.like %}
-            <i class="glyphicon glyphicon-star" title="One of your favorites"></i>
+            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star" title="One of your favorites"></i></a>
         {% else %}
-            <i class="glyphicon glyphicon-star-empty" title="Click if you like this article"></i>
+            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star-empty" title="Click if you like this article"></i></a>
         {% endif %}
         <h6>{{ article.date }}</h6>
     </div>
