@@ -10,6 +10,7 @@ based on [Flask](http://flask.pocoo.org/). Articles are stored in a [MongoDB](ht
 
 Features
 ------------
+
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
@@ -17,8 +18,9 @@ Features
 Requierements
 -------------
 
-Python >= 2.7. To install the required libraries:
+You need to have installed Python >= 2.7, MongoDB and some Python libraries.
 
+    $ sudo apt-get install mongodb-server python-pip
     $ sudo pip install --upgrade -r requirements.txt
 
 Configuration
