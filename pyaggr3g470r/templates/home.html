@@ -4,7 +4,7 @@
     {% if feeds|count == 0 %}
         <h1>You are not subscribed to any feed. <a href="/edit_feed/">Fix this</a>.</h1>
     {% else %}
-        {% for feed in feeds %}
+        {% for feed in feeds|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title }}</h1>

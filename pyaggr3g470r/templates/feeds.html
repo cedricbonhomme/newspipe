@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for feed in feeds %}
+            {% for feed in feeds|sort(attribute="title") %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></td>
