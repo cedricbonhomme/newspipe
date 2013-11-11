@@ -15,6 +15,7 @@
     <!-- Add custom CSS here -->
     <style>
         body {margin-top: 60px;}
+        .input-group {margin-top:10px;}
     </style>
 
   </head>
@@ -56,6 +57,14 @@
                 <li><a href="/management/">Management</a></li>
                 <li><a href="/about/">About</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search articles" maxlength=2048 autocomplete="on">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div><!-- /input-group -->
+                </li>
             {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
