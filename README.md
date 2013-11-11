@@ -12,6 +12,7 @@ Features
 ------------
 
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
+* e-mail notification;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
 
