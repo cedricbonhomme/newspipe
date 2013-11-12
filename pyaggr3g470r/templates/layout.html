@@ -57,9 +57,9 @@
                 <li><a href="/about/">About</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 <li>
-                    <form class="navbar-form" method=get action="/" role="search">
+                    <form class="navbar-form" method=get action="/search/" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control" size="8" placeholder="Search">
+                            <input type="text" class="form-control" name="query" size="8" placeholder="Search">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                             </span>

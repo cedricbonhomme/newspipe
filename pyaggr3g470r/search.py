@@ -34,6 +34,7 @@ from whoosh.fields import *
 from whoosh.query import *
 from whoosh.qparser import QueryParser
 from whoosh.writing import AsyncWriter
+from collections import defaultdict
 
 import conf
 import utils
@@ -101,6 +102,7 @@ def search(term):
     Search for `term` in the index.
     Returns a list of articles.
     """
+    result_dict = defaultdict(list)
     try:
         ix = open_dir(indexdir)
     except (EmptyIndexError, OSError) as e:
@@ -108,7 +110,9 @@ def search(term):
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
         results = searcher.search(query, limit=None)
-        return [(article["feed_id"], article["article_id"]) for article in results]
+        for article in results:
+            result_dict[article["feed_id"]].append(article["article_id"])
+        return result_dict
 
 def nb_documents():
     """

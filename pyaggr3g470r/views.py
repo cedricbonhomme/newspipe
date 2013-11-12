@@ -40,6 +40,7 @@ from pyaggr3g470r import app, db
 
 import feedgetter
 import models
+import search as fastsearch
 
 
 login_manager = LoginManager()
@@ -198,6 +199,24 @@ def unread():
         if len(feed.articles) != 0:
             result.append(feed)
     return render_template('unread.html', feeds=result)
+
+@app.route('/search/', methods=['GET'])
+@login_required
+def search():
+    user = models.User.objects(email=g.user.email).first()
+    result = []
+    query = request.args.get('query', None)
+    if query != None:
+        results = fastsearch.search(query)
+        for feed_id in results:
+            for feed in user.feeds:
+                if str(feed.oid) == feed_id:
+                    feed.articles = []
+                    for article_id in results[feed_id]:
+                        current_article = models.Article.objects(id=article_id).first()
+                        feed.articles.append(current_article)
+                    result.append(feed)
+    return render_template('search.html', feeds=result)
 
 @app.route('/management/', methods=['GET'])
 @login_required
