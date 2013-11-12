@@ -12,6 +12,7 @@ Features
 ------------
 
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
+* fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
