@@ -22,6 +22,7 @@
 
   <body>
 
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -33,11 +34,17 @@
           </button>
           <a class="navbar-brand" href="/">pyAggr3g470r</a>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        {% if g.user.is_authenticated() %}
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            {% if g.user.is_authenticated() %}
+            <form class="navbar-form pull-right col-lg-4 col-4 col-sm-4" method="get" action="/search/" role="search">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="query" placeholder="Search"/>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </span> 
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -56,21 +63,12 @@
                 <li><a href="/management/">Management</a></li>
                 <li><a href="/about/">About</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                <li>
-                    <form class="navbar-form" method=get action="/search/" role="search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="query" size="8" placeholder="Search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                            </span>
-                        </div>
-                    </form>
-                </li>
-            {% endif %}
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container -->
+            </ul>
+        </div>
+        {% endif %}
+      </div>
     </nav>
+
 
 
     {% block content %}{% endblock %}
