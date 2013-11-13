@@ -229,6 +229,12 @@ def management():
     return render_template('management.html', form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
 
+@app.route('/history/', methods=['GET'])
+@login_required
+def history():
+    user = models.User.objects(email=g.user.email).first()
+    return render_template('history.html')
+
 @app.route('/edit_feed/', methods=['GET', 'POST'])
 @app.route('/edit_feed/<feed_id>', methods=['GET', 'POST'])
 @login_required
