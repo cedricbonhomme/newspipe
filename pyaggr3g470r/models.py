@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2013/11/05 $"
-__revision__ = "$Date: 2013/13/05 $"
+__revision__ = "$Date: 2013/11/16 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -35,6 +35,9 @@ from flask.ext.login import UserMixin
 import bson.objectid
 
 class User(Document, UserMixin):
+    """
+    Defines the model for a user.
+    """
     firstname  = StringField(required=True)
     lastname = StringField(required = True)
     email = EmailField(required=True, unique=True)
@@ -56,6 +59,9 @@ class User(Document, UserMixin):
         return self.email
 
 class Feed(EmbeddedDocument):
+    """
+    Defines the model for a feed.
+    """
     oid = ObjectIdField(default=bson.objectid.ObjectId , primary_key=True)
     title = StringField(required=True)
     link = StringField(required=True, unique=True)
@@ -75,6 +81,9 @@ class Feed(EmbeddedDocument):
         return 'Feed: %s' % self.title
 
 class Article(Document):
+    """
+    Defines the model for an article.
+    """
     date = DateTimeField(required=True)
     link = StringField(required=True)
     title = StringField(required=True)
