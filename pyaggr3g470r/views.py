@@ -26,12 +26,11 @@ __revision__ = "$Date: 2013/11/10 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import datetime
 
 from flask import render_template, request, flash, session, url_for, redirect, g
 from wtforms import TextField, PasswordField, SubmitField, validators
-
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
-
 from collections import defaultdict
 
 from forms import SigninForm, AddFeedForm
@@ -204,6 +203,23 @@ def unread():
         if len(feed.articles) != 0:
             result.append(feed)
     return render_template('unread.html', feeds=result)
+
+@app.route('/inactives/', methods=['GET'])
+@login_required
+def inactives():
+    """
+    List of inactive feeds.
+    """
+    nb_days = int(request.args.get('nb_days', 365))
+    user = models.User.objects(email=g.user.email).first()
+    today = datetime.datetime.now()
+    inactives = []
+    for feed in user.feeds:
+        last_post = feed.articles[0].date
+        elapsed = today - last_post
+        if elapsed > datetime.timedelta(days=nb_days):
+            inactives.append((feed, elapsed))
+    return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
 
 @app.route('/search/', methods=['GET'])
 @login_required
