@@ -143,7 +143,7 @@ def top_words(articles, n=10, size=5):
     wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
     for article in articles:
         for word in [elem.lower() for elem in
-                wordre.findall(clear_string(article["article_content"])) \
+                wordre.findall(clear_string(article.content)) \
                 if elem.lower() not in stop_words]:
             words[word] += 1
     return words.most_common(n)

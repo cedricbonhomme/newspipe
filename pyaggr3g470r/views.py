@@ -38,6 +38,7 @@ from forms import SigninForm, AddFeedForm
 from pyaggr3g470r import app, db
 
 
+import utils
 import feedgetter
 import models
 import search as fastsearch
@@ -124,10 +125,14 @@ def feeds():
 @app.route('/feed/<feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
+    word_size = 5
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
-            return render_template('feed.html', feed=feed)
+            articles = feed.articles
+            top_words = utils.top_words(articles, n=50, size=int(word_size))
+            tag_cloud = utils.tag_cloud(top_words)
+            return render_template('feed.html', feed=feed, tag_cloud=tag_cloud)
 
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required
