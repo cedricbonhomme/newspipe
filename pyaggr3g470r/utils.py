@@ -123,7 +123,7 @@ def load_stop_words():
     """
     Load the stop words and return them in a list.
     """
-    stop_words_lists = glob.glob('./var/stop_words/*.txt')
+    stop_words_lists = glob.glob('./pyaggr3g470r/var/stop_words/*.txt')
     stop_words = []
 
     for stop_wods_list in stop_words_lists:
