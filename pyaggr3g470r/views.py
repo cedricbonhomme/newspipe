@@ -125,7 +125,7 @@ def feeds():
 @app.route('/feed/<feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
-    word_size = 5
+    word_size = 6
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:

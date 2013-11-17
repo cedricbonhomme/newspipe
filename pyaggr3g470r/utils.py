@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.5 $"
+__version__ = "$Revision: 1.6 $"
 __date__ = "$Date: 2010/12/07 $"
-__revision__ = "$Date: 2013/07/24 $"
+__revision__ = "$Date: 2013/11/17 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -109,16 +109,6 @@ def clear_string(data):
     q = re.compile('\s') # consecutive white spaces
     return p.sub('', q.sub(' ', data))
 
-def normalize_filename(name):
-    """
-    Normalize a file name.
-    """
-    file_name = re.sub("[,'!?|&]", "", name)
-    file_name = re.sub("[\s.]", "_", file_name)
-    file_name = file_name.strip('_')
-    file_name = file_name.strip('.')
-    return os.path.normpath(file_name)
-
 def load_stop_words():
     """
     Load the stop words and return them in a list.
@@ -148,24 +138,14 @@ def top_words(articles, n=10, size=5):
             words[word] += 1
     return words.most_common(n)
 
-def tag_cloud(tags, query="word_count"):
+def tag_cloud(tags):
     """
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
-    if query == "word_count":
-        # tags cloud from the management page
-        return ' '.join([('<font size=%d><a href="/search/?query=%s" title="Count: %s">%s</a></font>\n' % \
+    return '\n'.join([('<font size=%d><a href="/search/?query=%s" title="Count: %s">%s</a></font>' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
-    if query == "year":
-        # tags cloud for the history
-        return ' '.join([('<font size=%d><a href="/history/?query=%s:%s" title="Count: %s">%s</a></font>\n' % \
-                        (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, format(count, ',d'), word)) \
-                            for (word, count) in tags])
-    return ' '.join([('<font size=%d><a href="/history/?query=%s:%s" title="Count: %s">%s</a></font>\n' % \
-                        (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), query, word, format(count, ',d'), calendar.month_name[int(word)])) \
-                            for (word, count) in tags])
 
 def search_feed(url):
     """
