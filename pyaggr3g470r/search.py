@@ -47,11 +47,10 @@ schema = Schema(title=TEXT(stored=True), \
                 article_id=TEXT(stored=True), \
                 feed_id=TEXT(stored=True))
 
-def create_index():
+def create_index(feeds):
     """
     Creates the index.
     """
-    feeds = models.Feed.objects()
     if not os.path.exists(indexdir):
         os.makedirs(indexdir)
     ix = create_in(indexdir, schema)

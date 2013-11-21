@@ -221,6 +221,16 @@ def inactives():
             inactives.append((feed, elapsed))
     return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
 
+@app.route('/index_database/', methods=['GET'])
+@login_required
+def index_database():
+    """
+    Index all the database.
+    """
+    user = models.User.objects(email=g.user.email).first()
+    fastsearch.create_index(user.feeds)
+    return redirect(url_for('home'))
+
 @app.route('/search/', methods=['GET'])
 @login_required
 def search():
