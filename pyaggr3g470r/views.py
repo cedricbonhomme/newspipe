@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 4.2 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2013/11/10 $"
+__revision__ = "$Date: 2013/11/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -99,6 +99,9 @@ def logout():
 @app.route('/')
 @login_required
 def home():
+    """
+    The home page lists most recent articles of all feeds.
+    """
     user = g.user
     feeds = models.User.objects(email=g.user.email).fields(slice__feeds__articles=9).first().feeds
     return render_template('home.html', user=user, feeds=feeds)
@@ -106,6 +109,9 @@ def home():
 @app.route('/fetch/', methods=['GET'])
 @login_required
 def fetch():
+    """
+    Triggers the download of news.
+    """
     feed_getter = feedgetter.FeedGetter(g.user.email)
     feed_getter.retrieve_feed()
     return redirect(url_for('home'))
@@ -113,17 +119,26 @@ def fetch():
 @app.route('/about/', methods=['GET'])
 @login_required
 def about():
+    """
+    'About' page.
+    """
     return render_template('about.html')
 
 @app.route('/feeds/', methods=['GET'])
 @login_required
 def feeds():
+    """
+    Lists the subscribed  feeds in a table.
+    """
     feeds = models.User.objects(email=g.user.email).first().feeds
     return render_template('feeds.html', feeds=feeds)
 
 @app.route('/feed/<feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
+    """
+    Presents detailed information about a feed.
+    """
     word_size = 6
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
@@ -136,6 +151,9 @@ def feed(feed_id=None):
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required
 def article(article_id=None):
+    """
+    Presents the content of an article.
+    """
     #user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     article = models.Article.objects(id=article_id).first()
     if not article.readed:
@@ -146,6 +164,9 @@ def article(article_id=None):
 @app.route('/mark_as_read/', methods=['GET'])
 @login_required
 def mark_as_read():
+    """
+    Mark all unreaded articles as read.
+    """
     #user = models.User.objects(email=g.user.email).first()
     models.Article.objects(readed=False).update(set__readed=True)
     return redirect(url_for('home'))
@@ -164,6 +185,9 @@ def like(article_id=None):
 @app.route('/delete/<article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
+    """
+    Delete an article.
+    """
     user = models.User.objects(email=g.user.email).first()
     # delete the article
     for feed in user.feeds:
