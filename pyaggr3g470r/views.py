@@ -289,11 +289,12 @@ def edit_feed(feed_id=None):
                     return redirect('/feed/'+feed_id)
         else:
             # Create a new feed
-            new_feed = models.Feed(title=form.title.data, link=form.link.data, \
-                                    site_link=form.site_link.data, email=form.email_notification.data)
-            user.feeds.append(new_feed)
-            user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-            user.save()
+            if len([feed for feed in user.feeds if feed.link == form.link.data]) == 0:
+                new_feed = models.Feed(title=form.title.data, link=form.link.data, \
+                                        site_link=form.site_link.data, email=form.email_notification.data)
+                user.feeds.append(new_feed)
+                user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
+                user.save()
             return redirect(url_for('home'))
 
     if request.method == 'GET':
