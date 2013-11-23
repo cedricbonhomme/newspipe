@@ -55,6 +55,7 @@ class AddFeedForm(Form):
     link = TextField("Feed link", [validators.Required("Please enter a link for the feed.")])
     site_link = TextField("Site link", [validators.Required("Please enter a site URL.")])
     email_notification = BooleanField("Email notification", default=False)
+    enabled = BooleanField("Check for updates", default=True)
     submit = SubmitField("Save")
 
     def __init__(self, *args, **kwargs):

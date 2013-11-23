@@ -63,11 +63,11 @@ class FeedGetter(object):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        for feed in self.user.feeds:
+        for current_feed in [feed for feed in self.user.feeds if feed.enabled]:
             try:
                 # launch a new thread for the RSS feed
                 thread = threading.Thread(None, self.process, \
-                                           None, (feed, ))
+                                           None, (current_feed, ))
                 thread.start()
                 list_of_threads.append(thread)
             except:
