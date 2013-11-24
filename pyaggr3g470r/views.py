@@ -33,7 +33,7 @@ from wtforms import TextField, PasswordField, SubmitField, validators
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from collections import defaultdict
 
-from forms import SigninForm, AddFeedForm
+from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 
 
@@ -346,3 +346,27 @@ def delete_feed(feed_id=None):
             user.feeds.remove(feed)
             user.save()
             return redirect(url_for('home'))
+
+@app.route('/profile/', methods=['GET', 'POST'])
+@login_required
+def profile():
+    """
+    Edit the profile of the user.
+    """
+    user = models.User.objects(email=g.user.email).first()
+    form = ProfileForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('profile.html', form=form)
+
+        form.populate_obj(user)
+        if form.password.data != "":
+            user.set_password(form.password.data)
+        user.save()
+        flash('User "' + user.firstname + '" successfully updated', 'success')
+        return redirect('/profile/')
+
+    if request.method == 'GET':
+        form = ProfileForm(obj=user)
+        return render_template('profile.html', form=form)

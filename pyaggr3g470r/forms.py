@@ -65,3 +65,18 @@ class AddFeedForm(Form):
         if not Form.validate(self):
             return False
         return True
+
+class ProfileForm(Form):
+    firstname = TextField("First name", [validators.Required("Please enter your first name.")])
+    lastname = TextField("Last name", [validators.Required("Please enter your last name.")])
+    email = TextField("Email", [validators.Required("Please enter your email.")])
+    password = TextField("Password", [validators.Required("Please enter your password.")])
+    submit = SubmitField("Save")
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        return True
