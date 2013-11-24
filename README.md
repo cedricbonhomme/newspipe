@@ -17,6 +17,8 @@ Features
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
 
+Some [screen shots](https://plus.google.com/u/0/photos/106973022319954455496/albums/5449733578800221153) of pyAggr3g470r.
+
 Requierements
 -------------
 
