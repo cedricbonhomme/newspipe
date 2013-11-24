@@ -70,7 +70,7 @@ class ProfileForm(Form):
     firstname = TextField("First name", [validators.Required("Please enter your first name.")])
     lastname = TextField("Last name", [validators.Required("Please enter your last name.")])
     email = TextField("Email", [validators.Required("Please enter your email.")])
-    password = TextField("Password", [validators.Required("Please enter your password.")])
+    password = TextField("Password")
     submit = SubmitField("Save")
 
     def __init__(self, *args, **kwargs):
