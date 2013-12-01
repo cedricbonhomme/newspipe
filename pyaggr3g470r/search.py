@@ -111,7 +111,7 @@ def search(term):
         results = searcher.search(query, limit=None)
         for article in results:
             result_dict[article["feed_id"]].append(article["article_id"])
-        return result_dict
+        return result_dict, len(results)
 
 def nb_documents():
     """

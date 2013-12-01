@@ -4,6 +4,7 @@
     {% if feeds|count == 0  %}
         <h1>No results.</h1>
     {% else %}
+        <h1>{{ nb_articles }} {% if nb_articles !=1  %} results {% else %} result {% endif %} for <i>{{ query }}</i></h1>
         {% for feed in feeds|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">

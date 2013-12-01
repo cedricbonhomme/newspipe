@@ -262,7 +262,7 @@ def search():
     result = []
     query = request.args.get('query', None)
     if query != None:
-        results = fastsearch.search(query)
+        results, nb_articles = fastsearch.search(query)
         for feed_id in results:
             for feed in user.feeds:
                 if str(feed.oid) == feed_id:
@@ -271,7 +271,7 @@ def search():
                         current_article = models.Article.objects(id=article_id).first()
                         feed.articles.append(current_article)
                     result.append(feed)
-    return render_template('search.html', feeds=result)
+    return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
 @app.route('/management/', methods=['GET'])
 @login_required
