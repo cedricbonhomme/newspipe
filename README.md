@@ -48,7 +48,8 @@ If you want to backup your database:
 
 Donation
 --------
-If you wish and if you like pyAggr3g470r, you can donate via bitcoin 1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ.
+If you wish and if you like pyAggr3g470r, you can donate via bitcoin
+[1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ](https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ).
 Thank you!
 
 License
