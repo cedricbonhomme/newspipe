@@ -279,8 +279,10 @@ def management():
     form = AddFeedForm()
     user = models.User.objects(email=g.user.email).first()
     nb_feeds = len(user.feeds)
-    nb_articles = sum([len(feed.articles) for feed in user.feeds])
-    nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
+    #nb_articles = sum([len(feed.articles) for feed in user.feeds])
+    #nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
+    nb_articles = len(models.Article.objects())
+    nb_unread_articles = len(models.Article.objects(readed=False))
     return render_template('management.html', form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
 
