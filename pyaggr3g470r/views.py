@@ -146,7 +146,7 @@ def feed(feed_id=None):
             articles = feed.articles
             top_words = utils.top_words(articles, n=50, size=int(word_size))
             tag_cloud = utils.tag_cloud(top_words)
-            return render_template('feed.html', feed=feed, tag_cloud=tag_cloud)
+            return render_template('feed.html', head_title=feed.title, feed=feed, tag_cloud=tag_cloud)
 
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required
@@ -159,7 +159,7 @@ def article(article_id=None):
     if not article.readed:
         article.readed = True
         article.save()
-    return render_template('article.html', article=article)
+    return render_template('article.html', head_title=article.title, article=article)
 
 @app.route('/mark_as_read/', methods=['GET'])
 @login_required
