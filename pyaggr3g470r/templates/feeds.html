@@ -7,6 +7,7 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Status</th>
                     <th>Title</th>
                     <th>Site</th>
                     <th>Articles</th>
@@ -17,16 +18,17 @@
             {% for feed in feeds|sort(attribute="title") %}
                 <tr>
                     <td>{{ loop.index }}</td>
+                    <td>
+                        {% if feed.enabled  %}
+                            <i class="glyphicon glyphicon-eye-open" title="Feed enabled"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-eye-close" title="Feed disabled"></i>
+                        {% endif %}
+                    </td>
                     <td><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
                     <td>{{ feed.articles|count }}</td>
                     <td>
-                        {% if feed.enabled  %}
-                            <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-eye-open" title="Feed enabled"></i></a>
-                        {% else %}
-                            <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-eye-close" title="Feed disabled"></i></a>
-                        {% endif %}
-                        <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-info-sign" title="Information"></i></a>
                         <a href="/articles/{{ feed.oid }}"><i class="glyphicon glyphicon-th-list" title="All articles"></i></a>
                         <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
                         <a href="/delete_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
