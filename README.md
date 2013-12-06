@@ -19,22 +19,19 @@ Features
 
 Some [screen shots](https://plus.google.com/u/0/photos/106973022319954455496/albums/5449733578800221153) of pyAggr3g470r.
 
-Requierements
--------------
+Installation
+------------
 
 You need to have installed Python >= 2.7, MongoDB and some Python libraries.
-
-    $ sudo apt-get install mongodb-server python-pip
-    $ sudo pip install --upgrade -r requirements.txt
-
-Configuration
--------------
-
-You can use the script **initialization.py** to create your user.
 Configuration is done via the file **conf/conf.cfg**.
 
-    $ python initialization.py database_name firstname lastname email password
+    $ sudo apt-get install mongodb-server python-pip
+    $ pip install --user virtualenv
+    $ virtualenv --no-site-packages ./env_pyAggr3g470r
+    $ source ./env_pyAggr3g470r/bin/activate
+    $ pip install --upgrade -r requirements.txt
     $ cp conf/conf.cfg-sample conf/conf.cfg
+    $ python initialization.py database_name firstname lastname email password
     $ python runserver.py
 
 Backup
