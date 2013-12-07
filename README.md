@@ -34,6 +34,8 @@ Configuration is done via the file **conf/conf.cfg**.
     $ python initialization.py database_name firstname lastname email password
     $ python runserver.py
 
+Alternatively you can run the script ``install.sh``.
+
 Backup
 ------
 
