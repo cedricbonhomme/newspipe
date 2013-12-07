@@ -1,5 +1,5 @@
 [database]
-name = pyaggr3g470r1
+name = pyaggr3g470r
 address = 127.0.0.1
 port = 27017
 username = root
