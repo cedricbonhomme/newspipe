@@ -28,7 +28,7 @@ __license__ = "GPLv3"
 
 import datetime
 
-from flask import render_template, request, flash, session, url_for, redirect, g
+from flask import render_template, request, make_response, flash, session, url_for, redirect, g
 from wtforms import TextField, PasswordField, SubmitField, validators
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from collections import defaultdict
@@ -37,7 +37,9 @@ from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 
 
+import conf
 import utils
+import export
 import feedgetter
 import models
 import search as fastsearch
@@ -254,6 +256,21 @@ def index_database():
     user = models.User.objects(email=g.user.email).first()
     fastsearch.create_index(user.feeds)
     return redirect(url_for('home'))
+
+@app.route('/export/', methods=['GET'])
+@login_required
+def export_articles():
+    """
+    Export all articles.
+    """
+    user = models.User.objects(email=g.user.email).first()
+    export.export_html(user.feeds)
+    with open(conf.PATH + '/pyaggr3g470r/var/export.tar.gz', 'r') as export_file:
+        response = make_response(export_file.read())
+        response.headers['Content-Type'] = 'application/x-compressed'
+        response.headers['Content-Disposition'] = 'attachment; filename=export.tar.gz'
+        return response
+    return redirect(url_for('management'))
 
 @app.route('/search/', methods=['GET'])
 @login_required
