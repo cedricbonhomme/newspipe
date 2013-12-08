@@ -34,8 +34,10 @@ __license__ = "GPLv3"
 #
 
 import os
+import shutil
 import time
 import tarfile
+from datetime import datetime
 
 import conf
 import utils
@@ -134,13 +136,14 @@ def export_html(feeds):
     """
     Export the articles given in parameter in a simple Webzine.
     """
+    webzine_root = conf.PATH + "/pyaggr3g470r/var/export/webzine/"
     nb_articles = format(len(models.Article.objects()), ",d")
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
     for feed in feeds:
         # creates a folder for each stream
-        feed_folder = conf.PATH + "/pyaggr3g470r/var/export/webzine/" + str(feed.oid)
+        feed_folder = webzine_root + str(feed.oid)
         try:
             os.makedirs(feed_folder)
         except OSError:
@@ -180,13 +183,19 @@ def export_html(feeds):
     index += "</ul>\n"
     index += "<p>" + time.strftime("Generated on %d %b %Y at %H:%M.") + "</p>\n"
     index += HTML_FOOTER
-    with open(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "index.html", "w") as f:
+    with open(webzine_root + "index.html", "w") as f:
         f.write(index.encode("utf-8"))
-    with open(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "style.css", "w") as f:
+    with open(webzine_root + "style.css", "w") as f:
         f.write(CSS.encode("utf-8"))
 
-    with tarfile.open(conf.PATH + "/pyaggr3g470r/var/export.tar.gz", "w:gz") as tar:
-        tar.add(conf.PATH + "/pyaggr3g470r/var/export/webzine/", arcname=os.path.basename(conf.PATH + "/pyaggr3g470r/var/export/webzine/"))
+    archive_file_name = datetime.now().strftime('%Y-%m-%d') + '.tar.gz'
+    with tarfile.open(conf.PATH + "/pyaggr3g470r/var/export/" + archive_file_name, "w:gz") as tar:
+        tar.add(webzine_root, arcname=os.path.basename(webzine_root))
+
+    shutil.rmtree(webzine_root)
+
+    with open(conf.PATH + "/pyaggr3g470r/var/export/" + archive_file_name, 'r') as export_file:
+        return export_file.read(), archive_file_name
 
 def export_txt(mongo_db):
     """

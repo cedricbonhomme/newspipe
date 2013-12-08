@@ -264,13 +264,14 @@ def export_articles():
     Export all articles.
     """
     user = models.User.objects(email=g.user.email).first()
-    export.export_html(user.feeds)
-    with open(conf.PATH + '/pyaggr3g470r/var/export.tar.gz', 'r') as export_file:
-        response = make_response(export_file.read())
-        response.headers['Content-Type'] = 'application/x-compressed'
-        response.headers['Content-Disposition'] = 'attachment; filename=export.tar.gz'
-        return response
-    return redirect(url_for('management'))
+    try:
+        archive_file, archive_file_name = export.export_html(user.feeds)
+    except:
+        return redirect(url_for('management'))
+    response = make_response(archive_file)
+    response.headers['Content-Type'] = 'application/x-compressed'
+    response.headers['Content-Disposition'] = 'attachment; filename='+archive_file_name
+    return response
 
 @app.route('/search/', methods=['GET'])
 @login_required
