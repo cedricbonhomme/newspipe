@@ -134,7 +134,6 @@ def export_html(feeds):
     """
     Export the articles given in parameter in a simple Webzine.
     """
-    #tar = tarfile.open(conf.PATH + "/pyaggr3g470r/var/export.tar.gz", "w:gz")
     nb_articles = format(len(models.Article.objects()), ",d")
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
@@ -173,23 +172,18 @@ def export_html(feeds):
 
             with open(post_file_name, "w") as f:
                 f.write(a_post.encode("utf-8"))
-                #tar.add(post_file_name)
 
         posts +=  HTML_FOOTER
         with open(feed_index, "w") as f:
             f.write(posts.encode("utf-8"))
-            #tar.add(feed_index)
 
     index += "</ul>\n"
     index += "<p>" + time.strftime("Generated on %d %b %Y at %H:%M.") + "</p>\n"
     index += HTML_FOOTER
     with open(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "index.html", "w") as f:
         f.write(index.encode("utf-8"))
-        #tar.add(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "index.html")
     with open(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "style.css", "w") as f:
         f.write(CSS.encode("utf-8"))
-        #tar.add(conf.PATH + "/pyaggr3g470r/var/export/webzine/" + "style.css")
-    #tar.close()
 
     with tarfile.open(conf.PATH + "/pyaggr3g470r/var/export.tar.gz", "w:gz") as tar:
         tar.add(conf.PATH + "/pyaggr3g470r/var/export/webzine/", arcname=os.path.basename(conf.PATH + "/pyaggr3g470r/var/export/webzine/"))
