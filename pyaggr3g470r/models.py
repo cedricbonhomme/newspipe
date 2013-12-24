@@ -86,7 +86,7 @@ class Article(Document):
     Defines the model for an article.
     """
     date = DateTimeField(required=True)
-    link = StringField(required=True)
+    link = StringField(required=True, unique=True)
     title = StringField(required=True)
     content = StringField(required=True)
     readed = BooleanField()
@@ -98,6 +98,8 @@ class Article(Document):
         'indexes': [
             {'fields': ['-date'],
               'sparse': True, 'types': False },
+            {'fields': ['link'],
+              'sparse': True, 'unique': True, 'types': False }
         ]
     }
 
