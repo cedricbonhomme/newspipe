@@ -29,6 +29,8 @@ __license__ = "GPLv3"
 import threading
 import urllib2
 import feedparser
+import requests
+from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 
@@ -93,7 +95,11 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            if models.Article.objects(link=article.link).first() != None:
+            r = requests.get(article.link)
+            parsed_url = urlparse(r.url)
+            real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
+            
+            if models.Article.objects(link=real_url).first() != None:
                 # if article already in the database continue with the next article
                 continue
 
@@ -121,7 +127,7 @@ class FeedGetter(object):
                 post_date = datetime(*article.updated_parsed[:6])
 
             # save the article
-            article = models.Article(post_date, article.link, article_title, description, False, False)
+            article = models.Article(post_date, real_url, article_title, description, False, False)
             article.save()
             articles.append(article)
 
