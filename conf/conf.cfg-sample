@@ -4,6 +4,9 @@ address = 127.0.0.1
 port = 27017
 username = root
 password = root
+[feedparser]
+http_proxy = 127.0.0.1:8118
+user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
 [webserver]
 debug = 1
 host = 0.0.0.0
