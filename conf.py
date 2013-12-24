@@ -23,6 +23,9 @@ DATABASE_USERNAME = config.get('database', 'username')
 DATABASE_PASSWORD = config.get('database', 'password')
 DATABASE_ADDRESS = config.get('database', 'address')
 
+HTTP_PROXY = config.get('feedparser', 'http_proxy')
+USER_AGENT = config.get('feedparser', 'user_agent')
+
 WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = int(config.get('webserver', 'port'))

@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import threading
-
+import urllib2
 import feedparser
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
@@ -57,6 +57,11 @@ class FeedGetter(object):
         """
         #feedparser.USER_AGENT = conf.USER_AGENT
         feedparser.USER_AGENT = "pyAggr3g470r"
+        if conf.HTTP_PROXY == "":
+            self.proxy = urllib2.ProxyHandler({})
+        else:
+            self.proxy = urllib2.ProxyHandler({"http" : conf.HTTP_PROXY})
+        feedparser.USER_AGENT = conf.USER_AGENT
         self.user = models.User.objects(email=email).first()
 
     def retrieve_feed(self):
@@ -81,8 +86,7 @@ class FeedGetter(object):
         """
         Retrieves articles form the feed and add them to the database.
         """
-        #a_feed = feedparser.parse(feed_link, handlers = [self.proxy])
-        a_feed = feedparser.parse(feed.link)
+        a_feed = feedparser.parse(feed.link, handlers = [self.proxy])
         if a_feed['entries'] == []:
             return
 
