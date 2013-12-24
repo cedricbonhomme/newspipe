@@ -36,6 +36,8 @@ Configuration is done via the file **conf/conf.cfg**.
 
 Alternatively you can run the script ``install.sh``.
 
+You can configure pyAggr3g470r (proxy, user agent, etc.) in the file ``conf/conf.cfg``.
+
 Backup
 ------
 
