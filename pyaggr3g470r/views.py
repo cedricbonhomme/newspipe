@@ -330,7 +330,7 @@ def edit_feed(feed_id=None):
                     form.populate_obj(feed)
                     user.save()
                     flash('Feed "' + feed.title + '" successfully updated', 'success')
-                    return redirect('/feed/'+feed_id)
+                    return redirect('/edit_feed/'+feed_id)
         else:
             # Create a new feed
             if len([feed for feed in user.feeds if feed.link == form.link.data]) == 0:
