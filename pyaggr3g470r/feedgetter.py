@@ -133,6 +133,7 @@ class FeedGetter(object):
             article = models.Article(post_date, real_url, article_title, description, False, False)
             try:
                 article.save()
+                pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, real_url))
             except Exception as e:
                 pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                 continue
