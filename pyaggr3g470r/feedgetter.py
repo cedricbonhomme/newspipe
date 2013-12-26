@@ -131,7 +131,10 @@ class FeedGetter(object):
 
             # save the article
             article = models.Article(post_date, real_url, article_title, description, False, False)
-            article.save()
+            try:
+                article.save()
+            except:
+                continue
             articles.append(article)
 
             # add the article to the Whoosh index
