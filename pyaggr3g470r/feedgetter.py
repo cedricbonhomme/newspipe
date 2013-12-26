@@ -57,8 +57,7 @@ class FeedGetter(object):
         """
         Initializes the database connection.
         """
-        #feedparser.USER_AGENT = conf.USER_AGENT
-        feedparser.USER_AGENT = "pyAggr3g470r"
+        feedparser.USER_AGENT = conf.USER_AGENT
         if conf.HTTP_PROXY == "":
             self.proxy = urllib2.ProxyHandler({})
         else:
