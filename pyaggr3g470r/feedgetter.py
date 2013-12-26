@@ -95,9 +95,12 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            r = requests.get(article.link)
-            parsed_url = urlparse(r.url)
-            real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
+            try:
+                r = requests.get(article.link)
+                parsed_url = urlparse(r.url)
+                real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
+            except:
+                real_url = article.link
             
             if models.Article.objects(link=real_url).first() != None:
                 # if article already in the database continue with the next article
