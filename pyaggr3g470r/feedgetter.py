@@ -42,8 +42,8 @@ import utils
 from flask.ext.mail import Message
 from pyaggr3g470r import app, mail
 
-#import log
-#pyaggr3g470r_log = log.Log()
+import log
+pyaggr3g470r_log = log.Log("feedgetter")
 
 list_of_threads = []
 
@@ -99,6 +99,7 @@ class FeedGetter(object):
                 parsed_url = urlparse(r.url)
                 real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
             except:
+                pyaggr3g470r_log.warning("Unable to get the real URL of " + article.link)
                 real_url = article.link
             
             if models.Article.objects(link=real_url).first() != None:
@@ -132,7 +133,8 @@ class FeedGetter(object):
             article = models.Article(post_date, real_url, article_title, description, False, False)
             try:
                 article.save()
-            except:
+            except Exception as e:
+                pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                 continue
             articles.append(article)
 
@@ -140,8 +142,7 @@ class FeedGetter(object):
             try:
                 search.add_to_index([article], feed)
             except Exception as e:
-                print("Whoosh error: " + str(e))
-                #pyaggr3g470r_log.error("Whoosh error.")
+                pyaggr3g470r_log.error("Whoosh error.")
                 continue
 
             # email notification

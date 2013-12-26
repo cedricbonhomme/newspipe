@@ -20,22 +20,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2012/10/12 $"
-__revision__ = "$Date: 2012/10/12 $"
+__revision__ = "$Date: 2013/12/26 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
+
+import logging
 
 class Log(object):
     """
     Log events. Especially events relative to authentication.
     """
-    def __init__(self):
+    def __init__(self, module_name):
         """
         Initialization of the logger.
         """
-        import logging
-        self.logger = logging.getLogger("pyaggr3g470r")
+        self.logger = logging.getLogger(module_name)
+        self.logger.propagate = False
         hdlr = logging.FileHandler('./pyaggr3g470r/var/pyaggr3g470r.log')
         formater = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         hdlr.setFormatter(formater)
