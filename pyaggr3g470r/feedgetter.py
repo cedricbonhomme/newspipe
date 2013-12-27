@@ -26,14 +26,16 @@ __revision__ = "$Date: 2013/11/10 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import threading
 import urllib2
-import feedparser
 import requests
+import threading
+import feedparser
+from datetime import datetime
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from mongoengine.queryset import NotUniqueError
-from datetime import datetime
+from requests.exceptions import Timeout
+
 
 import models
 import conf
@@ -95,13 +97,15 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
+            real_url = article.link
             try:
-                r = requests.get(article.link)
+                r = requests.get(article.link, timeout=2.0)
                 parsed_url = urlparse(r.url)
                 real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
-            except:
-                pyaggr3g470r_log.warning("Unable to get the real URL of " + article.link)
-                real_url = article.link
+            except Timeout:
+                pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
+            except Exception as e:
+                pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s", (article.link, str(e)))
 
             description = ""
             article_title = ""
