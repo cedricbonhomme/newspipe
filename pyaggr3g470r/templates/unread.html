@@ -19,7 +19,7 @@
                     {% for n in range(number, number+3) %}
                     <div class="col-xs-6 col-sm-4 col-md-4">
                         {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
-                            <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title }}</a><h2>
+                            <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title }}</a>
                         {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
                         <h6>{{ feed.articles[n].date }}</h6>
                     </div>
@@ -31,7 +31,7 @@
                     {% for n in range(feed.articles|length-(feed.articles|length % 3), feed.articles|length) %}
                         <div class="col-xs-6 col-sm-4 col-md-4">
                             {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
-                                <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title }}</a><h2>
+                                <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title }}</a>
                             {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
                             <h6>{{ feed.articles[n].date }}</h6>
                         </div>
