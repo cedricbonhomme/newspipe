@@ -118,8 +118,7 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" \
-                                             % (article_title, real_url))
+                #pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, real_url))
                 article_title = article.title
 
             try:
