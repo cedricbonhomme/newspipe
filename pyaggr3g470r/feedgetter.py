@@ -101,10 +101,6 @@ class FeedGetter(object):
             except:
                 pyaggr3g470r_log.warning("Unable to get the real URL of " + article.link)
                 real_url = article.link
-            
-            if models.Article.objects(link=real_url).first() != None:
-                # if article already in the database continue with the next article
-                continue
 
             description = ""
             article_title = ""
@@ -135,6 +131,7 @@ class FeedGetter(object):
                 article.save()
                 pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, real_url))
             except Exception as e:
+                # article already retrieved (continue with the nex article)
                 pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                 continue
             articles.append(article)
@@ -144,7 +141,7 @@ class FeedGetter(object):
                 search.add_to_index([article], feed)
             except Exception as e:
                 pyaggr3g470r_log.error("Whoosh error.")
-                continue
+                pass
 
             # email notification
             if conf.MAIL_ENABLED and feed.email_notification:
