@@ -10,7 +10,8 @@
     <title>{% if head_title %}{{ head_title }} - {% endif %}pyAggr3g470r</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ url_for('.static', filename = 'css/bootstrap.css') }}" rel="stylesheet" media="screen" />
+    <link href="{{ url_for('.static', filename = 'css/bootstrap-responsive.css') }}" rel="stylesheet" />
 
     <!-- Add custom CSS here -->
     <style>
@@ -77,13 +78,27 @@
       </div><!-- /.container -->
     </nav>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <!--<ul class=flashes>-->
+        {% for category, message in messages %}
+        <!--<li class="{{ category }}">-->
+            <div class="alert alert-{{category}}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        <!--</li>-->
+        {% endfor %}
+        <!--</ul>-->
+    {% endif %}
+    {% endwith %}
 
     {% block content %}{% endblock %}
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Make sure to add jQuery - download the most recent version at http://jquery.com/ -->
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
+    <script src="{{ url_for('.static', filename = 'js/jquery.js') }}"></script>
+    <script src="{{ url_for('.static', filename = 'js/bootstrap.js') }}"></script>
   </body>
 </html>

@@ -59,12 +59,12 @@ def before_request():
 
 @app.errorhandler(403)
 def authentication_failed(e):
-    flash('Authenticated failed.')
+    flash('Authenticated failed.', 'danger')
     return redirect(url_for('login'))
 
 @app.errorhandler(401)
 def authentication_failed(e):
-    flash('Authenticated required.')
+    flash('Authenticated required.', 'info')
     return redirect(url_for('login'))
 
 @login_manager.user_loader
@@ -81,7 +81,7 @@ def login():
         user = models.User.objects(email=form.email.data).first()
         login_user(user)
         g.user = user
-        flash("Logged in successfully.")
+        flash("Logged in successfully.", 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
@@ -198,7 +198,10 @@ def delete(article_id=None):
                 feed.articles.remove(article)
                 article.delete()
                 user.save()
+                flash('Article "' + article.title + '" deleted.', 'success')
                 return redirect(url_for('home'))
+    flash('Impossible to delete the article.', 'danger')
+    return redirect(url_for('home'))
 
 @app.route('/articles/<feed_id>', methods=['GET'])
 @login_required
