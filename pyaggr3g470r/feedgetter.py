@@ -32,6 +32,7 @@ import feedparser
 import requests
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
+from mongoengine.queryset import NotUniqueError
 from datetime import datetime
 
 import models
@@ -117,7 +118,8 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                #pyaggr3g470r_log.error("Problem when sanitizing the content of the feed: " + feed.link)
+                pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" \
+                                             % (article_title, real_url))
                 article_title = article.title
 
             try:
@@ -130,8 +132,10 @@ class FeedGetter(object):
             try:
                 article.save()
                 pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, real_url))
+            except NotUniqueError:
+                pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article_title, real_url))
+                continue
             except Exception as e:
-                # article already retrieved (continue with the nex article)
                 pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                 continue
             articles.append(article)
