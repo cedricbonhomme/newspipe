@@ -36,7 +36,6 @@ from collections import defaultdict
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 
-
 import conf
 import utils
 import export
@@ -59,12 +58,12 @@ def before_request():
 
 @app.errorhandler(403)
 def authentication_failed(e):
-    flash('Authenticated failed.', 'danger')
+    flash('Authentication failed.', 'danger')
     return redirect(url_for('login'))
 
 @app.errorhandler(401)
 def authentication_failed(e):
-    flash('Authenticated required.', 'info')
+    flash('Authentication required.', 'info')
     return redirect(url_for('login'))
 
 @login_manager.user_loader
@@ -92,6 +91,7 @@ def logout():
     Remove the user information from the session.
     """
     logout_user()
+    flash("Logged out successfully.", 'success')
     return redirect(url_for('home'))
 
 
@@ -116,6 +116,7 @@ def fetch():
     """
     feed_getter = feedgetter.FeedGetter(g.user.email)
     feed_getter.retrieve_feed()
+    flash("New articles retrieved.", 'success')
     return redirect(url_for('home'))
 
 @app.route('/about/', methods=['GET'])
@@ -270,6 +271,7 @@ def export_articles():
     try:
         archive_file, archive_file_name = export.export_html(user.feeds)
     except:
+        flash("Error when exporting articles.", 'danger')
         return redirect(url_for('management'))
     response = make_response(archive_file)
     response.headers['Content-Type'] = 'application/x-compressed'
@@ -333,18 +335,23 @@ def edit_feed(feed_id=None):
                 if str(feed.oid) == feed_id:
                     form.populate_obj(feed)
                     user.save()
-                    flash('Feed "' + feed.title + '" successfully updated', 'success')
-                    return redirect('/edit_feed/'+feed_id)
+                    flash('Feed "' + feed.title + '" successfully updated.', 'success')
+                    return redirect('/edit_feed/' + feed_id)
         else:
             # Create a new feed
-            if len([feed for feed in user.feeds if feed.link == form.link.data]) == 0:
+            existing_feed = [feed for feed in user.feeds if feed.link == form.link.data]
+            if len(existing_feed) == 0:
                 new_feed = models.Feed(title=form.title.data, link=form.link.data, \
                                         site_link=form.site_link.data, email=form.email_notification.data, \
                                         enabled=form.enabled.data)
                 user.feeds.append(new_feed)
                 user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
                 user.save()
-            return redirect(url_for('home'))
+                flash('Feed "' + new_feed.title + '" successfully created.', 'success')
+                return redirect('/edit_feed/' + str(new_feed.oid))
+            else:
+                flash('Feed "' + existing_feed[0].title + '" already in the database.', 'warning')
+                return redirect('/edit_feed/' + str(existing_feed[0].oid))
 
     if request.method == 'GET':
         if feed_id != None:
