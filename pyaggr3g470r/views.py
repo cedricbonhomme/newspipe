@@ -288,6 +288,7 @@ def search():
                     for article_id in results[feed_id]:
                         current_article = models.Article.objects(id=article_id).first()
                         feed.articles.append(current_article)
+                    feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
                     result.append(feed)
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
