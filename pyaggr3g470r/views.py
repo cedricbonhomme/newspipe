@@ -367,7 +367,7 @@ def edit_feed(feed_id=None):
 @login_required
 def delete_feed(feed_id=None):
     user = models.User.objects(email=g.user.email).first()
-    # delete all articles (Document objects)
+    # delete all articles (Document objects) of the feed
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
             for article in feed.articles:
@@ -376,7 +376,8 @@ def delete_feed(feed_id=None):
             # delete the feed (EmbeddedDocument object)
             user.feeds.remove(feed)
             user.save()
-            return redirect(url_for('home'))
+            flash('Feed "' + feed.title + '" successfully deleted.', 'success')
+    return redirect(url_for('home'))
 
 @app.route('/profile/', methods=['GET', 'POST'])
 @login_required
