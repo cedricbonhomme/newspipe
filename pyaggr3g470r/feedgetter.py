@@ -105,7 +105,7 @@ class FeedGetter(object):
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
             except Exception as e:
-                pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s", (article.link, str(e)))
+                pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
 
             description = ""
             article_title = ""
