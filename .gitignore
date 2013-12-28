@@ -4,7 +4,6 @@ syntax: glob
 *.elc
 *.pyc
 *~
-*.png
 *.db
 
 # Temporary files (vim backups)
