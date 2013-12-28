@@ -215,6 +215,9 @@ def articles(feed_id=None):
 @app.route('/favorites/', methods=['GET'])
 @login_required
 def favorites():
+    """
+    List favorites articles.
+    """
     user = models.User.objects(email=g.user.email).first()
     result = []
     for feed in user.feeds:
@@ -226,6 +229,9 @@ def favorites():
 @app.route('/unread/', methods=['GET'])
 @login_required
 def unread():
+    """
+    List unread articles.
+    """
     user = models.User.objects(email=g.user.email).first()
     result = []
     for feed in user.feeds:
@@ -281,6 +287,9 @@ def export_articles():
 @app.route('/search/', methods=['GET'])
 @login_required
 def search():
+    """
+    Search articles corresponding to the query.
+    """
     user = models.User.objects(email=g.user.email).first()
     result = []
     query = request.args.get('query', None)
@@ -300,6 +309,9 @@ def search():
 @app.route('/management/', methods=['GET'])
 @login_required
 def management():
+    """
+    Display the management page.
+    """
     form = AddFeedForm()
     user = models.User.objects(email=g.user.email).first()
     nb_feeds = len(user.feeds)
@@ -366,6 +378,9 @@ def edit_feed(feed_id=None):
 @app.route('/delete_feed/<feed_id>', methods=['GET'])
 @login_required
 def delete_feed(feed_id=None):
+    """
+    Delete a feed with all associated articles.
+    """
     user = models.User.objects(email=g.user.email).first()
     # delete all articles (Document objects) of the feed
     for feed in user.feeds:
