@@ -392,6 +392,9 @@ def delete_feed(feed_id=None):
             user.feeds.remove(feed)
             user.save()
             flash('Feed "' + feed.title + '" successfully deleted.', 'success')
+            break
+    else:
+        flash('Impossible to delete this feed.', 'danger')
     return redirect(url_for('home'))
 
 @app.route('/profile/', methods=['GET', 'POST'])
