@@ -27,14 +27,8 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import datetime
-
 from flask import render_template, request, make_response, flash, session, url_for, redirect, g
-from wtforms import TextField, PasswordField, SubmitField, validators
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
-from collections import defaultdict
-
-from forms import SigninForm, AddFeedForm, ProfileForm
-from pyaggr3g470r import app, db
 
 import conf
 import utils
@@ -42,7 +36,8 @@ import export
 import feedgetter
 import models
 import search as fastsearch
-
+from forms import SigninForm, AddFeedForm, ProfileForm
+from pyaggr3g470r import app, db
 
 login_manager = LoginManager()
 login_manager.init_app(app)
