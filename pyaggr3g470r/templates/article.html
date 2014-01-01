@@ -22,6 +22,9 @@
         <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
             <img src="/static/img/pinboard.png" title="Share on Pinboard" />
         </a>
+        <a href="http://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noreferrer" target="_blank">
+            <img src="/static/img/reddit.png" title="Share on reddit" />
+        </a>
         <g:plusone size="standard" count="true" href="{{ article.link  }}"></g:plusone>
     </div>
 </div><!-- /.container -->
