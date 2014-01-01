@@ -144,7 +144,17 @@ def feed(feed_id=None):
             articles = feed.articles
             top_words = utils.top_words(articles, n=50, size=int(word_size))
             tag_cloud = utils.tag_cloud(top_words)
-            return render_template('feed.html', head_title=feed.title, feed=feed, tag_cloud=tag_cloud)
+
+            today = datetime.datetime.now()
+            last_article = articles[0].date
+            first_article = articles[-1].date
+            delta = last_article - first_article
+            average = round(float(len(articles)) / abs(delta.days), 2)
+            elapsed = today - last_article
+
+            return render_template('feed.html', head_title=feed.title, feed=feed, tag_cloud=tag_cloud, \
+                                   first_post_date=first_article, end_post_date=last_article , \
+                                   average=average, delta=delta, elapsed=elapsed)
 
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required

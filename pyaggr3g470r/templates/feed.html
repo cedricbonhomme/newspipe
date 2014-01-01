@@ -8,6 +8,10 @@
         <p>This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.oid }}">articles</a>.</p>
         <p>Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a>.</p>
         <p>Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>.</p>
+        <br />
+        <p>The last article was posted {{ elapsed.days }} day(s) ago.<br />
+        Daily average: {{ average }}, between the {{ first_post_date.strftime('%Y-%m-%d') }} and the {{ end_post_date.strftime('%Y-%m-%d') }}.</p>
+        <br />
         <h3>Tag cloud</h3>
         <div>{{ tag_cloud|safe }}</div>
     </div>
