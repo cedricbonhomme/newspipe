@@ -31,7 +31,8 @@ import requests
 import threading
 import feedparser
 from datetime import datetime
-from urlparse import urlparse
+from urllib import urlencode
+from urlparse import urlparse, parse_qs, urlunparse
 from BeautifulSoup import BeautifulSoup
 from mongoengine.queryset import NotUniqueError
 from requests.exceptions import Timeout
@@ -99,10 +100,19 @@ class FeedGetter(object):
 
             real_url = article.link
             try:
+                # remove utm_* parameters
                 r = requests.get(article.link, timeout=2.0)
-                #parsed_url = urlparse(r.url)
-                #real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
-                real_url = r.url
+                parsed_url = urlparse(r.url)
+                qd = parse_qs(parsed.query, keep_blank_values=True)
+                filtered = dict( (k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
+                real_url = urlunparse([
+                    parsed.scheme,
+                    parsed.netloc,
+                    parsed.path,
+                    parsed.params,
+                    urlencode(filtered, doseq=True), # query string
+                    parsed.fragment
+                ])
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
             except Exception as e:
