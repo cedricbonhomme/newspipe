@@ -100,8 +100,9 @@ class FeedGetter(object):
             real_url = article.link
             try:
                 r = requests.get(article.link, timeout=2.0)
-                parsed_url = urlparse(r.url)
-                real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
+                #parsed_url = urlparse(r.url)
+                #real_url = parsed_url.scheme + '://' + parsed_url.netloc + parsed_url.path
+                real_url = r.url
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
             except Exception as e:
