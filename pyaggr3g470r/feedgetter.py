@@ -98,20 +98,20 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            real_url = article.link.encode("utf-8")
+            nice_url = article.link.encode("utf-8")
             try:
                 # resolves URL behind proxies (like feedproxy.google.com)
                 r = requests.get(article.link, timeout=2.0)
-                real_url = r.url.encode("utf-8")
+                nice_url = r.url.encode("utf-8")
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
             except Exception as e:
                 pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
             # remove utm_* parameters
-            parsed_url = urlparse(real_url)
+            parsed_url = urlparse(nice_url)
             qd = parse_qs(parsed_url.query, keep_blank_values=True)
             filtered = dict((k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
-            real_url = urlunparse([
+            nice_url = urlunparse([
                 parsed_url.scheme,
                 parsed_url.netloc,
                 parsed_url.path,
@@ -135,7 +135,7 @@ class FeedGetter(object):
                 description = BeautifulSoup(description, "html.parser").decode()
                 article_title = BeautifulSoup(article.title, "html.parser").decode()
             except Exception as E:
-                #pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, real_url))
+                #pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, nice_url))
                 article_title = article.title
 
             try:
@@ -144,12 +144,12 @@ class FeedGetter(object):
                 post_date = datetime(*article.updated_parsed[:6])
 
             # save the article
-            article = models.Article(post_date, real_url, article_title, description, False, False)
+            article = models.Article(post_date, nice_url, article_title, description, False, False)
             try:
                 article.save()
-                pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, real_url))
+                pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, nice_url))
             except NotUniqueError:
-                pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article_title, real_url))
+                pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article_title, nice_url))
                 continue
             except Exception as e:
                 pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
