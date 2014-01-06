@@ -103,15 +103,15 @@ class FeedGetter(object):
                 # remove utm_* parameters
                 r = requests.get(article.link, timeout=2.0)
                 parsed_url = urlparse(r.url)
-                qd = parse_qs(parsed.query, keep_blank_values=True)
+                qd = parse_qs(parsed_url.query, keep_blank_values=True)
                 filtered = dict( (k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
                 real_url = urlunparse([
-                    parsed.scheme,
-                    parsed.netloc,
-                    parsed.path,
-                    parsed.params,
+                    parsed_url.scheme,
+                    parsed_url.netloc,
+                    parsed_url.path,
+                    parsed_url.params,
                     urlencode(filtered, doseq=True), # query string
-                    parsed.fragment
+                    parsed_url.fragment
                 ])
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
