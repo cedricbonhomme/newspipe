@@ -146,10 +146,16 @@ def feed(feed_id=None):
             tag_cloud = utils.tag_cloud(top_words)
 
             today = datetime.datetime.now()
-            last_article = articles[0].date
-            first_article = articles[-1].date
-            delta = last_article - first_article
-            average = round(float(len(articles)) / abs(delta.days), 2)
+            try:
+                last_article = articles[0].date
+                first_article = articles[-1].date
+                delta = last_article - first_article
+                average = round(float(len(articles)) / abs(delta.days), 2)
+            except:
+                last_article = datetime.datetime.fromtimestamp(0)
+                first_article = datetime.datetime.fromtimestamp(0)
+                delta = last_article - first_article
+                average = 0
             elapsed = today - last_article
 
             return render_template('feed.html', head_title=feed.title, feed=feed, tag_cloud=tag_cloud, \
