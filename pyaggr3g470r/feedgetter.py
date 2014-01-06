@@ -98,25 +98,27 @@ class FeedGetter(object):
         articles = []
         for article in a_feed['entries']:
 
-            real_url = article.link
+            real_url = article.link.encode("utf-8")
             try:
-                # remove utm_* parameters
+                # resolves URL behind proxies (like feedproxy.google.com)
                 r = requests.get(article.link, timeout=2.0)
-                parsed_url = urlparse(r.url)
-                qd = parse_qs(parsed_url.query, keep_blank_values=True)
-                filtered = dict( (k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
-                real_url = urlunparse([
-                    parsed_url.scheme,
-                    parsed_url.netloc,
-                    parsed_url.path,
-                    parsed_url.params,
-                    urlencode(filtered, doseq=True), # query string
-                    parsed_url.fragment
-                ])
+                real_url = r.url.encode("utf-8")
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
             except Exception as e:
                 pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
+            # remove utm_* parameters
+            parsed_url = urlparse(real_url)
+            qd = parse_qs(parsed_url.query, keep_blank_values=True)
+            filtered = dict((k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
+            real_url = urlunparse([
+                parsed_url.scheme,
+                parsed_url.netloc,
+                parsed_url.path,
+                parsed_url.params,
+                urlencode(filtered, doseq=True),
+                parsed_url.fragment
+            ])
 
             description = ""
             article_title = ""
