@@ -69,11 +69,15 @@ class FeedGetter(object):
         feedparser.USER_AGENT = conf.USER_AGENT
         self.user = models.User.objects(email=email).first()
 
-    def retrieve_feed(self):
+    def retrieve_feed(self, feed_id=None):
         """
         Parse the file 'feeds.lst' and launch a thread for each RSS feed.
         """
-        for current_feed in [feed for feed in self.user.feeds if feed.enabled]:
+        feeds = [feed for feed in self.user.feeds if feed.enabled]
+        if feed_id != None:
+            feeds = [feed for feed in feeds if str(feed.oid) == feed_id]
+        print len(feeds)
+        for current_feed in feeds:
             try:
                 # launch a new thread for the RSS feed
                 thread = threading.Thread(None, self.process, \

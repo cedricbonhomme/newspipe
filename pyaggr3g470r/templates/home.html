@@ -11,6 +11,7 @@
                 <a href="/articles/{{ feed.oid }}"><i class="glyphicon glyphicon-th-list" title="All articles"></i></a>
                 <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-eye-open" title="Details"></i></a>
                 <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+                <a href="/fetch/{{ feed.oid }}"><i class="glyphicon glyphicon-cloud-download" title="Fetch this feed"></i></a>
                 </div>
             </div>
             {% for number in range(0, feed.articles|length-(feed.articles|length % 3), 3) %}
