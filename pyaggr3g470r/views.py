@@ -101,7 +101,8 @@ def home():
     """
     user = g.user
     feeds = models.User.objects(email=g.user.email).fields(slice__feeds__articles=9).first().feeds
-    return render_template('home.html', user=user, feeds=feeds)
+    return render_template('home.html', user=user, feeds=feeds, \
+                            head_title=models.Article.objects(readed=False).count())
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<feed_id>', methods=['GET'])
@@ -335,8 +336,8 @@ def management():
     nb_feeds = len(user.feeds)
     #nb_articles = sum([len(feed.articles) for feed in user.feeds])
     #nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
-    nb_articles = len(models.Article.objects())
-    nb_unread_articles = len(models.Article.objects(readed=False))
+    nb_articles = models.Article.objects().count()
+    nb_unread_articles = models.Article.objects(readed=False).count()
     return render_template('management.html', form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
 
