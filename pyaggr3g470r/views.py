@@ -200,7 +200,8 @@ def like(article_id=None):
 @login_required
 def delete(article_id=None):
     """
-    Delete an article.
+    Delete an article from the MongoDB and the Whoosh
+    databases.
     """
     user = models.User.objects(email=g.user.email).first()
     # delete the article
@@ -210,6 +211,11 @@ def delete(article_id=None):
                 feed.articles.remove(article)
                 article.delete()
                 user.save()
+                try:
+                    fastsearch.delete_article(str(feed.oid), str(article.id))
+                except:
+                    # if index is empty
+                    pass
                 flash('Article "' + article.title + '" deleted.', 'success')
                 return redirect(url_for('home'))
     flash('Impossible to delete the article.', 'danger')
