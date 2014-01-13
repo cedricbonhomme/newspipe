@@ -64,9 +64,14 @@ class FeedGetter(object):
         feedparser.USER_AGENT = conf.USER_AGENT
         if conf.HTTP_PROXY == "":
             self.proxy = urllib2.ProxyHandler({})
+            self.proxies = {}
         else:
             self.proxy = urllib2.ProxyHandler({"http" : conf.HTTP_PROXY, \
                                                "https": conf.HTTP_PROXY})
+            self.proxies = {
+                            "http": "http://" + conf.HTTP_PROXY,
+                            "https": "http://" + conf.HTTP_PROXY
+                           }
         feedparser.USER_AGENT = conf.USER_AGENT
         self.user = models.User.objects(email=email).first()
 
@@ -105,7 +110,7 @@ class FeedGetter(object):
             nice_url = article.link.encode("utf-8")
             try:
                 # resolves URL behind proxies (like feedproxy.google.com)
-                r = requests.get(article.link, timeout=2.0)
+                r = requests.get(article.link, timeout=2.0, proxies=self.proxies)
                 nice_url = r.url.encode("utf-8")
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
