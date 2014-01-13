@@ -65,7 +65,8 @@ class FeedGetter(object):
         if conf.HTTP_PROXY == "":
             self.proxy = urllib2.ProxyHandler({})
         else:
-            self.proxy = urllib2.ProxyHandler({"http" : conf.HTTP_PROXY})
+            self.proxy = urllib2.ProxyHandler({"http" : conf.HTTP_PROXY, \
+                                               "https": conf.HTTP_PROXY})
         feedparser.USER_AGENT = conf.USER_AGENT
         self.user = models.User.objects(email=email).first()
 
