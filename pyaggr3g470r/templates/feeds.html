@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>You are subscribed to {{ feeds|count }} feeds</h1>
+    <h1>You are subscribed to {{ feeds|count }} feeds &middot; Add a <a href="/edit_feed/">feed</a></h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
