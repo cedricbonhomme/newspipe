@@ -96,6 +96,8 @@ class FeedGetter(object):
         for th in list_of_threads:
             th.join()
 
+        self.user.save()
+
     def process(self, feed):
         """
         Retrieves articles form the feed and add them to the database.
@@ -111,10 +113,11 @@ class FeedGetter(object):
             if "feedproxy" in urlparse(nice_url).netloc:
                 try:
                     # resolves URL behind proxies (like feedproxy.google.com)
-                    r = requests.get(article.link, timeout=10.0, proxies=self.proxies)
+                    r = requests.get(article.link, timeout=5.0, proxies=self.proxies)
                     nice_url = r.url.encode("utf-8")
                 except Timeout:
                     pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
+                    print "Time out"
                     continue
                 except Exception as e:
                     pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
@@ -187,7 +190,7 @@ class FeedGetter(object):
         # add the articles to the list of articles for the current feed
         feed.articles.extend(articles)
         feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-        self.user.save()
+        return True
 
 
 if __name__ == "__main__":
