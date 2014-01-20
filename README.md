@@ -14,6 +14,7 @@ Features
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * e-mail notification;
+* export articles to HTML;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
 
@@ -36,7 +37,9 @@ Configuration is done via the file **conf/conf.cfg**.
 
 Alternatively you can run the script ``install.sh``.
 
-You can configure pyAggr3g470r (proxy, user agent, etc.) in the file ``conf/conf.cfg``.
+You can configure pyAggr3g470r (proxy, user agent, etc.) in the file ``conf/conf.cfg``.  
+If you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
+``http_proxy`` (for example: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
 
 Backup
 ------
