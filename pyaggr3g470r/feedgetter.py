@@ -116,7 +116,6 @@ class FeedGetter(object):
                 nice_url = r.url.encode("utf-8")
             except Timeout:
                 pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
-                print "Time out"
                 continue
             except Exception as e:
                 pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
