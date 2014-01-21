@@ -25,6 +25,7 @@ DATABASE_ADDRESS = config.get('database', 'address')
 
 HTTP_PROXY = config.get('feedparser', 'http_proxy')
 USER_AGENT = config.get('feedparser', 'user_agent')
+RESOLVE_ARTICLE_URL = int(config.get('feedparser', 'resolve_article_url')) == 1
 
 WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
 WEBSERVER_HOST = config.get('webserver', 'host')

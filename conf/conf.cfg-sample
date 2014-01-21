@@ -7,6 +7,7 @@ password = root
 [feedparser]
 http_proxy = 
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
+resolve_article_url = 0
 [webserver]
 debug = 1
 host = 0.0.0.0

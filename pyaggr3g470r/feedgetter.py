@@ -110,16 +110,17 @@ class FeedGetter(object):
         for article in a_feed['entries']:
 
             nice_url = article.link.encode("utf-8")
-            try:
-                # resolves URL behind proxies (like feedproxy.google.com)
-                r = requests.get(article.link, timeout=5.0, proxies=self.proxies)
-                nice_url = r.url.encode("utf-8")
-            except Timeout:
-                pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
-                continue
-            except Exception as e:
-                pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
-                continue
+            if conf.RESOLVE_ARTICLE_URL:
+                try:
+                    # resolves URL behind proxies (like feedproxy.google.com)
+                    r = requests.get(article.link, timeout=5.0, proxies=self.proxies)
+                    nice_url = r.url.encode("utf-8")
+                except Timeout:
+                    pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
+                    continue
+                except Exception as e:
+                    pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
+                    continue
             # remove utm_* parameters
             parsed_url = urlparse(nice_url)
             qd = parse_qs(parsed_url.query, keep_blank_values=True)
