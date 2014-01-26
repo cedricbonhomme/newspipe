@@ -108,9 +108,15 @@ class FeedGetter(object):
 
         # Feed informations
         if feed.title == "":
-            feed.title = a_feed.feed.title
+            try:
+                feed.title = a_feed.feed.title
+            except:
+                feed.title = ""
         if feed.description == "":
-            feed.description = a_feed.feed.subtitle
+            try:
+                feed.description = a_feed.feed.subtitle
+            except:
+                feed.description = ""
 
         articles = []
         for article in a_feed['entries']:
