@@ -25,7 +25,7 @@
                             <i class="glyphicon glyphicon-eye-close" title="Feed disabled"></i>
                         {% endif %}
                     </td>
-                    <td><a href="/feed/{{ feed.oid }}">{{ feed.title }}</a></td>
+                    <td><a href="/feed/{{ feed.oid }}" {% if feed.description %}title="{{ feed.description  }}"{% endif %}>{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
                     <td>{{ feed.articles|count }}</td>
                     <td>
