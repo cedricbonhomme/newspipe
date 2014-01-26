@@ -64,7 +64,7 @@ class Feed(EmbeddedDocument):
     """
     oid = ObjectIdField(default=bson.objectid.ObjectId , primary_key=True)
     title = StringField(required=True)
-    description = StringField(required=True)
+    description = StringField(default="")
     link = StringField(required=True, unique=True)
     site_link = StringField(required=True)
     email_notification = BooleanField(default=False)
