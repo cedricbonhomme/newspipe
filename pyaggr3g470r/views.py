@@ -372,7 +372,7 @@ def edit_feed(feed_id=None):
             # Create a new feed
             existing_feed = [feed for feed in user.feeds if feed.link == form.link.data]
             if len(existing_feed) == 0:
-                new_feed = models.Feed(title=form.title.data, link=form.link.data, \
+                new_feed = models.Feed(title=form.title.data, description="", link=form.link.data, \
                                         site_link=form.site_link.data, email=form.email_notification.data, \
                                         enabled=form.enabled.data)
                 user.feeds.append(new_feed)

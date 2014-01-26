@@ -106,6 +106,12 @@ class FeedGetter(object):
         if a_feed['entries'] == []:
             return
 
+        # Feed informations
+        if feed.title == "":
+            feed.title = a_feed.feed.title
+        if feed.description == "":
+            feed.description = a_feed.feed.subtitle
+
         articles = []
         for article in a_feed['entries']:
 
