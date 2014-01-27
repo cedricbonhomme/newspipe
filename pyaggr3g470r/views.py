@@ -160,7 +160,7 @@ def feed(feed_id=None):
                 average = 0
             elapsed = today - last_article
 
-            return render_template('feed.html', head_title=feed.title, feed=feed, tag_cloud=tag_cloud, \
+            return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
                                    first_post_date=first_article, end_post_date=last_article , \
                                    average=average, delta=delta, elapsed=elapsed)
 
@@ -175,7 +175,7 @@ def article(article_id=None):
     if not article.readed:
         article.readed = True
         article.save()
-    return render_template('article.html', head_title=article.title, article=article)
+    return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
 
 @app.route('/mark_as_read/', methods=['GET'])
 @login_required
