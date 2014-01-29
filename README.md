@@ -31,6 +31,10 @@ In order to prevent all dependencies problems and to keep your system stable, th
 installed in a Python virtual environment (with [virtualenv](http://www.virtualenv.org)).
 The installation will use the configuration file for the database setup.
 
+Point now your browser to the address [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and login with email address
+*firstname.lastname@mail.com* and the password *secret*. You can update your profile at the
+address [http://127.0.0.1:5000/profile/](http://127.0.0.1:5000/profile/).
+
 As already said, you can configure pyAggr3g470r (database name, proxy, user agent, etc.) in the file ``conf/conf.cfg``.  
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
 ``http_proxy`` (for example: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.  
