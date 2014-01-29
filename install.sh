@@ -10,8 +10,12 @@ pip install --user virtualenv
 virtualenv --no-site-packages ./env_pyAggr3g470r
 source ./env_pyAggr3g470r/bin/activate
 pip install --upgrade -r requirements.txt
-deactivate
 
 # Configuration
 cp conf/conf.cfg-sample conf/conf.cfg
-python pyaggr3g470r/initialization.py pyaggr3g470r firstname lastname firstname.lastname@gmail.com secret
+python pyaggr3g470r/initialization.py pyaggr3g470r firstname lastname firstname.lastname@mail.com secret
+
+# Launch pyAggr3g470r
+python runserver.py
+
+deactivate
