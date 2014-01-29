@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Installation of MongoDB
 sudo apt-get install -y mongodb-server
@@ -14,4 +14,4 @@ deactivate
 
 # Configuration
 cp conf/conf.cfg-sample conf/conf.cfg
-python initialization.py pyaggr3g470r firstname lastname firstname.lastname@gmail.com secret
+python pyaggr3g470r/initialization.py pyaggr3g470r firstname lastname firstname.lastname@gmail.com secret

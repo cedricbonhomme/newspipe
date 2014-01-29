@@ -1,4 +1,5 @@
 feedparser
+requests
 whoosh
 BeautifulSoup
 mongoengine
