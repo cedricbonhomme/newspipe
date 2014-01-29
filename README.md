@@ -33,7 +33,7 @@ The installation will use the configuration file for the database setup.
 
 As already said, you can configure pyAggr3g470r (database name, proxy, user agent, etc.) in the file ``conf/conf.cfg``.  
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
-``http_proxy`` (for example: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
+``http_proxy`` (for example: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.  
 The default configuration should be good, so you really juste have to run the script ``install.sh``.
 
 Backup
