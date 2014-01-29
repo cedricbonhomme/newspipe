@@ -10,18 +10,18 @@ import sys
 from mongoengine import *
 from werkzeug import generate_password_hash
 
+import conf
 import models
 
 if __name__ == "__main__":
     # Point of entry in execution mode
-    database = sys.argv[1]
-    firstname = sys.argv[2]
-    lastname =  sys.argv[3]
-    email = sys.argv[4]
-    password = sys.argv[5]
+    firstname = sys.argv[1]
+    lastname =  sys.argv[2]
+    email = sys.argv[3]
+    password = sys.argv[4]
 
-    db = connect(database)
-    db.drop_database(database)
+    db = connect(conf.DATABASE_NAME)
+    db.drop_database(conf.DATABASE_NAME)
 
     user = models.User(firstname=firstname, lastname=lastname, \
                 email=email, pwdhash=generate_password_hash(password))

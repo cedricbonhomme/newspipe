@@ -36,7 +36,6 @@ from whoosh.qparser import QueryParser
 from whoosh.writing import AsyncWriter
 from collections import defaultdict
 
-import conf
 import utils
 import models
 

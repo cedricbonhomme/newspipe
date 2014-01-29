@@ -13,7 +13,7 @@ pip install --upgrade -r requirements.txt
 
 # Configuration
 cp conf/conf.cfg-sample conf/conf.cfg
-python pyaggr3g470r/initialization.py pyaggr3g470r firstname lastname firstname.lastname@mail.com secret
+python pyaggr3g470r/initialization.py firstname lastname firstname.lastname@mail.com secret
 
 # Launch pyAggr3g470r
 python runserver.py
