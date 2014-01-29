@@ -26,10 +26,10 @@ Installation
 You need to have installed Python >= 2.7, MongoDB and some Python libraries.
 Configuration is done via the file **conf/conf.cfg**.
 
-Launch the script ``install.sh`` in order to install automatically all Python requirements.  
+Launch the script ``install.sh`` in order to install automatically all requirements.  
 In order to prevent all dependencies problems and to keep your system stable, the libraries will be
-installed in a Python virtual environment with [virtualenv](http://www.virtualenv.org)).
-The installation will use the configuration file.
+installed in a Python virtual environment with ([virtualenv](http://www.virtualenv.org)).
+The installation will use the configuration file for the database setup.
 
 You can configure pyAggr3g470r (proxy, user agent, etc.) in the file ``conf/conf.cfg``.  
 If you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
