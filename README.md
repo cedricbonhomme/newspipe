@@ -31,7 +31,7 @@ In order to prevent all dependencies problems and to keep your system stable, th
 installed in a Python virtual environment (with [virtualenv](http://www.virtualenv.org)).
 The installation will use the configuration file for the database setup.
 
-Point now your browser to the address [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and login with email address
+Then point your browser to the address [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and login with the email address
 *firstname.lastname@mail.com* and the password *secret*. You can update your profile at the
 address [http://127.0.0.1:5000/profile/](http://127.0.0.1:5000/profile/).
 
