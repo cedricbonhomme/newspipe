@@ -2,8 +2,13 @@
 {% block content %}
 <div class="container">
     {% if feeds|count == 0  %}
-        <h1>No favorites.</h1>
+        <div class="page-header">
+            <h1>No favorites</h1>
+        </div>
     {% else %}
+        <div class="page-header">
+            <h1>Favorites articles <small>{{ nb_favorites }}</small></h1>
+        </div>
         {% for feed in feeds|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">

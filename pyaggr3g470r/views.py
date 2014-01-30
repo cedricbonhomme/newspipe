@@ -239,11 +239,14 @@ def favorites():
     """
     user = models.User.objects(email=g.user.email).first()
     result = []
+    nb_favorites = 0
     for feed in user.feeds:
         feed.articles = [article for article in feed.articles if article.like]
-        if len(feed.articles) != 0:
+        length = len(feed.articles)
+        if length != 0:
             result.append(feed)
-    return render_template('favorites.html', feeds=result)
+            nb_favorites += length
+    return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
 @app.route('/unread/', methods=['GET'])
 @login_required
@@ -253,11 +256,14 @@ def unread():
     """
     user = models.User.objects(email=g.user.email).first()
     result = []
+    nb_unread = 0
     for feed in user.feeds:
         feed.articles = [article for article in feed.articles if not article.readed]
-        if len(feed.articles) != 0:
+        length = len(feed.articles)
+        if length != 0:
             result.append(feed)
-    return render_template('unread.html', feeds=result)
+            nb_unread += length
+    return render_template('unread.html', feeds=result, nb_unread=nb_unread)
 
 @app.route('/inactives/', methods=['GET'])
 @login_required
