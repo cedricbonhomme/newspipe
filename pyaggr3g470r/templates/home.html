@@ -23,7 +23,7 @@
                         {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
                             <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title|safe }}</a>
                         {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
-                        <h6>{{ feed.articles[n].date }}</h6>
+                        <h6>{{ feed.articles[n].date.strftime('%A, %d %B %Y') }}</h6>
                     </div>
                     {% endfor %}
                 </div>
@@ -35,7 +35,7 @@
                             {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
                                 <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title|safe }}</a>
                             {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
-                            <h6>{{ feed.articles[n].date }}</h6>
+                            <h6>{{ feed.articles[n].date.strftime('%A, %d %B %Y') }}</h6>
                         </div>
                     {% endfor %}
                 </div>
