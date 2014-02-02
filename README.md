@@ -24,7 +24,7 @@ Installation
 ------------
 
 You need to have installed Python >= 2.7, MongoDB and some Python libraries.
-Configuration is done via the file **conf/conf.cfg**.
+Configuration is done via the file *conf/conf.cfg*.
 
 Launch the script ``install.sh`` in order to install automatically all requirements.  
 In order to prevent all dependencies problems and to keep your system stable, the libraries will be
@@ -35,10 +35,21 @@ Then point your browser to the address [http://127.0.0.1:5000/](http://127.0.0.1
 *firstname.lastname@mail.com* and the password *secret*. You can update your profile at the
 address [http://127.0.0.1:5000/profile/](http://127.0.0.1:5000/profile/).
 
-As already said, you can configure pyAggr3g470r (database name, proxy, user agent, etc.) in the file ``conf/conf.cfg``.  
+As already said, you can configure pyAggr3g470r (database name, proxy, user agent, etc.) in the file *conf/conf.cfg*.  
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
-``http_proxy`` (for example: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.  
-The default configuration should be good, so you really juste have to run the script ``install.sh``.
+*http_proxy* (most of the time: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
+
+However, the default configuration should be good, so you really just have to run the script *install.sh*.
+
+Automatic updates
+-----------------
+
+You can fetch new articles with [cron](https://en.wikipedia.org/wiki/Cron) and the script *fetch.py*.
+For example if you want to check for updates every 30 minutes, add this line to your cron rules (``crontal -e``):
+
+    */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py firstname.lastname@mail.com
+
+You must give the email address you use to login to pyAggr3g470r.
 
 Backup
 ------
