@@ -45,7 +45,7 @@ Automatic updates
 -----------------
 
 You can fetch new articles with [cron](https://en.wikipedia.org/wiki/Cron) and the script *fetch.py*.
-For example if you want to check for updates every 30 minutes, add this line to your cron rules (``crontal -e``):
+For example if you want to check for updates every 30 minutes, add this line to your cron rules (``crontab -e``):
 
     */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py firstname.lastname@mail.com
 
