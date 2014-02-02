@@ -178,13 +178,22 @@ def article(article_id=None):
     return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
 
 @app.route('/mark_as_read/', methods=['GET'])
+@app.route('/mark_as_read/<feed_id>', methods=['GET'])
 @login_required
-def mark_as_read():
+def mark_as_read(feed_id=None):
     """
     Mark all unreaded articles as read.
     """
-    #user = models.User.objects(email=g.user.email).first()
-    models.Article.objects(readed=False).update(set__readed=True)
+    if feed_id != None:
+        user = models.User.objects(email=g.user.email).first()
+        for feed in user.feeds:
+            if str(feed.oid) == feed_id:
+                unread_articles = [article for article in feed.articles if not article.readed]
+                for article in unread_articles:
+                    article.readed = True
+                    article.save()
+    else:
+        models.Article.objects(readed=False).update(set__readed=True)
     return redirect(url_for('home'))
 
 @app.route('/like/<article_id>', methods=['GET'])
