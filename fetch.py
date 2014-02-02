@@ -8,7 +8,6 @@
 # to fetch articles every 30 minutes.
 
 import sys
-import conf
 from pyaggr3g470r import feedgetter
 
 if __name__ == "__main__":
