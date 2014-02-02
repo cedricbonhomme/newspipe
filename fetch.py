@@ -13,6 +13,5 @@ from pyaggr3g470r import feedgetter
 
 if __name__ == "__main__":
     # Point of entry in execution mode
-    print sys.argv[1]
     feed_getter = feedgetter.FeedGetter(sys.argv[1])
     feed_getter.retrieve_feed(None)
