@@ -41,7 +41,7 @@ def search(term):
     Search a term.
     """
     try:
-        return es.search(index="pyaggr3g470r", body=
+        es.search(index="pyaggr3g470r", body=
             {"query" : {
                     "filtered" : {
                         "query" : { 
@@ -54,5 +54,4 @@ def search(term):
                 }
             }, size=5000)
     except elasticsearch.exceptions.NotFoundError as e:
-        logger.warning(str(e))
-        return None
+        pass
