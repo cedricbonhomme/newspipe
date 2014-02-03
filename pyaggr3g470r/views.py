@@ -89,6 +89,10 @@ def logout():
     flash("Logged out successfully.", 'success')
     return redirect(url_for('home'))
 
+def redirect_url(default='index'):
+    return request.args.get('next') or \
+            request.referrer or \
+            url_for(default)
 
 
 
@@ -192,9 +196,14 @@ def mark_as_read(feed_id=None):
                 for article in unread_articles:
                     article.readed = True
                     article.save()
+                flash('Articles of the feed "' + feed.title  + '" marked as read.', 'info')
+                break
+        else:
+            flash("This feed do not exist.", 'warning')
     else:
         models.Article.objects(readed=False).update(set__readed=True)
-    return redirect(url_for('home'))
+        flash("All articles marked as read", 'info')
+    return redirect(redirect_url())
 
 @app.route('/like/<article_id>', methods=['GET'])
 @login_required
