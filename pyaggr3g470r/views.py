@@ -118,7 +118,7 @@ def fetch(feed_id=None):
     feed_getter = feedgetter.FeedGetter(g.user.email)
     feed_getter.retrieve_feed(feed_id)
     flash("New articles retrieved.", 'success')
-    return redirect(url_for('home'))
+    return redirect(redirect_url())
 
 @app.route('/about/', methods=['GET'])
 @login_required
