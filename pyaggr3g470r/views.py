@@ -144,6 +144,7 @@ def feed(feed_id=None):
     Presents detailed information about a feed.
     """
     word_size = 6
+    nb_articles = models.Article.objects().count()
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
@@ -165,7 +166,7 @@ def feed(feed_id=None):
             elapsed = today - last_article
 
             return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
-                                   first_post_date=first_article, end_post_date=last_article , \
+                                   first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
                                    average=average, delta=delta, elapsed=elapsed)
 
 @app.route('/article/<article_id>', methods=['GET'])
