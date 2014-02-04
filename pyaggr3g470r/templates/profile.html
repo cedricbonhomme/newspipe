@@ -17,6 +17,7 @@
             {{ form.password.label }}
             {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
+            <br />
             {{ form.submit(class_="btn") }}
         </form>
     </div>
