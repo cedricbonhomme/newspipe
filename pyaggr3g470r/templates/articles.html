@@ -5,7 +5,11 @@
         <h2><a href="{{ feed.site_link  }}">{{ feed.title|safe }}</a></h2>
         <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
         <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
-        <h3>{{ feed.articles|count  }} articles.</h3>
+        {% if nb_articles == -1 %}
+            <h3>{{ feed.articles|count  }} articles.</h3>
+        {% else %}
+            <h3>Last {{ feed.articles|count }} articles. See <a href="/articles/{{ feed.oid }}">all articles</a>.</h3>
+        {% endif %}
     </div>
     {% if feed.articles|count == 0  %}
         <h1>No articles.</h1>
