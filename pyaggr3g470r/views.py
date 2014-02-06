@@ -321,6 +321,7 @@ def index_database():
     """
     user = models.User.objects(email=g.user.email).first()
     fastsearch.create_index(user.feeds)
+    flash('Database indexed.', 'success')
     return redirect(url_for('home'))
 
 @app.route('/export/', methods=['GET'])
