@@ -246,7 +246,11 @@ def delete(article_id=None):
 @app.route('/articles/<feed_id>/<int:nb_articles>', methods=['GET'])
 @login_required
 def articles(feed_id=None, nb_articles=-1):
-    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    try:
+        user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    except:
+        flash("No such feed.", "danger")
+        return redirect(url_for('home'))
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
             if len(feed.articles) <= nb_articles:
@@ -254,6 +258,9 @@ def articles(feed_id=None, nb_articles=-1):
             if nb_articles != -1:
                 feed.articles = feed.articles[0:nb_articles]
             return render_template('articles.html', feed=feed, nb_articles=nb_articles)
+    else:
+        flash("No such feed.", "error")
+        return redirect(url_for('home'))
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
