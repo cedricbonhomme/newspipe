@@ -9,7 +9,7 @@
     </div>
     <div class="jumbotron">
         <p>
-        This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.oid }}">articles</a>
+        This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.oid }}/100">articles</a>
         ({{ ((feed.articles|count * 100 ) / nb_articles) | round(2, 'floor') }}% of the database).<br />
         Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a>.<br />
         Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>.<br />
