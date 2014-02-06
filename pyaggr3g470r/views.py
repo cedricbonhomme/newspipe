@@ -249,6 +249,8 @@ def articles(feed_id=None, nb_articles=-1):
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
+            if len(feed.articles) <= nb_articles:
+                nb_articles = -1
             if nb_articles != -1:
                 feed.articles = feed.articles[0:nb_articles]
             return render_template('articles.html', feed=feed, nb_articles=nb_articles)
