@@ -471,7 +471,7 @@ def delete_feed(feed_id=None):
             break
     else:
         flash('Impossible to delete this feed.', 'danger')
-    return redirect(url_for('home'))
+    return redirect(redirect_url())
 
 @app.route('/profile/', methods=['GET', 'POST'])
 @login_required
