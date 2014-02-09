@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 4.5 $"
 __date__ = "$Date: 2010/01/29 $"
-__revision__ = "$Date: 2014/01/29 $"
+__revision__ = "$Date: 2014/02/09 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -168,6 +168,9 @@ def feed(feed_id=None):
             return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
                                    first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
                                    average=average, delta=delta, elapsed=elapsed)
+    else:
+        flash("This feed do not exist.", 'warning')
+        return redirect(redirect_url())
 
 @app.route('/article/<article_id>', methods=['GET'])
 @login_required
@@ -177,6 +180,9 @@ def article(article_id=None):
     """
     #user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
     article = models.Article.objects(id=article_id).first()
+    if article == None:
+        flash("This article do not exist.", 'warning')
+        return redirect(redirect_url())
     if not article.readed:
         article.readed = True
         article.save()
@@ -215,7 +221,7 @@ def like(article_id=None):
     #user = models.User.objects(email=g.user.email).first()
     models.Article.objects(id=article_id).update(set__like= \
                                         (not models.Article.objects(id=article_id).first().like))
-    return redirect("/article/"+article_id)
+    return redirect(redirect_url())
 
 @app.route('/delete/<article_id>', methods=['GET'])
 @login_required
