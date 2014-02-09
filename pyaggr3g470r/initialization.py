@@ -10,6 +10,7 @@ import sys
 from mongoengine import *
 from werkzeug import generate_password_hash
 
+sys.path.append(".")
 import conf
 import models
 
