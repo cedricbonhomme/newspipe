@@ -314,7 +314,10 @@ def inactives():
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
-        last_post = feed.articles[0].date
+        try:
+            last_post = feed.articles[0].date
+        except IndexError:
+            continue
         elapsed = today - last_post
         if elapsed > datetime.timedelta(days=nb_days):
             inactives.append((feed, elapsed))
