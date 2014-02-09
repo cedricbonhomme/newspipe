@@ -81,13 +81,14 @@ def import_opml(email, opml_file):
         subscriptions = opml.parse(opml_file)
     except Exception as e:
         raise e
+    nb = 0
     for subscription in subscriptions:
 
         try:
             title = subscription.text
         except:
             title = ""
-        print title
+
         try:
             description = subscription.description
         except:
@@ -109,8 +110,11 @@ def import_opml(email, opml_file):
 
         new_feed = models.Feed(title=title, description=description, link=link, site_link=site_link, email=False, enabled=True)
         user.feeds.append(new_feed)
+        
+        nb += 1
 
     user.save()
+    return nb
 
 def open_url(url):
     """
