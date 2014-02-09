@@ -1,4 +1,5 @@
 feedparser
+opml
 requests
 whoosh
 BeautifulSoup

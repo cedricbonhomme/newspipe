@@ -37,6 +37,7 @@ __license__ = "GPLv3"
 import os
 import re
 import glob
+import opml
 import operator
 import calendar
 
@@ -46,6 +47,7 @@ from collections import Counter
 from contextlib import contextmanager
 
 import conf
+import models
 
 # regular expression to check URL
 url_finders = [ \
@@ -69,6 +71,23 @@ def opened_w_error(filename, mode="r"):
             yield f, None
         finally:
             f.close()
+
+def import_opml(email, opml_file):
+    """
+    Import new feeds from an OPML file.
+    """
+    user = models.User.objects(email=email).first()
+    try:
+        subscriptions = opml.parse(opml_file)
+    except Exception as e:
+        raise e
+    for subscription in subscriptions:
+        existing_feed = [feed for feed in user.feeds if feed.link == subscription.xmlUrl]
+        if len(existing_feed) == 0:
+            new_feed = models.Feed(title=subscription.title, description=subscription.description, link=subscription.xmlUrl, \
+                                    site_link=subscription.htmlUrl, email=False, enabled=True)
+            user.feeds.append(new_feed)
+    user.save()
 
 def open_url(url):
     """

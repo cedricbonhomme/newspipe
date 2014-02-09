@@ -26,6 +26,7 @@ __revision__ = "$Date: 2014/02/09 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import os
 import datetime
 from flask import render_template, request, make_response, flash, session, url_for, redirect, g
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
@@ -329,7 +330,7 @@ def index_database():
     fastsearch.create_index(user.feeds)
     flash('Database indexed.', 'success')
     return redirect(url_for('home'))
-
+    
 @app.route('/export/', methods=['GET'])
 @login_required
 def export_articles():
@@ -369,12 +370,24 @@ def search():
                     result.append(feed)
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
-@app.route('/management/', methods=['GET'])
+@app.route('/management/', methods=['GET', 'POST'])
 @login_required
 def management():
     """
     Display the management page.
     """
+    if request.method == 'POST':
+        # Import an OPML file
+        data = request.files['opmlfile']
+        opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
+        data.save(opml_path)
+        try:
+            utils.import_opml(g.user.email, opml_path)
+            flash("New feeds imported", "success")
+        except:
+            flash("Impossible to import the new feeds.", "danger")
+        
+
     form = AddFeedForm()
     user = models.User.objects(email=g.user.email).first()
     nb_feeds = len(user.feeds)
