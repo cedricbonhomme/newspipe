@@ -10,9 +10,15 @@
     <div class="jumbotron">
         <p>
         This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.oid }}/100">articles</a>
-        ({{ ((feed.articles|count * 100 ) / nb_articles) | round(2, 'floor') }}% of the database).<br />
-        Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a>.<br />
-        Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>.<br />
+        {% if nb_articles != 0 %}
+            ({{ ((feed.articles|count * 100 ) / nb_articles) | round(2, 'floor') }}% of the database)
+        {% endif %}
+        .<br />
+        Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
+        {% if feed.site_link != "" %}
+            Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>
+        {% endif %}
+        <br />
         {% if feed.articles|count != 0 %}
             The last article was posted {{ elapsed.days }} day(s) ago.<br />
             Daily average: {{ average }}, between the {{ first_post_date.strftime('%Y-%m-%d') }} and the {{ end_post_date.strftime('%Y-%m-%d') }}.

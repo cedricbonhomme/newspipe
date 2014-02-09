@@ -82,11 +82,34 @@ def import_opml(email, opml_file):
     except Exception as e:
         raise e
     for subscription in subscriptions:
-        existing_feed = [feed for feed in user.feeds if feed.link == subscription.xmlUrl]
-        if len(existing_feed) == 0:
-            new_feed = models.Feed(title=subscription.title, description=subscription.description, link=subscription.xmlUrl, \
-                                    site_link=subscription.htmlUrl, email=False, enabled=True)
-            user.feeds.append(new_feed)
+
+        try:
+            title = subscription.text
+        except:
+            title = ""
+        print title
+        try:
+            description = subscription.description
+        except:
+            description = ""
+
+        try:
+            link = subscription.xmlUrl
+        except:
+            continue
+
+        existing_feed = [feed for feed in user.feeds if feed.link == link]
+        if len(existing_feed) != 0:
+            continue
+
+        try:
+            site_link = subscription.htmlUrl
+        except:
+            site_link = ""
+
+        new_feed = models.Feed(title=title, description=description, link=link, site_link=site_link, email=False, enabled=True)
+        user.feeds.append(new_feed)
+
     user.save()
 
 def open_url(url):

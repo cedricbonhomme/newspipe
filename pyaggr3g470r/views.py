@@ -384,8 +384,8 @@ def management():
         try:
             utils.import_opml(g.user.email, opml_path)
             flash("New feeds imported", "success")
-        except:
-            flash("Impossible to import the new feeds.", "danger")
+        except Exception as e:
+            flash("Impossible to import the new feeds."+str(e), "danger")
         
 
     form = AddFeedForm()
