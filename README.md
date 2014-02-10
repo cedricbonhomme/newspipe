@@ -14,6 +14,7 @@ Features
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
 * feeds batch import with OPML files;
+* export all your feeds to OPML;
 * e-mail notification;
 * export articles to HTML;
 * favorite articles;
