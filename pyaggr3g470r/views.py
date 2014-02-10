@@ -354,6 +354,7 @@ def export_articles():
     return response
 
 @app.route('/export_opml/', methods=['GET'])
+@login_required
 def export_opml():
     """
     Export all feeds to OPML.
