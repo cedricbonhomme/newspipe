@@ -9,10 +9,11 @@ Presentation
 based on [Flask](http://flask.pocoo.org/). Articles are stored in a [MongoDB](http://api.mongodb.org/python/current/) base.
 
 Features
-------------
+--------
 
 * articles are stored in a [MongoDB](http://www.mongodb.org/) database;
 * fast full-text indexing and searching thanks the [Whoosh](https://bitbucket.org/mchaput/whoosh) library;
+* feeds batch import with OPML files;
 * e-mail notification;
 * export articles to HTML;
 * favorite articles;
