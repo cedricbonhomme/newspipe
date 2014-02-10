@@ -335,7 +335,7 @@ def index_database():
     fastsearch.create_index(user.feeds)
     flash('Database indexed.', 'success')
     return redirect(url_for('home'))
-    
+
 @app.route('/export/', methods=['GET'])
 @login_required
 def export_articles():
@@ -351,6 +351,17 @@ def export_articles():
     response = make_response(archive_file)
     response.headers['Content-Type'] = 'application/x-compressed'
     response.headers['Content-Disposition'] = 'attachment; filename='+archive_file_name
+    return response
+
+@app.route('/export_opml/', methods=['GET'])
+def export_opml():
+    """
+    Export all feeds to OPML.
+    """
+    user = models.User.objects(email=g.user.email).first()
+    response = make_response(render_template('opml.xml', user=user, now=datetime.datetime.now()))
+    response.headers['Content-Type'] = 'application/xml'
+    response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
 
 @app.route('/search/', methods=['GET'])
@@ -391,7 +402,7 @@ def management():
             flash(str(nb) + " feeds imported.", "success")
         except Exception as e:
             flash("Impossible to import the new feeds.", "danger")
-        
+
 
     form = AddFeedForm()
     user = models.User.objects(email=g.user.email).first()
