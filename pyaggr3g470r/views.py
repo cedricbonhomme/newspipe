@@ -147,6 +147,8 @@ def feed(feed_id=None):
     word_size = 6
     nb_articles = models.Article.objects().count()
     user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
+    if user == None:
+        return redirect(url_for('feeds'))
     for feed in user.feeds:
         if str(feed.oid) == feed_id:
             articles = feed.articles

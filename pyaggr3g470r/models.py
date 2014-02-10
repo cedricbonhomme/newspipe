@@ -66,7 +66,7 @@ class Feed(EmbeddedDocument):
     title = StringField(required=True)
     description = StringField(default="")
     link = StringField(required=True, unique=True)
-    site_link = StringField(required=True)
+    site_link = StringField()
     email_notification = BooleanField(default=False)
     enabled = BooleanField(default=True)
     articles = ListField(ReferenceField('Article', dbref = False))

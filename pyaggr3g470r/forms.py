@@ -53,7 +53,7 @@ class SigninForm(Form):
 class AddFeedForm(Form):
     title = TextField("Title", [validators.Required("Please enter a title.")])
     link = TextField("Feed link", [validators.Required("Please enter a link for the feed.")])
-    site_link = TextField("Site link", [validators.Required("Please enter a site URL.")])
+    site_link = TextField("Site link")
     email_notification = BooleanField("Email notification", default=False)
     enabled = BooleanField("Check for updates", default=True)
     submit = SubmitField("Save")
