@@ -27,9 +27,10 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
-import datetime
-from flask import render_template, request, make_response, flash, session, url_for, redirect, g
+from datetime import datetime
+from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
+from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
 
 import conf
 import utils
@@ -39,9 +40,28 @@ import models
 import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
+from pyaggr3g470r.models import User, Feed, Article, Role
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+#
+# Management of the user's session.
+#
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    # Set the identity user object
+    identity.user = current_user
+
+    # Add the UserNeed to the identity
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    # Assuming the User model has a list of roles, update the
+    # identity with the roles that the user provides
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.name))
 
 @app.before_request
 def before_request():
@@ -65,30 +85,7 @@ def authentication_failed(e):
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
-    return models.User.objects(email=email).first()
-
-@app.route('/login/', methods=['GET', 'POST'])
-def login():
-    g.user = AnonymousUserMixin()
-    form = SigninForm()
-
-    if form.validate_on_submit():
-        user = models.User.objects(email=form.email.data).first()
-        login_user(user)
-        g.user = user
-        flash("Logged in successfully.", 'success')
-        return redirect(url_for('home'))
-    return render_template('login.html', form=form)
-
-@app.route('/logout/')
-@login_required
-def logout():
-    """
-    Remove the user information from the session.
-    """
-    logout_user()
-    flash("Logged out successfully.", 'success')
-    return redirect(url_for('home'))
+    return User.query.filter(User.email == email).first()
 
 def redirect_url(default='index'):
     return request.args.get('next') or \
@@ -98,16 +95,63 @@ def redirect_url(default='index'):
 
 
 
+#
+# Views.
+#
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    """
+    Log in view.
+    """
+    g.user = AnonymousUserMixin()
+    form = SigninForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter(User.email == form.email.data).first()
+        login_user(user)
+        g.user = user
+        identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+        flash("Logged in successfully.", 'success')
+        return redirect(url_for('home'))
+    return render_template('login.html', form=form)
+
+@app.route('/logout/')
+@login_required
+def logout():
+    """
+    Log out view. Removes the user information from the session.
+    """
+    # Update last_seen field
+    g.user.last_seen = datetime.utcnow()
+    db.session.add(g.user)
+    db.session.commit()
+
+    # Remove the user information from the session
+    logout_user()
+
+    # Remove session keys set by Flask-Principal
+    for key in ('identity.name', 'identity.auth_type'):
+        session.pop(key, None)
+
+    # Tell Flask-Principal the user is anonymous
+    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
+
+    flash("Logged out successfully.", 'success')
+    return redirect(url_for('map_view'))
+
 @app.route('/')
 @login_required
 def home():
     """
     The home page lists most recent articles of all feeds.
     """
-    user = g.user
-    feeds = models.User.objects(email=g.user.email).fields(slice__feeds__articles=9).first().feeds
+    user = User.query.filter(User.email == g.user.email).first()
+    feeds = []
+    for feed in user.feeds:
+        feed.articles = feed.articles[:8]
+        feeds.append(feed)
     return render_template('home.html', user=user, feeds=feeds, \
-                            head_title=models.Article.objects(readed=False).count())
+                            head_title="nb unread")
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<feed_id>', methods=['GET'])
@@ -135,60 +179,58 @@ def feeds():
     """
     Lists the subscribed  feeds in a table.
     """
-    feeds = models.User.objects(email=g.user.email).first().feeds
+    user = User.query.filter(User.email == g.user.email).first()
+    feeds = user.feeds
     return render_template('feeds.html', feeds=feeds)
 
-@app.route('/feed/<feed_id>', methods=['GET'])
+@app.route('/feed/<int:feed_id>', methods=['GET'])
 @login_required
 def feed(feed_id=None):
     """
     Presents detailed information about a feed.
     """
-    word_size = 6
-    nb_articles = models.Article.objects().count()
-    user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
-    if user == None:
-        return redirect(url_for('feeds'))
-    for feed in user.feeds:
-        if str(feed.oid) == feed_id:
-            articles = feed.articles
-            top_words = utils.top_words(articles, n=50, size=int(word_size))
-            tag_cloud = utils.tag_cloud(top_words)
+    feed = Feed.query.filter(Feed.id == feed_id).first()
+    if feed.subscriber.id == g.user.id:
+        word_size = 6
+        articles = feed.articles
+        nb_articles = len(feed.articles.all())
+        top_words = utils.top_words(articles, n=50, size=int(word_size))
+        tag_cloud = utils.tag_cloud(top_words)
 
-            today = datetime.datetime.now()
-            try:
-                last_article = articles[0].date
-                first_article = articles[-1].date
-                delta = last_article - first_article
-                average = round(float(len(articles)) / abs(delta.days), 2)
-            except:
-                last_article = datetime.datetime.fromtimestamp(0)
-                first_article = datetime.datetime.fromtimestamp(0)
-                delta = last_article - first_article
-                average = 0
-            elapsed = today - last_article
+        today = datetime.now()
+        try:
+            last_article = articles[0].date
+            first_article = articles[-1].date
+            delta = last_article - first_article
+            average = round(float(len(articles)) / abs(delta.days), 2)
+        except:
+            last_article = datetime.fromtimestamp(0)
+            first_article = datetime.fromtimestamp(0)
+            delta = last_article - first_article
+            average = 0
+        elapsed = today - last_article
 
-            return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
-                                   first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
-                                   average=average, delta=delta, elapsed=elapsed)
+        return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
+                            first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
+                            average=average, delta=delta, elapsed=elapsed)
     else:
         flash("This feed do not exist.", 'warning')
         return redirect(redirect_url())
 
-@app.route('/article/<article_id>', methods=['GET'])
+@app.route('/article/<int:article_id>', methods=['GET'])
 @login_required
 def article(article_id=None):
     """
     Presents the content of an article.
     """
-    #user = models.User.objects(email=g.user.email, feeds__oid=feed_id).first()
-    article = models.Article.objects(id=article_id).first()
-    if article == None:
-        flash("This article do not exist.", 'warning')
-        return redirect(redirect_url())
-    if not article.readed:
-        article.readed = True
-        article.save()
+    article = Article.query.filter(Article.id == article_id).first()
+    if article.feed.subscriber.id == g.user.id:
+        if article == None:
+            flash("This article do not exist.", 'warning')
+            return redirect(redirect_url())
+        if not article.readed:
+            article.readed = True
+            db.session.commit()
     return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
 
 @app.route('/mark_as_read/', methods=['GET'])
@@ -494,22 +536,22 @@ def delete_feed(feed_id=None):
 @login_required
 def profile():
     """
-    Edit the profile of the user.
+    Edit the profile of the currently logged user.
     """
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.email == g.user.email).first()
     form = ProfileForm()
 
     if request.method == 'POST':
-        if form.validate() == False:
+        if form.validate():
+            form.populate_obj(user)
+            if form.password.data != "":
+                user.set_password(form.password.data)
+            db.session.commit()
+            flash('User "' + user.firstname + '" successfully updated.', 'success')
+            return redirect(url_for('profile'))
+        else:
             return render_template('profile.html', form=form)
-
-        form.populate_obj(user)
-        if form.password.data != "":
-            user.set_password(form.password.data)
-        user.save()
-        flash('User "' + user.firstname + '" successfully updated', 'success')
-        return redirect('/profile/')
 
     if request.method == 'GET':
         form = ProfileForm(obj=user)
-        return render_template('profile.html', form=form)
+        return render_template('profile.html', user=user, form=form)

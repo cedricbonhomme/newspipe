@@ -15,6 +15,27 @@ except:
 config = confparser.SafeConfigParser()
 config.read("./conf/conf.cfg")
 
+
+
+
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+CSRF_ENABLED = True
+
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+
+# slow database query threshold (in seconds)
+DATABASE_QUERY_TIMEOUT = 0.5
+
+
+
+
+
+
+
+
+
 PATH = os.path.abspath(".")
 
 DATABASE_NAME = config.get('database', 'name')

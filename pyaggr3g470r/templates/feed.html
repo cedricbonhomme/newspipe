@@ -4,14 +4,14 @@
     <div class="jumbotron">
         <h2>{{ feed.title }}</h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
-        <a href="/delete_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
-        <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+        <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
+        <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
     </div>
     <div class="jumbotron">
         <p>
-        This feed contains {{ feed.articles|count }} <a href="/articles/{{ feed.oid }}/100">articles</a>
+        This feed contains {{ feed.articles.all()|count }} <a href="/articles/{{ feed.id }}/100">articles</a>
         {% if nb_articles != 0 %}
-            ({{ ((feed.articles|count * 100 ) / nb_articles) | round(2, 'floor') }}% of the database)
+            ({{ ((feed.articles.all()|count * 100 ) / nb_articles) | round(2, 'floor') }}% of the database)
         {% endif %}
         .<br />
         Address of the feed: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
@@ -19,14 +19,14 @@
             Address of the site: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>
         {% endif %}
         <br />
-        {% if feed.articles|count != 0 %}
+        {% if feed.articles.all()|count != 0 %}
             The last article was posted {{ elapsed.days }} day(s) ago.<br />
             Daily average: {{ average }}, between the {{ first_post_date.strftime('%Y-%m-%d') }} and the {{ end_post_date.strftime('%Y-%m-%d') }}.
         {% endif %}
         </p>
     </div>
     <div class="jumbotron">
-        {% if feed.articles|count != 0 %}
+        {% if feed.articles.all()|count != 0 %}
             <div>{{ tag_cloud|safe }}</div>
         {% endif %}
     </div>

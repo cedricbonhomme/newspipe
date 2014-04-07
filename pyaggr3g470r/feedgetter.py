@@ -34,9 +34,10 @@ from datetime import datetime
 from urllib import urlencode
 from urlparse import urlparse, parse_qs, urlunparse
 from BeautifulSoup import BeautifulSoup
-from mongoengine.queryset import NotUniqueError
+
 from requests.exceptions import Timeout
 
+from sqlalchemy.exc import IntegrityError
 
 import models
 import conf
@@ -44,7 +45,8 @@ import search
 import utils
 
 from flask.ext.mail import Message
-from pyaggr3g470r import app, mail
+from pyaggr3g470r import app, db, mail
+from pyaggr3g470r.models import User, Feed, Article
 
 import log
 pyaggr3g470r_log = log.Log("feedgetter")
@@ -73,7 +75,7 @@ class FeedGetter(object):
                             "https": "http://" + conf.HTTP_PROXY
                            }
         feedparser.USER_AGENT = conf.USER_AGENT
-        self.user = models.User.objects(email=email).first()
+        self.user = User.query.filter(User.email == email).first()
 
     def retrieve_feed(self, feed_id=None):
         """
@@ -81,7 +83,7 @@ class FeedGetter(object):
         """
         feeds = [feed for feed in self.user.feeds if feed.enabled]
         if feed_id != None:
-            feeds = [feed for feed in feeds if str(feed.oid) == feed_id]
+            feeds = [feed for feed in feeds if str(feed.id) == feed_id]
         for current_feed in feeds:
             try:
                 # launch a new thread for the RSS feed
@@ -95,8 +97,6 @@ class FeedGetter(object):
         # wait for all threads are done
         for th in list_of_threads:
             th.join()
-
-        self.user.save()
 
     def process(self, feed):
         """
@@ -170,24 +170,17 @@ class FeedGetter(object):
                 post_date = datetime(*article.updated_parsed[:6])
 
             # save the article
-            article = models.Article(post_date, nice_url, article_title, description, False, False)
-            try:
-                article.save()
-                articles.append(article)
-                pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, nice_url))
-            except NotUniqueError:
-                pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article_title, nice_url))
-                continue
-            except Exception as e:
-                pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
-                continue
+            article = Article(link=nice_url, title=article_title, 
+                              content=description, readed=False, like=False, date=post_date)
+            articles.append(article)
 
             # add the article to the Whoosh index
+            """
             try:
                 search.add_to_index([article], feed)
             except Exception as e:
                 pyaggr3g470r_log.error("Whoosh error.")
-                pass
+                pass"""
 
             # email notification
             if conf.MAIL_ENABLED and feed.email_notification:
@@ -199,8 +192,19 @@ class FeedGetter(object):
                     mail.send(msg)
 
         # add the articles to the list of articles for the current feed
-        feed.articles.extend(articles)
-        feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
+        for article in articles:
+            try:
+                feed.articles.append(article)
+                db.session.merge(article)
+                db.session.commit()
+                pyaggr3g470r_log.info("New article %s (%s) added." % (article_title, nice_url))
+            except IntegrityError:
+                pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article_title, nice_url))
+                db.session.rollback()
+                continue
+            except Exception as e:
+                pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
+                continue
         return True
 
 

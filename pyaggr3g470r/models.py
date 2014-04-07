@@ -26,86 +26,97 @@ __revision__ = "$Date: 2013/11/16 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from mongoengine import *
 from datetime import datetime
-
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+from pyaggr3g470r import db
 
-import bson.objectid
-
-class User(Document, UserMixin):
+class User(db.Model, UserMixin):
     """
-    Defines the model for a user.
+    Represent a user.
     """
-    firstname  = StringField(required=True)
-    lastname = StringField(required = True)
-    email = EmailField(required=True, unique=True)
-    pwdhash = StringField(required=True)
-    feeds = ListField(EmbeddedDocumentField('Feed'))
-    created_at = DateTimeField(required=True, default=datetime.now)
+    id = db.Column(db.Integer, primary_key = True)
+    firstname = db.Column(db.String())
+    lastname = db.Column(db.String())
+    email = db.Column(db.String(), index = True, unique = True)
+    pwdhash = db.Column(db.String())
+    roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
+    date_created = db.Column(db.DateTime(), default=datetime.now)
+    last_seen = db.Column(db.DateTime(), default=datetime.now)
+    feeds = db.relationship('Feed', backref = 'subscriber', lazy = 'dynamic', cascade='all,delete-orphan')
 
     def get_id(self):
+        """
+        Return the id (email) of the user.
+        """
         return self.email
 
     def set_password(self, password):
+        """
+        Hash the password of the user.
+        """
         self.pwdhash = generate_password_hash(password)
 
     def check_password(self, password):
+        """
+        Check the password of the user.
+        """
         return check_password_hash(self.pwdhash, password)
 
-    #required for administrative interface
-    def __unicode__(self):
-        return self.email
-
-class Feed(EmbeddedDocument):
-    """
-    Defines the model for a feed.
-    """
-    oid = ObjectIdField(default=bson.objectid.ObjectId , primary_key=True)
-    title = StringField(required=True)
-    description = StringField(default="")
-    link = StringField(required=True, unique=True)
-    site_link = StringField()
-    email_notification = BooleanField(default=False)
-    enabled = BooleanField(default=True)
-    articles = ListField(ReferenceField('Article', dbref = False))
-    created_date = DateTimeField(required=True, default=datetime.now)
-
-    meta = {
-        'ordering': ['+title']
-    }
+    def is_admin(self):
+        """
+        Return True if the user has administrator rights.
+        """
+        return len([role for role in self.roles if role.name == "admin"]) != 0
 
     def __eq__(self, other):
-        return self.oid == other.oid
+        return self.id == other.id
 
-    def __str__(self):
-        return 'Feed: %s' % self.title
+    def __repr__(self):
+        return '<User %r>' % (self.firstname)
 
-class Article(Document):
+class Role(db.Model):
     """
-    Defines the model for an article.
+    Represent a role.
     """
-    date = DateTimeField(required=True)
-    link = StringField(required=True, unique=True)
-    title = StringField(required=True)
-    content = StringField(required=True)
-    readed = BooleanField()
-    like = BooleanField()
-    retrieved_date = DateTimeField(required=True, default=datetime.now)
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(), unique = True)
 
-    meta = {
-        'ordering': ['-date'],
-        'indexes': [
-            {'fields': ['-date'],
-              'sparse': True, 'types': False },
-            {'fields': ['link'],
-              'sparse': True, 'unique': True, 'types': False }
-        ]
-    }
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __eq__(self, other):
-        return self.link == other
+class Feed(db.Model):
+    """
+    Represent a station.
+    """
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(), default="New station")
+    description = db.Column(db.String(), default="FR")
+    link = db.Column(db.String())
+    site_link = db.Column(db.String(), default="New station")
+    email_notification = db.Column(db.Boolean(), default=False)
+    enabled = db.Column(db.Boolean(), default=True)
+    created_date = db.Column(db.DateTime(), default=datetime.now)
+    articles = db.relationship('Article', backref = 'feed', lazy = 'dynamic', cascade='all,delete-orphan')
 
-    def __str__(self):
-        return 'Article: %s' % self.title
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Feed %r>' % (self.title)
+
+class Article(db.Model):
+    """
+    Represent an article from a feed.
+    """
+    id = db.Column(db.Integer, primary_key = True)
+    link = db.Column(db.String(), unique = True)
+    title = db.Column(db.String())
+    content = db.Column(db.String())
+    readed = db.Column(db.Boolean(), default=False)
+    like = db.Column(db.Boolean(), default=False)
+    date = db.Column(db.DateTime(), default=datetime.now)
+    retrieved_date = db.Column(db.DateTime(), default=datetime.now)
+
+    station_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
+
+    def __repr__(self):
+        return '<Article %r>' % (self.title)
