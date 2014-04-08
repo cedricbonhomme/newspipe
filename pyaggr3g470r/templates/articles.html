@@ -3,18 +3,18 @@
 <div class="container">
     <div class="jumbotron">
         <h2><a href="{{ feed.site_link  }}">{{ feed.title|safe }}</a></h2>
-        <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
-        <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+        <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
+        <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
         {% if nb_articles == -1 %}
-            <h3>{{ feed.articles|count  }} articles.</h3>
+            <h3>{{ feed.articles.all()|count  }} articles.</h3>
         {% else %}
-            <h3>Last {{ feed.articles|count }} articles. See <a href="/articles/{{ feed.oid }}">all articles</a>.</h3>
+            <h3>Last {{ feed.articles.all()|count }} articles. See <a href="/articles/{{ feed.id }}">all articles</a>.</h3>
         {% endif %}
     </div>
-    {% if feed.articles|count == 0  %}
+    {% if feed.articles.all()|count == 0  %}
         <h1>No articles.</h1>
     {% else %}
-        {% for number in range(0, feed.articles|length-(feed.articles|length % 3), 3) %}
+        {% for number in range(0, feed.articles.all()|length-(feed.articles.all()|length % 3), 3) %}
             <div class="row">
                 {% for n in range(number, number+3) %}
                 <div class="col-xs-6 col-sm-4 col-md-4">
@@ -26,9 +26,9 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        {% if feed.articles|length % 3 != 0 %}
+        {% if feed.articles.all()|length % 3 != 0 %}
             <div class="row">
-                 {% for n in range(feed.articles|length-(feed.articles|length % 3), feed.articles|length) %}
+                 {% for n in range(feed.articles.all()|length-(feed.articles.all()|length % 3), feed.articles.all()|length) %}
                     <div class="col-xs-6 col-sm-4 col-md-4">
                         {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
                             <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title|safe }}</a>
