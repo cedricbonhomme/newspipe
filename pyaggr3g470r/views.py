@@ -239,7 +239,7 @@ def article(article_id=None):
     Presents the content of an article.
     """
     article = Article.query.filter(Article.id == article_id).first()
-    if article.feed.subscriber.id == g.user.id:
+    if article.source.subscriber.id == g.user.id:
         if article == None:
             flash("This article do not exist.", 'warning')
             return redirect(redirect_url())
@@ -265,15 +265,18 @@ def mark_as_read(feed_id=None):
     db.session.commit()
     return redirect(redirect_url())
 
-@app.route('/like/<article_id>', methods=['GET'])
+@app.route('/like/<int:article_id>', methods=['GET'])
 @login_required
 def like(article_id=None):
     """
     Mark or unmark an article as favorites.
     """
     #user = models.User.objects(email=g.user.email).first()
-    models.Article.objects(id=article_id).update(set__like= \
-                                        (not models.Article.objects(id=article_id).first().like))
+    Article.query.filter(Article.id == article_id). \
+                update({
+                        "like": not Article.query.filter(Article.id == article_id).first().like
+                       })
+    db.session.commit()
     return redirect(redirect_url())
 
 @app.route('/delete/<article_id>', methods=['GET'])
