@@ -279,30 +279,21 @@ def like(article_id=None):
     db.session.commit()
     return redirect(redirect_url())
 
-@app.route('/delete/<article_id>', methods=['GET'])
+@app.route('/delete/<int:article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
     """
-    Delete an article from the MongoDB and the Whoosh
-    databases.
+    Delete an article from the database.
     """
-    user = models.User.objects(email=g.user.email).first()
-    # delete the article
-    for feed in user.feeds:
-        for article in feed.articles:
-            if str(article.id) == article_id:
-                feed.articles.remove(article)
-                article.delete()
-                user.save()
-                try:
-                    fastsearch.delete_article(str(feed.oid), str(article.id))
-                except:
-                    # if index is empty
-                    pass
-                flash('Article "' + article.title + '" deleted.', 'success')
-                return redirect(url_for('home'))
-    flash('Impossible to delete the article.', 'danger')
-    return redirect(url_for('home'))
+    article = Article.query.filter(Article.id == article_id).first()
+    if article != None:
+        db.session.delete(article)
+        db.session.commit()
+        flash('Article "' + article.title + '" deleted.', 'success')
+        return redirect(url_for('home'))
+    else:
+        flash('Impossible to delete the article.', 'danger')
+        return redirect(url_for('home'))
 
 @app.route('/articles/<feed_id>/', methods=['GET'])
 @app.route('/articles/<feed_id>/<int:nb_articles>', methods=['GET'])
