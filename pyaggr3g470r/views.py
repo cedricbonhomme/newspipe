@@ -463,14 +463,18 @@ def history():
     user = models.User.objects(email=g.user.email).first()
     return render_template('history.html')
 
-@app.route('/edit_feed/', methods=['GET', 'POST'])
-@app.route('/edit_feed/<feed_id>', methods=['GET', 'POST'])
+@app.route('/create_feed/', methods=['GET', 'POST'])
+@app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
 def edit_feed(feed_id=None):
     """
     Add or edit a feed.
     """
-    user = models.User.objects(email=g.user.email).first()
+    feed = Feed.query.filter(Feed.id == feed_id).first()
+    if feed != None and feed.subscriber.id != g.user.id:
+        flash("Not authorized", "error")
+        return redirect(redirect_url())
+
     form = AddFeedForm()
 
     if request.method == 'POST':
@@ -478,34 +482,30 @@ def edit_feed(feed_id=None):
             return render_template('edit_feed.html', form=form)
         if feed_id != None:
             # Edit an existing feed
-            for feed in user.feeds:
-                if str(feed.oid) == feed_id:
-                    form.populate_obj(feed)
-                    user.save()
-                    flash('Feed "' + feed.title + '" successfully updated.', 'success')
-                    return redirect('/edit_feed/' + feed_id)
+            form.populate_obj(feed)
+            db.session.commit()
+            flash('Feed "' + feed.title + '" successfully updated.', 'success')
+            return redirect('/edit_feed/' + str(feed_id))
         else:
             # Create a new feed
-            existing_feed = [feed for feed in user.feeds if feed.link == form.link.data]
+            existing_feed = [feed for feed in g.user.feeds if feed.link == form.link.data]
             if len(existing_feed) == 0:
-                new_feed = models.Feed(title=form.title.data, description="", link=form.link.data, \
-                                        site_link=form.site_link.data, email=form.email_notification.data, \
-                                        enabled=form.enabled.data)
-                user.feeds.append(new_feed)
-                user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-                user.save()
+                new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
+                                site_link=form.site_link.data, email_notification=form.email_notification.data, \
+                                enabled=form.enabled.data)
+                g.user.feeds.append(new_feed)
+                #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
+                db.session.commit()
                 flash('Feed "' + new_feed.title + '" successfully created.', 'success')
-                return redirect('/edit_feed/' + str(new_feed.oid))
+                return redirect('/edit_feed/' + str(new_feed.id))
             else:
                 flash('Feed "' + existing_feed[0].title + '" already in the database.', 'warning')
-                return redirect('/edit_feed/' + str(existing_feed[0].oid))
+                return redirect('/edit_feed/' + str(existing_feed[0].id))
 
     if request.method == 'GET':
         if feed_id != None:
-            for feed in user.feeds:
-                if str(feed.oid) == feed_id:
-                    form = AddFeedForm(obj=feed)
-                    return render_template('edit_feed.html', action="Edit the feed", form=form, feed=feed)
+            form = AddFeedForm(obj=feed)
+            return render_template('edit_feed.html', action="Edit the feed", form=form, feed=feed)
 
         # Return an empty form in order to create a new feed
         return render_template('edit_feed.html', action="Add a feed", form=form)
