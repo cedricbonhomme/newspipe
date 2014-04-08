@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import os
-from datetime import datetime
+import datetime
 from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
@@ -142,7 +142,7 @@ def logout():
     Log out view. Removes the user information from the session.
     """
     # Update last_seen field
-    g.user.last_seen = datetime.utcnow()
+    g.user.last_seen = datetime.datetime.utcnow()
     db.session.add(g.user)
     db.session.commit()
 
@@ -212,15 +212,15 @@ def feed(feed_id=None):
         top_words = utils.top_words(articles, n=50, size=int(word_size))
         tag_cloud = utils.tag_cloud(top_words)
 
-        today = datetime.now()
+        today = datetime.datetime.now()
         try:
             last_article = articles[0].date
             first_article = articles[-1].date
             delta = last_article - first_article
             average = round(float(len(articles)) / abs(delta.days), 2)
         except:
-            last_article = datetime.fromtimestamp(0)
-            first_article = datetime.fromtimestamp(0)
+            last_article = datetime.datetime.fromtimestamp(0)
+            first_article = datetime.datetime.fromtimestamp(0)
             delta = last_article - first_article
             average = 0
         elapsed = today - last_article
@@ -357,7 +357,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
