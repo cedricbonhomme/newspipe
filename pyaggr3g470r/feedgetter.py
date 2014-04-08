@@ -41,7 +41,7 @@ from sqlalchemy.exc import IntegrityError
 
 import models
 import conf
-import search
+#import search
 import utils
 
 from flask.ext.mail import Message

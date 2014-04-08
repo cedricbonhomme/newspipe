@@ -47,7 +47,8 @@ from collections import Counter
 from contextlib import contextmanager
 
 import conf
-import models
+from pyaggr3g470r import db
+from pyaggr3g470r.models import User, Feed
 
 # regular expression to check URL
 url_finders = [ \
@@ -76,7 +77,7 @@ def import_opml(email, opml_file):
     """
     Import new feeds from an OPML file.
     """
-    user = models.User.objects(email=email).first()
+    user = User.query.filter(User.email == email).first()
     try:
         subscriptions = opml.parse(opml_file)
     except Exception as e:
@@ -108,12 +109,12 @@ def import_opml(email, opml_file):
         except:
             site_link = ""
 
-        new_feed = models.Feed(title=title, description=description, link=link, site_link=site_link, email=False, enabled=True)
+        new_feed = Feed(title=title, description=description, link=link, site_link=site_link, email_notification=False, enabled=True)
+
         user.feeds.append(new_feed)
-        
         nb += 1
 
-    user.save()
+    db.session.commit()
     return nb
 
 def open_url(url):

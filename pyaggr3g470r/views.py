@@ -37,7 +37,7 @@ import utils
 import export
 import feedgetter
 import models
-import search as fastsearch
+#import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 from pyaggr3g470r.models import User, Feed, Article, Role
@@ -377,7 +377,7 @@ def index_database():
     Index all the database.
     """
     user = models.User.objects(email=g.user.email).first()
-    fastsearch.create_index(user.feeds)
+    #fastsearch.create_index(user.feeds)
     flash('Database indexed.', 'success')
     return redirect(url_for('home'))
 
@@ -387,7 +387,7 @@ def export_articles():
     """
     Export all articles.
     """
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     try:
         archive_file, archive_file_name = export.export_html(user.feeds)
     except:
@@ -404,7 +404,7 @@ def export_opml():
     """
     Export all feeds to OPML.
     """
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     response = make_response(render_template('opml.xml', user=user, now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
