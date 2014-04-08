@@ -257,7 +257,7 @@ def mark_as_read(feed_id=None):
     Mark all unreaded articles as read.
     """
     if feed_id != None:
-        articles, feed = Article.query.filter(Article.readed == False).join(Feed).filter(Feed.id == feed_id).update({"readed": True})
+        Article.query.filter(Article.readed == False).join(Feed).filter(Feed.id == feed_id).update({"readed": True})
         flash('Articles marked as read.', 'info')
     else:
         Article.query.filter(Article.readed == False).update({"readed": True})
