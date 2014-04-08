@@ -166,12 +166,7 @@ def home():
     The home page lists most recent articles of all feeds.
     """
     user = User.query.filter(User.email == g.user.email).first()
-    feeds = []
-    for feed in user.feeds:
-        feed.articles = feed.articles[:8]
-        feeds.append(feed)
-    return render_template('home.html', user=user, feeds=feeds, \
-                            head_title="nb unread")
+    return render_template('home.html', user=user, head_title="nb unread")
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<feed_id>', methods=['GET'])
