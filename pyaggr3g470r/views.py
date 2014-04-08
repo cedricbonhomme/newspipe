@@ -316,14 +316,17 @@ def favorites():
     """
     List favorites articles.
     """
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     result = []
     nb_favorites = 0
     for feed in user.feeds:
-        feed.articles = [article for article in feed.articles if article.like]
-        length = len(feed.articles)
+        new_feed = Feed()
+        new_feed.id = feed.id
+        new_feed.title = feed.title
+        new_feed.articles = [article for article in feed.articles if article.like]
+        length = len(new_feed.articles.all())
         if length != 0:
-            result.append(feed)
+            result.append(new_feed)
             nb_favorites += length
     return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
@@ -333,14 +336,17 @@ def unread():
     """
     List unread articles.
     """
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     result = []
     nb_unread = 0
     for feed in user.feeds:
-        feed.articles = [article for article in feed.articles if not article.readed]
-        length = len(feed.articles)
+        new_feed = Feed()
+        new_feed.id = feed.id
+        new_feed.title = feed.title
+        new_feed.articles = [article for article in feed.articles if not article.readed]
+        length = len(new_feed.articles.all())
         if length != 0:
-            result.append(feed)
+            result.append(new_feed)
             nb_unread += length
     return render_template('unread.html', feeds=result, nb_unread=nb_unread)
 
