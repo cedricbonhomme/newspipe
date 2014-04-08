@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 from datetime import datetime
+from sqlalchemy import desc
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from pyaggr3g470r import db
@@ -96,7 +97,8 @@ class Feed(db.Model):
     email_notification = db.Column(db.Boolean(), default=False)
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
-    articles = db.relationship('Article', backref = 'feed', lazy = 'dynamic', cascade='all,delete-orphan')
+    articles = db.relationship('Article', backref = 'feed', lazy = 'dynamic', cascade='all,delete-orphan',
+                                order_by=desc("Article.date"))
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
