@@ -94,6 +94,25 @@ def redirect_url(default='index'):
 
 
 
+from functools import wraps
+def feed_access_required(func):
+    """
+    This decorator enables to check if a user has access to a feed.
+    """
+    #print("Now decorating %s" % func)
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        #print("Now calling %s with %s,%s" % (func, args, kwargs))
+        feed = Feed.query.filter(Feed.id == kwargs['feed_id']).first()
+        if feed == None or feed.subscriber.id != g.user.id:
+            flash("This feed do not exist.", "danger")
+            return redirect(url_for('home'))
+        return func(*args, **kwargs)
+    return decorated
+
+
+
+
 
 #
 # Views.
@@ -466,15 +485,12 @@ def history():
 @app.route('/create_feed/', methods=['GET', 'POST'])
 @app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
+@feed_access_required
 def edit_feed(feed_id=None):
     """
     Add or edit a feed.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    if feed != None and feed.subscriber.id != g.user.id:
-        flash("Not authorized", "error")
-        return redirect(redirect_url())
-
     form = AddFeedForm()
 
     if request.method == 'POST':
@@ -512,6 +528,7 @@ def edit_feed(feed_id=None):
 
 @app.route('/delete_feed/<feed_id>', methods=['GET'])
 @login_required
+@feed_access_required
 def delete_feed(feed_id=None):
     """
     Delete a feed with all associated articles.
