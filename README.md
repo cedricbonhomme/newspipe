@@ -11,7 +11,7 @@ based on [Flask](http://flask.pocoo.org/).
 Features
 --------
 
-* the database is managed with [SQLAlchemy](http://www.sqlalchemy.org/) database;
+* the database is managed with [SQLAlchemy](http://www.sqlalchemy.org/);
 * feeds batch import with OPML files;
 * export all your feeds to OPML;
 * e-mail notification;
