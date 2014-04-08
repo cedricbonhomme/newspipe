@@ -249,27 +249,20 @@ def article(article_id=None):
     return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
 
 @app.route('/mark_as_read/', methods=['GET'])
-@app.route('/mark_as_read/<feed_id>', methods=['GET'])
+@app.route('/mark_as_read/<int:feed_id>', methods=['GET'])
 @login_required
+@feed_access_required
 def mark_as_read(feed_id=None):
     """
     Mark all unreaded articles as read.
     """
     if feed_id != None:
-        user = models.User.objects(email=g.user.email).first()
-        for feed in user.feeds:
-            if str(feed.oid) == feed_id:
-                unread_articles = [article for article in feed.articles if not article.readed]
-                for article in unread_articles:
-                    article.readed = True
-                    article.save()
-                flash('Articles of the feed "' + feed.title  + '" marked as read.', 'info')
-                break
-        else:
-            flash("This feed do not exist.", 'warning')
+        articles, feed = Article.query.filter(Article.readed == False).join(Feed).filter(Feed.id == feed_id).update({"readed": True})
+        flash('Articles marked as read.', 'info')
     else:
-        models.Article.objects(readed=False).update(set__readed=True)
+        Article.query.filter(Article.readed == False).update({"readed": True})
         flash("All articles marked as read", 'info')
+    db.session.commit()
     return redirect(redirect_url())
 
 @app.route('/like/<article_id>', methods=['GET'])
