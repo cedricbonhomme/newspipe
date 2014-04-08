@@ -103,10 +103,11 @@ def feed_access_required(func):
     @wraps(func)
     def decorated(*args, **kwargs):
         #print("Now calling %s with %s,%s" % (func, args, kwargs))
-        feed = Feed.query.filter(Feed.id == kwargs['feed_id']).first()
-        if feed == None or feed.subscriber.id != g.user.id:
-            flash("This feed do not exist.", "danger")
-            return redirect(url_for('home'))
+        if kwargs.get('feed_id', None) != None:
+            feed = Feed.query.filter(Feed.id == kwargs.get('feed_id', None)).first()
+            if feed == None or feed.subscriber.id != g.user.id:
+                flash("This feed do not exist.", "danger")
+                return redirect(url_for('home'))
         return func(*args, **kwargs)
     return decorated
 
@@ -467,12 +468,13 @@ def management():
 
 
     form = AddFeedForm()
-    user = models.User.objects(email=g.user.email).first()
-    nb_feeds = len(user.feeds)
+    user = User.query.filter(User.id == g.user.id).first()
+    nb_feeds = len(user.feeds.all())
     #nb_articles = sum([len(feed.articles) for feed in user.feeds])
     #nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
-    nb_articles = models.Article.objects().count()
-    nb_unread_articles = models.Article.objects(readed=False).count()
+    #articles = Article.query.filter(Article.feed.subscriber.id == g.user.id).all()
+    nb_articles = sum([len(feed.articles.all()) for feed in user.feeds])
+    nb_unread_articles = 2
     return render_template('management.html', form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
 

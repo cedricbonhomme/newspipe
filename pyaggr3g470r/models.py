@@ -116,7 +116,7 @@ class Article(db.Model):
     date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
 
-    station_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
+    feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
 
     def __repr__(self):
         return '<Article %r>' % (self.title)
