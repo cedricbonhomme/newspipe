@@ -1,12 +1,11 @@
 feedparser
 opml
 requests
-whoosh
 BeautifulSoup
-mongoengine
 Flask
-flask-mongoengine
+Flask-SQLAlchemy
 Flask-Login
+Flask-Principal
 Flask-WTF
 Flask-Mail
 WTForms
