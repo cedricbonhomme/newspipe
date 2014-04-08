@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>You are subscribed to {{ feeds|count }} feeds &middot; Add a <a href="/edit_feed/">feed</a></h1>
+    <h1>You are subscribed to {{ feeds.all()|count }} feeds &middot; Add a <a href="/create_feed/">feed</a></h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -27,7 +27,7 @@
                     </td>
                     <td><a href="/feed/{{ feed.oid }}" {% if feed.description %}title="{{ feed.description  }}"{% endif %}>{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
-                    <td>{{ feed.articles|count }}</td>
+                    <td>{{ feed.articles.all()|count }}</td>
                     <td>
                         <a href="/articles/{{ feed.oid }}"><i class="glyphicon glyphicon-th-list" title="All articles"></i></a>
                         <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
