@@ -2,6 +2,8 @@ feedparser
 opml
 requests
 BeautifulSoup
+SQLAlchemy
+psycopg2
 Flask
 Flask-SQLAlchemy
 Flask-Login
