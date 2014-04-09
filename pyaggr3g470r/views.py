@@ -243,14 +243,12 @@ def article(article_id=None):
     Presents the content of an article.
     """
     article = Article.query.filter(Article.id == article_id).first()
-    if article.source.subscriber.id == g.user.id:
-        if article == None:
-            flash("This article do not exist.", 'warning')
-            return redirect(redirect_url())
+    if article != None and article.source.subscriber.id == g.user.id:
         if not article.readed:
             article.readed = True
             db.session.commit()
         return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
+    flash("This article do not exist.", 'warning')
     return redirect(redirect_url())
     
 
