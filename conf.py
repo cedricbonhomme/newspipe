@@ -22,6 +22,8 @@ if not ON_HEROKU:
     # Whoosh does not work on Heroku
     WHOOSH_ENABLED = True
 
+    SQLALCHEMY_DATABASE_URI = config.get('database', 'uri')
+
     HTTP_PROXY = config.get('feedparser', 'http_proxy')
     USER_AGENT = config.get('feedparser', 'user_agent')
     RESOLVE_ARTICLE_URL = int(config.get('feedparser', 'resolve_article_url')) == 1
@@ -54,8 +56,8 @@ else:
 
     MAIL_ENABLED = False
 
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 CSRF_ENABLED = True
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 # slow database query threshold (in seconds)
 DATABASE_QUERY_TIMEOUT = 0.5
