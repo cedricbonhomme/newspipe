@@ -110,7 +110,7 @@ class Article(db.Model):
     Represent an article from a feed.
     """
     id = db.Column(db.Integer, primary_key = True)
-    link = db.Column(db.String(), unique = True)
+    link = db.Column(db.String())
     title = db.Column(db.String())
     content = db.Column(db.String())
     readed = db.Column(db.Boolean(), default=False)

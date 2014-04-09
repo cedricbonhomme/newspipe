@@ -149,6 +149,10 @@ class FeedGetter(object):
                 parsed_url.fragment
             ])
 
+            exist = Article.query.filter(Article.link == nice_url).first()
+            if exist != None and exist.source.subscriber.id == self.user.id:
+                continue
+
             description = ""
             article_title = ""
             try:
