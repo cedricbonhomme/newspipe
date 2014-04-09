@@ -11,7 +11,8 @@ based on `Flask <http://flask.pocoo.org/>`_.
 Features
 ========
 
-* the database is managed with `SQLAlchemy <http://www.sqlalchemy.org/>`_;
+* can be deployed both on Heroku and on a traditional server;
+*  HTTP proxy support;
 * feeds batch import with OPML files;
 * export all your feeds to OPML;
 * e-mail notification;
