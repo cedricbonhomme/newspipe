@@ -1,23 +1,27 @@
+++++++++++++
 pyAggr3g470r
-============
-
-#### A simple Python news aggregator.
+++++++++++++
 
 Presentation
-------------
-[pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is a news aggregator with a web interface
-based on [Flask](http://flask.pocoo.org/).
+============
+
+`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r/>`_  is a news aggregator with a web interface
+based on `Flask <http://flask.pocoo.org/>`_.
 
 Features
---------
+========
 
-* the database is managed with [SQLAlchemy](http://www.sqlalchemy.org/);
+* the database is managed with `SQLAlchemy <http://www.sqlalchemy.org/>`_;
 * feeds batch import with OPML files;
 * export all your feeds to OPML;
 * e-mail notification;
 * export articles to HTML;
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
+
+
+Usage
+=====
 
 
 Deployment
@@ -85,15 +89,19 @@ For example if you want to check for updates every 30 minutes, add this line to 
 You must give the email address you use to login to pyAggr3g470r.
 
 Donation
---------
-If you wish and if you like pyAggr3g470r, you can donate via bitcoin
-[1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ](https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ).
+========
+
+If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
+`1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
 License
--------
-[pyAggr3g470r](https://bitbucket.org/cedricbonhomme/pyaggr3g470r/) is under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt) license.
+=======
+
+`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_
+is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact
--------
-[My home page](http://cedricbonhomme.org/).
+=======
+
+`My home page <http://cedricbonhomme.org/>`_.
