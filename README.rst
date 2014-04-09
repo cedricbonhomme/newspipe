@@ -47,6 +47,7 @@ Deploying the application on Heroku
     $ heroku run init
     $ heroku ps:scale web=1
 
+An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_ .
 
 Deploying the application on a traditional server
 '''''''''''''''''''''''''''''''''''''''''''''''''
@@ -76,19 +77,22 @@ Deploying the application on a traditional server
 
 Configuration (email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
-*http_proxy* (most of the time: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
+*http_proxy* (most of the time: *http_proxy = 127.0.0.1:8118**). Else leave the value blank.
 
 
 
 Automatic updates
 -----------------
 
-You can fetch new articles with [cron](https://en.wikipedia.org/wiki/Cron) and the script *fetch.py*.
-For example if you want to check for updates every 30 minutes, add this line to your cron rules (``crontab -e``):
+You can fetch new articles with `cron <https://en.wikipedia.org/wiki/Cron>`_  and the script *fetch.py*.
+For example if you want to check for updates every 30 minutes, add this line to your cron rules (*crontab -e*):
+
+.. code:: bash
 
     */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py firstname.lastname@mail.com
 
 You must give the email address you use to login to pyAggr3g470r.
+
 
 Donation
 ========
@@ -97,11 +101,13 @@ If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
 `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
+
 License
 =======
 
 `pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_
 is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
+
 
 Contact
 =======
