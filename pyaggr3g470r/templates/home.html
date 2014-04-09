@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     {% if user.feeds.all()|count == 0 %}
-        <h1>You are not subscribed to any feed. <a href="/edit_feed/">Fix this</a>.</h1>
+        <h1>You are not subscribed to any feed. <a href="/create_feed/">Fix this</a>.</h1>
     {% else %}
         {% for feed in user.feeds|sort(attribute="title") %}
             <div class="row">

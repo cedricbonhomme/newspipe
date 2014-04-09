@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block head%}
+{{super()}}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <a href="/admin/edit_user/{{ user.id }}/" class="btn btn-default">Edit this user</a>
+        <h2>Membership</h2>
+        <p>Contributor since {{ user.date_created.strftime('%A, %d %B %Y') }}.</p>
+        <p>Last seen: {{ user.last_seen.strftime('%A, %d %B %Y at %H:%M:%S') }}.</p>
+    </div>
+    <div class="jumbotron">
+        {% if user.feeds.all()|count == 0 %}
+            <h1>This user is not subscribed to any feed.</h1>
+        {% else %}
+            <h1>Feeds</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Feed link</th>
+                        <th>Site link</th>
+                        <th>Number of articles</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for feed in user.feeds|sort(attribute="name") %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></td>
+                        <td>{{ feed.link }}</td>
+                        <td>{{ feed.site_link }}</td>
+                        <td>{{ feed.articles.all()|count }}</td>
+                        <td>
+                            <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-th-list" title="Measures"></i></a>
+                            <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+                            <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
+                        </td>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <a href="/create_feed/" class="btn btn-default">Add a new feed</a>
+    </div>
+</div>
+{% endblock %}

@@ -31,6 +31,7 @@ import datetime
 from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
+from werkzeug import generate_password_hash
 
 import utils
 import export
@@ -40,6 +41,10 @@ import models
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 from pyaggr3g470r.models import User, Feed, Article, Role
+
+Principal(app)
+# Create a permission with a single Need, in this case a RoleNeed.
+admin_permission = Permission(RoleNeed('admin'))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -156,7 +161,7 @@ def logout():
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
 
     flash("Logged out successfully.", 'success')
-    return redirect(url_for('map_view'))
+    return redirect(url_for('login'))
 
 @app.route('/')
 @login_required
@@ -556,3 +561,116 @@ def profile():
     if request.method == 'GET':
         form = ProfileForm(obj=user)
         return render_template('profile.html', user=user, form=form)
+
+
+
+#
+# Views dedicated to administration tasks.
+#
+@app.route('/admin/dashboard/', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def dashboard():
+    """
+    Adminstrator's dashboard.
+    """
+    users = User.query.all()
+    users.remove(g.user)
+    return render_template('admin/dashboard.html', users=users)
+
+@app.route('/admin/create_user/', methods=['GET', 'POST'])
+@app.route('/admin/edit_user/<int:user_id>/', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def create_user(user_id=None):
+    """
+    Create or edit a user.
+    """
+    form = ProfileForm()
+
+    if request.method == 'POST':
+        if form.validate():
+            if user_id != None:
+                # Edit a user
+                user = User.query.filter(User.id == user_id).first()
+                form.populate_obj(user)
+                if form.password.data != "":
+                    user.set_password(form.password.data)
+                db.session.commit()
+                flash('User "' + user.firstname + '" successfully updated.', 'success')
+            else:
+                # Create a new user
+                role_user = Role.query.filter(Role.name == "user").first()
+                user = User(firstname=form.firstname.data,
+                             lastname=form.lastname.data,
+                             email=form.email.data,
+                             pwdhash=generate_password_hash(form.password.data))
+                user.roles.extend([role_user])
+                db.session.add(user)
+                db.session.commit()
+                flash('User "' + user.firstname + '" successfully created.', 'success')
+            return redirect("/admin/edit_user/"+str(user.id)+"/")
+        else:
+            return render_template('profile.html', form=form)
+
+    if request.method == 'GET':
+        if user_id != None:
+            user = User.query.filter(User.id == user_id).first()
+            form = ProfileForm(obj=user)
+            message = "Edit the user <i>" + user.firstname + "</i>"
+        else:
+            form = ProfileForm()
+            message="Add a new user"
+        return render_template('/admin/create_user.html', form=form, message=message)
+
+@app.route('/admin/user/<int:user_id>/', methods=['GET'])
+@login_required
+@admin_permission.require()
+def user(user_id=None):
+    """
+    See information about a user (stations, etc.).
+    """
+    user = User.query.filter(User.id == user_id).first()
+    if user is not None:
+        return render_template('/admin/user.html', user=user)
+    else:
+        flash('This user does not exist.', 'danger')
+        return redirect(redirect_url())
+
+@app.route('/admin/delete_user/<int:user_id>/', methods=['GET'])
+@login_required
+@admin_permission.require()
+def delete_user(user_id=None):
+    """
+    Delete a user (with its stations and measures).
+    """
+    user = User.query.filter(User.id == user_id).first()
+    if user is not None:
+        db.session.delete(user)
+        db.session.commit()
+        flash('User "' + user.firstname + '" successfully deleted.', 'success')
+    else:
+        flash('This user does not exist.', 'danger')
+    return redirect(redirect_url())
+
+@app.route('/admin/enable_user/<int:user_id>/', methods=['GET'])
+@app.route('/admin/disable_user/<int:user_id>/', methods=['GET'])
+@login_required
+@admin_permission.require()
+def disable_user(user_id=None):
+    """
+    Enable or disable the API key of a user.
+    """
+    user = User.query.filter(User.id == user_id).first()
+    if user is not None:
+        if user.apikey != "":
+            user.pwdhash = ""
+            flash(user.firstname + '" successfully disabled.', 'success')
+        else:
+            #import random, base64, hashlib
+            user.pwdhash = "newpass"
+            flash(user.firstname + '" successfully enabled.', 'success')
+        db.session.commit()
+    else:
+        flash('This user does not exist.', 'danger')
+    return redirect(redirect_url())

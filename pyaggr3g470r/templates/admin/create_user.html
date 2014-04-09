@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block head%}
+{{super()}}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h2>{{ message|safe }}</h2>
+        <form action="" method="post" name="saveprofileform" id="profileform">
+            {{ form.hidden_tag() }}
+
+            {{ form.firstname.label }}
+            {{ form.firstname(class_="form-control") }} {% for error in form.firstname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.lastname.label }}
+            {{ form.lastname(class_="form-control") }} {% for error in form.lastname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.email.label }}
+            {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.password.label }}
+            {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            <br />
+            {{ form.submit(class_="btn") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

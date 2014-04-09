@@ -56,6 +56,9 @@
                     </ul>
                 </li>
                 <li><a accesskey="m" href="/management/">Management</a></li>
+                {% if g.user.is_admin() %}
+                    <li><a href="{{ url_for('dashboard') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+                {% endif %}
                 <li><a href="/about/">About</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 <li class="dropdown">
