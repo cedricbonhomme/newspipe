@@ -30,6 +30,9 @@ Deployment
 
 This application can be deployed both on Heroku and on a traditional server.
 
+After installation, you will be able to connect with the e-mail *root@pyAggr3g470r.localhost* and the password *root*.
+
+
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
@@ -75,8 +78,6 @@ Configuration (email, proxy, user agent, etc.) is done via the file *conf/conf.c
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
 *http_proxy* (most of the time: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
 
-
-You can connect with the email *root@pyAggr3g470r.localhost* and the password *root*. You should change these information.
 
 
 Automatic updates

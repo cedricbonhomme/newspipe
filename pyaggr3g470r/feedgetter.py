@@ -150,7 +150,7 @@ class FeedGetter(object):
             ])
 
             list_articles = Article.query.filter(Article.link == nice_url).all()
-            if list_articles != [] and len([article for article in list_articles if article.source.subscriber.id == self.user.id]) != 0:
+            if list_articles != [] and len([article1 for article1 in list_articles if article1.source.subscriber.id == self.user.id]) != 0:
                 continue
 
             description = ""
