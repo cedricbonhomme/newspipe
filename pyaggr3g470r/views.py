@@ -32,7 +32,6 @@ from flask import render_template, jsonify, request, flash, session, url_for, re
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
 
-import conf
 import utils
 import export
 import feedgetter

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Installation of MongoDB
-sudo apt-get install -y mongodb-server
-sudo service mongodb start
+# Installation of PostgreSQL
+sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
 
 # Python dependencies
 sudo apt-get install -y python-pip
@@ -13,7 +12,7 @@ pip install --upgrade -r requirements.txt
 
 # Configuration
 cp conf/conf.cfg-sample conf/conf.cfg
-python pyaggr3g470r/initialization.py firstname lastname firstname.lastname@mail.com secret
+python db_create.py
 
 # Launch pyAggr3g470r
 python runserver.py

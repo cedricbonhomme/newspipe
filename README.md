@@ -19,11 +19,55 @@ Features
 * favorite articles;
 * share articles with Google +, Pinboard and reddit.
 
-Installation
-------------
 
-You need to have installed Python >= 2.7 and some Python libraries.
+Deployment
+----------
+
+This application can be deployed both on Heroku and on a traditional server.
+
+Deploying the application on Heroku
+'''''''''''''''''''''''''''''''''''
+
+.. code:: bash
+
+    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
+    $ cd pyaggr3g470r
+    $ heroku create
+    $ heroku addons:add heroku-postgresql:dev
+    $ heroku config:set HEROKU=1
+    $ git push heroku master
+    $ heroku run init
+    $ heroku ps:scale web=1
+
+
+Deploying the application on a traditional server
+'''''''''''''''''''''''''''''''''''''''''''''''''
+
 Configuration is done via the file *conf/conf.cfg*.
+
+.. code:: bash
+
+    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
+    $ cd pyaggr3g470r
+    $ cp conf/conf.cfg-sample conf/conf.cfg
+    $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
+    $ sudo pip install --upgrade -r requirements.txt
+    $ sudo -u postgres createuser
+    Enter name of role to add: username
+    Shall the new role be a superuser? (y/n) n
+    Shall the new role be allowed to create databases? (y/n) y
+    Shall the new role be allowed to create more new roles? (y/n) n
+    $ createdb pyAggr3g470r
+    $ sudo -u postgres psql
+    postgres=# ALTER USER username WITH ENCRYPTED PASSWORD 'password';
+    postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
+    postgres=# \q
+    $ export DATABASE_URL="postgres://username:password@127.0.0.1:5432/pyAggr3g470r"
+    $ python db_create.py
+    $ python runserver.py
+     * Running on http://0.0.0.0:5000/
+     * Restarting with reloader
+
 
 Launch the script ``install.sh`` in order to install automatically all requirements.  
 In order to prevent all dependencies problems and to keep your system stable, the libraries will be
@@ -39,6 +83,8 @@ For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to s
 *http_proxy* (most of the time: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
 
 However, the default configuration should be good, so you really just have to run the script *install.sh*.
+
+
 
 Automatic updates
 -----------------
