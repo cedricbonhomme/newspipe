@@ -43,13 +43,10 @@ Deploying the application on Heroku
 Deploying the application on a traditional server
 '''''''''''''''''''''''''''''''''''''''''''''''''
 
-Configuration is done via the file *conf/conf.cfg*.
-
 .. code:: bash
 
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
-    $ cp conf/conf.cfg-sample conf/conf.cfg
     $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
     $ sudo pip install --upgrade -r requirements.txt
     $ sudo -u postgres createuser
@@ -63,27 +60,18 @@ Configuration is done via the file *conf/conf.cfg*.
     postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
     postgres=# \q
     $ export DATABASE_URL="postgres://username:password@127.0.0.1:5432/pyAggr3g470r"
+    $ cp conf/conf.cfg-sample conf/conf.cfg
     $ python db_create.py
     $ python runserver.py
      * Running on http://0.0.0.0:5000/
      * Restarting with reloader
 
-
-Launch the script ``install.sh`` in order to install automatically all requirements.  
-In order to prevent all dependencies problems and to keep your system stable, the libraries will be
-installed in a Python virtual environment (with [virtualenv](http://www.virtualenv.org)).
-The installation will use the configuration file for the database setup.
-
-Then point your browser to the address [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and login with the email address
-*firstname.lastname@mail.com* and the password *secret*. You can update your profile at the
-address [http://127.0.0.1:5000/profile/](http://127.0.0.1:5000/profile/).
-
-As already said, you can configure pyAggr3g470r (database name, proxy, user agent, etc.) in the file *conf/conf.cfg*.  
+Configuration (email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
 For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
 *http_proxy* (most of the time: ``http_proxy = 127.0.0.1:8118``). Else leave the value blank.
 
-However, the default configuration should be good, so you really just have to run the script *install.sh*.
 
+You can connect with the email *root@pyAggr3g470r.localhost* and the password *root*. You should change these information.
 
 
 Automatic updates

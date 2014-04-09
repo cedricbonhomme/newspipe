@@ -2,6 +2,9 @@
 
 # Installation of PostgreSQL
 sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
+#sudo -u postgres createuser
+#createdb pyAggr3g470r
+#sudo -u postgres psql
 
 # Python dependencies
 sudo apt-get install -y python-pip
