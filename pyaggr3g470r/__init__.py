@@ -16,14 +16,16 @@ app.config['SECRET_KEY'] = os.urandom(12)
 app.config['SQLALCHEMY_DATABASE_URI'] = conf.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
-app.config["MAIL_SERVER"] = conf.MAIL_HOST
-app.config["MAIL_PORT"] = conf.MAIL_PORT
-app.config["MAIL_USE_TLS"] = conf.MAIL_TLS
-app.config["MAIL_USE_SSL"] = conf.MAIL_SSL
-app.config["MAIL_USERNAME"] = conf.MAIL_USERNAME
-app.config["MAIL_PASSWORD"] = conf.MAIL_PASSWORD
 
-from flask.ext.mail import Message, Mail
-mail = Mail(app)
+if not conf.ON_HEROKU:
+    app.config["MAIL_SERVER"] = conf.MAIL_HOST
+    app.config["MAIL_PORT"] = conf.MAIL_PORT
+    app.config["MAIL_USE_TLS"] = conf.MAIL_TLS
+    app.config["MAIL_USE_SSL"] = conf.MAIL_SSL
+    app.config["MAIL_USERNAME"] = conf.MAIL_USERNAME
+    app.config["MAIL_PASSWORD"] = conf.MAIL_PASSWORD
+
+    from flask.ext.mail import Message, Mail
+    mail = Mail(app)
 
 from pyaggr3g470r import views
