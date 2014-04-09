@@ -91,7 +91,7 @@ def load_user(email):
     # Return an instance of the User model
     return User.query.filter(User.email == email).first()
 
-def redirect_url(default='index'):
+def redirect_url(default='home'):
     return request.args.get('next') or \
             request.referrer or \
             url_for(default)
