@@ -44,8 +44,11 @@ import conf
 #import search
 import utils
 
-from flask.ext.mail import Message
-from pyaggr3g470r import app, db, mail
+if not conf.ON_HEROKU:
+    from flask.ext.mail import Message
+    from pyaggr3g470r import mail
+    
+from pyaggr3g470r import app, db
 from pyaggr3g470r.models import User, Feed, Article
 
 import log
