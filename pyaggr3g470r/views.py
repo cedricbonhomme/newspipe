@@ -250,7 +250,9 @@ def article(article_id=None):
         if not article.readed:
             article.readed = True
             db.session.commit()
-    return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
+        return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
+    return redirect(redirect_url())
+    
 
 @app.route('/mark_as_read/', methods=['GET'])
 @app.route('/mark_as_read/<int:feed_id>', methods=['GET'])
