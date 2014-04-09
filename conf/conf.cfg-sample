@@ -1,9 +1,5 @@
 [database]
-name = pyaggr3g470r
-address = 127.0.0.1
-port = 27017
-username = root
-password = root
+uri = postgres://cedric:password@127.0.0.1:5432/pyAggr3g470r
 [feedparser]
 http_proxy = 
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
