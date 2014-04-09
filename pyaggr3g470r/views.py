@@ -97,7 +97,6 @@ def redirect_url(default='home'):
             url_for(default)
 
 
-
 from functools import wraps
 def feed_access_required(func):
     """
@@ -114,8 +113,6 @@ def feed_access_required(func):
                 return redirect(url_for('home'))
         return func(*args, **kwargs)
     return decorated
-
-
 
 
 
@@ -290,7 +287,7 @@ def delete(article_id=None):
     Delete an article from the database.
     """
     article = Article.query.filter(Article.id == article_id).first()
-    if article != None:
+    if article != None and article.source.subscriber.id == g.user.id:
         db.session.delete(article)
         db.session.commit()
         flash('Article "' + article.title + '" deleted.', 'success')
@@ -522,18 +519,11 @@ def delete_feed(feed_id=None):
     """
     Delete a feed with all associated articles.
     """
-    user = models.User.objects(email=g.user.email).first()
-    # delete all articles (Document objects) of the feed
-    for feed in user.feeds:
-        if str(feed.oid) == feed_id:
-            for article in feed.articles:
-                article.delete()
-            feed.articles = []
-            # delete the feed (EmbeddedDocument object)
-            user.feeds.remove(feed)
-            user.save()
-            flash('Feed "' + feed.title + '" successfully deleted.', 'success')
-            break
+    feed = Feed.query.filter(Feed.id == feed_id).first()
+    if feed.subscriber.id == g.user.id:
+        db.session.delete(feed)
+        db.session.commit()
+        flash('Feed "' + feed.title + '" successfully deleted.', 'success')
     else:
         flash('Impossible to delete this feed.', 'danger')
     return redirect(redirect_url())
