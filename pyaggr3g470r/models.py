@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     firstname = db.Column(db.String())
     lastname = db.Column(db.String())
-    email = db.Column(db.String(), index = True, unique = True)
+    email = db.Column(db.String(254), index = True, unique = True)
     pwdhash = db.Column(db.String())
     roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
     date_created = db.Column(db.DateTime(), default=datetime.now)
