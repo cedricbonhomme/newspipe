@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for feed in user.feeds|sort(attribute="name") %}
+                {% for feed in user.feeds.all()|sort(attribute="name") %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></td>
