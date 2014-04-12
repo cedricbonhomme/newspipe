@@ -44,6 +44,8 @@ if not ON_HEROKU:
 
     basedir = os.path.abspath(os.path.dirname(__file__))
     PATH = os.path.abspath(".")
+    
+    WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/webzine/"
 
 else:
     HTTP_PROXY = ""
@@ -57,6 +59,8 @@ else:
     MAIL_ENABLED = False
 
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    
+    WEBZINE_ROOT = "/tmp/"
 
 CSRF_ENABLED = True
 # slow database query threshold (in seconds)

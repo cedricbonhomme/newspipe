@@ -136,7 +136,7 @@ def export_html(user):
     """
     Export all articles of 'user' in Web pages.
     """
-    webzine_root = conf.PATH + "/pyaggr3g470r/var/export/webzine/"
+    webzine_root = conf.WEBZINE_ROOT
     nb_articles = format(len(models.Article.query.filter(models.Article.user_id == user.id).all()), ",d")
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
@@ -177,8 +177,9 @@ def export_html(user):
                 f.write(a_post.encode("utf-8"))
 
         posts +=  HTML_FOOTER
-        with open(feed_index, "w") as f:
-            f.write(posts.encode("utf-8"))
+        if len(feed.articles.all()) != 0:
+            with open(feed_index, "w") as f:
+                f.write(posts.encode("utf-8"))
 
     index += "</ul>\n"
     index += "<p>" + time.strftime("Generated on %d %b %Y at %H:%M.") + "</p>\n"
