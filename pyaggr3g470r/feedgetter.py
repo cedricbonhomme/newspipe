@@ -31,8 +31,6 @@ import requests
 import threading
 import feedparser
 from datetime import datetime
-from urllib import urlencode
-from urlparse import urlparse, parse_qs, urlunparse
 from BeautifulSoup import BeautifulSoup
 
 from requests.exceptions import Timeout
@@ -137,20 +135,11 @@ class FeedGetter(object):
                     pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
                     continue
             # remove utm_* parameters
-            parsed_url = urlparse(nice_url)
-            qd = parse_qs(parsed_url.query, keep_blank_values=True)
-            filtered = dict((k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
-            nice_url = urlunparse([
-                parsed_url.scheme,
-                parsed_url.netloc,
-                parsed_url.path,
-                parsed_url.params,
-                urlencode(filtered, doseq=True),
-                parsed_url.fragment
-            ])
+            nice_url = utils.clean_url(nice_url)
 
-            list_articles = Article.query.filter(Article.link == nice_url).all()
-            if list_articles != [] and len([article1 for article1 in list_articles if article1.source.subscriber.id == self.user.id]) != 0:
+            exist1 = Article.query.filter(Article.user_id == self.user.id, Article.link == nice_url).first()
+            exist2 = Article.query.filter(Article.user_id == self.user.id, Article.link == utils.clean_url(article.link.encode("utf-8"))).first()
+            if exist1 != None or exist2 != None:
                 continue
 
             description = ""
@@ -213,6 +202,7 @@ class FeedGetter(object):
             except Exception as e:
                 pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                 continue
+        db.session.close()
         return True
 
 

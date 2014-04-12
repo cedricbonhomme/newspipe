@@ -40,7 +40,8 @@ import glob
 import opml
 import operator
 import calendar
-
+from urllib import urlencode
+from urlparse import urlparse, parse_qs, urlunparse
 from BeautifulSoup import BeautifulSoup
 
 from collections import Counter
@@ -116,6 +117,23 @@ def import_opml(email, opml_file):
 
     db.session.commit()
     return nb
+
+def clean_url(url):
+    """
+    Remove utm_* parameters
+    """
+    parsed_url = urlparse(url)
+    qd = parse_qs(parsed_url.query, keep_blank_values=True)
+    filtered = dict((k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
+    nice_url = urlunparse([
+        parsed_url.scheme,
+        parsed_url.netloc,
+        parsed_url.path,
+        parsed_url.params,
+        urlencode(filtered, doseq=True),
+        parsed_url.fragment
+    ])
+    return nice_url
 
 def open_url(url):
     """

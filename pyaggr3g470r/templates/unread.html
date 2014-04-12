@@ -13,10 +13,10 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title|safe }}</h1>
-                <a href="/articles/{{ feed.oid }}/100"><i class="glyphicon glyphicon-th-list" title="More articles"></i></a>
-                <a href="/feed/{{ feed.oid }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
-                <a href="/edit_feed/{{ feed.oid }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
-                <a href="/mark_as_read/{{ feed.oid }}"><i class="glyphicon glyphicon-check" title="Mark all as read"></i></a>
+                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="More articles"></i></a>
+                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
+                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="Mark all as read"></i></a>
                 <h3>{{ feed.articles.all()|length }} unread articles.</h3>
                 </div>
             </div>
