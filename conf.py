@@ -45,7 +45,7 @@ if not ON_HEROKU:
     basedir = os.path.abspath(os.path.dirname(__file__))
     PATH = os.path.abspath(".")
     
-    WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/webzine/"
+    WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
 else:
     HTTP_PROXY = ""

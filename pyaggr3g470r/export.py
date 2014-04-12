@@ -136,7 +136,7 @@ def export_html(user):
     """
     Export all articles of 'user' in Web pages.
     """
-    webzine_root = conf.WEBZINE_ROOT
+    webzine_root = conf.WEBZINE_ROOT + "webzine/"
     nb_articles = format(len(models.Article.query.filter(models.Article.user_id == user.id).all()), ",d")
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
@@ -190,10 +190,10 @@ def export_html(user):
         f.write(CSS.encode("utf-8"))
 
     archive_file_name = datetime.now().strftime('%Y-%m-%d') + '.tar.gz'
-    with tarfile.open(conf.PATH + "/pyaggr3g470r/var/export/" + archive_file_name, "w:gz") as tar:
+    with tarfile.open(conf.WEBZINE_ROOT + archive_file_name, "w:gz") as tar:
         tar.add(webzine_root, arcname=os.path.basename(webzine_root))
 
     shutil.rmtree(webzine_root)
 
-    with open(conf.PATH + "/pyaggr3g470r/var/export/" + archive_file_name, 'r') as export_file:
+    with open(conf.WEBZINE_ROOT + archive_file_name, 'r') as export_file:
         return export_file.read(), archive_file_name

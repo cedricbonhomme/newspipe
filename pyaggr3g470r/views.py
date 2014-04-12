@@ -394,7 +394,6 @@ def export_articles():
     Export all articles.
     """
     user = User.query.filter(User.id == g.user.id).first()
-    archive_file, archive_file_name = export.export_html(user)
     try:
         archive_file, archive_file_name = export.export_html(user)
     except:
