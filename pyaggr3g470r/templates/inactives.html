@@ -10,7 +10,7 @@
         {% if inactives != [] %}
             <ul class="list-group">
             {% for item in inactives %}
-                <li class="list-group-item"><a href="/feed/{{ item[0].oid }}">{{ item[0].title }}</a> - {{ item[1].days }} days</li>
+                <li class="list-group-item"><a href="/feed/{{ item[0].id }}">{{ item[0].title }}</a> - {{ item[1].days }} days</li>
             {% endfor %}
             </ul>
         {% else %}
