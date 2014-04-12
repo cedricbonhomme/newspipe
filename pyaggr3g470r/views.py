@@ -101,14 +101,13 @@ from functools import wraps
 def feed_access_required(func):
     """
     This decorator enables to check if a user has access to a feed.
+    The administrator of the platform is able to access to the feeds of a normal user.
     """
-    #print("Now decorating %s" % func)
     @wraps(func)
     def decorated(*args, **kwargs):
-        #print("Now calling %s with %s,%s" % (func, args, kwargs))
         if kwargs.get('feed_id', None) != None:
             feed = Feed.query.filter(Feed.id == kwargs.get('feed_id', None)).first()
-            if feed == None or feed.subscriber.id != g.user.id:
+            if (feed == None or feed.subscriber.id != g.user.id) and not g.user.is_admin():
                 flash("This feed do not exist.", "danger")
                 return redirect(url_for('home'))
         return func(*args, **kwargs)
@@ -202,37 +201,35 @@ def feeds():
 
 @app.route('/feed/<int:feed_id>', methods=['GET'])
 @login_required
+@feed_access_required
 def feed(feed_id=None):
     """
     Presents detailed information about a feed.
+    The administrator of the platform is able to access to this view for every users.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    if feed.subscriber.id == g.user.id:
-        word_size = 6
-        articles = feed.articles
-        nb_articles = len(feed.articles.all())
-        top_words = utils.top_words(articles, n=50, size=int(word_size))
-        tag_cloud = utils.tag_cloud(top_words)
+    word_size = 6
+    articles = feed.articles.all()
+    nb_articles = len(articles)
+    top_words = utils.top_words(articles, n=50, size=int(word_size))
+    tag_cloud = utils.tag_cloud(top_words)
 
-        today = datetime.datetime.now()
-        try:
-            last_article = articles[0].date
-            first_article = articles[-1].date
-            delta = last_article - first_article
-            average = round(float(len(articles)) / abs(delta.days), 2)
-        except:
-            last_article = datetime.datetime.fromtimestamp(0)
-            first_article = datetime.datetime.fromtimestamp(0)
-            delta = last_article - first_article
-            average = 0
-        elapsed = today - last_article
+    today = datetime.datetime.now()
+    try:
+        last_article = articles[0].date
+        first_article = articles[-1].date
+        delta = last_article - first_article
+        average = round(float(len(articles)) / abs(delta.days), 2)
+    except:
+        last_article = datetime.datetime.fromtimestamp(0)
+        first_article = datetime.datetime.fromtimestamp(0)
+        delta = last_article - first_article
+        average = 0
+    elapsed = today - last_article
 
-        return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
-                            first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
-                            average=average, delta=delta, elapsed=elapsed)
-    else:
-        flash("This feed do not exist.", 'warning')
-        return redirect(redirect_url())
+    return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
+                        first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
+                        average=average, delta=delta, elapsed=elapsed)
 
 @app.route('/article/<int:article_id>', methods=['GET'])
 @login_required
@@ -300,17 +297,18 @@ def delete(article_id=None):
 @app.route('/articles/<feed_id>/', methods=['GET'])
 @app.route('/articles/<feed_id>/<int:nb_articles>', methods=['GET'])
 @login_required
+@feed_access_required
 def articles(feed_id=None, nb_articles=-1):
+    """
+    List articles of a feed.
+    The administrator of the platform is able to access to this view for every users.
+    """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    if feed == None:
-        flash("No such feed.", "danger")
-        return redirect(url_for('home'))
-    else:
-        if len(feed.articles.all()) <= nb_articles:
-            nb_articles = -1
-        if nb_articles != -1:
-            feed.articles = feed.articles[0:nb_articles]
-        return render_template('articles.html', feed=feed, nb_articles=nb_articles)
+    if len(feed.articles.all()) <= nb_articles:
+        nb_articles = -1
+    if nb_articles != -1:
+        feed.articles = feed.articles[0:nb_articles]
+    return render_template('articles.html', feed=feed, nb_articles=nb_articles)
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
@@ -521,13 +519,9 @@ def delete_feed(feed_id=None):
     Delete a feed with all associated articles.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    if feed.subscriber.id == g.user.id:
-        db.session.delete(feed)
-        db.session.commit()
-        flash('Feed "' + feed.title + '" successfully deleted.', 'success')
-    else:
-        flash('Impossible to delete this feed.', 'danger')
-    return redirect(redirect_url())
+    db.session.delete(feed)
+    db.session.commit()
+    flash('Feed "' + feed.title + '" successfully deleted.', 'success')
 
 @app.route('/profile/', methods=['GET', 'POST'])
 @login_required
