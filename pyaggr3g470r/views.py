@@ -166,8 +166,8 @@ def home():
     The home page lists most recent articles of all feeds.
     """
     user = User.query.filter(User.email == g.user.email).first()
-    #return render_template('home.html', user=user, head_title="nb unread")
-    return render_template('home.html', user=user)
+    unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
+    return render_template('home.html', user=user, head_title=unread_articles)
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<feed_id>', methods=['GET'])
@@ -205,12 +205,11 @@ def feeds():
 def feed(feed_id=None):
     """
     Presents detailed information about a feed.
-    The administrator of the platform is able to access to this view for every users.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
     word_size = 6
     articles = feed.articles.all()
-    nb_articles = len(articles)
+    nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
     top_words = utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = utils.tag_cloud(top_words)
 

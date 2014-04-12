@@ -177,8 +177,9 @@ class FeedGetter(object):
                 post_date = datetime(*article.updated_parsed[:6])
 
             # save the article
-            article = Article(link=nice_url, title=article_title, 
-                              content=description, readed=False, like=False, date=post_date)
+            article = Article(link=nice_url, title=article_title, \
+                              content=description, readed=False, like=False, date=post_date, \
+                              user_id=self.user.id, feed_id=feed.id)
             articles.append(article)
 
             # add the article to the Whoosh index
