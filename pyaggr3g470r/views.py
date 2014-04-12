@@ -33,6 +33,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, login_require
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
 from werkzeug import generate_password_hash
 
+import conf
 import utils
 import export
 import feedgetter
@@ -314,14 +315,13 @@ def favorites():
     """
     List favorites articles.
     """
-    user = User.query.filter(User.id == g.user.id).first()
-    result = []
-    nb_favorites = 0
-    for feed in user.feeds:
+    feeds_with_like = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(like=True))
+    result, nb_favorites = [], 0
+    for feed in feeds_with_like:
         new_feed = Feed()
         new_feed.id = feed.id
         new_feed.title = feed.title
-        new_feed.articles = [article for article in feed.articles if article.like]
+        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
         length = len(new_feed.articles.all())
         if length != 0:
             result.append(new_feed)
@@ -334,14 +334,13 @@ def unread():
     """
     List unread articles.
     """
-    user = User.query.filter(User.id == g.user.id).first()
-    result = []
-    nb_unread = 0
-    for feed in user.feeds:
+    feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
+    result, nb_unread = [], 0
+    for feed in feeds_with_unread:
         new_feed = Feed()
         new_feed.id = feed.id
         new_feed.title = feed.title
-        new_feed.articles = [article for article in feed.articles if not article.readed]
+        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).all()
         length = len(new_feed.articles.all())
         if length != 0:
             result.append(new_feed)
@@ -414,6 +413,9 @@ def search():
     """
     Search articles corresponding to the query.
     """
+    if conf.ON_HEROKU:
+        flash("Full text search is not yet implemented for Heroku.", "warning")
+        return redirect(url_for('home'))
     user = models.User.objects(email=g.user.email).first()
     result = []
     query = request.args.get('query', None)
@@ -451,13 +453,11 @@ def management():
     form = AddFeedForm()
     user = User.query.filter(User.id == g.user.id).first()
     nb_feeds = len(user.feeds.all())
-    #nb_articles = sum([len(feed.articles) for feed in user.feeds])
-    #nb_unread_articles = sum([len([article for article in feed.articles if not article.readed]) for feed in user.feeds])
-    #articles = Article.query.filter(Article.feed.subscriber.id == g.user.id).all()
-    nb_articles = sum([len(feed.articles.all()) for feed in user.feeds])
-    nb_unread_articles = 2
+    nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
+    nb_unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
     return render_template('management.html', form=form, \
-                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles)
+                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles, \
+                            not_on_heroku = not conf.ON_HEROKU)
 
 @app.route('/history/', methods=['GET'])
 @login_required

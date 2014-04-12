@@ -5,7 +5,9 @@
         <h1>Your subscriptions</h1>
         <p>You are subscribed to {{ nb_feeds }} <a href="/feeds">feeds</a>. Add a <a href="/create_feed/">feed</a>.</p>
         <p>{{ nb_articles }} articles are stored in the database with {{ nb_unread_articles }} <a href="/unread/">unread articles</a>.</p>
-        <a href="/index_database/" class="btn btn-default">Index database</a>
+        {% if not_on_heroku %}
+            <a href="/index_database/" class="btn btn-default">Index database</a>
+        {% endif %}
     </div>
     <div class="jumbotron">
         <h1>Your Profile</h1>
@@ -21,9 +23,11 @@
         <h2>Export</h2>
         <a href="/export_opml/" class="btn btn-default">Export feeds to OPML</a>
     </div>
+    {% if not_on_heroku %}
     <div class="jumbotron">
         <h1>Export articles</h1>
         <a href="/export/" class="btn btn-default">HTML</a>
     </div>
+    {% endif %}
 </div><!-- /.container -->
 {% endblock %}
