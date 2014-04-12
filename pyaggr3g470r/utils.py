@@ -101,8 +101,7 @@ def import_opml(email, opml_file):
         except:
             continue
 
-        existing_feed = [feed for feed in user.feeds if feed.link == link]
-        if len(existing_feed) != 0:
+        if None != Feed.query.filter(Feed.link == link).first():
             continue
 
         try:
@@ -116,7 +115,7 @@ def import_opml(email, opml_file):
         nb += 1
 
     db.session.commit()
-    return nb
+    return nb, len(subscriptions)-nb
 
 def clean_url(url):
     """

@@ -132,29 +132,29 @@ img {
     margin:1.00em 1.00em;
 }"""
 
-def export_html(feeds):
+def export_html(user):
     """
-    Export the articles given in parameter in a simple Webzine.
+    Export all articles of 'user' in Web pages.
     """
     webzine_root = conf.PATH + "/pyaggr3g470r/var/export/webzine/"
-    nb_articles = format(len(models.Article.objects()), ",d")
+    nb_articles = format(len(models.Article.query.filter(models.Article.user_id == user.id).all()), ",d")
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
-    for feed in feeds:
+    for feed in user.feeds:
         # creates a folder for each stream
-        feed_folder = webzine_root + str(feed.oid)
+        feed_folder = webzine_root + str(feed.id)
         try:
             os.makedirs(feed_folder)
         except OSError:
             # directories already exists (not a problem)
             pass
 
-        index += """    <li><a href="%s">%s</a></li>\n""" % (feed.oid, feed.title)
+        index += """    <li><a href="%s">%s</a></li>\n""" % (feed.id, feed.title)
 
         posts = HTML_HEADER(feed.title, "../style.css")
         posts += """<h1>Articles of the feed <a href="%s">%s</a></h1>\n""" % (feed.site_link, feed.title)
-        posts += """<p>%s articles.</p>\n""" % (format(len(feed.articles), ",d"),)
+        posts += """<p>%s articles.</p>\n""" % (format(len(feed.articles.all()), ",d"),)
 
         for article in feed.articles:
 
