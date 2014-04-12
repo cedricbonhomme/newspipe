@@ -394,14 +394,11 @@ def export_articles():
     Export all articles.
     """
     user = User.query.filter(User.id == g.user.id).first()
-    archive_file, archive_file_name = export.export_html(user)
-    """
     try:
         archive_file, archive_file_name = export.export_html(user.feeds)
     except:
         flash("Error when exporting articles.", 'danger')
         return redirect(url_for('management'))
-    """
     response = make_response(archive_file)
     response.headers['Content-Type'] = 'application/x-compressed'
     response.headers['Content-Disposition'] = 'attachment; filename='+archive_file_name
