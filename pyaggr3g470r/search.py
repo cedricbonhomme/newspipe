@@ -41,10 +41,10 @@ import models
 
 indexdir = "./pyaggr3g470r/var/indexdir"
 
-schema = Schema(title=TEXT(stored=True), \
+schema = Schema(title=TEXT, \
                 content=TEXT, \
-                article_id=TEXT(stored=True), \
-                feed_id=TEXT(stored=True))
+                article_id=NUMERIC(int, stored=True), \
+                feed_id=NUMERIC(int, stored=True))
 
 def create_index(feeds):
     """
@@ -58,8 +58,8 @@ def create_index(feeds):
         for article in feed.articles:
             writer.add_document(title=article.title, \
                                 content=utils.clear_string(article.content), \
-                                article_id=str(article.id).decode(), \
-                                feed_id=str(feed.oid).decode())
+                                article_id=article.id, \
+                                feed_id=feed.id)
     writer.commit()
 
 def add_to_index(articles, feed):
@@ -78,8 +78,8 @@ def add_to_index(articles, feed):
     for article in articles:
         writer.add_document(title=article.title, \
                             content=utils.clear_string(article.content), \
-                            article_id=str(article.id).decode(), \
-                            feed_id=str(feed.oid).decode())
+                            article_id=article.id, \
+                            feed_id=feed.id)
     writer.commit()
 
 def delete_article(feed_id, article_id):

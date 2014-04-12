@@ -39,7 +39,8 @@ import utils
 import export
 import feedgetter
 import models
-#import search as fastsearch
+if not conf.ON_HEROKU:
+    import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db
 from pyaggr3g470r.models import User, Feed, Article, Role
@@ -382,10 +383,14 @@ def index_database():
     """
     Index all the database.
     """
-    user = models.User.objects(email=g.user.email).first()
-    #fastsearch.create_index(user.feeds)
-    flash('Database indexed.', 'success')
-    return redirect(url_for('home'))
+    if not conf.ON_HEROKU:
+        user = User.query.filter(User.id == g.user.id).first()
+        fastsearch.create_index(user.feeds)
+        flash('Database indexed.', 'success')
+        return redirect(url_for('home'))
+    else:
+        flash('Option not available on Heroku.', 'success')
+        return redirect(url_for('home'))
 
 @app.route('/export/', methods=['GET'])
 @login_required
@@ -425,20 +430,24 @@ def search():
     if conf.ON_HEROKU:
         flash("Full text search is not yet implemented for Heroku.", "warning")
         return redirect(url_for('home'))
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     result = []
     query = request.args.get('query', None)
     if query != None:
         results, nb_articles = fastsearch.search(query)
         for feed_id in results:
             for feed in user.feeds:
-                if str(feed.oid) == feed_id:
-                    feed.articles = []
+                if feed.id == feed_id:
+                    new_feed = Feed()
+                    new_feed.id = feed.id
+                    new_feed.title = feed.title
+                    new_feed.articles = []
                     for article_id in results[feed_id]:
-                        current_article = models.Article.objects(id=article_id).first()
-                        feed.articles.append(current_article)
-                    feed.articles = sorted(feed.articles, key=lambda t: t.date, reverse=True)
-                    result.append(feed)
+                        current_article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
+                        new_feed.articles.append(current_article)
+                    new_feed.articles = sorted(new_feed.articles, key=lambda t: t.date, reverse=True)
+                    result.append(new_feed)
+                    break
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
 @app.route('/management/', methods=['GET', 'POST'])
