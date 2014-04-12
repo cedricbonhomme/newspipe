@@ -647,25 +647,3 @@ def delete_user(user_id=None):
     else:
         flash('This user does not exist.', 'danger')
     return redirect(redirect_url())
-
-@app.route('/admin/enable_user/<int:user_id>/', methods=['GET'])
-@app.route('/admin/disable_user/<int:user_id>/', methods=['GET'])
-@login_required
-@admin_permission.require()
-def disable_user(user_id=None):
-    """
-    Enable or disable the API key of a user.
-    """
-    user = User.query.filter(User.id == user_id).first()
-    if user is not None:
-        if user.apikey != "":
-            user.pwdhash = ""
-            flash(user.firstname + '" successfully disabled.', 'success')
-        else:
-            #import random, base64, hashlib
-            user.pwdhash = "newpass"
-            flash(user.firstname + '" successfully enabled.', 'success')
-        db.session.commit()
-    else:
-        flash('This user does not exist.', 'danger')
-    return redirect(redirect_url())
