@@ -236,8 +236,8 @@ def article(article_id=None):
     """
     Presents the content of an article.
     """
-    article = Article.query.filter(Article.id == article_id).first()
-    if article != None and article.source.subscriber.id == g.user.id:
+    article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
+    if article != None:
         if not article.readed:
             article.readed = True
             db.session.commit()
@@ -255,10 +255,10 @@ def mark_as_read(feed_id=None):
     Mark all unreaded articles as read.
     """
     if feed_id != None:
-        Article.query.filter(Article.readed == False).join(Feed).filter(Feed.id == feed_id).update({"readed": True})
+        Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id, Article.readed == False).update({"readed": True})
         flash('Articles marked as read.', 'info')
     else:
-        Article.query.filter(Article.readed == False).update({"readed": True})
+        Article.query.filter(Article.user_id == g.user.id, Article.readed == False).update({"readed": True})
         flash("All articles marked as read", 'info')
     db.session.commit()
     return redirect(redirect_url())
@@ -269,8 +269,7 @@ def like(article_id=None):
     """
     Mark or unmark an article as favorites.
     """
-    #user = models.User.objects(email=g.user.email).first()
-    Article.query.filter(Article.id == article_id). \
+    Article.query.filter(Article.user_id == g.user.id, Article.id == article_id). \
                 update({
                         "like": not Article.query.filter(Article.id == article_id).first().like
                        })
