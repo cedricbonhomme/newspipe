@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2014/03/16 $"
-__revision__ = "$Date: 2014/03/24 $"
+__revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -60,23 +60,15 @@ def db_DropEverything(db):
 
     trans.commit()
 
-
-
 db_DropEverything(db)
 db.create_all()
 
 role_admin = Role(name="admin")
 role_user = Role(name="user")
 
-user1 = User(firstname="admin", lastname="admin", email="root@pyAggr3g470r.localhost", pwdhash=generate_password_hash("root"))
-
+user1 = User(firstname="admin", lastname="admin", email="root@pyAggr3g470r.localhost", \
+                pwdhash=generate_password_hash("root"))
 user1.roles.extend([role_admin, role_user])
-
-feed1 = Feed(title="Armed and Dangerous", description="Sex, software, politics, and firearms. Life's simple pleasures...",
-             link="http://esr.ibiblio.org/?feed=rss2", site_link="http://esr.ibiblio.org/",
-             email_notification=False, enabled=True, user_id=user1.id)
-
-user1.feeds.extend([feed1])
 
 db.session.add(user1)
 db.session.commit()
