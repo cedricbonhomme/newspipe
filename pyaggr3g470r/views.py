@@ -31,6 +31,7 @@ import datetime
 from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
+from sqlalchemy import desc
 from werkzeug import generate_password_hash
 
 import conf
@@ -167,8 +168,16 @@ def home():
     The home page lists most recent articles of all feeds.
     """
     user = User.query.filter(User.email == g.user.email).first()
+    result = []
+    for feed in user.feeds:
+        new_feed = Feed()
+        new_feed.id = feed.id
+        new_feed.title = feed.title
+        new_feed.enabled = feed.enabled
+        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
+        result.append(new_feed)
     unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
-    return render_template('home.html', user=user, head_title=unread_articles)
+    return render_template('home.html', result=result, head_title=unread_articles)
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<feed_id>', methods=['GET'])
@@ -277,7 +286,7 @@ def like(article_id=None):
     db.session.commit()
     return redirect(redirect_url())
 
-@app.route('/delete/<int:article_id>', methods=['GET'])
+@app.route('/delete/<int:article_id>/', methods=['GET'])
 @login_required
 def delete(article_id=None):
     """
@@ -522,6 +531,7 @@ def delete_feed(feed_id=None):
     db.session.delete(feed)
     db.session.commit()
     flash('Feed "' + feed.title + '" successfully deleted.', 'success')
+    return redirect(redirect_url())
 
 @app.route('/profile/', methods=['GET', 'POST'])
 @login_required
