@@ -39,7 +39,8 @@ from sqlalchemy.exc import IntegrityError
 
 import models
 import conf
-#import search
+if not conf.ON_HEROKU:
+    import search
 import utils
 
 if not conf.ON_HEROKU:

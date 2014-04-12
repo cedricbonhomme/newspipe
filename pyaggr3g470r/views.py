@@ -297,6 +297,10 @@ def delete(article_id=None):
     if article != None and article.source.subscriber.id == g.user.id:
         db.session.delete(article)
         db.session.commit()
+        try:
+            fastsearch.delete_article(article.feed_id, article.id)
+        except:
+            pass
         flash('Article "' + article.title + '" deleted.', 'success')
         return redirect(url_for('home'))
     else:
