@@ -68,28 +68,20 @@ import log
 pyaggr3g470r_log = log.Log("feedgetter")
 
 
-
-
-
-HEADERS = {'User-Agent': conf.USER_AGENT}
-
 class TooLong(Exception):
     def __init__(self):
         """
         Log a when greenlet took to long to fetch a resource.
         """
-        pass #logger.warning("Greenlet took to long")
-
+        pyaggr3g470r_log.warning("Greenlet took to long")
 
 class FeedGetter(object):
     """
-    This class is in charge of retrieving feeds listed in ./var/feed.lst.
-    This class uses feedparser module from Mark Pilgrim.
-    For each feed a new thread is launched.
+    This class is in charge of retrieving the feeds.
     """
     def __init__(self, email):
         """
-        Initializes the database connection.
+        Initialization.
         """
         feedparser.USER_AGENT = conf.USER_AGENT
         if conf.HTTP_PROXY == "":
@@ -105,16 +97,37 @@ class FeedGetter(object):
         feedparser.USER_AGENT = conf.USER_AGENT
         self.user = User.query.filter(User.email == email).first()
 
+    def retrieve_feed(self, feed_id=None):
+        """
+        Launch the processus.
+        """
+        pyaggr3g470r_log.info("Starting to retrieve feeds.")
+
+        # 1 - Get the list of feeds to fetch
+        user = User.query.filter(User.email == self.user.email).first()
+        feeds = [feed for feed in user.feeds if feed.enabled]
+        if feed_id != None:
+            feeds = [feed for feed in feeds if feed.id == feed_id]
+
+        # 2 - Fetch the feeds.
+        # 'responses' contains all the jobs returned by the function retrieve_async()
+        responses = self.retrieve_async(feeds)
+
+        # 3 - Insert articles in the database
+        self.insert_database([item.value for item in responses if item.value is not None])
+        
+        pyaggr3g470r_log.info("All articles retrieved. End of the processus.")
+
     def retrieve_async(self, feeds):
         """
-        Spawn different jobs in order to retrieve a list of distant resources.
-        Returns a list of models.Item objects.
+        Spawn different jobs in order to retrieve a list of feeds.
+        Returns a list of jobs.
         """
         def fetch(feed):
             """
-            Fetch the content located at 'wsw_item.url'.
+            Fetch a feed.
             """
-            pyaggr3g470r_log.info("Fetching " + feed.title)
+            pyaggr3g470r_log.info("Fetching the feed:" + feed.title)
             a_feed = feedparser.parse(feed.link, handlers = [self.proxy])
             if a_feed['entries'] == []:
                 return
@@ -164,7 +177,7 @@ class FeedGetter(object):
                     description = BeautifulSoup(description, "html.parser").decode()
                     article_title = BeautifulSoup(article.title, "html.parser").decode()
                 except Exception as E:
-                    #pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, nice_url))
+                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, nice_url))
                     article_title = article.title
 
                 try:
@@ -172,14 +185,13 @@ class FeedGetter(object):
                 except:
                     post_date = datetime(*article.updated_parsed[:6])
 
-                # save the article
+                # create the models.Article object and append it to the list of articles
                 article = Article(link=nice_url, title=article_title, \
                                 content=description, readed=False, like=False, date=post_date, \
                                 user_id=self.user.id, feed_id=feed.id)
                 articles.append(article)
 
-
-
+            # return the feed with the list of retrieved articles
             return feed, articles
 
         jobs = []
@@ -217,17 +229,4 @@ class FeedGetter(object):
                     continue
         db.session.close()
         return True
-
-
-    def retrieve_feed(self, feed_id=None):
-        """
-        Launch
-        """
-        user = User.query.filter(User.email == self.user.email).first()
-        feeds = [feed for feed in user.feeds if feed.enabled]
-        if feed_id != None:
-            feeds = [feed for feed in feeds if feed.id == feed_id]
-
-        responses = self.retrieve_async(feeds)
-
-        self.insert_database([item.value for item in responses if item.value is not None])        
+        
