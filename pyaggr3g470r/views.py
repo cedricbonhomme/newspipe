@@ -188,9 +188,13 @@ def fetch(feed_id=None):
     Triggers the download of news.
     """
     #feed_getter = feedgetter.FeedGetter(g.user.email)
-    feed_getter = crawler.FeedGetter(g.user.email)
-    feed_getter.retrieve_feed(feed_id)
-    flash("New articles retrieved.", 'success')
+    import os, subprocess
+    cmd = ['python', conf.basedir+'/fetch.py', g.user.email, str(feed_id)]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+
+    #feed_getter = crawler.FeedGetter(g.user.email)
+    #feed_getter.retrieve_feed(feed_id)
+    flash("Downloading articles...", 'success')
     return redirect(redirect_url())
 
 @app.route('/about/', methods=['GET'])

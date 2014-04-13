@@ -8,6 +8,9 @@ This file contain the variables used by the application.
 
 import os, sys
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+PATH = os.path.abspath(".")
+
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 
 if not ON_HEROKU:
@@ -41,9 +44,6 @@ if not ON_HEROKU:
     MAIL_PASSWORD = config.get('mail', 'password')
     MAIL_FROM = config.get('mail', 'mail_from')
     MAIL_TO = config.get('mail', 'mail_to')
-
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    PATH = os.path.abspath(".")
     
     WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
@@ -61,6 +61,7 @@ else:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     
     WEBZINE_ROOT = "/tmp/"
+
 
 CSRF_ENABLED = True
 # slow database query threshold (in seconds)

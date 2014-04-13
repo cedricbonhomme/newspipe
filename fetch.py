@@ -12,5 +12,9 @@ from pyaggr3g470r import feedgetter
 
 if __name__ == "__main__":
     # Point of entry in execution mode
+    try:
+        feed_id = int(sys.argv[2])
+    except:
+        feed_id = None
     feed_getter = feedgetter.FeedGetter(sys.argv[1])
-    feed_getter.retrieve_feed(None)
+    feed_getter.retrieve_feed(feed_id)
