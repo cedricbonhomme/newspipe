@@ -173,12 +173,13 @@ class FeedGetter(object):
             articles.append(article)
 
             # add the article to the Whoosh index only if we are not on Heroku
+            """
             if not conf.ON_HEROKU:
                 try:
                     search.add_to_index([article], feed)
                 except Exception as e:
                     pyaggr3g470r_log.error("Whoosh error.")
-                    pass
+                    pass"""
 
             # email notification
             if conf.MAIL_ENABLED and feed.email_notification:
