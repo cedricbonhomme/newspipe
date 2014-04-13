@@ -11,8 +11,8 @@ based on `Flask <http://flask.pocoo.org/>`_.
 Features
 ========
 
-* can be deployed both on Heroku and on a traditional server;
-*  HTTP proxy support;
+* can be deployed on Heroku or on a traditional server;
+* HTTP proxy support;
 * feeds batch import with OPML files;
 * export all your feeds to OPML;
 * e-mail notification;
@@ -24,13 +24,12 @@ Features
 Usage
 =====
 
-
 Deployment
 ----------
 
-This application can be deployed both on Heroku and on a traditional server.
+This application can be deployed on Heroku or on a traditional server.
 
-After installation, you will be able to connect with the e-mail *root@pyAggr3g470r.localhost* and the password *root*.
+After installation, you will be able to connect with the email *root@pyAggr3g470r.localhost* and the password *root*.
 
 
 Deploying the application on Heroku
@@ -68,17 +67,16 @@ Deploying the application on a traditional server
     postgres=# ALTER USER username WITH ENCRYPTED PASSWORD 'password';
     postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
     postgres=# \q
-    $ export DATABASE_URL="postgres://username:password@127.0.0.1:5432/pyAggr3g470r"
     $ cp conf/conf.cfg-sample conf/conf.cfg
     $ python db_create.py
     $ python runserver.py
      * Running on http://0.0.0.0:5000/
      * Restarting with reloader
 
-Configuration (email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
-For example if you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
+Configuration (database url, email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
+Check these configuration before executing *db_create.py*.   
+If you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
 *http_proxy* (most of the time: *http_proxy = 127.0.0.1:8118**). Else leave the value blank.
-
 
 
 Automatic updates
