@@ -8,7 +8,7 @@
 # to fetch articles every 30 minutes.
 
 import sys
-from pyaggr3g470r import feedgetter
+from pyaggr3g470r import crawler
 
 if __name__ == "__main__":
     # Point of entry in execution mode
@@ -16,5 +16,5 @@ if __name__ == "__main__":
         feed_id = int(sys.argv[2])
     except:
         feed_id = None
-    feed_getter = feedgetter.FeedGetter(sys.argv[1])
+    feed_getter = crawler.FeedGetter(sys.argv[1])
     feed_getter.retrieve_feed(feed_id)
