@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
+import subprocess
 import datetime
 from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
@@ -186,14 +187,10 @@ def home():
 def fetch(feed_id=None):
     """
     Triggers the download of news.
+    News are downloaded in a separeded process, mandatory for Heroku.
     """
-    #feed_getter = feedgetter.FeedGetter(g.user.email)
-    import os, subprocess
     cmd = ['python', conf.basedir+'/fetch.py', g.user.email, str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-
-    #feed_getter = crawler.FeedGetter(g.user.email)
-    #feed_getter.retrieve_feed(feed_id)
     flash("Downloading articles...", 'success')
     return redirect(redirect_url())
 
