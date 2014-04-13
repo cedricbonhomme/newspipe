@@ -317,11 +317,16 @@ def articles(feed_id=None, nb_articles=-1):
     The administrator of the platform is able to access to this view for every users.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
+    new_feed = Feed()
+    new_feed.id = feed.id
+    new_feed.title = feed.title
     if len(feed.articles.all()) <= nb_articles:
         nb_articles = -1
-    if nb_articles != -1:
-        feed.articles = feed.articles[0:nb_articles]
-    return render_template('articles.html', feed=feed, nb_articles=nb_articles)
+    if nb_articles == -1:
+        nb_articles = int(1e9)
+    new_feed.articles = Article.query.filter(Article.user_id == g.user.id, \
+                                        Article.feed_id == feed.id).order_by(desc("Article.date")).limit(nb_articles)
+    return render_template('articles.html', feed=new_feed, nb_articles=nb_articles)
 
 @app.route('/favorites/', methods=['GET'])
 @login_required
