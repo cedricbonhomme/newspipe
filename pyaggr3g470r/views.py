@@ -490,7 +490,7 @@ def management():
 @app.route('/history/', methods=['GET'])
 @login_required
 def history():
-    user = models.User.objects(email=g.user.email).first()
+    user = User.query.filter(User.id == g.user.id).first()
     return render_template('history.html')
 
 @app.route('/create_feed/', methods=['GET', 'POST'])
