@@ -37,7 +37,7 @@ from werkzeug import generate_password_hash
 import conf
 import utils
 import export
-import feedgetter
+import feedgetter, crawler
 import models
 if not conf.ON_HEROKU:
     import search as fastsearch
@@ -181,13 +181,14 @@ def home():
     return render_template('home.html', result=result, head_title=unread_articles)
 
 @app.route('/fetch/', methods=['GET'])
-@app.route('/fetch/<feed_id>', methods=['GET'])
+@app.route('/fetch/<int:feed_id>', methods=['GET'])
 @login_required
 def fetch(feed_id=None):
     """
     Triggers the download of news.
     """
-    feed_getter = feedgetter.FeedGetter(g.user.email)
+    #feed_getter = feedgetter.FeedGetter(g.user.email)
+    feed_getter = crawler.FeedGetter(g.user.email)
     feed_getter.retrieve_feed(feed_id)
     flash("New articles retrieved.", 'success')
     return redirect(redirect_url())

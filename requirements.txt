@@ -11,3 +11,4 @@ Flask-Principal
 Flask-WTF
 Flask-Mail
 WTForms
+gevent

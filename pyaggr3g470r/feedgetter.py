@@ -85,7 +85,7 @@ class FeedGetter(object):
         """
         feeds = [feed for feed in self.user.feeds if feed.enabled]
         if feed_id != None:
-            feeds = [feed for feed in feeds if str(feed.id) == feed_id]
+            feeds = [feed for feed in feeds if feed.id == feed_id]
         for current_feed in feeds:
             try:
                 # launch a new thread for the RSS feed
