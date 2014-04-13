@@ -49,7 +49,7 @@ if not ON_HEROKU:
 
 else:
     HTTP_PROXY = ""
-    USER_AGENT = "pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)"
+    USER_AGENT = "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
     RESOLVE_ARTICLE_URL = int(os.environ.get('RESOLVE_ARTICLE_URL', 0)) == 1
 
     WEBSERVER_DEBUG = False
