@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 4.7 $"
+__version__ = "$Revision: 4.8 $"
 __date__ = "$Date: 2010/01/29 $"
 __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
@@ -29,7 +29,7 @@ __license__ = "AGPLv3"
 import os
 import subprocess
 import datetime
-from flask import render_template, jsonify, request, flash, session, url_for, redirect, g, current_app, make_response
+from flask import render_template, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
 from sqlalchemy import desc
@@ -175,7 +175,8 @@ def home():
         new_feed.id = feed.id
         new_feed.title = feed.title
         new_feed.enabled = feed.enabled
-        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
+        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, 
+                                                 Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
         result.append(new_feed)
     unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
     return render_template('home.html', result=result, head_title=unread_articles)
@@ -186,7 +187,7 @@ def home():
 def fetch(feed_id=None):
     """
     Triggers the download of news.
-    News are downloaded in a separeded process, mandatory for Heroku.
+    News are downloaded in a separated process, mandatory for Heroku.
     """
     cmd = ['python', conf.basedir+'/fetch.py', g.user.email, str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
@@ -208,8 +209,7 @@ def feeds():
     Lists the subscribed  feeds in a table.
     """
     user = User.query.filter(User.email == g.user.email).first()
-    feeds = user.feeds
-    return render_template('feeds.html', feeds=feeds)
+    return render_template('feeds.html', feeds=user.feeds)
 
 @app.route('/feed/<int:feed_id>', methods=['GET'])
 @login_required
@@ -267,7 +267,8 @@ def mark_as_read(feed_id=None):
     Mark all unreaded articles as read.
     """
     if feed_id != None:
-        Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id, Article.readed == False).update({"readed": True})
+        Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id,
+                             Article.readed == False).update({"readed": True})
         flash('Articles marked as read.', 'info')
     else:
         Article.query.filter(Article.user_id == g.user.id, Article.readed == False).update({"readed": True})
