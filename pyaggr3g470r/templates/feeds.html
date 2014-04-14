@@ -29,7 +29,7 @@
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
                     <td>{{ feed.articles.all()|count }}</td>
                     <td>
-                        <a href="/articles/{{ feed.id }}"><i class="glyphicon glyphicon-th-list" title="All articles"></i></a>
+                        <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="Articles"></i></a>
                         <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
                         <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
                     </td>
