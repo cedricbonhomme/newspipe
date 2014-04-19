@@ -96,7 +96,7 @@ def authentication_required(e):
 @app.errorhandler(403)
 def authentication_failed(e):
     flash('Forbidden.', 'danger')
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -598,7 +598,7 @@ def profile():
 #
 @app.route('/admin/dashboard/', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
+@admin_permission.require(http_exception=403)
 def dashboard():
     """
     Adminstrator's dashboard.
