@@ -89,7 +89,7 @@ def load_user(email):
 # Custom error pages.
 #
 @app.errorhandler(401)
-def authentication_failed(e):
+def authentication_required(e):
     flash('Authentication required.', 'info')
     return redirect(url_for('login')), 401
 
