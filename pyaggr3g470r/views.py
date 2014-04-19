@@ -95,8 +95,8 @@ def authentication_required(e):
 
 @app.errorhandler(403)
 def authentication_failed(e):
-    flash('Authentication failed.', 'danger')
-    return redirect(url_for('login')), 403
+    flash('Forbidden.', 'danger')
+    return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -610,7 +610,7 @@ def dashboard():
 @app.route('/admin/create_user/', methods=['GET', 'POST'])
 @app.route('/admin/edit_user/<int:user_id>/', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
+@admin_permission.require(http_exception=403)
 def create_user(user_id=None):
     """
     Create or edit a user.
@@ -654,7 +654,7 @@ def create_user(user_id=None):
 
 @app.route('/admin/user/<int:user_id>/', methods=['GET'])
 @login_required
-@admin_permission.require()
+@admin_permission.require(http_exception=403)
 def user(user_id=None):
     """
     See information about a user (stations, etc.).
@@ -668,7 +668,7 @@ def user(user_id=None):
 
 @app.route('/admin/delete_user/<int:user_id>/', methods=['GET'])
 @login_required
-@admin_permission.require()
+@admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
     """
     Delete a user (with its stations and measures).
