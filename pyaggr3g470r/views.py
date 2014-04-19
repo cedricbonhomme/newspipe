@@ -79,16 +79,6 @@ def before_request():
         #db.session.add(g.user)
         #db.session.commit()
 
-@app.errorhandler(403)
-def authentication_failed(e):
-    flash('Authentication failed.', 'danger')
-    return redirect(url_for('login'))
-
-@app.errorhandler(401)
-def authentication_failed(e):
-    flash('Authentication required.', 'info')
-    return redirect(url_for('login'))
-
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
@@ -98,6 +88,16 @@ def load_user(email):
 #
 # Custom error pages.
 #
+@app.errorhandler(401)
+def authentication_failed(e):
+    flash('Authentication required.', 'info')
+    return redirect(url_for('login')), 401
+
+@app.errorhandler(403)
+def authentication_failed(e):
+    flash('Authentication failed.', 'danger')
+    return redirect(url_for('login')), 403
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
