@@ -94,6 +94,19 @@ def load_user(email):
     # Return an instance of the User model
     return User.query.filter(User.email == email).first()
 
+
+#
+# Custom error pages.
+#
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('errors/500.html'), 500
+
+
 def redirect_url(default='home'):
     return request.args.get('next') or \
             request.referrer or \
