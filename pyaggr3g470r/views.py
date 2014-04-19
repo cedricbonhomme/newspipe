@@ -91,7 +91,7 @@ def load_user(email):
 @app.errorhandler(401)
 def authentication_required(e):
     flash('Authentication required.', 'info')
-    return redirect(url_for('login')), 401
+    return redirect(url_for('login'))
 
 @app.errorhandler(403)
 def authentication_failed(e):
