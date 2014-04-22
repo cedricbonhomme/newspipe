@@ -12,3 +12,4 @@ Flask-WTF
 Flask-Mail
 WTForms
 gevent
+whoosh
