@@ -410,8 +410,11 @@ def index_database():
     """
     if not conf.ON_HEROKU:
         user = User.query.filter(User.id == g.user.id).first()
-        fastsearch.create_index(user)
-        flash('Database indexed.', 'success')
+        try:
+            fastsearch.create_index(user)
+            flash('Database indexed.', 'success')
+        except Exception as e:
+            flash('An error occured (%s).' % e, 'danger')
         return redirect(url_for('home'))
     else:
         flash('Option not available on Heroku.', 'success')
@@ -456,18 +459,24 @@ def search():
         flash("Full text search is not yet implemented for Heroku.", "warning")
         return redirect(url_for('home'))
     user = User.query.filter(User.id == g.user.id).first()
-    result = []
+
+    search_result, result = [], []
+    nb_articles = 0
+
     query = request.args.get('query', None)
     if query != None:
-        results, nb_articles = fastsearch.search(user.id, query)
-        for feed_id in results:
+        try:
+            search_result, nb_articles = fastsearch.search(user.id, query)
+        except Exception as e:
+            flash('An error occured (%s).' % e, 'danger')
+        for feed_id in search_result:
             for feed in user.feeds:
                 if feed.id == feed_id:
                     new_feed = Feed()
                     new_feed.id = feed.id
                     new_feed.title = feed.title
                     new_feed.articles = []
-                    for article_id in results[feed_id]:
+                    for article_id in search_result[feed_id]:
                         current_article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
                         new_feed.articles.append(current_article)
                     new_feed.articles = sorted(new_feed.articles, key=lambda t: t.date, reverse=True)
