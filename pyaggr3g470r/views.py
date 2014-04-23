@@ -42,7 +42,7 @@ import models
 if not conf.ON_HEROKU:
     import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
-from pyaggr3g470r import app, db
+from pyaggr3g470r import app, db, allowed_file
 from pyaggr3g470r.models import User, Feed, Article, Role
 
 Principal(app)
@@ -492,15 +492,18 @@ def management():
     """
     if request.method == 'POST':
         # Import an OPML file
-        data = request.files['opmlfile']
-        opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
-        data.save(opml_path)
-        try:
-            nb, nb_already = utils.import_opml(g.user.email, opml_path)
-            flash(str(nb) + " feeds imported (" + str(nb_already) + \
-                    " already in the database).", "success")
-        except Exception as e:
-            flash("Impossible to import the new feeds.", "danger")
+        data = request.files.get('opmlfile', None)
+        if None == data or not allowed_file(data.filename):
+            flash('File not allowed.', 'danger')
+        else:  
+            opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
+            data.save(opml_path)
+            try:
+                nb, nb_already = utils.import_opml(g.user.email, opml_path)
+                flash(str(nb) + " feeds imported (" + str(nb_already) + \
+                        " already in the database).", "success")
+            except Exception as e:
+                flash("Impossible to import the new feeds.", "danger")
 
 
     form = AddFeedForm()

@@ -16,6 +16,14 @@ app.config['SECRET_KEY'] = os.urandom(12)
 app.config['SQLALCHEMY_DATABASE_URI'] = conf.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
+ALLOWED_EXTENSIONS = set(['xml', 'opml'])
+
+def allowed_file(filename):
+    """
+    Check if the uploaded WSW file is allowed.
+    """
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 if not conf.ON_HEROKU:
     app.config["MAIL_SERVER"] = conf.MAIL_HOST
