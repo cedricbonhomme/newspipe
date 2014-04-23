@@ -63,7 +63,7 @@ If you want to use PostgreSQL:
 
 .. code:: bash
 
-    $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
+    $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
     $ sudo -u postgres createuser
     Enter name of role to add: username
     Shall the new role be a superuser? (y/n) n
