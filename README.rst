@@ -59,7 +59,8 @@ Deploying the application on a traditional server
     $ sudo pip install --upgrade -r requirements.txt
     $ cp conf/conf.cfg-sample conf/conf.cfg
 
-If you want to use PostgreSQL:
+If you want to use PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
 
@@ -75,12 +76,23 @@ If you want to use PostgreSQL:
     postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
     postgres=# \q
 
-If you want to use SQLite, just edit the configuration file with the line:
+Edit the configuration file with the line:
+
+.. code:: cfg
+
+    [database]
+    uri = uri = postgres://username:password@127.0.0.1:5433/pyAggr3g470r
+
+If you want to use SQLite
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Just edit the configuration file with the line:
 
 .. code:: cfg
 
     [database]
     uri = sqlite+pysqlite:///pyAggr3g470r.db
+
 
 Finally:
 
