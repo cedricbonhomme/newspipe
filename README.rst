@@ -81,7 +81,7 @@ Edit the configuration file with the line:
 .. code:: cfg
 
     [database]
-    uri = uri = postgres://username:password@127.0.0.1:5433/pyAggr3g470r
+    uri = postgres://username:password@127.0.0.1:5433/pyAggr3g470r
 
 If you want to use SQLite
 ~~~~~~~~~~~~~~~~~~~~~~~~~
