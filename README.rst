@@ -55,9 +55,15 @@ Deploying the application on a traditional server
 
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
-    $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
     $ sudo apt-get install libxml2-dev libxslt1-dev
     $ sudo pip install --upgrade -r requirements.txt
+    $ cp conf/conf.cfg-sample conf/conf.cfg
+
+If you want to use PostgreSQL:
+
+.. code:: bash
+
+    $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
     $ sudo -u postgres createuser
     Enter name of role to add: username
     Shall the new role be a superuser? (y/n) n
@@ -68,11 +74,26 @@ Deploying the application on a traditional server
     postgres=# ALTER USER username WITH ENCRYPTED PASSWORD 'password';
     postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
     postgres=# \q
-    $ cp conf/conf.cfg-sample conf/conf.cfg
+
+If you want to use SQLite, just edit the configuration file with the line:
+
+.. code:: cfg
+
+    [database]
+    uri = sqlite+pysqlite:///pyAggr3g470r.db
+
+Finally:
+
+.. code:: bash
+
     $ python db_create.py
     $ python runserver.py
      * Running on http://0.0.0.0:5000/
      * Restarting with reloader
+
+
+Configuration
+-------------
 
 Configuration (database url, email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
 Check these configuration before executing *db_create.py*.   
