@@ -410,7 +410,7 @@ def index_database():
     """
     if not conf.ON_HEROKU:
         user = User.query.filter(User.id == g.user.id).first()
-        fastsearch.create_index(user.feeds)
+        fastsearch.create_index(user)
         flash('Database indexed.', 'success')
         return redirect(url_for('home'))
     else:
@@ -459,7 +459,7 @@ def search():
     result = []
     query = request.args.get('query', None)
     if query != None:
-        results, nb_articles = fastsearch.search(query)
+        results, nb_articles = fastsearch.search(user.id, query)
         for feed_id in results:
             for feed in user.feeds:
                 if feed.id == feed_id:

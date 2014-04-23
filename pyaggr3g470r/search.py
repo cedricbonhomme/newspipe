@@ -44,9 +44,10 @@ indexdir = "./pyaggr3g470r/var/indexdir"
 schema = Schema(title=TEXT, \
                 content=TEXT, \
                 article_id=NUMERIC(int, stored=True), \
-                feed_id=NUMERIC(int, stored=True))
+                feed_id=NUMERIC(int, stored=True), \
+                user_id=NUMERIC(int, stored=True))
 
-def create_index(feeds):
+def create_index(user):
     """
     Creates the index.
     """
@@ -54,15 +55,16 @@ def create_index(feeds):
         os.makedirs(indexdir)
     ix = create_in(indexdir, schema)
     writer = ix.writer()
-    for feed in feeds:
+    for feed in user.feeds:
         for article in feed.articles:
             writer.add_document(title=article.title, \
                                 content=utils.clear_string(article.content), \
                                 article_id=article.id, \
-                                feed_id=feed.id)
+                                feed_id=feed.id, \
+                                user_id=user.id)
     writer.commit()
 
-def add_to_index(articles, feed):
+def add_to_index(user_id, articles, feed):
     """
     Add a list of articles to the index.
     Here an AsyncWriter is used because the function will
@@ -79,10 +81,11 @@ def add_to_index(articles, feed):
         writer.add_document(title=article.title, \
                             content=utils.clear_string(article.content), \
                             article_id=article.id, \
-                            feed_id=feed.id)
+                            feed_id=feed.id, \
+                            user_id=user_id)
     writer.commit()
 
-def delete_article(feed_id, article_id):
+def delete_article(user_id, feed_id, article_id):
     """
     Delete an article from the index.
     """
@@ -91,11 +94,11 @@ def delete_article(feed_id, article_id):
     except (EmptyIndexError, OSError) as e:
         raise EmptyIndexError
     writer = ix.writer()
-    document = And([Term("feed_id", feed_id), Term("article_id", article_id)])
+    document = And([Term("user_id", user_id), Term("feed_id", feed_id), Term("article_id", article_id)])
     writer.delete_by_query(document)
     writer.commit()
 
-def search(term):
+def search(user_id, term):
     """
     Search for `term` in the index.
     Returns a list of articles.
@@ -108,7 +111,7 @@ def search(term):
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
         results = searcher.search(query, limit=None)
-        for article in results:
+        for article in [item for item in results if item["user_id"] == user_id]:
             result_dict[article["feed_id"]].append(article["article_id"])
         return result_dict, len(results)
 

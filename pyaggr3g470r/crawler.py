@@ -244,7 +244,7 @@ class FeedGetter(object):
             for element in articles:
                 article = Article.query.filter(Article.user_id == self.user.id, Article.link == element.link).first()
                 try:
-                    fastsearch.add_to_index([article], article.source)
+                    fastsearch.add_to_index(self.user.id, [article], article.source)
                 except:
                     pyaggr3g470r_log.error("Problem during indexation.")
         return True
