@@ -54,7 +54,7 @@ requests_log.propagate = True
 import models
 import conf
 if not conf.ON_HEROKU:
-    import search
+    import search as fastsearch
 import utils
 
 if not conf.ON_HEROKU:
@@ -112,10 +112,15 @@ class FeedGetter(object):
         # 2 - Fetch the feeds.
         # 'responses' contains all the jobs returned by the function retrieve_async()
         responses = self.retrieve_async(feeds)
+        elements = [item.value for item in responses if item.value is not None]
 
         # 3 - Insert articles in the database
-        self.insert_database([item.value for item in responses if item.value is not None])
-        
+        self.insert_database(elements)
+
+        # 4 - Indexation
+        if not conf.ON_HEROKU:
+            self.index(elements)
+
         pyaggr3g470r_log.info("All articles retrieved. End of the processus.")
 
     def retrieve_async(self, feeds):
@@ -227,6 +232,19 @@ class FeedGetter(object):
                 except Exception as e:
                     pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                     continue
-        db.session.close()
+        #db.session.close()
         return True
-        
+
+    def index(self, elements):
+        """
+        Index new articles.
+        """
+        pyaggr3g470r_log.info("Indexing new articles.")
+        for feed, articles in elements:
+            for element in articles:
+                article = Article.query.filter(Article.user_id == self.user.id, Article.link == element.link).first()
+                try:
+                    fastsearch.add_to_index([article], article.source)
+                except:
+                    pyaggr3g470r_log.error("Problem during indexation.")
+        return True
