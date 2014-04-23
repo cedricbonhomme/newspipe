@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        <h2><a href="{{ feed.site_link  }}">{{ feed.title|safe }}</a></h2>
+        <h2><a href="{{ feed.site_link }}">{{ feed.title|safe }}</a></h2>
         <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
         <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
         {% if nb_articles == 10**9 %}

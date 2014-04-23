@@ -335,6 +335,7 @@ def articles(feed_id=None, nb_articles=-1):
     new_feed = Feed()
     new_feed.id = feed.id
     new_feed.title = feed.title
+    new_feed.site_link = feed.site_link
     if len(feed.articles.all()) <= nb_articles:
         nb_articles = -1
     if nb_articles == -1:
