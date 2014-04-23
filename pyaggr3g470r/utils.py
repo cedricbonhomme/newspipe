@@ -83,39 +83,50 @@ def import_opml(email, opml_file):
         subscriptions = opml.parse(opml_file)
     except Exception as e:
         raise e
-    nb = 0
-    for subscription in subscriptions:
 
-        try:
-            title = subscription.text
-        except:
-            title = ""
+    def read(subsubscription, nb=0):
+        """
+        Parse recursively through the categories and sub-categories.
+        """
+        for subscription in subsubscription:
+            
+            if len(subscription) != 0:
+                nb = read(subscription, nb)
+            else:
+                
+                try:
+                    title = subscription.text
 
-        try:
-            description = subscription.description
-        except:
-            description = ""
+                except:
+                    title = ""
 
-        try:
-            link = subscription.xmlUrl
-        except:
-            continue
+                try:
+                    description = subscription.description
+                except:
+                    description = ""
 
-        if None != Feed.query.filter(Feed.link == link).first():
-            continue
+                try:
+                    link = subscription.xmlUrl
+                except:
+                    continue
 
-        try:
-            site_link = subscription.htmlUrl
-        except:
-            site_link = ""
+                if None != Feed.query.filter(Feed.link == link).first():
+                    continue
 
-        new_feed = Feed(title=title, description=description, link=link, site_link=site_link, email_notification=False, enabled=True)
+                try:
+                    site_link = subscription.htmlUrl
+                except:
+                    site_link = ""
 
-        user.feeds.append(new_feed)
-        nb += 1
+                new_feed = Feed(title=title, description=description, link=link, site_link=site_link, email_notification=False, enabled=True)
 
+                user.feeds.append(new_feed)
+                nb += 1
+        return nb
+
+    nb = read(subscriptions)
     db.session.commit()
-    return nb, len(subscriptions)-nb
+    return nb
 
 def clean_url(url):
     """
@@ -232,3 +243,8 @@ def search_feed(url):
             #return urllib.parse.urljoin(url, feed_link['href'])
         return feed_link['href']
     return None
+
+
+if __name__ == "__main__":
+    import_opml("root@pyAggr3g470r.localhost", "./var/feeds_test.opml")
+    #import_opml("root@pyAggr3g470r.localhost", "./var/pyAggr3g470r.opml")

@@ -499,9 +499,8 @@ def management():
             opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
             data.save(opml_path)
             try:
-                nb, nb_already = utils.import_opml(g.user.email, opml_path)
-                flash(str(nb) + " feeds imported (" + str(nb_already) + \
-                        " already in the database).", "success")
+                nb = utils.import_opml(g.user.email, opml_path)
+                flash(str(nb) + " feeds imported.", "success")
             except Exception as e:
                 flash("Impossible to import the new feeds.", "danger")
 
