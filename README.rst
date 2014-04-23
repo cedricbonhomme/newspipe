@@ -56,6 +56,7 @@ Deploying the application on a traditional server
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
     $ sudo apt-get install postgresql postgresql-server-dev-9.1 postgresql-client
+    $ sudo apt-get install libxml2-dev libxslt1-dev
     $ sudo pip install --upgrade -r requirements.txt
     $ sudo -u postgres createuser
     Enter name of role to add: username
