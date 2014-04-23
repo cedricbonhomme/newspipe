@@ -313,7 +313,7 @@ def delete(article_id=None):
         db.session.delete(article)
         db.session.commit()
         try:
-            fastsearch.delete_article(article.feed_id, article.id)
+            fastsearch.delete_article(g.user.id, article.feed_id, article.id)
         except:
             pass
         flash('Article "' + article.title + '" deleted.', 'success')
