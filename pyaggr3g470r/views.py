@@ -488,7 +488,7 @@ def management():
     nb_feeds = len(user.feeds.all())
     nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
     nb_unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
-    return render_template('management.html', form=form, \
+    return render_template('management.html', user=user, form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles, \
                             not_on_heroku = not conf.ON_HEROKU)
 
