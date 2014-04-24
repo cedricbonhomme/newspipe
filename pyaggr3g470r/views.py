@@ -44,6 +44,7 @@ if not conf.ON_HEROKU:
 from forms import SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db, allowed_file
 from pyaggr3g470r.models import User, Feed, Article, Role
+from pyaggr3g470r.decorators import feed_access_required
 
 Principal(app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -74,7 +75,7 @@ def on_identity_loaded(sender, identity):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
-        g.user.last_seen = datetime.utcnow()
+        g.user.last_seen = datetime.datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
 
@@ -110,23 +111,6 @@ def redirect_url(default='home'):
     return request.args.get('next') or \
             request.referrer or \
             url_for(default)
-
-
-from functools import wraps
-def feed_access_required(func):
-    """
-    This decorator enables to check if a user has access to a feed.
-    The administrator of the platform is able to access to the feeds of a normal user.
-    """
-    @wraps(func)
-    def decorated(*args, **kwargs):
-        if kwargs.get('feed_id', None) != None:
-            feed = Feed.query.filter(Feed.id == kwargs.get('feed_id', None)).first()
-            if (feed == None or feed.subscriber.id != g.user.id) and not g.user.is_admin():
-                flash("This feed do not exist.", "danger")
-                return redirect(url_for('home'))
-        return func(*args, **kwargs)
-    return decorated
 
 
 
