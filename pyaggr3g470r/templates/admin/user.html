@@ -7,8 +7,15 @@
     <div class="jumbotron">
         <a href="/admin/edit_user/{{ user.id }}/" class="btn btn-default">Edit this user</a>
         <h2>Membership</h2>
-        <p>Member since {{ user.date_created.strftime('%A, %d %B %Y') }}.</p>
-        <p>Last seen: {{ user.last_seen.strftime('%A, %d %B %Y at %H:%M:%S') }}.</p>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Member since {{ user.date_created.strftime('%A, %d %B %Y') }}.</p>
+                <p>Last seen: {{ user.last_seen.strftime('%A, %d %B %Y at %H:%M:%S') }}.</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ user.email | gravatar }}" />
+            </div>
+        </div>
     </div>
     <div class="jumbotron">
         {% if user.feeds.all()|count == 0 %}

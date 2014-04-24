@@ -4,6 +4,7 @@
 import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.gravatar import Gravatar
 
 import conf
 
@@ -35,5 +36,9 @@ if not conf.ON_HEROKU:
 
     from flask.ext.mail import Message, Mail
     mail = Mail(app)
+
+# Gravatar
+gravatar = Gravatar(app, size=100, rating='g', default='retro',
+                    force_default=False, use_ssl=False, base_url=None)
 
 from pyaggr3g470r import views
