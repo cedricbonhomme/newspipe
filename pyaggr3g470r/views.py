@@ -74,10 +74,9 @@ def on_identity_loaded(sender, identity):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
-        pass
-        #g.user.last_seen = datetime.utcnow()
-        #db.session.add(g.user)
-        #db.session.commit()
+        g.user.last_seen = datetime.utcnow()
+        db.session.add(g.user)
+        db.session.commit()
 
 @login_manager.user_loader
 def load_user(email):
@@ -157,11 +156,6 @@ def logout():
     """
     Log out view. Removes the user information from the session.
     """
-    # Update last_seen field
-    g.user.last_seen = datetime.datetime.utcnow()
-    db.session.add(g.user)
-    db.session.commit()
-
     # Remove the user information from the session
     logout_user()
 
