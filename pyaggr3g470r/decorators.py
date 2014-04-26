@@ -4,7 +4,7 @@
 from threading import Thread
 from functools import wraps
 
-from flask import g
+from flask import g, redirect, url_for, flash
 
 from pyaggr3g470r.models import Feed
 
@@ -23,8 +23,10 @@ def feed_access_required(func):
     def decorated(*args, **kwargs):
         if kwargs.get('feed_id', None) != None:
             feed = Feed.query.filter(Feed.id == kwargs.get('feed_id', None)).first()
-            if (feed == None or feed.subscriber.id != g.user.id) and not g.user.is_admin():
-                flash("This feed do not exist.", "danger")
-                return redirect(url_for('home'))
-        return func(*args, **kwargs)
+            if feed != None and (feed.subscriber.id == g.user.id or g.user.is_admin()):
+                return func(*args, **kwargs)
+            flash("This feed do not exist.", "danger")
+            return redirect(url_for('home'))
+        else:
+            return func(*args, **kwargs)
     return decorated
