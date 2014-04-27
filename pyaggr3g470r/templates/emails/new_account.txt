@@ -1,0 +1,11 @@
+Hello {{ user.firstname }} {{ user.lastname }},
+
+An account has been created for you.
+You can now access the pyAggr3g470r platform ({{ platform_url }}).
+Your login is your e-mail address and your password is:
+
+---
+{{ password }}
+---
+
+Regards,
