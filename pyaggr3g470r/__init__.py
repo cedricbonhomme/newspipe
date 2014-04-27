@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = set(['xml', 'opml'])
 
 def allowed_file(filename):
     """
-    Check if the uploaded WSW file is allowed.
+    Check if the uploaded file is allowed.
     """
     return '.' in filename and \
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
