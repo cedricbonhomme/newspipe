@@ -1,3 +1,5 @@
+[misc]
+platform_url = https://pyaggr3g470r.herokuapp.com/
 [database]
 uri = postgres://cedric:password@127.0.0.1:5432/pyAggr3g470r
 [feedparser]
@@ -9,12 +11,11 @@ debug = 1
 host = 0.0.0.0
 port = 5000
 [mail]
-enabled = 1
+enabled = 0
+admin_email = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com
 port = 465
 tls = 0
 ssl = 1
 username = your-gmail-username
 password = your-gmail-password
-mail_from = pyAggr3g470r@no-reply.com
-mail_to = recipent-email

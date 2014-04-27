@@ -10,6 +10,10 @@ from pyaggr3g470r.models import Feed
 
 
 def async(f):
+    """
+    This decorator enables to send email in a new thread.
+    This prevent the server to freeze.
+    """
     def wrapper(*args, **kwargs):
         thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()

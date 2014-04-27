@@ -40,12 +40,11 @@ from gevent.pool import Pool
 import log
 import utils
 import conf
+import emails
 from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Article
 if not conf.ON_HEROKU:
     import search as fastsearch
-    from flask.ext.mail import Message
-    from pyaggr3g470r import mail
 
 
 pyaggr3g470r_log = log.Log("feedgetter")
@@ -100,11 +99,15 @@ class FeedGetter(object):
         elements = [item.value for item in responses if item.value is not None]
 
         # 3 - Insert articles in the database
-        self.insert_database(elements)
+        new_articles = self.insert_database(elements)
 
         # 4 - Indexation
         if not conf.ON_HEROKU:
-            self.index(elements)
+            self.index(new_articles)
+            
+        # 5 - Mail notification
+        if not conf.ON_HEROKU and conf.MAIL_ENABLED:
+            self.mail_notification(new_articles)
 
         pyaggr3g470r_log.info("All articles retrieved. End of the processus.")
 
@@ -203,9 +206,11 @@ class FeedGetter(object):
         Insert articles in the database.
         """
         pyaggr3g470r_log.info("Database insertion...")
+        new_articles = []
         for feed, articles in elements:
 
             for article in articles:
+                
 
                 exist = Article.query.filter(Article.user_id == self.user.id,
                                         Article.feed_id == feed.id,
@@ -214,6 +219,7 @@ class FeedGetter(object):
                     pyaggr3g470r_log.error("Article %s (%s) already in the database." %
                                            (article.title, article.link))
                     continue
+                new_articles.append(article)
 
                 try:
                     feed.articles.append(article)
@@ -223,26 +229,39 @@ class FeedGetter(object):
                 except IntegrityError:
                     pyaggr3g470r_log.error("Article %s (%s) already in the database." %
                                            (article.title, article.link))
+                    articles.remove(article)
                     db.session.rollback()
                     continue
                 except Exception as e:
                     pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
                     continue
         #db.session.close()
-        return True
+        return new_articles
 
-    def index(self, elements):
+    def index(self, new_articles):
         """
         Index new articles.
         """
         pyaggr3g470r_log.info("Indexing new articles.")
-        for feed, articles in elements:
-            for element in articles:
-                article = Article.query.filter(Article.user_id == self.user.id,
-                                        Article.link == element.link).first()
-                try:
-                    fastsearch.add_to_index(self.user.id, [article],
-                                                article.source)
-                except:
-                    pyaggr3g470r_log.error("Problem during indexation.")
+        for element in new_articles:
+            article = Article.query.filter(Article.user_id == self.user.id,
+                                    Article.link == element.link).first()
+            try:
+                fastsearch.add_to_index(self.user.id, [article],
+                                            article.source)
+            except:
+                pyaggr3g470r_log.error("Problem during indexation.")
         return True
+    
+    def mail_notification(self, new_articles):
+        """
+        Mail notification.
+        """
+        pyaggr3g470r_log.info("Starting mail notification.")
+        for element in new_articles:
+            if element.source.email_notification:
+                emails.new_article_notification(self.user, element.source, element)
+
+        return True
+
+                

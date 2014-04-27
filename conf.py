@@ -22,7 +22,8 @@ if not ON_HEROKU:
     config = confparser.SafeConfigParser()
     config.read("./conf/conf.cfg")
 
-    # Whoosh does not work on Heroku
+    PLATFORM_URL = config.get('misc', 'platform_url')
+
     WHOOSH_ENABLED = True
 
     SQLALCHEMY_DATABASE_URI = config.get('database', 'uri')
@@ -35,6 +36,7 @@ if not ON_HEROKU:
     WEBSERVER_HOST = config.get('webserver', 'host')
     WEBSERVER_PORT = int(config.get('webserver', 'port'))
 
+    ADMIN_EMAIL = config.get('mail', 'admin_email')
     MAIL_ENABLED = int(config.get('mail', 'enabled')) == 1
     MAIL_HOST = config.get('mail', 'host')
     MAIL_PORT = int(config.get('mail', 'port'))
@@ -42,24 +44,24 @@ if not ON_HEROKU:
     MAIL_SSL = int(config.get('mail', 'ssl')) == 1
     MAIL_USERNAME = config.get('mail', 'username')
     MAIL_PASSWORD = config.get('mail', 'password')
-    MAIL_FROM = config.get('mail', 'mail_from')
-    MAIL_TO = config.get('mail', 'mail_to')
     
     WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
 else:
+    PLATFORM_URL = os.environ.get('PLATFORM_URL', 'https://pyaggr3g470r.herokuapp.com/')
+    
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+
     HTTP_PROXY = ""
     USER_AGENT = "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
     RESOLVE_ARTICLE_URL = int(os.environ.get('RESOLVE_ARTICLE_URL', 0)) == 1
 
     WEBSERVER_DEBUG = False
-    WEBSERVER_HOST ='0.0.0.0'
+    WEBSERVER_HOST = '0.0.0.0'
     WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
 
     MAIL_ENABLED = False
 
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    
     WEBZINE_ROOT = "/tmp/"
 
 
