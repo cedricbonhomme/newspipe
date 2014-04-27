@@ -37,15 +37,15 @@ from whoosh.writing import AsyncWriter
 from collections import defaultdict
 
 import utils
-import models
 
 indexdir = "./pyaggr3g470r/var/indexdir"
 
-schema = Schema(title=TEXT, \
-                content=TEXT, \
-                article_id=NUMERIC(int, stored=True), \
-                feed_id=NUMERIC(int, stored=True), \
+schema = Schema(title=TEXT,
+                content=TEXT,
+                article_id=NUMERIC(int, stored=True),
+                feed_id=NUMERIC(int, stored=True),
                 user_id=NUMERIC(int, stored=True))
+
 
 def create_index(user):
     """
@@ -57,12 +57,13 @@ def create_index(user):
     writer = ix.writer()
     for feed in user.feeds:
         for article in feed.articles:
-            writer.add_document(title=article.title, \
-                                content=utils.clear_string(article.content), \
-                                article_id=article.id, \
-                                feed_id=feed.id, \
+            writer.add_document(title=article.title,
+                                content=utils.clear_string(article.content),
+                                article_id=article.id,
+                                feed_id=feed.id,
                                 user_id=user.id)
     writer.commit()
+
 
 def add_to_index(user_id, articles, feed):
     """
@@ -72,18 +73,19 @@ def add_to_index(user_id, articles, feed):
     """
     try:
         ix = open_dir(indexdir)
-    except (EmptyIndexError, OSError) as e:
+    except (EmptyIndexError, OSError):
         if not os.path.exists(indexdir):
             os.makedirs(indexdir)
         ix = create_in(indexdir, schema)
     writer = AsyncWriter(ix)
     for article in articles:
-        writer.add_document(title=article.title, \
-                            content=utils.clear_string(article.content), \
-                            article_id=article.id, \
-                            feed_id=feed.id, \
+        writer.add_document(title=article.title,
+                            content=utils.clear_string(article.content),
+                            article_id=article.id,
+                            feed_id=feed.id,
                             user_id=user_id)
     writer.commit()
+
 
 def delete_article(user_id, feed_id, article_id):
     """
@@ -91,12 +93,14 @@ def delete_article(user_id, feed_id, article_id):
     """
     try:
         ix = open_dir(indexdir)
-    except (EmptyIndexError, OSError) as e:
+    except (EmptyIndexError, OSError):
         raise EmptyIndexError
     writer = ix.writer()
-    document = And([Term("user_id", user_id), Term("feed_id", feed_id), Term("article_id", article_id)])
+    document = And([Term("user_id", user_id), Term("feed_id", feed_id),
+                    Term("article_id", article_id)])
     writer.delete_by_query(document)
     writer.commit()
+
 
 def search(user_id, term):
     """
@@ -106,7 +110,7 @@ def search(user_id, term):
     result_dict = defaultdict(list)
     try:
         ix = open_dir(indexdir)
-    except (EmptyIndexError, OSError) as e:
+    except (EmptyIndexError, OSError):
         raise EmptyIndexError
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
@@ -115,13 +119,14 @@ def search(user_id, term):
             result_dict[article["feed_id"]].append(article["article_id"])
         return result_dict, len(results)
 
+
 def nb_documents():
     """
     Return the number of undeleted documents.
     """
     try:
         ix = open_dir(indexdir)
-    except (EmptyIndexError, OSError) as e:
+    except (EmptyIndexError, OSError):
         raise EmptyIndexError
     return ix.doc_count()
 

@@ -38,7 +38,6 @@ from werkzeug import generate_password_hash
 import conf
 import utils
 import export
-import models
 if not conf.ON_HEROKU:
     import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
@@ -103,7 +102,7 @@ def page_not_found(e):
     return render_template('errors/404.html'), 404
 
 @app.errorhandler(500)
-def page_not_found(e):
+def internal_server_error(e):
     return render_template('errors/500.html'), 500
 
 
@@ -166,7 +165,7 @@ def home():
         new_feed.id = feed.id
         new_feed.title = feed.title
         new_feed.enabled = feed.enabled
-        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, 
+        new_feed.articles = Article.query.filter(Article.user_id == g.user.id,
                                                  Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
         result.append(new_feed)
     unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
@@ -247,7 +246,7 @@ def article(article_id=None):
         return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
     flash("This article do not exist.", 'warning')
     return redirect(redirect_url())
-    
+
 
 @app.route('/mark_as_read/', methods=['GET'])
 @app.route('/mark_as_read/<int:feed_id>', methods=['GET'])
@@ -473,7 +472,7 @@ def management():
         data = request.files.get('opmlfile', None)
         if None == data or not allowed_file(data.filename):
             flash('File not allowed.', 'danger')
-        else:  
+        else:
             opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
             data.save(opml_path)
             try:

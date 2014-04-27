@@ -31,7 +31,6 @@ import urllib2
 import requests
 from requests.exceptions import *
 #from requests.packages.urllib3.exceptions import DecodeError
-from urlparse import urlparse
 from datetime import datetime
 
 import gevent.monkey
@@ -51,7 +50,6 @@ requests_log.propagate = True
 """
 
 
-import models
 import conf
 if not conf.ON_HEROKU:
     import search as fastsearch
@@ -60,9 +58,9 @@ import utils
 if not conf.ON_HEROKU:
     from flask.ext.mail import Message
     from pyaggr3g470r import mail
-    
-from pyaggr3g470r import app, db
-from pyaggr3g470r.models import User, Feed, Article
+
+from pyaggr3g470r import db
+from pyaggr3g470r.models import User, Article
 
 import log
 pyaggr3g470r_log = log.Log("feedgetter")
@@ -74,6 +72,7 @@ class TooLong(Exception):
         Log a when greenlet took to long to fetch a resource.
         """
         pyaggr3g470r_log.warning("Greenlet took to long")
+
 
 class FeedGetter(object):
     """
@@ -88,7 +87,7 @@ class FeedGetter(object):
             self.proxy = urllib2.ProxyHandler({})
             self.proxies = {}
         else:
-            self.proxy = urllib2.ProxyHandler({"http" : conf.HTTP_PROXY, \
+            self.proxy = urllib2.ProxyHandler({"http": conf.HTTP_PROXY,
                                                "https": conf.HTTP_PROXY})
             self.proxies = {
                             "http": "http://" + conf.HTTP_PROXY,
@@ -110,7 +109,8 @@ class FeedGetter(object):
             feeds = [feed for feed in feeds if feed.id == feed_id]
 
         # 2 - Fetch the feeds.
-        # 'responses' contains all the jobs returned by the function retrieve_async()
+        # 'responses' contains all the jobs returned by
+        # the function retrieve_async()
         responses = self.retrieve_async(feeds)
         elements = [item.value for item in responses if item.value is not None]
 
@@ -133,7 +133,7 @@ class FeedGetter(object):
             Fetch a feed.
             """
             pyaggr3g470r_log.info("Fetching the feed:" + feed.title)
-            a_feed = feedparser.parse(feed.link, handlers = [self.proxy])
+            a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
             if a_feed['entries'] == []:
                 return
 
@@ -155,14 +155,20 @@ class FeedGetter(object):
                 nice_url = article.link.encode("utf-8")
                 if conf.RESOLVE_ARTICLE_URL:
                     try:
-                        # resolves URL behind proxies (like feedproxy.google.com)
-                        r = requests.get(article.link, timeout=5.0, proxies=self.proxies)
+                        # resolves URL behind proxies
+                        # (like feedproxy.google.com)
+                        r = requests.get(article.link, timeout=5.0,
+                                            proxies=self.proxies)
                         nice_url = r.url.encode("utf-8")
                     except Timeout:
-                        pyaggr3g470r_log.warning("Timeout when getting the real URL of %s." % (article.link,))
+                        pyaggr3g470r_log.\
+                        warning("Timeout when getting the real URL of %s." %
+                                    (article.link,))
                         continue
                     except Exception as e:
-                        pyaggr3g470r_log.warning("Unable to get the real URL of %s. Error: %s" % (article.link, str(e)))
+                        pyaggr3g470r_log.\
+                        warning("Unable to get the real URL of %s. Error: %s" %
+                                    (article.link, str(e)))
                         continue
                 # remove utm_* parameters
                 nice_url = utils.clean_url(nice_url)
@@ -181,7 +187,7 @@ class FeedGetter(object):
                 try:
                     description = BeautifulSoup(description, "html.parser").decode()
                     article_title = BeautifulSoup(article.title, "html.parser").decode()
-                except Exception as E:
+                except Exception:
                     pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, nice_url))
                     article_title = article.title
 
@@ -215,7 +221,9 @@ class FeedGetter(object):
 
             for article in articles:
 
-                exist = Article.query.filter(Article.user_id == self.user.id, Article.feed_id == feed.id, Article.link == article.link).first()
+                exist = Article.query.filter(Article.user_id == self.user.id,
+                                        Article.feed_id == feed.id,
+                                        Article.link == article.link).first()
                 if exist != None:
                     pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article.title, article.link))
                     continue
@@ -242,9 +250,11 @@ class FeedGetter(object):
         pyaggr3g470r_log.info("Indexing new articles.")
         for feed, articles in elements:
             for element in articles:
-                article = Article.query.filter(Article.user_id == self.user.id, Article.link == element.link).first()
+                article = Article.query.filter(Article.user_id == self.user.id,
+                                        Article.link == element.link).first()
                 try:
-                    fastsearch.add_to_index(self.user.id, [article], article.source)
+                    fastsearch.add_to_index(self.user.id, [article],
+                                                article.source)
                 except:
                     pyaggr3g470r_log.error("Problem during indexation.")
         return True

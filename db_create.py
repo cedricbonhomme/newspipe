@@ -9,7 +9,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 from pyaggr3g470r import db
-from pyaggr3g470r.models import User, Feed, Role
+from pyaggr3g470r.models import User, Role
 from werkzeug import generate_password_hash
 
 from sqlalchemy.engine import reflection
@@ -21,10 +21,11 @@ from sqlalchemy.schema import (
         DropConstraint,
         )
 
+
 def db_DropEverything(db):
     # From http://www.sqlalchemy.org/trac/wiki/UsageRecipes/DropEverything
 
-    conn=db.engine.connect()
+    conn = db.engine.connect()
 
     # the transaction only applies if the DB supports
     # transactional DDL, i.e. Postgresql, MS SQL Server
@@ -33,7 +34,7 @@ def db_DropEverything(db):
     inspector = reflection.Inspector.from_engine(db.engine)
 
     # gather all data first before dropping anything.
-    # some DBs lock after things have been dropped in 
+    # some DBs lock after things have been dropped in
     # a transaction.
     metadata = MetaData()
 
@@ -46,9 +47,9 @@ def db_DropEverything(db):
             if not fk['name']:
                 continue
             fks.append(
-                ForeignKeyConstraint((),(),name=fk['name'])
+                ForeignKeyConstraint((), (), name=fk['name'])
                 )
-        t = Table(table_name,metadata,*fks)
+        t = Table(table_name, metadata, *fks)
         tbs.append(t)
         all_fks.extend(fks)
 
@@ -66,8 +67,9 @@ db.create_all()
 role_admin = Role(name="admin")
 role_user = Role(name="user")
 
-user1 = User(firstname="admin", lastname="admin", email="root@pyAggr3g470r.localhost", \
-                pwdhash=generate_password_hash("root"))
+user1 = User(firstname="admin", lastname="admin",
+            email="root@pyAggr3g470r.localhost",
+            pwdhash=generate_password_hash("root"))
 user1.roles.extend([role_admin, role_user])
 
 db.session.add(user1)

@@ -8,16 +8,19 @@ from flask import g, redirect, url_for, flash
 
 from pyaggr3g470r.models import Feed
 
+
 def async(f):
     def wrapper(*args, **kwargs):
-        thr = Thread(target = f, args = args, kwargs = kwargs)
+        thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()
     return wrapper
+
 
 def feed_access_required(func):
     """
     This decorator enables to check if a user has access to a feed.
-    The administrator of the platform is able to access to the feeds of a normal user.
+    The administrator of the platform is able to access to the feeds
+    of a normal user.
     """
     @wraps(func)
     def decorated(*args, **kwargs):

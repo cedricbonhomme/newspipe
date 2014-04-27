@@ -19,6 +19,7 @@ db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = set(['xml', 'opml'])
 
+
 def allowed_file(filename):
     """
     Check if the uploaded WSW file is allowed.
@@ -34,7 +35,7 @@ if not conf.ON_HEROKU:
     app.config["MAIL_USERNAME"] = conf.MAIL_USERNAME
     app.config["MAIL_PASSWORD"] = conf.MAIL_PASSWORD
 
-    from flask.ext.mail import Message, Mail
+    from flask.ext.mail import Mail
     mail = Mail(app)
 
 # Gravatar

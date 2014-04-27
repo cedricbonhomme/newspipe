@@ -40,8 +40,8 @@ import tarfile
 from datetime import datetime
 
 import conf
-import utils
 import models
+
 
 def HTML_HEADER(title="pyAggr3g470r", css="./style.css"):
     return """<!DOCTYPE html>
@@ -131,6 +131,7 @@ img {
 .content {
     margin:1.00em 1.00em;
 }"""
+
 
 def export_html(user):
     """

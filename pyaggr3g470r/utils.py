@@ -34,12 +34,10 @@ __license__ = "AGPLv3"
 # - e-mail notifications.
 #
 
-import os
 import re
 import glob
 import opml
 import operator
-import calendar
 from urllib import urlencode
 from urlparse import urlparse, parse_qs, urlunparse
 from BeautifulSoup import BeautifulSoup
@@ -52,7 +50,7 @@ from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Feed
 
 # regular expression to check URL
-url_finders = [ \
+url_finders = [
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?/[-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]*[^]'\\.}>\\),\\\"]"), \
     re.compile("([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?"), \
     re.compile("(~/|/|\\./)([-A-Za-z0-9_\\$\\.\\+\\!\\*\\(\\),;:@&=\\?/~\\#\\%]|\\\\)+"), \
@@ -61,6 +59,7 @@ url_finders = [ \
 
 #import log
 #pyaggr3g470r_log = log.Log()
+
 
 @contextmanager
 def opened_w_error(filename, mode="r"):
@@ -73,6 +72,7 @@ def opened_w_error(filename, mode="r"):
             yield f, None
         finally:
             f.close()
+
 
 def import_opml(email, opml_file):
     """
@@ -89,11 +89,11 @@ def import_opml(email, opml_file):
         Parse recursively through the categories and sub-categories.
         """
         for subscription in subsubscription:
-            
+
             if len(subscription) != 0:
                 nb = read(subscription, nb)
             else:
-                
+
                 try:
                     title = subscription.text
 
@@ -118,7 +118,9 @@ def import_opml(email, opml_file):
                 except:
                     site_link = ""
 
-                new_feed = Feed(title=title, description=description, link=link, site_link=site_link, email_notification=False, enabled=True)
+                new_feed = Feed(title=title, description=description,
+                                link=link, site_link=site_link,
+                                email_notification=False, enabled=True)
 
                 user.feeds.append(new_feed)
                 nb += 1
@@ -128,13 +130,15 @@ def import_opml(email, opml_file):
     db.session.commit()
     return nb
 
+
 def clean_url(url):
     """
     Remove utm_* parameters
     """
     parsed_url = urlparse(url)
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
-    filtered = dict((k, v) for k, v in qd.iteritems() if not k.startswith('utm_'))
+    filtered = dict((k, v) for k, v in qd.iteritems()
+                                        if not k.startswith('utm_'))
     nice_url = urlunparse([
         parsed_url.scheme,
         parsed_url.netloc,
@@ -144,6 +148,7 @@ def clean_url(url):
         parsed_url.fragment
     ])
     return nice_url
+
 
 def open_url(url):
     """
@@ -175,6 +180,7 @@ def open_url(url):
             #pyaggr3g470r_log.error(url + " " + str(e.reason.errno) + " " + e.reason.strerror)
         return (False, error)
 
+
 def clear_string(data):
     """
     Clear a string by removing HTML tags, HTML special caracters
@@ -183,6 +189,7 @@ def clear_string(data):
     p = re.compile('<[^>]+>') # HTML tags
     q = re.compile('\s') # consecutive white spaces
     return p.sub('', q.sub(' ', data))
+
 
 def load_stop_words():
     """
@@ -199,6 +206,7 @@ def load_stop_words():
                 stop_words += stop_wods_file.read().split(";")
     return stop_words
 
+
 def top_words(articles, n=10, size=5):
     """
     Return the n most frequent words in a list.
@@ -213,6 +221,7 @@ def top_words(articles, n=10, size=5):
             words[word] += 1
     return words.most_common(n)
 
+
 def tag_cloud(tags):
     """
     Generates a tags cloud.
@@ -221,6 +230,7 @@ def tag_cloud(tags):
     return '\n'.join([('<font size=%d><a href="/search/?query=%s" title="Count: %s">%s</a></font>' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
+
 
 def search_feed(url):
     """
