@@ -239,7 +239,7 @@ def article(article_id=None):
     Presents the content of an article.
     """
     article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
-    if article != None:
+    if article is not None:
         if not article.readed:
             article.readed = True
             db.session.commit()
@@ -256,7 +256,7 @@ def mark_as_read(feed_id=None):
     """
     Mark all unreaded articles as read.
     """
-    if feed_id != None:
+    if feed_id is not None:
         Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id,
                              Article.readed == False).update({"readed": True})
         flash('Articles marked as read.', 'info')
@@ -286,7 +286,7 @@ def delete(article_id=None):
     Delete an article from the database.
     """
     article = Article.query.filter(Article.id == article_id).first()
-    if article != None and article.source.subscriber.id == g.user.id:
+    if article is not None and article.source.subscriber.id == g.user.id:
         db.session.delete(article)
         db.session.commit()
         try:
@@ -296,7 +296,7 @@ def delete(article_id=None):
         flash('Article "' + article.title + '" deleted.', 'success')
         return redirect(url_for('home'))
     else:
-        flash('Impossible to delete the article.', 'danger')
+        flash('This article do not exist.', 'danger')
         return redirect(url_for('home'))
 
 @app.route('/articles/<feed_id>/', methods=['GET'])
@@ -441,7 +441,7 @@ def search():
     nb_articles = 0
 
     query = request.args.get('query', None)
-    if query != None:
+    if query is not None:
         try:
             search_result, nb_articles = fastsearch.search(user.id, query)
         except Exception as e:
@@ -511,7 +511,7 @@ def edit_feed(feed_id=None):
     if request.method == 'POST':
         if form.validate() == False:
             return render_template('edit_feed.html', form=form)
-        if feed_id != None:
+        if feed_id is not None:
             # Edit an existing feed
             form.populate_obj(feed)
             db.session.commit()
@@ -534,7 +534,7 @@ def edit_feed(feed_id=None):
                 return redirect('/edit_feed/' + str(existing_feed[0].id))
 
     if request.method == 'GET':
-        if feed_id != None:
+        if feed_id is not None:
             form = AddFeedForm(obj=feed)
             return render_template('edit_feed.html', action="Edit the feed", form=form, feed=feed, \
                                     not_on_heroku = not conf.ON_HEROKU)
@@ -608,7 +608,7 @@ def create_user(user_id=None):
 
     if request.method == 'POST':
         if form.validate():
-            if user_id != None:
+            if user_id is not None:
                 # Edit a user
                 user = User.query.filter(User.id == user_id).first()
                 form.populate_obj(user)
@@ -632,7 +632,7 @@ def create_user(user_id=None):
             return render_template('profile.html', form=form)
 
     if request.method == 'GET':
-        if user_id != None:
+        if user_id is not None:
             user = User.query.filter(User.id == user_id).first()
             form = ProfileForm(obj=user)
             message = "Edit the user <i>" + user.firstname + "</i>"

@@ -29,40 +29,25 @@ __license__ = "AGPLv3"
 import feedparser
 import urllib2
 import requests
-from requests.exceptions import *
-#from requests.packages.urllib3.exceptions import DecodeError
 from datetime import datetime
+from requests.exceptions import *
 
 import gevent.monkey
-#gevent.monkey.patch_socket()
 gevent.monkey.patch_all()
 from gevent import Timeout
-
 from gevent.pool import Pool
 
-"""
-import logging
-logging.basicConfig()
-logging.getLogger().setLevel(logging.CRITICAL)
-requests_log = logging.getLogger("requests.packages.urllib3")
-requests_log.setLevel(logging.CRITICAL)
-requests_log.propagate = True
-"""
-
-
+import log
+import utils
 import conf
+from pyaggr3g470r import db
+from pyaggr3g470r.models import User, Article
 if not conf.ON_HEROKU:
     import search as fastsearch
-import utils
-
-if not conf.ON_HEROKU:
     from flask.ext.mail import Message
     from pyaggr3g470r import mail
 
-from pyaggr3g470r import db
-from pyaggr3g470r.models import User, Article
 
-import log
 pyaggr3g470r_log = log.Log("feedgetter")
 
 
@@ -105,7 +90,7 @@ class FeedGetter(object):
         # 1 - Get the list of feeds to fetch
         user = User.query.filter(User.email == self.user.email).first()
         feeds = [feed for feed in user.feeds if feed.enabled]
-        if feed_id != None:
+        if feed_id is not None:
             feeds = [feed for feed in feeds if feed.id == feed_id]
 
         # 2 - Fetch the feeds.
@@ -188,7 +173,8 @@ class FeedGetter(object):
                     description = BeautifulSoup(description, "html.parser").decode()
                     article_title = BeautifulSoup(article.title, "html.parser").decode()
                 except Exception:
-                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" % (article_title, nice_url))
+                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" %
+                                            (article_title, nice_url))
                     article_title = article.title
 
                 try:
@@ -224,8 +210,9 @@ class FeedGetter(object):
                 exist = Article.query.filter(Article.user_id == self.user.id,
                                         Article.feed_id == feed.id,
                                         Article.link == article.link).first()
-                if exist != None:
-                    pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article.title, article.link))
+                if exist is not None:
+                    pyaggr3g470r_log.error("Article %s (%s) already in the database." %
+                                           (article.title, article.link))
                     continue
 
                 try:
@@ -234,7 +221,8 @@ class FeedGetter(object):
                     db.session.commit()
                     pyaggr3g470r_log.info("New article %s (%s) added." % (article.title, article.link))
                 except IntegrityError:
-                    pyaggr3g470r_log.error("Article %s (%s) already in the database." % (article.title, article.link))
+                    pyaggr3g470r_log.error("Article %s (%s) already in the database." %
+                                           (article.title, article.link))
                     db.session.rollback()
                     continue
                 except Exception as e:

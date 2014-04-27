@@ -24,9 +24,9 @@ def feed_access_required(func):
     """
     @wraps(func)
     def decorated(*args, **kwargs):
-        if kwargs.get('feed_id', None) != None:
+        if kwargs.get('feed_id', None) is not None:
             feed = Feed.query.filter(Feed.id == kwargs.get('feed_id', None)).first()
-            if feed != None and (feed.subscriber.id == g.user.id or g.user.is_admin()):
+            if feed is not None and (feed.subscriber.id == g.user.id or g.user.is_admin()):
                 return func(*args, **kwargs)
             flash("This feed do not exist.", "danger")
             return redirect(url_for('home'))
