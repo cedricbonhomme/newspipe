@@ -39,6 +39,8 @@ import time
 import tarfile
 from datetime import datetime
 
+from flask import jsonify
+
 import conf
 import models
 
@@ -198,3 +200,24 @@ def export_html(user):
 
     with open(conf.WEBZINE_ROOT + archive_file_name, 'r') as export_file:
         return export_file.read(), archive_file_name
+    
+def export_json(user):
+    """
+    """
+    result = []
+    for feed in user.feeds:
+        result.append({
+                        "title": feed.title,
+                        "description": feed.description,
+                        "link": feed.link,
+                        "site_link": feed.site_link,
+                        "articles": [ {
+                                        "title": article.title,
+                                        "link": article.link,
+                                        "content": article.content
+                                      }
+                                        for article in feed.articles
+                                    ]
+                      })
+
+    return jsonify(result=result)

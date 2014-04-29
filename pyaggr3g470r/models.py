@@ -26,10 +26,12 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import json
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+
 from pyaggr3g470r import db
 
 class User(db.Model, UserMixin):
@@ -122,4 +124,8 @@ class Article(db.Model):
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
 
     def __repr__(self):
-        return '<Article %r>' % (self.title)
+        return json.dumps({
+                            "title": self.title,
+                            "link": self.link,
+                            "content": self.content
+                         })
