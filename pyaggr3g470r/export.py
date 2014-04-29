@@ -203,6 +203,7 @@ def export_html(user):
     
 def export_json(user):
     """
+    Export all articles of 'user' in JSON.
     """
     result = []
     for feed in user.feeds:
