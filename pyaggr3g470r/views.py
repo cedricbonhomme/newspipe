@@ -243,7 +243,17 @@ def article(article_id=None):
         if not article.readed:
             article.readed = True
             db.session.commit()
-        return render_template('article.html', head_title=utils.clear_string(article.title), article=article)
+        
+        previous_article = article.previous_article()
+        if previous_article is None:
+            previous_article = article.source.articles[0]
+        next_article = article.next_article()
+        if next_article is None:
+            next_article = article.source.articles[-1]
+        
+        return render_template('article.html', head_title=utils.clear_string(article.title),
+                               article=article,
+                               previous_article=previous_article, next_article=next_article)
     flash("This article do not exist.", 'warning')
     return redirect(redirect_url())
 

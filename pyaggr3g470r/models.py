@@ -28,7 +28,7 @@ __license__ = "GPLv3"
 
 import json
 from datetime import datetime
-from sqlalchemy import desc
+from sqlalchemy import asc, desc
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
@@ -122,6 +122,18 @@ class Article(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
+
+    def previous_article(self):
+        """
+        Returns the previous article (older).
+        """
+        return Article.query.filter(Article.date < self.date, Article.feed_id == self.feed_id).order_by(desc("Article.date")).first()
+
+    def next_article(self):
+        """
+        Returns the next article (newer).
+        """
+        return Article.query.filter(Article.date > self.date, Article.feed_id == self.feed_id).order_by(asc("Article.date")).first()
 
     def __repr__(self):
         return json.dumps({
