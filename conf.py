@@ -11,6 +11,12 @@ import os, sys
 basedir = os.path.abspath(os.path.dirname(__file__))
 PATH = os.path.abspath(".")
 
+# available languages
+LANGUAGES = {
+    'en': 'English',
+    'fr': 'French'
+}
+
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 
 if not ON_HEROKU:

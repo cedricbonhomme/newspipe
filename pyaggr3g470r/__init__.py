@@ -4,6 +4,7 @@
 import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.babel import Babel
 from flask.ext.gravatar import Gravatar
 
 import conf
@@ -26,6 +27,8 @@ def allowed_file(filename):
     """
     return '.' in filename and \
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+babel = Babel(app)
 
 # Gravatar
 gravatar = Gravatar(app, size=100, rating='g', default='retro',

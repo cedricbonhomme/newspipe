@@ -2,19 +2,19 @@
 {% block content %}
 <div class="container">
     {% if result|count == 0 %}
-        <h1>You are not subscribed to any feed. <a href="/create_feed/">Fix this</a>.</h1>
+        <h1>{{ _('You are not subscribed to any feed.') }} <a href="/create_feed/">{{ _('Fix this') }}</a>.</h1>
     {% else %}
         {% for feed in result|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title|safe }}</h1>
-                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="More articles"></i></a>
-                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
-                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
+                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
+                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
                 {% if feed.enabled %}
-                    <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="Fetch this feed"></i></a>
+                    <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="{{ _('Fetch this feed') }}"></i></a>
                 {% endif %}
-                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="Mark all as read"></i></a>
+                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
                 </div>
             </div>
             {% for number in range(0, feed.articles.all()|count-(feed.articles.all()|count % 3), 3) %}

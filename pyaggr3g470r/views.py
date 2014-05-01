@@ -32,6 +32,7 @@ import datetime
 from flask import render_template, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
+from flask.ext.babel import gettext
 from sqlalchemy import desc
 from werkzeug import generate_password_hash
 
@@ -41,7 +42,7 @@ import export
 if not conf.ON_HEROKU:
     import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
-from pyaggr3g470r import app, db, allowed_file
+from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 
@@ -89,12 +90,12 @@ def load_user(email):
 #
 @app.errorhandler(401)
 def authentication_required(e):
-    flash('Authentication required.', 'info')
+    flash(gettext('Authentication required.'), 'info')
     return redirect(url_for('login'))
 
 @app.errorhandler(403)
 def authentication_failed(e):
-    flash('Forbidden.', 'danger')
+    flash(gettext('Forbidden.'), 'danger')
     return redirect(url_for('home'))
 
 @app.errorhandler(404)
@@ -111,6 +112,14 @@ def redirect_url(default='home'):
             request.referrer or \
             url_for(default)
 
+
+@babel.localeselector
+def get_locale():
+    """
+    Called before each request to give us a chance to choose
+    the language to use when producing its response.
+    """
+    return request.accept_languages.best_match(conf.LANGUAGES.keys())
 
 
 #
@@ -129,7 +138,7 @@ def login():
         login_user(user)
         g.user = user
         identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
-        flash("Logged in successfully.", 'success')
+        flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
@@ -149,7 +158,7 @@ def logout():
     # Tell Flask-Principal the user is anonymous
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
 
-    flash("Logged out successfully.", 'success')
+    flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
 
 @app.route('/')
@@ -181,7 +190,7 @@ def fetch(feed_id=None):
     """
     cmd = ['python', conf.basedir+'/fetch.py', g.user.email, str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    flash("Downloading articles...", 'success')
+    flash(gettext("Downloading articles..."), 'success')
     return redirect(redirect_url())
 
 @app.route('/about/', methods=['GET'])
@@ -269,10 +278,10 @@ def mark_as_read(feed_id=None):
     if feed_id is not None:
         Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id,
                              Article.readed == False).update({"readed": True})
-        flash('Articles marked as read.', 'info')
+        flash(gettext('Articles marked as read.'), 'info')
     else:
         Article.query.filter(Article.user_id == g.user.id, Article.readed == False).update({"readed": True})
-        flash("All articles marked as read", 'info')
+        flash(gettext("All articles marked as read"), 'info')
     db.session.commit()
     return redirect(redirect_url())
 
@@ -303,10 +312,10 @@ def delete(article_id=None):
             fastsearch.delete_article(g.user.id, article.feed_id, article.id)
         except:
             pass
-        flash('Article "' + article.title + '" deleted.', 'success')
+        flash(gettext('Article') + ' ' + article.title + ' ' + gettext('deleted.'), 'success')
         return redirect(url_for('home'))
     else:
-        flash('This article do not exist.', 'danger')
+        flash(gettext('This article do not exist.'), 'danger')
         return redirect(url_for('home'))
 
 @app.route('/articles/<feed_id>/', methods=['GET'])
@@ -399,12 +408,12 @@ def index_database():
         user = User.query.filter(User.id == g.user.id).first()
         try:
             fastsearch.create_index(user)
-            flash('Database indexed.', 'success')
+            flash(gettext('Database indexed.'), 'success')
         except Exception as e:
-            flash('An error occured (%s).' % e, 'danger')
+            flash(gettext('An error occured') + ' (%s).' % e, 'danger')
         return redirect(url_for('home'))
     else:
-        flash('Option not available on Heroku.', 'success')
+        flash(gettext('Option not available on Heroku.'), 'success')
         return redirect(url_for('home'))
 
 @app.route('/export/', methods=['GET'])
@@ -419,7 +428,7 @@ def export_articles():
         try:
             archive_file, archive_file_name = export.export_html(user)
         except:
-            flash("Error when exporting articles.", 'danger')
+            flash(gettext("Error when exporting articles."), 'danger')
             return redirect(redirect_url())
         response = make_response(archive_file)
         response.headers['Content-Type'] = 'application/x-compressed'
@@ -429,13 +438,13 @@ def export_articles():
         try:
             json_result = export.export_json(user)
         except:
-            flash("Error when exporting articles.", 'danger')
+            flash(gettext("Error when exporting articles."), 'danger')
             return redirect(redirect_url())
         response = make_response(json_result)
         response.mimetype = 'application/json'
         response.headers["Content-Disposition"] = 'attachment; filename=articles.json'
     else:
-        flash('Export format not supported.', 'warning')
+        flash(gettext('Export format not supported.'), 'warning')
         return redirect(redirect_url())
     return response
 
@@ -458,7 +467,7 @@ def search():
     Search articles corresponding to the query.
     """
     if conf.ON_HEROKU:
-        flash("Full text search is not yet implemented for Heroku.", "warning")
+        flash(gettext("Full text search is not yet implemented for Heroku."), "warning")
         return redirect(url_for('home'))
     user = User.query.filter(User.id == g.user.id).first()
 
@@ -470,7 +479,7 @@ def search():
         try:
             search_result, nb_articles = fastsearch.search(user.id, query)
         except Exception as e:
-            flash('An error occured (%s).' % e, 'danger')
+            flash(gettext('An error occured') + ' (%s).' % e, 'danger')
         for feed_id in search_result:
             for feed in user.feeds:
                 if feed.id == feed_id:
@@ -496,15 +505,15 @@ def management():
         # Import an OPML file
         data = request.files.get('opmlfile', None)
         if None == data or not allowed_file(data.filename):
-            flash('File not allowed.', 'danger')
+            flash(gettext('File not allowed.'), 'danger')
         else:
             opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
             data.save(opml_path)
             try:
                 nb = utils.import_opml(g.user.email, opml_path)
-                flash(str(nb) + " feeds imported.", "success")
+                flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
             except Exception as e:
-                flash("Impossible to import the new feeds.", "danger")
+                flash(gettext("Impossible to import the new feeds."), "danger")
 
 
     form = AddFeedForm()
@@ -540,7 +549,7 @@ def edit_feed(feed_id=None):
             # Edit an existing feed
             form.populate_obj(feed)
             db.session.commit()
-            flash('Feed "' + feed.title + '" successfully updated.', 'success')
+            flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully updated.'), 'success')
             return redirect('/edit_feed/' + str(feed_id))
         else:
             # Create a new feed
@@ -552,10 +561,10 @@ def edit_feed(feed_id=None):
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
                 db.session.commit()
-                flash('Feed "' + new_feed.title + '" successfully created.', 'success')
+                flash(gettext('Feed') + ' ' + new_feed.title + ' ' + gettext('successfully created.'), 'success')
                 return redirect('/edit_feed/' + str(new_feed.id))
             else:
-                flash('Feed "' + existing_feed[0].title + '" already in the database.', 'warning')
+                flash(gettext('Feed') + ' ' +  existing_feed[0].title + ' ' + gettext('already in the database.'), 'warning')
                 return redirect('/edit_feed/' + str(existing_feed[0].id))
 
     if request.method == 'GET':
@@ -578,7 +587,7 @@ def delete_feed(feed_id=None):
     feed = Feed.query.filter(Feed.id == feed_id).first()
     db.session.delete(feed)
     db.session.commit()
-    flash('Feed "' + feed.title + '" successfully deleted.', 'success')
+    flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully deleted.'), 'success')
     return redirect(redirect_url())
 
 @app.route('/profile/', methods=['GET', 'POST'])
@@ -596,7 +605,7 @@ def profile():
             if form.password.data != "":
                 user.set_password(form.password.data)
             db.session.commit()
-            flash('User "' + user.firstname + '" successfully updated.', 'success')
+            flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully updated.'), 'success')
             return redirect(url_for('profile'))
         else:
             return render_template('profile.html', form=form)
@@ -640,7 +649,7 @@ def create_user(user_id=None):
                 if form.password.data != "":
                     user.set_password(form.password.data)
                 db.session.commit()
-                flash('User "' + user.firstname + '" successfully updated.', 'success')
+                flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully updated.'), 'success')
             else:
                 # Create a new user
                 role_user = Role.query.filter(Role.name == "user").first()
@@ -651,7 +660,7 @@ def create_user(user_id=None):
                 user.roles.extend([role_user])
                 db.session.add(user)
                 db.session.commit()
-                flash('User "' + user.firstname + '" successfully created.', 'success')
+                flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully created.'), 'success')
             return redirect("/admin/edit_user/"+str(user.id)+"/")
         else:
             return render_template('profile.html', form=form)
@@ -677,7 +686,7 @@ def user(user_id=None):
     if user is not None:
         return render_template('/admin/user.html', user=user)
     else:
-        flash('This user does not exist.', 'danger')
+        flash(gettext('This user does not exist.'), 'danger')
         return redirect(redirect_url())
 
 @app.route('/admin/delete_user/<int:user_id>/', methods=['GET'])
@@ -691,7 +700,7 @@ def delete_user(user_id=None):
     if user is not None:
         db.session.delete(user)
         db.session.commit()
-        flash('User "' + user.firstname + '" successfully deleted.', 'success')
+        flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully deleted.'), 'success')
     else:
-        flash('This user does not exist.', 'danger')
+        flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
