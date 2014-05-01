@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 17:26+0200\n"
+"POT-Creation-Date: 2014-05-01 18:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Please enter a password."
 msgstr ""
 
-#: pyaggr3g470r/forms.py:42
+#: pyaggr3g470r/forms.py:42 pyaggr3g470r/templates/login.html:5
 msgid "Log In"
 msgstr ""
 
@@ -417,6 +417,14 @@ msgstr ""
 
 #: pyaggr3g470r/templates/layout.html:66
 msgid "Logout"
+msgstr ""
+
+#: pyaggr3g470r/templates/login.html:19
+msgid "Your email"
+msgstr ""
+
+#: pyaggr3g470r/templates/login.html:23
+msgid "Your Password"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:5
