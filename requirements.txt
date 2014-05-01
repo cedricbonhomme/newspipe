@@ -9,6 +9,7 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Principal
 Flask-WTF
+Flask-Babel
 Flask-Gravatar
 WTForms
 gevent
