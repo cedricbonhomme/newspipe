@@ -3,21 +3,21 @@
 <div class="container">
     {% if feeds|count == 0  %}
         <div class="page-header">
-            <h1>No unread articles</h1>
+            <h1>{{ _('No unread articles') }}</h1>
         </div>
     {% else %}
         <div class="page-header">
-            <h1>Unread articles <small>{{ nb_unread }}</small></h1>
+            <h1>{{ _('Unread articles') }} <small>{{ nb_unread }}</small></h1>
         </div>
         {% for feed in feeds|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title|safe }}</h1>
-                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="More articles"></i></a>
-                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
-                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
-                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="Mark all as read"></i></a>
-                <h3>{{ feed.articles.all()|length }} unread articles.</h3>
+                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
+                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
+                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
+                <h3>{{ feed.articles.all()|length }} {{ _('unread articles') }}.</h3>
                 </div>
             </div>
             {% for number in range(0, feed.articles.all()|length-(feed.articles.all()|length % 3), 3) %}

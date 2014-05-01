@@ -28,7 +28,7 @@ __license__ = "GPLv3"
 
 from flask import flash
 from flask.ext.wtf import Form
-from flask.ext.babel import gettext
+from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, SubmitField, validators
 
 from pyaggr3g470r.models import User
@@ -37,9 +37,9 @@ class SigninForm(Form):
     """
     Sign in form.
     """
-    email = TextField("Email", [validators.Required(gettext("Please enter your email address."))])
-    password = PasswordField(gettext('Password'), [validators.Required(gettext("Please enter a password."))])
-    submit = SubmitField(gettext("Log In"))
+    email = TextField("Email", [validators.Required(lazy_gettext("Please enter your email address."))])
+    password = PasswordField(lazy_gettext('Password'), [validators.Required(lazy_gettext("Please enter a password."))])
+    submit = SubmitField(lazy_gettext("Log In"))
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
@@ -52,17 +52,17 @@ class SigninForm(Form):
         if user and user.check_password(self.password.data):
             return True
         else:
-            flash(gettext('Invalid email or password'), 'danger')
+            flash(lazy_gettext('Invalid email or password'), 'danger')
             #self.email.errors.append("Invalid email or password")
             return False
 
 class AddFeedForm(Form):
-    title = TextField(gettext("Title"), [validators.Required(gettext("Please enter a title."))])
-    link = TextField(gettext("Feed link"), [validators.Required(gettext("Please enter a link for the feed."))])
-    site_link = TextField(gettext("Site link"))
-    email_notification = BooleanField(gettext("Email notification"), default=False)
-    enabled = BooleanField(gettext("Check for updates"), default=True)
-    submit = SubmitField(gettext("Save"))
+    title = TextField(lazy_gettext("Title"), [validators.Required(lazy_gettext("Please enter a title."))])
+    link = TextField(lazy_gettext("Feed link"), [validators.Required(lazy_gettext("Please enter a link for the feed."))])
+    site_link = TextField(lazy_gettext("Site link"))
+    email_notification = BooleanField(lazy_gettext("Email notification"), default=False)
+    enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
+    submit = SubmitField(lazy_gettext("Save"))
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
@@ -73,11 +73,11 @@ class AddFeedForm(Form):
         return True
 
 class ProfileForm(Form):
-    firstname = TextField(gettext("First name"), [validators.Required(gettext("Please enter your first name."))])
-    lastname = TextField(gettext("Last name"), [validators.Required(gettext("Please enter your last name."))])
-    email = TextField(gettext("Email"), [validators.Required(gettext("Please enter your email."))])
-    password = PasswordField(gettext("Password"))
-    submit = SubmitField(gettext("Save"))
+    firstname = TextField(lazy_gettext("First name"), [validators.Required(lazy_gettext("Please enter your first name."))])
+    lastname = TextField(lazy_gettext("Last name"), [validators.Required(lazy_gettext("Please enter your last name."))])
+    email = TextField(lazy_gettext("Email"), [validators.Required(lazy_gettext("Please enter your email."))])
+    password = PasswordField(lazy_gettext("Password"))
+    submit = SubmitField(lazy_gettext("Save"))
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

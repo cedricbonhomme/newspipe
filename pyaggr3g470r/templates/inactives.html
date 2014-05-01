@@ -3,18 +3,18 @@
 <div class="container">
     <div class="jumbotron">
         <form method=get action="/inactives/">
-            <p>Days of inactivity:</p>
+            <p>{{ _('Days of inactivity') }}:</p>
             <input type="number" name="nb_days" class="form-control" value="{{ nb_days }}" min="0" max="1000000" step="1" size="4" style="text-align: center" />
         </form>
         <br />
         {% if inactives != [] %}
             <ul class="list-group">
             {% for item in inactives %}
-                <li class="list-group-item"><a href="/feed/{{ item[0].id }}">{{ item[0].title }}</a> - {{ item[1].days }} days</li>
+                <li class="list-group-item"><a href="/feed/{{ item[0].id }}">{{ item[0].title }}</a> - {{ item[1].days }} {{ _('days') }}</li>
             {% endfor %}
             </ul>
         {% else %}
-            <p>No inactive feeds.<p>
+            <p>{{ _('No inactive feeds.') }}<p>
         {% endif %}
     </div>
 </div><!-- /.container -->

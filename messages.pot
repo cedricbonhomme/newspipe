@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 12:47+0200\n"
+"POT-Creation-Date: 2014-05-01 17:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Invalid email or password"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:60
+#: pyaggr3g470r/forms.py:60 pyaggr3g470r/templates/feeds.html:11
 msgid "Title"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 msgid "Edit the feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:577
+#: pyaggr3g470r/views.py:577 pyaggr3g470r/templates/layout.html:48
 msgid "Add a feed"
 msgstr ""
 
@@ -237,6 +237,115 @@ msgstr ""
 msgid "Share on"
 msgstr ""
 
+#: pyaggr3g470r/templates/favorites.html:6
+msgid "No favorites"
+msgstr ""
+
+#: pyaggr3g470r/templates/favorites.html:10
+msgid "Favorites articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/favorites.html:16 pyaggr3g470r/templates/home.html:11
+#: pyaggr3g470r/templates/unread.html:16
+msgid "More articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/favorites.html:17 pyaggr3g470r/templates/home.html:12
+#: pyaggr3g470r/templates/unread.html:17
+msgid "Details"
+msgstr ""
+
+#: pyaggr3g470r/templates/favorites.html:18 pyaggr3g470r/templates/feed.html:8
+#: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:13
+#: pyaggr3g470r/templates/unread.html:18
+msgid "Edit this feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+msgid "Delete this feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:12
+msgid "This feed contains"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:12
+msgid "articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:14
+msgid "of the database"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:17
+msgid "Address of the feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:19
+msgid "Address of the site"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:23
+msgid "The last article was posted"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:23
+msgid "day(s) ago."
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:24
+msgid "Daily average"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:24
+msgid "between the"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:24
+msgid "and the"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:4 pyaggr3g470r/templates/management.html:6
+msgid "You are subscribed to"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:4 pyaggr3g470r/templates/management.html:6
+msgid "feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:4 pyaggr3g470r/templates/management.html:6
+msgid "Add a"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:4 pyaggr3g470r/templates/management.html:6
+msgid "feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:10
+msgid "Status"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:12
+msgid "Site"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:13 pyaggr3g470r/templates/feeds.html:32
+#: pyaggr3g470r/templates/layout.html:43
+msgid "Articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:14
+msgid "Actions"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:23
+msgid "Feed enabled"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:25
+msgid "Feed disabled"
+msgstr ""
+
 #: pyaggr3g470r/templates/home.html:5
 msgid "You are not subscribed to any feed."
 msgstr ""
@@ -245,44 +354,73 @@ msgstr ""
 msgid "Fix this"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:11
-msgid "More articles"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:12
-msgid "Details"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:13
-msgid "Edit this feed"
-msgstr ""
-
 #: pyaggr3g470r/templates/home.html:15
 msgid "Fetch this feed"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:17
+#: pyaggr3g470r/templates/home.html:17 pyaggr3g470r/templates/layout.html:46
+#: pyaggr3g470r/templates/unread.html:19
 msgid "Mark all as read"
+msgstr ""
+
+#: pyaggr3g470r/templates/inactives.html:6
+msgid "Days of inactivity"
+msgstr ""
+
+#: pyaggr3g470r/templates/inactives.html:13
+msgid "days"
+msgstr ""
+
+#: pyaggr3g470r/templates/inactives.html:17
+msgid "No inactive feeds."
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:45
+msgid "Fetch"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:52
+msgid "Filter"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:54
+msgid "Unread"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:55
+msgid "Favorites"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:56
+msgid "Inactive feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:57
+msgid "All feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:58
+msgid "History"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:61
+msgid "Management"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:63
+msgid "Dashboard"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:65
+msgid "About"
+msgstr ""
+
+#: pyaggr3g470r/templates/layout.html:66
+msgid "Logout"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:5
 msgid "Your subscriptions"
-msgstr ""
-
-#: pyaggr3g470r/templates/management.html:6
-msgid "You are subscribed to"
-msgstr ""
-
-#: pyaggr3g470r/templates/management.html:6
-msgid "feeds"
-msgstr ""
-
-#: pyaggr3g470r/templates/management.html:6
-msgid "Add a"
-msgstr ""
-
-#: pyaggr3g470r/templates/management.html:6
-msgid "feed"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:7
@@ -290,6 +428,7 @@ msgid "articles are stored in the database with"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:7
+#: pyaggr3g470r/templates/unread.html:20
 msgid "unread articles"
 msgstr ""
 
@@ -343,5 +482,13 @@ msgstr ""
 
 #: pyaggr3g470r/templates/management.html:36
 msgid "Export articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/unread.html:6
+msgid "No unread articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/unread.html:10
+msgid "Unread articles"
 msgstr ""
 

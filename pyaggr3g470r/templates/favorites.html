@@ -3,19 +3,19 @@
 <div class="container">
     {% if feeds|count == 0  %}
         <div class="page-header">
-            <h1>No favorites</h1>
+            <h1>{{ _('No favorites') }}</h1>
         </div>
     {% else %}
         <div class="page-header">
-            <h1>Favorites articles <small>{{ nb_favorites }}</small></h1>
+            <h1>{{ _('Favorites articles') }} <small>{{ nb_favorites }}</small></h1>
         </div>
         {% for feed in feeds|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                 <h1>{{ feed.title|safe }}</h1>
-                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="More articles"></i></a>
-                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="Details"></i></a>
-                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
+                <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
+                <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
+                <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
                 </div>
             </div>
             {% for number in range(0, feed.articles.all()|length-(feed.articles.all()|length % 3), 3) %}
