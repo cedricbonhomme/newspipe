@@ -133,6 +133,10 @@ If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
 `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
+Internationalization
+====================
+
+pyAggr3g470r is translated into English and French.
 
 License
 =======
