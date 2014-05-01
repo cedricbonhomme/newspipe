@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 11:36+0200\n"
-"PO-Revision-Date: 2014-05-01 11:36+0100\n"
+"POT-Creation-Date: 2014-05-01 12:47+0200\n"
+"PO-Revision-Date: 2014-05-01 12:48+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -18,6 +18,82 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
 "X-Generator: Poedit 1.5.4\n"
+
+#: pyaggr3g470r/forms.py:40
+msgid "Please enter your email address."
+msgstr "S'il vous plaît, entrez votre adresse email."
+
+#: pyaggr3g470r/forms.py:41 pyaggr3g470r/forms.py:79
+msgid "Password"
+msgstr "Mot de passe"
+
+#: pyaggr3g470r/forms.py:41
+msgid "Please enter a password."
+msgstr "S'il vous plaît entrer un mot de passe."
+
+#: pyaggr3g470r/forms.py:42
+msgid "Log In"
+msgstr "Connexion"
+
+#: pyaggr3g470r/forms.py:55
+msgid "Invalid email or password"
+msgstr "E-mail ou mot de passe invalide"
+
+#: pyaggr3g470r/forms.py:60
+msgid "Title"
+msgstr "Titre"
+
+#: pyaggr3g470r/forms.py:60
+msgid "Please enter a title."
+msgstr "S'il vous plaît, entrez un titre."
+
+#: pyaggr3g470r/forms.py:61
+msgid "Feed link"
+msgstr "Lien du flux"
+
+#: pyaggr3g470r/forms.py:61
+msgid "Please enter a link for the feed."
+msgstr "S'il vous plaît, entrez un lien pour le flux."
+
+#: pyaggr3g470r/forms.py:62
+msgid "Site link"
+msgstr "Lien du site"
+
+#: pyaggr3g470r/forms.py:63
+msgid "Email notification"
+msgstr "Notification par email"
+
+#: pyaggr3g470r/forms.py:64
+msgid "Check for updates"
+msgstr "Vérifier les mises à jour"
+
+#: pyaggr3g470r/forms.py:65 pyaggr3g470r/forms.py:80
+msgid "Save"
+msgstr "Sauver"
+
+#: pyaggr3g470r/forms.py:76
+msgid "First name"
+msgstr "Prénom"
+
+#: pyaggr3g470r/forms.py:76
+msgid "Please enter your first name."
+msgstr "S'il vous plaît, entrez votre prénom."
+
+#: pyaggr3g470r/forms.py:77
+msgid "Last name"
+msgstr "Nom de famille"
+
+#: pyaggr3g470r/forms.py:77
+msgid "Please enter your last name."
+msgstr "S'il vous plaît, entrez votre nom de famille."
+
+#: pyaggr3g470r/forms.py:78
+msgid "Email"
+msgstr "Email"
+
+#: pyaggr3g470r/forms.py:78
+msgid "Please enter your email."
+msgstr "S'il vous plaît, entrez votre email."
 
 #: pyaggr3g470r/views.py:93
 msgid "Authentication required."
@@ -113,6 +189,14 @@ msgstr "créé avec succès."
 msgid "already in the database."
 msgstr "déjà dans la base de données."
 
+#: pyaggr3g470r/views.py:573
+msgid "Edit the feed"
+msgstr "Éditez ce flux"
+
+#: pyaggr3g470r/views.py:577
+msgid "Add a feed"
+msgstr "Ajoutez un flux"
+
 #: pyaggr3g470r/views.py:590 pyaggr3g470r/views.py:703
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
@@ -126,9 +210,34 @@ msgstr "Utilisateur"
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
+#: pyaggr3g470r/templates/article.html:10
+msgid "from"
+msgstr "de"
+
+#: pyaggr3g470r/templates/article.html:11
+msgid "Delete this article"
+msgstr "Supprimer cet article"
+
+#: pyaggr3g470r/templates/article.html:13
+msgid "One of your favorites"
+msgstr "Un de vos favoris"
+
+#: pyaggr3g470r/templates/article.html:15
+msgid "Click if you like this article"
+msgstr "Cliquez si vous aimez cet article"
+
 #: pyaggr3g470r/templates/article.html:25
 msgid "Next post:"
 msgstr "Billet suivant:"
+
+#: pyaggr3g470r/templates/article.html:28
+msgid "Previous post:"
+msgstr "Billet précédent:"
+
+#: pyaggr3g470r/templates/article.html:34
+#: pyaggr3g470r/templates/article.html:37
+msgid "Share on"
+msgstr "Partager sur"
 
 #: pyaggr3g470r/templates/home.html:5
 msgid "You are not subscribed to any feed."

@@ -7,12 +7,12 @@
 <div class="container">
     <div class="jumbotron">
         <h2><a href="{{ article.link  }}">{{ article.title|safe }}</a></h2>
-        <h3>from <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
-        <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="Delete this article"></i></a>
+        <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
+        <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
         {% if article.like %}
-            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star" title="One of your favorites"></i></a>
+            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i></a>
         {% else %}
-            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star-empty" title="Click if you like this article"></i></a>
+            <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i></a>
         {% endif %}
         <h6>{{ article.date }}</h6>
     </div>
@@ -25,16 +25,16 @@
                 {{ _('Next post:') }} <a href="/article/{{ next_article.id }}">{{ next_article.title }}</a>
             </div>
             <div class="col-md-6 text-right">
-                Previous post: <a href="/article/{{ previous_article.id }}">{{ previous_article.title }}</a>
+                {{ _('Previous post:') }} <a href="/article/{{ previous_article.id }}">{{ previous_article.title }}</a>
             </div>
         </div>
     </div>
     <div class="jumbotron">
         <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
-            <img src="/static/img/pinboard.png" title="Share on Pinboard" />
+            <img src="/static/img/pinboard.png" title="{{ _('Share on') }} Pinboard" />
         </a>
         <a href="http://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noreferrer" target="_blank">
-            <img src="/static/img/reddit.png" title="Share on reddit" />
+            <img src="/static/img/reddit.png" title="{{ _('Share on') }} reddit" />
         </a>
         <g:plusone size="standard" count="true" href="{{ article.link  }}"></g:plusone>
     </div>

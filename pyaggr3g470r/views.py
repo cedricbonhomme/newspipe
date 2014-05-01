@@ -119,7 +119,7 @@ def get_locale():
     Called before each request to give us a chance to choose
     the language to use when producing its response.
     """
-    return "fr"#request.accept_languages.best_match(conf.LANGUAGES.keys())
+    return request.accept_languages.best_match(conf.LANGUAGES.keys())
 
 
 #
@@ -570,11 +570,11 @@ def edit_feed(feed_id=None):
     if request.method == 'GET':
         if feed_id is not None:
             form = AddFeedForm(obj=feed)
-            return render_template('edit_feed.html', action="Edit the feed", form=form, feed=feed, \
+            return render_template('edit_feed.html', action=gettext("Edit the feed"), form=form, feed=feed, \
                                     not_on_heroku = not conf.ON_HEROKU)
 
         # Return an empty form in order to create a new feed
-        return render_template('edit_feed.html', action="Add a feed", form=form, \
+        return render_template('edit_feed.html', action=gettext("Add a feed"), form=form, \
                                 not_on_heroku = not conf.ON_HEROKU)
 
 @app.route('/delete_feed/<feed_id>', methods=['GET'])
