@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 11:10+0200\n"
-"PO-Revision-Date: 2014-05-01 11:12+0100\n"
+"POT-Creation-Date: 2014-05-01 11:36+0200\n"
+"PO-Revision-Date: 2014-05-01 11:36+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -126,6 +126,10 @@ msgstr "Utilisateur"
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
+#: pyaggr3g470r/templates/article.html:25
+msgid "Next post:"
+msgstr "Billet suivant:"
+
 #: pyaggr3g470r/templates/home.html:5
 msgid "You are not subscribed to any feed."
 msgstr "Vous êtes abonné à aucun flux."
@@ -153,3 +157,83 @@ msgstr "Récupérer ce flux"
 #: pyaggr3g470r/templates/home.html:17
 msgid "Mark all as read"
 msgstr "Marquer tout comme lu"
+
+#: pyaggr3g470r/templates/management.html:5
+msgid "Your subscriptions"
+msgstr "Vos abonnements"
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "You are subscribed to"
+msgstr "Vous êtes abonné à"
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "feeds"
+msgstr "flux"
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "Add a"
+msgstr "Ajouter un"
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "feed"
+msgstr "flux"
+
+#: pyaggr3g470r/templates/management.html:7
+msgid "articles are stored in the database with"
+msgstr "articles sont stockés dans la base avec"
+
+#: pyaggr3g470r/templates/management.html:7
+msgid "unread articles"
+msgstr "articles non lus"
+
+#: pyaggr3g470r/templates/management.html:9
+msgid "Index database"
+msgstr "Indexer la base de données"
+
+#: pyaggr3g470r/templates/management.html:13
+msgid "Your Profile"
+msgstr "Votre profil"
+
+#: pyaggr3g470r/templates/management.html:16
+msgid "Update your"
+msgstr "Mettez à jour votre"
+
+#: pyaggr3g470r/templates/management.html:16
+msgid "profile"
+msgstr "profil"
+
+#: pyaggr3g470r/templates/management.html:17
+msgid "Member since"
+msgstr "Membre depuis"
+
+#: pyaggr3g470r/templates/management.html:18
+msgid "Last seen:"
+msgstr "Vue la dernière fois:"
+
+#: pyaggr3g470r/templates/management.html:26
+msgid "Import/export feeds"
+msgstr "Importer/exporter les flux"
+
+#: pyaggr3g470r/templates/management.html:27
+msgid "Import"
+msgstr "Importer"
+
+#: pyaggr3g470r/templates/management.html:29
+msgid "Batch import feeds from OPML"
+msgstr "Import en lot via un fichier OPML"
+
+#: pyaggr3g470r/templates/management.html:29
+msgid "or"
+msgstr "ou"
+
+#: pyaggr3g470r/templates/management.html:32
+msgid "Export"
+msgstr "Exporter"
+
+#: pyaggr3g470r/templates/management.html:33
+msgid "Export feeds to OPML"
+msgstr "Exporter les flux au format OPML"
+
+#: pyaggr3g470r/templates/management.html:36
+msgid "Export articles"
+msgstr "Exporter les articles"

@@ -2,20 +2,20 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        <h1>Your subscriptions</h1>
-        <p>You are subscribed to {{ nb_feeds }} <a href="/feeds">feeds</a>. Add a <a href="/create_feed/">feed</a>.</p>
-        <p>{{ nb_articles }} articles are stored in the database with {{ nb_unread_articles }} <a href="/unread/">unread articles</a>.</p>
+        <h1>{{ _('Your subscriptions') }}</h1>
+        <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="/create_feed/">{{ _('feed') }}</a>.</p>
+        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread/">{{ _('unread articles') }}</a>.</p>
         {% if not_on_heroku %}
-            <a href="/index_database/" class="btn btn-default">Index database</a>
+            <a href="/index_database/" class="btn btn-default">{{ _('Index database') }}</a>
         {% endif %}
     </div>
     <div class="jumbotron">
-        <h1>Your Profile</h1>
+        <h1>{{ _('Your Profile') }}</h1>
         <div class="row">
             <div class="col-md-6">
-                <p>Update your <a href="/profile/">profile</a>.</p>
-                <p>Member since {{ user.date_created.strftime('%A, %d %B %Y') }}.</p>
-                <p>Last seen: {{ user.last_seen.strftime('%A, %d %B %Y at %H:%M:%S') }}.</p>
+                <p>{{ _('Update your') }} <a href="/profile/">{{ _('profile') }}</a>.</p>
+                <p>{{ _('Member since') }} {{ user.date_created.strftime('%A, %d %B %Y') }}.</p>
+                <p>{{ _('Last seen:') }} {{ user.last_seen.strftime('%A, %d %B %Y at %H:%M:%S') }}.</p>
             </div>
             <div class="col-md-6">
                 <img src="{{ user.email | gravatar }}" />
@@ -23,17 +23,17 @@
         </div>
     </div>
     <div class="jumbotron">
-        <h1>Import/export feeds</h1>
-        <h2>Import</h2>
+        <h1>{{ _('Import/export feeds') }}</h1>
+        <h2>{{ _('Import') }}</h2>
         <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
-            <span class="btn btn-default btn-file">Batch import feeds from OPML (<span class="text-info">*.xml or *.opml</span>)<input type="file" name="opmlfile" /></span>
+            <span class="btn btn-default btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
             <button class="btn btn-default" type="submit">OK</button>
         </form>
-        <h2>Export</h2>
-        <a href="/export_opml/" class="btn btn-default">Export feeds to OPML</a>
+        <h2>{{ _('Export') }}</h2>
+        <a href="/export_opml/" class="btn btn-default">{{ _('Export feeds to OPML') }}</a>
     </div>
     <div class="jumbotron">
-        <h1>Export articles</h1>
+        <h1>{{ _('Export articles') }}</h1>
         <a href="/export/?format=HTML" class="btn btn-default">HTML</a>
         <a href="/export/?format=JSON" class="btn btn-default">JSON</a>
     </div>

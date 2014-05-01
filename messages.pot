@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 11:10+0200\n"
+"POT-Creation-Date: 2014-05-01 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,10 @@ msgstr ""
 msgid "This user does not exist."
 msgstr ""
 
+#: pyaggr3g470r/templates/article.html:25
+msgid "Next post:"
+msgstr ""
+
 #: pyaggr3g470r/templates/home.html:5
 msgid "You are not subscribed to any feed."
 msgstr ""
@@ -150,5 +154,85 @@ msgstr ""
 
 #: pyaggr3g470r/templates/home.html:17
 msgid "Mark all as read"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:5
+msgid "Your subscriptions"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "You are subscribed to"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "Add a"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:6
+msgid "feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:7
+msgid "articles are stored in the database with"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:7
+msgid "unread articles"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:9
+msgid "Index database"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:13
+msgid "Your Profile"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:16
+msgid "Update your"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:16
+msgid "profile"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:17
+msgid "Member since"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:18
+msgid "Last seen:"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:26
+msgid "Import/export feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:27
+msgid "Import"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:29
+msgid "Batch import feeds from OPML"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:29
+msgid "or"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:32
+msgid "Export"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:33
+msgid "Export feeds to OPML"
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:36
+msgid "Export articles"
 msgstr ""
 

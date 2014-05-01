@@ -22,7 +22,7 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-6">
-                Next post: <a href="/article/{{ next_article.id }}">{{ next_article.title }}</a>
+                {{ _('Next post:') }} <a href="/article/{{ next_article.id }}">{{ next_article.title }}</a>
             </div>
             <div class="col-md-6 text-right">
                 Previous post: <a href="/article/{{ previous_article.id }}">{{ previous_article.title }}</a>
