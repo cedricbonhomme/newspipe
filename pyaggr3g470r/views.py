@@ -42,7 +42,7 @@ import export
 if not conf.ON_HEROKU:
     import search as fastsearch
 from forms import SigninForm, AddFeedForm, ProfileForm
-from pyaggr3g470r import app, db, allowed_file, babel
+from pyaggr3g470r import app, db, allowed_file, babel, TIME_ZONE
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 
@@ -112,7 +112,6 @@ def redirect_url(default='home'):
             request.referrer or \
             url_for(default)
 
-
 @babel.localeselector
 def get_locale():
     """
@@ -121,6 +120,9 @@ def get_locale():
     """
     return request.accept_languages.best_match(conf.LANGUAGES.keys())
 
+@babel.timezoneselector
+def get_timezone():
+    return TIME_ZONE[get_locale()]
 
 #
 # Views.

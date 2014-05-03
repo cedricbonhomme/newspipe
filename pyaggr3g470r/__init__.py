@@ -21,6 +21,15 @@ db = SQLAlchemy(app)
 ALLOWED_EXTENSIONS = set(['xml', 'opml'])
 
 
+from flask.ext.babel import format_datetime
+app.jinja_env.filters['datetime'] = format_datetime
+
+TIME_ZONE = {
+                "en": "US/Eastern",
+                "fr": "Europe/Paris"
+            }
+
+
 def allowed_file(filename):
     """
     Check if the uploaded file is allowed.
