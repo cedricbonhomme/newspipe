@@ -176,11 +176,10 @@ class FeedGetter(object):
                         description = ""
                 try:
                     description = BeautifulSoup(description, "lxml").decode()
-                    article_title = BeautifulSoup(article.title, "lxml").decode()
                 except Exception as e:
                     pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" %
                                             (article_title, nice_url))
-                    article_title = article.title
+                article_title = article.title
 
                 try:
                     post_date = datetime(*article.published_parsed[:6])
