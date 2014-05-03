@@ -118,7 +118,7 @@ def get_locale():
     Called before each request to give us a chance to choose
     the language to use when producing its response.
     """
-    return request.accept_languages.best_match(conf.LANGUAGES.keys())
+    return "fr"#request.accept_languages.best_match(conf.LANGUAGES.keys())
 
 @babel.timezoneselector
 def get_timezone():

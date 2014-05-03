@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-01 18:13+0200\n"
-"PO-Revision-Date: 2014-05-01 18:14+0100\n"
+"POT-Creation-Date: 2014-05-03 11:35+0200\n"
+"PO-Revision-Date: 2014-05-03 11:44+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -103,112 +103,125 @@ msgstr "Authentification requise."
 msgid "Forbidden."
 msgstr "Interdit."
 
-#: pyaggr3g470r/views.py:141
+#: pyaggr3g470r/views.py:143
 msgid "Logged in successfully."
 msgstr "Connecté avec succès."
 
-#: pyaggr3g470r/views.py:161
+#: pyaggr3g470r/views.py:163
 msgid "Logged out successfully."
 msgstr "Déconnecté avec succès."
 
-#: pyaggr3g470r/views.py:193
+#: pyaggr3g470r/views.py:195
 msgid "Downloading articles..."
 msgstr "Téléchargement des articles."
 
-#: pyaggr3g470r/views.py:281
+#: pyaggr3g470r/views.py:283
 msgid "Articles marked as read."
 msgstr "Articles marqués comme lus."
 
-#: pyaggr3g470r/views.py:284
+#: pyaggr3g470r/views.py:286
 msgid "All articles marked as read"
 msgstr "Tous les articles marqués comme lus."
 
-#: pyaggr3g470r/views.py:315
+#: pyaggr3g470r/views.py:317
 msgid "Article"
 msgstr "Article"
 
-#: pyaggr3g470r/views.py:315
+#: pyaggr3g470r/views.py:317
 msgid "deleted."
 msgstr "supprimé."
 
-#: pyaggr3g470r/views.py:318
+#: pyaggr3g470r/views.py:320
 msgid "This article do not exist."
 msgstr "Cet article n'existe pas."
 
-#: pyaggr3g470r/views.py:411
+#: pyaggr3g470r/views.py:413
 msgid "Database indexed."
 msgstr "Base de données indexée."
 
-#: pyaggr3g470r/views.py:413 pyaggr3g470r/views.py:482
+#: pyaggr3g470r/views.py:415 pyaggr3g470r/views.py:484
 msgid "An error occured"
 msgstr "Une erreur est survenue."
 
-#: pyaggr3g470r/views.py:416
+#: pyaggr3g470r/views.py:418
 msgid "Option not available on Heroku."
 msgstr "Option non disponible sur Heroku."
 
-#: pyaggr3g470r/views.py:431 pyaggr3g470r/views.py:441
+#: pyaggr3g470r/views.py:433 pyaggr3g470r/views.py:443
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'export des articles."
 
-#: pyaggr3g470r/views.py:447
+#: pyaggr3g470r/views.py:449
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
-#: pyaggr3g470r/views.py:470
+#: pyaggr3g470r/views.py:472
 msgid "Full text search is not yet implemented for Heroku."
 msgstr "La recherche rapide n'est pas supporté sur Heroku."
 
-#: pyaggr3g470r/views.py:508
+#: pyaggr3g470r/views.py:510
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: pyaggr3g470r/views.py:514
+#: pyaggr3g470r/views.py:516
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: pyaggr3g470r/views.py:516
+#: pyaggr3g470r/views.py:518
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: pyaggr3g470r/views.py:552 pyaggr3g470r/views.py:564
-#: pyaggr3g470r/views.py:567 pyaggr3g470r/views.py:590
+#: pyaggr3g470r/views.py:554 pyaggr3g470r/views.py:566
+#: pyaggr3g470r/views.py:569 pyaggr3g470r/views.py:592
 msgid "Feed"
 msgstr "Flux"
 
-#: pyaggr3g470r/views.py:552 pyaggr3g470r/views.py:608
-#: pyaggr3g470r/views.py:652
+#: pyaggr3g470r/views.py:554 pyaggr3g470r/views.py:610
+#: pyaggr3g470r/views.py:654
 msgid "successfully updated."
 msgstr "mis à jour avec succès."
 
-#: pyaggr3g470r/views.py:564 pyaggr3g470r/views.py:663
+#: pyaggr3g470r/views.py:566 pyaggr3g470r/views.py:665
 msgid "successfully created."
 msgstr "créé avec succès."
 
-#: pyaggr3g470r/views.py:567
+#: pyaggr3g470r/views.py:569
 msgid "already in the database."
 msgstr "déjà dans la base de données."
 
-#: pyaggr3g470r/views.py:573
+#: pyaggr3g470r/views.py:575
 msgid "Edit the feed"
 msgstr "Éditez ce flux"
 
-#: pyaggr3g470r/views.py:577 pyaggr3g470r/templates/layout.html:48
+#: pyaggr3g470r/views.py:579 pyaggr3g470r/templates/layout.html:48
 msgid "Add a feed"
-msgstr "Ajoutez un flux"
+msgstr "Ajouter un flux"
 
-#: pyaggr3g470r/views.py:590 pyaggr3g470r/views.py:703
+#: pyaggr3g470r/views.py:592 pyaggr3g470r/views.py:705
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
 
-#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:652
-#: pyaggr3g470r/views.py:663 pyaggr3g470r/views.py:703
+#: pyaggr3g470r/views.py:610 pyaggr3g470r/views.py:654
+#: pyaggr3g470r/views.py:665 pyaggr3g470r/views.py:705
 msgid "User"
 msgstr "Utilisateur"
 
-#: pyaggr3g470r/views.py:689 pyaggr3g470r/views.py:705
+#: pyaggr3g470r/views.py:691 pyaggr3g470r/views.py:707
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
+
+#: pyaggr3g470r/templates/about.html:5
+msgid ""
+"This software is under AGPLv3 license. You are welcome to copy, modify or\n"
+"        redistribute the <a href=\"https://bitbucket.org/cedricbonhomme/"
+"pyaggr3g470r/\">source code</a>\n"
+"        according to the <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
+"\">Affero GPL</a> license."
+msgstr ""
+"Ce logiciel est sous licence AGPLv3. Vous êtes invité à copier, modifier ou "
+"redistribuer le <a href=\"https://bitbucket.org/cedricbonhomme/pyaggr3g470r/"
+"\">code source</a> selon la licence <a href=\"https://www.gnu.org/licenses/"
+"agpl-3.0.html\">Affero GPL</a>."
 
 #: pyaggr3g470r/templates/article.html:10
 msgid "from"
@@ -391,7 +404,7 @@ msgstr "Filtrer"
 
 #: pyaggr3g470r/templates/layout.html:54
 msgid "Unread"
-msgstr "Non lu"
+msgstr "Non lus"
 
 #: pyaggr3g470r/templates/layout.html:55
 msgid "Favorites"
@@ -464,11 +477,11 @@ msgstr "profil"
 
 #: pyaggr3g470r/templates/management.html:17
 msgid "Member since"
-msgstr "Membre depuis"
+msgstr "Membre depuis le"
 
 #: pyaggr3g470r/templates/management.html:18
 msgid "Last seen:"
-msgstr "Vue la dernière fois:"
+msgstr "Vue la dernière fois le"
 
 #: pyaggr3g470r/templates/management.html:26
 msgid "Import/export feeds"
