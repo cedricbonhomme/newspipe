@@ -29,7 +29,9 @@ __license__ = "AGPLv3"
 import feedparser
 import urllib2
 import requests
+from bs4 import BeautifulSoup
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 from requests.exceptions import *
 
 import gevent.monkey
@@ -173,9 +175,9 @@ class FeedGetter(object):
                     except Exception:
                         description = ""
                 try:
-                    description = BeautifulSoup(description, "html.parser").decode()
-                    article_title = BeautifulSoup(article.title, "html.parser").decode()
-                except Exception:
+                    description = BeautifulSoup(description, "lxml").decode()
+                    article_title = BeautifulSoup(article.title, "lxml").decode()
+                except Exception as e:
                     pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" %
                                             (article_title, nice_url))
                     article_title = article.title

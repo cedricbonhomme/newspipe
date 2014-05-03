@@ -2,6 +2,7 @@ feedparser
 opml
 requests
 BeautifulSoup
+lxml
 SQLAlchemy
 psycopg2
 Flask
