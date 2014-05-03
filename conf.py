@@ -17,6 +17,11 @@ LANGUAGES = {
     'fr': 'French'
 }
 
+TIME_ZONE = {
+    "en": "US/Eastern",
+    "fr": "Europe/Paris"
+}
+
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 
 if not ON_HEROKU:

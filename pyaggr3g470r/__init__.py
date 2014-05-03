@@ -5,6 +5,7 @@ import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babel import Babel
+from flask.ext.babel import format_datetime
 from flask.ext.gravatar import Gravatar
 
 import conf
@@ -20,16 +21,6 @@ db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = set(['xml', 'opml'])
 
-
-from flask.ext.babel import format_datetime
-app.jinja_env.filters['datetime'] = format_datetime
-
-TIME_ZONE = {
-                "en": "US/Eastern",
-                "fr": "Europe/Paris"
-            }
-
-
 def allowed_file(filename):
     """
     Check if the uploaded file is allowed.
@@ -38,6 +29,8 @@ def allowed_file(filename):
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 babel = Babel(app)
+
+app.jinja_env.filters['datetime'] = format_datetime
 
 # Gravatar
 gravatar = Gravatar(app, size=100, rating='g', default='retro',
