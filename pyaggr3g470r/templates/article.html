@@ -14,10 +14,10 @@
         {% else %}
             <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i></a>
         {% endif %}
-        <h6>{{ article.date }}</h6>
+        <h6>{{ article.date | datetime }}</h6>
     </div>
     <div class="jumbotron">
-        {{ article.content|safe }}
+        {{ article.content | safe }}
     </div>
     <div class="jumbotron">
         <div class="row">
