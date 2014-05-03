@@ -1,7 +1,7 @@
 feedparser
 opml
 requests
-BeautifulSoup
+beautifulsoup4
 lxml
 SQLAlchemy
 psycopg2

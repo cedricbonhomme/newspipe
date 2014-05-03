@@ -40,7 +40,7 @@ import opml
 import operator
 from urllib import urlencode
 from urlparse import urlparse, parse_qs, urlunparse
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from collections import Counter
 from contextlib import contextmanager
