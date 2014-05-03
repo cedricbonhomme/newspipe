@@ -176,7 +176,7 @@ class FeedGetter(object):
                         description = ""
                 try:
                     description = BeautifulSoup(description, "lxml").decode()
-                except Exception as e:
+                except:
                     pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" %
                                             (article_title, nice_url))
                 article_title = article.title
