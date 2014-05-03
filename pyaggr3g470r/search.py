@@ -114,8 +114,9 @@ def search(user_id, term):
         raise EmptyIndexError
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(term)
-        results = searcher.search(query, limit=None)
-        for article in [item for item in results if item["user_id"] == user_id]:
+        user_doc = Term("user_id", user_id)
+        results = searcher.search(query, filter=user_doc, limit=None)
+        for article in results:
             result_dict[article["feed_id"]].append(article["article_id"])
         return result_dict, len(results)
 
