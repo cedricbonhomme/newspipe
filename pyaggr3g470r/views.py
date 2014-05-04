@@ -616,6 +616,20 @@ def profile():
         form = ProfileForm(obj=user)
         return render_template('profile.html', user=user, form=form)
 
+@app.route('/delete_account/', methods=['GET'])
+@login_required
+def delete_account():
+    """
+    Delete the account of the user (with all its data).
+    """
+    user = User.query.filter(User.email == g.user.email).first()
+    if user is not None:
+        db.session.delete(user)
+        db.session.commit()
+        flash(gettext('Your account has been deleted.'), 'success')
+    else:
+        flash(gettext('This user does not exist.'), 'danger')
+    return redirect(url_for('home'))
 
 
 #
@@ -696,7 +710,7 @@ def user(user_id=None):
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
     """
-    Delete a user (with its stations and measures).
+    Delete a user (with all its data).
     """
     user = User.query.filter(User.id == user_id).first()
     if user is not None:

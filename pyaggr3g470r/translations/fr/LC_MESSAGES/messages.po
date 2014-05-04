@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-04 19:30+0200\n"
-"PO-Revision-Date: 2014-05-04 19:32+0100\n"
+"POT-Creation-Date: 2014-05-04 19:44+0200\n"
+"PO-Revision-Date: 2014-05-04 19:45+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -178,11 +178,11 @@ msgid "Feed"
 msgstr "Flux"
 
 #: pyaggr3g470r/views.py:554 pyaggr3g470r/views.py:610
-#: pyaggr3g470r/views.py:654
+#: pyaggr3g470r/views.py:668
 msgid "successfully updated."
 msgstr "mis à jour avec succès."
 
-#: pyaggr3g470r/views.py:566 pyaggr3g470r/views.py:665
+#: pyaggr3g470r/views.py:566 pyaggr3g470r/views.py:679
 msgid "successfully created."
 msgstr "créé avec succès."
 
@@ -198,26 +198,31 @@ msgstr "Éditez ce flux"
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
-#: pyaggr3g470r/views.py:592 pyaggr3g470r/views.py:705
+#: pyaggr3g470r/views.py:592 pyaggr3g470r/views.py:719
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
 
-#: pyaggr3g470r/views.py:610 pyaggr3g470r/views.py:654
-#: pyaggr3g470r/views.py:665 pyaggr3g470r/views.py:705
+#: pyaggr3g470r/views.py:610 pyaggr3g470r/views.py:668
+#: pyaggr3g470r/views.py:679 pyaggr3g470r/views.py:719
 msgid "User"
 msgstr "Utilisateur"
 
-#: pyaggr3g470r/views.py:674
+#: pyaggr3g470r/views.py:629
+msgid "Your account has been deleted."
+msgstr "Votre compte a été supprimé."
+
+#: pyaggr3g470r/views.py:631 pyaggr3g470r/views.py:705
+#: pyaggr3g470r/views.py:721
+msgid "This user does not exist."
+msgstr "Cet utilisateur n'existe pas."
+
+#: pyaggr3g470r/views.py:688
 msgid "Edit the user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/views.py:677 pyaggr3g470r/templates/admin/dashboard.html:35
+#: pyaggr3g470r/views.py:691 pyaggr3g470r/templates/admin/dashboard.html:35
 msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
-
-#: pyaggr3g470r/views.py:691 pyaggr3g470r/views.py:707
-msgid "This user does not exist."
-msgstr "Cet utilisateur n'existe pas."
 
 #: pyaggr3g470r/templates/about.html:5
 msgid ""
@@ -499,30 +504,34 @@ msgid "Last seen:"
 msgstr "Vue la dernière fois le"
 
 #: pyaggr3g470r/templates/management.html:26
+msgid "Delete your account"
+msgstr "Supprimer votre compte"
+
+#: pyaggr3g470r/templates/management.html:31
 msgid "Import/export feeds"
 msgstr "Importer/exporter les flux"
 
-#: pyaggr3g470r/templates/management.html:27
+#: pyaggr3g470r/templates/management.html:32
 msgid "Import"
 msgstr "Importer"
 
-#: pyaggr3g470r/templates/management.html:29
+#: pyaggr3g470r/templates/management.html:34
 msgid "Batch import feeds from OPML"
 msgstr "Import en lot via un fichier OPML"
 
-#: pyaggr3g470r/templates/management.html:29
+#: pyaggr3g470r/templates/management.html:34
 msgid "or"
 msgstr "ou"
 
-#: pyaggr3g470r/templates/management.html:32
+#: pyaggr3g470r/templates/management.html:37
 msgid "Export"
 msgstr "Exporter"
 
-#: pyaggr3g470r/templates/management.html:33
+#: pyaggr3g470r/templates/management.html:38
 msgid "Export feeds to OPML"
 msgstr "Exporter les flux au format OPML"
 
-#: pyaggr3g470r/templates/management.html:36
+#: pyaggr3g470r/templates/management.html:41
 msgid "Export articles"
 msgstr "Exporter les articles"
 
