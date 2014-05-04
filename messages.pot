@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-04 19:44+0200\n"
+"POT-Creation-Date: 2014-05-04 22:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,6 +293,11 @@ msgstr ""
 msgid "Delete this feed"
 msgstr ""
 
+#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+#: pyaggr3g470r/templates/admin/user.html:47
+msgid "You are going to delete this feed."
+msgstr ""
+
 #: pyaggr3g470r/templates/feed.html:12
 msgid "This feed contains"
 msgstr ""
@@ -497,6 +502,10 @@ msgid "Last seen:"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:26
+msgid "You are going to delete your account."
+msgstr ""
+
+#: pyaggr3g470r/templates/management.html:26
 msgid "Delete your account"
 msgstr ""
 
@@ -559,6 +568,10 @@ msgstr ""
 
 #: pyaggr3g470r/templates/admin/dashboard.html:28
 msgid "Delete this user"
+msgstr ""
+
+#: pyaggr3g470r/templates/admin/dashboard.html:28
+msgid "You are going to delete this account."
 msgstr ""
 
 #: pyaggr3g470r/templates/admin/dashboard.html:37

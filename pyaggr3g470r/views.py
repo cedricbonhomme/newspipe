@@ -629,7 +629,7 @@ def delete_account():
         flash(gettext('Your account has been deleted.'), 'success')
     else:
         flash(gettext('This user does not exist.'), 'danger')
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 
 #

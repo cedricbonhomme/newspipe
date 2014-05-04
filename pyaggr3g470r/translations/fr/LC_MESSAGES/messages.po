@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-04 19:44+0200\n"
-"PO-Revision-Date: 2014-05-04 19:45+0100\n"
+"POT-Creation-Date: 2014-05-04 22:11+0200\n"
+"PO-Revision-Date: 2014-05-04 22:11+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -296,6 +296,11 @@ msgstr "Éditer ce flux"
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
+#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+#: pyaggr3g470r/templates/admin/user.html:47
+msgid "You are going to delete this feed."
+msgstr "Vous allez supprimer ce flux."
+
 #: pyaggr3g470r/templates/feed.html:12
 msgid "This feed contains"
 msgstr "Ce flux contient"
@@ -504,6 +509,10 @@ msgid "Last seen:"
 msgstr "Vue la dernière fois le"
 
 #: pyaggr3g470r/templates/management.html:26
+msgid "You are going to delete your account."
+msgstr "Vous allez supprimer votre compte."
+
+#: pyaggr3g470r/templates/management.html:26
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
@@ -548,7 +557,6 @@ msgid "Registered users"
 msgstr "Utilisateurs enregistrés"
 
 #: pyaggr3g470r/templates/admin/dashboard.html:12
-#, fuzzy
 msgid "Firstname"
 msgstr "Prénom"
 
@@ -569,6 +577,10 @@ msgstr "Éditer cet utilisateur"
 msgid "Delete this user"
 msgstr "Supprimer cet utilisateur"
 
+#: pyaggr3g470r/templates/admin/dashboard.html:28
+msgid "You are going to delete this account."
+msgstr "Vous allez supprimer ce compte."
+
 #: pyaggr3g470r/templates/admin/dashboard.html:37
 msgid "As an administrator you are not listed in this table"
 msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"
@@ -582,7 +594,6 @@ msgid "This user is not subscribed to any feed."
 msgstr "Cet utilisateur n'est pas encore abonné à des flux."
 
 #: pyaggr3g470r/templates/admin/user.html:24
-#, fuzzy
 msgid "Feeds"
 msgstr "Flux"
 
@@ -595,6 +606,5 @@ msgid "Number of articles"
 msgstr "Nombre d'articles"
 
 #: pyaggr3g470r/templates/admin/user.html:53
-#, fuzzy
 msgid "Add a new feed"
 msgstr "Ajouter un flux"

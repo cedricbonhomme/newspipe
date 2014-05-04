@@ -44,7 +44,7 @@
                         <td>
                             <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-th-list" title="{{ _('Feed') }}"></i></a>
                             <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                            <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}"></i></a>
+                            <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
                         </td>
                 {% endfor %}
                 </tbody>
