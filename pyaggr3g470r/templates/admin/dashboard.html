@@ -4,15 +4,15 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-<h1>Registered users</h1>
+<h1>{{ _('Registered users') }}</h1>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>#</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Actions</th>
+            <th>{{ _('Firstname') }}</th>
+            <th>{{ _('Lastname') }}</th>
+            <th>{{ _('Email') }}</th>
+            <th>{{ _('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -23,17 +23,17 @@
             <td>{{ user.lastname }}</td>
             <td>{{ user.email }}</td>
             <td>
-                <a href="/admin/user/{{ user.id }}/"><i class="glyphicon glyphicon-user" title="View this user"></i></a>
-                <a href="/admin/edit_user/{{ user.id }}/"><i class="glyphicon glyphicon-edit" title="Edit this user"></i></a>
-                <a href="/admin/delete_user/{{ user.id }}/"><i class="glyphicon glyphicon-remove" title="Delete this user"></i></a>
+                <a href="/admin/user/{{ user.id }}/"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}<"></i></a>
+                <a href="/admin/edit_user/{{ user.id }}/"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
+                <a href="/admin/delete_user/{{ user.id }}/"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}"></i></a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 <br />
-<a href="/admin/create_user/" class="btn btn-default">Add a new user</a>
+<a href="/admin/create_user/" class="btn btn-default">{{ _('Add a new user') }}</a>
 <br /><br />
-<p class="text-info">As an administrator you are not listed in this table.</p>
+<p class="text-info">{{ _('As an administrator you are not listed in this table') }}.</p>
 </div>
 {% endblock %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-03 11:35+0200\n"
-"PO-Revision-Date: 2014-05-03 11:44+0100\n"
+"POT-Creation-Date: 2014-05-04 19:22+0200\n"
+"PO-Revision-Date: 2014-05-04 19:24+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -47,7 +47,7 @@ msgstr "Titre"
 msgid "Please enter a title."
 msgstr "S'il vous plaît, entrez un titre."
 
-#: pyaggr3g470r/forms.py:61
+#: pyaggr3g470r/forms.py:61 pyaggr3g470r/templates/admin/user.html:30
 msgid "Feed link"
 msgstr "Lien du flux"
 
@@ -55,7 +55,7 @@ msgstr "Lien du flux"
 msgid "Please enter a link for the feed."
 msgstr "S'il vous plaît, entrez un lien pour le flux."
 
-#: pyaggr3g470r/forms.py:62
+#: pyaggr3g470r/forms.py:62 pyaggr3g470r/templates/admin/user.html:31
 msgid "Site link"
 msgstr "Lien du site"
 
@@ -87,7 +87,7 @@ msgstr "Nom de famille"
 msgid "Please enter your last name."
 msgstr "S'il vous plaît, entrez votre nom de famille."
 
-#: pyaggr3g470r/forms.py:78
+#: pyaggr3g470r/forms.py:78 pyaggr3g470r/templates/admin/dashboard.html:14
 msgid "Email"
 msgstr "Email"
 
@@ -173,6 +173,7 @@ msgstr "Impossible d'importer les nouveaux flux."
 
 #: pyaggr3g470r/views.py:554 pyaggr3g470r/views.py:566
 #: pyaggr3g470r/views.py:569 pyaggr3g470r/views.py:592
+#: pyaggr3g470r/templates/admin/user.html:45
 msgid "Feed"
 msgstr "Flux"
 
@@ -205,6 +206,14 @@ msgstr "supprimé avec succès."
 #: pyaggr3g470r/views.py:665 pyaggr3g470r/views.py:705
 msgid "User"
 msgstr "Utilisateur"
+
+#: pyaggr3g470r/views.py:674
+msgid "Edit the user"
+msgstr "Éditer cet utilisateur"
+
+#: pyaggr3g470r/views.py:677 pyaggr3g470r/templates/admin/dashboard.html:35
+msgid "Add a new user"
+msgstr "Ajouter un nouvel utilisateur"
 
 #: pyaggr3g470r/views.py:691 pyaggr3g470r/views.py:707
 msgid "This user does not exist."
@@ -273,10 +282,12 @@ msgstr "Détails"
 #: pyaggr3g470r/templates/favorites.html:18 pyaggr3g470r/templates/feed.html:8
 #: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:13
 #: pyaggr3g470r/templates/unread.html:18
+#: pyaggr3g470r/templates/admin/user.html:46
 msgid "Edit this feed"
 msgstr "Éditer ce flux"
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+#: pyaggr3g470r/templates/admin/user.html:47
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
@@ -354,6 +365,8 @@ msgid "Articles"
 msgstr "Articles"
 
 #: pyaggr3g470r/templates/feeds.html:14
+#: pyaggr3g470r/templates/admin/dashboard.html:15
+#: pyaggr3g470r/templates/admin/user.html:33
 msgid "Actions"
 msgstr "Actions"
 
@@ -476,10 +489,12 @@ msgid "profile"
 msgstr "profil"
 
 #: pyaggr3g470r/templates/management.html:17
+#: pyaggr3g470r/templates/admin/user.html:12
 msgid "Member since"
 msgstr "Membre depuis le"
 
 #: pyaggr3g470r/templates/management.html:18
+#: pyaggr3g470r/templates/admin/user.html:13
 msgid "Last seen:"
 msgstr "Vue la dernière fois le"
 
@@ -518,3 +533,59 @@ msgstr "Pas d'articles non lus"
 #: pyaggr3g470r/templates/unread.html:10
 msgid "Unread articles"
 msgstr "Articles non lus"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:7
+msgid "Registered users"
+msgstr "Utilisateurs enregistrés"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:12
+#, fuzzy
+msgid "Firstname"
+msgstr "Prénom"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:13
+msgid "Lastname"
+msgstr "Nom de famille"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:26
+msgid "View this user"
+msgstr "Voir cet utilisateur"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:27
+#: pyaggr3g470r/templates/admin/user.html:8
+msgid "Edit this user"
+msgstr "Éditer cet utilisateur"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:28
+msgid "Delete this user"
+msgstr "Supprimer cet utilisateur"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:37
+msgid "As an administrator you are not listed in this table"
+msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"
+
+#: pyaggr3g470r/templates/admin/user.html:9
+msgid "Membership"
+msgstr "Adhésion"
+
+#: pyaggr3g470r/templates/admin/user.html:22
+msgid "This user is not subscribed to any feed."
+msgstr "Cet utilisateur n'est pas encore abonné à des flux."
+
+#: pyaggr3g470r/templates/admin/user.html:24
+#, fuzzy
+msgid "Feeds"
+msgstr "Flux"
+
+#: pyaggr3g470r/templates/admin/user.html:29
+msgid "Name"
+msgstr "Nom de famille"
+
+#: pyaggr3g470r/templates/admin/user.html:32
+msgid "Number of articles"
+msgstr "Nombre d'articles"
+
+#: pyaggr3g470r/templates/admin/user.html:53
+#, fuzzy
+msgid "Add a new feed"
+msgstr "Ajouter un flux"

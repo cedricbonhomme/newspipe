@@ -118,7 +118,7 @@ def get_locale():
     Called before each request to give us a chance to choose
     the language to use when producing its response.
     """
-    return request.accept_languages.best_match(conf.LANGUAGES.keys())
+    return "fr"#request.accept_languages.best_match(conf.LANGUAGES.keys())
 
 @babel.timezoneselector
 def get_timezone():
@@ -671,10 +671,10 @@ def create_user(user_id=None):
         if user_id is not None:
             user = User.query.filter(User.id == user_id).first()
             form = ProfileForm(obj=user)
-            message = "Edit the user <i>" + user.firstname + "</i>"
+            message = gettext('Edit the user') + ' <i>' + user.firstname + '</i>'
         else:
             form = ProfileForm()
-            message="Add a new user"
+            message = gettext('Add a new user')
         return render_template('/admin/create_user.html', form=form, message=message)
 
 @app.route('/admin/user/<int:user_id>/', methods=['GET'])

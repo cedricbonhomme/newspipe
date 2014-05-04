@@ -5,12 +5,12 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        <a href="/admin/edit_user/{{ user.id }}/" class="btn btn-default">Edit this user</a>
-        <h2>Membership</h2>
+        <a href="/admin/edit_user/{{ user.id }}/" class="btn btn-default">{{ _('Edit this user') }}</a>
+        <h2>{{ _('Membership') }}</h2>
         <div class="row">
             <div class="col-md-6">
-                <p>Member since {{ user.date_created | datetime }}.</p>
-                <p>Last seen: {{ user.last_seen | datetime }}.</p>
+                <p>{{ _('Member since') }} {{ user.date_created | datetime }}.</p>
+                <p>{{ _('Last seen:') }} {{ user.last_seen | datetime }}.</p>
             </div>
             <div class="col-md-6">
                 <img src="{{ user.email | gravatar }}" />
@@ -19,18 +19,18 @@
     </div>
     <div class="jumbotron">
         {% if user.feeds.all()|count == 0 %}
-            <h1>This user is not subscribed to any feed.</h1>
+            <h1>{{ _('This user is not subscribed to any feed.') }}</h1>
         {% else %}
-            <h1>Feeds</h1>
+            <h1>{{ _('Feeds') }}</h1>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Feed link</th>
-                        <th>Site link</th>
-                        <th>Number of articles</th>
-                        <th>Actions</th>
+                        <th>{{ _('Name') }}</th>
+                        <th>{{ _('Feed link') }}</th>
+                        <th>{{ _('Site link') }}</th>
+                        <th>{{ _('Number of articles') }}</th>
+                        <th>{{ _('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,15 +42,15 @@
                         <td>{{ feed.site_link }}</td>
                         <td>{{ feed.articles.all()|count }}</td>
                         <td>
-                            <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-th-list" title="Feed"></i></a>
-                            <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="Edit this feed"></i></a>
-                            <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="Delete this feed"></i></a>
+                            <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-th-list" title="{{ _('Feed') }}"></i></a>
+                            <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                            <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}"></i></a>
                         </td>
                 {% endfor %}
                 </tbody>
             </table>
         {% endif %}
-        <a href="/create_feed/" class="btn btn-default">Add a new feed</a>
+        <a href="/create_feed/" class="btn btn-default">{{ _('Add a new feed') }}</a>
     </div>
 </div>
 {% endblock %}
