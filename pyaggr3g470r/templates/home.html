@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     {% if result|count == 0 %}
-        <h1>{{ _('You are not subscribed to any feed.') }} <a href="/create_feed/">{{ _('Fix this') }}</a>.</h1>
+        <h1>{{ _('You are not subscribed to any feed.') }} <a href="/create_feed/">{{ _('Fix this.') }}</a></h1>
     {% else %}
         {% for feed in result|sort(attribute="title") %}
             <div class="row">
