@@ -177,7 +177,7 @@ def signup():
                     lastname=form.lastname.data,
                     email=form.email.data,
                     pwdhash=generate_password_hash(form.password.data))
-        user.roles.extend([role_user])
+        user.roles = [role_user]
         db.session.add(user)
         try:
             db.session.commit()
@@ -685,17 +685,18 @@ def create_user(user_id=None):
 
     if request.method == 'POST':
         if form.validate():
+            role_user = Role.query.filter(Role.name == "user").first()
             if user_id is not None:
                 # Edit a user
                 user = User.query.filter(User.id == user_id).first()
                 form.populate_obj(user)
                 if form.password.data != "":
                     user.set_password(form.password.data)
+                user.roles = [role_user]
                 db.session.commit()
                 flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully updated.'), 'success')
             else:
                 # Create a new user
-                role_user = Role.query.filter(Role.name == "user").first()
                 user = User(firstname=form.firstname.data,
                              lastname=form.lastname.data,
                              email=form.email.data,
