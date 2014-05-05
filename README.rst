@@ -29,7 +29,7 @@ Deployment
 
 This application can be deployed on Heroku or on a traditional server.
 
-After installation, you will be able to connect with the email *root@pyAggr3g470r.localhost* and the password *root_password*.
+After installation, you will be able to connect with the email *root@pyAggr3g470r.localhost* and the password *password*.
 
 
 Deploying the application on Heroku

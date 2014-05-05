@@ -223,7 +223,6 @@ def fetch(feed_id=None):
     return redirect(redirect_url())
 
 @app.route('/about/', methods=['GET'])
-@login_required
 def about():
     """
     'About' page.
