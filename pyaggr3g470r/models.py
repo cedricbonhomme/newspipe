@@ -51,7 +51,7 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def make_valid_nickname(nickname):
-        return re.sub('[^a-zA-Z0-9_\.\-]', '', nickname)
+        return re.sub(ur'[^\w]', '', nickname, flags=re.U)
 
     def get_id(self):
         """
