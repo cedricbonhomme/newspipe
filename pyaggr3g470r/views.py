@@ -185,7 +185,7 @@ def signup():
             flash(gettext('Email already used.'), 'warning')
             return render_template('signup.html', form=form)
 
-        flash(gettext('Your account has been created. You can now sign.'), 'success')
+        flash(gettext('Your account has been created. You can now sign in.'), 'success')
         return redirect(url_for('home'))
 
     return render_template('signup.html', form=form)

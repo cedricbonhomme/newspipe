@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-05 14:07+0200\n"
-"PO-Revision-Date: 2014-05-05 14:07+0100\n"
+"POT-Creation-Date: 2014-05-05 14:16+0200\n"
+"PO-Revision-Date: 2014-05-05 14:16+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -137,7 +137,8 @@ msgid "Email already used."
 msgstr "Email déjà utilisé."
 
 #: pyaggr3g470r/views.py:188
-msgid "Your account has been created. You can now sign."
+#, fuzzy
+msgid "Your account has been created. You can now sign in."
 msgstr "Votre compte a été créé. Vous pouvez maintenant vous connecter."
 
 #: pyaggr3g470r/views.py:222
