@@ -26,6 +26,7 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import re
 import json
 from datetime import datetime
 from sqlalchemy import asc, desc
@@ -47,6 +48,10 @@ class User(db.Model, UserMixin):
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     feeds = db.relationship('Feed', backref = 'subscriber', lazy = 'dynamic', cascade='all,delete-orphan')
+
+    @staticmethod
+    def make_valid_nickname(nickname):
+        return re.sub('[^a-zA-Z0-9_\.\-]', '', nickname)
 
     def get_id(self):
         """
