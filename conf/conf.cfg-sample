@@ -1,6 +1,8 @@
 [misc]
 platform_url = https://pyaggr3g470r.herokuapp.com/
 admin_platform_email = 
+recaptcha_public_key =
+recaptcha_private_key =
 [database]
 uri = postgres://cedric:password@127.0.0.1:5432/pyAggr3g470r
 [feedparser]

@@ -26,8 +26,6 @@
             {{ form.submit(class_="btn") }}
         </form>
     </div>
-    {% if email != '' %}
-        <p><a href="mailto:{{ email }}?subject=[pyAggr3g470r] {{ _('Account creation') }}">{{ _('Request an account.') }}</a></p>
-    {% endif %}
+    <a href="/signup/" class="btn btn-default">{{ _('Sign up') }}</a>
 </div><!-- /.container -->
 {% endblock %}

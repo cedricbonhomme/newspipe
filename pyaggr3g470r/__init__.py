@@ -19,6 +19,10 @@ app.config['SECRET_KEY'] = os.urandom(12)
 app.config['SQLALCHEMY_DATABASE_URI'] = conf.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
+app.config['RECAPTCHA_USE_SSL'] = True
+app.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY
+app.config['RECAPTCHA_PRIVATE_KEY'] = conf.RECAPTCHA_PRIVATE_KEY
+
 ALLOWED_EXTENSIONS = set(['xml', 'opml'])
 
 def allowed_file(filename):

@@ -30,8 +30,25 @@ from flask import flash
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, SubmitField, validators
+from flask_wtf import RecaptchaField
 
 from pyaggr3g470r.models import User
+
+class SignupForm(Form):
+    firstname = TextField(lazy_gettext("First name"), [validators.Required(lazy_gettext("Please enter your first name."))])
+    lastname = TextField(lazy_gettext("Last name"), [validators.Required(lazy_gettext("Please enter your last name."))])
+    email = TextField(lazy_gettext("Email"), [validators.Required(lazy_gettext("Please enter your email."))])
+    password = PasswordField(lazy_gettext("Password"))
+    recaptcha = RecaptchaField()
+    submit = SubmitField(lazy_gettext("Sign up"))
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        return True
 
 class SigninForm(Form):
     """

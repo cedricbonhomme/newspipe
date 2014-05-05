@@ -34,6 +34,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, login_require
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
 from flask.ext.babel import gettext
 from sqlalchemy import desc
+from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
@@ -41,7 +42,7 @@ import utils
 import export
 if not conf.ON_HEROKU:
     import search as fastsearch
-from forms import SigninForm, AddFeedForm, ProfileForm
+from forms import SignupForm, SigninForm, AddFeedForm, ProfileForm
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -162,6 +163,32 @@ def logout():
 
     flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
+
+@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    """
+    Signup page.
+    """
+    form = SignupForm()
+
+    if form.validate_on_submit():
+        role_user = Role.query.filter(Role.name == "user").first()
+        user = User(firstname=form.firstname.data,
+                    lastname=form.lastname.data,
+                    email=form.email.data,
+                    pwdhash=generate_password_hash(form.password.data))
+        user.roles.extend([role_user])
+        db.session.add(user)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            flash(gettext('Email already used.'), 'warning')
+            return render_template('signup.html', form=form)
+
+        flash(gettext('Your account has been created. You can now sign.'), 'success')
+        return redirect(url_for('home'))
+
+    return render_template('signup.html', form=form)
 
 @app.route('/')
 @login_required

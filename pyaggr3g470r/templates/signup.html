@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <form action="" method="post" name="save">
+            {{ form.hidden_tag() }}
+
+            {{ form.firstname.label }}
+            {{ form.firstname(class_="form-control") }} {% for error in form.firstname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.lastname.label }}
+            {{ form.lastname(class_="form-control") }} {% for error in form.lastname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.email.label }}
+            {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.password.label }}
+            {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+        
+            {{ form.recaptcha.label }}
+            {{ form.recaptcha }} {% for error in form.recaptcha.errors %} <span style="color: red;">{{ error }}<br /></span> {% endfor %}
+
+            <br />
+            {{ form.submit(class_="btn") }}
+        </form>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
