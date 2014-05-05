@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-04 22:11+0200\n"
+"POT-Creation-Date: 2014-05-05 08:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -460,6 +460,14 @@ msgstr ""
 
 #: pyaggr3g470r/templates/login.html:23
 msgid "Your Password"
+msgstr ""
+
+#: pyaggr3g470r/templates/login.html:30
+msgid "Account creation"
+msgstr ""
+
+#: pyaggr3g470r/templates/login.html:30
+msgid "Request an account."
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:5

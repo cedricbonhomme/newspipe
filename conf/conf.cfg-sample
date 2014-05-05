@@ -1,5 +1,6 @@
 [misc]
 platform_url = https://pyaggr3g470r.herokuapp.com/
+admin_platform_email = 
 [database]
 uri = postgres://cedric:password@127.0.0.1:5432/pyAggr3g470r
 [feedparser]
