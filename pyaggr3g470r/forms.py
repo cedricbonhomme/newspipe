@@ -100,7 +100,7 @@ class ProfileForm(Form):
     firstname = TextField(lazy_gettext("First name"), [validators.Required(lazy_gettext("Please enter your first name."))])
     lastname = TextField(lazy_gettext("Last name"), [validators.Required(lazy_gettext("Please enter your last name."))])
     email = EmailField(lazy_gettext("Email"), [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email."))])
-    password = PasswordField(lazy_gettext("Password"), [validators.Length(min=6, max=100)])
+    password = PasswordField(lazy_gettext("Password"))
     submit = SubmitField(lazy_gettext("Save"))
 
     def __init__(self, *args, **kwargs):
