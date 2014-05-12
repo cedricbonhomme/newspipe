@@ -36,8 +36,7 @@ from flask_wtf import RecaptchaField
 from pyaggr3g470r.models import User
 
 class SignupForm(Form):
-    firstname = TextField(lazy_gettext("First name"), [validators.Required(lazy_gettext("Please enter your first name."))])
-    lastname = TextField(lazy_gettext("Last name"), [validators.Required(lazy_gettext("Please enter your last name."))])
+    nickname = TextField(lazy_gettext("Nickname"), [validators.Required(lazy_gettext("Please enter your nickname."))])
     email = EmailField(lazy_gettext("Email"), [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"), [validators.Required(lazy_gettext("Please enter a password.")), validators.Length(min=6, max=100)])
     recaptcha = RecaptchaField()
@@ -49,11 +48,8 @@ class SignupForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-        if self.firstname.data != User.make_valid_nickname(self.firstname.data):
-            self.firstname.errors.append(lazy_gettext('This firstname has invalid characters. Please use letters, numbers, dots and underscores only.'))
-            return False
-        if self.lastname.data != User.make_valid_nickname(self.lastname.data):
-            self.lastname.errors.append(lazy_gettext('This lastname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
             return False
         return True
 
@@ -97,8 +93,7 @@ class AddFeedForm(Form):
         return True
 
 class ProfileForm(Form):
-    firstname = TextField(lazy_gettext("First name"), [validators.Required(lazy_gettext("Please enter your first name."))])
-    lastname = TextField(lazy_gettext("Last name"), [validators.Required(lazy_gettext("Please enter your last name."))])
+    nickname = TextField(lazy_gettext("Nickname"), [validators.Required(lazy_gettext("Please enter your nickname."))])
     email = EmailField(lazy_gettext("Email"), [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
     submit = SubmitField(lazy_gettext("Save"))
@@ -109,10 +104,7 @@ class ProfileForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-        if self.firstname.data != User.make_valid_nickname(self.firstname.data):
-            self.firstname.errors.append(lazy_gettext('This firstname has invalid characters. Please use letters, numbers, dots and underscores only.'))
-            return False
-        if self.lastname.data != User.make_valid_nickname(self.lastname.data):
-            self.lastname.errors.append(lazy_gettext('This lastname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
             return False
         return True

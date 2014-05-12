@@ -40,8 +40,7 @@ class User(db.Model, UserMixin):
     Represent a user.
     """
     id = db.Column(db.Integer, primary_key = True)
-    firstname = db.Column(db.String())
-    lastname = db.Column(db.String())
+    nickname = db.Column(db.String(), unique = True)
     email = db.Column(db.String(254), index = True, unique = True)
     pwdhash = db.Column(db.String())
     roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
@@ -81,7 +80,7 @@ class User(db.Model, UserMixin):
         return self.id == other.id
 
     def __repr__(self):
-        return '<User %r>' % (self.firstname)
+        return '<User %r>' % (self.nickname)
 
 class Role(db.Model):
     """

@@ -173,8 +173,7 @@ def signup():
 
     if form.validate_on_submit():
         role_user = Role.query.filter(Role.name == "user").first()
-        user = User(firstname=form.firstname.data,
-                    lastname=form.lastname.data,
+        user = User(nickname=form.nickname.data,
                     email=form.email.data,
                     pwdhash=generate_password_hash(form.password.data))
         user.roles = [role_user]
@@ -633,7 +632,7 @@ def profile():
             if form.password.data != "":
                 user.set_password(form.password.data)
             db.session.commit()
-            flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully updated.'), 'success')
+            flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             return redirect(url_for('profile'))
         else:
             return render_template('profile.html', form=form)
@@ -693,17 +692,16 @@ def create_user(user_id=None):
                     user.set_password(form.password.data)
                 user.roles = [role_user]
                 db.session.commit()
-                flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully updated.'), 'success')
+                flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             else:
                 # Create a new user
-                user = User(firstname=form.firstname.data,
-                             lastname=form.lastname.data,
+                user = User(nickname=form.nickname.data,
                              email=form.email.data,
                              pwdhash=generate_password_hash(form.password.data))
                 user.roles.extend([role_user])
                 db.session.add(user)
                 db.session.commit()
-                flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully created.'), 'success')
+                flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
             return redirect("/admin/edit_user/"+str(user.id)+"/")
         else:
             return render_template('profile.html', form=form)
@@ -712,7 +710,7 @@ def create_user(user_id=None):
         if user_id is not None:
             user = User.query.filter(User.id == user_id).first()
             form = ProfileForm(obj=user)
-            message = gettext('Edit the user') + ' <i>' + user.firstname + '</i>'
+            message = gettext('Edit the user') + ' <i>' + user.nickname + '</i>'
         else:
             form = ProfileForm()
             message = gettext('Add a new user')
@@ -743,7 +741,7 @@ def delete_user(user_id=None):
     if user is not None:
         db.session.delete(user)
         db.session.commit()
-        flash(gettext('User') + ' ' + user.firstname + ' ' + gettext('successfully deleted.'), 'success')
+        flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully deleted.'), 'success')
     else:
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())

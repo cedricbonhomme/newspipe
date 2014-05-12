@@ -5,11 +5,8 @@
         <form action="" method="post" name="save">
             {{ form.hidden_tag() }}
 
-            {{ form.firstname.label }}
-            {{ form.firstname(class_="form-control") }} {% for error in form.firstname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.lastname.label }}
-            {{ form.lastname(class_="form-control") }} {% for error in form.lastname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            {{ form.nickname.label }}
+            {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.email.label }}
             {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}

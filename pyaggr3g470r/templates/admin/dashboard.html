@@ -9,18 +9,16 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>{{ _('Firstname') }}</th>
-            <th>{{ _('Lastname') }}</th>
+            <th>{{ _('Nickname') }}</th>
             <th>{{ _('Email') }}</th>
             <th>{{ _('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
-    {% for user in users|sort(attribute="firstname") %}
+    {% for user in users|sort(attribute="nickname") %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td><a href="/admin/user/{{ user.id }}/">{{ user.firstname }}</a></td>
-            <td>{{ user.lastname }}</td>
+            <td><a href="/admin/user/{{ user.id }}/">{{ user.nickname }}</a></td>
             <td>{{ user.email }}</td>
             <td>
                 <a href="/admin/user/{{ user.id }}/"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}<"></i></a>
