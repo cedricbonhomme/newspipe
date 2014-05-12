@@ -28,6 +28,7 @@ __license__ = "GPLv3"
 
 import re
 import json
+import random, base64, hashlib
 from datetime import datetime
 from sqlalchemy import asc, desc
 from werkzeug import generate_password_hash, check_password_hash
@@ -44,6 +45,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(254), index = True, unique = True)
     pwdhash = db.Column(db.String())
     roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
+    activation_key = db.Column(db.String(86), default = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
+                                                                                random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('=='))
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     feeds = db.relationship('Feed', backref = 'subscriber', lazy = 'dynamic', cascade='all,delete-orphan')
