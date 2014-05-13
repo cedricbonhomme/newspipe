@@ -69,7 +69,8 @@ role_user = Role(name="user")
 
 user1 = User(nickname="admin",
             email="root@pyAggr3g470r.localhost",
-            pwdhash=generate_password_hash("password"))
+            pwdhash=generate_password_hash("password"),
+            activation_key="")
 user1.roles.extend([role_admin, role_user])
 
 db.session.add(user1)
