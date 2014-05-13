@@ -34,7 +34,6 @@ if not ON_HEROKU:
     config.read("./conf/conf.cfg")
 
     PLATFORM_URL = config.get('misc', 'platform_url')
-    ADMIN_PLATFORM_EMAIL = config.get('misc', 'admin_platform_email')
     RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
     RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
 
@@ -63,7 +62,6 @@ if not ON_HEROKU:
 
 else:
     PLATFORM_URL = os.environ.get('PLATFORM_URL', 'https://pyaggr3g470r.herokuapp.com/')
-    ADMIN_PLATFORM_EMAIL = os.environ.get('ADMIN_PLATFORM_EMAIL', '')
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
     

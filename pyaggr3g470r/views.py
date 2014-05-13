@@ -144,7 +144,7 @@ def login():
         identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
-    return render_template('login.html', form=form, email=conf.ADMIN_PLATFORM_EMAIL)
+    return render_template('login.html', form=form)
 
 @app.route('/logout/')
 @login_required
