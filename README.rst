@@ -56,7 +56,7 @@ To enable account creation for users, you have to set some environment variables
     $ heroku config:set RECAPTCHA_PUBLIC_KEY=<your-recaptcha-public-key>
     $ heroku config:set RECAPTCHA_PRIVATE_KEY=<your-recaptcha-private-key>
     $ heroku config:set ADMIN_EMAIL=<administrator-email>
-    $ heroku config:set POSTMARK_API_KEY=<your-postmark-api-key>
+    $ heroku addons:add postmark:10k
 
 `Postmark <https://postmarkapp.com/>`_ is used to send account confirmation links.
 
