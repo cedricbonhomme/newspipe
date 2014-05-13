@@ -59,28 +59,29 @@ def send_email(mfrom, mto, feed, article):
     else:
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
-        
+
 
 
 #
 # Notifications
 #
 def new_account_notification(user):
-    try:
-        plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s""" % \
-                    (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
-        #plaintext = utils.clear_string(html)
-        
-        
-        message = PMMail(api_key = conf.POSTMARK_API_KEY,
-                 subject = "[pyAggr3g470r] Account activation",
-                 sender = conf.ADMIN_EMAIL,
-                 to = user.email,
-                 text_body = plaintext)
+    if conf.ON_HEROKU:
+        try:
+            plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
+                        (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
+            
+            message = PMMail(api_key = conf.POSTMARK_API_KEY,
+                    subject = "[pyAggr3g470r] Account activation",
+                    sender = conf.ADMIN_EMAIL,
+                    to = user.email,
+                    text_body = plaintext)
 
-        message.send()
-    except Exception as e:
-        raise e
+            message.send()
+        except Exception as e:
+            raise e
+    else:
+        pass
         
 
     
