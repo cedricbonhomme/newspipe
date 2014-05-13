@@ -11,6 +11,7 @@
             <div class="col-md-6">
                 <p>{{ _('Member since') }} {{ user.date_created | datetime }}.</p>
                 <p>{{ _('Last seen:') }} {{ user.last_seen | datetime }}.</p>
+                <p>{{ _('Activation key:') }}{{ user.activation_key }}</p>
             </div>
             <div class="col-md-6">
                 <img src="{{ user.email | gravatar }}" />
