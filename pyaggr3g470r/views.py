@@ -189,7 +189,7 @@ def signup():
         try:
             emails.new_account_notification(user)
         except Exception as e:
-            flash(gettext('Problem while sending activation email: '+ str(e)), 'danger')
+            flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
             return redirect(url_for('home'))
 
         flash(gettext('Your account has been created. Check your mail to confirm it.'), 'success')
