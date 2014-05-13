@@ -76,7 +76,7 @@ def new_account_notification(user):
                             data={
                                 "from": conf.ADMIN_EMAIL,
                                 "to": user.email,
-                                "subject": subject,
+                                "subject": "[pyAggr3g470r] Account activation",
                                 "text": plaintext,
                                 "html": html
                             }
