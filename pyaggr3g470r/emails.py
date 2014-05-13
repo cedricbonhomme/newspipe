@@ -67,9 +67,9 @@ def send_email(mfrom, mto, feed, article):
 #
 def new_account_notification(user):
     try:
-        html = """<html>\n<head>\n<title>[pyAggr3g470r] Account activation</title>\n</head>\n<body>\nYour account has been created. Clink on the following to confirm it:%s\n</body>\n</html>""" % \
+        plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s""" % \
                     (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
-        plaintext = utils.clear_string(html)
+        #plaintext = utils.clear_string(html)
         
         
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
