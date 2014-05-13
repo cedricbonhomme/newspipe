@@ -184,8 +184,14 @@ def signup():
             flash(gettext('Email already used.'), 'warning')
             return render_template('signup.html', form=form)
 
-        flash(gettext('Your account has been created. You can now sign in.'), 'success')
-        return redirect(url_for('home'))
+        # Send the confirmation email
+        result = emails.new_account_notification(user)
+        
+        if result.status_code != 200:
+            flash(gettext('Problem while sending activation email.'), 'danger')
+        else:
+            flash(gettext('Your account has been created. Check your mail to confirm it.'), 'success')
+            return redirect(url_for('home'))
 
     return render_template('signup.html', form=form)
 
@@ -656,6 +662,20 @@ def delete_account():
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(url_for('login'))
 
+@app.route('/confirm_account/<string:activation_key>', methods=['GET'])
+def confirm_account(activation_key=None):
+    """
+    Confirm the account of a user.
+    """
+    if activation_key != "":
+        user = User.query.filter(User.activation_key == activation_key).first()
+        if user is not None:
+            user.activation_key = ""
+            db.session.commit()
+            flash(gettext('Your account has been confirmed.'), 'success')
+        else:
+            flash(gettext('Impossible to confirm this account.'), 'danger')
+    return redirect(url_for('login'))
 
 #
 # Views dedicated to administration tasks.

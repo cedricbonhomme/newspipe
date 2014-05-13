@@ -77,7 +77,9 @@ else:
     WEBSERVER_HOST = '0.0.0.0'
     WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
 
-    MAIL_ENABLED = False
+    MAIL_ENABLED = True
+    MAILGUN_DOMAIN = "pyaggr3g470r.herokuapp.com"
+    MAILGUN_KEY = os.environ.get('MAILGUN_API_KEY', '')
 
     WEBZINE_ROOT = "/tmp/"
 

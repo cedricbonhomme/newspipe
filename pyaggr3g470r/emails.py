@@ -5,6 +5,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import requests
+
 import log
 import utils
 import conf
@@ -63,8 +65,22 @@ def send_email(mfrom, mto, feed, article):
 #
 # Notifications
 #
-def new_account_notification(user, password):
-    pass
+def new_account_notification(user):
+    html = """<html>\n<head>\n<title>[pyAggr3g470r] Account activation</title>\n</head>\n<body>\nYour account has been created. Clink on the following to confirm it:%s\n</body>\n</html>""" % \
+                (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
+    plaintext = utils.clear_string(html)
+    
+    r = requests.post("https://api.mailgun.net/v2/%s/messages" % conf.MAILGUN_DOMAIN,
+                        auth=("api", conf.MAILGUN_KEY),
+                        data={
+                            "from": conf.ADMIN_EMAIL,
+                            "to": user.email,
+                            "subject": subject,
+                            "text": plaintext,
+                            "html": html
+                        }
+                    )
+    return r
 
     
 def new_article_notification(user, feed, article):
