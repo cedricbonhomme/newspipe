@@ -186,7 +186,10 @@ def signup():
             return render_template('signup.html', form=form)
 
         # Send the confirmation email
-        result = emails.new_account_notification(user)
+        try:
+            emails.new_account_notification(user)
+        except Exception as e:
+            print str(e)
         
         if result.status_code != 200:
             flash(gettext('Problem while sending activation email: '+ str(result.text)), 'danger')

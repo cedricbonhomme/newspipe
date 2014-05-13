@@ -13,5 +13,6 @@ Flask-WTF
 Flask-Babel
 Flask-Gravatar
 WTForms
+postmark
 gevent
 whoosh

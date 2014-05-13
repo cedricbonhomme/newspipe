@@ -79,8 +79,7 @@ else:
 
     MAIL_ENABLED = True
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '')
-    MAILGUN_DOMAIN = os.environ.get('MAILGUN_SMTP_SERVER', '')
-    MAILGUN_KEY = os.environ.get('MAILGUN_API_KEY', '')
+    POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY', '')
 
     WEBZINE_ROOT = "/tmp/"
 

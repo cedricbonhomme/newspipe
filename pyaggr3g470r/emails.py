@@ -5,7 +5,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import requests
+from postmark import PMMail
 
 import log
 import utils
@@ -71,19 +71,16 @@ def new_account_notification(user):
                     (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
         plaintext = utils.clear_string(html)
         
-        r = requests.post("https://api.mailgun.net/v2/%s/messages" % conf.MAILGUN_DOMAIN,
-                            auth=("api", conf.MAILGUN_KEY),
-                            data={
-                                "from": conf.ADMIN_EMAIL,
-                                "to": user.email,
-                                "subject": "[pyAggr3g470r] Account activation",
-                                "text": plaintext,
-                                "html": html
-                            }
-                        )
-        return r
+        
+        message = PMMail(api_key = conf.POSTMARK_API_KEY,
+                 subject = "[pyAggr3g470r] Account activation",
+                 sender = conf.ADMIN_EMAIL,
+                 to = user.email,
+                 text_body = plaintext)
+
+        message.send()
     except Exception as e:
-        print str(e)
+        raise e
         
 
     
