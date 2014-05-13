@@ -69,8 +69,11 @@ class SigninForm(Form):
             return False
 
         user = User.query.filter(User.email == self.email.data).first()
-        if user and user.check_password(self.password.data):
+        if user and user.check_password(self.password.data) and user.activation_key == "":
             return True
+        elif user.activation_key != "":
+            flash(lazy_gettext('Account not confirmed'), 'danger')
+            return False
         else:
             flash(lazy_gettext('Invalid email or password'), 'danger')
             #self.email.errors.append("Invalid email or password")
