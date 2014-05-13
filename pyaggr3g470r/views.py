@@ -713,6 +713,7 @@ def create_user(user_id=None):
                 if form.password.data != "":
                     user.set_password(form.password.data)
                 user.roles = [role_user]
+                user.activation_key = ""
                 db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             else:
