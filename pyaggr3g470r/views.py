@@ -40,6 +40,7 @@ from werkzeug import generate_password_hash
 import conf
 import utils
 import export
+import emails
 if not conf.ON_HEROKU:
     import search as fastsearch
 from forms import SignupForm, SigninForm, AddFeedForm, ProfileForm
