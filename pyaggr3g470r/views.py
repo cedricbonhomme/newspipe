@@ -189,7 +189,7 @@ def signup():
         result = emails.new_account_notification(user)
         
         if result.status_code != 200:
-            flash(gettext('Problem while sending activation email.'), 'danger')
+            flash(gettext('Problem while sending activation email: '+ str(result.text)), 'danger')
         else:
             flash(gettext('Your account has been created. Check your mail to confirm it.'), 'success')
             return redirect(url_for('home'))
