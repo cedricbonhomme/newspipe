@@ -782,12 +782,12 @@ def disable_user(user_id=None):
     """
     user = User.query.filter(User.id == user_id).first()
     if user is not None:
-        if True:
-            user.activation_key = ""
+        if user.activation_key != "":
 
             # Send the confirmation email
             try:
                 emails.new_account_activation(user)
+                user.activation_key = ""
             except Exception as e:
                 flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
 
