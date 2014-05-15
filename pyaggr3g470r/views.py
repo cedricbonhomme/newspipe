@@ -124,7 +124,10 @@ def get_locale():
 
 @babel.timezoneselector
 def get_timezone():
-    return conf.TIME_ZONE[get_locale()]
+    try:
+        return conf.TIME_ZONE[get_locale()]
+    except:
+        return conf.TIME_ZONE["en"]
 
 #
 # Views.
