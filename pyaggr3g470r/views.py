@@ -771,3 +771,33 @@ def delete_user(user_id=None):
     else:
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
+
+@app.route('/admin/enable_user/<int:user_id>/', methods=['GET'])
+@app.route('/admin/disable_user/<int:user_id>/', methods=['GET'])
+@login_required
+@admin_permission.require()
+def disable_user(user_id=None):
+    """
+    Enable or disable the API key of a user.
+    """
+    user = User.query.filter(User.id == user_id).first()
+    if user is not None:
+        if True:
+            user.activation_key = ""
+
+            # Send the confirmation email
+            try:
+                emails.new_account_activation(user)
+            except Exception as e:
+                flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
+
+            flash('Account of the user "' + user.nickname + '" successfully activated.', 'success')
+        else:
+            import random, base64, hashlib
+            user.apikey = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
+                                                           random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('==')
+            flash('Account of the user A"' + user.nickname + '" successfully disabled.', 'success')
+        db.session.commit()
+    else:
+        flash('This user does not exist.', 'danger')
+    return redirect(redirect_url())
