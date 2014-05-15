@@ -794,7 +794,7 @@ def disable_user(user_id=None):
             flash('Account of the user "' + user.nickname + '" successfully activated.', 'success')
         else:
             import random, base64, hashlib
-            user.apikey = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
+            user.activation_key = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
                                                            random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('==')
             flash('Account of the user "' + user.nickname + '" successfully disabled.', 'success')
         db.session.commit()
