@@ -693,8 +693,7 @@ def dashboard():
     Adminstrator's dashboard.
     """
     users = User.query.all()
-    users.remove(g.user)
-    return render_template('admin/dashboard.html', users=users)
+    return render_template('admin/dashboard.html', users=users, current_user=g.user)
 
 @app.route('/admin/create_user/', methods=['GET', 'POST'])
 @app.route('/admin/edit_user/<int:user_id>/', methods=['GET', 'POST'])

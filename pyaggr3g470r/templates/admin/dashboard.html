@@ -18,7 +18,7 @@
     {% for user in users|sort(attribute="nickname") %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td><a href="/admin/user/{{ user.id }}/">{{ user.nickname }}</a></td>
+            <td><a href="/admin/user/{{ user.id }}/">{{ user.nickname }}{{ if user.id == current_user.id }} (It's you!){{ endif }}</a></td>
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
             <td>
                 <a href="/admin/user/{{ user.id }}/"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}<"></i></a>
