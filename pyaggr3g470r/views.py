@@ -796,7 +796,7 @@ def disable_user(user_id=None):
             import random, base64, hashlib
             user.apikey = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
                                                            random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('==')
-            flash('Account of the user A"' + user.nickname + '" successfully disabled.', 'success')
+            flash('Account of the user "' + user.nickname + '" successfully disabled.', 'success')
         db.session.commit()
     else:
         flash('This user does not exist.', 'danger')
