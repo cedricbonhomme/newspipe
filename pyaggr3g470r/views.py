@@ -716,7 +716,6 @@ def create_user(user_id=None):
                 if form.password.data != "":
                     user.set_password(form.password.data)
                 user.roles = [role_user]
-                user.activation_key = ""
                 db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             else:
@@ -725,6 +724,7 @@ def create_user(user_id=None):
                              email=form.email.data,
                              pwdhash=generate_password_hash(form.password.data))
                 user.roles.extend([role_user])
+                user.activation_key = ""
                 db.session.add(user)
                 db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
@@ -778,7 +778,7 @@ def delete_user(user_id=None):
 @admin_permission.require()
 def disable_user(user_id=None):
     """
-    Enable or disable the API key of a user.
+    Enable or disable the account of a user.
     """
     user = User.query.filter(User.id == user_id).first()
     if user is not None:
