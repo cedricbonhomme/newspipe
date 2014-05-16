@@ -137,6 +137,9 @@ def login():
     """
     Log in view.
     """
+    if g.user is not None and g.user.is_authenticated():
+        return redirect(url_for('home'))
+
     g.user = AnonymousUserMixin()
     form = SigninForm()
 
@@ -173,6 +176,9 @@ def signup():
     """
     Signup page.
     """
+    if g.user is not None and g.user.is_authenticated():
+        return redirect(url_for('home'))
+
     form = SignupForm()
 
     if form.validate_on_submit():
