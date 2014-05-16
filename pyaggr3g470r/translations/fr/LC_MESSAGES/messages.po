@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-13 22:08+0200\n"
-"PO-Revision-Date: 2014-05-13 22:11+0100\n"
+"POT-Creation-Date: 2014-05-16 19:12+0200\n"
+"PO-Revision-Date: 2014-05-16 19:13+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -81,7 +81,7 @@ msgstr "Titre"
 msgid "Please enter a title."
 msgstr "S'il vous plaît, entrez un titre."
 
-#: pyaggr3g470r/forms.py:84 pyaggr3g470r/templates/admin/user.html:31
+#: pyaggr3g470r/forms.py:84 pyaggr3g470r/templates/admin/user.html:30
 msgid "Feed link"
 msgstr "Lien du flux"
 
@@ -89,7 +89,7 @@ msgstr "Lien du flux"
 msgid "Please enter a link for the feed."
 msgstr "S'il vous plaît, entrez un lien pour le flux."
 
-#: pyaggr3g470r/forms.py:85 pyaggr3g470r/templates/admin/user.html:32
+#: pyaggr3g470r/forms.py:85 pyaggr3g470r/templates/admin/user.html:31
 msgid "Site link"
 msgstr "Lien du site"
 
@@ -113,146 +113,158 @@ msgstr "Authentification requise."
 msgid "Forbidden."
 msgstr "Interdit."
 
-#: pyaggr3g470r/views.py:145
+#: pyaggr3g470r/views.py:151
 msgid "Logged in successfully."
 msgstr "Connecté avec succès."
 
-#: pyaggr3g470r/views.py:165
+#: pyaggr3g470r/views.py:171
 msgid "Logged out successfully."
 msgstr "Déconnecté avec succès."
 
-#: pyaggr3g470r/views.py:185
+#: pyaggr3g470r/views.py:194
 msgid "Email already used."
 msgstr "Email déjà utilisé."
 
-#: pyaggr3g470r/views.py:192
+#: pyaggr3g470r/views.py:201 pyaggr3g470r/views.py:797
 msgid "Problem while sending activation email"
 msgstr "Problème lors de l'envoi d'email d'activation"
 
-#: pyaggr3g470r/views.py:195
+#: pyaggr3g470r/views.py:204
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer."
 
-#: pyaggr3g470r/views.py:229
+#: pyaggr3g470r/views.py:238
 msgid "Downloading articles..."
 msgstr "Téléchargement des articles."
 
-#: pyaggr3g470r/views.py:316
+#: pyaggr3g470r/views.py:325
 msgid "Articles marked as read."
 msgstr "Articles marqués comme lus."
 
-#: pyaggr3g470r/views.py:319
+#: pyaggr3g470r/views.py:328
 msgid "All articles marked as read"
 msgstr "Tous les articles marqués comme lus."
 
-#: pyaggr3g470r/views.py:350
+#: pyaggr3g470r/views.py:359
 msgid "Article"
 msgstr "Article"
 
-#: pyaggr3g470r/views.py:350
+#: pyaggr3g470r/views.py:359
 msgid "deleted."
 msgstr "supprimé."
 
-#: pyaggr3g470r/views.py:353
+#: pyaggr3g470r/views.py:362
 msgid "This article do not exist."
 msgstr "Cet article n'existe pas."
 
-#: pyaggr3g470r/views.py:446
+#: pyaggr3g470r/views.py:455
 msgid "Database indexed."
 msgstr "Base de données indexée."
 
-#: pyaggr3g470r/views.py:448 pyaggr3g470r/views.py:517
+#: pyaggr3g470r/views.py:457 pyaggr3g470r/views.py:526
 msgid "An error occured"
 msgstr "Une erreur est survenue."
 
-#: pyaggr3g470r/views.py:451
+#: pyaggr3g470r/views.py:460
 msgid "Option not available on Heroku."
 msgstr "Option non disponible sur Heroku."
 
-#: pyaggr3g470r/views.py:466 pyaggr3g470r/views.py:476
+#: pyaggr3g470r/views.py:475 pyaggr3g470r/views.py:485
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'export des articles."
 
-#: pyaggr3g470r/views.py:482
+#: pyaggr3g470r/views.py:491
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
-#: pyaggr3g470r/views.py:505
+#: pyaggr3g470r/views.py:514
 msgid "Full text search is not yet implemented for Heroku."
 msgstr "La recherche rapide n'est pas supporté sur Heroku."
 
-#: pyaggr3g470r/views.py:543
+#: pyaggr3g470r/views.py:552
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: pyaggr3g470r/views.py:549
+#: pyaggr3g470r/views.py:558
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: pyaggr3g470r/views.py:551
+#: pyaggr3g470r/views.py:560
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: pyaggr3g470r/views.py:587 pyaggr3g470r/views.py:599
-#: pyaggr3g470r/views.py:602 pyaggr3g470r/views.py:625
-#: pyaggr3g470r/templates/admin/user.html:46
+#: pyaggr3g470r/views.py:596 pyaggr3g470r/views.py:608
+#: pyaggr3g470r/views.py:611 pyaggr3g470r/views.py:634
+#: pyaggr3g470r/templates/admin/user.html:45
 msgid "Feed"
 msgstr "Flux"
 
-#: pyaggr3g470r/views.py:587 pyaggr3g470r/views.py:643
-#: pyaggr3g470r/views.py:717
+#: pyaggr3g470r/views.py:596 pyaggr3g470r/views.py:652
+#: pyaggr3g470r/views.py:724
 msgid "successfully updated."
 msgstr "mis à jour avec succès."
 
-#: pyaggr3g470r/views.py:599 pyaggr3g470r/views.py:726
+#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:734
 msgid "successfully created."
 msgstr "créé avec succès."
 
-#: pyaggr3g470r/views.py:602
+#: pyaggr3g470r/views.py:611
 msgid "already in the database."
 msgstr "déjà dans la base de données."
 
-#: pyaggr3g470r/views.py:608
+#: pyaggr3g470r/views.py:617
 msgid "Edit the feed"
 msgstr "Éditez ce flux"
 
-#: pyaggr3g470r/views.py:612 pyaggr3g470r/templates/layout.html:49
+#: pyaggr3g470r/views.py:621 pyaggr3g470r/templates/layout.html:49
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
-#: pyaggr3g470r/views.py:625 pyaggr3g470r/views.py:766
+#: pyaggr3g470r/views.py:634 pyaggr3g470r/views.py:774
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
 
-#: pyaggr3g470r/views.py:643 pyaggr3g470r/views.py:717
-#: pyaggr3g470r/views.py:726 pyaggr3g470r/views.py:766
+#: pyaggr3g470r/views.py:652 pyaggr3g470r/views.py:724
+#: pyaggr3g470r/views.py:734 pyaggr3g470r/views.py:774
 msgid "User"
 msgstr "Utilisateur"
 
-#: pyaggr3g470r/views.py:662
+#: pyaggr3g470r/views.py:671
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: pyaggr3g470r/views.py:664 pyaggr3g470r/views.py:752
-#: pyaggr3g470r/views.py:768
+#: pyaggr3g470r/views.py:673 pyaggr3g470r/views.py:760
+#: pyaggr3g470r/views.py:776 pyaggr3g470r/views.py:806
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
-#: pyaggr3g470r/views.py:677
+#: pyaggr3g470r/views.py:686
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: pyaggr3g470r/views.py:679
+#: pyaggr3g470r/views.py:688
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: pyaggr3g470r/views.py:735
+#: pyaggr3g470r/views.py:743
 msgid "Edit the user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/views.py:738 pyaggr3g470r/templates/admin/dashboard.html:33
+#: pyaggr3g470r/views.py:746 pyaggr3g470r/templates/admin/dashboard.html:44
 msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
+
+#: pyaggr3g470r/views.py:795 pyaggr3g470r/views.py:803
+msgid "Account of the user"
+msgstr "Compte de l'utilisateur"
+
+#: pyaggr3g470r/views.py:795
+msgid "successfully activated."
+msgstr "activé avec succès."
+
+#: pyaggr3g470r/views.py:803
+msgid "successfully disabled."
+msgstr "désactivé avec succès."
 
 #: pyaggr3g470r/templates/about.html:5
 msgid ""
@@ -317,17 +329,17 @@ msgstr "Détails"
 #: pyaggr3g470r/templates/favorites.html:18 pyaggr3g470r/templates/feed.html:8
 #: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:13
 #: pyaggr3g470r/templates/unread.html:18
-#: pyaggr3g470r/templates/admin/user.html:47
+#: pyaggr3g470r/templates/admin/user.html:46
 msgid "Edit this feed"
 msgstr "Éditer ce flux"
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/admin/user.html:48
+#: pyaggr3g470r/templates/admin/user.html:47
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/admin/user.html:48
+#: pyaggr3g470r/templates/admin/user.html:47
 msgid "You are going to delete this feed."
 msgstr "Vous allez supprimer ce flux."
 
@@ -406,7 +418,7 @@ msgstr "Articles"
 
 #: pyaggr3g470r/templates/feeds.html:14
 #: pyaggr3g470r/templates/admin/dashboard.html:14
-#: pyaggr3g470r/templates/admin/user.html:34
+#: pyaggr3g470r/templates/admin/user.html:33
 msgid "Actions"
 msgstr "Actions"
 
@@ -574,6 +586,14 @@ msgstr "Exporter les flux au format OPML"
 msgid "Export articles"
 msgstr "Exporter les articles"
 
+#: pyaggr3g470r/templates/signup.html:11
+msgid "Letters, numbers, dots and underscores only."
+msgstr "Lettres,  chiffres, points et '_' seulement."
+
+#: pyaggr3g470r/templates/signup.html:20
+msgid "Minimum 6 characters."
+msgstr "Minimum 6 caractères."
+
 #: pyaggr3g470r/templates/unread.html:6
 msgid "No unread articles"
 msgstr "Pas d'articles non lus"
@@ -586,54 +606,52 @@ msgstr "Articles non lus"
 msgid "Registered users"
 msgstr "Utilisateurs enregistrés"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:24
+#: pyaggr3g470r/templates/admin/dashboard.html:28
 msgid "View this user"
 msgstr "Voir cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:25
+#: pyaggr3g470r/templates/admin/dashboard.html:29
 #: pyaggr3g470r/templates/admin/user.html:8
 msgid "Edit this user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:26
+#: pyaggr3g470r/templates/admin/dashboard.html:36
 msgid "Delete this user"
 msgstr "Supprimer cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:26
+#: pyaggr3g470r/templates/admin/dashboard.html:36
 msgid "You are going to delete this account."
 msgstr "Vous allez supprimer ce compte."
-
-#: pyaggr3g470r/templates/admin/dashboard.html:35
-msgid "As an administrator you are not listed in this table"
-msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"
 
 #: pyaggr3g470r/templates/admin/user.html:9
 msgid "Membership"
 msgstr "Adhésion"
 
-#: pyaggr3g470r/templates/admin/user.html:14
-msgid "Activation key:"
-msgstr "Clé d'activation:"
-
-#: pyaggr3g470r/templates/admin/user.html:23
+#: pyaggr3g470r/templates/admin/user.html:22
 msgid "This user is not subscribed to any feed."
 msgstr "Cet utilisateur n'est pas encore abonné à des flux."
 
-#: pyaggr3g470r/templates/admin/user.html:25
+#: pyaggr3g470r/templates/admin/user.html:24
 msgid "Feeds"
 msgstr "Flux"
 
-#: pyaggr3g470r/templates/admin/user.html:30
+#: pyaggr3g470r/templates/admin/user.html:29
 msgid "Name"
 msgstr "Nom de famille"
 
-#: pyaggr3g470r/templates/admin/user.html:33
+#: pyaggr3g470r/templates/admin/user.html:32
 msgid "Number of articles"
 msgstr "Nombre d'articles"
 
-#: pyaggr3g470r/templates/admin/user.html:54
+#: pyaggr3g470r/templates/admin/user.html:53
 msgid "Add a new feed"
 msgstr "Ajouter un flux"
+
+#~ msgid "As an administrator you are not listed in this table"
+#~ msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"
+
+#~ msgid "Activation key:"
+#~ msgstr "Clé d'activation:"
 
 #~ msgid "First name"
 #~ msgstr "Prénom"
