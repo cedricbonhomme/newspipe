@@ -792,16 +792,16 @@ def disable_user(user_id=None):
             try:
                 emails.new_account_activation(user)
                 user.activation_key = ""
+                flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully activated.'), 'success')
             except Exception as e:
                 flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
 
-            flash('Account of the user "' + user.nickname + '" successfully activated.', 'success')
         else:
             import random, base64, hashlib
             user.activation_key = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
                                                            random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('==')
-            flash('Account of the user "' + user.nickname + '" successfully disabled.', 'success')
+            flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
         db.session.commit()
     else:
-        flash('This user does not exist.', 'danger')
+        flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
