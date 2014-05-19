@@ -65,41 +65,59 @@ def send_email(mfrom, mto, feed, article):
 #
 # Notifications
 #
-def new_account_notification(user):
+def send_heroku(user, subject, plaintext):
+    """
+    Send an email on Heroku via Postmark.
+    """
+    try:
+        message = PMMail(api_key = conf.POSTMARK_API_KEY,
+                        subject = subject,
+                        sender = conf.ADMIN_EMAIL,
+                        to = user.email,
+                        text_body = plaintext)
+        message.send()
+    except Exception as e:
+        pyaggr3g470r_log.error(str(e))
+        raise e
+
+def information_message(subject, plaintext):
+    """
+    Send an information message to the users of the platform.
+    """
+    from pyaggr3g470r.models import User
+    users = User.query.all()
+    emails = [user.email for user in users]
     if conf.ON_HEROKU:
-        try:
-            plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
+        # Postmark has a limit of twenty recipients per message in total.
+        for i in xrange(0, len(emails), 20):
+            send_heroku(", ".join(emails[i:i+20]), subject, plaintext)
+    else:
+        pass
+
+def new_account_notification(user):
+    """
+    Account creation notification.
+    """
+    plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
-
-            message = PMMail(api_key = conf.POSTMARK_API_KEY,
-                    subject = "[pyAggr3g470r] Account activation",
-                    sender = conf.ADMIN_EMAIL,
-                    to = user.email,
-                    text_body = plaintext)
-
-            message.send()
-        except Exception as e:
-            raise e
+    if conf.ON_HEROKU:
+        send_heroku(user, "[pyAggr3g470r] Account creation", plaintext)
     else:
         pass
 
 def new_account_activation(user):
-    if conf.ON_HEROKU:
-        try:
-            plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
+    """
+    Account activation notification.
+    """
+    plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL)
-
-            message = PMMail(api_key = conf.POSTMARK_API_KEY,
-                    subject = "[pyAggr3g470r] Account activation",
-                    sender = conf.ADMIN_EMAIL,
-                    to = user.email,
-                    text_body = plaintext)
-
-            message.send()
-        except Exception as e:
-            raise e
+    if conf.ON_HEROKU:
+        send_heroku(user, "[pyAggr3g470r] Account activated", plaintext)
     else:
         pass
 
 def new_article_notification(user, feed, article):
-    send_email(conf.ADMIN_EMAIL, user.email, feed, article)
+    if conf.ON_HEROKU:
+        pass
+    else:
+        send_email(conf.ADMIN_EMAIL, user.email, feed, article)
