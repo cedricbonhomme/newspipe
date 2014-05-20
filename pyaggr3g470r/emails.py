@@ -75,6 +75,7 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
                         sender = conf.ADMIN_EMAIL,
                         text_body = plaintext)
         if bcc != "":
+            message.to = conf.ADMIN_EMAIL
             message.bcc = bcc
         elif bcc == "":
             message.to = user.email
