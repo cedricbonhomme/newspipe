@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-20 19:30+0200\n"
-"PO-Revision-Date: 2014-05-20 19:36+0100\n"
+"POT-Creation-Date: 2014-05-20 19:39+0200\n"
+"PO-Revision-Date: 2014-05-20 19:40+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -311,7 +311,7 @@ msgstr ""
 
 #: pyaggr3g470r/templates/about.html:9
 msgid ""
-"Find a bug? Report it <a href=\"https://bitbucket.org/cedricbonhomme/"
+"Found a bug? Report it <a href=\"https://bitbucket.org/cedricbonhomme/"
 "pyaggr3g470r/issues\">here</a>."
 msgstr ""
 "Vous avez trouvé un bug? Signalez-le <a href=\"https://bitbucket.org/"
@@ -645,7 +645,6 @@ msgid "Registered users"
 msgstr "Utilisateurs enregistrés"
 
 #: pyaggr3g470r/templates/admin/dashboard.html:14
-#, fuzzy
 msgid "Last seen"
 msgstr "Vue la dernière fois le"
 
