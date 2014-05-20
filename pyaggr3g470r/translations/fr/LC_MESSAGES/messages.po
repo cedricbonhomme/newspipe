@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-16 19:12+0200\n"
-"PO-Revision-Date: 2014-05-16 19:13+0100\n"
+"POT-Creation-Date: 2014-05-20 19:30+0200\n"
+"PO-Revision-Date: 2014-05-20 19:36+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -105,6 +105,26 @@ msgstr "Vérifier les mises à jour"
 msgid "Save"
 msgstr "Sauver"
 
+#: pyaggr3g470r/forms.py:116
+msgid "Subject"
+msgstr "Objet"
+
+#: pyaggr3g470r/forms.py:116
+msgid "Please enter a subject."
+msgstr "S'il vous plaît entrer un objet."
+
+#: pyaggr3g470r/forms.py:117
+msgid "Message"
+msgstr "Message"
+
+#: pyaggr3g470r/forms.py:117
+msgid "Please enter a content."
+msgstr "S'il vous plaît entrer un contenu."
+
+#: pyaggr3g470r/forms.py:118
+msgid "Send"
+msgstr "Envoyer"
+
 #: pyaggr3g470r/views.py:95
 msgid "Authentication required."
 msgstr "Authentification requise."
@@ -125,7 +145,7 @@ msgstr "Déconnecté avec succès."
 msgid "Email already used."
 msgstr "Email déjà utilisé."
 
-#: pyaggr3g470r/views.py:201 pyaggr3g470r/views.py:797
+#: pyaggr3g470r/views.py:201 pyaggr3g470r/views.py:806
 msgid "Problem while sending activation email"
 msgstr "Problème lors de l'envoi d'email d'activation"
 
@@ -200,11 +220,11 @@ msgid "Feed"
 msgstr "Flux"
 
 #: pyaggr3g470r/views.py:596 pyaggr3g470r/views.py:652
-#: pyaggr3g470r/views.py:724
+#: pyaggr3g470r/views.py:733
 msgid "successfully updated."
 msgstr "mis à jour avec succès."
 
-#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:734
+#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:743
 msgid "successfully created."
 msgstr "créé avec succès."
 
@@ -220,12 +240,12 @@ msgstr "Éditez ce flux"
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
-#: pyaggr3g470r/views.py:634 pyaggr3g470r/views.py:774
+#: pyaggr3g470r/views.py:634 pyaggr3g470r/views.py:783
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
 
-#: pyaggr3g470r/views.py:652 pyaggr3g470r/views.py:724
-#: pyaggr3g470r/views.py:734 pyaggr3g470r/views.py:774
+#: pyaggr3g470r/views.py:652 pyaggr3g470r/views.py:733
+#: pyaggr3g470r/views.py:743 pyaggr3g470r/views.py:783
 msgid "User"
 msgstr "Utilisateur"
 
@@ -233,8 +253,8 @@ msgstr "Utilisateur"
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: pyaggr3g470r/views.py:673 pyaggr3g470r/views.py:760
-#: pyaggr3g470r/views.py:776 pyaggr3g470r/views.py:806
+#: pyaggr3g470r/views.py:673 pyaggr3g470r/views.py:769
+#: pyaggr3g470r/views.py:785 pyaggr3g470r/views.py:815
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
@@ -246,27 +266,37 @@ msgstr "Votre compte a été confirmé."
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: pyaggr3g470r/views.py:743
+#: pyaggr3g470r/views.py:708
+msgid "Problem while sending email"
+msgstr "Problème lors de l'envoi de l'email"
+
+#: pyaggr3g470r/views.py:752
 msgid "Edit the user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/views.py:746 pyaggr3g470r/templates/admin/dashboard.html:44
+#: pyaggr3g470r/views.py:755 pyaggr3g470r/templates/admin/dashboard.html:45
 msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
 
-#: pyaggr3g470r/views.py:795 pyaggr3g470r/views.py:803
+#: pyaggr3g470r/views.py:804 pyaggr3g470r/views.py:812
 msgid "Account of the user"
 msgstr "Compte de l'utilisateur"
 
-#: pyaggr3g470r/views.py:795
+#: pyaggr3g470r/views.py:804
 msgid "successfully activated."
 msgstr "activé avec succès."
 
-#: pyaggr3g470r/views.py:803
+#: pyaggr3g470r/views.py:812
 msgid "successfully disabled."
 msgstr "désactivé avec succès."
 
 #: pyaggr3g470r/templates/about.html:5
+msgid "pyAggr3g470r is a simple news aggregator you can use everywhere."
+msgstr ""
+"pyAggr3g470r est un simple agrégateur de nouvelles que vous pouvez utiliser "
+"partout."
+
+#: pyaggr3g470r/templates/about.html:6
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or\n"
 "        redistribute the <a href=\"https://bitbucket.org/cedricbonhomme/"
@@ -278,6 +308,14 @@ msgstr ""
 "redistribuer le <a href=\"https://bitbucket.org/cedricbonhomme/pyaggr3g470r/"
 "\">code source</a> selon la licence <a href=\"https://www.gnu.org/licenses/"
 "agpl-3.0.html\">Affero GPL</a>."
+
+#: pyaggr3g470r/templates/about.html:9
+msgid ""
+"Find a bug? Report it <a href=\"https://bitbucket.org/cedricbonhomme/"
+"pyaggr3g470r/issues\">here</a>."
+msgstr ""
+"Vous avez trouvé un bug? Signalez-le <a href=\"https://bitbucket.org/"
+"cedricbonhomme/pyaggr3g470r/issues\">ici</a>."
 
 #: pyaggr3g470r/templates/article.html:10
 msgid "from"
@@ -417,7 +455,7 @@ msgid "Articles"
 msgstr "Articles"
 
 #: pyaggr3g470r/templates/feeds.html:14
-#: pyaggr3g470r/templates/admin/dashboard.html:14
+#: pyaggr3g470r/templates/admin/dashboard.html:15
 #: pyaggr3g470r/templates/admin/user.html:33
 msgid "Actions"
 msgstr "Actions"
@@ -606,22 +644,31 @@ msgstr "Articles non lus"
 msgid "Registered users"
 msgstr "Utilisateurs enregistrés"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:28
+#: pyaggr3g470r/templates/admin/dashboard.html:14
+#, fuzzy
+msgid "Last seen"
+msgstr "Vue la dernière fois le"
+
+#: pyaggr3g470r/templates/admin/dashboard.html:30
 msgid "View this user"
 msgstr "Voir cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:29
+#: pyaggr3g470r/templates/admin/dashboard.html:31
 #: pyaggr3g470r/templates/admin/user.html:8
 msgid "Edit this user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:36
+#: pyaggr3g470r/templates/admin/dashboard.html:38
 msgid "Delete this user"
 msgstr "Supprimer cet utilisateur"
 
-#: pyaggr3g470r/templates/admin/dashboard.html:36
+#: pyaggr3g470r/templates/admin/dashboard.html:38
 msgid "You are going to delete this account."
 msgstr "Vous allez supprimer ce compte."
+
+#: pyaggr3g470r/templates/admin/dashboard.html:46
+msgid "Send notification messages"
+msgstr "Envoyer des messages de notification"
 
 #: pyaggr3g470r/templates/admin/user.html:9
 msgid "Membership"
@@ -643,9 +690,8 @@ msgstr "Nom de famille"
 msgid "Number of articles"
 msgstr "Nombre d'articles"
 
-#: pyaggr3g470r/templates/admin/user.html:53
-msgid "Add a new feed"
-msgstr "Ajouter un flux"
+#~ msgid "Add a new feed"
+#~ msgstr "Ajouter un flux"
 
 #~ msgid "As an administrator you are not listed in this table"
 #~ msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"

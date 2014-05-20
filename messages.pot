@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-16 19:12+0200\n"
+"POT-Creation-Date: 2014-05-20 19:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,6 +101,26 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: pyaggr3g470r/forms.py:116
+msgid "Subject"
+msgstr ""
+
+#: pyaggr3g470r/forms.py:116
+msgid "Please enter a subject."
+msgstr ""
+
+#: pyaggr3g470r/forms.py:117
+msgid "Message"
+msgstr ""
+
+#: pyaggr3g470r/forms.py:117
+msgid "Please enter a content."
+msgstr ""
+
+#: pyaggr3g470r/forms.py:118
+msgid "Send"
+msgstr ""
+
 #: pyaggr3g470r/views.py:95
 msgid "Authentication required."
 msgstr ""
@@ -121,7 +141,7 @@ msgstr ""
 msgid "Email already used."
 msgstr ""
 
-#: pyaggr3g470r/views.py:201 pyaggr3g470r/views.py:797
+#: pyaggr3g470r/views.py:201 pyaggr3g470r/views.py:806
 msgid "Problem while sending activation email"
 msgstr ""
 
@@ -196,11 +216,11 @@ msgid "Feed"
 msgstr ""
 
 #: pyaggr3g470r/views.py:596 pyaggr3g470r/views.py:652
-#: pyaggr3g470r/views.py:724
+#: pyaggr3g470r/views.py:733
 msgid "successfully updated."
 msgstr ""
 
-#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:734
+#: pyaggr3g470r/views.py:608 pyaggr3g470r/views.py:743
 msgid "successfully created."
 msgstr ""
 
@@ -216,12 +236,12 @@ msgstr ""
 msgid "Add a feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:634 pyaggr3g470r/views.py:774
+#: pyaggr3g470r/views.py:634 pyaggr3g470r/views.py:783
 msgid "successfully deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:652 pyaggr3g470r/views.py:724
-#: pyaggr3g470r/views.py:734 pyaggr3g470r/views.py:774
+#: pyaggr3g470r/views.py:652 pyaggr3g470r/views.py:733
+#: pyaggr3g470r/views.py:743 pyaggr3g470r/views.py:783
 msgid "User"
 msgstr ""
 
@@ -229,8 +249,8 @@ msgstr ""
 msgid "Your account has been deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:673 pyaggr3g470r/views.py:760
-#: pyaggr3g470r/views.py:776 pyaggr3g470r/views.py:806
+#: pyaggr3g470r/views.py:673 pyaggr3g470r/views.py:769
+#: pyaggr3g470r/views.py:785 pyaggr3g470r/views.py:815
 msgid "This user does not exist."
 msgstr ""
 
@@ -242,27 +262,35 @@ msgstr ""
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: pyaggr3g470r/views.py:743
+#: pyaggr3g470r/views.py:708
+msgid "Problem while sending email"
+msgstr ""
+
+#: pyaggr3g470r/views.py:752
 msgid "Edit the user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:746 pyaggr3g470r/templates/admin/dashboard.html:44
+#: pyaggr3g470r/views.py:755 pyaggr3g470r/templates/admin/dashboard.html:45
 msgid "Add a new user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:795 pyaggr3g470r/views.py:803
+#: pyaggr3g470r/views.py:804 pyaggr3g470r/views.py:812
 msgid "Account of the user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:795
+#: pyaggr3g470r/views.py:804
 msgid "successfully activated."
 msgstr ""
 
-#: pyaggr3g470r/views.py:803
+#: pyaggr3g470r/views.py:812
 msgid "successfully disabled."
 msgstr ""
 
 #: pyaggr3g470r/templates/about.html:5
+msgid "pyAggr3g470r is a simple news aggregator you can use everywhere."
+msgstr ""
+
+#: pyaggr3g470r/templates/about.html:6
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
@@ -272,6 +300,12 @@ msgid ""
 "        according to the <a "
 "href=\"https://www.gnu.org/licenses/agpl-3.0.html\">Affero GPL</a> "
 "license."
+msgstr ""
+
+#: pyaggr3g470r/templates/about.html:9
+msgid ""
+"Find a bug? Report it <a "
+"href=\"https://bitbucket.org/cedricbonhomme/pyaggr3g470r/issues\">here</a>."
 msgstr ""
 
 #: pyaggr3g470r/templates/article.html:10
@@ -408,7 +442,7 @@ msgid "Articles"
 msgstr ""
 
 #: pyaggr3g470r/templates/feeds.html:14
-#: pyaggr3g470r/templates/admin/dashboard.html:14
+#: pyaggr3g470r/templates/admin/dashboard.html:15
 #: pyaggr3g470r/templates/admin/user.html:33
 msgid "Actions"
 msgstr ""
@@ -597,21 +631,29 @@ msgstr ""
 msgid "Registered users"
 msgstr ""
 
-#: pyaggr3g470r/templates/admin/dashboard.html:28
+#: pyaggr3g470r/templates/admin/dashboard.html:14
+msgid "Last seen"
+msgstr ""
+
+#: pyaggr3g470r/templates/admin/dashboard.html:30
 msgid "View this user"
 msgstr ""
 
-#: pyaggr3g470r/templates/admin/dashboard.html:29
+#: pyaggr3g470r/templates/admin/dashboard.html:31
 #: pyaggr3g470r/templates/admin/user.html:8
 msgid "Edit this user"
 msgstr ""
 
-#: pyaggr3g470r/templates/admin/dashboard.html:36
+#: pyaggr3g470r/templates/admin/dashboard.html:38
 msgid "Delete this user"
 msgstr ""
 
-#: pyaggr3g470r/templates/admin/dashboard.html:36
+#: pyaggr3g470r/templates/admin/dashboard.html:38
 msgid "You are going to delete this account."
+msgstr ""
+
+#: pyaggr3g470r/templates/admin/dashboard.html:46
+msgid "Send notification messages"
 msgstr ""
 
 #: pyaggr3g470r/templates/admin/user.html:9
@@ -632,9 +674,5 @@ msgstr ""
 
 #: pyaggr3g470r/templates/admin/user.html:32
 msgid "Number of articles"
-msgstr ""
-
-#: pyaggr3g470r/templates/admin/user.html:53
-msgid "Add a new feed"
 msgstr ""
 
