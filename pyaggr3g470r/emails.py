@@ -93,8 +93,13 @@ def information_message(subject, plaintext):
     emails = [user.email for user in users]
     if conf.ON_HEROKU:
         # Postmark has a limit of twenty recipients per message in total.
-        for i in xrange(0, len(emails), 20):
-            send_heroku(bcc=", ".join(emails[i:i+20]), subject=subject, plaintext=plaintext)
+        #for i in xrange(0, len(emails), 20):
+            #send_heroku(bcc=", ".join(emails[i:i+20]), subject=subject, plaintext=plaintext)
+        for user in users:
+            try:
+                send_heroku(user=user, subject=subject, plaintext=plaintext)
+            except:
+                continue
     else:
         pass
 
