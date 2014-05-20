@@ -72,10 +72,12 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
     try:
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
                         subject = subject,
+                        message.to = user.email,
                         sender = conf.ADMIN_EMAIL,
                         text_body = plaintext)
         if bcc != "" and None == user:
             message.bcc = bcc
+            message.to = ""
         elif bcc == "" and None != user:
             message.to = user.email
         message.send()
@@ -104,7 +106,7 @@ def new_account_notification(user):
     plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
     if conf.ON_HEROKU:
-        send_heroku(user=user, subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
+        send_heroku(user=user, bcc="", subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
     else:
         pass
 
@@ -115,7 +117,7 @@ def new_account_activation(user):
     plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL)
     if conf.ON_HEROKU:
-        send_heroku(user=user, subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
+        send_heroku(user=user, bcc="", subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
     else:
         pass
 
