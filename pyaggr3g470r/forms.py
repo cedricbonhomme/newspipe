@@ -111,3 +111,8 @@ class ProfileForm(Form):
             self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
             return False
         return True
+
+class InformationMessageForm(Form):
+    subject = TextField(lazy_gettext("Subject"), [validators.Required(lazy_gettext("Please enter a subject."))])
+    message = TextAreaField(lazy_gettext("Message"), [validators.Required(lazy_gettext("Please enter a content."))])
+    submit = SubmitField(lazy_gettext("Send"))

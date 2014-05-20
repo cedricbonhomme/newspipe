@@ -40,7 +40,19 @@
     {% endfor %}
     </tbody>
 </table>
-<br />
 <a href="/admin/create_user/" class="btn btn-default">{{ _('Add a new user') }}</a>
+<h1>{{ _('Send notification messages') }}</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.subject.label }}
+    {{ form.subject(class_="form-control") }} {% for error in form.subject.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+    {{ form.message.label }}
+    {{ form.message(class_="form-control", rows=8) }} {% for error in form.message.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+    <br />
+    {{ form.submit(class_="btn") }}
+</form>
 </div>
 {% endblock %}

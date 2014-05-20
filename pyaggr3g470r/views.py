@@ -43,7 +43,7 @@ import export
 import emails
 if not conf.ON_HEROKU:
     import search as fastsearch
-from forms import SignupForm, SigninForm, AddFeedForm, ProfileForm
+from forms import SignupForm, SigninForm, AddFeedForm, ProfileForm, InformationMessageForm
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -698,8 +698,17 @@ def dashboard():
     """
     Adminstrator's dashboard.
     """
+    form = InformationMessageForm()
+
+    if request.method == 'POST':
+        if form.validate():
+            try:
+                emails.information_message(form.subject.data, form.message.data)
+            except Exception as e:
+                flash(gettext('Problem while sending email') + ': ' + str(e), 'danger')
+
     users = User.query.all()
-    return render_template('admin/dashboard.html', users=users, current_user=g.user)
+    return render_template('admin/dashboard.html', users=users, current_user=g.user, form=form)
 
 @app.route('/admin/create_user/', methods=['GET', 'POST'])
 @app.route('/admin/edit_user/<int:user_id>/', methods=['GET', 'POST'])

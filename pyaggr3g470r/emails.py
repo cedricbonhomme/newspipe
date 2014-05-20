@@ -65,7 +65,7 @@ def send_email(mfrom, mto, feed, article):
 #
 # Notifications
 #
-def send_heroku(user, subject, plaintext):
+def send_heroku(user=None, bcc="", subject="", plaintext=""):
     """
     Send an email on Heroku via Postmark.
     """
@@ -73,8 +73,11 @@ def send_heroku(user, subject, plaintext):
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
                         subject = subject,
                         sender = conf.ADMIN_EMAIL,
-                        to = user.email,
                         text_body = plaintext)
+        if bcc != "" and None == user:
+            message.bcc = bcc
+        elif bcc == "" and None != user:
+            message.to = user.email
         message.send()
     except Exception as e:
         pyaggr3g470r_log.error(str(e))
@@ -90,7 +93,7 @@ def information_message(subject, plaintext):
     if conf.ON_HEROKU:
         # Postmark has a limit of twenty recipients per message in total.
         for i in xrange(0, len(emails), 20):
-            send_heroku(", ".join(emails[i:i+20]), subject, plaintext)
+            send_heroku(bcc=", ".join(emails[i:i+20]), subject=subject, plaintext=plaintext)
     else:
         pass
 
@@ -101,7 +104,7 @@ def new_account_notification(user):
     plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
     if conf.ON_HEROKU:
-        send_heroku(user, "[pyAggr3g470r] Account creation", plaintext)
+        send_heroku(user=user, subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
     else:
         pass
 
@@ -112,7 +115,7 @@ def new_account_activation(user):
     plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL)
     if conf.ON_HEROKU:
-        send_heroku(user, "[pyAggr3g470r] Account activated", plaintext)
+        send_heroku(user=user, subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
     else:
         pass
 
