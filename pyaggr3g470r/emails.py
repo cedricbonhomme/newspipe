@@ -72,7 +72,7 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
     try:
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
                         subject = subject,
-                        message.to = user.email,
+                        to = user.email,
                         sender = conf.ADMIN_EMAIL,
                         text_body = plaintext)
         if bcc != "" and None == user:
