@@ -3,11 +3,11 @@
 <div class="container-fluid">
     <div classe="row">
         <div class="col-md-3">
-            <ul class="nav navbarfeed">
-            {% for feed in result|sort(attribute="title") %}
-                <li class="navbarfeed">
+            <ul class="nav">
+            {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
+                <li>
                     <a href="#{{ feed.id }}">
-                        {% if unread[feed.id] != 0 %}<span class="badge pull-right">{{ unread[feed.id] }}</span>{% endif %}
+                        {% if feed.nb_unread != 0 %}<span class="badge pull-right">{{ feed.nb_unread }}</span>{% endif %}
                         {{ feed.title|safe }}
                     </a>
                 </li>
@@ -22,8 +22,8 @@
                     <div class="row" id="{{ feed.id }}">
                         <div class="col-md-6 col-md-offset-3">
                             <h1>{{ feed.title|safe }}
-                            {% if unread[feed.id] != 0 %}
-                                <a href="/unread/{{ feed.id  }}" title="Unread articles"><span class="badge">{{ unread[feed.id] }}</span></a>
+                            {% if feed.nb_unread != 0 %}
+                                <a href="/unread/{{ feed.id  }}" title="Unread articles"><span class="badge">{{ feed.nb_unread }}</span></a>
                             {% endif %}</h1>
                             <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
                             <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
@@ -31,7 +31,7 @@
                             {% if feed.enabled %}
                                 <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="{{ _('Fetch this feed') }}"></i></a>
                             {% endif %}
-                            {% if unread[feed.id] != 0 %}
+                            {% if feed.nb_unread != 0 %}
                                 <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
                             {% endif %}
                         </div>

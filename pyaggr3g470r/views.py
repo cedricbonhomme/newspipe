@@ -215,13 +215,13 @@ def home():
     user = User.query.filter(User.email == g.user.email).first()
     result, unread = [], {}
     for feed in user.feeds:
-        unread[feed.id] = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).count()
         new_feed = Feed()
         new_feed.id = feed.id
         new_feed.title = feed.title
         new_feed.enabled = feed.enabled
         new_feed.articles = Article.query.filter(Article.user_id == g.user.id,
                                                  Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
+        new_feed.nb_unread = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).count()
         result.append(new_feed)
     unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
     return render_template('home.html', result=result, unread=unread, head_title=unread_articles)
