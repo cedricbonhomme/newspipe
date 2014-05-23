@@ -403,13 +403,17 @@ def favorites():
             nb_favorites += length
     return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
+@app.route('/unread/<int:feed_id>/', methods=['GET'])
 @app.route('/unread/', methods=['GET'])
 @login_required
-def unread():
+def unread(feed_id=None):
     """
     List unread articles.
     """
-    feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
+    if feed_id is not None:
+        feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id)
+    else:
+        feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
     result, nb_unread = [], 0
     for feed in feeds_with_unread:
         new_feed = Feed()
