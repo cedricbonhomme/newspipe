@@ -743,7 +743,7 @@ def create_user(user_id=None):
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
             return redirect("/admin/edit_user/"+str(user.id)+"/")
         else:
-            return render_template('profile.html', form=form)
+            return redirect(url_for('create_user'))
 
     if request.method == 'GET':
         if user_id is not None:
