@@ -7,14 +7,19 @@
         {% for feed in result|sort(attribute="title") %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                <h1>{{ feed.title|safe }}</h1>
+                <h1>{{ feed.title|safe }}
+                {% if unread[feed.id] != 0 %}
+                    <a href="/unread/{{ feed.id  }}" title="Unread articles"><span class="badge">{{ unread[feed.id] }}</span></a>
+                {% endif %}</h1>
                 <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
                 <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
                 {% if feed.enabled %}
                     <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="{{ _('Fetch this feed') }}"></i></a>
                 {% endif %}
-                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
+                {% if unread[feed.id] != 0 %}
+                    <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
+                {% endif %}
                 </div>
             </div>
             {% for number in range(0, feed.articles.all()|count-(feed.articles.all()|count % 3), 3) %}
