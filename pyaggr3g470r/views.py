@@ -214,7 +214,7 @@ def home():
     """
     #user = User.query.filter(User.email == g.user.email).first()
     result, unread = [], {}
-    for feed in g.feeds:
+    for feed in g.user.eeds:
         new_feed = Feed()
         new_feed.id = feed.id
         new_feed.title = feed.title
