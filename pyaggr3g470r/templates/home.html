@@ -7,7 +7,7 @@
             {% for feed in result|sort(attribute="title") %}
                 <li>
                     <a href="#{{ feed.id }}">
-                        <span class="badge pull-right">{{ unread[feed.id] }}</span>
+                        {% if unread[feed.id] != 0 %}<span class="badge pull-right">{{ unread[feed.id] }}</span>{% endif %}
                         {{ feed.title|safe }}
                     </a>
                 </li>
