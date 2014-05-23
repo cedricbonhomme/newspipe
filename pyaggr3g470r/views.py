@@ -212,9 +212,9 @@ def home():
     """
     The home page lists most recent articles of all feeds.
     """
-    user = User.query.filter(User.email == g.user.email).first()
+    #user = User.query.filter(User.email == g.user.email).first()
     result, unread = [], {}
-    for feed in user.feeds:
+    for feed in g.feeds:
         new_feed = Feed()
         new_feed.id = feed.id
         new_feed.title = feed.title
