@@ -3,9 +3,9 @@
 <div class="container-fluid">
     <div classe="row">
         <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked" ui-sortable="sortableOptions">
+            <ul class="nav navbarfeed">
             {% for feed in result|sort(attribute="title") %}
-                <li>
+                <li class="navbarfeed">
                     <a href="#{{ feed.id }}">
                         {% if unread[feed.id] != 0 %}<span class="badge pull-right">{{ unread[feed.id] }}</span>{% endif %}
                         {{ feed.title|safe }}
