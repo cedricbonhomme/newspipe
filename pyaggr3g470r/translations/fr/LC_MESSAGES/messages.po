@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-05-27 19:03+0200\n"
-"PO-Revision-Date: 2014-05-27 19:04+0100\n"
+"PO-Revision-Date: 2014-05-27 19:09+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -636,7 +636,7 @@ msgstr "Importer un compte"
 
 #: pyaggr3g470r/templates/management.html:44
 msgid "Export account to JSON"
-msgstr "Exporter le compte au format"
+msgstr "Exporter le compte au format JSON"
 
 #: pyaggr3g470r/templates/management.html:47
 msgid "Export articles"
