@@ -17,7 +17,7 @@
         <div class="col-md-9">
             {% if result|count == 0 %}
                 <h1>{{ _("You don't have any feeds.") }}</h1>
-                <h1><a href="/create_feed/">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management/#import-opml">{{ _('upload an OPML file.') }}</a></h1>
+                <h1><a href="/create_feed/">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management/#import">{{ _('upload an OPML file.') }}</a></h1>
             {% else %}
                 {% for feed in result|sort(attribute="title") %}
                     <div class="row" id="{{ feed.id }}">
