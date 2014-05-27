@@ -143,6 +143,7 @@ def import_json(email, json_file):
     json_account = json.loads(json_string)
     nb_feeds, nb_articles = 0, 0
 
+    # Create feeds
     for feed in json_account["result"]:
         
         if None != Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first():
@@ -156,18 +157,24 @@ def import_json(email, json_file):
         nb_feeds += 1    
     db.session.commit()
 
+    # Create articles
     for feed in json_account["result"]:
         user_feed = Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first()
         if None != user_feed:        
             for article in feed["articles"]:
-                new_article = Article(link=article["link"], title=article["title"], \
-                                        content=article["content"], readed=article["readed"], like=article["like"], \
-                                        retrieved_date=datetime.datetime.fromtimestamp(int(article["retrieved_date"])),
-                                        date=datetime.datetime.fromtimestamp(int(article["date"])),
-                                        user_id=user.id, feed_id=user_feed.id)
-        
-                user_feed.articles.append(new_article)
-                nb_articles += 1
+                
+                if None == Article.query.filter(Article.user_id == user.id,
+                                        Article.feed_id == user_feed.id,
+                                        Article.link == article["link"]).first():
+                
+                    new_article = Article(link=article["link"], title=article["title"], \
+                                            content=article["content"], readed=article["readed"], like=article["like"], \
+                                            retrieved_date=datetime.datetime.fromtimestamp(int(article["retrieved_date"])),
+                                            date=datetime.datetime.fromtimestamp(int(article["date"])),
+                                            user_id=user.id, feed_id=user_feed.id)
+            
+                    user_feed.articles.append(new_article)
+                    nb_articles += 1
     db.session.commit()
 
     return nb_feeds, nb_articles
