@@ -130,6 +130,12 @@ def import_opml(email, opml_file):
     db.session.commit()
     return nb
 
+def import_json(email, json_file):
+    """
+    Import an account from a JSON file.
+    """
+    user = User.query.filter(User.email == email).first()
+    
 
 def clean_url(url):
     """

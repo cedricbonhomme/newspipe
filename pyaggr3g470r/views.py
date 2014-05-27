@@ -551,18 +551,34 @@ def management():
     Display the management page.
     """
     if request.method == 'POST':
-        # Import an OPML file
-        data = request.files.get('opmlfile', None)
-        if None == data or not allowed_file(data.filename):
-            flash(gettext('File not allowed.'), 'danger')
+        if None != request.files.get('opmlfile', None):
+            # Import an OPML file
+            data = request.files.get('opmlfile', None)
+            if not allowed_file(data.filename):
+                flash(gettext('File not allowed.'), 'danger')
+            else:
+                opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
+                data.save(opml_path)
+                try:
+                    nb = utils.import_opml(g.user.email, opml_path)
+                    flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
+                except Exception as e:
+                    flash(gettext("Impossible to import the new feeds."), "danger")
+        elif None != request.files.get('jsonfile', None):
+            # Import an account
+            data = request.files.get('jsonfile', None)
+            if not allowed_file(data.filename):
+                flash(gettext('File not allowed.'), 'danger')
+            else:
+                json_path = os.path.join("./pyaggr3g470r/var/", data.filename)
+                data.save(json_path)
+                try:
+                    utils.import_json(g.user.email, json_path)
+                    flash(gettext('Account imported.'), "success")
+                except:
+                    flash(gettext("Impossible to import the account."), "danger")
         else:
-            opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
-            data.save(opml_path)
-            try:
-                nb = utils.import_opml(g.user.email, opml_path)
-                flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
-            except Exception as e:
-                flash(gettext("Impossible to import the new feeds."), "danger")
+            flash(gettext('File not allowed.'), 'danger')
 
 
     form = AddFeedForm()
