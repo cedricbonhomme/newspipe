@@ -214,15 +214,15 @@ def export_json(user):
                         "site_link": feed.site_link,
                         "email_notification": feed.email_notification,
                         "enabled": feed.enabled,
-                        "created_date": feed.created_date,
+                        "created_date": feed.created_date.strftime('%s'),
                         "articles": [ {
                                         "title": article.title,
                                         "link": article.link,
                                         "content": article.content,
                                         "readed": article.readed,
                                         "like": article.like,
-                                        "date": article.date,
-                                        "retrieved_date": article.retrieved_date
+                                        "date": article.date.strftime('%s'),
+                                        "retrieved_date": article.retrieved_date.strftime('%s')
                                       }
                                         for article in feed.articles
                                     ]

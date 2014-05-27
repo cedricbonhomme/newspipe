@@ -491,7 +491,7 @@ def export_articles():
             return redirect(redirect_url())
         response = make_response(json_result)
         response.mimetype = 'application/json'
-        response.headers["Content-Disposition"] = 'attachment; filename=articles.json'
+        response.headers["Content-Disposition"] = 'attachment; filename=account.json'
     else:
         flash(gettext('Export format not supported.'), 'warning')
         return redirect(redirect_url())
@@ -573,7 +573,7 @@ def management():
                 json_path = os.path.join("./pyaggr3g470r/var/", data.filename)
                 data.save(json_path)
                 try:
-                    utils.import_json(g.user.email, json_path)
+                    nb = utils.import_json(g.user.email, json_path)
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."), "danger")
@@ -582,11 +582,11 @@ def management():
 
 
     form = AddFeedForm()
-    user = User.query.filter(User.id == g.user.id).first()
-    nb_feeds = len(user.feeds.all())
+    #user = User.query.filter(User.id == g.user.id).first()
+    nb_feeds = len(g.user.feeds.all())
     nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
     nb_unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
-    return render_template('management.html', user=user, form=form, \
+    return render_template('management.html', user=g.user, form=form, \
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles, \
                             not_on_heroku = not conf.ON_HEROKU)
 

@@ -37,6 +37,8 @@ __license__ = "AGPLv3"
 import re
 import glob
 import opml
+import json
+import datetime
 import operator
 from urllib import urlencode
 from urlparse import urlparse, parse_qs, urlunparse
@@ -47,7 +49,7 @@ from contextlib import contextmanager
 
 import conf
 from pyaggr3g470r import db
-from pyaggr3g470r.models import User, Feed
+from pyaggr3g470r.models import User, Feed, Article
 
 # regular expression to check URL
 url_finders = [
@@ -110,7 +112,7 @@ def import_opml(email, opml_file):
                 except:
                     continue
 
-                if None != Feed.query.filter(Feed.link == link).first():
+                if None != Feed.query.filter(Feed.user_id == user.id, Feed.link == link).first():
                     continue
 
                 try:
@@ -135,6 +137,40 @@ def import_json(email, json_file):
     Import an account from a JSON file.
     """
     user = User.query.filter(User.email == email).first()
+    json_string = ""
+    with open(json_file, "r") as account:
+        json_string = account.read()
+    json_account = json.loads(json_string)
+    nb_feeds, nb_articles = 0, 0
+
+    for feed in json_account["result"]:
+        
+        if None != Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first():
+            continue
+    
+        new_feed = Feed(title=feed["title"], description="", link=feed["link"], \
+                                    site_link=feed["site_link"], email_notification=feed["email_notification"], \
+                                    created_date=datetime.datetime.fromtimestamp(int(feed["created_date"])),
+                                    enabled=feed["enabled"])
+        user.feeds.append(new_feed)
+        nb_feeds += 1    
+    db.session.commit()
+
+    for feed in json_account["result"]:
+        user_feed = Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first()
+        if None != user_feed:        
+            for article in feed["articles"]:
+                new_article = Article(link=article["link"], title=article["title"], \
+                                        content=article["content"], readed=article["readed"], like=article["like"], \
+                                        retrieved_date=datetime.datetime.fromtimestamp(int(article["retrieved_date"])),
+                                        date=datetime.datetime.fromtimestamp(int(article["date"])),
+                                        user_id=user.id, feed_id=user_feed.id)
+        
+                user_feed.articles.append(new_article)
+                nb_articles += 1
+    db.session.commit()
+
+    return nb_feeds, nb_articles
     
 
 def clean_url(url):
