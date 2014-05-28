@@ -12,13 +12,14 @@ Features
 ========
 
 * can be deployed on Heroku or on a traditional server;
-* HTTP proxy support;
-* feeds batch import with OPML files;
-* export all your feeds to OPML;
-* e-mail notification;
+* data liberation: export/import all your account with a JSON file;
+* export/import feeds with OPML files;
 * export articles to HTML;
+* e-mail notification;
 * favorite articles;
-* share articles with Google +, Pinboard and reddit.
+* detection of inactive feeds;
+* share articles with Google +, Pinboard and reddit;
+* HTTP proxy support.
 
 
 Usage
