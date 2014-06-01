@@ -2,8 +2,8 @@
 {% block content %}
 <div class="container-fluid">
     <div classe="row">
-        <div id="affix-nav" class="sidebar col-md-4 hidden-xs hidden-sm">
-            <ul class="nav sidenav affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
+        <div id="affix-nav" class="col-md-4 sidebar hidden-xs hidden-sm">
+            <ul class="nav sidenav affix affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
             {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
                 <li>
                     <a href="#{{ feed.id }}">
