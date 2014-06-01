@@ -2,17 +2,17 @@
 {% block content %}
 <div class="container-fluid">
     <div classe="row">
-        <div id="affix-nav" class="sidebar col-md-4">
-        <ul class="nav sidenav affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
-        {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
-            <li>
-                <a href="#{{ feed.id }}">
-                    {% if feed.nb_unread != 0 %}<span class="badge pull-right">{{ feed.nb_unread }}</span>{% endif %}
-                    {{ feed.title|safe }}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
+        <div id="affix-nav" class="sidebar col-md-4 hidden-xs hidden-sm">
+            <ul class="nav sidenav affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
+            {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
+                <li>
+                    <a href="#{{ feed.id }}">
+                        {% if feed.nb_unread != 0 %}<span class="badge pull-right">{{ feed.nb_unread }}</span>{% endif %}
+                        {{ feed.title|safe }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
         </div>
         <div class="col-md-8">
             {% if result|count == 0 %}
