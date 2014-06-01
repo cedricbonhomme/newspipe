@@ -17,7 +17,62 @@ deployed on Heroku or on a traditional server." />
 
     <!-- Add custom CSS here -->
     <style>
-        body {margin-top: 60px;}
+        body {
+            margin-top: 60px;
+        }
+        div.top {
+            position: relative;
+            top:-60px;
+            display: block;
+            height: 0;
+        }
+        ul.affix {
+            position: fixed; 
+            top: 0px;
+        }
+        ul.affix-top {
+            position: static;
+        }
+        ul.affix-bottom {
+            position: absolute;
+        }
+        /* First level of nav */
+        .sidenav {
+            margin-top: 60px;
+            margin-bottom: 30px;
+            padding-top:    10px;
+            padding-bottom: 10px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            font-size: 90%;
+        }
+        /* All levels of nav */
+        .sidebar .nav > li > a {
+            display: block;
+            color: #716b7a;
+            padding: 5px 20px;
+        }
+        .sidebar .nav > li > a:hover,
+        .sidebar .nav > li > a:focus {
+            text-decoration: none;
+            background-color: #e5e3e9;
+        }
+        .sidebar .nav > .active > a,
+        .sidebar .nav > .active:hover > a,
+        .sidebar .nav > .active:focus > a {
+            font-weight: bold;
+            color: #563d7c;
+            background-color: transparent;
+        }
+        /* Nav: second level */
+        .sidebar .nav .nav {
+            margin-bottom: 8px;
+        }
+        .sidebar .nav .nav > li > a {
+            padding-top:    3px;
+            padding-bottom: 3px;
+            font-size: 80%;
+        }
     </style>
 
   </head>

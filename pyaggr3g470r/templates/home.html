@@ -2,8 +2,8 @@
 {% block content %}
 <div class="container-fluid">
     <div classe="row">
-        <nav id="affix-nav" class="col-md-2">
-        <ul class="nav sidenav" data-spy="affix" data-offset-top="10" data-offset-bottom="150">
+        <div id="affix-nav" class="sidebar col-md-4">
+        <ul class="nav sidenav affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
         {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
             <li>
                 <a href="#{{ feed.id }}">
@@ -13,14 +13,15 @@
             </li>
         {% endfor %}
         </ul>
-        </nav>
-        <div class="col-md-9 col-md-offset-1">
+        </div>
+        <div class="col-md-8">
             {% if result|count == 0 %}
                 <h1>{{ _("You don't have any feeds.") }}</h1>
                 <h1><a href="/create_feed/">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management/#import">{{ _('upload an OPML file.') }}</a></h1>
             {% else %}
                 {% for feed in result|sort(attribute="title") %}
-                    <div class="row" id="{{ feed.id }}">
+                    <div class="top"><a id="{{ feed.id }}"></a></div>
+                    <div class="row">
                         <div class="col-md-6 col-md-offset-3">
                             <h1>{{ feed.title|safe }}
                             {% if feed.nb_unread != 0 %}
