@@ -312,23 +312,31 @@ def article(article_id=None):
     return redirect(redirect_url())
 
 
-@app.route('/mark_as_read/', methods=['GET'])
-@app.route('/mark_as_read/<int:feed_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
 @login_required
 @feed_access_required
-def mark_as_read(feed_id=None):
+def mark_as(new_value='read', feed_id=None, article_id=None):
     """
     Mark all unreaded articles as read.
     """
+    readed = new_value == 'read'
+    articles = Article.query.filter(Article.user_id == g.user.id)
     if feed_id is not None:
-        Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed_id,
-                             Article.readed == False).update({"readed": True})
-        flash(gettext('Articles marked as read.'), 'info')
+        articles = articles.filter(Article.feed_id == feed_id)
+        message = 'Feed marked as %s.'
+    elif article_id is not None:
+        articles = articles.filter(Article.id == article_id)
+        message = 'Article marked as %s.'
     else:
-        Article.query.filter(Article.user_id == g.user.id, Article.readed == False).update({"readed": True})
-        flash(gettext("All articles marked as read"), 'info')
+        message = 'All article marked as %s.'
+    articles.filter(Article.readed == (not readed)).update({"readed": readed})
+    flash(gettext(message % new_value), 'info')
     db.session.commit()
-    return redirect(redirect_url())
+    if readed:
+        return redirect(redirect_url())
+    return redirect('/#%d' % articles.first().feed_id)
 
 @app.route('/like/<int:article_id>', methods=['GET'])
 @login_required

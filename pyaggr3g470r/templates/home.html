@@ -25,7 +25,7 @@
                         <div class="col-md-6 col-md-offset-3">
                             <h1>{{ feed.title|safe }}
                             {% if feed.nb_unread != 0 %}
-                                <a href="/unread/{{ feed.id  }}" title="Unread articles"><span class="badge">{{ feed.nb_unread }}</span></a>
+                                <a href="/unread/{{ feed.id }}" title="Unread articles"><span class="badge">{{ feed.nb_unread }}</span></a>
                             {% endif %}</h1>
                             <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
                             <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
@@ -34,8 +34,9 @@
                                 <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="{{ _('Fetch this feed') }}"></i></a>
                             {% endif %}
                             {% if feed.nb_unread != 0 %}
-                                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
+                                <a href="/mark_as/read/feed/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all feed as read') }}"></i></a>
                             {% endif %}
+                            <a href="/mark_as/unread/feed/{{ feed.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark all feed as unread') }}"></i></a>
                         </div>
                     </div>
                     {% for number in range(0, feed.articles.all()|count-(feed.articles.all()|count % 3), 3) %}

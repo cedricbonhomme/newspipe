@@ -14,6 +14,7 @@
         {% else %}
             <a href="/like/{{ article.id }}"><i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i></a>
         {% endif %}
+        <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
         <h6>{{ article.date | datetime }}</h6>
     </div>
     <div class="jumbotron">
