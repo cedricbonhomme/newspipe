@@ -16,3 +16,6 @@ syntax: glob
 
 *.cfg
 pyaggr3g470r/var/indexdir/
+
+# Virtualenv
+venv
