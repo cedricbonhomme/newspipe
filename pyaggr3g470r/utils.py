@@ -40,7 +40,7 @@ import opml
 import json
 import datetime
 import operator
-from urllib import urlencode
+import urllib
 from urlparse import urlparse, parse_qs, urlunparse
 from bs4 import BeautifulSoup
 
@@ -145,40 +145,40 @@ def import_json(email, json_file):
 
     # Create feeds
     for feed in json_account["result"]:
-        
+
         if None != Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first():
             continue
-    
+
         new_feed = Feed(title=feed["title"], description="", link=feed["link"], \
                                     site_link=feed["site_link"], email_notification=feed["email_notification"], \
                                     created_date=datetime.datetime.fromtimestamp(int(feed["created_date"])),
                                     enabled=feed["enabled"])
         user.feeds.append(new_feed)
-        nb_feeds += 1    
+        nb_feeds += 1
     db.session.commit()
 
     # Create articles
     for feed in json_account["result"]:
         user_feed = Feed.query.filter(Feed.user_id == user.id, Feed.link == feed["link"]).first()
-        if None != user_feed:        
+        if None != user_feed:
             for article in feed["articles"]:
-                
+
                 if None == Article.query.filter(Article.user_id == user.id,
                                         Article.feed_id == user_feed.id,
                                         Article.link == article["link"]).first():
-                
+
                     new_article = Article(link=article["link"], title=article["title"], \
                                             content=article["content"], readed=article["readed"], like=article["like"], \
                                             retrieved_date=datetime.datetime.fromtimestamp(int(article["retrieved_date"])),
                                             date=datetime.datetime.fromtimestamp(int(article["date"])),
                                             user_id=user.id, feed_id=user_feed.id)
-            
+
                     user_feed.articles.append(new_article)
                     nb_articles += 1
     db.session.commit()
 
     return nb_feeds, nb_articles
-    
+
 
 def clean_url(url):
     """
@@ -188,15 +188,14 @@ def clean_url(url):
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
     filtered = dict((k, v) for k, v in qd.iteritems()
                                         if not k.startswith('utm_'))
-    nice_url = urlunparse([
+    return urlunparse([
         parsed_url.scheme,
         parsed_url.netloc,
-        parsed_url.path,
+        urllib.quote(parsed_url.path),
         parsed_url.params,
-        urlencode(filtered, doseq=True),
+        urllib.urlencode(filtered, doseq=True),
         parsed_url.fragment
     ])
-    return nice_url
 
 
 def open_url(url):

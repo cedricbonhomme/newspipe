@@ -26,9 +26,11 @@ __revision__ = "$Date: 2014/04/13 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
+import re
 import feedparser
 import urllib2
 import requests
+import dateutil.parser
 from bs4 import BeautifulSoup
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
@@ -106,7 +108,7 @@ class FeedGetter(object):
         # 4 - Indexation
         if not conf.ON_HEROKU:
             self.index(new_articles)
-            
+
         # 5 - Mail notification
         if not conf.ON_HEROKU and conf.MAIL_ENABLED:
             self.mail_notification(new_articles)
@@ -151,51 +153,62 @@ class FeedGetter(object):
                                             proxies=self.proxies)
                         nice_url = r.url.encode("utf-8")
                     except Timeout:
-                        pyaggr3g470r_log.\
-                        warning("Timeout when getting the real URL of %s." %
-                                    (article.link,))
+                        pyaggr3g470r_log.warning(
+                                "Timeout when getting the real URL of %s.",
+                                article.link)
                         continue
-                    except Exception as e:
-                        pyaggr3g470r_log.\
-                        warning("Unable to get the real URL of %s. Error: %s" %
-                                    (article.link, str(e)))
+                    except Exception as error:
+                        pyaggr3g470r_log.warning(
+                                "Unable to get the real URL of %s. Error: %s",
+                                article.link, error)
                         continue
                 # remove utm_* parameters
                 nice_url = utils.clean_url(nice_url)
 
                 description = ""
-                article_title = ""
+                article_title = article.get('title', '')
                 try:
                     # article content
                     description = article.content[0].value
                 except AttributeError:
-                    try:
-                        # article description
-                        description = article.description
-                    except Exception:
-                        description = ""
+                    # article description
+                    description = article.get('description', '')
+
                 try:
                     description = BeautifulSoup(description, "lxml").decode()
                 except:
-                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)" %
-                                            (article_title, nice_url))
-                article_title = article.title
+                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)",
+                                           article_title, nice_url)
 
-                try:
-                    post_date = datetime(*article.published_parsed[:6])
-                except:
-                    post_date = datetime(*article.updated_parsed[:6])
+                post_date = None
+                for date_key in ('published_parsed', 'published',
+                                 'updated_parsed', 'updated'):
+                    if not date_key in article:
+                        continue
+
+                    try:
+                        post_date = dateutil.parser.parse(article[date_key],
+                                dayfirst=True)
+                        break
+                    except:
+                        try:  # trying to clean date field from letters
+                            post_date = dateutil.parser.parse(
+                                        re.sub('[A-z]', '', article[date_key]),
+                                        dayfirst=True)
+                            break
+                        except:
+                            pass
 
                 # create the models.Article object and append it to the list of articles
-                article = Article(link=nice_url, title=article_title, \
-                                content=description, readed=False, like=False, date=post_date, \
-                                user_id=self.user.id, feed_id=feed.id)
+                article = Article(link=nice_url, title=article_title,
+                                content=description, readed=False, like=False,
+                                date=post_date, user_id=self.user.id,
+                                feed_id=feed.id)
                 articles.append(article)
 
             # return the feed with the list of retrieved articles
             return feed, articles
 
-        jobs = []
         pool = Pool(20)
         jobs = [pool.spawn(fetch, feed) for feed in feeds]
         pool.join()
@@ -211,7 +224,7 @@ class FeedGetter(object):
         for feed, articles in elements:
 
             for article in articles:
-                
+
 
                 exist = Article.query.filter(Article.user_id == self.user.id,
                                         Article.feed_id == feed.id,
@@ -220,6 +233,9 @@ class FeedGetter(object):
                     pyaggr3g470r_log.error("Article %s (%s) already in the database." %
                                            (article.title, article.link))
                     continue
+                if article.date is None:
+                    article.date = datetime.now(dateutil.tz.tzlocal())
+
                 new_articles.append(article)
 
                 try:
@@ -253,7 +269,7 @@ class FeedGetter(object):
             except:
                 pyaggr3g470r_log.error("Problem during indexation.")
         return True
-    
+
     def mail_notification(self, new_articles):
         """
         Mail notification.
@@ -264,5 +280,3 @@ class FeedGetter(object):
                 emails.new_article_notification(self.user, element.source, element)
 
         return True
-
-                

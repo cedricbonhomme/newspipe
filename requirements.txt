@@ -16,3 +16,4 @@ WTForms
 python-postmark
 gevent
 whoosh
+python-dateutil
