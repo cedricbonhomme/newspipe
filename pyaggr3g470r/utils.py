@@ -192,7 +192,7 @@ def clean_url(url):
     return urlunparse([
         parsed_url.scheme,
         parsed_url.netloc,
-        urllib.quote(parsed_url.path),
+        urllib.quote(urllib.unquote(parsed_url.path)),
         parsed_url.params,
         urllib.urlencode(filtered, doseq=True),
         parsed_url.fragment
