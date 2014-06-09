@@ -3,11 +3,14 @@
 import sys
 if 'threading' in sys.modules:
     raise Exception('threading module loaded before patching!')
-import gevent.monkey
-gevent.monkey.patch_thread()
-
 import conf
 import logging
+
+if not (conf.WEBSERVER_DEBUG or conf.ON_HEROKU):
+    import gevent.monkey
+    gevent.monkey.patch_thread()
+
+
 
 
 def set_logging(log_path, log_level=logging.INFO,
