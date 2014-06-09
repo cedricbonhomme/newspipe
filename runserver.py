@@ -19,8 +19,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import conf
-from pyaggr3g470r import app
+from bootstrap import conf
+from pyaggr3g470r import app as application
 
-app.run(host=conf.WEBSERVER_HOST, port=conf.WEBSERVER_PORT,
-        debug=conf.WEBSERVER_DEBUG)
+if __name__ == '__main__':
+    application.run(host=conf.WEBSERVER_HOST,
+                    port=conf.WEBSERVER_PORT,
+                    debug=conf.WEBSERVER_DEBUG)

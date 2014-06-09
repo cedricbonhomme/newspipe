@@ -12,10 +12,12 @@ import conf
 
 # Create Flask application
 app = Flask(__name__)
-app.debug = True
+app.debug = conf.WEBSERVER_DEBUG
 
 # Create dummy secrey key so we can use sessions
-app.config['SECRET_KEY'] = os.urandom(12)
+app.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)
+if not app.config['SECRET_KEY']:
+    app.config['SECRET_KEY'] = os.urandom(12)
 app.config['SQLALCHEMY_DATABASE_URI'] = conf.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 

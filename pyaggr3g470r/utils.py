@@ -38,6 +38,7 @@ import re
 import glob
 import opml
 import json
+import logging
 import datetime
 import operator
 import urllib
@@ -59,8 +60,7 @@ url_finders = [
     re.compile("'\\<((mailto:)|)[-A-Za-z0-9\\.]+@[-A-Za-z0-9\\.]+") \
 ]
 
-#import log
-#pyaggr3g470r_log = log.Log()
+logger = logging.getLogger(__name__)
 
 
 @contextmanager
@@ -76,15 +76,16 @@ def opened_w_error(filename, mode="r"):
             f.close()
 
 
-def import_opml(email, opml_file):
+def import_opml(email, opml_content):
     """
     Import new feeds from an OPML file.
     """
     user = User.query.filter(User.email == email).first()
     try:
-        subscriptions = opml.parse(opml_file)
-    except Exception as e:
-        raise e
+        subscriptions = opml.from_string(opml_content)
+    except:
+        logger.exception("Parsing OPML file failed:")
+        raise
 
     def read(subsubscription, nb=0):
         """

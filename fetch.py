@@ -7,10 +7,7 @@
 #  */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py
 # to fetch articles every 30 minutes.
 import sys
-if 'threading' in sys.modules:
-    raise Exception('threading module loaded before patching!')
-import gevent.monkey
-gevent.monkey.patch_thread()
+import bootstrap
 from pyaggr3g470r import crawler
 from pyaggr3g470r.models import User
 
