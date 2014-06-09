@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import re
+import logging
 import feedparser
 import urllib2
 import requests
@@ -34,14 +35,13 @@ import dateutil.parser
 from bs4 import BeautifulSoup
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-from requests.exceptions import *
+#from requests.exceptions import *
 
 import gevent.monkey
 gevent.monkey.patch_all()
 from gevent import Timeout
 from gevent.pool import Pool
 
-import log
 import utils
 import conf
 import emails
@@ -51,7 +51,7 @@ if not conf.ON_HEROKU:
     import search as fastsearch
 
 
-pyaggr3g470r_log = log.Log("feedgetter")
+logger = logging.getLogger(__name__)
 
 
 class TooLong(Exception):
@@ -59,7 +59,7 @@ class TooLong(Exception):
         """
         Log a when greenlet took to long to fetch a resource.
         """
-        pyaggr3g470r_log.warning("Greenlet took to long")
+        logger.warning("Greenlet took to long")
 
 
 class FeedGetter(object):
@@ -88,7 +88,7 @@ class FeedGetter(object):
         """
         Launch the processus.
         """
-        pyaggr3g470r_log.info("Starting to retrieve feeds.")
+        logger.info("Starting to retrieve feeds.")
 
         # 1 - Get the list of feeds to fetch
         user = User.query.filter(User.email == self.user.email).first()
@@ -113,7 +113,7 @@ class FeedGetter(object):
         if not conf.ON_HEROKU and conf.MAIL_ENABLED:
             self.mail_notification(new_articles)
 
-        pyaggr3g470r_log.info("All articles retrieved. End of the processus.")
+        logger.info("All articles retrieved. End of the processus.")
 
     def retrieve_async(self, feeds):
         """
@@ -124,7 +124,7 @@ class FeedGetter(object):
             """
             Fetch a feed.
             """
-            pyaggr3g470r_log.info("Fetching the feed:" + feed.title)
+            logger.info("Fetching the feed:" + feed.title)
             a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
             if a_feed['entries'] == []:
                 return
@@ -153,12 +153,12 @@ class FeedGetter(object):
                                             proxies=self.proxies)
                         nice_url = r.url.encode("utf-8")
                     except Timeout:
-                        pyaggr3g470r_log.warning(
+                        logger.warning(
                                 "Timeout when getting the real URL of %s.",
                                 article.link)
                         continue
                     except Exception as error:
-                        pyaggr3g470r_log.warning(
+                        logger.warning(
                                 "Unable to get the real URL of %s. Error: %s",
                                 article.link, error)
                         continue
@@ -177,7 +177,7 @@ class FeedGetter(object):
                 try:
                     description = BeautifulSoup(description, "lxml").decode()
                 except:
-                    pyaggr3g470r_log.error("Problem when sanitizing the content of the article %s (%s)",
+                    logger.error("Problem when sanitizing the content of the article %s (%s)",
                                            article_title, nice_url)
 
                 post_date = None
@@ -219,7 +219,7 @@ class FeedGetter(object):
         """
         Insert articles in the database.
         """
-        pyaggr3g470r_log.info("Database insertion...")
+        logger.info("Database insertion...")
         new_articles = []
         for feed, articles in elements:
 
@@ -230,8 +230,8 @@ class FeedGetter(object):
                                         Article.feed_id == feed.id,
                                         Article.link == article.link).first()
                 if exist is not None:
-                    pyaggr3g470r_log.error("Article %s (%s) already in the database." %
-                                           (article.title, article.link))
+                    logger.debug("Article %r (%r) already in the database.",
+                                 article.title, article.link)
                     continue
                 if article.date is None:
                     article.date = datetime.now(dateutil.tz.tzlocal())
@@ -242,15 +242,16 @@ class FeedGetter(object):
                     feed.articles.append(article)
                     #db.session.merge(article)
                     db.session.commit()
-                    pyaggr3g470r_log.info("New article %s (%s) added." % (article.title, article.link))
+                    logger.info("New article %r (%r) added.",
+                                article.title, article.link)
                 except IntegrityError:
-                    pyaggr3g470r_log.error("Article %s (%s) already in the database." %
-                                           (article.title, article.link))
+                    logger.debug("Article %r (%r) already in the database.",
+                                 article.title, article.link)
                     articles.remove(article)
                     db.session.rollback()
                     continue
                 except Exception as e:
-                    pyaggr3g470r_log.error("Error when inserting article in database: " + str(e))
+                    logger.error("Error when inserting article in database: " + str(e))
                     continue
         #db.session.close()
         return new_articles
@@ -259,7 +260,7 @@ class FeedGetter(object):
         """
         Index new articles.
         """
-        pyaggr3g470r_log.info("Indexing new articles.")
+        logger.info("Indexing new articles.")
         for element in new_articles:
             article = Article.query.filter(Article.user_id == self.user.id,
                                     Article.link == element.link).first()
@@ -267,16 +268,15 @@ class FeedGetter(object):
                 fastsearch.add_to_index(self.user.id, [article],
                                             article.source)
             except:
-                pyaggr3g470r_log.error("Problem during indexation.")
+                logger.exception("Problem during indexation:")
         return True
 
     def mail_notification(self, new_articles):
         """
         Mail notification.
         """
-        pyaggr3g470r_log.info("Starting mail notification.")
+        logger.info("Starting mail notification.")
         for element in new_articles:
             if element.source.email_notification:
                 emails.new_article_notification(self.user, element.source, element)
-
         return True

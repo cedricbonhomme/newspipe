@@ -152,6 +152,7 @@ def login():
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
+
 @app.route('/logout/')
 @login_required
 def logout():
@@ -298,14 +299,14 @@ def article(article_id=None):
         if not article.readed:
             article.readed = True
             db.session.commit()
-        
+
         previous_article = article.previous_article()
         if previous_article is None:
             previous_article = article.source.articles[0]
         next_article = article.next_article()
         if next_article is None:
             next_article = article.source.articles[-1]
-        
+
         return render_template('article.html', head_title=utils.clear_string(article.title),
                                article=article,
                                previous_article=previous_article, next_article=next_article)
@@ -558,12 +559,10 @@ def management():
             if not allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
-                opml_path = os.path.join("./pyaggr3g470r/var/", data.filename)
-                data.save(opml_path)
                 try:
-                    nb = utils.import_opml(g.user.email, opml_path)
+                    nb = utils.import_opml(g.user.email, data.read())
                     flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
-                except Exception as e:
+                except:
                     flash(gettext("Impossible to import the new feeds."), "danger")
         elif None != request.files.get('jsonfile', None):
             # Import an account

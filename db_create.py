@@ -8,6 +8,8 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
+import bootstrap
+
 from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Role
 from werkzeug import generate_password_hash

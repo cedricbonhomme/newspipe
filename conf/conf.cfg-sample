@@ -1,18 +1,20 @@
 [misc]
 platform_url = https://pyaggr3g470r.herokuapp.com/
-admin_platform_email = 
+admin_platform_email =
 recaptcha_public_key =
 recaptcha_private_key =
+log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
 [database]
 uri = postgres://cedric:password@127.0.0.1:5432/pyAggr3g470r
 [feedparser]
-http_proxy = 
+http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
 resolve_article_url = 0
 [webserver]
 debug = 1
 host = 0.0.0.0
 port = 5000
+secret = a secret only you know
 [mail]
 enabled = 0
 admin_email = pyAggr3g470r@no-reply.com

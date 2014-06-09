@@ -6,7 +6,7 @@
 This file contain the variables used by the application.
 """
 
-import os, sys
+import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 PATH = os.path.abspath(".")
@@ -31,11 +31,12 @@ if not ON_HEROKU:
         import ConfigParser as confparser
     # load the configuration
     config = confparser.SafeConfigParser()
-    config.read("./conf/conf.cfg")
+    config.read(os.path.join(basedir, "conf/conf.cfg"))
 
     PLATFORM_URL = config.get('misc', 'platform_url')
     RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
     RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
+    LOG_PATH = config.get('misc', 'log_path')
 
     WHOOSH_ENABLED = True
 
@@ -48,6 +49,7 @@ if not ON_HEROKU:
     WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
     WEBSERVER_HOST = config.get('webserver', 'host')
     WEBSERVER_PORT = int(config.get('webserver', 'port'))
+    WEBSERVER_SECRET = config.get('webserver', 'secret')
 
     ADMIN_EMAIL = config.get('mail', 'admin_email')
     MAIL_ENABLED = int(config.get('mail', 'enabled')) == 1
@@ -57,14 +59,15 @@ if not ON_HEROKU:
     MAIL_SSL = int(config.get('mail', 'ssl')) == 1
     MAIL_USERNAME = config.get('mail', 'username')
     MAIL_PASSWORD = config.get('mail', 'password')
-    
+
     WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
 else:
     PLATFORM_URL = os.environ.get('PLATFORM_URL', 'https://pyaggr3g470r.herokuapp.com/')
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
-    
+    LOG_PATH = os.environ.get('LOG_PATH', 'pyaggr3g470r.log')
+
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
     HTTP_PROXY = ""
@@ -74,6 +77,7 @@ else:
     WEBSERVER_DEBUG = False
     WEBSERVER_HOST = '0.0.0.0'
     WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
+    WEBSERVER_SECRET = os.environ.get('SECRET_KEY', None)
 
     MAIL_ENABLED = True
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '')

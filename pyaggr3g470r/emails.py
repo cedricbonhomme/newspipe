@@ -1,26 +1,27 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from postmark import PMMail
 
-import log
 import utils
 import conf
 from decorators import async
 
-pyaggr3g470r_log = log.Log("mail")
+logger = logging.getLogger(__name__)
+
 
 @async
 def send_async_email(mfrom, mto, msg):
     try:
         s = smtplib.SMTP(conf.MAIL_HOST)
         s.login(conf.MAIL_USERNAME, conf.MAIL_PASSWORD)
-    except Exception as e:
-        pyaggr3g470r_log.error(str(e))
+    except Exception:
+        logger.exception('send_async_email raised:')
     else:
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
@@ -50,12 +51,12 @@ def send_email(mfrom, mto, feed, article):
     # the HTML message, is best and preferred.
     msg.attach(part1)
     msg.attach(part2)
-    
+
     try:
         s = smtplib.SMTP(conf.MAIL_HOST)
         s.login(conf.MAIL_USERNAME, conf.MAIL_PASSWORD)
-    except Exception as e:
-        pyaggr3g470r_log.error(str(e))
+    except Exception:
+        logger.exception("send_email raised:")
     else:
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
@@ -81,8 +82,9 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
             message.to = user.email
         message.send()
     except Exception as e:
-        pyaggr3g470r_log.error(str(e))
+        logger.exception("send_heroku raised:")
         raise e
+
 
 def information_message(subject, plaintext):
     """
@@ -103,6 +105,7 @@ def information_message(subject, plaintext):
     else:
         pass
 
+
 def new_account_notification(user):
     """
     Account creation notification.
@@ -114,6 +117,7 @@ def new_account_notification(user):
     else:
         pass
 
+
 def new_account_activation(user):
     """
     Account activation notification.
@@ -124,6 +128,7 @@ def new_account_activation(user):
         send_heroku(user=user, subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
     else:
         pass
+
 
 def new_article_notification(user, feed, article):
     if conf.ON_HEROKU:
