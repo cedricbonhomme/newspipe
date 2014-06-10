@@ -570,10 +570,8 @@ def management():
             if not allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
-                json_path = os.path.join("./pyaggr3g470r/var/", data.filename)
-                data.save(json_path)
                 try:
-                    nb = utils.import_json(g.user.email, json_path)
+                    nb = utils.import_json(g.user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."), "danger")

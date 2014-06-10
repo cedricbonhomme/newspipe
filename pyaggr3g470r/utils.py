@@ -133,15 +133,12 @@ def import_opml(email, opml_content):
     db.session.commit()
     return nb
 
-def import_json(email, json_file):
+def import_json(email, json_content):
     """
     Import an account from a JSON file.
     """
     user = User.query.filter(User.email == email).first()
-    json_string = ""
-    with open(json_file, "r") as account:
-        json_string = account.read()
-    json_account = json.loads(json_string)
+    json_account = json.loads(json_content)
     nb_feeds, nb_articles = 0, 0
 
     # Create feeds
