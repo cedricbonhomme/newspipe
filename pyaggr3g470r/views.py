@@ -27,7 +27,6 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
-import subprocess
 import datetime
 from flask import render_template, request, flash, session, url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
@@ -236,8 +235,7 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    cmd = ['python', conf.basedir+'/fetch.py', g.user.email, str(feed_id)]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    utils.fetch(g.user.email, None)
     flash(gettext("Downloading articles..."), 'success')
     return redirect(redirect_url())
 
@@ -612,7 +610,7 @@ def edit_feed(feed_id=None):
             # Edit an existing feed
             form.populate_obj(feed)
             db.session.commit()
-            flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully updated.'), 'success')
+            flash(gettext('Feed successfully updated.'), 'success')
             return redirect('/edit_feed/' + str(feed_id))
         else:
             # Create a new feed
@@ -624,10 +622,14 @@ def edit_feed(feed_id=None):
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
                 db.session.commit()
-                flash(gettext('Feed') + ' ' + new_feed.title + ' ' + gettext('successfully created.'), 'success')
+                flash(gettext('Feed successfully created.'), 'success')
+
+                utils.fetch(g.user.email, Feed.query.filter(Feed.link == form.link.data).first().id)
+                flash(gettext("Downloading articles for the new feed..."), 'success')
+
                 return redirect('/edit_feed/' + str(new_feed.id))
             else:
-                flash(gettext('Feed') + ' ' +  existing_feed[0].title + ' ' + gettext('already in the database.'), 'warning')
+                flash(gettext('Feed already in the database.'), 'warning')
                 return redirect('/edit_feed/' + str(existing_feed[0].id))
 
     if request.method == 'GET':

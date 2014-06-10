@@ -42,9 +42,9 @@ import logging
 import datetime
 import operator
 import urllib
+import subprocess
 from urlparse import urlparse, parse_qs, urlunparse
 from bs4 import BeautifulSoup
-
 from collections import Counter
 from contextlib import contextmanager
 
@@ -75,6 +75,9 @@ def opened_w_error(filename, mode="r"):
         finally:
             f.close()
 
+def fetch(email, feed_id=None):
+    cmd = ['python', conf.basedir+'/fetch.py', email, str(feed_id)]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def import_opml(email, opml_content):
     """
