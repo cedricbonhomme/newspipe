@@ -28,9 +28,13 @@ __license__ = "AGPLv3"
 
 import os
 import datetime
-from flask import render_template, request, flash, session, url_for, redirect, g, current_app, make_response
-from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, AnonymousUserMixin
-from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, Permission, RoleNeed, UserNeed
+from flask import abort, render_template, request, flash, session, \
+                  url_for, redirect, g, current_app, make_response
+from flask.ext.login import LoginManager, login_user, logout_user, \
+                            login_required, current_user, AnonymousUserMixin
+from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
+                                identity_changed, identity_loaded, Permission,\
+                                RoleNeed, UserNeed
 from flask.ext.babel import gettext
 from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
@@ -209,23 +213,38 @@ def signup():
 @app.route('/')
 @login_required
 def home():
-    """
-    The home page lists most recent articles of all feeds.
-    """
-    #user = User.query.filter(User.email == g.user.email).first()
-    result = []
-    for feed in g.user.feeds:
-        new_feed = Feed()
-        new_feed.id = feed.id
-        new_feed.title = feed.title
-        new_feed.enabled = feed.enabled
-        new_feed.articles = feed.articles[:9]
-        #new_feed.articles = Article.query.filter(Article.user_id == g.user.id,
-                                                 #Article.feed_id == feed.id).order_by(desc("Article.date")).limit(9)
-        new_feed.nb_unread = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).count()
-        result.append(new_feed)
-    unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
-    return render_template('home.html', result=result, head_title=unread_articles)
+    feeds = {feed.id: feed.title for feed in g.user.feeds if feed.enabled}
+    articles = Article.query.filter(Article.feed_id.in_(feeds.keys()))
+    filter_ = request.args.get('filter_', 'unread')
+    feed_id = int(request.args.get('feed', 0))
+    limit = request.args.get('limit', 1000)
+    if filter_ != 'all':
+        articles = articles.filter(Article.readed == (filter_ == 'read'))
+    if feed_id:
+        articles = articles.filter(Article.feed_id == feed_id)
+
+    articles = articles.order_by(Article.date.desc())
+    if limit != 'all':
+        limit = int(limit)
+        articles = articles.limit(limit)
+    def gen_url(filter_=filter_, limit=limit, feed=feed_id):
+        return '/?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
+    return render_template('reader.html', gen_url=gen_url, feed_id=feed_id,
+                           filter_=filter_, limit=limit, feeds=feeds,
+                           articles=articles.all())
+
+
+@app.route('/article/redirect/<int:article_id>', methods=['GET'])
+@login_required
+def redirect_to_article(article_id):
+    article = Article.query.filter(Article.id == article_id,
+                                   Article.user_id == g.user.id).first()
+    if article is None:
+        abort(404)
+    article.readed = True
+    db.session.commit()
+    return redirect(article.link)
+
 
 @app.route('/fetch/', methods=['GET'])
 @app.route('/fetch/<int:feed_id>', methods=['GET'])
@@ -336,7 +355,7 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
     db.session.commit()
     if readed:
         return redirect(redirect_url())
-    return redirect('/#%d' % articles.first().feed_id)
+    return redirect(redirect_url())
 
 @app.route('/like/<int:article_id>', methods=['GET'])
 @login_required

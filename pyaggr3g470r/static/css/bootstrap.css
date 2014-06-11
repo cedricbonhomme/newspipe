@@ -5829,3 +5829,9 @@ td.visible-print {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.strict-table td{
+  min-width: 70px;
+}
+.strict-table td.date {
+  min-width: 190px;
+}

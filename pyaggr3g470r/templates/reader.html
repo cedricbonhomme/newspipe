@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="affix-nav" class="col-md-1 sidebar hidden-xs hidden-sm">
+    <ul class="nav sidenav affix affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
+        <li><a href="{{ gen_url(feed=0) }}">
+            {% if not feed_id %}<b>{% endif %}
+                {{ _('All feeds') }}
+            {% if not feed_id %}</b>{% endif %}
+        </a></li>
+    {% for fid, ftitle in feeds.items() %}
+        <li><a href="{{ gen_url(feed=fid) }}">
+            {% if feed_id == fid %}<b>{% endif %}
+                {{ ftitle|safe }}
+            {% if feed_id == fid %}</b>{% endif %}
+        </a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="container col-md-9" style="float: right;">
+    <h1>{{ _('Your articles') }} ({{ articles.__len__() }})</h1>
+    <div>
+        {% if filter_ == 'all' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
+        {% if filter_ == 'all' %}</b>{% endif %}
+        |
+        {% if filter_ == 'read' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a>
+        {% if filter_ == 'read' %}</b>{% endif %}
+        |
+        {% if filter_ == 'unread' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
+        {% if filter_ == 'unread' %}</b>{% endif %}
+        -
+        {% if limit == 10 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=10) }}">{{ _(10) }}</a>
+        {% if limit == 10 %}</b>{% endif %}
+        |
+        {% if limit == 100 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=100) }}">{{ _(100) }}</a>
+        {% if limit == 100 %}</b>{% endif %}
+        |
+        {% if limit == 1000 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=1000) }}">{{ _(1000) }}</a>
+        {% if limit == 1000 %}</b>{% endif %}
+        |
+        {% if limit == 'all' %}<b>{% endif %}
+            <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
+        {% if limit == 'all' %}</b>{% endif %}
+
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped strict-table">
+            <thead>
+                <tr>
+                    <th>{{ _('Feed') }}</th>
+                    <th>{{ _('Article') }}</th>
+                    <th>{{ _('Date') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
+                    <td><a href="/article/redirect/{{ article.id}}">{{ article.source.title|safe }}</a></td>
+                    <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
+                    <td class="date">{{ article.date|datetime }}</a></td>
+                    <td>
+                        <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
+                        <a href="/like/{{ article.id }}">
+                        {% if article.like %}
+                            <i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i>
+                        {% endif %}
+                        </a>
+                        {% if article.readed %}
+                            <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
+                        {% else %}
+                            <a href="/mark_as/read/article/{{ article.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this article as read') }}"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
