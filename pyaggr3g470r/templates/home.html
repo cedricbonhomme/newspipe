@@ -7,7 +7,15 @@
                 {{ _('All feeds') }}
             {% if not feed_id %}</b>{% endif %}
         </a></li>
-    {% for fid, ftitle in feeds.items() %}
+    {% for fid in unread %}
+        <li><a href="{{ gen_url(feed=fid) }}">
+            {% if feed_id == fid %}<b>{% endif %}
+                <span class="badge pull-right">{{ unread[fid] }}</span>
+                {{ feeds[fid]|safe }}
+            {% if feed_id == fid %}</b>{% endif %}
+        </a></li>
+    {% endfor %}
+    {% for fid, ftitle in feeds.items() if not fid in unread %}
         <li><a href="{{ gen_url(feed=fid) }}">
             {% if feed_id == fid %}<b>{% endif %}
                 {{ ftitle|safe }}

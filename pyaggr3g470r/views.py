@@ -36,7 +36,7 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
@@ -227,11 +227,14 @@ def home():
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
+    unread = db.session.query(Article.feed_id, func.count(Article.id))\
+                       .filter(Article.readed == False)\
+                       .group_by(Article.feed_id).all()
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return '/?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
-    return render_template('reader.html', gen_url=gen_url, feed_id=feed_id,
+    return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           articles=articles.all())
+                           unread=dict(unread), articles=articles.all())
 
 
 @app.route('/article/redirect/<int:article_id>', methods=['GET'])
