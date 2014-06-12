@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+<style>
+    li.feed-commands {display: none; text-align: right;}
+    li.feed-commands > span > a {margin-right: 10px;}
+    li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}
+</style>
 <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
     <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 600px;">
         <li><a href="{{ gen_url(feed=0) }}">
@@ -8,19 +13,33 @@
             {% if not feed_id %}</b>{% endif %}
         </a></li>
     {% for fid in unread %}
-        <li><a href="{{ gen_url(feed=fid) }}">
+        <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
             {% if feed_id == fid %}<b>{% endif %}
                 <span class="badge pull-right">{{ unread[fid] }}</span>
                 {{ feeds[fid]|safe }}
             {% if feed_id == fid %}</b>{% endif %}
         </a></li>
+        <li class="feed-commands"><span>
+            <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
+            <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+            <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+            <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+            <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+        </span></li>
     {% endfor %}
     {% for fid, ftitle in feeds.items() if not fid in unread %}
-        <li><a href="{{ gen_url(feed=fid) }}">
+        <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
             {% if feed_id == fid %}<b>{% endif %}
                 {{ ftitle|safe }}
             {% if feed_id == fid %}</b>{% endif %}
         </a></li>
+        <li class="feed-commands"><span>
+            <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
+            <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+            <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+            <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+            <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+        </span></li>
     {% endfor %}
     </ul>
 </div>
