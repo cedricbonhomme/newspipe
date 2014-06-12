@@ -358,7 +358,7 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
     db.session.commit()
     if readed:
         return redirect(redirect_url())
-    return redirect(redirect_url())
+    return redirect(url_for('home'))
 
 @app.route('/like/<int:article_id>', methods=['GET'])
 @login_required
