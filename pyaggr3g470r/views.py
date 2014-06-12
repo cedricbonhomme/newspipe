@@ -237,7 +237,7 @@ def home():
                            unread=dict(unread), articles=articles.all())
 
 
-@app.route('/article/redirect/<int:article_id>', methods=['GET'])
+@app.route('/article/redirect/<int:article_id>/', methods=['GET'])
 @login_required
 def redirect_to_article(article_id):
     article = Article.query.filter(Article.id == article_id,
@@ -250,7 +250,7 @@ def redirect_to_article(article_id):
 
 
 @app.route('/fetch/', methods=['GET'])
-@app.route('/fetch/<int:feed_id>', methods=['GET'])
+@app.route('/fetch/<int:feed_id>/', methods=['GET'])
 @login_required
 def fetch(feed_id=None):
     """
@@ -308,7 +308,7 @@ def feed(feed_id=None):
                         first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
                         average=average, delta=delta, elapsed=elapsed)
 
-@app.route('/article/<int:article_id>', methods=['GET'])
+@app.route('/article/<int:article_id>/', methods=['GET'])
 @login_required
 def article(article_id=None):
     """
@@ -334,9 +334,9 @@ def article(article_id=None):
     return redirect(redirect_url())
 
 
-@app.route('/mark_as/<string:new_value>', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>/', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/article/<int:article_id>/', methods=['GET'])
 @login_required
 @feed_access_required
 def mark_as(new_value='read', feed_id=None, article_id=None):
@@ -360,7 +360,7 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
         return redirect(redirect_url())
     return redirect(url_for('home'))
 
-@app.route('/like/<int:article_id>', methods=['GET'])
+@app.route('/like/<int:article_id>/', methods=['GET'])
 @login_required
 def like(article_id=None):
     """
