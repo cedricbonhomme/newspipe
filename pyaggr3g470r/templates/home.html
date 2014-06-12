@@ -1,70 +1,96 @@
- {% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
-<div class="container-fluid">
-    <div classe="row">
-        <div id="affix-nav" class="col-md-4 sidebar hidden-xs hidden-sm">
-            <ul class="nav sidenav affix affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
-            {% for feed in result|sort(attribute="title")|sort(attribute="nb_unread", reverse=True) %}
-                <li>
-                    <a href="#{{ feed.id }}">
-                        {% if feed.nb_unread != 0 %}<span class="badge pull-right">{{ feed.nb_unread }}</span>{% endif %}
-                        {{ feed.title|safe }}
-                    </a>
-                </li>
+<div id="affix-nav" class="col-md-1 sidebar hidden-xs hidden-sm">
+    <ul class="nav sidenav affix affix-top" data-spy="affix" data-offset-top="0" data-offset-bottom="0">
+        <li><a href="{{ gen_url(feed=0) }}">
+            {% if not feed_id %}<b>{% endif %}
+                {{ _('All feeds') }}
+            {% if not feed_id %}</b>{% endif %}
+        </a></li>
+    {% for fid in unread %}
+        <li><a href="{{ gen_url(feed=fid) }}">
+            {% if feed_id == fid %}<b>{% endif %}
+                <span class="badge pull-right">{{ unread[fid] }}</span>
+                {{ feeds[fid]|safe }}
+            {% if feed_id == fid %}</b>{% endif %}
+        </a></li>
+    {% endfor %}
+    {% for fid, ftitle in feeds.items() if not fid in unread %}
+        <li><a href="{{ gen_url(feed=fid) }}">
+            {% if feed_id == fid %}<b>{% endif %}
+                {{ ftitle|safe }}
+            {% if feed_id == fid %}</b>{% endif %}
+        </a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="container col-md-9" style="float: right;">
+    <h1>{{ _('Your articles') }} ({{ articles.__len__() }})</h1>
+    <div>
+        {% if filter_ == 'all' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
+        {% if filter_ == 'all' %}</b>{% endif %}
+        |
+        {% if filter_ == 'read' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a>
+        {% if filter_ == 'read' %}</b>{% endif %}
+        |
+        {% if filter_ == 'unread' %}<b>{% endif %}
+            <a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
+        {% if filter_ == 'unread' %}</b>{% endif %}
+        -
+        {% if limit == 10 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=10) }}">{{ _(10) }}</a>
+        {% if limit == 10 %}</b>{% endif %}
+        |
+        {% if limit == 100 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=100) }}">{{ _(100) }}</a>
+        {% if limit == 100 %}</b>{% endif %}
+        |
+        {% if limit == 1000 %}<b>{% endif %}
+            <a href="{{ gen_url(limit=1000) }}">{{ _(1000) }}</a>
+        {% if limit == 1000 %}</b>{% endif %}
+        |
+        {% if limit == 'all' %}<b>{% endif %}
+            <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
+        {% if limit == 'all' %}</b>{% endif %}
+
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped strict-table">
+            <thead>
+                <tr>
+                    <th>{{ _('Feed') }}</th>
+                    <th>{{ _('Article') }}</th>
+                    <th>{{ _('Date') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
+                    <td><a href="/article/redirect/{{ article.id}}">{{ article.source.title|safe }}</a></td>
+                    <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
+                    <td class="date">{{ article.date|datetime }}</a></td>
+                    <td>
+                        <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
+                        <a href="/like/{{ article.id }}">
+                        {% if article.like %}
+                            <i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i>
+                        {% endif %}
+                        </a>
+                        {% if article.readed %}
+                            <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
+                        {% else %}
+                            <a href="/mark_as/read/article/{{ article.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this article as read') }}"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
             {% endfor %}
-            </ul>
-        </div>
-        <div class="col-md-8">
-            {% if result|count == 0 %}
-                <h1>{{ _("You don't have any feeds.") }}</h1>
-                <h1><a href="/create_feed/">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management/#import">{{ _('upload an OPML file.') }}</a></h1>
-            {% else %}
-                {% for feed in result|sort(attribute="title") %}
-                    <div class="top"><a id="{{ feed.id }}"></a></div>
-                    <div class="row">
-                        <div class="col-md-6 col-md-offset-3">
-                            <h1>{{ feed.title|safe }}
-                            {% if feed.nb_unread != 0 %}
-                                <a href="/unread/{{ feed.id  }}" title="Unread articles"><span class="badge">{{ feed.nb_unread }}</span></a>
-                            {% endif %}</h1>
-                            <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
-                            <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
-                            <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                            {% if feed.enabled %}
-                                <a href="/fetch/{{ feed.id }}"><i class="glyphicon glyphicon-cloud-download" title="{{ _('Fetch this feed') }}"></i></a>
-                            {% endif %}
-                            {% if feed.nb_unread != 0 %}
-                                <a href="/mark_as_read/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all as read') }}"></i></a>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% for number in range(0, feed.articles.all()|count-(feed.articles.all()|count % 3), 3) %}
-                        <div class="row">
-                            {% for n in range(number, number+3) %}
-                            <div class="col-xs-6 col-sm-4 col-md-4">
-                                {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
-                                    <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title|safe }}</a>
-                                {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
-                                <h6>{{ feed.articles[n].date | datetime }}</h6>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                    {% if feed.articles.all()|count % 3 != 0 %}
-                        <div class="row">
-                            {% for n in range(feed.articles.all()|count-(feed.articles.all()|count % 3), feed.articles.all()|count) %}
-                                <div class="col-xs-6 col-sm-4 col-md-4">
-                                    {% if feed.articles[n].readed %}<h3>{% else %}<h1>{% endif %}
-                                        <a href="/article/{{ feed.articles[n].id }}">{{ feed.articles[n].title|safe }}</a>
-                                    {% if feed.articles[n].readed %}</h3>{% else %}</h1>{% endif %}
-                                    <h6>{{ feed.articles[n].date | datetime }}</h6>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
+            </tbody>
+        </table>
     </div>
 </div><!-- /.container -->
 {% endblock %}

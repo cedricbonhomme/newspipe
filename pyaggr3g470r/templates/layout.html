@@ -27,7 +27,7 @@ deployed on Heroku or on a traditional server." />
             height: 0;
         }
         ul.affix {
-            position: fixed; 
+            position: fixed;
             top: 0px;
         }
         ul.affix-top {
@@ -102,7 +102,7 @@ deployed on Heroku or on a traditional server." />
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Articles') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a accesskey="r" href="/fetch/">{{ _('Fetch') }}</a></li>
-                        <li><a href="/mark_as_read/">{{ _('Mark all as read') }}</a></li>
+                        <li><a href="/mark_as/read/">{{ _('Mark all as read') }}</a></li>
                         <li role="presentation" class="divider"></li>
                         <li><a href="/create_feed/">{{ _('Add a feed') }}</a></li>
                     </ul>
@@ -145,7 +145,7 @@ deployed on Heroku or on a traditional server." />
       </div><!-- /.container -->
     </nav>
 
-    <div class="container">
+    <div class="container" style="float: right">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category, message in messages %}
