@@ -227,6 +227,7 @@ def home():
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
+    unread = []
     unread = db.session.query(Article.feed_id, func.count(Article.id))\
                        .filter(Article.readed == False)\
                        .group_by(Article.feed_id).all()
