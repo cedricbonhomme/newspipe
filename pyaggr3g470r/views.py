@@ -214,7 +214,8 @@ def signup():
 @login_required
 def home():
     feeds = {feed.id: feed.title for feed in g.user.feeds if feed.enabled}
-    articles = Article.query.filter(Article.feed_id.in_(feeds.keys()))
+    articles = Article.query.filter(Article.feed_id.in_(feeds.keys()), 
+                                    Article.user_id == g.user.id)
     filter_ = request.args.get('filter_', 'unread')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
@@ -228,7 +229,7 @@ def home():
         limit = int(limit)
         articles = articles.limit(limit)
     unread = db.session.query(Article.feed_id, func.count(Article.id))\
-                       .filter(Article.readed == False)\
+                       .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return '/?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
