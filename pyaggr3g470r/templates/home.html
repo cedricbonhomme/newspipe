@@ -12,10 +12,10 @@
                 {{ _('All feeds') }}
             {% if not feed_id %}</b>{% endif %}
         </a></li>
-    {% for fid in unread %}
+    {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
         <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
             {% if feed_id == fid %}<b>{% endif %}
-                <span class="badge pull-right">{{ unread[fid] }}</span>
+                <span class="badge pull-right">{{ nbunread }}</span>
                 {{ feeds[fid]|safe }}
             {% if feed_id == fid %}</b>{% endif %}
         </a></li>
@@ -27,7 +27,7 @@
             <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
         </span></li>
     {% endfor %}
-    {% for fid, ftitle in feeds.items() if not fid in unread %}
+    {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
         <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
             {% if feed_id == fid %}<b>{% endif %}
                 {{ ftitle|safe }}
