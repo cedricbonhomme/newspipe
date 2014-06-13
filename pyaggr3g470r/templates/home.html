@@ -88,7 +88,7 @@
             <tbody>
                 {% for article in articles %}
                 <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
-                    <td><a href="/article/redirect/{{ article.id}}">{{ article.source.title|safe }}</a></td>
+                    <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title|safe }}</a></td>
                     <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
                     <td class="date">{{ article.date|datetime }}</a></td>
                     <td>
