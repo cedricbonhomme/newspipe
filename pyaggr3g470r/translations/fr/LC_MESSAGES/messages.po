@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:13+0200\n"
-"PO-Revision-Date: 2014-06-13 18:24+0100\n"
+"POT-Creation-Date: 2014-06-13 18:48+0200\n"
+"PO-Revision-Date: 2014-06-13 18:49+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -149,7 +149,7 @@ msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer.
 msgid "Downloading articles..."
 msgstr "Téléchargement des articles."
 
-#: pyaggr3g470r/views.py:391 pyaggr3g470r/templates/home.html:83
+#: pyaggr3g470r/views.py:391 pyaggr3g470r/templates/home.html:89
 msgid "Article"
 msgstr "Article"
 
@@ -230,7 +230,7 @@ msgstr "Éditez ce flux"
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
-#: pyaggr3g470r/views.py:686 pyaggr3g470r/templates/home.html:82
+#: pyaggr3g470r/views.py:686 pyaggr3g470r/templates/home.html:88
 #: pyaggr3g470r/templates/admin/user.html:45
 msgid "Feed"
 msgstr "Flux"
@@ -324,23 +324,23 @@ msgstr ""
 msgid "from"
 msgstr "de"
 
-#: pyaggr3g470r/templates/article.html:11 pyaggr3g470r/templates/home.html:95
+#: pyaggr3g470r/templates/article.html:11 pyaggr3g470r/templates/home.html:101
 msgid "Delete this article"
 msgstr "Supprimer cet article"
 
-#: pyaggr3g470r/templates/article.html:14 pyaggr3g470r/templates/home.html:98
+#: pyaggr3g470r/templates/article.html:14 pyaggr3g470r/templates/home.html:104
 msgid "One of your favorites"
 msgstr "Un de vos favoris"
 
-#: pyaggr3g470r/templates/article.html:16 pyaggr3g470r/templates/home.html:100
+#: pyaggr3g470r/templates/article.html:16 pyaggr3g470r/templates/home.html:106
 msgid "Click if you like this article"
 msgstr "Cliquez si vous aimez cet article"
 
-#: pyaggr3g470r/templates/article.html:20 pyaggr3g470r/templates/home.html:104
+#: pyaggr3g470r/templates/article.html:20 pyaggr3g470r/templates/home.html:110
 msgid "Mark this article as unread"
 msgstr "Marquer cet article comme non lu"
 
-#: pyaggr3g470r/templates/article.html:22 pyaggr3g470r/templates/home.html:106
+#: pyaggr3g470r/templates/article.html:22 pyaggr3g470r/templates/home.html:112
 msgid "Mark this article as read"
 msgstr "Marquer cet article comme lu"
 
@@ -376,20 +376,20 @@ msgid "Details"
 msgstr "Détails"
 
 #: pyaggr3g470r/templates/favorites.html:18 pyaggr3g470r/templates/feed.html:8
-#: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:24
-#: pyaggr3g470r/templates/home.html:38 pyaggr3g470r/templates/unread.html:18
+#: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:30
+#: pyaggr3g470r/templates/home.html:44 pyaggr3g470r/templates/unread.html:18
 #: pyaggr3g470r/templates/admin/user.html:46
 msgid "Edit this feed"
 msgstr "Éditer ce flux"
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/home.html:25 pyaggr3g470r/templates/home.html:39
+#: pyaggr3g470r/templates/home.html:31 pyaggr3g470r/templates/home.html:45
 #: pyaggr3g470r/templates/admin/user.html:47
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/home.html:25 pyaggr3g470r/templates/home.html:39
+#: pyaggr3g470r/templates/home.html:31 pyaggr3g470r/templates/home.html:45
 #: pyaggr3g470r/templates/admin/user.html:47
 msgid "You are going to delete this feed."
 msgstr "Vous allez supprimer ce flux."
@@ -463,7 +463,7 @@ msgid "Site"
 msgstr "Site"
 
 #: pyaggr3g470r/templates/feeds.html:13 pyaggr3g470r/templates/feeds.html:32
-#: pyaggr3g470r/templates/home.html:23 pyaggr3g470r/templates/home.html:37
+#: pyaggr3g470r/templates/home.html:29 pyaggr3g470r/templates/home.html:43
 #: pyaggr3g470r/templates/layout.html:102
 msgid "Articles"
 msgstr "Articles"
@@ -482,35 +482,52 @@ msgstr "Flux activé"
 msgid "Feed disabled"
 msgstr "Flux désactivé"
 
-#: pyaggr3g470r/templates/home.html:12 pyaggr3g470r/templates/layout.html:116
+#: pyaggr3g470r/templates/home.html:10
+msgid "You don't have any feeds."
+msgstr "Vous n'avez pas de flux."
+
+#: pyaggr3g470r/templates/home.html:11
+msgid "Add some"
+msgstr "Ajoutez en"
+
+#: pyaggr3g470r/templates/home.html:11
+#: pyaggr3g470r/templates/management.html:33
+msgid "or"
+msgstr "ou"
+
+#: pyaggr3g470r/templates/home.html:11
+msgid "upload an OPML file."
+msgstr "téléchargez un fichier OPML."
+
+#: pyaggr3g470r/templates/home.html:18 pyaggr3g470r/templates/layout.html:116
 msgid "All feeds"
 msgstr "Tous les flux"
 
-#: pyaggr3g470r/templates/home.html:26 pyaggr3g470r/templates/home.html:40
+#: pyaggr3g470r/templates/home.html:32 pyaggr3g470r/templates/home.html:46
 msgid "Mark this feed as read"
 msgstr "Marquer ce flux comme lu"
 
-#: pyaggr3g470r/templates/home.html:27 pyaggr3g470r/templates/home.html:41
+#: pyaggr3g470r/templates/home.html:33 pyaggr3g470r/templates/home.html:47
 msgid "Mark this feed as unread"
 msgstr "Marquer ce flux comme non lu"
 
-#: pyaggr3g470r/templates/home.html:47
+#: pyaggr3g470r/templates/home.html:53
 msgid "Your articles"
 msgstr "Vos articles"
 
-#: pyaggr3g470r/templates/home.html:50 pyaggr3g470r/templates/home.html:74
+#: pyaggr3g470r/templates/home.html:56 pyaggr3g470r/templates/home.html:80
 msgid "All"
 msgstr "Tout"
 
-#: pyaggr3g470r/templates/home.html:54
+#: pyaggr3g470r/templates/home.html:60
 msgid "Read"
 msgstr "Lus"
 
-#: pyaggr3g470r/templates/home.html:58 pyaggr3g470r/templates/layout.html:113
+#: pyaggr3g470r/templates/home.html:64 pyaggr3g470r/templates/layout.html:113
 msgid "Unread"
 msgstr "Non lus"
 
-#: pyaggr3g470r/templates/home.html:84
+#: pyaggr3g470r/templates/home.html:90
 msgid "Date"
 msgstr "Date"
 
@@ -630,10 +647,6 @@ msgstr "Import/export OPML"
 msgid "Batch import feeds from OPML"
 msgstr "Import en lot via un fichier OPML"
 
-#: pyaggr3g470r/templates/management.html:33
-msgid "or"
-msgstr "ou"
-
 #: pyaggr3g470r/templates/management.html:37
 msgid "Export feeds to OPML"
 msgstr "Exporter les flux au format OPML"
@@ -739,15 +752,6 @@ msgstr "Nombre d'articles"
 
 #~ msgid "All articles marked as read"
 #~ msgstr "Tous les articles marqués comme lus."
-
-#~ msgid "You don't have any feeds."
-#~ msgstr "Vous n'avez pas de flux."
-
-#~ msgid "Add some"
-#~ msgstr "Ajoutez en"
-
-#~ msgid "upload an OPML file."
-#~ msgstr "téléchargez un fichier OPML."
 
 #~ msgid "Fetch this feed"
 #~ msgstr "Récupérer ce flux"

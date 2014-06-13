@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:13+0200\n"
+"POT-Creation-Date: 2014-06-13 18:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Downloading articles..."
 msgstr ""
 
-#: pyaggr3g470r/views.py:391 pyaggr3g470r/templates/home.html:83
+#: pyaggr3g470r/views.py:391 pyaggr3g470r/templates/home.html:89
 msgid "Article"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Add a feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:686 pyaggr3g470r/templates/home.html:82
+#: pyaggr3g470r/views.py:686 pyaggr3g470r/templates/home.html:88
 #: pyaggr3g470r/templates/admin/user.html:45
 msgid "Feed"
 msgstr ""
@@ -315,23 +315,23 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:11 pyaggr3g470r/templates/home.html:95
+#: pyaggr3g470r/templates/article.html:11 pyaggr3g470r/templates/home.html:101
 msgid "Delete this article"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:14 pyaggr3g470r/templates/home.html:98
+#: pyaggr3g470r/templates/article.html:14 pyaggr3g470r/templates/home.html:104
 msgid "One of your favorites"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:16 pyaggr3g470r/templates/home.html:100
+#: pyaggr3g470r/templates/article.html:16 pyaggr3g470r/templates/home.html:106
 msgid "Click if you like this article"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:20 pyaggr3g470r/templates/home.html:104
+#: pyaggr3g470r/templates/article.html:20 pyaggr3g470r/templates/home.html:110
 msgid "Mark this article as unread"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:22 pyaggr3g470r/templates/home.html:106
+#: pyaggr3g470r/templates/article.html:22 pyaggr3g470r/templates/home.html:112
 msgid "Mark this article as read"
 msgstr ""
 
@@ -367,20 +367,20 @@ msgid "Details"
 msgstr ""
 
 #: pyaggr3g470r/templates/favorites.html:18 pyaggr3g470r/templates/feed.html:8
-#: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:24
-#: pyaggr3g470r/templates/home.html:38 pyaggr3g470r/templates/unread.html:18
+#: pyaggr3g470r/templates/feeds.html:33 pyaggr3g470r/templates/home.html:30
+#: pyaggr3g470r/templates/home.html:44 pyaggr3g470r/templates/unread.html:18
 #: pyaggr3g470r/templates/admin/user.html:46
 msgid "Edit this feed"
 msgstr ""
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/home.html:25 pyaggr3g470r/templates/home.html:39
+#: pyaggr3g470r/templates/home.html:31 pyaggr3g470r/templates/home.html:45
 #: pyaggr3g470r/templates/admin/user.html:47
 msgid "Delete this feed"
 msgstr ""
 
 #: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
-#: pyaggr3g470r/templates/home.html:25 pyaggr3g470r/templates/home.html:39
+#: pyaggr3g470r/templates/home.html:31 pyaggr3g470r/templates/home.html:45
 #: pyaggr3g470r/templates/admin/user.html:47
 msgid "You are going to delete this feed."
 msgstr ""
@@ -450,7 +450,7 @@ msgid "Site"
 msgstr ""
 
 #: pyaggr3g470r/templates/feeds.html:13 pyaggr3g470r/templates/feeds.html:32
-#: pyaggr3g470r/templates/home.html:23 pyaggr3g470r/templates/home.html:37
+#: pyaggr3g470r/templates/home.html:29 pyaggr3g470r/templates/home.html:43
 #: pyaggr3g470r/templates/layout.html:102
 msgid "Articles"
 msgstr ""
@@ -469,35 +469,52 @@ msgstr ""
 msgid "Feed disabled"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:12 pyaggr3g470r/templates/layout.html:116
+#: pyaggr3g470r/templates/home.html:10
+msgid "You don't have any feeds."
+msgstr ""
+
+#: pyaggr3g470r/templates/home.html:11
+msgid "Add some"
+msgstr ""
+
+#: pyaggr3g470r/templates/home.html:11
+#: pyaggr3g470r/templates/management.html:33
+msgid "or"
+msgstr ""
+
+#: pyaggr3g470r/templates/home.html:11
+msgid "upload an OPML file."
+msgstr ""
+
+#: pyaggr3g470r/templates/home.html:18 pyaggr3g470r/templates/layout.html:116
 msgid "All feeds"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:26 pyaggr3g470r/templates/home.html:40
+#: pyaggr3g470r/templates/home.html:32 pyaggr3g470r/templates/home.html:46
 msgid "Mark this feed as read"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:27 pyaggr3g470r/templates/home.html:41
+#: pyaggr3g470r/templates/home.html:33 pyaggr3g470r/templates/home.html:47
 msgid "Mark this feed as unread"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:47
+#: pyaggr3g470r/templates/home.html:53
 msgid "Your articles"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:50 pyaggr3g470r/templates/home.html:74
+#: pyaggr3g470r/templates/home.html:56 pyaggr3g470r/templates/home.html:80
 msgid "All"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:54
+#: pyaggr3g470r/templates/home.html:60
 msgid "Read"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:58 pyaggr3g470r/templates/layout.html:113
+#: pyaggr3g470r/templates/home.html:64 pyaggr3g470r/templates/layout.html:113
 msgid "Unread"
 msgstr ""
 
-#: pyaggr3g470r/templates/home.html:84
+#: pyaggr3g470r/templates/home.html:90
 msgid "Date"
 msgstr ""
 
@@ -615,10 +632,6 @@ msgstr ""
 
 #: pyaggr3g470r/templates/management.html:33
 msgid "Batch import feeds from OPML"
-msgstr ""
-
-#: pyaggr3g470r/templates/management.html:33
-msgid "or"
 msgstr ""
 
 #: pyaggr3g470r/templates/management.html:37
