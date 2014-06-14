@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-13 18:48+0200\n"
+"POT-Creation-Date: 2014-06-14 14:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,16 +145,16 @@ msgstr ""
 msgid "Downloading articles..."
 msgstr ""
 
+#: pyaggr3g470r/views.py:334 pyaggr3g470r/views.py:394
+msgid "This article do not exist."
+msgstr ""
+
 #: pyaggr3g470r/views.py:391 pyaggr3g470r/templates/home.html:89
 msgid "Article"
 msgstr ""
 
 #: pyaggr3g470r/views.py:391
 msgid "deleted."
-msgstr ""
-
-#: pyaggr3g470r/views.py:394
-msgid "This article do not exist."
 msgstr ""
 
 #: pyaggr3g470r/views.py:491

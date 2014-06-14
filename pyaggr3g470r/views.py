@@ -331,7 +331,7 @@ def article(article_id=None):
         return render_template('article.html', head_title=utils.clear_string(article.title),
                                article=article,
                                previous_article=previous_article, next_article=next_article)
-    flash("This article do not exist.", 'warning')
+    flash(gettext("This article do not exist."), 'warning')
     return redirect(redirect_url())
 
 
