@@ -196,7 +196,7 @@ def clean_url(url):
         parsed_url.params,
         urllib.urlencode(filtered, doseq=True),
         parsed_url.fragment
-    ])
+    ]).rstrip('=')
 
 
 def open_url(url):
