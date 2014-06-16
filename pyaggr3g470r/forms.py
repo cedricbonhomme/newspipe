@@ -119,7 +119,7 @@ class InformationMessageForm(Form):
 
 class RecoverPasswordForm(Form):
     email = EmailField("Email", [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email address."))])
-    submit = SubmitField(lazy_gettext("Save"))
+    submit = SubmitField(lazy_gettext("Recover"))
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
