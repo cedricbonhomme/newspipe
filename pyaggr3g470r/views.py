@@ -46,7 +46,8 @@ import export
 import emails
 if not conf.ON_HEROKU:
     import search as fastsearch
-from forms import SignupForm, SigninForm, AddFeedForm, ProfileForm, InformationMessageForm
+from forms import SignupForm, SigninForm, AddFeedForm, \
+                    ProfileForm, InformationMessageForm, RecoverPasswordForm
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -739,6 +740,37 @@ def confirm_account(activation_key=None):
         else:
             flash(gettext('Impossible to confirm this account.'), 'danger')
     return redirect(url_for('login'))
+
+@app.route('/recover', methods=['GET', 'POST'])
+def recover():
+    """
+    Enables the user to recover its account when he has forgotten
+    its password.
+    """
+    import string
+    import random
+    form = RecoverPasswordForm()
+
+    if request.method == 'POST':
+        if form.validate():
+            user = User.query.filter(User.email == form.email.data).first()
+            characters = string.ascii_letters + string.digits
+            password = "".join(random.choice(characters) for x in range(random.randint(8, 16)))
+            user.set_password(password)
+            db.session.commit()
+
+            # Send the confirmation email
+            try:
+                emails.new_password_notification(user, password)
+                flash(gettext('New password sent to your address.'), 'success')
+            except Exception as e:
+                flash(gettext('Problem while sending your new password.') + ': ' + str(e), 'danger')
+
+            return redirect(url_for('login'))
+        return render_template('recover.html', form=form)
+
+    if request.method == 'GET':
+        return render_template('recover.html', form=form)
 
 #
 # Views dedicated to administration tasks.

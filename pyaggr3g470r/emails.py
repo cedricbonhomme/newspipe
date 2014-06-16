@@ -1,6 +1,24 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# pyAggr3g470r - A Web based news aggregator.
+# Copyright (C) 2010-2014  Cédric Bonhomme - http://cedricbonhomme.org/
+#
+# For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -14,7 +32,6 @@ from decorators import async
 
 logger = logging.getLogger(__name__)
 
-
 @async
 def send_async_email(mfrom, mto, msg):
     try:
@@ -25,7 +42,6 @@ def send_async_email(mfrom, mto, msg):
     else:
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
-
 
 def send_email(mfrom, mto, feed, article):
     """
@@ -62,7 +78,6 @@ def send_email(mfrom, mto, feed, article):
         s.quit()
 
 
-
 #
 # Notifications
 #
@@ -85,7 +100,6 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
         logger.exception("send_heroku raised:")
         raise e
 
-
 def information_message(subject, plaintext):
     """
     Send an information message to the users of the platform.
@@ -105,7 +119,6 @@ def information_message(subject, plaintext):
     else:
         pass
 
-
 def new_account_notification(user):
     """
     Account creation notification.
@@ -116,7 +129,6 @@ def new_account_notification(user):
         send_heroku(user=user, subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
     else:
         pass
-
 
 def new_account_activation(user):
     """
@@ -129,6 +141,17 @@ def new_account_activation(user):
     else:
         pass
 
+def new_password_notification(user, password):
+    """
+    """
+    plaintext = """Hello,\n\nA new password has been generated at your request:\n\n%s""" % \
+                        (password, )
+    plaintext += "\n\nIt is advised to replace it as soon as connected to pyAggr3g470r.\n\nSee you,"
+
+    if conf.ON_HEROKU:
+        send_heroku(user=user, subject="[pyAggr3g470r] New password", plaintext=plaintext)
+    else:
+        pass
 
 def new_article_notification(user, feed, article):
     if conf.ON_HEROKU:
