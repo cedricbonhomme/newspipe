@@ -151,11 +151,11 @@ def login():
         user = User.query.filter(User.email == form.email.data).first()
         login_user(user)
         g.user = user
+        session['email'] = form.email.data
         identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
-
 
 @app.route('/logout/')
 @login_required
@@ -163,6 +163,8 @@ def logout():
     """
     Log out view. Removes the user information from the session.
     """
+    session.pop('email', None)
+
     # Remove the user information from the session
     logout_user()
 

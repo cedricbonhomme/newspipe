@@ -42,4 +42,8 @@ app.jinja_env.filters['datetime'] = format_datetime
 gravatar = Gravatar(app, size=100, rating='g', default='retro',
                     force_default=False, use_ssl=False, base_url=None)
 
-from pyaggr3g470r import views
+# Views
+from flask.ext.restful import Api
+api = Api(app)
+
+from pyaggr3g470r import views, rest
