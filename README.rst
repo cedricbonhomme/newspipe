@@ -142,6 +142,24 @@ For example if you want to check for updates every 30 minutes, add this line to 
 You must give the email address you use to login to pyAggr3g470r.
 
 
+Web service
+-----------
+
+It is possible to get your articles *via* a dedicated Web service. See the example below.
+
+.. code:: python
+
+    >>> import requests, json
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/articles.json/", auth=("your-email", "your-password"))
+    >>> r.status_code
+    200
+    >>> rjson = json.loads(r.text)
+    >>> rjson["result"][0]["title"]
+    u'Sponsors required for KDE code sprint in Randa'
+    >>> rjson["result"][0]["date"]
+    u'Wed, 18 Jun 2014 14:25:18 GMT'
+
+
 Donation
 ========
 
