@@ -26,13 +26,13 @@ __revision__ = "$Date: 2014/06/18 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
+from functools import wraps
 from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
 
 from pyaggr3g470r import api
 from pyaggr3g470r.models import User, Article
 
-from functools import wraps
 def authenticate(func):
     """
     Decorator for the authentication to the web services.
@@ -42,8 +42,20 @@ def authenticate(func):
         if not getattr(func, 'authenticated', True):
             return func(*args, **kwargs)
 
-        if 'email' in session:
+        # authentication based on the session (already logged on the site)
+        if 'email' in session or g.user.is_authenticated():
             return func(*args, **kwargs)
+
+        # authentication via HTTP only
+        auth = request.authorization
+        try:
+            email = auth.username
+            user = User.query.filter(User.email == email).first()
+            if user and user.check_password(auth.password):
+                g.user = user
+                return func(*args, **kwargs)
+        except AttributeError:
+            pass
 
         return Response('<Authentication required>', 401,
                         {'WWWAuthenticate':'Basic realm="Login Required"'})
