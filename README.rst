@@ -50,8 +50,8 @@ An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com
     $ heroku ps:scale web=1
 
 To enable account creation for users, you have to set some environment variables:
-    
-.. code:: bash    
+
+.. code:: bash
 
     $ heroku config:set PLATFORM_URL=<URL-of-your-platform>
     $ heroku config:set RECAPTCHA_PUBLIC_KEY=<your-recaptcha-public-key>
@@ -159,6 +159,14 @@ It is possible to get your articles *via* a dedicated Web service. See the examp
     >>> rjson["result"][0]["date"]
     u'Wed, 18 Jun 2014 14:25:18 GMT'
 
+Possible parameters:
+
+.. code:: bash
+
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=unread&feed=24"
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=read&feed=24&limit=20"
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=all&feed=24&limit=20"
+
 
 Donation
 ========
@@ -167,10 +175,12 @@ If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
 `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
+
 Internationalization
 ====================
 
 pyAggr3g470r is translated into English and French.
+
 
 License
 =======
