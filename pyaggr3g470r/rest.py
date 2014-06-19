@@ -51,7 +51,7 @@ def authenticate(func):
         try:
             email = auth.username
             user = User.query.filter(User.email == email).first()
-            if user and user.check_password(auth.password):
+            if user and user.check_password(auth.password) and user.activation_key == "":
                 g.user = user
                 return func(*args, **kwargs)
         except AttributeError:
