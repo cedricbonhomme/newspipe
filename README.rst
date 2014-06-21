@@ -12,8 +12,10 @@ Features
 ========
 
 * can be deployed on Heroku or on a traditional server;
-* data liberation: export/import all your account with a JSON file;
-* export/import feeds with OPML files;
+* multiple users can use the platform;
+* articles are accessible via a JSON Web service;
+* data liberation: export and import all your account with a JSON file;
+* export and import feeds with OPML files;
 * export articles to HTML;
 * e-mail notification;
 * favorite articles;
@@ -36,7 +38,7 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
-An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_ .
+An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_.
 
 .. code:: bash
 
