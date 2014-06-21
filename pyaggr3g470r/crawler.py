@@ -149,7 +149,11 @@ class FeedGetter(object):
             articles = []
             for article in a_feed['entries']:
 
-                nice_url = article.link.encode("utf-8")
+                try:
+                    nice_url = article.link.encode("utf-8")
+                except:
+                    # if not able to get the link of the article, continue
+                    continue
                 if conf.RESOLVE_ARTICLE_URL:
                     try:
                         # resolves URL behind proxies
