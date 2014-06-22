@@ -216,6 +216,9 @@ def signup():
 @app.route('/')
 @login_required
 def home():
+    """
+    Home page for connected users. Displays by default unread articles.
+    """
     feeds = {feed.id: feed.title for feed in g.user.feeds if feed.enabled}
     articles = Article.query.filter(Article.feed_id.in_(feeds.keys()), 
                                     Article.user_id == g.user.id)
