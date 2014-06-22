@@ -120,11 +120,11 @@
         {% else %}
             <br />
             {% if filter_ == 'all' %}
-                <div class="alert alert-warning"><strong>Oh!</strong> {{ _('This feed is empty.') }}</div>
+                <div class="alert alert-warning"><strong>{{ _('Oh!') }}</strong> {{ _('This feed is empty.') }}</div>
             {% elif filter_ == 'read' %}
-                <div class="alert alert-info"><strong>Work for you!</strong> {{ _('All articles are unread.') }}</div>
+                <div class="alert alert-info"><strong>{{ _('Work for you!') }}</strong> {{ _('All articles are unread.') }}</div>
             {% elif filter_ == 'unread' %}
-                <div class="alert alert-success"><strong>Well done!</strong> {{ _('You read all articles.') }}</div>
+                <div class="alert alert-success"><strong>{{ _('Well done!') }}</strong> {{ _('You read all articles.') }}</div>
             {% endif %}
         {% endif %}
     </div><!-- /.container -->
