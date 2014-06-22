@@ -50,7 +50,7 @@
         </ul>
     </div>
     <div class="container col-md-9">
-        <h1>{{ _('Your articles') }} ({{ articles.__len__() }})</h1>
+        <h1>{{ _('Articles') }} ({{ articles.__len__() }})</h1>
         <div>
             {% if filter_ == 'all' %}<b>{% endif %}
                 <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
@@ -79,44 +79,54 @@
             {% if limit == 'all' %}<b>{% endif %}
                 <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
             {% if limit == 'all' %}</b>{% endif %}
-
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped strict-table">
-                <thead>
-                    <tr>
-                        <th>{{ _('Feed') }}</th>
-                        <th>{{ _('Article') }}</th>
-                        <th>{{ _('Date') }}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for article in articles %}
-                    <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
-                        <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title|safe }}</a></td>
-                        <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
-                        <td class="date">{{ article.date|datetime }}</a></td>
-                        <td>
-                            <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
-                            <a href="/like/{{ article.id }}">
-                            {% if article.like %}
-                                <i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i>
-                            {% else %}
-                                <i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i>
-                            {% endif %}
-                            </a>
-                            {% if article.readed %}
-                                <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
-                            {% else %}
-                                <a href="/mark_as/read/article/{{ article.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this article as read') }}"></i></a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% if articles | count != 0%}
+            <div class="table-responsive">
+                <table class="table table-striped strict-table">
+                    <thead>
+                        <tr>
+                            <th>{{ _('Feed') }}</th>
+                            <th>{{ _('Article') }}</th>
+                            <th>{{ _('Date') }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
+                            <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title|safe }}</a></td>
+                            <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
+                            <td class="date">{{ article.date|datetime }}</a></td>
+                            <td>
+                                <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
+                                <a href="/like/{{ article.id }}">
+                                {% if article.like %}
+                                    <i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i>
+                                {% else %}
+                                    <i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i>
+                                {% endif %}
+                                </a>
+                                {% if article.readed %}
+                                    <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
+                                {% else %}
+                                    <a href="/mark_as/read/article/{{ article.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this article as read') }}"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <br />
+            {% if filter_ == 'all' %}
+                <div class="alert alert-warning"><strong>Oh!</strong> {{ _('This feed is empty.') }}</div>
+            {% elif filter_ == 'read' %}
+                <div class="alert alert-info"><strong>Work for you!</strong> {{ _('All articles are unread.') }}</div>
+            {% elif filter_ == 'unread' %}
+                <div class="alert alert-success"><strong>Well done!</strong> {{ _('You read all articles.') }}</div>
+            {% endif %}
+        {% endif %}
     </div><!-- /.container -->
 {% endif %}
 {% endblock %}
