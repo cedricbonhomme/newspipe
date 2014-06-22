@@ -152,7 +152,7 @@ It is possible to get your articles *via* a dedicated Web service. See the examp
 .. code:: python
 
     >>> import requests, json
-    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/articles.json/", auth=("your-email", "your-password"))
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles", auth=("your-email", "your-password"))
     >>> r.status_code
     200
     >>> rjson = json.loads(r.text)
@@ -165,9 +165,15 @@ Possible parameters:
 
 .. code:: bash
 
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=unread&feed=24"
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=read&feed=24&limit=20"
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/articles.json/?filter_=all&feed=24&limit=20"
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=unread&feed=24"
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=read&feed=24&limit=20"
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=all&feed=24&limit=20"
+
+To get an article:
+
+.. code:: bash
+
+    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84566"
 
 
 Donation

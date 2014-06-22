@@ -30,7 +30,7 @@ from functools import wraps
 from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
 
-from pyaggr3g470r import api
+from pyaggr3g470r import api, db
 from pyaggr3g470r.models import User, Article
 
 def authenticate(func):
@@ -61,7 +61,7 @@ def authenticate(func):
                         {'WWWAuthenticate':'Basic realm="Login Required"'})
     return wrapper
 
-class ArticleAPI(Resource):
+class ArticleListAPI(Resource):
     """
     Defines a RESTful API for Article elements.
     """
@@ -71,11 +71,11 @@ class ArticleAPI(Resource):
         #self.reqparse = reqparse.RequestParser()
         #self.reqparse.add_argument('item_id', type = str, location = 'json')
         #self.reqparse.add_argument('item_title', type = unicode, location = 'json')
-        super(ArticleAPI, self).__init__()
+        super(ArticleListAPI, self).__init__()
 
     def get(self):
         """
-        Get the list of articles.
+        Returns a list of articles.
         """
         feeds = {feed.id: feed.title for feed in g.user.feeds if feed.enabled}
         articles = Article.query.filter(Article.feed_id.in_(feeds.keys()), 
@@ -94,32 +94,83 @@ class ArticleAPI(Resource):
             articles = articles.limit(limit)
 
         return jsonify(result= [{
+                                    "id": article.id,
                                     "title": article.title,
                                     "link": article.link,
                                     "content": article.content,
                                     "readed": article.readed,
                                     "like": article.like,
                                     "date": article.date,
-                                    "retrieved_date": article.retrieved_date
+                                    "retrieved_date": article.retrieved_date,
+                                    "feed_id": article.source.id,
+                                    "feed_name": article.source.title
                                 }
                                 for article in articles]
                         )
 
     def post(self):
+        pass
+
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
+
+class ArticleAPI(Resource):
+    """
+    Defines a RESTful API for Article elements.
+    """
+    method_decorators = [authenticate]
+
+    def __init__(self):
+        super(ArticleAPI, self).__init__()
+
+    def get(self, id=None):
+        """
+        Returns an article.
+        """
+        result = []
+        if id is not None:
+            article = Article.query.filter(Article.user_id == g.user.id, Article.id == id).first()
+            if article is not None:
+                if not article.readed:
+                    article.readed = True
+                    db.session.commit()
+                result.append(article)
+
+        return jsonify(result= [{
+                                    "id": article.id,
+                                    "title": article.title,
+                                    "link": article.link,
+                                    "content": article.content,
+                                    "readed": article.readed,
+                                    "like": article.like,
+                                    "date": article.date,
+                                    "retrieved_date": article.retrieved_date,
+                                    "feed_id": article.source.id,
+                                    "feed_name": article.source.title
+                                }
+                                for article in result]
+                        )
+
+    def post(self, id):
         """
         Update an article.
         """
         pass
 
-    def put(self):
+    def put(self, id):
         """
         Create an article.
         """
         pass
 
-    def delete(self):
+    def delete(self, id):
         """
+        Delete an article.
         """
         pass
 
-api.add_resource(ArticleAPI, '/articles.json/', endpoint = 'articles.json')
+api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
+api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>', endpoint = 'article.json')
