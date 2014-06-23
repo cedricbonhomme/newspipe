@@ -181,7 +181,7 @@ Add an article:
 
     >>> import requests, json
     >>> headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/', 'title': 'Sortie de pyAggr3g470r 5.3', 'content':'La page principale de pyAggr3g470r a été améliorée...', 'date':str(datetime.datetime.now()), 'feed_id':'42'}
+    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/', 'title': 'Sortie de pyAggr3g470r 5.3', 'content':'La page principale de pyAggr3g470r a été améliorée...', 'date':'06/23/2014 11:42 AM'), 'feed_id':'42'}
     >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/0", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
     >>> print r.content
     {

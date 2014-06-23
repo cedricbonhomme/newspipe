@@ -26,7 +26,8 @@ __revision__ = "$Date: 2014/06/18 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
-import dateutil
+import re
+import dateutil.parser
 from functools import wraps
 from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
@@ -126,13 +127,11 @@ class ArticleListAPI(Resource):
         article_date = None
         try:
             article_date = dateutil.parser.parse(article_dict["date"], dayfirst=True)
-            return {"message":"bad format for the date"}
         except:
             try:  # trying to clean date field from letters
                 article_date = dateutil.parser.parse(re.sub('[A-z]', '', article_dict["date"], dayfirst=True))
-                return {"message":"bad format for the date"}
             except:
-                pass
+                return {"message":"bad format for the date"}
         article = Article(link=article_dict["link"], title=article_dict["title"],
                                 content=article_dict["content"], readed=False, like=False,
                                 date=article_date, user_id=g.user.id,
