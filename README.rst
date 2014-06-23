@@ -187,11 +187,14 @@ Add an article:
     {
         "message": "ok"
     }
-    >>>
     >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?feed=42&limit=1", auth=("your-email", "your-password"))
     >>> print json.loads(r.content)["result"][0]["title"]
     Sortie de pyAggr3g470r 5.3
-    >>>
+
+Delete an article:
+
+.. code:: python
+
     >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
     200
