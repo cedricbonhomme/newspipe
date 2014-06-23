@@ -149,14 +149,6 @@ class ArticleListAPI(Resource):
         response.status_code = 501
         return response
 
-    def delete(self):
-        """
-        DELETE method - no sense here.
-        """
-        response = jsonify({'code': 501, 'message': 'DELETE method not implemented for Article objects.'})
-        response.status_code = 501
-        return response
-
 class ArticleAPI(Resource):
     """
     Defines a RESTful API for Article elements.
@@ -204,11 +196,17 @@ class ArticleAPI(Resource):
 
     def delete(self, id):
         """
-        DELETE method - no sense here.
+        Delete an article.
         """
-        response = jsonify({'code': 501, 'message': 'DELETE method not implemented for Article objects.'})
-        response.status_code = 501
-        return response
+        article = Article.query.filter(Article.id == id).first()
+        if article is not None and article.source.subscriber.id == g.user.id:
+            db.session.delete(article)
+            db.session.commit()
+            return {"message":"ok"}
+        else:
+            response = jsonify({'code': 404, 'message': 'Article not found'})
+            response.status_code = 404
+            return response
 
 api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
 api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>', endpoint = 'article.json')
