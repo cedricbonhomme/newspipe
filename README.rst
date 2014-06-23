@@ -192,14 +192,14 @@ Add an article:
     >>> print json.loads(r.content)["result"][0]["title"]
     Sortie de pyAggr3g470r 5.3
     >>>
-    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("root@pyAggr3g470r.localhost", "password"))
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
     200
     >>> print r.content
     {
         "message": "ok"
     }
-    >>> r = requests.delete("hhttps://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("root@pyAggr3g470r.localhost", "password"))
+    >>> r = requests.delete("hhttps://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
     404
     >>> print r.content
