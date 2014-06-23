@@ -13,7 +13,7 @@ Features
 
 * can be deployed on Heroku or on a traditional server;
 * multiple users can use the platform;
-* articles are accessible via a JSON Web service;
+* a RESTful API to manage your articles;
 * data liberation: export and import all your account with a JSON file;
 * export and import feeds with OPML files;
 * export articles to HTML;
@@ -147,7 +147,7 @@ You must give the email address you use to login to pyAggr3g470r.
 Web service
 -----------
 
-It is possible to get your articles *via* a dedicated Web service. See the example below.
+It is possible to manage your articles thanks to a dedicated Web service. See the examples below.
 
 .. code:: python
 
@@ -169,7 +169,7 @@ Possible parameters:
     $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=read&feed=24&limit=20"
     $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=all&feed=24&limit=20"
 
-To get an article:
+Get an article:
 
 .. code:: bash
 
@@ -222,7 +222,6 @@ Delete an article:
     "message": "Article not found"
     }
 
-For example you can use this in order to connect pyAggr3g470r to your own crawler.
 
 Donation
 ========
