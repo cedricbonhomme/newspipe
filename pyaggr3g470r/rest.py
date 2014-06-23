@@ -69,6 +69,12 @@ class ArticleListAPI(Resource):
     method_decorators = [authenticate]
 
     def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('title', type = unicode, location = 'json')
+        self.reqparse.add_argument('content', type = unicode, location = 'json')
+        self.reqparse.add_argument('link', type = unicode, location = 'json')
+        self.reqparse.add_argument('date', type = str, location = 'json')
+        self.reqparse.add_argument('feed_id', type = int, location = 'json')
         super(ArticleListAPI, self).__init__()
 
     def get(self):
@@ -106,6 +112,35 @@ class ArticleListAPI(Resource):
                                 for article in articles]
                         )
 
+    def post(self):
+        """
+        POST method - Create a new article.
+        """
+        args = self.reqparse.parse_args()
+        article_dict = {}
+        for k, v in args.iteritems():
+            if v != None:
+                article_dict[k] = v
+            else:
+                return {"message":"missing argument: %s" % (k,)}
+        article_date = None
+        try:
+            article_date = dateutil.parser.parse(article_dict["date"], dayfirst=True)
+            return {"message":"bad format for the date"}
+        except:
+            try:  # trying to clean date field from letters
+                article_date = dateutil.parser.parse(re.sub('[A-z]', '', article_dict["date"], dayfirst=True))
+                return {"message":"bad format for the date"}
+            except:
+                pass
+        article = Article(link=article_dict["link"], title=article_dict["title"],
+                                content=article_dict["content"], readed=False, like=False,
+                                date=article_date, user_id=g.user.id,
+                                feed_id=article_dict["feed_id"])
+        feed = Feed.query.filter(Feed.id == article_dict["feed_id"], Feed.user_id == g.user.id).first()
+        feed.articles.append(article)
+        db.session.commit()
+        return {"message":"ok"}
 
     def put(self):
         """
@@ -130,12 +165,6 @@ class ArticleAPI(Resource):
     method_decorators = [authenticate]
 
     def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('title', type = unicode, location = 'json')
-        self.reqparse.add_argument('content', type = unicode, location = 'json')
-        self.reqparse.add_argument('link', type = unicode, location = 'json')
-        self.reqparse.add_argument('date', type = str, location = 'json')
-        self.reqparse.add_argument('feed_id', type = int, location = 'json')
         super(ArticleAPI, self).__init__()
 
     def get(self, id=None):
@@ -165,36 +194,6 @@ class ArticleAPI(Resource):
                                 }
                                 for article in result]
                         )
-
-    def post(self, id):
-        """
-        POST method - Create a new article.
-        """
-        args = self.reqparse.parse_args()
-        article_dict = {}
-        for k, v in args.iteritems():
-            if v != None:
-                article_dict[k] = v
-            else:
-                return {"message":"missing argument: %s" % (k,)}
-        article_date = None
-        try:
-            article_date = dateutil.parser.parse(article_dict["date"], dayfirst=True)
-            return {"message":"bad format for the date"}
-        except:
-            try:  # trying to clean date field from letters
-                article_date = dateutil.parser.parse(re.sub('[A-z]', '', article_dict["date"], dayfirst=True))
-                return {"message":"bad format for the date"}
-            except:
-                pass
-        article = Article(link=article_dict["link"], title=article_dict["title"],
-                                content=article_dict["content"], readed=False, like=False,
-                                date=article_date, user_id=g.user.id,
-                                feed_id=article_dict["feed_id"])
-        feed = Feed.query.filter(Feed.id == article_dict["feed_id"], Feed.user_id == g.user.id).first()
-        feed.articles.append(article)
-        db.session.commit()
-        return {"message":"ok"}
 
     def put(self, id):
         """
