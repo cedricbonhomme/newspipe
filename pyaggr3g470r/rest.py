@@ -109,13 +109,28 @@ class ArticleListAPI(Resource):
                         )
 
     def post(self):
-        pass
+        """
+        POST method - no sense here.
+        """
+        response = jsonify({'code': 501, 'message': 'POST method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
     def put(self):
-        pass
+        """
+        PUT method - no sense here.
+        """
+        response = jsonify({'code': 501, 'message': 'PUT method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
     def delete(self):
-        pass
+        """
+        DELETE method - no sense here.
+        """
+        response = jsonify({'code': 501, 'message': 'DELETE method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
 class ArticleAPI(Resource):
     """
@@ -154,23 +169,29 @@ class ArticleAPI(Resource):
                                 for article in result]
                         )
 
-    def post(self, id):
+    def post(self):
         """
-        Update an article.
+        POST method - no sense here.
         """
-        pass
+        response = jsonify({'code': 501, 'message': 'POST method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
-    def put(self, id):
+    def put(self):
         """
-        Create an article.
+        PUT method - no sense here.
         """
-        pass
+        response = jsonify({'code': 501, 'message': 'PUT method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
-    def delete(self, id):
+    def delete(self):
         """
-        Delete an article.
+        DELETE method - no sense here.
         """
-        pass
+        response = jsonify({'code': 501, 'message': 'DELETE method not implemented for Article objects.'})
+        response.status_code = 501
+        return response
 
 api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
 api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>', endpoint = 'article.json')
