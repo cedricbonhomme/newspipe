@@ -192,6 +192,8 @@ Add an article:
     Sortie de pyAggr3g470r 5.3
     >>>
 
+For example you can use this in order to connect pyAggr3g470r to your own crawler.
+
 Donation
 ========
 
