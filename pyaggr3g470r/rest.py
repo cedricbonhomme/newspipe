@@ -31,6 +31,7 @@ import dateutil.parser
 from functools import wraps
 from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
+#from flask.ext.restful.inputs import boolean
 
 from pyaggr3g470r import api, db
 from pyaggr3g470r.models import User, Article, Feed
@@ -141,14 +142,6 @@ class ArticleListAPI(Resource):
         db.session.commit()
         return {"message":"ok"}
 
-    def put(self):
-        """
-        PUT method - no sense here.
-        """
-        response = jsonify({'code': 501, 'message': 'PUT method not implemented for Article objects.'})
-        response.status_code = 501
-        return response
-
 class ArticleAPI(Resource):
     """
     Defines a RESTful API for Article elements.
@@ -156,6 +149,9 @@ class ArticleAPI(Resource):
     method_decorators = [authenticate]
 
     def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('like', type = bool, location = 'json')
+        self.reqparse.add_argument('readed', type = bool, location = 'json')
         super(ArticleAPI, self).__init__()
 
     def get(self, id=None):
@@ -188,11 +184,22 @@ class ArticleAPI(Resource):
 
     def put(self, id):
         """
-        PUT method - no sense here.
+        Update an article.
+        It is only possible to update the status ('like' and 'readed') of an article.
         """
-        response = jsonify({'code': 501, 'message': 'PUT method not implemented for Article objects.'})
-        response.status_code = 501
-        return response
+        args = self.reqparse.parse_args()
+        article = Article.query.filter(Article.id == id).first()
+        if article is not None and article.source.subscriber.id == g.user.id:
+            if None is not args.get('like', None):
+                article.like = args['like']
+            if None is not args.get('readed', None):
+                article.readed = args['readed']
+            db.session.commit()
+            return {"message":"ok"}
+        else:
+            response = jsonify({'code': 404, 'message': 'Article not found'})
+            response.status_code = 404
+            return response
 
     def delete(self, id):
         """

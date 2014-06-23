@@ -191,6 +191,17 @@ Add an article:
     >>> print json.loads(r.content)["result"][0]["title"]
     Sortie de pyAggr3g470r 5.3
 
+Update an article:
+
+.. code:: python
+
+    >>> payload = {"like":True, "readed":False}
+    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/65", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+    >>> print r.content
+    {
+        "message": "ok"
+    }
+
 Delete an article:
 
 .. code:: python
