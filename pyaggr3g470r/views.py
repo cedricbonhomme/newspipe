@@ -157,7 +157,7 @@ def login():
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
-@app.route('/logout/')
+@app.route('/logout')
 @login_required
 def logout():
     """
