@@ -136,7 +136,7 @@ def get_timezone():
 #
 # Views.
 #
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     """
     Log in view.
@@ -178,7 +178,7 @@ def logout():
     flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
 
-@app.route('/signup/', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     """
     Signup page.
@@ -244,7 +244,7 @@ def home():
                            unread=dict(unread), articles=articles.all())
 
 
-@app.route('/article/redirect/<int:article_id>/', methods=['GET'])
+@app.route('/article/redirect/<int:article_id>', methods=['GET'])
 @login_required
 def redirect_to_article(article_id):
     article = Article.query.filter(Article.id == article_id,
@@ -256,8 +256,8 @@ def redirect_to_article(article_id):
     return redirect(article.link)
 
 
-@app.route('/fetch/', methods=['GET'])
-@app.route('/fetch/<int:feed_id>/', methods=['GET'])
+@app.route('/fetch', methods=['GET'])
+@app.route('/fetch/<int:feed_id>', methods=['GET'])
 @login_required
 def fetch(feed_id=None):
     """
@@ -268,14 +268,14 @@ def fetch(feed_id=None):
     flash(gettext("Downloading articles..."), 'success')
     return redirect(redirect_url())
 
-@app.route('/about/', methods=['GET'])
+@app.route('/about', methods=['GET'])
 def about():
     """
     'About' page.
     """
     return render_template('about.html')
 
-@app.route('/feeds/', methods=['GET'])
+@app.route('/feeds', methods=['GET'])
 @login_required
 def feeds():
     """
@@ -315,7 +315,7 @@ def feed(feed_id=None):
                         first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
                         average=average, delta=delta, elapsed=elapsed)
 
-@app.route('/article/<int:article_id>/', methods=['GET'])
+@app.route('/article/<int:article_id>', methods=['GET'])
 @login_required
 def article(article_id=None):
     """
@@ -341,9 +341,9 @@ def article(article_id=None):
     return redirect(redirect_url())
 
 
-@app.route('/mark_as/<string:new_value>/', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>/', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/article/<int:article_id>/', methods=['GET'])
+@app.route('/mark_as/<string:new_value>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
 @login_required
 @feed_access_required
 def mark_as(new_value='read', feed_id=None, article_id=None):
@@ -367,7 +367,7 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
         return redirect(redirect_url())
     return redirect(url_for('home'))
 
-@app.route('/like/<int:article_id>/', methods=['GET'])
+@app.route('/like/<int:article_id>', methods=['GET'])
 @login_required
 def like(article_id=None):
     """
@@ -380,7 +380,7 @@ def like(article_id=None):
     db.session.commit()
     return redirect(redirect_url())
 
-@app.route('/delete/<int:article_id>/', methods=['GET'])
+@app.route('/delete/<int:article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
     """
@@ -400,7 +400,7 @@ def delete(article_id=None):
         flash(gettext('This article do not exist.'), 'danger')
         return redirect(url_for('home'))
 
-@app.route('/articles/<feed_id>/', methods=['GET'])
+@app.route('/articles/<feed_id>', methods=['GET'])
 @app.route('/articles/<feed_id>/<int:nb_articles>', methods=['GET'])
 @login_required
 @feed_access_required
@@ -422,7 +422,7 @@ def articles(feed_id=None, nb_articles=-1):
                                         Article.feed_id == feed.id).order_by(desc("Article.date")).limit(nb_articles)
     return render_template('articles.html', feed=new_feed, nb_articles=nb_articles)
 
-@app.route('/favorites/', methods=['GET'])
+@app.route('/favorites', methods=['GET'])
 @login_required
 def favorites():
     """
@@ -441,8 +441,8 @@ def favorites():
             nb_favorites += length
     return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
-@app.route('/unread/<int:feed_id>/', methods=['GET'])
-@app.route('/unread/', methods=['GET'])
+@app.route('/unread/<int:feed_id>', methods=['GET'])
+@app.route('/unread', methods=['GET'])
 @login_required
 def unread(feed_id=None):
     """
@@ -464,7 +464,7 @@ def unread(feed_id=None):
             nb_unread += length
     return render_template('unread.html', feeds=result, nb_unread=nb_unread)
 
-@app.route('/inactives/', methods=['GET'])
+@app.route('/inactives', methods=['GET'])
 @login_required
 def inactives():
     """
@@ -484,7 +484,7 @@ def inactives():
             inactives.append((feed, elapsed))
     return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
 
-@app.route('/index_database/', methods=['GET'])
+@app.route('/index_database', methods=['GET'])
 @login_required
 def index_database():
     """
@@ -502,7 +502,7 @@ def index_database():
         flash(gettext('Option not available on Heroku.'), 'success')
         return redirect(url_for('home'))
 
-@app.route('/export/', methods=['GET'])
+@app.route('/export', methods=['GET'])
 @login_required
 def export_articles():
     """
@@ -534,7 +534,7 @@ def export_articles():
         return redirect(redirect_url())
     return response
 
-@app.route('/export_opml/', methods=['GET'])
+@app.route('/export_opml', methods=['GET'])
 @login_required
 def export_opml():
     """
@@ -546,7 +546,7 @@ def export_opml():
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
 
-@app.route('/search/', methods=['GET'])
+@app.route('/search', methods=['GET'])
 @login_required
 def search():
     """
@@ -581,7 +581,7 @@ def search():
                     break
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
-@app.route('/management/', methods=['GET', 'POST'])
+@app.route('/management', methods=['GET', 'POST'])
 @login_required
 def management():
     """
@@ -623,13 +623,13 @@ def management():
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles, \
                             not_on_heroku = not conf.ON_HEROKU)
 
-@app.route('/history/', methods=['GET'])
+@app.route('/history', methods=['GET'])
 @login_required
 def history():
     user = User.query.filter(User.id == g.user.id).first()
     return render_template('history.html')
 
-@app.route('/create_feed/', methods=['GET', 'POST'])
+@app.route('/create_feed', methods=['GET', 'POST'])
 @app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
 @feed_access_required
@@ -692,7 +692,7 @@ def delete_feed(feed_id=None):
     flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully deleted.'), 'success')
     return redirect(redirect_url())
 
-@app.route('/profile/', methods=['GET', 'POST'])
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     """
@@ -716,7 +716,7 @@ def profile():
         form = ProfileForm(obj=user)
         return render_template('profile.html', user=user, form=form)
 
-@app.route('/delete_account/', methods=['GET'])
+@app.route('/delete_account', methods=['GET'])
 @login_required
 def delete_account():
     """
@@ -780,7 +780,7 @@ def recover():
 #
 # Views dedicated to administration tasks.
 #
-@app.route('/admin/dashboard/', methods=['GET', 'POST'])
+@app.route('/admin/dashboard', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
 def dashboard():
@@ -799,8 +799,8 @@ def dashboard():
     users = User.query.all()
     return render_template('admin/dashboard.html', users=users, current_user=g.user, form=form)
 
-@app.route('/admin/create_user/', methods=['GET', 'POST'])
-@app.route('/admin/edit_user/<int:user_id>/', methods=['GET', 'POST'])
+@app.route('/admin/create_user', methods=['GET', 'POST'])
+@app.route('/admin/edit_user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
 def create_user(user_id=None):
@@ -830,7 +830,7 @@ def create_user(user_id=None):
                 db.session.add(user)
                 db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
-            return redirect("/admin/edit_user/"+str(user.id)+"/")
+            return redirect("/admin/edit_user/"+str(user.id))
         else:
             return redirect(url_for('create_user'))
 
@@ -844,7 +844,7 @@ def create_user(user_id=None):
             message = gettext('Add a new user')
         return render_template('/admin/create_user.html', form=form, message=message)
 
-@app.route('/admin/user/<int:user_id>/', methods=['GET'])
+@app.route('/admin/user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
 def user(user_id=None):
@@ -858,7 +858,7 @@ def user(user_id=None):
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(redirect_url())
 
-@app.route('/admin/delete_user/<int:user_id>/', methods=['GET'])
+@app.route('/admin/delete_user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
@@ -874,8 +874,8 @@ def delete_user(user_id=None):
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
 
-@app.route('/admin/enable_user/<int:user_id>/', methods=['GET'])
-@app.route('/admin/disable_user/<int:user_id>/', methods=['GET'])
+@app.route('/admin/enable_user/<int:user_id>', methods=['GET'])
+@app.route('/admin/disable_user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require()
 def disable_user(user_id=None):

@@ -101,27 +101,27 @@ deployed on Heroku or on a traditional server." />
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Articles') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a accesskey="r" href="/fetch/">{{ _('Fetch') }}</a></li>
-                        <li><a href="/mark_as/read/">{{ _('Mark all as read') }}</a></li>
+                        <li><a accesskey="r" href="/fetch">{{ _('Fetch') }}</a></li>
+                        <li><a href="/mark_as/read">{{ _('Mark all as read') }}</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li><a href="/create_feed/">{{ _('Add a feed') }}</a></li>
+                        <li><a href="/create_feed">{{ _('Add a feed') }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Filter') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a accesskey="u" href="/unread/">{{ _('Unread') }}</a></li>
-                        <li><a accesskey="f" href="/favorites/">{{ _('Favorites') }}</a></li>
-                        <li><a accesskey="i" href="/inactives/">{{ _('Inactive feeds') }}</a></li>
-                        <li><a href="/feeds/">{{ _('All feeds') }}</a></li>
-                        <li><a href="/history/">{{ _('History') }}</a></li>
+                        <li><a accesskey="u" href="/unread">{{ _('Unread') }}</a></li>
+                        <li><a accesskey="f" href="/favorites">{{ _('Favorites') }}</a></li>
+                        <li><a accesskey="i" href="/inactives">{{ _('Inactive feeds') }}</a></li>
+                        <li><a href="/feeds">{{ _('All feeds') }}</a></li>
+                        <li><a href="/history">{{ _('History') }}</a></li>
                     </ul>
                 </li>
-                <li><a accesskey="m" href="/management/">{{ _('Management') }}</a></li>
+                <li><a accesskey="m" href="/management">{{ _('Management') }}</a></li>
                 {% if g.user.is_admin() %}
                     <li><a href="{{ url_for('dashboard') }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                 {% endif %}
-                <li><a href="/about/">{{ _('About') }}</a></li>
+                <li><a href="/about">{{ _('About') }}</a></li>
                 <li><a href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -129,7 +129,7 @@ deployed on Heroku or on a traditional server." />
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <form class="navbar-form" method=get action="/search/" role="search">
+                            <form class="navbar-form" method=get action="/search" role="search">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="query" placeholder="Search">
                                 </div>
@@ -138,7 +138,7 @@ deployed on Heroku or on a traditional server." />
                     </ul>
                 </li>
             {% else %}
-                <li><a href="/about/">{{ _('About') }}</a></li>
+                <li><a href="/about">{{ _('About') }}</a></li>
             {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->

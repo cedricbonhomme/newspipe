@@ -3,17 +3,17 @@
 <div class="container">
     <div class="jumbotron">
         <h1>{{ _('Your subscriptions') }}</h1>
-        <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="/create_feed/">{{ _('feed') }}</a>.</p>
-        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread/">{{ _('unread articles') }}</a>.</p>
+        <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="/create_feed">{{ _('feed') }}</a>.</p>
+        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread">{{ _('unread articles') }}</a>.</p>
         {% if not_on_heroku %}
-            <a href="/index_database/" class="btn btn-default">{{ _('Index database') }}</a>
+            <a href="/index_database" class="btn btn-default">{{ _('Index database') }}</a>
         {% endif %}
     </div>
     <div class="jumbotron">
         <h1>{{ _('Your Profile') }}</h1>
         <div class="row">
             <div class="col-md-6">
-                <p>{{ _('Update your') }} <a href="/profile/">{{ _('profile') }}</a>.</p>
+                <p>{{ _('Update your') }} <a href="/profile">{{ _('profile') }}</a>.</p>
                 <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
                 <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
             </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <a href="/delete_account/" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+                <a href="/delete_account" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
             </div>
        </div>
     </div>
@@ -34,7 +34,7 @@
             <button class="btn btn-default" type="submit">OK</button>
         </form>
         <br />
-        <a href="/export_opml/" class="btn btn-default">{{ _('Export feeds to OPML') }}</a>
+        <a href="/export_opml" class="btn btn-default">{{ _('Export feeds to OPML') }}</a>
         <h1>{{ _('Data liberation') }}</h1>
         <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
             <span class="btn btn-default btn-file">{{ _('Import account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
