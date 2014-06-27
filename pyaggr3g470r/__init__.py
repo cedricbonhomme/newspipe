@@ -25,6 +25,10 @@ app.config['RECAPTCHA_USE_SSL'] = True
 app.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY
 app.config['RECAPTCHA_PRIVATE_KEY'] = conf.RECAPTCHA_PRIVATE_KEY
 
+if conf.ON_HEROKU:
+    from flask_sslify import SSLify
+    sslify = SSLify(app)
+
 ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
 
 def allowed_file(filename):
