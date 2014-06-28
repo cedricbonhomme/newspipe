@@ -10,6 +10,8 @@ deployed on Heroku or on a traditional server." />
 
     <title>{% if head_title %}{{ head_title }} - {% endif %}pyAggr3g470r</title>
 
+    <script src="{{ url_for('.static', filename = 'js/jquery.js') }}"></script>
+
     <link rel="shortcut icon" href="{{ url_for('.static', filename='img/favicon.png') }}" />
 
     <!-- Bootstrap core CSS -->
@@ -162,8 +164,6 @@ deployed on Heroku or on a traditional server." />
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- Make sure to add jQuery - download the most recent version at http://jquery.com/ -->
-    <script src="{{ url_for('.static', filename = 'js/jquery.js') }}"></script>
     <script src="{{ url_for('.static', filename = 'js/bootstrap.js') }}"></script>
   </body>
 </html>

@@ -99,11 +99,11 @@
                             <td class="date">{{ article.date|datetime }}</a></td>
                             <td>
                                 <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
-                                <a href="/like/{{ article.id }}">
+                                <a href="#">
                                 {% if article.like %}
-                                    <i class="glyphicon glyphicon-star" title="{{ _('One of your favorites') }}"></i>
+                                    <i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i>
                                 {% else %}
-                                    <i class="glyphicon glyphicon-star-empty" title="{{ _('Click if you like this article') }}"></i>
+                                    <i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i>
                                 {% endif %}
                                 </a>
                                 {% if article.readed %}
@@ -132,4 +132,48 @@
         {% endif %}
     </div><!-- /.container -->
 {% endif %}
+
+<script type="text/javascript" class="source">
+
+$(document).ready(function() {
+
+    // Like or unlike an article
+    $('.like').on('click', function() {
+        var article_id = $(this).parent().parent().parent().attr("data-article");
+
+        var data;
+        if ($(this).hasClass("glyphicon-star")) {
+            data = JSON.stringify({
+                like: false
+              })
+             $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+        }
+        else {
+            data = JSON.stringify({
+                like: true
+              })
+            $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+        }
+
+         // sends the updates to the server
+        $.ajax({
+            type: 'PUT',
+            // Provide correct Content-Type, so that Flask will know how to process it.
+            contentType: 'application/json',
+            // Encode your data as JSON.
+            data: data,
+            // This is the type of data you're expecting back from the server.
+            url: "/api/v1.0/articles/"+article_id,
+            success: function (result) {
+                //console.log(result);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.responseText);
+            }
+        }); // ajax closed
+    });
+
+})
+
+</script>
 {% endblock %}
