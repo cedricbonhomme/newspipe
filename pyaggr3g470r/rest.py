@@ -33,6 +33,8 @@ from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
 #from flask.ext.restful.inputs import boolean
 
+if not conf.ON_HEROKU:
+    import search as fastsearch
 from pyaggr3g470r import api, db
 from pyaggr3g470r.models import User, Article, Feed
 
@@ -195,6 +197,12 @@ class ArticleAPI(Resource):
             if None is not args.get('readed', None):
                 article.readed = args['readed']
             db.session.commit()
+
+            try:
+                fastsearch.delete_article(g.user.id, article.feed_id, article.id)
+            except:
+                pass
+
             return {"message":"ok"}
         else:
             response = jsonify({'code': 404, 'message': 'Article not found'})
