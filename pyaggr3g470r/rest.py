@@ -33,6 +33,7 @@ from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
 #from flask.ext.restful.inputs import boolean
 
+import conf
 if not conf.ON_HEROKU:
     import search as fastsearch
 from pyaggr3g470r import api, db
