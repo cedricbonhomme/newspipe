@@ -9,17 +9,15 @@
         <h2><a href="{{ article.link  }}">{{ article.title|safe }}</a></h2>
         <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
         <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
-        <a href="#">
-            {% if article.like %}
-                <i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i>
-            {% else %}
-                <i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i>
-            {% endif %}
-        </a>
+        {% if article.like %}
+            <a href="#"><i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i></a>
+        {% else %}
+            <a href="#"><i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i></a>
+        {% endif %}
         {% if article.readed %}
-            <a href="/mark_as/unread/article/{{ article.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this article as unread') }}"></i></a>
+            <a href="#"><i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i></a>
         {% else %}
-            <a href="/mark_as/read/article/{{ article.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this article as read') }}"></i></a>
+            <a href="#"><i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i></a>
         {% endif %}
         <h6>{{ article.date | datetime }}</h6>
     </div>

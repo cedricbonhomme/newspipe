@@ -99,20 +99,16 @@
                             <td class="date">{{ article.date|datetime }}</a></td>
                             <td>
                                 <a href="#"><i class="glyphicon glyphicon-remove delete" title="{{ _('Delete this article') }}"></i></a>
-                                <a href="#">
                                 {% if article.like %}
-                                    <i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i>
+                                    <a href="#"><i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
-                                    <i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i>
+                                    <a href="#"><i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i></a>
                                 {% endif %}
-                                </a>
-                                <a href="#">
                                 {% if article.readed %}
-                                    <i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i>
+                                    <a href="#"><i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i></a>
                                 {% else %}
-                                    <i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i>
+                                    <a href="#"><i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i></a>
                                 {% endif %}
-                                </a>
                             </td>
                         </tr>
                     {% endfor %}
