@@ -25,6 +25,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
     // Mark an article as read or unread.
     $('.readed').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
+        var feed_id = $(this).parent().parent().parent().attr("data-feed");
         var filter = $('#filters').attr("data-filter");
 
         var data;
@@ -34,10 +35,13 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
                 })
             if (filter == "read") {
                 $(this).parent().parent().parent().remove();
+                $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
+                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) + 1);
             }
             else {
                 // here, filter == "all"
                 $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) + 1);
             }
         }
         else {
@@ -46,10 +50,13 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
                 })
             if (filter == "unread") {
                 $(this).parent().parent().parent().remove();
+                $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
+                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
             }
             else {
                 // here, filter == "all"
                 $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
             }
         }
 

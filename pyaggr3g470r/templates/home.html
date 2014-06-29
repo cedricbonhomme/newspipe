@@ -21,7 +21,7 @@
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
             <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
-                    <span class="badge pull-right">{{ nbunread }}</span>
+                    <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
                     {{ feeds[fid]|safe }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
@@ -50,7 +50,7 @@
         </ul>
     </div>
     <div class="container col-md-9">
-        <h1>{{ _('Articles') }} ({{ articles.__len__() }})</h1>
+        <h1>{{ _('Articles') }} (<span id="total-unread">{{ articles.__len__() }}</span>)</h1>
         <div id="filters" data-filter="{{ filter_ }}">
             {% if filter_ == 'all' %}<b>{% endif %}
                 <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
