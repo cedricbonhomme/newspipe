@@ -22,6 +22,42 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
 +function ($) {
 
+    // Mark an article as read or unread.
+    $('.readed').on('click', function() {
+        var article_id = $(this).parent().parent().parent().attr("data-article");
+
+        var data;
+        if ($(this).hasClass("glyphicon-unchecked")) {
+            data = JSON.stringify({
+                readed: false
+                })
+                $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+        }
+        else {
+            data = JSON.stringify({
+                readed: true
+                })
+            $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+        }
+
+        // sends the updates to the server
+        $.ajax({
+            type: 'PUT',
+            // Provide correct Content-Type, so that Flask will know how to process it.
+            contentType: 'application/json',
+            // Encode your data as JSON.
+            data: data,
+            // This is the type of data you're expecting back from the server.
+            url: "/api/v1.0/articles/"+article_id,
+            success: function (result) {
+                //console.log(result);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.responseText);
+            }
+        });
+    });
+    
     // Like or unlike an article
     $('.like').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
