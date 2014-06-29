@@ -51,12 +51,20 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             if (filter == "unread") {
                 $(this).parent().parent().parent().remove();
                 $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
-                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
+                if (parseInt($("#unread-"+feed_id).text()) == 1) {
+                    $("#unread-"+feed_id).remove();
+                } else {
+                    $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
+                }
             }
             else {
                 // here, filter == "all"
                 $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
+                if (parseInt($("#unread-"+feed_id).text()) == 1) {
+                    $("#unread-"+feed_id).remove();
+                } else {
+                    $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
+                }
             }
         }
 
