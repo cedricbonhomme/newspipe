@@ -51,7 +51,7 @@
     </div>
     <div class="container col-md-9">
         <h1>{{ _('Articles') }} ({{ articles.__len__() }})</h1>
-        <div>
+        <div id="filters" data-filter="{{ filter_ }}">
             {% if filter_ == 'all' %}<b>{% endif %}
                 <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
             {% if filter_ == 'all' %}</b>{% endif %}

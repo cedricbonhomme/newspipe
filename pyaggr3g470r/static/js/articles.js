@@ -25,19 +25,32 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
     // Mark an article as read or unread.
     $('.readed').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
+        var filter = $('#filters').attr("data-filter");
 
         var data;
         if ($(this).hasClass("glyphicon-unchecked")) {
             data = JSON.stringify({
                 readed: false
                 })
+            if (filter == "read") {
+                $(this).parent().parent().parent().remove();
+            }
+            else {
+                // here, filter == "all"
                 $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+            }
         }
         else {
             data = JSON.stringify({
                 readed: true
                 })
-            $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+            if (filter == "unread") {
+                $(this).parent().parent().parent().remove();
+            }
+            else {
+                // here, filter == "all"
+                $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+            }
         }
 
         // sends the updates to the server
@@ -57,7 +70,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             }
         });
     });
-    
+
     // Like or unlike an article
     $('.like').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
