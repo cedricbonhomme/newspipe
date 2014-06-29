@@ -25,7 +25,7 @@
                 <td><a href="/admin/user/{{ user.id }}">{{ user.nickname }}</a></td>
             {% endif %}
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
-            <td>{{ user.last_seen }}</td>
+            <td class="date">{{ user.last_seen }}</td>
             <td>
                 <a href="/admin/user/{{ user.id }}"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}"></i></a>
                 <a href="/admin/edit_user/{{ user.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
