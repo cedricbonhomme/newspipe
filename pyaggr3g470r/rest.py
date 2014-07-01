@@ -226,3 +226,46 @@ class ArticleAPI(Resource):
 
 api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
 api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>', endpoint = 'article.json')
+
+class FeedListAPI(Resource):
+    """
+    Defines a RESTful API for Feed elements.
+    """
+    method_decorators = [authenticate]
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('title', type = unicode, location = 'json')
+        self.reqparse.add_argument('description', type = unicode, location = 'json')
+        self.reqparse.add_argument('link', type = unicode, location = 'json')
+        self.reqparse.add_argument('site_link', type = unicode, location = 'json')
+        self.reqparse.add_argument('email_notification', type = bool, location = 'json')
+        self.reqparse.add_argument('enabled', type = bool, location = 'json')
+        super(FeedListAPI, self).__init__()
+
+    def get(self):
+        """
+        Returns a list of feeds.
+        """
+        return jsonify(result= [{
+                                    "id": feed.id,
+                                    "title": feed.title,
+                                    "description": feed.description,
+                                    "link": feed.link,
+                                    "site_link": feed.site_link,
+                                    "email_notification": feed.email_notification,
+                                    "enabled": feed.enabled,
+                                    "created_date": feed.created_date,
+                                    "nb_articles": feed.articles.count()
+                                }
+                                for feed in g.user.feeds]
+                        )
+
+    def post(self):
+        """
+        POST method - Create a new feed.
+        """
+        pass
+
+api.add_resource(FeedListAPI, '/api/v1.0/feeds', endpoint = 'feeds.json')
+#api.add_resource(FeedAPI, '/api/v1.0/feeds/<int:id>', endpoint = 'feeds.json')
