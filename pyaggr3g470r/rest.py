@@ -267,5 +267,57 @@ class FeedListAPI(Resource):
         """
         pass
 
+class FeedAPI(Resource):
+    """
+    Defines a RESTful API for Feed elements.
+    """
+    method_decorators = [authenticate]
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        #self.reqparse.add_argument('like', type = bool, location = 'json')
+        #self.reqparse.add_argument('readed', type = bool, location = 'json')
+        super(FeedAPI, self).__init__()
+
+    def get(self, id=None):
+        """
+        Returns a feed.
+        """
+        result = []
+        if id is not None:
+            feed = Feed.query.filter(Feed.id == id, Feed.user_id == g.user.id).first()
+            if feed is not None:
+                result.append(feed)
+
+        return jsonify(result= [{
+                                    "id": feed.id,
+                                    "title": feed.title,
+                                    "description": feed.description,
+                                    "link": feed.link,
+                                    "site_link": feed.site_link
+                                }
+                                for feed in result]
+                        )
+
+    def put(self, id):
+        """
+        Update a feed.
+        """
+        pass
+
+    def delete(self, id):
+        """
+        Delete a feed.
+        """
+        feed = Feed.query.filter(Feed.id == id, Feed.user_id == g.user.id).first()
+        if feed is not None:
+            db.session.delete(feed)
+            db.session.commit()
+            return {"message":"ok"}
+        else:
+            response = jsonify({'code': 404, 'message': 'Feed not found'})
+            response.status_code = 404
+            return response
+
 api.add_resource(FeedListAPI, '/api/v1.0/feeds', endpoint = 'feeds.json')
-#api.add_resource(FeedAPI, '/api/v1.0/feeds/<int:id>', endpoint = 'feeds.json')
+api.add_resource(FeedAPI, '/api/v1.0/feeds/<int:id>', endpoint = 'feed.json')
