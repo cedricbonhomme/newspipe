@@ -147,7 +147,8 @@ You must give the email address you use to login to pyAggr3g470r.
 Web service
 -----------
 
-It is possible to manage your articles thanks to a dedicated Web service. See the examples below.
+Articles
+''''''''
 
 .. code:: python
 
@@ -222,6 +223,20 @@ Delete an article:
     "message": "Article not found"
     }
 
+Feeds
+'''''
+
+Delete a feed:
+
+.. code:: python
+
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/29", auth=("your-email", "your-password"))
+    >>> print r.status_code
+    200
+    >>> print r.content
+    {
+        "message": "ok"
+    }
 
 Donation
 ========
