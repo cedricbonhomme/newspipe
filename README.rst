@@ -182,8 +182,8 @@ Add an article:
 
     >>> import requests, json
     >>> headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/', 'title': 'Sortie de pyAggr3g470r 5.3', 'content':'La page principale de pyAggr3g470r a été améliorée...', 'date':'06/23/2014 11:42 AM'), 'feed_id':'42'}
-    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/0", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/', 'title': 'Sortie de pyAggr3g470r 5.3', 'content':'La page principale de pyAggr3g470r a été améliorée...', 'date':'06/23/2014 11:42 AM', 'feed_id':'42'}
+    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
     >>> print r.content
     {
         "message": "ok"
@@ -214,7 +214,7 @@ Delete an article:
     {
         "message": "ok"
     }
-    >>> r = requests.delete("hhttps://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
     404
     >>> print r.content
@@ -226,17 +226,18 @@ Delete an article:
 Feeds
 '''''
 
+Add a feed:
+
+.. code:: python
+
+    >>> payload = {'link': 'http://blog.cedricbonhomme.org/feed'}
+    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+
 Delete a feed:
 
 .. code:: python
 
     >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/29", auth=("your-email", "your-password"))
-    >>> print r.status_code
-    200
-    >>> print r.content
-    {
-        "message": "ok"
-    }
 
 Donation
 ========
