@@ -235,12 +235,12 @@ class FeedListAPI(Resource):
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('title', type = unicode, location = 'json')
-        self.reqparse.add_argument('description', type = unicode, location = 'json')
+        self.reqparse.add_argument('title', type = unicode, default = "", location = 'json')
+        self.reqparse.add_argument('description', type = unicode, default = "", location = 'json')
         self.reqparse.add_argument('link', type = unicode, location = 'json')
-        self.reqparse.add_argument('site_link', type = unicode, location = 'json')
-        self.reqparse.add_argument('email_notification', type = bool, location = 'json')
-        self.reqparse.add_argument('enabled', type = bool, location = 'json')
+        self.reqparse.add_argument('site_link', type = unicode, default = "", location = 'json')
+        self.reqparse.add_argument('email_notification', type = bool, default = False, location = 'json')
+        self.reqparse.add_argument('enabled', type = bool, default = True ,location = 'json')
         super(FeedListAPI, self).__init__()
 
     def get(self):
@@ -265,7 +265,20 @@ class FeedListAPI(Resource):
         """
         POST method - Create a new feed.
         """
-        pass
+        args = self.reqparse.parse_args()
+        feed_dict = {}
+        for k, v in args.iteritems():
+            if v != None:
+                feed_dict[k] = v
+            else:
+                return {"message":"missing argument: %s" % (k,)}
+        new_feed = Feed(title=feed_dict["title"], description=feed_dict["description"],
+                        link=feed_dict["link"], site_link=feed_dict["site_link"],
+                        email_notification=feed_dict["email_notification"],
+                        enabled=feed_dict["enabled"])
+        g.user.feeds.append(new_feed)
+        db.session.commit()
+        return {"message":"ok"}
 
 class FeedAPI(Resource):
     """
