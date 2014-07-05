@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2014/06/18 $"
-__revision__ = "$Date: 2014/06/18 $"
+__revision__ = "$Date: 2014/07/05 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -31,7 +31,6 @@ import dateutil.parser
 from functools import wraps
 from flask import g, Response, request, session, jsonify
 from flask.ext.restful import Resource, reqparse
-#from flask.ext.restful.inputs import boolean
 
 import conf
 if not conf.ON_HEROKU:
