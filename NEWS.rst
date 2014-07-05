@@ -44,7 +44,7 @@
 4.6: 09 Feb 2014 21:23
     This release introduces the import of OPML files of subscriptions.
     Minor improvements have been made to the templates.
-    
+
 4.5: 29 Jan 2014 17:40
     This release introduces a one step installation process with a simple
     script. Minor improvements to the feedgetter module have been introduced
@@ -164,3 +164,135 @@
     a feed. There are some minor improvements in the Web interface.
     The version of pyAggr3g470r for Python 3 is now fully ready and has been
     tested with Python 3.2.
+
+2.5: 19 Jan 2011 07:16
+    A bug when removing a feed from the data base was fixed.
+    Minor improvements were made for export of articles and the size of HTML
+    forms.
+
+2.4: 07 Dec 2010 18:02
+    The GUI uses more HTML 5 features like HTML5 Forms Validation
+    (email input, URL input), an HTML5 month+year date picker, and a
+    placeholder. From each article it is possible to access the
+    following and previous article (and a new main menu with CSS ToolTip).
+    Articles can now be exported to the EPUB format. Articles loaded from the
+    SQLite base are now stored in memory in a better data structure. With more
+    than 10,000 articles, pyAggr3g470r starts in 3 seconds. Finally, email
+    notifications are now sent with HTML message content and with an
+    alternative plain text version (MIMEMultipart).
+
+2.3: 15 Nov 2010 22:05
+    This version introduces HTML5 Forms Validation and a HTML5 month+year date
+    picker for the history page, which can be used to search for articles.
+    This currently only works with Opera.
+
+2.2: 03 Nov 2010 19:31
+    There is now a third way to export articles from the SQLite base.
+    There is an export method for the wiki DokuWiki (example in the commit
+    message).
+
+2.1: 25 Oct 2010 15:56
+    The export of articles to HTML has been updated, with better output.
+    There are a number of improvements (the search function, generation of
+    tags cloud, display of article content, CSS, bugfixes, etc.).
+    There is a new Wiki.
+
+2.0: 03 Sep 2010 19:04
+    It is now possible to browse articles by year and month with tag clouds
+    (see new screenshots).
+    In addition, URL errors are detected before downloading feeds.
+    There are some improvements in the user interface.
+
+1.9: 02 Sep 2010 09:17
+    The feedgetter module was improved. More details about articles are stored
+    in the database when possile. An attempt is made to get the whole article
+    (a_feed['entries'][i].content[j].value), and in the event of failure,
+    the description/summary is used (a_feed['entries'][i].description).
+
+1.8: 25 Aug 2010 06:47
+    It is now easier to install pyAggr3g470r.
+    There is no longer any need to set any path in the configuration file.
+
+1.7: 23 Jul 2010 11:21
+    This release generates QR codes with URLs of articles, so you can read an
+    article later on your smartphone (or share with friends).
+
+1.6: 08 Jul 2010 11:27
+    It is now possible to automatically add a feed (with the URL of the site),
+    delete an article, delete a feed with all its articles, and to delete all
+    articles from the database.
+    There are also some nice improvements to performance, tested with more
+    than 3000 articles.
+    Furthermore, HTML export of all the articles of the database was improved.
+    You can also export the articles in raw text. Finally, some minor bugs
+    were fixed.
+
+1.5: 05 Jul 2010 09:17
+    Now pyAggr3g470r only works with Python 2.7.
+    OrderedDict objects are used in order to sort the feeds alphabetically in
+    a simple way.
+
+1.4: 10 Jun 2010 12:09
+    It is now possible to remove all articles of a given feed from the SQLite
+    base via the management page. You can also add a feed just with the URL
+    of the Web page. The URL of the feed is obtained by parsing the Web page
+    with the module BeautifulSoup.
+
+1.3: 04 May 2010 06:12
+    All articles stored in the SQLite database can now be exported as HTML or
+    raw text via the management page.
+
+1.2: 29 Apr 2010 07:41
+    This version introduces a tag cloud with variable word length.
+    Some improvements were made to the CSS and a bug was fixed.
+
+1.1: 15 Apr 2010 19:09
+    Introduction of a Google Buzz button.
+    It is now possible to mark or unmark articles as favorites.
+
+1.0: 23 Mar 2010 14:40
+    The database of feeds is monitored with the Python gamin module,
+    if present. Otherwise it is done with a classic function.
+    You now have the option to be informed of new articles by email. To
+    receive these notifications, just click on "Stay tuned" for the
+    desired feed(s) at the main page of pyAggr3g470r in the browser.
+
+0.9: 28 Feb 2010 18:37
+    TuxDroid tells you when there are unread articles (this module is
+    independent in case you don't have a TuxDroid). Moreover, the language of
+    articles is detected (thanks to the oice.langdet Python module). This
+    allows you to search for articles by language.
+
+0.8: 24 Feb 2010 11:56
+    It is now possible to share articles with delicious, Digg, reddit,
+    Scoopeo, and Blogmarks.
+    The "Management of feeds" page presents information on the database and
+    statistics on articles (with a histogram). HTML tags are now skipped for
+    the search. Some other improvements were made.
+
+0.7: 15 Feb 2010 16:36
+    It is now possible to search for an article, through the titles and
+    descriptions.
+
+0.6: 05 Feb 2010 23:01
+    Unread articles are now shown in bold. This was implemented using a new
+    field in the SQLite database. New tabs for article descriptions are opened
+    with the _rel=noreferrer_ option in order to separate processes (useful
+    with Chromium). It is now possible to see only unread articles for each feed.
+
+0.5: 02 Feb 2010 21:41
+    It is now possible to fetch feeds manually by clicking on "Fetch all feeds"
+    and/or with cron. Better navigation between feeds and improvements to the
+    SQLite database have been added.
+
+0.3: 01 Feb 2010 11:50
+    A new menu was added for faster access to feeds. Some improvements were
+    made to the CSS.
+
+0.2: 31 Jan 2010 21:10
+    Articles are now sorted by date, and it is possible to read just a
+    description of an article. There are some improvements in the code and
+    SQLite base management.
+
+0.1: 29 Jan 2010 21:09
+    First release of pyAggr3g470r.
