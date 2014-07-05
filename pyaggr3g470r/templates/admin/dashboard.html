@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for user in users|sort(attribute="nickname") %}
+    {% for user in users|sort(attribute="last_seen") %}
         <tr {% if user.activation_key != ""  %}class="warning"{% endif %} >
             <td>{{ loop.index }}</td>
             {% if user.id == current_user.id %}
