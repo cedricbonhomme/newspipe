@@ -216,11 +216,10 @@ Delete an article:
     }
     >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
-    404
+    200
     >>> print r.content
     {
-    "code": 404,
-    "message": "Article not found"
+        "message": "Article not found"
     }
 
 Feeds
@@ -239,6 +238,8 @@ Update a feed:
 
     >>> payload = {"title":"Feed new title", "description":"New description"}
     >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/42", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+
+You can also create a feed with a POST request.
 
 Delete a feed:
 
