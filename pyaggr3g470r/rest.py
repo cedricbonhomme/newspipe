@@ -288,8 +288,12 @@ class FeedAPI(Resource):
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        #self.reqparse.add_argument('like', type = bool, location = 'json')
-        #self.reqparse.add_argument('readed', type = bool, location = 'json')
+        self.reqparse.add_argument('title', type = unicode, location = 'json')
+        self.reqparse.add_argument('description', type = unicode, location = 'json')
+        self.reqparse.add_argument('link', type = unicode, location = 'json')
+        self.reqparse.add_argument('site_link', type = unicode, location = 'json')
+        self.reqparse.add_argument('email_notification', type = bool, location = 'json')
+        self.reqparse.add_argument('enabled', type = bool ,location = 'json')
         super(FeedAPI, self).__init__()
 
     def get(self, id=None):
@@ -316,7 +320,27 @@ class FeedAPI(Resource):
         """
         Update a feed.
         """
-        pass
+        args = self.reqparse.parse_args()
+        feed = Feed.query.filter(Feed.id == id, Feed.user_id == g.user.id).first()
+        if feed is not None:
+            if None is not args.get('title', None):
+                feed.title = args['title']
+            if None is not args.get('description', None):
+                feed.description = args['description']
+            if None is not args.get('link', None):
+                feed.link = args['link']
+            if None is not args.get('site_link', None):
+                feed.site_link = args['site_link']
+            if None is not args.get('email_notification', None):
+                feed.email_notification = args['email_notification']
+            if None is not args.get('enabled', None):
+                feed.enabled = args['enabled']
+            db.session.commit()
+            return {"message":"ok"}
+        else:
+            response = jsonify({'code': 404, 'message': 'Feed not found'})
+            response.status_code = 404
+            return response
 
     def delete(self, id):
         """
