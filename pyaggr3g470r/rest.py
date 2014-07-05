@@ -206,8 +206,8 @@ class ArticleAPI(Resource):
 
             return {"message":"ok"}
         else:
-            response = jsonify({'code': 404, 'message': 'Article not found'})
-            response.status_code = 404
+            response = jsonify({'message': 'Article not found'})
+            response.status_code = 200
             return response
 
     def delete(self, id):
@@ -220,8 +220,8 @@ class ArticleAPI(Resource):
             db.session.commit()
             return {"message":"ok"}
         else:
-            response = jsonify({'code': 404, 'message': 'Article not found'})
-            response.status_code = 404
+            response = jsonify({'message': 'Article not found'})
+            response.status_code = 200
             return response
 
 api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
@@ -338,8 +338,8 @@ class FeedAPI(Resource):
             db.session.commit()
             return {"message":"ok"}
         else:
-            response = jsonify({'code': 404, 'message': 'Feed not found'})
-            response.status_code = 404
+            response = jsonify({'message': 'Feed not found'})
+            response.status_code = 200
             return response
 
     def delete(self, id):
@@ -352,8 +352,8 @@ class FeedAPI(Resource):
             db.session.commit()
             return {"message":"ok"}
         else:
-            response = jsonify({'code': 404, 'message': 'Feed not found'})
-            response.status_code = 404
+            response = jsonify({'message': 'Feed not found'})
+            response.status_code = 200
             return response
 
 api.add_resource(FeedListAPI, '/api/v1.0/feeds', endpoint = 'feeds.json')
