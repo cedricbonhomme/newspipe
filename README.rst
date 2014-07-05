@@ -233,6 +233,13 @@ Add a feed:
     >>> payload = {'link': 'http://blog.cedricbonhomme.org/feed'}
     >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
 
+Update a feed:
+
+.. code:: python
+
+    >>> payload = {"title":"Feed new title", "description":"New description"}
+    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/42", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+
 Delete a feed:
 
 .. code:: python
