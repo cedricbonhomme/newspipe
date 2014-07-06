@@ -126,7 +126,7 @@ class ArticleListAPI(Resource):
             if v != None:
                 article_dict[k] = v
             else:
-                return {"message":"missing argument: %s" % (k,)}
+                return {"message":"Missing argument: %s." % (k,)}
         article_date = None
         try:
             article_date = dateutil.parser.parse(article_dict["date"], dayfirst=True)
@@ -134,15 +134,18 @@ class ArticleListAPI(Resource):
             try:  # trying to clean date field from letters
                 article_date = dateutil.parser.parse(re.sub('[A-z]', '', article_dict["date"], dayfirst=True))
             except:
-                return {"message":"bad format for the date"}
+                return jsonify({"message":"Bad format for the date."})
         article = Article(link=article_dict["link"], title=article_dict["title"],
                                 content=article_dict["content"], readed=False, like=False,
                                 date=article_date, user_id=g.user.id,
                                 feed_id=article_dict["feed_id"])
         feed = Feed.query.filter(Feed.id == article_dict["feed_id"], Feed.user_id == g.user.id).first()
         feed.articles.append(article)
-        db.session.commit()
-        return {"message":"ok"}
+        try:
+            db.session.commit()
+            return jsonify({"message":"ok"})
+        except:
+            return jsonify({"message":"Impossible to create the article."})
 
 class ArticleAPI(Resource):
     """
@@ -203,11 +206,9 @@ class ArticleAPI(Resource):
             except:
                 pass
 
-            return {"message":"ok"}
+            return jsonify({"message":"ok"})
         else:
-            response = jsonify({'message': 'Article not found'})
-            response.status_code = 200
-            return response
+            return jsonify({'message': 'Article not found.'})
 
     def delete(self, id):
         """
@@ -217,11 +218,9 @@ class ArticleAPI(Resource):
         if article is not None and article.source.subscriber.id == g.user.id:
             db.session.delete(article)
             db.session.commit()
-            return {"message":"ok"}
+            return jsonify({"message":"ok"})
         else:
-            response = jsonify({'message': 'Article not found'})
-            response.status_code = 200
-            return response
+            return jsonify({'message': 'Article not found.'})
 
 api.add_resource(ArticleListAPI, '/api/v1.0/articles', endpoint = 'articles.json')
 api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>', endpoint = 'article.json')
@@ -269,14 +268,17 @@ class FeedListAPI(Resource):
             if v != None:
                 feed_dict[k] = v
             else:
-                return {"message":"missing argument: %s" % (k,)}
+                return jsonify({'message': 'missing argument: %s' % (k,)})
         new_feed = Feed(title=feed_dict["title"], description=feed_dict["description"],
                         link=feed_dict["link"], site_link=feed_dict["site_link"],
                         email_notification=feed_dict["email_notification"],
                         enabled=feed_dict["enabled"])
         g.user.feeds.append(new_feed)
-        db.session.commit()
-        return {"message":"ok"}
+        try:
+            db.session.commit()
+            return jsonify({"message":"ok"})
+        except:
+            return jsonify({'message': 'Impossible to create the feed.'})
 
 class FeedAPI(Resource):
     """
@@ -303,17 +305,17 @@ class FeedAPI(Resource):
             feed = Feed.query.filter(Feed.id == id, Feed.user_id == g.user.id).first()
             if feed is not None:
                 result.append(feed)
-
-        return jsonify(result= [{
-                                    "id": feed.id,
-                                    "title": feed.title,
-                                    "description": feed.description,
-                                    "link": feed.link,
-                                    "site_link": feed.site_link,
-                                    "nb_articles": feed.articles.count()
-                                }
-                                for feed in result]
-                        )
+                return jsonify(result= [{
+                                            "id": feed.id,
+                                            "title": feed.title,
+                                            "description": feed.description,
+                                            "link": feed.link,
+                                            "site_link": feed.site_link,
+                                            "nb_articles": feed.articles.count()
+                                        }
+                                        for feed in result]
+                                )
+        return jsonify({'message': 'Feed not found'})
 
     def put(self, id):
         """
@@ -335,11 +337,9 @@ class FeedAPI(Resource):
             if None is not args.get('enabled', None):
                 feed.enabled = args['enabled']
             db.session.commit()
-            return {"message":"ok"}
+            return jsonify({"message":"ok"})
         else:
-            response = jsonify({'message': 'Feed not found'})
-            response.status_code = 200
-            return response
+            return jsonify({'message': 'Feed not found.'})
 
     def delete(self, id):
         """
@@ -349,11 +349,9 @@ class FeedAPI(Resource):
         if feed is not None:
             db.session.delete(feed)
             db.session.commit()
-            return {"message":"ok"}
+            return jsonify({"message":"ok"})
         else:
-            response = jsonify({'message': 'Feed not found'})
-            response.status_code = 200
-            return response
+            return jsonify({'message': 'Feed not found.'})
 
 api.add_resource(FeedListAPI, '/api/v1.0/feeds', endpoint = 'feeds.json')
 api.add_resource(FeedAPI, '/api/v1.0/feeds/<int:id>', endpoint = 'feed.json')
