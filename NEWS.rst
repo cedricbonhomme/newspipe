@@ -1,6 +1,6 @@
             pyAggr3g470r project news
 
-5.6 2014-07-05
+5.6: 2014-07-05
     pyAggr3g470r has now a RESTful JSON API which enables to manage Feed and
     Article objects. The API is documented in the README file.
     The main page is using a subset of this API with jQuery HTTP requests.
