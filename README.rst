@@ -219,7 +219,7 @@ Delete an article:
     200
     >>> print r.content
     {
-        "message": "Article not found"
+        "message": "Article not found."
     }
 
 Feeds
