@@ -254,8 +254,7 @@ class FeedListAPI(Resource):
                                     "site_link": feed.site_link,
                                     "email_notification": feed.email_notification,
                                     "enabled": feed.enabled,
-                                    "created_date": feed.created_date,
-                                    "nb_articles": feed.articles.count()
+                                    "created_date": feed.created_date
                                 }
                                 for feed in g.user.feeds]
                         )
@@ -310,7 +309,8 @@ class FeedAPI(Resource):
                                     "title": feed.title,
                                     "description": feed.description,
                                     "link": feed.link,
-                                    "site_link": feed.site_link
+                                    "site_link": feed.site_link,
+                                    "nb_articles": feed.articles.count()
                                 }
                                 for feed in result]
                         )
