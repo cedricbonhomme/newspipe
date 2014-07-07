@@ -17,7 +17,7 @@
     </thead>
     <tbody>
     {% for user in users|sort(attribute="last_seen")|reverse %}
-        <tr {% if user.activation_key != ""  %}class="warning"{% endif %} >
+        <tr {% if user.activation_key != ""  %}class="warning"{% endif %}>
             <td>{{ loop.index }}</td>
             {% if user.id == current_user.id %}
                 <td><a href="/management">{{ user.nickname }}</a> (It's you!)</td>
