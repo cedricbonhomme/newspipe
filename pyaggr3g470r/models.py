@@ -99,10 +99,10 @@ class Feed(db.Model):
     Represent a station.
     """
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(), default="New station")
+    title = db.Column(db.String(), default="No title")
     description = db.Column(db.String(), default="FR")
     link = db.Column(db.String())
-    site_link = db.Column(db.String(), default="New station")
+    site_link = db.Column(db.String(), default="")
     email_notification = db.Column(db.Boolean(), default=False)
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)

@@ -29,7 +29,7 @@ __license__ = "AGPLv3"
 import os
 import datetime
 from flask import abort, render_template, request, flash, session, \
-                  url_for, redirect, g, current_app, make_response
+                  url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
@@ -629,6 +629,7 @@ def history():
     user = User.query.filter(User.id == g.user.id).first()
     return render_template('history.html')
 
+@app.route('/bookmarklet', methods=['GET'])
 @app.route('/create_feed', methods=['GET', 'POST'])
 @app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
@@ -674,6 +675,15 @@ def edit_feed(feed_id=None):
             form = AddFeedForm(obj=feed)
             return render_template('edit_feed.html', action=gettext("Edit the feed"), form=form, feed=feed, \
                                     not_on_heroku = not conf.ON_HEROKU)
+
+        # Enable the user to add a feed with a bookmarklet
+        if None is not request.args.get('url', None):
+            existing_feed = [feed for feed in g.user.feeds if feed.link == request.args.get('url', None)]
+            if len(existing_feed) == 0:
+                g.user.feeds.append(Feed(link=request.args.get('url', None)))
+                db.session.commit()
+                return jsonify({"message":"ok"})
+            return jsonify({"message":"Feed already in the database."})
 
         # Return an empty form in order to create a new feed
         return render_template('edit_feed.html', action=gettext("Add a feed"), form=form, \
