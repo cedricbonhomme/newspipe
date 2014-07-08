@@ -239,8 +239,6 @@ Update a feed:
     >>> payload = {"title":"Feed new title", "description":"New description"}
     >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/42", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
 
-You can also create a feed with a POST request.
-
 Delete a feed:
 
 .. code:: python
