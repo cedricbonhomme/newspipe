@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ _('You are subscribed to') }} {{ feeds.all()|count }} {{ _('feeds') }} &middot; {{ _('Add a') }} <a href="/create_feed/">{{ _('feed') }}</a></h1>
+    <h1>{{ _('You are subscribed to') }} {{ feeds.all()|count }} {{ _('feeds') }} &middot; {{ _('Add a') }} <a href="/create_feed">{{ _('feed') }}</a></h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
