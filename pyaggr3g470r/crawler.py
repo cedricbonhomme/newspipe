@@ -231,14 +231,11 @@ class FeedGetter(object):
         logger.info("Database insertion...")
         new_articles = []
         for feed, articles in elements:
-
             for article in articles:
-
-
                 exist = Article.query.filter(Article.user_id == self.user.id,
                                         Article.feed_id == feed.id,
-                                        Article.link == article.link).first()
-                if exist is not None:
+                                        Article.link == article.link).count() != 0
+                if exist:
                     logger.debug("Article %r (%r) already in the database.",
                                  article.title, article.link)
                     continue
@@ -251,14 +248,8 @@ class FeedGetter(object):
                     feed.articles.append(article)
                     #db.session.merge(article)
                     db.session.commit()
-                    logger.info("New article %r (%r) added.",
-                                article.title, article.link)
-                except IntegrityError:
-                    logger.debug("Article %r (%r) already in the database.",
-                                 article.title, article.link)
-                    articles.remove(article)
-                    db.session.rollback()
-                    continue
+                    logger.info("New article %r (%r) added.", article.title,
+                                article.link)
                 except Exception as e:
                     logger.error("Error when inserting article in database: " + str(e))
                     continue
