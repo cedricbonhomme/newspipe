@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import re
+import socket
 import logging
 import feedparser
 import urllib2
@@ -35,7 +36,7 @@ import dateutil.parser
 from bs4 import BeautifulSoup
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-#from requests.exceptions import *
+from requests.exceptions import *
 
 import gevent.monkey
 gevent.monkey.patch_all()
@@ -53,6 +54,7 @@ if not conf.ON_HEROKU:
 
 logger = logging.getLogger(__name__)
 
+socket.setdefaulttimeout(5.0)
 
 class TooLong(Exception):
     def __init__(self):
