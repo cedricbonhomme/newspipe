@@ -126,7 +126,7 @@ class FeedGetter(object):
             """
             Fetch a feed.
             """
-            logger.info("Fetching the feed:" + feed.title)
+            logger.info("Fetching the feed: " + feed.title)
             a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
             if a_feed['entries'] == []:
                 return
