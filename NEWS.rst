@@ -1,5 +1,10 @@
             pyAggr3g470r project news
 
+5.6.1: 2014-07-13
+    Performance improvements: faster database insertion of articles by
+    the crawler and loading of the management page.
+    Minor bug fixes.
+
 5.6: 2014-07-05
     pyAggr3g470r has now a RESTful JSON API which enables to manage Feed and
     Article objects. The API is documented in the README file.
