@@ -613,14 +613,13 @@ def management():
         else:
             flash(gettext('File not allowed.'), 'danger')
 
-
     form = AddFeedForm()
-    #user = User.query.filter(User.id == g.user.id).first()
     nb_feeds = len(g.user.feeds.all())
-    nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
-    nb_unread_articles = len(Article.query.filter(Article.user_id == g.user.id, Article.readed == False).all())
-    return render_template('management.html', user=g.user, form=form, \
-                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles, \
+    articles = Article.query.filter(Article.user_id == g.user.id)
+    nb_articles = articles.count()
+    nb_unread_articles = articles.filter(Article.readed == False).count()
+    return render_template('management.html', user=g.user, form=form,
+                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles,
                             not_on_heroku = not conf.ON_HEROKU)
 
 @app.route('/history', methods=['GET'])
