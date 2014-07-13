@@ -230,11 +230,11 @@ class FeedGetter(object):
         """
         logger.info("Database insertion...")
         new_articles = []
+        query1 = Article.query.filter(Article.user_id == self.user.id)
         for feed, articles in elements:
+            query2 = query1.filter(Article.feed_id == feed.id)
             for article in articles:
-                exist = Article.query.filter(Article.user_id == self.user.id,
-                                        Article.feed_id == feed.id,
-                                        Article.link == article.link).count() != 0
+                exist = query2.filter(Article.link == article.link).count() != 0
                 if exist:
                     logger.debug("Article %r (%r) already in the database.",
                                  article.title, article.link)
