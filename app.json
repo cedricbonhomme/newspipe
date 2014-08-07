@@ -1,0 +1,27 @@
+{
+  "name": "pyAggr3g470r",
+  "description": "A news aggregator with a web interface based on Flask. It can be deployed on Heroku or on a traditional server.",
+  "keywords": [
+    "aggregator",
+    "news",
+    "RSS"
+  ],
+  "website": "https://bitbucket.org/cedricbonhomme/pyaggr3g470r",
+  "repository": "https://github.com/cedricbonhomme/pyAggr3g470r",
+  "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
+  "success_url": "/login",
+  "scripts": {
+    "postdeploy": "python db_create.py"
+  },
+  "env": {
+    "HEROKU": "1",
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "1"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:dev"
+  ]
+} 
+g
