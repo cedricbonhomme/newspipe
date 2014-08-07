@@ -38,9 +38,6 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
-.. image:: https://www.herokucdn.com/deploy/button.png
-    :target: https://heroku.com/deploy
-
 An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_.
 
 .. code:: bash
@@ -68,6 +65,10 @@ To enable account creation for users, you have to set some environment variables
 
 If you don't want to open your platform you will be still able to create accounts via the administration page.
 
+Alternatively, you can deploy your own copy of the app using this button:
+
+.. image:: https://www.herokucdn.com/deploy/button.png
+    :target: https://heroku.com/deploy
 
 Deploying the application on a traditional server
 '''''''''''''''''''''''''''''''''''''''''''''''''
