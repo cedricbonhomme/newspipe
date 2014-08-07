@@ -1,6 +1,6 @@
 {
   "name": "pyAggr3g470r",
-  "description": "A news aggregator with a web interface based on Flask. It can be deployed on Heroku or on a traditional server.",
+  "description": "A news aggregator that can be deployed on Heroku.",
   "keywords": ["aggregator", "news", "RSS"],
   "repository": "https://github.com/cedricbonhomme/pyAggr3g470r",
   "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
