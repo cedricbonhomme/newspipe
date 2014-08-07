@@ -39,7 +39,7 @@ Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
 .. image:: https://www.herokucdn.com/deploy/button.png
-:target: https://heroku.com/deploy
+    :target: https://heroku.com/deploy
 
 An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_.
 
