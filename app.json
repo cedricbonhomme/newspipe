@@ -1,7 +1,11 @@
 {
   "name": "pyAggr3g470r",
   "description": "A news aggregator that can be deployed on Heroku.",
-  "keywords": ["aggregator", "news", "RSS"],
+  "keywords": [
+    "aggregator",
+    "news",
+    "RSS"
+  ],
   "repository": "https://github.com/cedricbonhomme/pyAggr3g470r",
   "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
   "scripts": {
@@ -9,12 +13,12 @@
   },
   "env": {
     "HEROKU": "1",
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "1"
-    }
+    "ADMIN_PLATFORM_EMAIL": "admin@no-reply.org",
+    "RECAPTCHA_PRIVATE_KEY": "REDACTED",
+    "RECAPTCHA_PUBLIC_KEY": "REDACTED",
+    "ADMIN_EMAIL": "admin@no-reply.org"
   },
   "addons": [
-    "heroku-postgresql:dev"
+    "heroku-postgresql:hobby-dev"
   ]
 }
