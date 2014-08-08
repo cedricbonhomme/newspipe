@@ -68,7 +68,7 @@ If you don't want to open your platform you will be still able to create account
 Alternatively, you can deploy your own copy of the app using this button:
 
 .. image:: https://www.herokucdn.com/deploy/button.png
-    :target: https://heroku.com/deploy
+    :target: https://heroku.com/deploy?template=https://github.com/cedricbonhomme/pyAggr3g470r
 
 Deploying the application on a traditional server
 '''''''''''''''''''''''''''''''''''''''''''''''''
