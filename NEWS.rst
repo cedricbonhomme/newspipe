@@ -1,5 +1,12 @@
             pyAggr3g470r project news
 
+5.6.2: 2014-08-10
+    Minor improvements: Articles are automatically retrieved after the import
+    of an OPML file.
+    When displaying all articles (unread + read), titles of unread articles
+    are emphasized in bold.
+    New: pyAggr3g470r can be deployed with the Heroku auto deploy button.
+
 5.6.1: 2014-07-13
     Performance improvements: faster database insertion of articles by
     the crawler and loading of the management page.
