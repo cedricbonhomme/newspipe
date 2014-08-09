@@ -265,7 +265,7 @@ def fetch(feed_id=None):
     News are downloaded in a separated process, mandatory for Heroku.
     """
     utils.fetch(g.user.email, None)
-    flash(gettext("Downloading articles..."), 'success')
+    flash(gettext("Downloading articles..."), 'info')
     return redirect(redirect_url())
 
 @app.route('/about', methods=['GET'])
@@ -596,7 +596,9 @@ def management():
             else:
                 try:
                     nb = utils.import_opml(g.user.email, data.read())
+                    utils.fetch(g.user.email, None)
                     flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
+                    flash(gettext("Downloading articles..."), 'info')
                 except:
                     flash(gettext("Impossible to import the new feeds."), "danger")
         elif None != request.files.get('jsonfile', None):
@@ -662,7 +664,7 @@ def edit_feed(feed_id=None):
                 flash(gettext('Feed successfully created.'), 'success')
 
                 utils.fetch(g.user.email, Feed.query.filter(Feed.link == form.link.data).first().id)
-                flash(gettext("Downloading articles for the new feed..."), 'success')
+                flash(gettext("Downloading articles for the new feed..."), 'info')
 
                 return redirect('/edit_feed/' + str(new_feed.id))
             else:
