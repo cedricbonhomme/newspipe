@@ -95,7 +95,11 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title|safe }}</a></td>
-                            <td><a href="/article/{{ article.id }}">{{ article.title|safe }}</a></td>
+                            <td>
+                                {% if filter_ == 'all' and article.readed == False %}<b>{% endif %}
+                                <a href="/article/{{ article.id }}">{{ article.title|safe }}</a>
+                                {% if filter_ == 'all' and article.readed == False %}</b>{% endif %}
+                            </td>
                             <td class="date">{{ article.date|datetime }}</a></td>
                             <td>
                                 <a href="#"><i class="glyphicon glyphicon-remove delete" title="{{ _('Delete this article') }}"></i></a>
@@ -108,6 +112,7 @@
                                     <a href="#"><i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i></a>
                                 {% else %}
                                     <a href="#"><i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i></a>
+                                    {% if filter_ == 'all' %}</b>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
