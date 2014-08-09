@@ -40,6 +40,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             }
             else {
                 // here, filter == "all"
+                $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "bold" );
                 $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
                 $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) + 1);
             }
@@ -59,6 +60,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             }
             else {
                 // here, filter == "all"
+                $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "normal" );
                 $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
                 if (parseInt($("#unread-"+feed_id).text()) == 1) {
                     $("#unread-"+feed_id).remove();

@@ -95,10 +95,8 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title|safe }}</a></td>
-                            <td>
-                                {% if filter_ == 'all' and article.readed == False %}<b>{% endif %}
+                            <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
                                 <a href="/article/{{ article.id }}">{{ article.title|safe }}</a>
-                                {% if filter_ == 'all' and article.readed == False %}</b>{% endif %}
                             </td>
                             <td class="date">{{ article.date|datetime }}</a></td>
                             <td>
