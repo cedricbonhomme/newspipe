@@ -5,6 +5,7 @@
     of an OPML file.
     When displaying all articles (unread + read), titles of unread articles
     are emphasized in bold.
+    A new tab is opened when clicking on the title of an article.
     New: pyAggr3g470r can be deployed with the Heroku auto deploy button.
 
 5.6.1: 2014-07-13
