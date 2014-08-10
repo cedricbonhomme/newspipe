@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container" data-article="{{ article.id }}">
     <div class="jumbotron">
-        <h2><a href="{{ article.link  }}">{{ article.title|safe }}</a></h2>
+        <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
         <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
         <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
         {% if article.like %}
