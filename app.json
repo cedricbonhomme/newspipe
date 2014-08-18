@@ -16,7 +16,9 @@
     "ADMIN_EMAIL": "root@pyAggr3g470r.localhost",
     "ADMIN_PASSWORD": "password",
     "RECAPTCHA_PRIVATE_KEY": "REDACTED",
-    "RECAPTCHA_PUBLIC_KEY": "REDACTED"
+    "RECAPTCHA_PUBLIC_KEY": "REDACTED",
+    "NOTIFICATION_EMAIL": "REDACTED",
+    "POSTMARK_API_KEY": "REDACTED"
   },
   "addons": [
     "heroku-postgresql:hobby-dev"
