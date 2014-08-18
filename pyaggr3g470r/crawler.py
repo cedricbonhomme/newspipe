@@ -112,7 +112,7 @@ class FeedGetter(object):
             self.index(new_articles)
 
         # 5 - Mail notification
-        if not conf.ON_HEROKU and conf.MAIL_ENABLED:
+        if not conf.ON_HEROKU and conf.NOTIFICATION_ENABLED:
             self.mail_notification(new_articles)
 
         logger.info("All articles retrieved. End of the processus.")

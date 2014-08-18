@@ -8,6 +8,7 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
+import os
 import bootstrap
 
 from pyaggr3g470r import db
@@ -70,8 +71,8 @@ role_admin = Role(name="admin")
 role_user = Role(name="user")
 
 user1 = User(nickname="admin",
-            email="root@pyAggr3g470r.localhost",
-            pwdhash=generate_password_hash("password"),
+            email=os.environ.get("ADMIN_EMAIL", "root@pyAggr3g470r.localhost"),
+            pwdhash=generate_password_hash(os.environ.get("ADMIN_PASSWORD", "password")),
             activation_key="")
 user1.roles.extend([role_admin, role_user])
 

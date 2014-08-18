@@ -35,8 +35,8 @@ logger = logging.getLogger(__name__)
 @async
 def send_async_email(mfrom, mto, msg):
     try:
-        s = smtplib.SMTP(conf.MAIL_HOST)
-        s.login(conf.MAIL_USERNAME, conf.MAIL_PASSWORD)
+        s = smtplib.SMTP(conf.NOTIFICATION_HOST)
+        s.login(conf.NOTIFICATION_USERNAME, conf.NOTIFICATION_PASSWORD)
     except Exception:
         logger.exception('send_async_email raised:')
     else:
@@ -69,8 +69,8 @@ def send_email(mfrom, mto, feed, article):
     msg.attach(part2)
 
     try:
-        s = smtplib.SMTP(conf.MAIL_HOST)
-        s.login(conf.MAIL_USERNAME, conf.MAIL_PASSWORD)
+        s = smtplib.SMTP(conf.NOTIFICATION_HOST)
+        s.login(conf.NOTIFICATION_USERNAME, conf.NOTIFICATION_PASSWORD)
     except Exception:
         logger.exception("send_email raised:")
     else:
@@ -88,10 +88,10 @@ def send_heroku(user=None, bcc="", subject="", plaintext=""):
     try:
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
                         subject = subject,
-                        sender = conf.ADMIN_EMAIL,
+                        sender = conf.NOTIFICATION_EMAIL,
                         text_body = plaintext)
         if bcc != "":
-            message.to = conf.ADMIN_EMAIL
+            message.to = conf.NOTIFICATION_EMAIL
             message.bcc = bcc
         elif bcc == "":
             message.to = user.email
@@ -157,4 +157,4 @@ def new_article_notification(user, feed, article):
     if conf.ON_HEROKU:
         pass
     else:
-        send_email(conf.ADMIN_EMAIL, user.email, feed, article)
+        send_email(conf.NOTIFICATION_EMAIL, user.email, feed, article)

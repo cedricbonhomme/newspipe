@@ -1,6 +1,6 @@
 [misc]
 platform_url = https://pyaggr3g470r.herokuapp.com/
-admin_platform_email =
+admin_email =
 recaptcha_public_key =
 recaptcha_private_key =
 log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
@@ -15,9 +15,9 @@ debug = 1
 host = 0.0.0.0
 port = 5000
 secret = a secret only you know
-[mail]
+[notification]
 enabled = 0
-admin_email = pyAggr3g470r@no-reply.com
+email = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com
 port = 465
 tls = 0

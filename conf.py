@@ -34,6 +34,7 @@ if not ON_HEROKU:
     config.read(os.path.join(basedir, "conf/conf.cfg"))
 
     PLATFORM_URL = config.get('misc', 'platform_url')
+    ADMIN_EMAIL = config.get('misc', 'admin_email')
     RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
     RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
     LOG_PATH = config.get('misc', 'log_path')
@@ -51,19 +52,20 @@ if not ON_HEROKU:
     WEBSERVER_PORT = int(config.get('webserver', 'port'))
     WEBSERVER_SECRET = config.get('webserver', 'secret')
 
-    ADMIN_EMAIL = config.get('mail', 'admin_email')
-    MAIL_ENABLED = int(config.get('mail', 'enabled')) == 1
-    MAIL_HOST = config.get('mail', 'host')
-    MAIL_PORT = int(config.get('mail', 'port'))
-    MAIL_TLS = int(config.get('mail', 'tls')) == 1
-    MAIL_SSL = int(config.get('mail', 'ssl')) == 1
-    MAIL_USERNAME = config.get('mail', 'username')
-    MAIL_PASSWORD = config.get('mail', 'password')
+    NOTIFICATION_ENABLED = int(config.get('notification', 'enabled')) == 1
+    NOTIFICATION_EMAIL = config.get('notification', 'email')
+    NOTIFICATION_HOST = config.get('notification', 'host')
+    NOTIFICATION_PORT = int(config.get('notification', 'port'))
+    NOTIFICATION_TLS = int(config.get('notification', 'tls')) == 1
+    NOTIFICATION_SSL = int(config.get('notification', 'ssl')) == 1
+    NOTIFICATION_USERNAME = config.get('notification', 'username')
+    NOTIFICATION_PASSWORD = config.get('notification', 'password')
 
     WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
 else:
     PLATFORM_URL = os.environ.get('PLATFORM_URL', 'https://pyaggr3g470r.herokuapp.com/')
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '')
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
     LOG_PATH = os.environ.get('LOG_PATH', 'pyaggr3g470r.log')
@@ -79,8 +81,8 @@ else:
     WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
     WEBSERVER_SECRET = os.environ.get('SECRET_KEY', None)
 
-    MAIL_ENABLED = True
-    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '')
+    NOTIFICATION_ENABLED = True
+    NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', '')
     POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY', '')
 
     WEBZINE_ROOT = "/tmp/"
