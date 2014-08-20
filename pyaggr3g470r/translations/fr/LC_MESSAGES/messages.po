@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-20 19:01+0200\n"
-"PO-Revision-Date: 2014-08-20 19:02+0100\n"
+"PO-Revision-Date: 2014-08-20 22:18+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -257,7 +257,7 @@ msgid ""
 "cedricbonhomme/pyaggr3g470r#rst-header-web-service\">here</a>."
 msgstr ""
 "La documentation de l'API RESTful est <a href=\"https://bitbucket.org/"
-"cedricbonhomme/pyaggr3g470r/issues\">ici</a>."
+"cedricbonhomme/pyaggr3g470r#rst-header-web-service\">ici</a>."
 
 #: pyaggr3g470r/templates/about.html:16
 #, python-format
@@ -581,7 +581,7 @@ msgstr "Indexer la base de données"
 
 #: pyaggr3g470r/templates/management.html:11
 msgid "Delete articles older than 10 weeks"
-msgstr "Supprimer les articles de plus des 10 semaines"
+msgstr "Supprimer les articles de plus de 10 semaines"
 
 #: pyaggr3g470r/templates/management.html:14
 msgid "Your Profile"
