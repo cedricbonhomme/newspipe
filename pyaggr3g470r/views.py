@@ -742,6 +742,19 @@ def delete_account():
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(url_for('login'))
 
+@app.route('/expire_articles', methods=['GET'])
+@login_required
+def expire_articles():
+    """
+    Delete articles older than the given number of weeks.
+    """
+    current_time = datetime.datetime.utcnow()
+    weeks_ago = current_time - datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
+    for article in Article.query.filter(User.email == g.user.email, Article.date < weeks_ago).all():
+        db.session.delete(article)
+    db.session.commit()
+    return redirect(redirect_url())
+
 @app.route('/confirm_account/<string:activation_key>', methods=['GET'])
 def confirm_account(activation_key=None):
     """
