@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-20 18:51+0200\n"
+"POT-Creation-Date: 2014-08-20 19:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -473,30 +473,6 @@ msgstr ""
 
 #: pyaggr3g470r/templates/home.html:90
 msgid "Date"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:126
-msgid "Oh!"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:126
-msgid "This feed is empty."
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:128
-msgid "Work for you!"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:128
-msgid "All articles are unread."
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:130
-msgid "Well done!"
-msgstr ""
-
-#: pyaggr3g470r/templates/home.html:130
-msgid "You read all articles."
 msgstr ""
 
 #: pyaggr3g470r/templates/inactives.html:6

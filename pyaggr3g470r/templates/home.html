@@ -118,18 +118,6 @@
                     </tbody>
                 </table>
             </div>
-        {% else %}
-            <br />
-            <div class="alert alert-info alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {% if filter_ == 'all' %}
-                    <strong>{{ _('Oh!') }}</strong> {{ _('This feed is empty.') }}
-                {% elif filter_ == 'read' %}
-                    <strong>{{ _('Work for you!') }}</strong> {{ _('All articles are unread.') }}
-                {% elif filter_ == 'unread' %}
-                    <strong>{{ _('Well done!') }}</strong> {{ _('You read all articles.') }}
-                {% endif %}
-            </div>
         {% endif %}
     </div><!-- /.container -->
 {% endif %}
