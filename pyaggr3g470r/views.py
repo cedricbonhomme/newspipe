@@ -183,7 +183,10 @@ def signup():
     """
     Signup page.
     """
-    if (g.user is not None and g.user.is_authenticated()) or not os.environ.get("SELF_REGISTRATION", False):
+    if not os.environ.get("SELF_REGISTRATION", False):
+        flash(gettext("Self registration is disabled."), 'info')
+        return redirect(url_for('home'))
+    if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('home'))
 
     form = SignupForm()
