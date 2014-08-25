@@ -184,7 +184,7 @@ def signup():
     Signup page.
     """
     if not os.environ.get("SELF_REGISTRATION", False):
-        flash(gettext("Self registration is disabled."), 'info')
+        flash(gettext("Self registration is disabled."), 'warning')
         return redirect(url_for('home'))
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('home'))
