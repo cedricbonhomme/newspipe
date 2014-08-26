@@ -183,7 +183,7 @@ def signup():
     """
     Signup page.
     """
-    if int(os.environ.get("SELF_REGISTRATION", 0)) =! 1:
+    if int(os.environ.get("SELF_REGISTRATION", 0)) != 1:
         flash(gettext("Self-registration is disabled."), 'warning')
         return redirect(url_for('home'))
     if g.user is not None and g.user.is_authenticated():
