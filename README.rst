@@ -38,10 +38,10 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
+An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com>`_.
+
 The geek way
 ~~~~~~~~~~~~
-
-An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com>`_.
 
 .. code:: bash
 
