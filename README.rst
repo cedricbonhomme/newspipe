@@ -5,8 +5,8 @@ pyAggr3g470r
 Presentation
 ============
 
-`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r/>`_  is a news aggregator with a web interface
-based on `Flask <http://flask.pocoo.org/>`_.
+`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_  is a news aggregator with a web interface
+based on `Flask <http://flask.pocoo.org>`_.
 
 Features
 ========
@@ -38,7 +38,7 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
-An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com/>`_.
+An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com>`_.
 
 .. code:: bash
 
@@ -55,6 +55,7 @@ To enable account creation for users, you have to set some environment variables
 
 .. code:: bash
 
+    $ heroku config:set SELF_REGISTRATION=1
     $ heroku config:set PLATFORM_URL=<URL-of-your-platform>
     $ heroku config:set RECAPTCHA_PUBLIC_KEY=<your-recaptcha-public-key>
     $ heroku config:set RECAPTCHA_PRIVATE_KEY=<your-recaptcha-private-key>
