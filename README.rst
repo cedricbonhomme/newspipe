@@ -38,6 +38,9 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
 
+The geek way
+~~~~~~~~~~~~
+
 An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com>`_.
 
 .. code:: bash
@@ -60,11 +63,17 @@ To enable account creation for users, you have to set some environment variables
     $ heroku config:set RECAPTCHA_PUBLIC_KEY=<your-recaptcha-public-key>
     $ heroku config:set RECAPTCHA_PRIVATE_KEY=<your-recaptcha-private-key>
     $ heroku config:set NOTIFICATION_EMAIL=<notification-email>
+    $ heroku config:set POSTMARK_API_KEY=<your-postmark-api-key>
     $ heroku addons:add postmark:10k
 
 `Postmark <https://postmarkapp.com/>`_ is used to send account confirmation links.
 
-If you don't want to open your platform you will be still able to create accounts via the administration page.
+If you don't want to open your platform just set *SELF_REGISTRATION* to 0.
+You will be still able to create accounts via the administration page.
+
+
+The simple way
+~~~~~~~~~~~~~~
 
 Alternatively, you can deploy your own copy of the app using this button:
 
