@@ -80,6 +80,9 @@ Alternatively, you can deploy your own copy of the app using this button:
 .. image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/cedricbonhomme/pyAggr3g470r
 
+You will be prompted to choose an email and a password for the administrator's account.
+And some other optional environment variables, as previously presented.
+
 Deploying the application on a traditional server
 '''''''''''''''''''''''''''''''''''''''''''''''''
 
