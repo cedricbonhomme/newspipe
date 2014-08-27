@@ -1,5 +1,13 @@
             pyAggr3g470r project news
 
+5.6.3: 2014-08-27
+    News: It is now possible to delete articles older than a given number
+    of weeks. This can be done via the management page.
+    An new environment variable enables to activate or deactivate the
+    self-registration.
+    Changes: translations were updated. Some minor bugfixes. Improved
+    deployment instructions in the README.
+
 5.6.2: 2014-08-10
     Minor improvements: Articles are automatically retrieved after the import
     of an OPML file.
