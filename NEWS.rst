@@ -311,6 +311,12 @@
     and/or with cron. Better navigation between feeds and improvements to the
     SQLite database have been added.
 
+0.4: 01 Feb 2010 22:05
+    Release 0.4. The main page display only 10 articles by feeds.
+    For each feeds a page present the list of all articles. The SQLite base is
+    smaller than before (removed hashed value).
+    A lot of improvements.
+
 0.3: 01 Feb 2010 11:50
     A new menu was added for faster access to feeds. Some improvements were
     made to the CSS.
