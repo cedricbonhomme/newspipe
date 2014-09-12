@@ -12,7 +12,6 @@ Flask-Principal
 Flask-WTF
 Flask-RESTful
 Flask-Babel
-Flask-Gravatar
 Flask-SSLify
 WTForms
 python-postmark

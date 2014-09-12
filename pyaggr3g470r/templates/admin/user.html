@@ -12,9 +12,6 @@
                 <p>{{ _('Member since') }} {{ user.date_created | datetime }}.</p>
                 <p>{{ _('Last seen:') }} {{ user.last_seen | datetime }}.</p>
             </div>
-            <div class="col-md-6">
-                <img src="{{ user.email | gravatar }}" />
-            </div>
         </div>
     </div>
     <div class="jumbotron">

@@ -6,7 +6,6 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babel import Babel
 from flask.ext.babel import format_datetime
-from flask.ext.gravatar import Gravatar
 
 import conf
 
@@ -41,10 +40,6 @@ def allowed_file(filename):
 babel = Babel(app)
 
 app.jinja_env.filters['datetime'] = format_datetime
-
-# Gravatar
-gravatar = Gravatar(app, size=100, rating='g', default='retro',
-                    force_default=False, use_ssl=False, base_url=None)
 
 # Views
 from flask.ext.restful import Api
