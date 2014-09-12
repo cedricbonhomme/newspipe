@@ -1,5 +1,10 @@
             pyAggr3g470r project news
 
+5.6.4: 2014-09-12
+    Translations have been updated.
+    Gravatar extension has been removed.
+    Minor fix.
+
 5.6.3: 2014-08-27
     News: It is now possible to delete articles older than a given number
     of weeks. This can be done via the management page.
