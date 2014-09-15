@@ -1,5 +1,9 @@
             pyAggr3g470r project news
 
+5.6.5: 2014-09-15
+    This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
+    (conflicts between persistent ant transcient SQLAlchemy objects).
+
 5.6.4: 2014-09-12
     Translations have been updated.
     Gravatar extension has been removed.
