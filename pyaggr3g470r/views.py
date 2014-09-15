@@ -413,10 +413,7 @@ def articles(feed_id=None, nb_articles=-1):
     The administrator of the platform is able to access to this view for every users.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    new_feed = Feed()
-    new_feed.id = feed.id
-    new_feed.title = feed.title
-    new_feed.site_link = feed.site_link
+    new_feed = feed
     if len(feed.articles.all()) <= nb_articles:
         nb_articles = -1
     if nb_articles == -1:
@@ -434,9 +431,7 @@ def favorites():
     feeds_with_like = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(like=True))
     result, nb_favorites = [], 0
     for feed in feeds_with_like:
-        new_feed = Feed()
-        new_feed.id = feed.id
-        new_feed.title = feed.title
+        new_feed = feed
         new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
         length = len(new_feed.articles.all())
         if length != 0:
@@ -457,9 +452,7 @@ def unread(feed_id=None):
         feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
     result, nb_unread = [], 0
     for feed in feeds_with_unread:
-        new_feed = Feed()
-        new_feed.id = feed.id
-        new_feed.title = feed.title
+        new_feed = feed
         new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).all()
         length = len(new_feed.articles.all())
         if length != 0:
