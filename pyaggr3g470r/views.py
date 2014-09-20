@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010-2014  Cédric Bonhomme - http://cedricbonhomme.org/
+# Copyright (C) 2010-2014  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+# For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -241,7 +241,7 @@ def home():
                        .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
-        return '/?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
+        return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=dict(unread), articles=articles.all())
