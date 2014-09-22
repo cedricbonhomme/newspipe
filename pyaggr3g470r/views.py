@@ -28,6 +28,7 @@ __license__ = "AGPLv3"
 
 import os
 import datetime
+from collections import namedtuple
 from flask import abort, render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
@@ -451,13 +452,11 @@ def unread(feed_id=None):
     else:
         feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
     result, nb_unread = [], 0
+    light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
     for feed in feeds_with_unread:
-        new_feed = feed
-        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).all()
-        length = len(new_feed.articles.all())
-        if length != 0:
-            result.append(new_feed)
-            nb_unread += length
+        articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).all()
+        result.append(light_feed(feed.id, feed.title, articles))
+        nb_unread += len(articles)
     return render_template('unread.html', feeds=result, nb_unread=nb_unread)
 
 @app.route('/inactives', methods=['GET'])
