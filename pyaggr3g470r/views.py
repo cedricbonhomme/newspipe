@@ -431,13 +431,11 @@ def favorites():
     """
     feeds_with_like = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(like=True))
     result, nb_favorites = [], 0
+    light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
     for feed in feeds_with_like:
-        new_feed = feed
-        new_feed.articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
-        length = len(new_feed.articles.all())
-        if length != 0:
-            result.append(new_feed)
-            nb_favorites += length
+        articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
+        result.append(light_feed(feed.id, feed.title, articles))
+        nb_favorites += len(articles)
     return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
 @app.route('/unread/<int:feed_id>', methods=['GET'])
