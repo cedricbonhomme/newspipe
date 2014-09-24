@@ -92,7 +92,7 @@ Deploying the application on a traditional server
     $ cd pyaggr3g470r
     $ sudo apt-get install libxml2-dev libxslt1-dev
     $ sudo pip install --upgrade -r requirements.txt
-    $ cp conf/conf.cfg-sample conf/conf.cfg
+    $ cp conf/conf.cfg{.sample,}
 
 If you want to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
