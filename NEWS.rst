@@ -1,5 +1,10 @@
             pyAggr3g470r project news
 
+5.6.6: 2014-09-24
+    Improvements: Significant performance improvement for the views
+    /favorites and /unread. The performance problem has been introduced
+    with the release 5.6.5.
+
 5.6.5: 2014-09-15
     This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
     (conflicts between persistent ant transcient SQLAlchemy objects).
