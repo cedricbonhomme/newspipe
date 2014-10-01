@@ -12,10 +12,10 @@
     </div>
 {% else %}
     <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
-        <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 600px;">
+        <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li><a href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
-                    {{ _('All feeds') }}
+                    {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
@@ -52,7 +52,6 @@
         </ul>
     </div>
     <div class="container col-md-9">
-        <h1>{{ _('Articles') }} (<span id="total-unread">{{ articles.__len__() }}</span>)</h1>
         <div id="filters" data-filter="{{ filter_ }}">
             {% if filter_ == 'all' %}<b>{% endif %}
                 <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
