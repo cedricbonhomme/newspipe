@@ -167,5 +167,18 @@ deployed on Heroku or on a traditional server." />
     <script src="{{ url_for('.static', filename = 'js/jquery.js') }}"></script>
     <script src="{{ url_for('.static', filename = 'js/bootstrap.js') }}"></script>
     <script src="{{ url_for('.static', filename = 'js/articles.js') }}"></script>
+    <script type="text/javascript" class="source">
+    $(document).ready(function() {
+        if (window.location.href.indexOf("unread") > -1) {
+            $("#tab-unread").attr('class', "active");
+        }
+        else if (window.location.href.indexOf("read") > -1) {
+            $("#tab-read").attr('class', "active");
+        }
+        else {
+            $("#tab-all").attr('class', "active");
+        }
+    });
+    </script>
   </body>
 </html>

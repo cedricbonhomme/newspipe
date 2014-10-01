@@ -53,33 +53,28 @@
     </div>
     <div class="container col-md-9">
         <div id="filters" data-filter="{{ filter_ }}">
-            {% if filter_ == 'all' %}<b>{% endif %}
-                <a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
-            {% if filter_ == 'all' %}</b>{% endif %}
-            |
-            {% if filter_ == 'read' %}<b>{% endif %}
-                <a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a>
-            {% if filter_ == 'read' %}</b>{% endif %}
-            |
-            {% if filter_ == 'unread' %}<b>{% endif %}
-                <a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
-            {% if filter_ == 'unread' %}</b>{% endif %}
-            -
-            {% if limit == 10 %}<b>{% endif %}
-                <a href="{{ gen_url(limit=10) }}">{{ _(10) }}</a>
-            {% if limit == 10 %}</b>{% endif %}
-            |
-            {% if limit == 100 %}<b>{% endif %}
-                <a href="{{ gen_url(limit=100) }}">{{ _(100) }}</a>
-            {% if limit == 100 %}</b>{% endif %}
-            |
-            {% if limit == 1000 %}<b>{% endif %}
-                <a href="{{ gen_url(limit=1000) }}">{{ _(1000) }}</a>
-            {% if limit == 1000 %}</b>{% endif %}
-            |
-            {% if limit == 'all' %}<b>{% endif %}
-                <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
-            {% if limit == 'all' %}</b>{% endif %}
+            <ul id="myTab" class="nav nav-tabs" role="tablist">
+                <li id="tab-all"><a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a></li>
+                <li id="tab-read"><a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a></li>
+                <li id="tab-unread"><a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a></li>
+            </ul>
+            <div id="nbdisplay">
+                {% if limit == 10 %}<b>{% endif %}
+                    <a href="{{ gen_url(limit=10) }}">{{ _(10) }}</a>
+                {% if limit == 10 %}</b>{% endif %}
+                |
+                {% if limit == 100 %}<b>{% endif %}
+                    <a href="{{ gen_url(limit=100) }}">{{ _(100) }}</a>
+                {% if limit == 100 %}</b>{% endif %}
+                |
+                {% if limit == 1000 %}<b>{% endif %}
+                    <a href="{{ gen_url(limit=1000) }}">{{ _(1000) }}</a>
+                {% if limit == 1000 %}</b>{% endif %}
+                |
+                {% if limit == 'all' %}<b>{% endif %}
+                    <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
+                {% if limit == 'all' %}</b>{% endif %}
+            </div>
         </div>
         {% if articles | count != 0%}
             <div class="table-responsive">
