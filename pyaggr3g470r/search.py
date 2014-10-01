@@ -36,7 +36,7 @@ from whoosh.qparser import QueryParser
 from whoosh.writing import AsyncWriter
 from collections import defaultdict
 
-import utils
+from pyaggr3g470r import utils
 
 indexdir = "./pyaggr3g470r/var/indexdir"
 

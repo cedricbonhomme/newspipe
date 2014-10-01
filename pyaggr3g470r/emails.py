@@ -26,9 +26,9 @@ from email.mime.text import MIMEText
 
 from postmark import PMMail
 
-import utils
+from pyaggr3g470r import utils
 import conf
-from decorators import async
+from pyaggr3g470r.decorators import async
 
 logger = logging.getLogger(__name__)
 

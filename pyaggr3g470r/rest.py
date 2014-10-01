@@ -34,7 +34,7 @@ from flask.ext.restful import Resource, reqparse
 
 import conf
 if not conf.ON_HEROKU:
-    import search as fastsearch
+    import pyaggr3g470r.search as fastsearch
 from pyaggr3g470r import api, db
 from pyaggr3g470r.models import User, Article, Feed
 

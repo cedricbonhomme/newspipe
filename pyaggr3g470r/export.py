@@ -42,7 +42,7 @@ from datetime import datetime
 from flask import jsonify
 
 import conf
-import models
+from pyaggr3g470r import models
 
 
 def HTML_HEADER(title="pyAggr3g470r", css="./style.css"):

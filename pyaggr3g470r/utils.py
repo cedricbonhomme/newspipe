@@ -43,7 +43,10 @@ import datetime
 import operator
 import urllib
 import subprocess
-from urlparse import urlparse, parse_qs, urlunparse
+try:
+    from urlparse import urlparse, parse_qs, urlunparse
+except:
+    from urllib.parse import urlparse, parse_qs, urlunparse
 from bs4 import BeautifulSoup
 from collections import Counter
 from contextlib import contextmanager

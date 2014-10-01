@@ -42,16 +42,15 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-import utils
-import export
-import emails
-if not conf.ON_HEROKU:
-    import search as fastsearch
-from forms import SignupForm, SigninForm, AddFeedForm, \
-                    ProfileForm, InformationMessageForm, RecoverPasswordForm
+from pyaggr3g470r import utils, emails, export
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
+from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
+                    ProfileForm, InformationMessageForm, RecoverPasswordForm
+if not conf.ON_HEROKU:
+    import pyaggr3g470r.search as fastsearch
+
 
 Principal(app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -914,9 +913,8 @@ def disable_user(user_id=None):
                 flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
 
         else:
-            import random, base64, hashlib
-            user.activation_key = base64.b64encode(hashlib.sha512( str(random.getrandbits(256)) ).digest(),
-                                                           random.choice(['rA','aZ','gQ','hH','hG','aR','DD'])).rstrip('==')
+            import random, hashlib
+            user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()
             flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
         db.session.commit()
     else:
