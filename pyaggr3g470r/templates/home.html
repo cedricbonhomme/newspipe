@@ -57,24 +57,14 @@
                 <li id="tab-all"><a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a></li>
                 <li id="tab-read"><a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a></li>
                 <li id="tab-unread"><a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a></li>
-            </ul>
-            <div id="nbdisplay">
-                {% if limit == 10 %}<b>{% endif %}
-                    <a href="{{ gen_url(limit=10) }}">{{ _(10) }}</a>
-                {% if limit == 10 %}</b>{% endif %}
-                |
-                {% if limit == 100 %}<b>{% endif %}
-                    <a href="{{ gen_url(limit=100) }}">{{ _(100) }}</a>
-                {% if limit == 100 %}</b>{% endif %}
-                |
-                {% if limit == 1000 %}<b>{% endif %}
-                    <a href="{{ gen_url(limit=1000) }}">{{ _(1000) }}</a>
-                {% if limit == 1000 %}</b>{% endif %}
-                |
-                {% if limit == 'all' %}<b>{% endif %}
-                    <a href="{{ gen_url(limit='all') }}">{{ _('All') }}</a>
-                {% if limit == 'all' %}</b>{% endif %}
-            </div>
+                <li id="tab-nbdisplay" class="pull-right">
+                    <div id="nbdisplay">
+                        <a href="{{ gen_url(limit=10) }}" class="label {% if limit == 10 %}label-primary{% else %}label-info{% endif %}">{{ _(10) }}</a>
+                        <a href="{{ gen_url(limit=100) }}" class="label {% if limit == 100 %}label-primary{% else %}label-info{% endif %}">{{ _(100) }}</a>
+                        <a href="{{ gen_url(limit=1000) }}" class="label {% if limit == 1000 %}label-primary{% else %}label-info{% endif %}">{{ _(1000) }}</a>
+                        <a href="{{ gen_url(limit='all') }}" class="label {% if limit == 'all' %}label-primary{% else %}label-info{% endif %}">{{ _('All') }}</a>
+                    </div>
+                </li>
         </div>
         {% if articles | count != 0%}
             <div class="table-responsive">
