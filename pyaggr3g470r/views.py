@@ -558,18 +558,16 @@ def search():
             search_result, nb_articles = fastsearch.search(user.id, query)
         except Exception as e:
             flash(gettext('An error occured') + ' (%s).' % e, 'danger')
+        light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
         for feed_id in search_result:
             for feed in user.feeds:
                 if feed.id == feed_id:
-                    new_feed = Feed()
-                    new_feed.id = feed.id
-                    new_feed.title = feed.title
-                    new_feed.articles = []
+                    articles = []
                     for article_id in search_result[feed_id]:
                         current_article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
-                        new_feed.articles.append(current_article)
-                    new_feed.articles = sorted(new_feed.articles, key=lambda t: t.date, reverse=True)
-                    result.append(new_feed)
+                        articles.append(current_article)
+                    articles = sorted(articles, key=lambda t: t.date, reverse=True)
+                    result.append(light_feed(feed.id, feed.title, articles))
                     break
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
