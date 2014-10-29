@@ -27,9 +27,10 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
+import json
 import datetime
 from collections import namedtuple
-from flask import abort, render_template, request, flash, session, \
+from flask import abort, render_template, request, flash, session, Response, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
@@ -156,6 +157,31 @@ def login():
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
+
+@app.route('/api/csrf', methods=['GET'])
+def get_csrf():
+    try:
+        data = json.loads(request.data)
+    except ValueError:
+        return Response(status=400)
+    email = data.get('email')
+    password = data.get('password')
+    if login is None or password is None:
+        return Response(status=401)
+    user = User.query.filter(User.email == email).first()
+    if not user:
+        return Reponse(status=404)
+    if not user.check_password(password):
+        return Reponse(status=401)
+    if not user.activation_key == "":
+        return Reponse(status=403)
+    login_user(user)
+    g.user = user
+    session['email'] = email
+    identity_changed.send(current_app._get_current_object(),
+                          identity=Identity(user.id))
+    return 'ok', 200
+
 
 @app.route('/logout')
 @login_required

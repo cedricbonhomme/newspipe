@@ -87,6 +87,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User %r>' % (self.nickname)
 
+
 class Role(db.Model):
     """
     Represent a role.
@@ -95,6 +96,7 @@ class Role(db.Model):
     name = db.Column(db.String(), unique = True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 class Feed(db.Model):
     """
@@ -115,6 +117,16 @@ class Feed(db.Model):
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)
+
+    def dump(self):
+        return {"id": self.id,
+                "title": self.title,
+                "description": self.description,
+                "link": self.link,
+                "site_link": self.site_link,
+                "nb_articles": self.articles.count(),
+        }
+
 
 class Article(db.Model):
     """
@@ -151,3 +163,15 @@ class Article(db.Model):
                             "link": self.link,
                             "content": self.content
                          })
+    def dump(self):
+        return {"id": self.id,
+                "title": self.title,
+                "link": self.link,
+                "content": self.content,
+                "readed": self.readed,
+                "like": self.like,
+                "date": self.date,
+                "retrieved_date": self.retrieved_date,
+                "feed_id": self.source.id,
+                "feed_name": self.source.title,
+        }

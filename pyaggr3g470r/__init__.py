@@ -45,4 +45,4 @@ app.jinja_env.filters['datetime'] = format_datetime
 from flask.ext.restful import Api
 api = Api(app)
 
-from pyaggr3g470r import views, rest
+from pyaggr3g470r import views
