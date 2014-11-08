@@ -8,7 +8,7 @@
         {% if not_on_heroku %}
             <a href="/index_database" class="btn btn-default">{{ _('Index database') }}</a>
         {% endif %}
-        <a href="/expire_articles?weeks=10" class="btn btn-default">{{ _('Delete articles older than 10 weeks') }}</a>
+        <a href="/expire_articles?weeks=10" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
     </div>
     <div class="jumbotron">
         <h1>{{ _('Your Profile') }}</h1>
