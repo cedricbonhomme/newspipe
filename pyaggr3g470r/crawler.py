@@ -128,6 +128,8 @@ class FeedGetter(object):
             """
             logger.info("Fetching the feed: " + feed.title)
             a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
+            if a_feed['bozo'] == 1:
+                logger.error(a_feed['bozo_exception'])
             if a_feed['entries'] == []:
                 return
 

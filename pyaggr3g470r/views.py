@@ -267,7 +267,7 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    utils.fetch(g.user.email, None)
+    utils.fetch(g.user.email, feed_id)
     flash(gettext("Downloading articles..."), 'info')
     return redirect(redirect_url())
 

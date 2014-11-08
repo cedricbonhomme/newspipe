@@ -26,6 +26,6 @@ if __name__ == "__main__":
 
     for user in users:
         if user.activation_key == "":
-            print "Fetching articles for", user.nickname
+            print("Fetching articles for", user.nickname)
             feed_getter = crawler.FeedGetter(user.email)
             feed_getter.retrieve_feed(feed_id)
