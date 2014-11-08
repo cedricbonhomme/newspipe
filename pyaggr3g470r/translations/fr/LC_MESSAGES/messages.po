@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-12 09:24+0200\n"
-"PO-Revision-Date: 2014-10-12 09:26+0100\n"
+"POT-Creation-Date: 2014-11-08 08:05+0100\n"
+"PO-Revision-Date: 2014-11-08 08:05+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -693,6 +693,10 @@ msgstr "articles non lus"
 #: pyaggr3g470r/templates/management.html:9
 msgid "Index database"
 msgstr "Indexer la base de données"
+
+#: pyaggr3g470r/templates/management.html:11
+msgid "You are going to delete old articles."
+msgstr "Vous allez supprimer les anciens articles."
 
 #: pyaggr3g470r/templates/management.html:11
 msgid "Delete articles older than 10 weeks"
