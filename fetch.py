@@ -13,16 +13,19 @@ from pyaggr3g470r.models import User
 
 if __name__ == "__main__":
     # Point of entry in execution mode
+    users, feed_id = [], None
+    try:
+        users = User.query.filter(User.id == int(sys.argv[1])).all()
+    except:
+        users = User.query.all()
+    finally:
+        if users == []:
+            users = User.query.all()
+
     try:
         feed_id = int(sys.argv[2])
     except:
         feed_id = None
-
-    users = []
-    try:
-        users = User.query.filter(User.email == sys.argv[1]).all()
-    except:
-        users = User.query.all()
 
     for user in users:
         if user.activation_key == "":
