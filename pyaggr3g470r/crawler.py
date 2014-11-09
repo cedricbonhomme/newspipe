@@ -138,7 +138,7 @@ class FeedGetter(object):
                 try:
                     feed.title = a_feed.feed.title
                 except:
-                    feed.title = ""
+                    feed.title = "No title"
             if feed.link == "":
                 try:
                     feed.link = a_feed.feed.link
