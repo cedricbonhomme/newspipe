@@ -45,7 +45,7 @@ def send_async_email(mfrom, mto, msg):
 
 def send(*args, **kwargs):
     """
-    This decorator enables to send email through Postmark
+    This functions enables to send email through Postmark
     or a SMTP server.
     """
     if conf.ON_HEROKU:
