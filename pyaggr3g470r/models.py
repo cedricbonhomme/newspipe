@@ -45,10 +45,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(254), index = True, unique = True)
     pwdhash = db.Column(db.String())
     roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
-    activation_key = db.Column(db.String(86), default =
+    activation_key = db.Column(db.String(128), default =
                                hashlib.sha512(
                                    str(random.getrandbits(256)).encode("utf-8")
-                                   ).hexdigest())
+                                   ).hexdigest()[:86])
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     feeds = db.relationship('Feed', backref = 'subscriber', lazy = 'dynamic', cascade='all,delete-orphan')

@@ -912,7 +912,7 @@ def disable_user(user_id=None):
 
         else:
             import random, hashlib
-            user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()
+            user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()[:86]
             flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
         db.session.commit()
     else:
