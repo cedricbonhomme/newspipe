@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010-2014  Cédric Bonhomme - http://cedricbonhomme.org/
+# Copyright (C) 2010-2014  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 #
@@ -129,12 +129,6 @@ def information_message(subject, plaintext):
     # Postmark has a limit of twenty recipients per message in total.
     for i in xrange(0, len(emails), 19):
         send(to=conf.NOTIFICATION_EMAIL, bcc=", ".join(emails[i:i+19]), subject=subject, plaintext=plaintext)
-
-    #for user in users:
-        #try:
-            #send(user=user, subject=subject, plaintext=plaintext)
-        #except:
-            #continue
 
 def new_account_notification(user):
     """
