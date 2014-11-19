@@ -65,8 +65,6 @@ def send_email(to="", bcc="", subject="", plaintext="", html=""):
     Send an email.
     """
     # Create the body of the message (a plain-text and an HTML version).
-    html = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
-                (feed.title + ": " + article.title, article.content)
     if plaintext == "":
         plaintext = utils.clear_string(html)
 
