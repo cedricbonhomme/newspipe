@@ -54,13 +54,13 @@ def send(*args, **kwargs):
                       subject=kwargs.get("subject"),
                       plaintext=kwargs.get("plaintext"))
     else:
-        send_email(to=kwargs.get("to"),
+        send_smtp(to=kwargs.get("to"),
                    bcc=kwargs.get("bcc"),
                    subject=kwargs.get("subject"),
                    plaintext=kwargs.get("plaintext"),
                    html=kwargs.get("html"))
 
-def send_email(to="", bcc="", subject="", plaintext="", html=""):
+def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     """
     Send an email.
     """
@@ -89,7 +89,7 @@ def send_email(to="", bcc="", subject="", plaintext="", html=""):
         s = smtplib.SMTP(conf.NOTIFICATION_HOST)
         s.login(conf.NOTIFICATION_USERNAME, conf.NOTIFICATION_PASSWORD)
     except Exception:
-        logger.exception("send_email raised:")
+        logger.exception("send_smtp raised:")
     else:
         s.sendmail(conf.NOTIFICATION_EMAIL, msg['To'] + ", " + msg['BCC'], msg.as_string())
         s.quit()
