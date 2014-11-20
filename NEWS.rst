@@ -1,5 +1,10 @@
             pyAggr3g470r project news
 
+5.7.0: 2014-11-20
+    Improvements: major improvements of the email notifications system.
+    Notifications are now sent through Postmark (for example for Heroku)
+    or a standard SMTP server.
+
 5.6.6: 2014-09-24
     Improvements: Significant performance improvement for the views
     /favorites and /unread. The performance problem has been introduced
