@@ -99,11 +99,9 @@ def send_postmark(to="", bcc="", subject="", plaintext=""):
                         subject = subject,
                         sender = conf.NOTIFICATION_EMAIL,
                         text_body = plaintext)
+        message.to = to
         if bcc != "":
-            message.to = conf.NOTIFICATION_EMAIL
             message.bcc = bcc
-        elif bcc == "":
-            message.to = to
         message.send()
     except Exception as e:
         logger.exception("send_postmark raised:")
