@@ -45,7 +45,7 @@ from gevent.pool import Pool
 
 import utils
 import conf
-import emails
+import notifications
 from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Article
 if not conf.ON_HEROKU:
@@ -282,5 +282,5 @@ class FeedGetter(object):
         logger.info("Starting mail notification.")
         for element in new_articles:
             if element.source.email_notification:
-                emails.new_article_notification(self.user, element.source, element)
+                notifications.new_article_notification(self.user, element.source, element)
         return True

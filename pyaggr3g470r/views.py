@@ -42,7 +42,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-from pyaggr3g470r import utils, emails, export
+from pyaggr3g470r import utils, notifications, export
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -206,7 +206,7 @@ def signup():
 
         # Send the confirmation email
         try:
-            emails.new_account_notification(user)
+            notifications.new_account_notification(user)
         except Exception as e:
             flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
             return redirect(url_for('home'))
@@ -782,7 +782,7 @@ def recover():
 
             # Send the confirmation email
             try:
-                emails.new_password_notification(user, password)
+                notifications.new_password_notification(user, password)
                 flash(gettext('New password sent to your address.'), 'success')
             except Exception as e:
                 flash(gettext('Problem while sending your new password.') + ': ' + str(e), 'danger')
@@ -808,7 +808,7 @@ def dashboard():
     if request.method == 'POST':
         if form.validate():
             try:
-                emails.information_message(form.subject.data, form.message.data)
+                notifications.information_message(form.subject.data, form.message.data)
             except Exception as e:
                 flash(gettext('Problem while sending email') + ': ' + str(e), 'danger')
 
@@ -904,7 +904,7 @@ def disable_user(user_id=None):
 
             # Send the confirmation email
             try:
-                emails.new_account_activation(user)
+                notifications.new_account_activation(user)
                 user.activation_key = ""
                 flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully activated.'), 'success')
             except Exception as e:

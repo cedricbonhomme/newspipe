@@ -26,7 +26,6 @@ from email.mime.text import MIMEText
 
 from postmark import PMMail
 
-from pyaggr3g470r import utils
 import conf
 from pyaggr3g470r.decorators import async
 
@@ -64,10 +63,6 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     """
     Send an email.
     """
-    # Create the body of the message (a plain-text and an HTML version).
-    if plaintext == "":
-        plaintext = utils.clear_string(html)
-
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
@@ -113,54 +108,3 @@ def send_postmark(to="", bcc="", subject="", plaintext=""):
     except Exception as e:
         logger.exception("send_postmark raised:")
         raise e
-
-
-#
-# Notifications
-#
-def information_message(subject, plaintext):
-    """
-    Send an information message to the users of the platform.
-    """
-    from pyaggr3g470r.models import User
-    users = User.query.all()
-    # Only send email for activated accounts.
-    emails = [user.email for user in users if user.activation_key == ""]
-    # Postmark has a limit of twenty recipients per message in total.
-    for i in xrange(0, len(emails), 19):
-        send(to=conf.NOTIFICATION_EMAIL, bcc=", ".join(emails[i:i+19]), subject=subject, plaintext=plaintext)
-
-def new_account_notification(user):
-    """
-    Account creation notification.
-    """
-    plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
-    send(to=conf.NOTIFICATION_EMAIL, bcc=user.email, subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
-
-def new_account_activation(user):
-    """
-    Account activation notification.
-    """
-    plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL)
-    send(to=conf.NOTIFICATION_EMAIL, bcc=user.email, subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
-
-def new_password_notification(user, password):
-    """
-    New password notification.
-    """
-    plaintext = """Hello,\n\nA new password has been generated at your request:\n\n%s""" % \
-                        (password, )
-    plaintext += "\n\nIt is advised to replace it as soon as connected to pyAggr3g470r.\n\nSee you,"
-    send(to=conf.NOTIFICATION_EMAIL, bcc=user.email, subject="[pyAggr3g470r]  New password", plaintext=plaintext)
-
-def new_article_notification(user, feed, article):
-    """
-    New article notification.
-    """
-    subject = '[pyAggr3g470r] ' + feed.title + ": " + article.title
-    html = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
-                        (feed.title + ": " + article.title, article.content)
-    plaintext = utils.clear_string(html)
-    send(to=conf.NOTIFICATION_EMAIL, bcc=user.email, subject=subject, plaintext=plaintext, html=html)
