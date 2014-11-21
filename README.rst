@@ -38,7 +38,6 @@ Deploying the application with Vagrant
 ''''''''''''''''''''''''''''''''''''''
 
 Installation of VirtualBox and Vagrant
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
 
@@ -46,8 +45,7 @@ Installation of VirtualBox and Vagrant
     $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
     $ sudo dpkg -i vagrant_1.6.3_x86_64.deb
 
-Deployment of pyAggr3g470r in a Vagrant VM
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deployment of pyAggr3g470r
 
 .. code:: bash
 
@@ -109,6 +107,7 @@ Deploying the application on a traditional server
 
 .. code:: bash
 
+    $ sudo apt-get install -y python libpq-dev python-dev python-pip git
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
     $ sudo apt-get install libxml2-dev libxslt1-dev
@@ -121,19 +120,19 @@ If you want to use PostgreSQL
 .. code:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
-    $ echo "127.0.0.1:5432:aggregator:vagrant:xxYzToW42" > ~/.pgpass
+    $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
     $ chmod 700 ~/.pgpass
-    $ sudo -u postgres createuser vagrant --no-superuser --createdb --no-createrole
+    $ sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
     $ createdb aggregator --no-password
-    $ echo "ALTER USER vagrant WITH ENCRYPTED PASSWORD 'xxYzToW42';" | sudo -u postgres psql
-    echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO vagrant;" | sudo -u postgres psql
+    $ echo "ALTER USER pgsqluser WITH ENCRYPTED PASSWORD 'pgsqlpwd';" | sudo -u postgres psql
+    $ echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO pgsqluser;" | sudo -u postgres psql
 
 Edit the configuration file with the line:
 
 .. code:: cfg
 
     [database]
-    uri = postgres://vagrant:xxYzToW42@127.0.0.1:5433/aggregator
+    uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator
 
 If you want to use SQLite
 ~~~~~~~~~~~~~~~~~~~~~~~~~
