@@ -1,0 +1,26 @@
+[misc]
+platform_url = https://pyaggr3g470r.herokuapp.com/
+admin_email =
+recaptcha_public_key =
+recaptcha_private_key =
+log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
+[database]
+uri = postgres://vagrant:xxYzToW42@127.0.0.1:5432/aggregator
+[feedparser]
+http_proxy =
+user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
+resolve_article_url = 0
+[webserver]
+debug = 1
+host = 0.0.0.0
+port = 5000
+secret = a secret only you know
+[notification]
+enabled = 0
+email = pyAggr3g470r@no-reply.com
+host = smtp.googlemail.com
+port = 465
+tls = 0
+ssl = 1
+username = your-gmail-username
+password = your-gmail-password
