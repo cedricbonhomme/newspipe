@@ -34,6 +34,11 @@ This application can be deployed on Heroku or on a traditional server.
 
 After installation, you will be able to connect with the email *root@pyAggr3g470r.localhost* and the password *password*.
 
+Vagrant
+'''''''
+
+It is possible to deploy pyAggr3g470r with Vagrant.
+More details :doc:`here </vagrant>`.
 
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
