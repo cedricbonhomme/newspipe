@@ -25,13 +25,13 @@ apt-get install -y postgresql postgresql-server-dev-9.3 postgresql-client
 echo "127.0.0.1:5432:aggregator:vagrant:xxYzToW42" > .pgpass
 chmod 700 .pgpass
 sudo -u postgres createuser vagrant --no-superuser --createdb --no-createrole
-createdb aggregator --no-password
+sudo -u vagrant createdb aggregator --no-password
 echo "ALTER USER vagrant WITH ENCRYPTED PASSWORD 'xxYzToW42';" | sudo -u postgres psql
 echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO vagrant;" | sudo -u postgres psql
 
 # Initializes the database
 cd pyaggr3g470r
-python db_create.py
+sudo -u vagrant python db_create.py
 
 # start pyAggr3g470r at startup
 echo "#!/bin/sh -e" > /etc/rc.local
