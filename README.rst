@@ -37,8 +37,19 @@ After installation, you will be able to connect with the email *root@pyAggr3g470
 Vagrant
 '''''''
 
-It is possible to deploy pyAggr3g470r with Vagrant.
-More details `here <vagrant/README.rst>`_.
+Installation of VirtualBox and Vagrant
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    $ sudo apt-get install virtualbox
+    $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
+    $ sudo dpkg -i vagrant_1.6.3_x86_64.deb
+
+Deployment of pyAggr3g470r in a Vagrant VM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    $ cd vagrant/
+    $ vagrant up
+
 
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
