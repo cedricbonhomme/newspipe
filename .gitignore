@@ -13,6 +13,8 @@ syntax: glob
 # Log files:
 *.log
 
+# Vagrant:
+.vagrant/
 
 *.cfg
 pyaggr3g470r/var/indexdir/
