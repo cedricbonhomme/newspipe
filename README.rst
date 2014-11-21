@@ -92,7 +92,7 @@ Deploying the application on a traditional server
     $ cd pyaggr3g470r
     $ sudo apt-get install libxml2-dev libxslt1-dev
     $ sudo pip install --upgrade -r requirements.txt
-    $ cp conf/conf.cfg{.sample,}
+    $ cp conf/conf.cfg-sample conf/conf.cfg
 
 If you want to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,23 +100,19 @@ If you want to use PostgreSQL
 .. code:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
-    $ sudo -u postgres createuser
-    Enter name of role to add: username
-    Shall the new role be a superuser? (y/n) n
-    Shall the new role be allowed to create databases? (y/n) y
-    Shall the new role be allowed to create more new roles? (y/n) n
-    $ createdb pyAggr3g470r
-    $ sudo -u postgres psql
-    postgres=# ALTER USER username WITH ENCRYPTED PASSWORD 'password';
-    postgres=# GRANT ALL PRIVILEGES ON DATABASE pyAggr3g470r TO username;
-    postgres=# \q
+    $ echo "127.0.0.1:5432:aggregator:vagrant:xxYzToW42" > ~/.pgpass
+    $ chmod 700 ~/.pgpass
+    $ sudo -u postgres createuser vagrant --no-superuser --createdb --no-createrole
+    $ createdb aggregator --no-password
+    $ echo "ALTER USER vagrant WITH ENCRYPTED PASSWORD 'xxYzToW42';" | sudo -u postgres psql
+    echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO vagrant;" | sudo -u postgres psql
 
 Edit the configuration file with the line:
 
 .. code:: cfg
 
     [database]
-    uri = postgres://username:password@127.0.0.1:5433/pyAggr3g470r
+    uri = postgres://vagrant:xxYzToW42@127.0.0.1:5433/aggregator
 
 If you want to use SQLite
 ~~~~~~~~~~~~~~~~~~~~~~~~~
