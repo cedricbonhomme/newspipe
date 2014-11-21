@@ -15,7 +15,7 @@ fi
 cd pyaggr3g470r
 apt-get install -y libxml2-dev libxslt1-dev
 sudo pip install --upgrade -r requirements.txt
-cp conf/conf.cfg-sample conf/conf.cfg
+cp vagrant/conf.cfg-sample conf/conf.cfg
 cd ..
 
 # Installation of PostgreSQL
