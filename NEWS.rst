@@ -4,6 +4,7 @@
     Improvements: major improvements of the email notifications system.
     Notifications are now sent through Postmark (for example for Heroku)
     or a standard SMTP server.
+    Bug fix: activation key was too long for the database column.
 
 5.6.6: 2014-09-24
     Improvements: Significant performance improvement for the views
