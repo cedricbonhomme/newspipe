@@ -34,11 +34,13 @@ This application can be deployed on Heroku or on a traditional server.
 
 After installation, you will be able to connect with the email *root@pyAggr3g470r.localhost* and the password *password*.
 
-Vagrant
-'''''''
+Deploying the application with Vagrant
+''''''''''''''''''''''''''''''''''''''
 
 Installation of VirtualBox and Vagrant
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: bash
 
     $ sudo apt-get install virtualbox
     $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
@@ -47,7 +49,10 @@ Installation of VirtualBox and Vagrant
 Deployment of pyAggr3g470r in a Vagrant VM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    $ cd vagrant/
+.. code:: bash
+
+    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
+    $ cd pyaggr3g470r/vagrant/
     $ vagrant up
 
 
