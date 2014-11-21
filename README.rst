@@ -53,6 +53,7 @@ Deployment of pyAggr3g470r
     $ cd pyaggr3g470r/vagrant/
     $ vagrant up
 
+Once the VM configured, go to the address http://127.0.0.1:5000.
 
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
