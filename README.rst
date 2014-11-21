@@ -38,7 +38,7 @@ Vagrant
 '''''''
 
 It is possible to deploy pyAggr3g470r with Vagrant.
-More details :doc:`here </vagrant>`_.
+More details :doc:`here </vagrant/README.rst>`_.
 
 Deploying the application on Heroku
 '''''''''''''''''''''''''''''''''''
