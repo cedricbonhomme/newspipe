@@ -42,7 +42,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-from pyaggr3g470r import utils, notifications, export
+from pyaggr3g470r import utils, notifications, export, compare
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -475,6 +475,12 @@ def inactives():
         if elapsed > datetime.timedelta(days=nb_days):
             inactives.append((feed, elapsed))
     return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
+
+@app.route('/duplicates/<int:feed_id>', methods=['GET'])
+def duplicates(feed_id=None):
+    feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
+    result = compare.compare_documents(feed)
+    return render_template('unread.html', duplicates=duplicates)
 
 @app.route('/index_database', methods=['GET'])
 @login_required
