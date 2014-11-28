@@ -19,5 +19,5 @@ gevent
 whoosh
 python-dateutil
 nltk
-scikit-learn
 scipy
+scikit-learn
