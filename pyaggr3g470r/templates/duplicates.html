@@ -2,13 +2,29 @@
 {% block content %}
 <div class="container">
     {% if duplicates != [] %}
-        <ul class="list-group">
-        {% for pair in duplicates %}
-            <li><a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> - <a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a></li>
-        {% endfor %}
-        </ul>
+        <p><h1>{{ _('Duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for pair in duplicates %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a></td>
+                        <td><a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tobdy>
+            </table>
+        </div>
     {% else %}
-        <p>{{ _('No duplicates.') }}<p>
+        <p><h1>{{ _('No duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
     {% endif %}
 </div><!-- /.container -->
 {% endblock %}

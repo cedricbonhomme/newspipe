@@ -485,7 +485,7 @@ def duplicates(feed_id=None):
     feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
     duplicates = []
     duplicates = duplicate.compare_documents(feed)
-    return render_template('duplicates.html', duplicates=duplicates)
+    return render_template('duplicates.html', duplicates=duplicates, feed=feed)
 
 @app.route('/index_database', methods=['GET'])
 @login_required
