@@ -19,6 +19,6 @@ gevent
 whoosh
 python-dateutil
 nltk
-numpy==1.7.0
-scipy==0.11.0
+numpy==1.8.1
+scipy==0.14.0
 scikit-learn==0.13.1
