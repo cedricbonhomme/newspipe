@@ -17,6 +17,8 @@ cd pyaggr3g470r
 apt-get install -y libxml2-dev libxslt1-dev
 # For scipy:
 apt-get install -y libatlas-base-dev gfortran
+# For scikit-learn:
+apt-get install -y python-nose
 # installation with pip
 sudo pip install --upgrade -r requirements.txt
 # copy of the default configuration files for vagrant

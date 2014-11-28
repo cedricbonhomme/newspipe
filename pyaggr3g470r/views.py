@@ -42,7 +42,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-from pyaggr3g470r import utils, notifications, export, compare
+from pyaggr3g470r import utils, notifications, export, duplicate
 from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
@@ -484,7 +484,7 @@ def duplicates(feed_id=None):
     """
     feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
     duplicates = []
-    duplicates = compare.compare_documents(feed)
+    duplicates = duplicate.compare_documents(feed)
     return render_template('duplicates.html', duplicates=duplicates)
 
 @app.route('/index_database', methods=['GET'])

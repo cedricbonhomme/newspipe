@@ -69,6 +69,7 @@ The geek way
     $ cd pyaggr3g470r
     $ heroku create
     $ heroku addons:add heroku-postgresql:dev
+    $ heroku config:set BUILDPACK_URL=https://github.com/cedricbonhomme/heroku-buildpack-scipy
     $ heroku config:set HEROKU=1
     $ git push heroku master
     $ heroku run init
@@ -111,6 +112,7 @@ Deploying the application on a traditional server
     $ sudo apt-get install python libpq-dev python-dev python-pip build-essential git
     $ sudo apt-get install libatlas-base-dev gfortran # for scipy
     $ sudo apt-get install libxml2-dev libxslt1-dev # for lxml
+    $ sudo apt-get install python-nose # for scikit-learn
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
     $ sudo pip install --upgrade -r requirements.txt

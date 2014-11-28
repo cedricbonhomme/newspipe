@@ -37,7 +37,11 @@ def compare_documents(feed):
     """
     Compare a list of documents by pair.
     """
-    nltk.download("punkt")
+    downloaded = nltk.download("punkt")
+    if not downloaded:
+        #  Ubuntu packaged version still uses old URL
+        dl = nltk.downloader.Downloader("https://nltk.github.com/nltk_data/")
+        dl.download("punkt")
     duplicates = []
     for pair in itertools.combinations(feed.articles, 2):
         try:
