@@ -39,8 +39,7 @@ def compare_documents(feed):
     """
     nltk.download("punkt")
     duplicates = []
-    for pair in [(elem[0], elem[1]) for elem in itertools.product(feed.articles, repeat=2) 
-                    if elem[0].id != elem[1].id]:
+    for pair in itertools.combinations(feed.articles, 2):
         try:
             result = cosine_sim(*pair)
             if abs(result.item() - 1.0) < 1e-10:
