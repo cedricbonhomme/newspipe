@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    {% if duplicates != [] %}
+        <ul class="list-group">
+        {% for pair in duplicates %}
+            <li><a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> - <a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{ _('No duplicates.') }}<p>
+    {% endif %}
+</div><!-- /.container -->
+{% endblock %}

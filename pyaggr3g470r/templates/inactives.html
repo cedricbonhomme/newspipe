@@ -1,14 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    {% if duplicates != [] %}
-        <ul class="list-group">
-        {% for pair in duplicates %}
-            <li><a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> - <a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>{{ _('No duplicates.') }}<p>
-    {% endif %}
+    <div class="jumbotron">
+        <form method=get action="/inactives">
+            <p>{{ _('Days of inactivity') }}:</p>
+            <input type="number" name="nb_days" class="form-control" value="{{ nb_days }}" min="0" max="1000000" step="1" size="4" style="text-align: center" />
+        </form>
+        <br />
+        {% if inactives != [] %}
+            <ul class="list-group">
+            {% for item in inactives %}
+                <li class="list-group-item"><a href="/feed/{{ item[0].id }}">{{ item[0].title }}</a> - {{ item[1].days }} {{ _('days') }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ _('No inactive feeds.') }}<p>
+        {% endif %}
+    </div>
 </div><!-- /.container -->
 {% endblock %}
