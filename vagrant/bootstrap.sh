@@ -2,7 +2,7 @@
 
 apt-get update
 apt-get upgrade
-apt-get install -y python libpq-dev python-dev python-pip git
+apt-get install -y python libpq-dev python-dev python-pip build-essential git
 
 # Clone the source code of pyAggr3g470r
 git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
@@ -11,10 +11,15 @@ if [ $? -ne 0 ]; then
     exit 1;
 fi
 
-# Install all requierements
+# Install all Python requierements
 cd pyaggr3g470r
+# For lxml:
 apt-get install -y libxml2-dev libxslt1-dev
+# For scipy:
+apt-get install -y libatlas-base-dev gfortran
+# installation with pip
 sudo pip install --upgrade -r requirements.txt
+# copy of the default configuration files for vagrant
 cp vagrant/conf.cfg-sample conf/conf.cfg
 cd ..
 

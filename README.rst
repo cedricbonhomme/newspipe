@@ -108,10 +108,11 @@ Deploying the application on a traditional server
 
 .. code:: bash
 
-    $ sudo apt-get install -y python libpq-dev python-dev python-pip git
+    $ sudo apt-get install python libpq-dev python-dev python-pip build-essential git
+    $ sudo apt-get install libatlas-base-dev gfortran # for scipy
+    $ sudo apt-get install libxml2-dev libxslt1-dev # for lxml
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
-    $ sudo apt-get install libxml2-dev libxslt1-dev
     $ sudo pip install --upgrade -r requirements.txt
     $ cp conf/conf.cfg-sample conf/conf.cfg
 
