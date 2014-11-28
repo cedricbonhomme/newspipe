@@ -18,7 +18,3 @@ python-postmark
 gevent
 whoosh
 python-dateutil
-nltk
-numpy==1.8.1
-scipy==0.14.0
-scikit-learn==0.13.1
