@@ -341,7 +341,7 @@ def article(article_id=None):
                                article=article,
                                previous_article=previous_article, next_article=next_article)
     flash(gettext("This article do not exist."), 'warning')
-    return redirect(redirect_url())
+    return redirect(url_for('home'))
 
 
 @app.route('/mark_as/<string:new_value>', methods=['GET'])
@@ -398,7 +398,7 @@ def delete(article_id=None):
         except:
             pass
         flash(gettext('Article') + ' ' + article.title + ' ' + gettext('deleted.'), 'success')
-        return redirect(url_for('home'))
+        return redirect(redirect_url())
     else:
         flash(gettext('This article do not exist.'), 'danger')
         return redirect(url_for('home'))
