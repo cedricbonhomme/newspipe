@@ -496,8 +496,8 @@ def index_database():
     if not conf.ON_HEROKU:
         user = User.query.filter(User.id == g.user.id).first()
         try:
-            fastsearch.create_index(user)
-            flash(gettext('Database indexed.'), 'success')
+            fastsearch.create_index(user.id)
+            flash(gettext('Indexing database...'), 'success')
         except Exception as e:
             flash(gettext('An error occured') + ' (%s).' % e, 'danger')
         return redirect(url_for('home'))

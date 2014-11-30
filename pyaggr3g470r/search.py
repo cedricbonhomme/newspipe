@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
+import logging
 
 from whoosh.index import create_in, open_dir
 from whoosh.index import EmptyIndexError
@@ -36,7 +37,11 @@ from whoosh.qparser import QueryParser
 from whoosh.writing import AsyncWriter
 from collections import defaultdict
 
+from pyaggr3g470r.models import User
+from pyaggr3g470r.decorators import async
 from pyaggr3g470r import utils
+
+logger = logging.getLogger(__name__)
 
 indexdir = "./pyaggr3g470r/var/indexdir"
 
@@ -46,16 +51,21 @@ schema = Schema(title=TEXT,
                 feed_id=NUMERIC(int, stored=True),
                 user_id=NUMERIC(int, stored=True))
 
-
-def create_index(user):
+@async
+def create_index(user_id):
     """
     Creates the index.
     """
+    user = User.query.filter(User.id == user_id).first()
+    logger.info("Starting indexation of the database.")
     if not os.path.exists(indexdir):
         os.makedirs(indexdir)
     ix = create_in(indexdir, schema)
     writer = ix.writer()
+    logger.info("Starting now.")
+    logger.info("Test: "+ user.nickname)
     for feed in user.feeds:
+        logger.info("Indexing " +feed.title)
         for article in feed.articles:
             writer.add_document(title=article.title,
                                 content=utils.clear_string(article.content),
@@ -63,7 +73,7 @@ def create_index(user):
                                 feed_id=feed.id,
                                 user_id=user.id)
     writer.commit()
-
+    logger.info("Indexation done.")
 
 def add_to_index(user_id, articles, feed):
     """

@@ -19,7 +19,6 @@ def async(f):
         thr.start()
     return wrapper
 
-
 def feed_access_required(func):
     """
     This decorator enables to check if a user has access to a feed.
