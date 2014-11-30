@@ -4,27 +4,22 @@
     <div class="form jumbotron">
         <form action="" method="post" name="save">
             {{ form.hidden_tag() }}
-
             <div class="form-group">
                 {{ form.nickname.label }}
                 {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <p class="help-block">{{ _('Letters, numbers, dots and underscores only.') }}</p>
             </div>
-
             {{ form.email.label }}
             {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
             <div class="form-group">
                 {{ form.password.label }}
                 {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <p class="help-block">{{ _('Minimum 6 characters.') }}</p>
             </div>
-        
             {{ form.recaptcha.label }}
             {{ form.recaptcha }} {% for error in form.recaptcha.errors %} <span style="color: red;">{{ error }}<br /></span> {% endfor %}
-
             <br />
-            {{ form.submit(class_="btn") }}
+            {{ form.submit(class_="btn btn-default") }}
         </form>
     </div>
 </div><!-- /.container -->

@@ -3,19 +3,15 @@
 <div class="container">
     <div class="jumbotron">
         <h2>{{ _('Recover your account') }}</h2>
-
         {% for message in form.email.errors %}
             <div class="flash">{{ message }}</div>
         {% endfor %}
-
         <form action="{{ url_for('recover') }}" method=post>
             {{ form.hidden_tag() }}
-
             <div class="form-group">
             {{ form.email(class_="form-control", placeholder=_('Your email')) }}
             </div>
-
-            {{ form.submit(class_="btn") }}
+            {{ form.submit(class_="btn btn-default") }}
         </form>
     </div>
 </div><!-- /.container -->

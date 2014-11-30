@@ -110,7 +110,7 @@ deployed on Heroku or on a traditional server." />
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Filter') }} <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-filter"></span> {{ _('Filter') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a accesskey="u" href="/unread">{{ _('Unread') }}</a></li>
                         <li><a accesskey="f" href="/favorites">{{ _('Favorites') }}</a></li>
@@ -119,12 +119,12 @@ deployed on Heroku or on a traditional server." />
                         <li><a href="/history">{{ _('History') }}</a></li>
                     </ul>
                 </li>
-                <li><a accesskey="m" href="/management">{{ _('Management') }}</a></li>
+                <li><a accesskey="m" href="/management"><span class="glyphicon glyphicon-cog"></span> {{ _('Management') }}</a></li>
                 {% if g.user.is_admin() %}
                     <li><a href="{{ url_for('dashboard') }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                 {% endif %}
                 <li><a href="/about">{{ _('About') }}</a></li>
-                <li><a href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
+                <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <button class="btn btn-default btn-xs" type="submit"><span class="glyphicon glyphicon-search"></span></button> <b class="caret"></b>
