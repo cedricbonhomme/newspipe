@@ -11,7 +11,8 @@ from pyaggr3g470r.models import Feed
 
 def async(f):
     """
-    This decorator enables to send email in a new thread.
+    This decorator enables to launch a task (for examle sending an email or
+    indexing the database) in background.
     This prevent the server to freeze.
     """
     def wrapper(*args, **kwargs):

@@ -62,10 +62,8 @@ def create_index(user_id):
         os.makedirs(indexdir)
     ix = create_in(indexdir, schema)
     writer = ix.writer()
-    logger.info("Starting now.")
-    logger.info("Test: "+ user.nickname)
     for feed in user.feeds:
-        logger.info("Indexing " +feed.title)
+        logger.info("Indexing " + feed.title)
         for article in feed.articles:
             writer.add_document(title=article.title,
                                 content=utils.clear_string(article.content),
