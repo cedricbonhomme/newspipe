@@ -54,7 +54,7 @@
     {{ form.message(class_="form-control", rows=8) }} {% for error in form.message.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
     <br />
-    {{ form.submit(class_="btn") }}
+    {{ form.submit(class_="btn btn-default") }}
 </form>
 </div>
 {% endblock %}
