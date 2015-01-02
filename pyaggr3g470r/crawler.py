@@ -62,7 +62,6 @@ logger = logging.getLogger(__name__)
 socket.setdefaulttimeout(5.0)
 
 
-
 # Hack: Re-add sslwrap to Python 2.7.9
 import inspect
 __ssl__ = __import__('ssl')
@@ -84,6 +83,7 @@ if not hasattr(_ssl, 'sslwrap'):
         caller_self = inspect.currentframe().f_back.f_locals['self']
         return context._wrap_socket(sock, server_side=server_side, ssl_sock=caller_self)
     _ssl.sslwrap = new_sslwrap
+# End hack
 
 
 class TooLong(Exception):
