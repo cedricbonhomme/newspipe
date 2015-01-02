@@ -61,6 +61,31 @@ logger = logging.getLogger(__name__)
 
 socket.setdefaulttimeout(5.0)
 
+
+
+# Hack: Re-add sslwrap to Python 2.7.9
+import inspect
+__ssl__ = __import__('ssl')
+try:
+    _ssl = __ssl__._ssl
+except AttributeError:
+    _ssl = __ssl__._ssl2
+if not hasattr(_ssl, 'sslwrap'):
+    def new_sslwrap(sock, server_side=False, keyfile=None, certfile=None, cert_reqs=__ssl__.CERT_NONE, ssl_version=__ssl__.PROTOCOL_SSLv23, ca_certs=None, ciphers=None):
+        context = __ssl__.SSLContext(ssl_version)
+        context.verify_mode = cert_reqs or __ssl__.CERT_NONE
+        if ca_certs:
+            context.load_verify_locations(ca_certs)
+        if certfile:
+            context.load_cert_chain(certfile, keyfile)
+        if ciphers:
+            context.set_ciphers(ciphers)
+
+        caller_self = inspect.currentframe().f_back.f_locals['self']
+        return context._wrap_socket(sock, server_side=server_side, ssl_sock=caller_self)
+    _ssl.sslwrap = new_sslwrap
+
+
 class TooLong(Exception):
     def __init__(self):
         """
@@ -133,7 +158,6 @@ class FeedGetter(object):
             """
             logger.info("Fetching the feed: " + feed.title)
             a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
-            print(a_feed)
             if a_feed['bozo'] == 1:
                 logger.error(a_feed['bozo_exception'])
             if a_feed['entries'] == []:
