@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import utils
-import conf
+from pyaggr3g470r import utils
+from pyaggr3g470r import conf
 from pyaggr3g470r import emails
 
 def information_message(subject, plaintext):

@@ -4,7 +4,7 @@
 import itertools
 from datetime import timedelta
 
-import utils
+from pyaggr3g470r import utils
 
 def compare_documents(feed):
     """

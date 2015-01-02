@@ -30,7 +30,12 @@ import re
 import socket
 import logging
 import feedparser
-import urllib2
+try:
+    # Python 3
+    from urllib.request import ProxyHandler
+except:
+    # Python 2
+    from urllib2 import ProxyHandler
 import requests
 import dateutil.parser
 from bs4 import BeautifulSoup
@@ -43,13 +48,13 @@ gevent.monkey.patch_all()
 from gevent import Timeout
 from gevent.pool import Pool
 
-import utils
-import conf
-import notifications
+from pyaggr3g470r import utils
+from pyaggr3g470r import conf
+from pyaggr3g470r import notifications
 from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Article
 if not conf.ON_HEROKU:
-    import search as fastsearch
+    import pyaggr3g470r.search as fastsearch
 
 
 logger = logging.getLogger(__name__)
@@ -74,10 +79,10 @@ class FeedGetter(object):
         """
         feedparser.USER_AGENT = conf.USER_AGENT
         if conf.HTTP_PROXY == "":
-            self.proxy = urllib2.ProxyHandler({})
+            self.proxy = ProxyHandler({})
             self.proxies = {}
         else:
-            self.proxy = urllib2.ProxyHandler({"http": conf.HTTP_PROXY,
+            self.proxy = ProxyHandler({"http": conf.HTTP_PROXY,
                                                "https": conf.HTTP_PROXY})
             self.proxies = {
                             "http": "http://" + conf.HTTP_PROXY,
@@ -128,6 +133,7 @@ class FeedGetter(object):
             """
             logger.info("Fetching the feed: " + feed.title)
             a_feed = feedparser.parse(feed.link, handlers=[self.proxy])
+            print(a_feed)
             if a_feed['bozo'] == 1:
                 logger.error(a_feed['bozo_exception'])
             if a_feed['entries'] == []:
