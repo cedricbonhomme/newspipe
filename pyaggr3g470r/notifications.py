@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010-2014  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2015  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
 #
