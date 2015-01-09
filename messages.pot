@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2014 ORGANIZATION
+# Copyright (C) 2015 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-11-08 08:05+0100\n"
+"POT-Creation-Date: 2015-01-09 22:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,8 +31,8 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:40 pyaggr3g470r/forms.py:100
-msgid "Please enter your email."
+#: pyaggr3g470r/forms.py:40 pyaggr3g470r/forms.py:60 pyaggr3g470r/forms.py:121
+msgid "Please enter your email address."
 msgstr ""
 
 #: pyaggr3g470r/forms.py:41 pyaggr3g470r/forms.py:61 pyaggr3g470r/forms.py:101
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Please enter a password."
 msgstr ""
 
-#: pyaggr3g470r/forms.py:43 pyaggr3g470r/templates/login.html:29
+#: pyaggr3g470r/forms.py:43 pyaggr3g470r/templates/login.html:26
 msgid "Sign up"
 msgstr ""
 
@@ -51,10 +51,6 @@ msgstr ""
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
-msgstr ""
-
-#: pyaggr3g470r/forms.py:60 pyaggr3g470r/forms.py:121
-msgid "Please enter your email address."
 msgstr ""
 
 #: pyaggr3g470r/forms.py:62 pyaggr3g470r/templates/login.html:5
@@ -91,6 +87,10 @@ msgstr ""
 
 #: pyaggr3g470r/forms.py:88 pyaggr3g470r/forms.py:102
 msgid "Save"
+msgstr ""
+
+#: pyaggr3g470r/forms.py:100
+msgid "Please enter your email."
 msgstr ""
 
 #: pyaggr3g470r/forms.py:116
@@ -149,7 +149,7 @@ msgstr ""
 msgid "Email already used."
 msgstr ""
 
-#: pyaggr3g470r/views.py:211 pyaggr3g470r/views.py:911
+#: pyaggr3g470r/views.py:211 pyaggr3g470r/views.py:921
 msgid "Problem while sending activation email"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: pyaggr3g470r/views.py:271 pyaggr3g470r/views.py:591
+#: pyaggr3g470r/views.py:271 pyaggr3g470r/views.py:601
 msgid "Downloading articles..."
 msgstr ""
 
@@ -173,147 +173,147 @@ msgstr ""
 msgid "deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:489
-msgid "Database indexed."
+#: pyaggr3g470r/views.py:499
+msgid "Indexing database..."
 msgstr ""
 
-#: pyaggr3g470r/views.py:491 pyaggr3g470r/views.py:560
+#: pyaggr3g470r/views.py:501 pyaggr3g470r/views.py:570
 msgid "An error occured"
 msgstr ""
 
-#: pyaggr3g470r/views.py:494
+#: pyaggr3g470r/views.py:504
 msgid "Option not available on Heroku."
 msgstr ""
 
-#: pyaggr3g470r/views.py:509 pyaggr3g470r/views.py:519
+#: pyaggr3g470r/views.py:519 pyaggr3g470r/views.py:529
 msgid "Error when exporting articles."
 msgstr ""
 
-#: pyaggr3g470r/views.py:525
+#: pyaggr3g470r/views.py:535
 msgid "Export format not supported."
 msgstr ""
 
-#: pyaggr3g470r/views.py:548
+#: pyaggr3g470r/views.py:558
 msgid "Full text search is not yet implemented for Heroku."
 msgstr ""
 
-#: pyaggr3g470r/views.py:585 pyaggr3g470r/views.py:598
-#: pyaggr3g470r/views.py:606
+#: pyaggr3g470r/views.py:595 pyaggr3g470r/views.py:608
+#: pyaggr3g470r/views.py:616
 msgid "File not allowed."
 msgstr ""
 
-#: pyaggr3g470r/views.py:590
+#: pyaggr3g470r/views.py:600
 msgid "feeds imported."
 msgstr ""
 
-#: pyaggr3g470r/views.py:593
+#: pyaggr3g470r/views.py:603
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: pyaggr3g470r/views.py:602
+#: pyaggr3g470r/views.py:612
 msgid "Account imported."
 msgstr ""
 
-#: pyaggr3g470r/views.py:604
+#: pyaggr3g470r/views.py:614
 msgid "Impossible to import the account."
 msgstr ""
 
-#: pyaggr3g470r/views.py:642
+#: pyaggr3g470r/views.py:652
 msgid "Feed successfully updated."
 msgstr ""
 
-#: pyaggr3g470r/views.py:654
+#: pyaggr3g470r/views.py:664
 msgid "Feed successfully created."
 msgstr ""
 
-#: pyaggr3g470r/views.py:657
+#: pyaggr3g470r/views.py:667
 msgid "Downloading articles for the new feed..."
 msgstr ""
 
-#: pyaggr3g470r/views.py:661
+#: pyaggr3g470r/views.py:671
 msgid "Feed already in the database."
 msgstr ""
 
-#: pyaggr3g470r/views.py:667
+#: pyaggr3g470r/views.py:677
 msgid "Edit the feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:680 pyaggr3g470r/templates/layout.html:109
+#: pyaggr3g470r/views.py:690 pyaggr3g470r/templates/layout.html:109
 msgid "Add a feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:693 pyaggr3g470r/templates/home.html:74
+#: pyaggr3g470r/views.py:703 pyaggr3g470r/templates/home.html:74
 #: pyaggr3g470r/templates/admin/user.html:42
 msgid "Feed"
 msgstr ""
 
-#: pyaggr3g470r/views.py:693 pyaggr3g470r/views.py:888
+#: pyaggr3g470r/views.py:703 pyaggr3g470r/views.py:898
 msgid "successfully deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:711 pyaggr3g470r/views.py:838
-#: pyaggr3g470r/views.py:848 pyaggr3g470r/views.py:888
+#: pyaggr3g470r/views.py:721 pyaggr3g470r/views.py:848
+#: pyaggr3g470r/views.py:858 pyaggr3g470r/views.py:898
 msgid "User"
 msgstr ""
 
-#: pyaggr3g470r/views.py:711 pyaggr3g470r/views.py:838
+#: pyaggr3g470r/views.py:721 pyaggr3g470r/views.py:848
 msgid "successfully updated."
 msgstr ""
 
-#: pyaggr3g470r/views.py:730
+#: pyaggr3g470r/views.py:740
 msgid "Your account has been deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:732 pyaggr3g470r/views.py:874
-#: pyaggr3g470r/views.py:890 pyaggr3g470r/views.py:919
+#: pyaggr3g470r/views.py:742 pyaggr3g470r/views.py:884
+#: pyaggr3g470r/views.py:900 pyaggr3g470r/views.py:929
 msgid "This user does not exist."
 msgstr ""
 
-#: pyaggr3g470r/views.py:746
+#: pyaggr3g470r/views.py:756
 msgid "Articles deleted."
 msgstr ""
 
-#: pyaggr3g470r/views.py:760
+#: pyaggr3g470r/views.py:770
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: pyaggr3g470r/views.py:762
+#: pyaggr3g470r/views.py:772
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: pyaggr3g470r/views.py:786
+#: pyaggr3g470r/views.py:796
 msgid "New password sent to your address."
 msgstr ""
 
-#: pyaggr3g470r/views.py:788
+#: pyaggr3g470r/views.py:798
 msgid "Problem while sending your new password."
 msgstr ""
 
-#: pyaggr3g470r/views.py:813
+#: pyaggr3g470r/views.py:823
 msgid "Problem while sending email"
 msgstr ""
 
-#: pyaggr3g470r/views.py:848
+#: pyaggr3g470r/views.py:858
 msgid "successfully created."
 msgstr ""
 
-#: pyaggr3g470r/views.py:857
+#: pyaggr3g470r/views.py:867
 msgid "Edit the user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:860 pyaggr3g470r/templates/admin/dashboard.html:45
+#: pyaggr3g470r/views.py:870 pyaggr3g470r/templates/admin/dashboard.html:45
 msgid "Add a new user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:909 pyaggr3g470r/views.py:916
+#: pyaggr3g470r/views.py:919 pyaggr3g470r/views.py:926
 msgid "Account of the user"
 msgstr ""
 
-#: pyaggr3g470r/views.py:909
+#: pyaggr3g470r/views.py:919
 msgid "successfully activated."
 msgstr ""
 
-#: pyaggr3g470r/views.py:916
+#: pyaggr3g470r/views.py:926
 msgid "successfully disabled."
 msgstr ""
 
@@ -394,7 +394,10 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: pyaggr3g470r/templates/article.html:11 pyaggr3g470r/templates/home.html:89
+#: pyaggr3g470r/templates/article.html:11
+#: pyaggr3g470r/templates/duplicates.html:19
+#: pyaggr3g470r/templates/duplicates.html:20
+#: pyaggr3g470r/templates/home.html:89
 msgid "Delete this article"
 msgstr ""
 
@@ -427,6 +430,14 @@ msgstr ""
 msgid "Share on"
 msgstr ""
 
+#: pyaggr3g470r/templates/duplicates.html:5
+msgid "Duplicates in the feed"
+msgstr ""
+
+#: pyaggr3g470r/templates/duplicates.html:27
+msgid "No duplicates in the feed"
+msgstr ""
+
 #: pyaggr3g470r/templates/favorites.html:6
 msgid "No favorites"
 msgstr ""
@@ -452,13 +463,13 @@ msgstr ""
 msgid "Edit this feed"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:35
 #: pyaggr3g470r/templates/home.html:32 pyaggr3g470r/templates/home.html:47
 #: pyaggr3g470r/templates/admin/user.html:44
 msgid "Delete this feed"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:34
+#: pyaggr3g470r/templates/feed.html:7 pyaggr3g470r/templates/feeds.html:35
 #: pyaggr3g470r/templates/home.html:32 pyaggr3g470r/templates/home.html:47
 #: pyaggr3g470r/templates/admin/user.html:44
 msgid "You are going to delete this feed."
@@ -546,6 +557,10 @@ msgstr ""
 
 #: pyaggr3g470r/templates/feeds.html:25
 msgid "Feed disabled"
+msgstr ""
+
+#: pyaggr3g470r/templates/feeds.html:34
+msgid "Duplicate articles"
 msgstr ""
 
 #: pyaggr3g470r/templates/home.html:10
@@ -641,15 +656,15 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: pyaggr3g470r/templates/login.html:19 pyaggr3g470r/templates/recover.html:15
+#: pyaggr3g470r/templates/login.html:10 pyaggr3g470r/templates/recover.html:12
 msgid "Your email"
 msgstr ""
 
-#: pyaggr3g470r/templates/login.html:23
+#: pyaggr3g470r/templates/login.html:17
 msgid "Your Password"
 msgstr ""
 
-#: pyaggr3g470r/templates/login.html:31
+#: pyaggr3g470r/templates/login.html:28
 msgid "Forgot password"
 msgstr ""
 
@@ -740,11 +755,11 @@ msgstr ""
 msgid "Recover your account"
 msgstr ""
 
-#: pyaggr3g470r/templates/signup.html:11
+#: pyaggr3g470r/templates/signup.html:10
 msgid "Letters, numbers, dots and underscores only."
 msgstr ""
 
-#: pyaggr3g470r/templates/signup.html:20
+#: pyaggr3g470r/templates/signup.html:17
 msgid "Minimum 6 characters."
 msgstr ""
 
