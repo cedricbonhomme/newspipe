@@ -3,25 +3,22 @@
 <div class="container">
     <div class="jumbotron">
         <h2>{{ _('Log In') }}</h2>
-
-        {% for message in form.email.errors %}
-            <div class="flash">{{ message }}</div>
-        {% endfor %}
-
-        {% for message in form.password.errors %}
-            <div class="flash">{{ message }}</div>
-        {% endfor %}
-
         <form action="{{ url_for('login') }}" method=post>
             {{ form.hidden_tag() }}
 
             <div class="form-group">
             {{ form.email(class_="form-control", placeholder=_('Your email')) }}
             </div>
+            {% for message in form.email.errors %}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+            {% endfor %}
 
             <div class="form-group">
             {{ form.password(class_="form-control", placeholder=_('Your Password')) }}
             </div>
+            {% for message in form.password.errors %}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+            {% endfor %}
 
             {{ form.submit(class_="btn btn-default") }}
         </form>

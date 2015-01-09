@@ -37,7 +37,7 @@ from pyaggr3g470r.models import User
 
 class SignupForm(Form):
     nickname = TextField(lazy_gettext("Nickname"), [validators.Required(lazy_gettext("Please enter your nickname."))])
-    email = EmailField(lazy_gettext("Email"), [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email."))])
+    email = EmailField(lazy_gettext("Email"), [validators.Length(min=6, max=35), validators.Required(lazy_gettext("Please enter your email address."))])
     password = PasswordField(lazy_gettext("Password"), [validators.Required(lazy_gettext("Please enter a password.")), validators.Length(min=6, max=100)])
     recaptcha = RecaptchaField()
     submit = SubmitField(lazy_gettext("Sign up"))
