@@ -57,10 +57,10 @@ def HTML_HEADER(title="pyAggr3g470r", css="./style.css"):
 
 HTML_FOOTER = """<hr />
 <p>This archive has been generated with
-<a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r/">pyAggr3g470r</a>.
-A software under GPLv3 license.
+<a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r">pyAggr3g470r</a>.
+A software under AGPLv3 license.
 You are welcome to copy, modify or redistribute the source code according to the
-<a href="http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3</a> license.</p>
+<a href="https://www.gnu.org/licenses/agpl-3.0.txt">AGPLv3</a> license.</p>
 </body>
 </html>
 """
