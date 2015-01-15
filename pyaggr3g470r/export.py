@@ -144,7 +144,7 @@ def export_html(user):
     index = HTML_HEADER("News archive")
     index += "<h1>List of feeds</h1>\n"
     index += """<p>%s articles.</p>\n<ul>\n""" % (nb_articles,)
-    for feed in user.feeds:
+    for feed in user.feeds.order_by(models.Feed.title):
         # creates a folder for each stream
         feed_folder = webzine_root + str(feed.id)
         try:
