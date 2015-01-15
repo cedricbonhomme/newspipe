@@ -14,6 +14,7 @@ Flask-WTF
 Flask-RESTful
 Flask-Babel
 Flask-SSLify
+Flask-Migrate
 WTForms
 python-postmark
 whoosh

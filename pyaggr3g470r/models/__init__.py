@@ -36,22 +36,25 @@ from flask.ext.login import UserMixin
 
 from pyaggr3g470r import db
 
+
 class User(db.Model, UserMixin):
     """
     Represent a user.
     """
-    id = db.Column(db.Integer, primary_key = True)
-    nickname = db.Column(db.String(), unique = True)
-    email = db.Column(db.String(254), index = True, unique = True)
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(), unique=True)
+    email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
-    roles = db.relationship('Role', backref = 'user', lazy = 'dynamic')
+    roles = db.relationship('Role', backref='user', lazy='dynamic')
     activation_key = db.Column(db.String(128), default =
                                hashlib.sha512(
                                    str(random.getrandbits(256)).encode("utf-8")
                                    ).hexdigest()[:86])
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
-    feeds = db.relationship('Feed', backref = 'subscriber', lazy = 'dynamic', cascade='all,delete-orphan')
+    feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
+                            cascade='all,delete-orphan')
+    refresh_rate = db.Column(db.Integer, default=60)  # in minutes
 
     @staticmethod
     def make_valid_nickname(nickname):
@@ -92,8 +95,8 @@ class Role(db.Model):
     """
     Represent a role.
     """
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(), unique = True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -102,7 +105,7 @@ class Feed(db.Model):
     """
     Represent a station.
     """
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), default="No title")
     description = db.Column(db.String(), default="FR")
     link = db.Column(db.String())
@@ -110,8 +113,12 @@ class Feed(db.Model):
     email_notification = db.Column(db.Boolean(), default=False)
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
-    articles = db.relationship('Article', backref = 'source', lazy = 'dynamic', cascade='all,delete-orphan',
-                                order_by=desc("Article.date"))
+    last_refreshed = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
+    last_error = db.Column(db.String(), default="")
+    error_count = db.Column(db.Integer(), default=0)
+    articles = db.relationship('Article', backref='source', lazy='dynamic',
+                               cascade='all,delete-orphan',
+                               order_by=desc("Article.date"))
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -124,8 +131,7 @@ class Feed(db.Model):
                 "description": self.description,
                 "link": self.link,
                 "site_link": self.site_link,
-                "nb_articles": self.articles.count(),
-        }
+                "nb_articles": self.articles.count()}
 
 
 class Article(db.Model):
@@ -149,13 +155,17 @@ class Article(db.Model):
         """
         Returns the previous article (older).
         """
-        return Article.query.filter(Article.date < self.date, Article.feed_id == self.feed_id).order_by(desc("Article.date")).first()
+        return Article.query.filter(Article.date < self.date,
+                                    Article.feed_id == self.feed_id)\
+                            .order_by(desc("Article.date")).first()
 
     def next_article(self):
         """
         Returns the next article (newer).
         """
-        return Article.query.filter(Article.date > self.date, Article.feed_id == self.feed_id).order_by(asc("Article.date")).first()
+        return Article.query.filter(Article.date > self.date,
+                                    Article.feed_id == self.feed_id)\
+                            .order_by(asc("Article.date")).first()
 
     def __repr__(self):
         return json.dumps({
