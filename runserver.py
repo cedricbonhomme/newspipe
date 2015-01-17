@@ -19,8 +19,44 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bootstrap import conf
-from pyaggr3g470r import app as application
+from bootstrap import conf, application, db
+from flask.ext.babel import Babel
+from flask.ext.babel import format_datetime
+
+if conf.ON_HEROKU:
+    from flask_sslify import SSLify
+    SSLify(application)
+
+ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
+
+def allowed_file(filename):
+    """
+    Check if the uploaded file is allowed.
+    """
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+babel = Babel(application)
+
+application.jinja_env.filters['datetime'] = format_datetime
+
+# Views
+from flask.ext.restful import Api
+from flask import g
+
+with application.app_context():
+    g.api = Api(application, prefix='/api/v1.0')
+    g.babel = babel
+    g.allowed_file = allowed_file
+    g.db = db
+    g.app = application
+
+    from pyaggr3g470r import views
+    application.register_blueprint(views.articles_bp)
+    application.register_blueprint(views.article_bp)
+    application.register_blueprint(views.feeds_bp)
+    application.register_blueprint(views.feed_bp)
+
 
 if __name__ == '__main__':
     application.run(host=conf.WEBSERVER_HOST,

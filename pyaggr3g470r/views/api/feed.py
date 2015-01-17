@@ -1,7 +1,7 @@
 from flask import g
 from flask.ext.restful import Resource, reqparse
 
-from pyaggr3g470r import api, db
+from pyaggr3g470r.controllers import FeedController
 from pyaggr3g470r.models import Feed
 
 from pyaggr3g470r.views.api.common import authenticate, to_response, \
@@ -62,7 +62,7 @@ class FeedListAPI(Resource):
                         enabled=feed_dict["enabled"])
         g.user.feeds.append(new_feed)
         try:
-            db.session.commit()
+            g.db.session.commit()
             return {"message": "ok"}
         except:
             return {'message': 'Impossible to create the feed.'}, 500
@@ -70,8 +70,9 @@ class FeedListAPI(Resource):
 
 class FeedAPI(PyAggResource):
     "Defines a RESTful API for Feed elements."
-    method_decorators = [authenticate, to_response]
-    db_cls = Feed
+    controller_cls = FeedController
+    editable_attrs = ['title', 'description', 'link', 'site_link',
+                      'email_notification', 'enabled']
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -85,25 +86,6 @@ class FeedAPI(PyAggResource):
         self.reqparse.add_argument('enabled', type=bool ,location='json')
         super(FeedAPI, self).__init__()
 
-    def put(self, id):
-        "Update a feed"
-        args = self.reqparse.parse_args()
-        feed = self.get_feed_or_raise(id)
-        if 'title' in args:
-            feed.title = args['title']
-        if 'description' in args:
-            feed.description = args['description']
-        if 'link' in args:
-            feed.link = args['link']
-        if 'site_link' in args:
-            feed.site_link = args['site_link']
-        if 'email_notification' in args:
-            feed.email_notification = args['email_notification']
-        if 'enabled' in args:
-            feed.enabled = args['enabled']
-        db.session.commit()
-        return {"message": "ok"}
 
-
-api.add_resource(FeedListAPI, '/api/v1.0/feeds', endpoint = 'feeds.json')
-api.add_resource(FeedAPI, '/api/v1.0/feeds/<int:id>', endpoint = 'feed.json')
+g.api.add_resource(FeedListAPI, '/feeds', endpoint='feeds.json')
+g.api.add_resource(FeedAPI, '/feeds/<int:obj_id>', endpoint='feed.json')

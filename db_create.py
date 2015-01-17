@@ -10,8 +10,8 @@ __license__ = "AGPLv3"
 
 import os
 import bootstrap
+from flask import g
 
-from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Role
 from werkzeug import generate_password_hash
 
@@ -64,8 +64,8 @@ def db_DropEverything(db):
 
     trans.commit()
 
-db_DropEverything(db)
-db.create_all()
+db_DropEverything(g.db)
+g.db.create_all()
 
 role_admin = Role(name="admin")
 role_user = Role(name="user")
@@ -76,5 +76,5 @@ user1 = User(nickname="admin",
             activation_key="")
 user1.roles.extend([role_admin, role_user])
 
-db.session.add(user1)
-db.session.commit()
+g.db.session.add(user1)
+g.db.session.commit()

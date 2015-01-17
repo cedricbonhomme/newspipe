@@ -1,15 +1,11 @@
 import re
 import dateutil.parser
 
-import conf
-if not conf.ON_HEROKU:
-    import pyaggr3g470r.search as fastsearch
-
 from flask import request, g
 from flask.ext.restful import Resource, reqparse
 
-from pyaggr3g470r import api, db
 from pyaggr3g470r.models import Article, Feed
+from pyaggr3g470r.controllers import ArticleController
 from pyaggr3g470r.views.api.common import authenticate, to_response, \
                                           PyAggResource
 
@@ -77,7 +73,7 @@ class ArticleListAPI(Resource):
         feed = Feed.query.filter(Feed.id == article_dict["feed_id"], Feed.user_id == g.user.id).first()
         feed.articles.append(article)
         try:
-            db.session.commit()
+            g.db.session.commit()
             return {"message": "ok"}, 201
         except:
             return {"message": "Impossible to create the article."}, 500
@@ -86,7 +82,8 @@ class ArticleListAPI(Resource):
 class ArticleAPI(PyAggResource):
     "Defines a RESTful API for Article elements."
     method_decorators = [authenticate, to_response]
-    db_cls = Article
+    controller_cls = ArticleController
+    editable_attrs = ['like', 'readed']
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -94,32 +91,7 @@ class ArticleAPI(PyAggResource):
         self.reqparse.add_argument('readed', type=bool, location= 'json')
         super(ArticleAPI, self).__init__()
 
-    def get(self, id):
-        article = self._get_or_raise(id)
-        if not article.readed:
-            article.readed = True
-            db.session.commit()
-        return {'result': [article.dump()]}
 
-    def put(self, id):
-        """ Update an article. It is only possible to update the status
-        ('like' and 'readed') of an article."""
-        args = self.reqparse.parse_args()
-        article = self._get_or_raise(id)
-        if 'like' in args:
-            article.like = args['like']
-        if 'readed' in args:
-            article.readed = args['readed']
-        db.session.commit()
-
-        try:
-            fastsearch.delete_article(g.user.id, article.feed_id, article.id)
-        except:
-            pass
-        return {"message": "ok"}
-
-
-api.add_resource(ArticleListAPI, '/api/v1.0/articles',
-                 endpoint='articles.json')
-api.add_resource(ArticleAPI, '/api/v1.0/articles/<int:id>',
+g.api.add_resource(ArticleListAPI, '/articles', endpoint='articles.json')
+g.api.add_resource(ArticleAPI, '/articles/<int:obj_id>',
                  endpoint='article.json')

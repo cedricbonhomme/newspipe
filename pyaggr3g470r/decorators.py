@@ -5,8 +5,11 @@ from threading import Thread
 from functools import wraps
 
 from flask import g, redirect, url_for, flash
+from flask.ext.babel import gettext
+from flask.ext.login import login_required
 
 from pyaggr3g470r.models import Feed
+from pyaggr3g470r.lib.exceptions import PyAggError
 
 
 def async(f):
@@ -37,3 +40,23 @@ def feed_access_required(func):
         else:
             return func(*args, **kwargs)
     return decorated
+
+
+def handle_pyagg_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except PyAggError, error:
+            flash(gettext(error.default_message), 'warning')
+            return redirect(url_for('home'))
+    return wrapper
+
+
+def pyagg_default_decorator(func):
+    @login_required
+    @handle_pyagg_error
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper

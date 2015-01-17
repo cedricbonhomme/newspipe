@@ -30,11 +30,12 @@ import re
 import json
 import random, hashlib
 from datetime import datetime
+from flask import g
 from sqlalchemy import asc, desc
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
-from pyaggr3g470r import db
+db = g.db
 
 
 class User(db.Model, UserMixin):
