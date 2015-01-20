@@ -62,7 +62,7 @@ class PyAggResource(Resource):
         super(PyAggResource, self).__init__(*args, **kwargs)
 
     def get(self, obj_id=None):
-        return {'result': [self.controller.read(id=obj_id).dump()]}
+        return {'result': [self.controller.get(id=obj_id).dump()]}
 
     def put(self, obj_id=None):
         args = self.reqparse.parse_args()

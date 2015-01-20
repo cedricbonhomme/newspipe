@@ -1,7 +1,8 @@
 from flask import g
 from flask.ext.restful import Resource, reqparse
 
-from pyaggr3g470r.controllers import FeedController
+from pyaggr3g470r.controllers.feed  import FeedController, \
+                                           DEFAULT_MAX_ERROR, DEFAULT_LIMIT
 from pyaggr3g470r.models import Feed
 
 from pyaggr3g470r.views.api.common import authenticate, to_response, \
@@ -72,7 +73,8 @@ class FeedAPI(PyAggResource):
     "Defines a RESTful API for Feed elements."
     controller_cls = FeedController
     editable_attrs = ['title', 'description', 'link', 'site_link',
-                      'email_notification', 'enabled']
+                      'email_notification', 'enabled', 'last_refreshed',
+                      'last_error', 'error_count']
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -87,5 +89,23 @@ class FeedAPI(PyAggResource):
         super(FeedAPI, self).__init__()
 
 
+class FetchableFeedAPI(Resource):
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('max_error', type=int, location='json',
+                default=DEFAULT_MAX_ERROR)
+        self.reqparse.add_argument('limit', type=int, location='json',
+                default=DEFAULT_LIMIT)
+        super(FetchableFeedAPI, self).__init__()
+
+    def get(self):
+        args = self.reqparse.parse_args()
+        controller = FeedController(g.user.id)
+        return {'result': [feed.dump() for feed in controller.list_fetchable(
+                           max_error=args['max_error'], limit=args['limit'])]}
+
+
 g.api.add_resource(FeedListAPI, '/feeds', endpoint='feeds.json')
 g.api.add_resource(FeedAPI, '/feeds/<int:obj_id>', endpoint='feed.json')
+g.api.add_resource(FetchableFeedAPI, '/feeds/fetchable', endpoint='fetchable_feed.json')

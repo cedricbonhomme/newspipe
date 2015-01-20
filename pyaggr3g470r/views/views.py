@@ -33,6 +33,7 @@ import random
 import hashlib
 import datetime
 from collections import namedtuple
+from bootstrap import application as app, db
 from flask import render_template, request, flash, session, Response, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
@@ -55,17 +56,17 @@ if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
 
 
-Principal(g.app)
+Principal(app)
 # Create a permission with a single Need, in this case a RoleNeed.
 admin_permission = Permission(RoleNeed('admin'))
 
 login_manager = LoginManager()
-login_manager.init_app(g.app)
+login_manager.init_app(app)
 
 #
 # Management of the user's session.
 #
-@identity_loaded.connect_via(g.app)
+@identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
     # Set the identity user object
     identity.user = current_user
@@ -80,13 +81,13 @@ def on_identity_loaded(sender, identity):
         for role in current_user.roles:
             identity.provides.add(RoleNeed(role.name))
 
-@g.app.before_request
+@app.before_request
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
         g.user.last_seen = datetime.datetime.utcnow()
-        g.db.session.add(g.user)
-        g.db.session.commit()
+        db.session.add(g.user)
+        db.session.commit()
 
 @login_manager.user_loader
 def load_user(email):
@@ -97,21 +98,21 @@ def load_user(email):
 #
 # Custom error pages.
 #
-@g.app.errorhandler(401)
+@app.errorhandler(401)
 def authentication_required(e):
     flash(gettext('Authentication required.'), 'info')
     return redirect(url_for('login'))
 
-@g.app.errorhandler(403)
+@app.errorhandler(403)
 def authentication_failed(e):
     flash(gettext('Forbidden.'), 'danger')
     return redirect(url_for('home'))
 
-@g.app.errorhandler(404)
+@app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
 
-@g.app.errorhandler(500)
+@app.errorhandler(500)
 def internal_server_error(e):
     return render_template('errors/500.html'), 500
 
@@ -139,7 +140,7 @@ def get_timezone():
 #
 # Views.
 #
-@g.app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     """
     Log in view.
@@ -160,7 +161,7 @@ def login():
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
-@g.app.route('/api/csrf', methods=['GET'])
+@app.route('/api/csrf', methods=['GET'])
 def get_csrf():
     try:
         data = json.loads(request.data)
@@ -185,7 +186,7 @@ def get_csrf():
     return 'ok', 200
 
 
-@g.app.route('/logout')
+@app.route('/logout')
 @login_required
 def logout():
     """
@@ -206,7 +207,7 @@ def logout():
     flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
 
-@g.app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     """
     Signup page.
@@ -225,9 +226,9 @@ def signup():
                     email=form.email.data,
                     pwdhash=generate_password_hash(form.password.data))
         user.roles = [role_user]
-        g.db.session.add(user)
+        db.session.add(user)
         try:
-            g.db.session.commit()
+            db.session.commit()
         except IntegrityError:
             flash(gettext('Email already used.'), 'warning')
             return render_template('signup.html', form=form)
@@ -244,7 +245,7 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@g.app.route('/')
+@app.route('/')
 @login_required
 def home():
     """
@@ -265,7 +266,7 @@ def home():
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
-    unread = g.db.session.query(Article.feed_id, func.count(Article.id))\
+    unread = db.session.query(Article.feed_id, func.count(Article.id))\
                        .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
@@ -275,8 +276,8 @@ def home():
                            unread=dict(unread), articles=articles.all())
 
 
-@g.app.route('/fetch', methods=['GET'])
-@g.app.route('/fetch/<int:feed_id>', methods=['GET'])
+@app.route('/fetch', methods=['GET'])
+@app.route('/fetch/<int:feed_id>', methods=['GET'])
 @login_required
 def fetch(feed_id=None):
     """
@@ -287,7 +288,7 @@ def fetch(feed_id=None):
     flash(gettext("Downloading articles..."), 'info')
     return redirect(redirect_url())
 
-@g.app.route('/about', methods=['GET'])
+@app.route('/about', methods=['GET'])
 def about():
     """
     'About' page.
@@ -295,9 +296,9 @@ def about():
     return render_template('about.html')
 
 
-@g.app.route('/mark_as/<string:new_value>', methods=['GET'])
-@g.app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
-@g.app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
+@app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
 @login_required
 @feed_access_required
 def mark_as(new_value='read', feed_id=None, article_id=None):
@@ -316,12 +317,12 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
         message = 'All article marked as %s.'
     articles.filter(Article.readed == (not readed)).update({"readed": readed})
     flash(gettext(message % new_value), 'info')
-    g.db.session.commit()
+    db.session.commit()
     if readed:
         return redirect(redirect_url())
     return redirect(url_for('home'))
 
-@g.app.route('/like/<int:article_id>', methods=['GET'])
+@app.route('/like/<int:article_id>', methods=['GET'])
 @login_required
 def like(article_id=None):
     """
@@ -331,10 +332,10 @@ def like(article_id=None):
                 update({
                         "like": not Article.query.filter(Article.id == article_id).first().like
                        })
-    g.db.session.commit()
+    db.session.commit()
     return redirect(redirect_url())
 
-@g.app.route('/delete/<int:article_id>', methods=['GET'])
+@app.route('/delete/<int:article_id>', methods=['GET'])
 @login_required
 def delete(article_id=None):
     """
@@ -342,8 +343,8 @@ def delete(article_id=None):
     """
     article = Article.query.filter(Article.id == article_id).first()
     if article is not None and article.source.subscriber.id == g.user.id:
-        g.db.session.delete(article)
-        g.db.session.commit()
+        db.session.delete(article)
+        db.session.commit()
         try:
             fastsearch.delete_article(g.user.id, article.feed_id, article.id)
         except:
@@ -355,7 +356,7 @@ def delete(article_id=None):
         return redirect(url_for('home'))
 
 
-@g.app.route('/favorites', methods=['GET'])
+@app.route('/favorites', methods=['GET'])
 @login_required
 def favorites():
     """
@@ -370,8 +371,8 @@ def favorites():
         nb_favorites += len(articles)
     return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
-@g.app.route('/unread/<int:feed_id>', methods=['GET'])
-@g.app.route('/unread', methods=['GET'])
+@app.route('/unread/<int:feed_id>', methods=['GET'])
+@app.route('/unread', methods=['GET'])
 @login_required
 def unread(feed_id=None):
     """
@@ -389,7 +390,7 @@ def unread(feed_id=None):
         nb_unread += len(articles)
     return render_template('unread.html', feeds=result, nb_unread=nb_unread)
 
-@g.app.route('/inactives', methods=['GET'])
+@app.route('/inactives', methods=['GET'])
 @login_required
 def inactives():
     """
@@ -409,7 +410,7 @@ def inactives():
             inactives.append((feed, elapsed))
     return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
 
-@g.app.route('/duplicates/<int:feed_id>', methods=['GET'])
+@app.route('/duplicates/<int:feed_id>', methods=['GET'])
 @login_required
 def duplicates(feed_id=None):
     """
@@ -420,7 +421,7 @@ def duplicates(feed_id=None):
     duplicates = duplicate.compare_documents(feed)
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
 
-@g.app.route('/index_database', methods=['GET'])
+@app.route('/index_database', methods=['GET'])
 @login_required
 def index_database():
     """
@@ -437,7 +438,7 @@ def index_database():
         flash(gettext('Option not available on Heroku.'), 'success')
         return redirect(url_for('home'))
 
-@g.app.route('/export', methods=['GET'])
+@app.route('/export', methods=['GET'])
 @login_required
 def export_articles():
     """
@@ -469,7 +470,7 @@ def export_articles():
         return redirect(redirect_url())
     return response
 
-@g.app.route('/export_opml', methods=['GET'])
+@app.route('/export_opml', methods=['GET'])
 @login_required
 def export_opml():
     """
@@ -481,7 +482,7 @@ def export_opml():
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
 
-@g.app.route('/search', methods=['GET'])
+@app.route('/search', methods=['GET'])
 @login_required
 def search():
     """
@@ -514,7 +515,7 @@ def search():
                     break
     return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
-@g.app.route('/management', methods=['GET', 'POST'])
+@app.route('/management', methods=['GET', 'POST'])
 @login_required
 def management():
     """
@@ -557,15 +558,15 @@ def management():
                             nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles,
                             not_on_heroku = not conf.ON_HEROKU)
 
-@g.app.route('/history', methods=['GET'])
+@app.route('/history', methods=['GET'])
 @login_required
 def history():
     #user = User.query.filter(User.id == g.user.id).first()
     return render_template('history.html')
 
-@g.app.route('/bookmarklet', methods=['GET'])
-@g.app.route('/create_feed', methods=['GET', 'POST'])
-@g.app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
+@app.route('/bookmarklet', methods=['GET'])
+@app.route('/create_feed', methods=['GET', 'POST'])
+@app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
 @feed_access_required
 def edit_feed(feed_id=None):
@@ -581,7 +582,7 @@ def edit_feed(feed_id=None):
         if feed_id is not None:
             # Edit an existing feed
             form.populate_obj(feed)
-            g.db.session.commit()
+            db.session.commit()
             flash(gettext('Feed successfully updated.'), 'success')
             return redirect('/edit_feed/' + str(feed_id))
         else:
@@ -593,7 +594,7 @@ def edit_feed(feed_id=None):
                                 enabled=form.enabled.data)
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-                g.db.session.commit()
+                db.session.commit()
                 flash(gettext('Feed successfully created.'), 'success')
 
                 utils.fetch(g.user.id, Feed.query.filter(Feed.link == form.link.data).first().id)
@@ -615,7 +616,7 @@ def edit_feed(feed_id=None):
             existing_feed = [f for f in g.user.feeds if feed.link == request.args.get('url', None)]
             if len(existing_feed) == 0:
                 g.user.feeds.append(Feed(link=request.args.get('url', None)))
-                g.db.session.commit()
+                db.session.commit()
                 return jsonify({"message":"ok"})
             return jsonify({"message":"Feed already in the database."})
 
@@ -623,7 +624,7 @@ def edit_feed(feed_id=None):
         return render_template('edit_feed.html', action=gettext("Add a feed"), form=form, \
                                 not_on_heroku = not conf.ON_HEROKU)
 
-@g.app.route('/delete_feed/<feed_id>', methods=['GET'])
+@app.route('/delete_feed/<feed_id>', methods=['GET'])
 @login_required
 @feed_access_required
 def delete_feed(feed_id=None):
@@ -631,12 +632,12 @@ def delete_feed(feed_id=None):
     Delete a feed with all associated articles.
     """
     feed = Feed.query.filter(Feed.id == feed_id).first()
-    g.db.session.delete(feed)
-    g.db.session.commit()
+    db.session.delete(feed)
+    db.session.commit()
     flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully deleted.'), 'success')
     return redirect(redirect_url())
 
-@g.app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     """
@@ -650,7 +651,7 @@ def profile():
             form.populate_obj(user)
             if form.password.data != "":
                 user.set_password(form.password.data)
-            g.db.session.commit()
+            db.session.commit()
             flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             return redirect(url_for('profile'))
         else:
@@ -660,7 +661,7 @@ def profile():
         form = ProfileForm(obj=user)
         return render_template('profile.html', user=user, form=form)
 
-@g.app.route('/delete_account', methods=['GET'])
+@app.route('/delete_account', methods=['GET'])
 @login_required
 def delete_account():
     """
@@ -668,14 +669,14 @@ def delete_account():
     """
     user = User.query.filter(User.email == g.user.email).first()
     if user is not None:
-        g.db.session.delete(user)
-        g.db.session.commit()
+        db.session.delete(user)
+        db.session.commit()
         flash(gettext('Your account has been deleted.'), 'success')
     else:
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(url_for('login'))
 
-@g.app.route('/expire_articles', methods=['GET'])
+@app.route('/expire_articles', methods=['GET'])
 @login_required
 def expire_articles():
     """
@@ -685,12 +686,12 @@ def expire_articles():
     weeks_ago = current_time - datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
     articles_to_delete = Article.query.filter(User.email == g.user.email, or_(Article.date < weeks_ago, Article.retrieved_date < weeks_ago))
     for article in articles_to_delete:
-        g.db.session.delete(article)
+        db.session.delete(article)
     flash(gettext('Articles deleted.'), 'info')
-    g.db.session.commit()
+    db.session.commit()
     return redirect(redirect_url())
 
-@g.app.route('/confirm_account/<string:activation_key>', methods=['GET'])
+@app.route('/confirm_account/<string:activation_key>', methods=['GET'])
 def confirm_account(activation_key=None):
     """
     Confirm the account of a user.
@@ -699,13 +700,13 @@ def confirm_account(activation_key=None):
         user = User.query.filter(User.activation_key == activation_key).first()
         if user is not None:
             user.activation_key = ""
-            g.db.session.commit()
+            db.session.commit()
             flash(gettext('Your account has been confirmed.'), 'success')
         else:
             flash(gettext('Impossible to confirm this account.'), 'danger')
     return redirect(url_for('login'))
 
-@g.app.route('/recover', methods=['GET', 'POST'])
+@app.route('/recover', methods=['GET', 'POST'])
 def recover():
     """
     Enables the user to recover its account when he has forgotten
@@ -719,7 +720,7 @@ def recover():
             characters = string.ascii_letters + string.digits
             password = "".join(random.choice(characters) for x in range(random.randint(8, 16)))
             user.set_password(password)
-            g.db.session.commit()
+            db.session.commit()
 
             # Send the confirmation email
             try:
@@ -737,7 +738,7 @@ def recover():
 #
 # Views dedicated to administration tasks.
 #
-@g.app.route('/admin/dashboard', methods=['GET', 'POST'])
+@app.route('/admin/dashboard', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
 def dashboard():
@@ -756,8 +757,8 @@ def dashboard():
     users = User.query.all()
     return render_template('admin/dashboard.html', users=users, current_user=g.user, form=form)
 
-@g.app.route('/admin/create_user', methods=['GET', 'POST'])
-@g.app.route('/admin/edit_user/<int:user_id>', methods=['GET', 'POST'])
+@app.route('/admin/create_user', methods=['GET', 'POST'])
+@app.route('/admin/edit_user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
 def create_user(user_id=None):
@@ -775,7 +776,7 @@ def create_user(user_id=None):
                 form.populate_obj(user)
                 if form.password.data != "":
                     user.set_password(form.password.data)
-                g.db.session.commit()
+                db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             else:
                 # Create a new user
@@ -784,8 +785,8 @@ def create_user(user_id=None):
                              pwdhash=generate_password_hash(form.password.data))
                 user.roles.extend([role_user])
                 user.activation_key = ""
-                g.db.session.add(user)
-                g.db.session.commit()
+                db.session.add(user)
+                db.session.commit()
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
             return redirect("/admin/edit_user/"+str(user.id))
         else:
@@ -801,7 +802,7 @@ def create_user(user_id=None):
             message = gettext('Add a new user')
         return render_template('/admin/create_user.html', form=form, message=message)
 
-@g.app.route('/admin/user/<int:user_id>', methods=['GET'])
+@app.route('/admin/user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
 def user(user_id=None):
@@ -815,7 +816,7 @@ def user(user_id=None):
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(redirect_url())
 
-@g.app.route('/admin/delete_user/<int:user_id>', methods=['GET'])
+@app.route('/admin/delete_user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
@@ -824,15 +825,15 @@ def delete_user(user_id=None):
     """
     user = User.query.filter(User.id == user_id).first()
     if user is not None:
-        g.db.session.delete(user)
-        g.db.session.commit()
+        db.session.delete(user)
+        db.session.commit()
         flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully deleted.'), 'success')
     else:
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
 
-@g.app.route('/admin/enable_user/<int:user_id>', methods=['GET'])
-@g.app.route('/admin/disable_user/<int:user_id>', methods=['GET'])
+@app.route('/admin/enable_user/<int:user_id>', methods=['GET'])
+@app.route('/admin/disable_user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require()
 def disable_user(user_id=None):
@@ -854,7 +855,7 @@ def disable_user(user_id=None):
         else:
             user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()[:86]
             flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
-        g.db.session.commit()
+        db.session.commit()
     else:
         flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())
