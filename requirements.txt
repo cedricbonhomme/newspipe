@@ -15,6 +15,5 @@ Flask-Babel
 Flask-SSLify
 WTForms
 python-postmark
-gevent
 whoosh
 python-dateutil

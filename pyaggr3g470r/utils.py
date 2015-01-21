@@ -188,9 +188,10 @@ def clean_url(url):
     """
     Remove utm_* parameters
     """
+    return url
     parsed_url = urlparse(url)
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
-    filtered = dict((k, v) for k, v in qd.iteritems()
+    filtered = dict((k, v) for k, v in qd.items()
                                         if not k.startswith('utm_'))
     return urlunparse([
         parsed_url.scheme,
