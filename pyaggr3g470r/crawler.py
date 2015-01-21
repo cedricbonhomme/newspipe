@@ -80,7 +80,7 @@ def fetch(user, feed):
     for article in a_feed['entries']:
 
         try:
-            nice_url = article.link.encode("utf-8")
+            nice_url = article.link
         except:
             # if not able to get the link of the article, continue
             continue
@@ -89,14 +89,14 @@ def fetch(user, feed):
                 # resolves URL behind proxies
                 # (like feedproxy.google.com)
                 r = requests.get(article.link, timeout=5.0)
-                nice_url = r.url.encode("utf-8")
+                nice_url = r.url
             except Exception as error:
                 logger.warning(
                         "Unable to get the real URL of %s. Error: %s",
                         article.link, error)
                 continue
         # remove utm_* parameters
-        nice_url = utils.clean_url(nice_url)
+        #nice_url = utils.clean_url(nice_url)
 
         description = ""
         article_title = article.get('title', '')
@@ -150,26 +150,24 @@ def insert_database(user, feed):
     logger.info("Database insertion...")
     new_articles = []
     query1 = Article.query.filter(Article.user_id == user.id)
+    query2 = query1.filter(Article.feed_id == feed.id)
     for article in articles:
-        query2 = query1.filter(Article.feed_id == feed.id)
-        for article in articles:
-            exist = False#query2.filter(Article.link == article.link).count() != 0
-            if exist:
-                logger.debug("Article %r (%r) already in the database.",
-                             article.title, article.link)
-                continue
-            if article.date is None:
-                article.date = datetime.now(dateutil.tz.tzlocal())
-            new_articles.append(article)
-            try:
-                feed.articles.append(article)
-                #db.session.merge(article)
-                db.session.commit()
-                logger.info("New article %r (%r) added.", article.title,
-                            article.link)
-            except Exception as e:
-                logger.error("Error when inserting article in database: " + str(e))
-                continue
+        exist = query2.filter(Article.link == article.link).count() != 0
+        if exist:
+            #logger.debug("Article %r (%r) already in the database.", article.title, article.link)
+            continue
+        if article.date is None:
+            article.date = datetime.now(dateutil.tz.tzlocal())
+        new_articles.append(article)
+        try:
+            feed.articles.append(article)
+            #db.session.merge(article)
+            db.session.commit()
+            #logger.info("New article % (%r) added.", article.title, article.link)
+            print("New article added: " + article.title)
+        except Exception as e:
+            logger.error("Error when inserting article in database: " + str(e))
+            continue
     #db.session.close()
     return new_articles
 
@@ -196,7 +194,7 @@ def retrieve_feed(user, feed_id=None):
 
         # 2 - Fetch the feeds.
         loop = asyncio.get_event_loop()
-        f = asyncio.wait([process_data(user, feed) for feed in feeds[0:15]])
+        f = asyncio.wait([process_data(user, feed) for feed in feeds])
         loop.run_until_complete(f)
 
         """
