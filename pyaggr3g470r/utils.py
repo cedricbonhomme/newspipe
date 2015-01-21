@@ -188,7 +188,6 @@ def clean_url(url):
     """
     Remove utm_* parameters
     """
-    return url
     parsed_url = urlparse(url)
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
     filtered = dict((k, v) for k, v in qd.items()
@@ -196,9 +195,9 @@ def clean_url(url):
     return urlunparse([
         parsed_url.scheme,
         parsed_url.netloc,
-        urllib.quote(urllib.unquote(parsed_url.path)),
+        urllib.parse.quote(urllib.parse.unquote(parsed_url.path)),
         parsed_url.params,
-        urllib.urlencode(filtered, doseq=True),
+        urllib.parse.urlencode(filtered, doseq=True),
         parsed_url.fragment
     ]).rstrip('=')
 

@@ -96,7 +96,7 @@ def fetch(user, feed):
                         article.link, error)
                 continue
         # remove utm_* parameters
-        #nice_url = utils.clean_url(nice_url)
+        nice_url = utils.clean_url(nice_url)
 
         description = ""
         article_title = article.get('title', '')
