@@ -38,6 +38,7 @@ if not ON_HEROKU:
     RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
     RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
     LOG_PATH = config.get('misc', 'log_path')
+    PYTHON = config.get('misc', 'python')
 
     WHOOSH_ENABLED = True
 
@@ -69,6 +70,7 @@ else:
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
     LOG_PATH = os.environ.get('LOG_PATH', 'pyaggr3g470r.log')
+    PYTHON = os.environ.get('PYTHON', 'python3.3')
 
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
