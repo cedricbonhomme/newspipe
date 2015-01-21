@@ -144,6 +144,8 @@ def fetch(user, feed):
 def insert_database(user, feed):
 
     articles = yield from asyncio.async(fetch(user, feed))
+    if None is articles:
+        return []
 
     print('inserting articles for {}'.format(feed.title))
 
