@@ -40,6 +40,12 @@ from pyaggr3g470r.models import User, Article
 
 logger = logging.getLogger(__name__)
 
+#
+# asyncio examples:
+# -http://compiletoi.net/fast-scraping-in-python-with-asyncio.html
+# - https://gist.github.com/kunev/f83146d407c81a2d64a6
+#
+
 @asyncio.coroutine
 def fetch(user, feed):
     """
@@ -167,8 +173,6 @@ def insert_database(user, feed):
     #db.session.close()
     return new_articles
 
-    
-    
 @asyncio.coroutine
 def done(feed):
     print('done {}'.format(feed.title))
@@ -177,8 +181,6 @@ def done(feed):
 def process_data(user, feed):
     data = yield from asyncio.async(insert_database(user, feed))
     print('inserted articles for {}'.format(feed.title))
-
-
 
 def retrieve_feed(user, feed_id=None):
         """
