@@ -1,92 +1,42 @@
+from datetime import datetime
 from flask import g
 from flask.ext.restful import Resource, reqparse
 
-from pyaggr3g470r.controllers.feed  import FeedController, \
-                                           DEFAULT_MAX_ERROR, DEFAULT_LIMIT
-from pyaggr3g470r.models import Feed
+from pyaggr3g470r.controllers.feed import FeedController, \
+                                          DEFAULT_MAX_ERROR, DEFAULT_LIMIT
 
-from pyaggr3g470r.views.api.common import authenticate, to_response, \
-                                          PyAggResource
-
-
-class FeedListAPI(Resource):
-    """
-    Defines a RESTful API for Feed elements.
-    """
-    method_decorators = [authenticate, to_response]
-
-    def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('title',
-                                   type=unicode, default="", location='json')
-        self.reqparse.add_argument('description',
-                                   type=unicode, default="", location='json')
-        self.reqparse.add_argument('link', type=unicode, location='json')
-        self.reqparse.add_argument('site_link',
-                                   type=unicode, default="", location='json')
-        self.reqparse.add_argument('email_notification',
-                                   type=bool, default=False, location='json')
-        self.reqparse.add_argument('enabled',
-                                   type=bool, default=True, location='json')
-        super(FeedListAPI, self).__init__()
-
-    def get(self):
-        """
-        Returns a list of feeds.
-        """
-        return {'result': [{"id": feed.id,
-                            "title": feed.title,
-                            "description": feed.description,
-                            "link": feed.link,
-                            "site_link": feed.site_link,
-                            "email_notification": feed.email_notification,
-                            "enabled": feed.enabled,
-                            "created_date": feed.created_date,
-                           } for feed in g.user.feeds]}
-
-    def post(self):
-        """
-        POST method - Create a new feed.
-        """
-        args = self.reqparse.parse_args()
-        feed_dict = {}
-        for k, v in args.iteritems():
-            if v != None:
-                feed_dict[k] = v
-            else:
-                return {'message': 'missing argument: %s' % (k,)}, 400
-        new_feed = Feed(title=feed_dict["title"],
-                        description=feed_dict["description"],
-                        link=feed_dict["link"],
-                        site_link=feed_dict["site_link"],
-                        email_notification=feed_dict["email_notification"],
-                        enabled=feed_dict["enabled"])
-        g.user.feeds.append(new_feed)
-        try:
-            g.db.session.commit()
-            return {"message": "ok"}
-        except:
-            return {'message': 'Impossible to create the feed.'}, 500
+from pyaggr3g470r.views.api.common import PyAggResourceNew, \
+                                          PyAggResourceExisting, \
+                                          PyAggResourceMulti
 
 
-class FeedAPI(PyAggResource):
-    "Defines a RESTful API for Feed elements."
+FEED_ATTRS = {'title': {'type': str},
+              'description': {'type': str},
+              'link': {'type': str},
+              'site_link': {'type': str},
+              'email_notification': {'type': bool, 'default': False},
+              'enabled': {'type': bool, 'default': True},
+              'etag': {'type': str, 'default': None},
+              'last_modified': {'type': datetime},
+              'last_error': {'type': datetime},
+              'error_count': {'type': int, 'default': 0}}
+
+
+class FeedNewAPI(PyAggResourceNew):
     controller_cls = FeedController
-    editable_attrs = ['title', 'description', 'link', 'site_link',
-                      'email_notification', 'enabled', 'last_refreshed',
-                      'last_error', 'error_count']
+    attrs = FEED_ATTRS
 
-    def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('title', type=unicode, location='json')
-        self.reqparse.add_argument('description',
-                                   type=unicode, location='json')
-        self.reqparse.add_argument('link', type=unicode, location='json')
-        self.reqparse.add_argument('site_link', type=unicode, location='json')
-        self.reqparse.add_argument('email_notification',
-                                   type=bool, location='json')
-        self.reqparse.add_argument('enabled', type=bool ,location='json')
-        super(FeedAPI, self).__init__()
+
+class FeedAPI(PyAggResourceExisting):
+    pass
+    controller_cls = FeedController
+    attrs = FEED_ATTRS
+
+
+class FeedsAPI(PyAggResourceMulti):
+    pass
+    controller_cls = FeedController
+    attrs = FEED_ATTRS
 
 
 class FetchableFeedAPI(Resource):
@@ -102,10 +52,12 @@ class FetchableFeedAPI(Resource):
     def get(self):
         args = self.reqparse.parse_args()
         controller = FeedController(g.user.id)
-        return {'result': [feed.dump() for feed in controller.list_fetchable(
-                           max_error=args['max_error'], limit=args['limit'])]}
+        return [feed for feed in controller.list_fetchable(
+                            max_error=args['max_error'], limit=args['limit'])]
 
 
-g.api.add_resource(FeedListAPI, '/feeds', endpoint='feeds.json')
-g.api.add_resource(FeedAPI, '/feeds/<int:obj_id>', endpoint='feed.json')
-g.api.add_resource(FetchableFeedAPI, '/feeds/fetchable', endpoint='fetchable_feed.json')
+g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')
+g.api.add_resource(FeedAPI, '/feed/<int:obj_id>', endpoint='feed.json')
+g.api.add_resource(FeedsAPI, '/feeds', endpoint='feeds.json')
+g.api.add_resource(FetchableFeedAPI, '/feeds/fetchable',
+                   endpoint='fetchable_feed.json')

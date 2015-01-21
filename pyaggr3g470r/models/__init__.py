@@ -28,7 +28,8 @@ __license__ = "GPLv3"
 
 import re
 import json
-import random, hashlib
+import random
+import hashlib
 from datetime import datetime
 from flask import g
 from sqlalchemy import asc, desc
@@ -47,10 +48,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
     roles = db.relationship('Role', backref='user', lazy='dynamic')
-    activation_key = db.Column(db.String(128), default =
-                               hashlib.sha512(
-                                   str(random.getrandbits(256)).encode("utf-8")
-                                   ).hexdigest()[:86])
+    activation_key = db.Column(db.String(128), default=hashlib.sha512(
+            str(random.getrandbits(256)).encode("utf-8")).hexdigest()[:86])
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
@@ -114,14 +113,20 @@ class Feed(db.Model):
     email_notification = db.Column(db.Boolean(), default=False)
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
-    last_refreshed = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
+
+    # cache handling
+    etag = db.Column(db.String(), default="")
+    last_modified = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
+
+    # error logging
     last_error = db.Column(db.String(), default="")
     error_count = db.Column(db.Integer(), default=0)
+
+    # relationship
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     articles = db.relationship('Article', backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
                                order_by=desc("Article.date"))
-
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)
@@ -132,14 +137,15 @@ class Feed(db.Model):
                 "description": self.description,
                 "link": self.link,
                 "site_link": self.site_link,
-                "nb_articles": self.articles.count()}
+                "etag": self.etag,
+                "last_modified": self.last_modified}
 
 
 class Article(db.Model):
     """
     Represent an article from a feed.
     """
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     entry_id = db.Column(db.String())
     link = db.Column(db.String())
     title = db.Column(db.String())
@@ -148,6 +154,7 @@ class Article(db.Model):
     like = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
+    guid = db.Column(db.String(), default="")
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
@@ -174,6 +181,7 @@ class Article(db.Model):
                             "link": self.link,
                             "content": self.content
                          })
+
     def dump(self):
         return {"id": self.id,
                 "title": self.title,
@@ -184,5 +192,4 @@ class Article(db.Model):
                 "date": self.date,
                 "retrieved_date": self.retrieved_date,
                 "feed_id": self.source.id,
-                "feed_name": self.source.title,
-        }
+                "feed_name": self.source.title}

@@ -31,6 +31,7 @@ from pyaggr3g470r.decorators import async
 
 logger = logging.getLogger(__name__)
 
+
 @async
 def send_async_email(mfrom, mto, msg):
     try:

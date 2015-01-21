@@ -15,10 +15,9 @@ Flask-RESTful
 Flask-Babel
 Flask-SSLify
 Flask-Migrate
+flask-Script
 WTForms
 python-postmark
 whoosh
 python-dateutil
 alembic
-flask-Migrate
-flask-Script

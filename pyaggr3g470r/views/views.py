@@ -164,7 +164,7 @@ def login():
 @app.route('/api/csrf', methods=['GET'])
 def get_csrf():
     try:
-        data = json.loads(request.data)
+        data = json.loads(request.data.decode())
     except ValueError:
         return Response(status=400)
     email = data.get('email')

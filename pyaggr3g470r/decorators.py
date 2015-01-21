@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from threading import Thread
 from functools import wraps
@@ -22,6 +22,7 @@ def async(f):
         thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()
     return wrapper
+
 
 def feed_access_required(func):
     """
@@ -47,7 +48,7 @@ def handle_pyagg_error(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except PyAggError, error:
+        except PyAggError as error:
             flash(gettext(error.default_message), 'warning')
             return redirect(url_for('home'))
     return wrapper

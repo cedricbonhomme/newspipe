@@ -6,10 +6,10 @@ from pyaggr3g470r.models import Article
 class ArticleController(AbstractController):
     _db_cls = Article
 
-    def read(self, obj_id):
-        article = super(ArticleController, self).read(obj_id)
+    def get(self, **filters):
+        article = super(ArticleController, self).read(**filters)
         if not article.readed:
-            self.update(obj_id, readed=True)
+            self.update(article.id, readed=True)
         return article
 
     def delete(self, obj_id):

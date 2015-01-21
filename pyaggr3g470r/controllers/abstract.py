@@ -13,7 +13,7 @@ class AbstractController(object):
         if self.user_id:
             filters[self._user_id_key] = self.user_id
         db_filters = set()
-        for key, value in filters.iteritems():
+        for key, value in filters.items():
             if key.endswith('__gt'):
                 db_filters.add(getattr(self._db_cls, key[:-4]) > value)
             elif key.endswith('__lt'):

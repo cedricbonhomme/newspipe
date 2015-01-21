@@ -27,8 +27,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 # Create Flask application
-application = Flask(__name__, static_folder='pyaggr3g470r/static',
-                              template_folder='pyaggr3g470r/templates')
+application = Flask('pyaggr3g470r')
 application.debug = conf.WEBSERVER_DEBUG
 
 # Create dummy secrey key so we can use sessions
