@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import asyncio
+import aiohttp
 import logging
 import requests
 import feedparser
@@ -47,13 +48,20 @@ logger = logging.getLogger(__name__)
 #
 
 @asyncio.coroutine
+def get(*args, **kwargs):
+    kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
+    response = yield from aiohttp.request('GET', *args, **kwargs)
+    return (yield from response.read_and_close(decode=False))
+
+@asyncio.coroutine
 def fetch(user, feed):
     """
     Fetch a feed.
     """
     logger.info("Fetching the feed: " + feed.title)
     print("Fetching the feed: " + feed.title)
-    a_feed = feedparser.parse(feed.link)
+    data = yield from get(feed.link)
+    a_feed = feedparser.parse(data)
     if a_feed['bozo'] == 1:
         logger.error(a_feed['bozo_exception'])
     if a_feed['entries'] == []:
@@ -177,9 +185,12 @@ def insert_database(user, feed):
 def done(feed):
     print('done {}'.format(feed.title))
 
+sem = asyncio.Semaphore(5)
+    
 @asyncio.coroutine
 def process_data(user, feed):
-    data = yield from asyncio.async(insert_database(user, feed))
+    with (yield from sem):
+        data = yield from asyncio.async(insert_database(user, feed))
     print('inserted articles for {}'.format(feed.title))
 
 def retrieve_feed(user, feed_id=None):
@@ -190,7 +201,7 @@ def retrieve_feed(user, feed_id=None):
 
         # 1 - Get the list of feeds to fetch
         user = User.query.filter(User.email == user.email).first()
-        feeds = [feed for feed in user.feeds if feed.enabled]
+        feeds = [feed for feed in user.feeds if feed.enabled][:20]
         if feed_id is not None:
             feeds = [feed for feed in feeds if feed.id == feed_id]
 
