@@ -201,7 +201,7 @@ def retrieve_feed(user, feed_id=None):
 
         # 1 - Get the list of feeds to fetch
         user = User.query.filter(User.email == user.email).first()
-        feeds = [feed for feed in user.feeds if feed.enabled][:20]
+        feeds = [feed for feed in user.feeds if feed.enabled]
         if feed_id is not None:
             feeds = [feed for feed in feeds if feed.id == feed_id]
 
