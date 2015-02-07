@@ -177,20 +177,20 @@ def export_html(user):
             a_post += HTML_FOOTER
 
             with open(post_file_name, "w") as f:
-                f.write(a_post.encode("utf-8"))
+                f.write(a_post)
 
         posts +=  HTML_FOOTER
         if len(feed.articles.all()) != 0:
             with open(feed_index, "w") as f:
-                f.write(posts.encode("utf-8"))
+                f.write(posts)
 
     index += "</ul>\n"
     index += "<p>" + time.strftime("Generated on %d %b %Y at %H:%M.") + "</p>\n"
     index += HTML_FOOTER
     with open(webzine_root + "index.html", "w") as f:
-        f.write(index.encode("utf-8"))
+        f.write(index)
     with open(webzine_root + "style.css", "w") as f:
-        f.write(CSS.encode("utf-8"))
+        f.write(CSS)
 
     archive_file_name = datetime.now().strftime('%Y-%m-%d') + '.tar.gz'
     with tarfile.open(conf.WEBZINE_ROOT + archive_file_name, "w:gz") as tar:
@@ -198,9 +198,9 @@ def export_html(user):
 
     shutil.rmtree(webzine_root)
 
-    with open(conf.WEBZINE_ROOT + archive_file_name, 'r') as export_file:
+    with open(conf.WEBZINE_ROOT + archive_file_name, 'rb') as export_file:
         return export_file.read(), archive_file_name
-    
+
 def export_json(user):
     """
     Export all articles of 'user' in JSON.
