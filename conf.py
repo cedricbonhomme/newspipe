@@ -70,7 +70,7 @@ else:
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
     LOG_PATH = os.environ.get('LOG_PATH', 'pyaggr3g470r.log')
-    PYTHON = os.environ.get('PYTHON', 'python3.3')
+    PYTHON = 'python'
 
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
