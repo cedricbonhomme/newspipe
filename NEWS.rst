@@ -1,5 +1,11 @@
             pyAggr3g470r project news
 
+6.0: 2015-02-08
+    New: pyAggr3g470r is now working with Python 3.4. Tested on Heroku
+    with Python 3.4.2.
+    Improvements: The feed crawler uses the PEP 3156 (asyncio). The action
+    buttons are now on the left. It is easier to mark an article as read.
+
 5.7.0: 2014-11-20
     Improvements: major improvements of the email notifications system.
     Notifications are now sent through Postmark (for example for Heroku)
