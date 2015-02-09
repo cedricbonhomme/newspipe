@@ -22,7 +22,7 @@ cp vagrant/conf.cfg-sample conf/conf.cfg
 cd ..
 
 # Installation of PostgreSQL
-apt-get install -y postgresql postgresql-server-dev-9.3 postgresql-client
+apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
 
 # Configuration of the database
 echo "127.0.0.1:5432:aggregator:vagrant:xxYzToW42" > .pgpass
