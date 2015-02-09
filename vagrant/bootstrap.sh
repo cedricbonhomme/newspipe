@@ -2,7 +2,7 @@
 
 apt-get update
 apt-get upgrade
-apt-get install -y python3 python3-dev libpq-dev python3-dev build-essential git
+apt-get install -y python3 python3-dev libpq-dev python3-pip build-essential git
 
 # Clone the source code of pyAggr3g470r
 git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
