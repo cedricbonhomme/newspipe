@@ -16,7 +16,7 @@ cd pyaggr3g470r
 # For lxml
 apt-get install -y libxml2-dev libxslt1-dev
 # installation with pip
-sudo pip3 install --upgrade -r requirements.tx
+sudo pip3 install --upgrade -r requirements.txt
 sudo pip3 uninstall feedparser
 sudo pip3 install feedparser==5.1.2
 # copy of the default configuration files for vagrant
