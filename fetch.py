@@ -26,6 +26,7 @@ if __name__ == "__main__":
         feed_id = int(sys.argv[2])
     except:
         feed_id = None
+    print(feed_id)
 
     for user in users:
         if user.activation_key == "":
