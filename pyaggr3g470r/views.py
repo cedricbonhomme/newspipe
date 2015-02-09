@@ -663,7 +663,7 @@ def edit_feed(feed_id=None):
                 db.session.commit()
                 flash(gettext('Feed successfully created.'), 'success')
 
-                utils.fetch(g.user.email, Feed.query.filter(Feed.link == form.link.data).first().id)
+                utils.fetch(g.user.id, Feed.query.filter(Feed.link == form.link.data).first().id)
                 flash(gettext("Downloading articles for the new feed..."), 'info')
 
                 return redirect('/edit_feed/' + str(new_feed.id))
