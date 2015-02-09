@@ -203,10 +203,11 @@ def retrieve_feed(user, feed_id=None):
     if feed_id is not None:
         feeds = [feed for feed in feeds if feed.id == feed_id]
 
-    # 2 - Fetch the feeds.
-    loop = asyncio.get_event_loop()
-    f = asyncio.wait([init_process(user, feed) for feed in feeds])
-    loop.run_until_complete(f)
+    if feeds != []:
+        # 2 - Fetch the feeds.
+        loop = asyncio.get_event_loop()
+        f = asyncio.wait([init_process(user, feed) for feed in feeds])
+        loop.run_until_complete(f)
 
     """
     # 4 - Indexation
