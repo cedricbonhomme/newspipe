@@ -27,6 +27,8 @@ Features
 Usage
 =====
 
+Python 3.4 is recommended.
+
 Deployment
 ----------
 
