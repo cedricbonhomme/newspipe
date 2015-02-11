@@ -147,7 +147,7 @@ def parse_feed(user, feed):
                     break
                 except:
                     pass
-        finally:
+        else:
             post_date = datetime.now(dateutil.tz.tzlocal())
 
         # create the models.Article object and append it to the list of articles
