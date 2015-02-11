@@ -128,6 +128,7 @@ def parse_feed(user, feed):
             logger.error("Problem when sanitizing the content of the article %s (%s)",
                                 article_title, nice_url)
 
+        # Get the date of publication of the article
         post_date = None
         for date_key in ('published_parsed', 'published',
                         'updated_parsed', 'updated'):
@@ -146,6 +147,8 @@ def parse_feed(user, feed):
                     break
                 except:
                     pass
+        finally:
+            post_date = datetime.now(dateutil.tz.tzlocal())
 
         # create the models.Article object and append it to the list of articles
         article = Article(link=nice_url, title=article_title,
@@ -204,18 +207,20 @@ def retrieve_feed(user, feed_id=None):
     if feed_id is not None:
         feeds = [feed for feed in feeds if feed.id == feed_id]
 
-    if feeds != []:
-        # 2 - Fetch the feeds.
-        loop = asyncio.get_event_loop()
-        f = asyncio.wait([init_process(user, feed) for feed in feeds])
-        loop.run_until_complete(f)
+    if feeds == []:
+        return
+
+    # 2 - Fetch the feeds.
+    loop = asyncio.get_event_loop()
+    f = asyncio.wait([init_process(user, feed) for feed in feeds])
+    loop.run_until_complete(f)
 
     """
-    # 4 - Indexation
+    # 3 - Indexation
     if not conf.ON_HEROKU:
         self.index(new_articles)
 
-    # 5 - Mail notification
+    # 4 - Mail notification
     if not conf.ON_HEROKU and conf.NOTIFICATION_ENABLED:
         self.mail_notification(new_articles)
     """
