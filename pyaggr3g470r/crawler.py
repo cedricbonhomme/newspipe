@@ -109,7 +109,7 @@ def parse_feed(user, feed):
                 logger.warning(
                         "Unable to get the real URL of %s. Error: %s",
                         article.link, error)
-                continue
+                pass
         # remove utm_* parameters
         nice_url = utils.clean_url(nice_url)
 
