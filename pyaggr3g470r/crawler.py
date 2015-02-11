@@ -30,9 +30,9 @@ import asyncio
 import aiohttp
 import logging
 import requests
-import datetime
 import feedparser
 import dateutil.parser
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 from pyaggr3g470r import utils
