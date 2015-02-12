@@ -192,8 +192,9 @@ def insert_database(user, feed):
 
 @asyncio.coroutine
 def init_process(user, feed):
-    data = yield from asyncio.async(insert_database(user, feed))
+    articles = yield from asyncio.async(insert_database(user, feed))
     #print('inserted articles for {}'.format(feed.title))
+    return articles
 
 def retrieve_feed(user, feed_id=None):
     """
@@ -212,8 +213,9 @@ def retrieve_feed(user, feed_id=None):
 
     # 2 - Fetch the feeds.
     loop = asyncio.get_event_loop()
-    f = asyncio.wait([init_process(user, feed) for feed in feeds])
-    loop.run_until_complete(f)
+    tasks = [init_process(user, feed) for feed in feeds]
+    #tasks = [asyncio.async(init_process(user, feed)) for feed in feeds]
+    loop.run_until_complete(asyncio.wait(tasks))
 
     """
     # 3 - Indexation
