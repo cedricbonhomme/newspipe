@@ -1,5 +1,5 @@
 pyAggr3g470r is a free software written and maintained
-by Cédric Bonhomme http://cedricbonhomme.org/
+by Cédric Bonhomme https://www.cedricbonhomme.org
 
 Contributors
 ````````````
