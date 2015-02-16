@@ -305,4 +305,4 @@ is under the `GNU Affero General Public License version 3 <https://www.gnu.org/l
 Contact
 =======
 
-`My home page <http://cedricbonhomme.org/>`_.
+`My home page <https://www.cedricbonhomme.org>`_.
