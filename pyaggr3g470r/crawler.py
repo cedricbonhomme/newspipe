@@ -113,6 +113,11 @@ def parse_feed(user, feed):
         # remove utm_* parameters
         nice_url = utils.clean_url(nice_url)
 
+        try:
+            entry_id = article.id
+        except:
+            entry_id = nice_url
+
         description = ""
         article_title = article.get('title', '')
         try:
@@ -151,7 +156,7 @@ def parse_feed(user, feed):
             post_date = datetime.now(dateutil.tz.tzlocal())
 
         # create the models.Article object and append it to the list of articles
-        article = Article(link=nice_url, title=article_title,
+        article = Article(entry_id=entry_id, link=nice_url, title=article_title,
                         content=description, readed=False, like=False,
                         date=post_date, user_id=user.id,
                         feed_id=feed.id)
@@ -172,7 +177,7 @@ def insert_database(user, feed):
     query1 = Article.query.filter(Article.user_id == user.id)
     query2 = query1.filter(Article.feed_id == feed.id)
     for article in articles:
-        exist = query2.filter(Article.link == article.link).count() != 0
+        exist = query2.filter(Article.entry_id == article.entry_id).count() != 0
         if exist:
             #logger.debug("Article %r (%r) already in the database.", article.title, article.link)
             continue

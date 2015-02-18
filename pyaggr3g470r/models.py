@@ -121,6 +121,7 @@ class Article(db.Model):
     Represent an article from a feed.
     """
     id = db.Column(db.Integer, primary_key = True)
+    entry_id = db.Column(db.String())
     link = db.Column(db.String())
     title = db.Column(db.String())
     content = db.Column(db.String())
