@@ -181,8 +181,6 @@ def insert_database(user, feed):
         if exist:
             #logger.debug("Article %r (%r) already in the database.", article.title, article.link)
             continue
-        if article.date is None:
-            article.date = datetime.now(dateutil.tz.tzlocal())
         new_articles.append(article)
         try:
             feed.articles.append(article)
