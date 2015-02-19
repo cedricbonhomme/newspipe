@@ -184,6 +184,7 @@ Documentation
 =============
 
 * `web services <documentation/web-services.rst>`_;
+* `migrations <documentation/migrations.rst>`_
 
 
 Donation

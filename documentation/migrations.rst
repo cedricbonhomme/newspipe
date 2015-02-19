@@ -1,0 +1,24 @@
+Migrations
+==========
+
+Migrations of the database are managed
+with the database migrations tool
+`Alembic <https://bitbucket.org/zzzeek/alembic>`_.
+
+The Flask extensions `Flask-Script <https://github.com/smurfix/flask-script>`_
+and `Flask-Migrate <https://github.com/miguelgrinberg/flask-migrate/>_`
+are used to ease remote migrations.
+
+Local migrations
+----------------
+
+.. code:: bash
+
+    $ python manage.py db upgrade
+
+Remote migrations
+-----------------
+
+.. code:: bash
+
+    $ heroku run python manage.py db upgrade
