@@ -19,5 +19,5 @@ python-postmark
 whoosh
 python-dateutil
 alembic
-flask-migrate
-flask-script
+flask-Migrate
+flask-Script
