@@ -34,6 +34,7 @@ import feedparser
 import dateutil.parser
 from datetime import datetime
 from bs4 import BeautifulSoup
+from sqlalchemy import or_
 
 from pyaggr3g470r import utils
 from pyaggr3g470r import conf
@@ -177,7 +178,7 @@ def insert_database(user, feed):
     query1 = Article.query.filter(Article.user_id == user.id)
     query2 = query1.filter(Article.feed_id == feed.id)
     for article in articles:
-        exist = query2.filter(Article.entry_id == article.entry_id).count() != 0
+        exist = query2.filter(or_(Article.entry_id==article.entry_id, Article.link==article.link)).count() != 0
         if exist:
             #logger.debug("Article %r (%r) already in the database.", article.title, article.link)
             continue
