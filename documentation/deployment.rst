@@ -10,7 +10,7 @@ Deploying the application with Vagrant
 
 Installation of VirtualBox and Vagrant
 
-.. code:: bash
+.. code-block:: bash
 
     $ sudo apt-get install virtualbox
     $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
@@ -18,7 +18,7 @@ Installation of VirtualBox and Vagrant
 
 Deployment of pyAggr3g470r
 
-.. code:: bash
+.. code-block:: bash
 
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r/vagrant/
@@ -34,7 +34,7 @@ An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com
 The geek way
 ''''''''''''
 
-.. code:: bash
+.. code-block:: bash
 
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
@@ -47,7 +47,7 @@ The geek way
 
 To enable account creation for users, you have to set some environment variables:
 
-.. code:: bash
+.. code-block:: bash
 
     $ heroku config:set SELF_REGISTRATION=1
     $ heroku config:set PLATFORM_URL=<URL-of-your-platform>
@@ -77,7 +77,7 @@ And some other optional environment variables, as previously presented.
 Deploying the application on a traditional server
 -------------------------------------------------
 
-.. code:: bash
+.. code-block:: bash
 
     $ sudo apt-get install python libpq-dev python-dev python-pip build-essential git
     $ sudo apt-get install libxml2-dev libxslt1-dev # for lxml
@@ -89,7 +89,7 @@ Deploying the application on a traditional server
 If you want to use PostgreSQL
 '''''''''''''''''''''''''''''
 
-.. code:: bash
+.. code-block:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
     $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
@@ -101,7 +101,7 @@ If you want to use PostgreSQL
 
 Edit the configuration file with the line:
 
-.. code:: cfg
+.. code-block:: cfg
 
     [database]
     uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator
@@ -111,7 +111,7 @@ If you want to use SQLite
 
 Just edit the configuration file with the line:
 
-.. code:: cfg
+.. code-block:: cfg
 
     [database]
     uri = sqlite+pysqlite:///pyAggr3g470r.db
@@ -119,7 +119,7 @@ Just edit the configuration file with the line:
 
 Finally:
 
-.. code:: bash
+.. code-block:: bash
 
     $ python db_create.py
     $ python runserver.py
@@ -142,7 +142,7 @@ Automatic updates
 You can fetch new articles with `cron <https://en.wikipedia.org/wiki/Cron>`_  and the script *fetch.py*.
 For example if you want to check for updates every 30 minutes, add this line to your cron rules (*crontab -e*):
 
-.. code:: bash
+.. code-block:: bash
 
     */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py firstname.lastname@mail.com
 

@@ -12,13 +12,13 @@ are used to ease remote migrations.
 Local migrations
 ----------------
 
-.. code:: bash
+.. code-block:: bash
 
     $ python manage.py db upgrade
 
 Remote migrations
 -----------------
 
-.. code:: bash
+.. code-block:: bash
 
     $ heroku run python manage.py db upgrade

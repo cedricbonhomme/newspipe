@@ -29,9 +29,7 @@ Python 3.4 is recommended.
 Documentation
 =============
 
-* `deployment and configuration <documentation/deployment.rst>`_;
-* `web services <documentation/web-services.rst>`_;
-* `migrations <documentation/migrations.rst>`_
+A documentation is available `here <https://pyAggr3g470r.readthedocs.orf>`_.
 
 Internationalization
 ====================
@@ -51,7 +49,6 @@ License
 
 `pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_
 is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
-
 
 Contact
 =======
