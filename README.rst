@@ -29,7 +29,7 @@ Python 3.4 is recommended.
 Documentation
 =============
 
-A documentation is available `here <https://pyAggr3g470r.readthedocs.orf>`_.
+A documentation is available `here <https://pyaggr3g470r.readthedocs.org>`_.
 
 Internationalization
 ====================
