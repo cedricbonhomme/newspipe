@@ -4,11 +4,11 @@ Web service
 Articles
 --------
 
-.. code:: python
+.. code-block:: python
 
     >>> import requests, json
     >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles", auth=("your-email", "your-password"))
-    >>> r.status_code
+    >>> r.status_code-block
     200
     >>> rjson = json.loads(r.text)
     >>> rjson["result"][0]["title"]
@@ -18,7 +18,7 @@ Articles
 
 Possible parameters:
 
-.. code:: bash
+.. code-block:: bash
 
     $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=unread&feed=24"
     $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=read&feed=24&limit=20"
@@ -26,13 +26,13 @@ Possible parameters:
 
 Get an article:
 
-.. code:: bash
+.. code-block:: bash
 
     $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84566"
 
 Add an article:
 
-.. code:: python
+.. code-block:: python
 
     >>> import requests, json
     >>> headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
@@ -48,7 +48,7 @@ Add an article:
 
 Update an article:
 
-.. code:: python
+.. code-block:: python
 
     >>> payload = {"like":True, "readed":False}
     >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/65", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
@@ -59,7 +59,7 @@ Update an article:
 
 Delete an article:
 
-.. code:: python
+.. code-block:: python
 
     >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
     >>> print r.status_code
@@ -81,20 +81,20 @@ Feeds
 
 Add a feed:
 
-.. code:: python
+.. code-block:: python
 
     >>> payload = {'link': 'http://blog.cedricbonhomme.org/feed'}
     >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
 
 Update a feed:
 
-.. code:: python
+.. code-block:: python
 
     >>> payload = {"title":"Feed new title", "description":"New description"}
     >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/42", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
 
 Delete a feed:
 
-.. code:: python
+.. code-block:: python
 
     >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/29", auth=("your-email", "your-password"))
