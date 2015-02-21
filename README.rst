@@ -5,8 +5,9 @@ pyAggr3g470r
 Presentation
 ============
 
-`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_ web-based
-news aggregator. It can be deployed on Heroku or on a traditional server.
+`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_ is a
+web-based news aggregator. It can be deployed on Heroku or on a
+traditional server.
 
 Features
 ========
@@ -23,8 +24,11 @@ Features
 * share articles with Google +, Pinboard and reddit;
 * HTTP proxy support.
 
-Python 3.4 is recommended.
+The core technologies are `Flask <http://flask.pocoo.org>`_,
+`asyncio <https://www.python.org/dev/peps/pep-3156/>`_ and
+`SQLAlchemy <http://www.sqlalchemy.org>`_.
 
+Python 3.4 is recommended.
 
 Documentation
 =============
@@ -42,7 +46,6 @@ Donation
 If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
 `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
-
 
 License
 =======
