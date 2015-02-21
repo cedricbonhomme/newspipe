@@ -129,7 +129,16 @@ def parse_feed(user, feed):
             description = article.get('description', '')
 
         try:
-            description = BeautifulSoup(description, "lxml").decode()
+            soup = BeautifulSoup(description, "lxml")
+
+            # Prevents BeautifulSoup4 from adding extra <html><body> tags
+            # to the soup with the lxml parser.
+            if soup.body:
+                description = soup.body.next.decode()
+            elif soup.html:
+                description = soup.html.next.decode()
+            else:
+                description = soup.decode()
         except:
             logger.error("Problem when sanitizing the content of the article %s (%s)",
                                 article_title, nice_url)
