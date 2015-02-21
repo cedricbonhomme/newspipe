@@ -5,8 +5,8 @@ pyAggr3g470r
 Presentation
 ============
 
-`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_  is a news aggregator with a web interface
-based on `Flask <http://flask.pocoo.org>`_.
+`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_ web-based
+news aggregator. It can be deployed on Heroku or on a traditional server.
 
 Features
 ========
