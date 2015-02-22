@@ -33,7 +33,6 @@ import requests
 import feedparser
 import dateutil.parser
 from datetime import datetime
-from itertools import chain
 from bs4 import BeautifulSoup
 from sqlalchemy import or_
 
