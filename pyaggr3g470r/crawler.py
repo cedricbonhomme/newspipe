@@ -33,6 +33,7 @@ import requests
 import feedparser
 import dateutil.parser
 from datetime import datetime
+from itertools import chain
 from bs4 import BeautifulSoup
 from sqlalchemy import or_
 
@@ -40,6 +41,8 @@ from pyaggr3g470r import utils
 from pyaggr3g470r import conf
 from pyaggr3g470r import db
 from pyaggr3g470r.models import User, Article
+if not conf.ON_HEROKU:
+    import pyaggr3g470r.search as fastsearch
 
 logger = logging.getLogger(__name__)
 
@@ -205,8 +208,18 @@ def insert_database(user, feed):
 
 @asyncio.coroutine
 def init_process(user, feed):
+    # Fetch the feed and insert new articles in the database
     articles = yield from asyncio.async(insert_database(user, feed))
     #print('inserted articles for {}'.format(feed.title))
+
+    # Indexation of the new articles for the feed
+    if not conf.ON_HEROKU and articles != []:
+        try:
+            #print('indexing articles for {}'.format(feed.title))
+            fastsearch.add_to_index(user.id, articles, feed)
+        except:
+            logger.exception("Problem during indexation:")
+
     return articles
 
 def retrieve_feed(user, feed_id=None):
@@ -215,7 +228,7 @@ def retrieve_feed(user, feed_id=None):
     """
     logger.info("Starting to retrieve feeds.")
 
-    # 1 - Get the list of feeds to fetch
+    # Get the list of feeds to fetch
     user = User.query.filter(User.email == user.email).first()
     feeds = [feed for feed in user.feeds if feed.enabled]
     if feed_id is not None:
@@ -224,20 +237,10 @@ def retrieve_feed(user, feed_id=None):
     if feeds == []:
         return
 
-    # 2 - Fetch the feeds.
+    # Launch the process for all the feeds
     loop = asyncio.get_event_loop()
     tasks = [init_process(user, feed) for feed in feeds]
     #tasks = [asyncio.async(init_process(user, feed)) for feed in feeds]
     loop.run_until_complete(asyncio.wait(tasks))
-
-    """
-    # 3 - Indexation
-    if not conf.ON_HEROKU:
-        self.index(new_articles)
-
-    # 4 - Mail notification
-    if not conf.ON_HEROKU and conf.NOTIFICATION_ENABLED:
-        self.mail_notification(new_articles)
-    """
 
     logger.info("All articles retrieved. End of the processus.")
