@@ -133,10 +133,10 @@ def parse_feed(user, feed):
 
             # Prevents BeautifulSoup4 from adding extra <html><body> tags
             # to the soup with the lxml parser.
-            if soup.body:
-                description = soup.body.next.decode()
+            if soup.html.body:
+                description = soup.html.body.decode_contents()
             elif soup.html:
-                description = soup.html.next.decode()
+                description = soup.html.decode_contents()
             else:
                 description = soup.decode()
         except:
