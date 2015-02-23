@@ -1,5 +1,13 @@
             pyAggr3g470r project news
 
+6.1: 2015-02-23
+    Improvements: articles are now identified with the id provided
+    by the RSS/ATOM feed.
+    Prevent BeautifulSoup4 from adding extra '<html><body>' tags to
+    the soup with the 'lxml' parser.
+    Indexation is now used with the new crawler.
+    The documentation has been updated.
+
 6.0: 2015-02-08
     New: pyAggr3g470r is now working with Python 3.4. Tested on Heroku
     with Python 3.4.2.
