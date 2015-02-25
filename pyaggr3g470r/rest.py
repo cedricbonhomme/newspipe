@@ -237,7 +237,6 @@ class FeedListAPI(Resource):
         self.reqparse.add_argument('description', type = unicode, default = "", location = 'json')
         self.reqparse.add_argument('link', type = unicode, location = 'json')
         self.reqparse.add_argument('site_link', type = unicode, default = "", location = 'json')
-        self.reqparse.add_argument('email_notification', type = bool, default = False, location = 'json')
         self.reqparse.add_argument('enabled', type = bool, default = True ,location = 'json')
         super(FeedListAPI, self).__init__()
 
@@ -251,7 +250,6 @@ class FeedListAPI(Resource):
                                     "description": feed.description,
                                     "link": feed.link,
                                     "site_link": feed.site_link,
-                                    "email_notification": feed.email_notification,
                                     "enabled": feed.enabled,
                                     "created_date": feed.created_date
                                 }
@@ -271,7 +269,6 @@ class FeedListAPI(Resource):
                 return jsonify({'message': 'missing argument: %s' % (k,)})
         new_feed = Feed(title=feed_dict["title"], description=feed_dict["description"],
                         link=feed_dict["link"], site_link=feed_dict["site_link"],
-                        email_notification=feed_dict["email_notification"],
                         enabled=feed_dict["enabled"])
         g.user.feeds.append(new_feed)
         try:
@@ -292,7 +289,6 @@ class FeedAPI(Resource):
         self.reqparse.add_argument('description', type = unicode, location = 'json')
         self.reqparse.add_argument('link', type = unicode, location = 'json')
         self.reqparse.add_argument('site_link', type = unicode, location = 'json')
-        self.reqparse.add_argument('email_notification', type = bool, location = 'json')
         self.reqparse.add_argument('enabled', type = bool ,location = 'json')
         super(FeedAPI, self).__init__()
 
@@ -332,8 +328,6 @@ class FeedAPI(Resource):
                 feed.link = args['link']
             if None is not args.get('site_link', None):
                 feed.site_link = args['site_link']
-            if None is not args.get('email_notification', None):
-                feed.email_notification = args['email_notification']
             if None is not args.get('enabled', None):
                 feed.enabled = args['enabled']
             db.session.commit()

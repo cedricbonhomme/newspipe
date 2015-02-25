@@ -30,8 +30,7 @@ __license__ = "AGPLv3"
 # This file provides functions used for:
 # - the database management;
 # - generation of tags cloud;
-# - HTML processing;
-# - e-mail notifications.
+# - HTML processing.
 #
 
 import re
@@ -129,7 +128,7 @@ def import_opml(email, opml_content):
 
                 new_feed = Feed(title=title, description=description,
                                 link=link, site_link=site_link,
-                                email_notification=False, enabled=True)
+                                enabled=True)
 
                 user.feeds.append(new_feed)
                 nb += 1
@@ -154,7 +153,7 @@ def import_json(email, json_content):
             continue
 
         new_feed = Feed(title=feed["title"], description="", link=feed["link"], \
-                                    site_link=feed["site_link"], email_notification=feed["email_notification"], \
+                                    site_link=feed["site_link"], \
                                     created_date=datetime.datetime.fromtimestamp(int(feed["created_date"])),
                                     enabled=feed["enabled"])
         user.feeds.append(new_feed)

@@ -6,8 +6,7 @@ Presentation
 ============
 
 `pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_ is a
-web-based news aggregator. It can be deployed on Heroku or on a
-traditional server.
+web-based news aggregator.
 
 Features
 ========
@@ -18,7 +17,6 @@ Features
 * data liberation: export and import all your account with a JSON file;
 * export and import feeds with OPML files;
 * export articles to HTML;
-* e-mail notification;
 * favorite articles;
 * detection of inactive feeds;
 * share articles with Google +, Pinboard and reddit;

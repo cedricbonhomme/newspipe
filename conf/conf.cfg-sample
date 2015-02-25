@@ -17,7 +17,6 @@ host = 0.0.0.0
 port = 5000
 secret = a secret only you know
 [notification]
-enabled = 0
 email = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com
 port = 465

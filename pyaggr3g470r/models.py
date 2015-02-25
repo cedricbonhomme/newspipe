@@ -105,7 +105,6 @@ class Feed(db.Model):
     description = db.Column(db.String(), default="FR")
     link = db.Column(db.String())
     site_link = db.Column(db.String(), default="")
-    email_notification = db.Column(db.Boolean(), default=False)
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
     articles = db.relationship('Article', backref = 'source', lazy = 'dynamic', cascade='all,delete-orphan',

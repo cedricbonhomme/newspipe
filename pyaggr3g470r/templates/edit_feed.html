@@ -15,11 +15,6 @@
             {{ form.site_link.label }}
             {{ form.site_link(class_="form-control", placeholder="Optional") }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            {% if not_on_heroku %}
-                {{ form.email_notification.label }}
-                {{ form.email_notification(class_="checkbox") }}
-            {% endif %}
-
             {{ form.enabled.label }}
             {{ form.enabled(class_="checkbox") }}
 

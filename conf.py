@@ -53,7 +53,6 @@ if not ON_HEROKU:
     WEBSERVER_PORT = int(config.get('webserver', 'port'))
     WEBSERVER_SECRET = config.get('webserver', 'secret')
 
-    NOTIFICATION_ENABLED = int(config.get('notification', 'enabled')) == 1
     NOTIFICATION_EMAIL = config.get('notification', 'email')
     NOTIFICATION_HOST = config.get('notification', 'host')
     NOTIFICATION_PORT = int(config.get('notification', 'port'))
@@ -83,7 +82,6 @@ else:
     WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
     WEBSERVER_SECRET = os.environ.get('SECRET_KEY', None)
 
-    NOTIFICATION_ENABLED = True
     NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', '')
     POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY', '')
 

@@ -212,7 +212,6 @@ def export_json(user):
                         "description": feed.description,
                         "link": feed.link,
                         "site_link": feed.site_link,
-                        "email_notification": feed.email_notification,
                         "enabled": feed.enabled,
                         "created_date": feed.created_date.strftime('%s'),
                         "articles": [ {
