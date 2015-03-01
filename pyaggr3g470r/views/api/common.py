@@ -1,6 +1,7 @@
 import json
 import logging
 import dateutil.parser
+from copy import deepcopy
 from functools import wraps
 from werkzeug.exceptions import Unauthorized
 from flask import request, g, session, Response
@@ -64,20 +65,24 @@ class PyAggAbstractResource(Resource):
     def controller(self):
         return self.controller_cls(getattr(g.user, 'id', None))
 
-    def reqparse_args(self, strict=False, default=True):
+    def reqparse_args(self, req=None, strict=False, default=True, args=None):
         """
         strict: bool
             if True will throw 400 error if args are defined and not in request
         default: bool
             if True, won't return defaults
-
         """
         parser = reqparse.RequestParser()
-        for attr_name, attrs in self.attrs.items():
-            if not default and attr_name not in request.json:
+        for attr_name, attrs in (args or self.attrs).items():
+            if attrs.pop('force_default', False):
+                parser.add_argument(attr_name, location='json', **attrs)
+            elif not default and (not request.json
+                    or request.json and attr_name not in request.json):
                 continue
-            parser.add_argument(attr_name, location='json', **attrs)
-        parsed = parser.parse_args(strict=strict)
+            else:
+                parser.add_argument(attr_name, location='json', **attrs)
+        parsed = parser.parse_args(strict=strict) if req is None \
+                else parser.parse_args(req, strict=strict)
         for field in self.to_date:
             if parsed.get(field):
                 try:
@@ -112,8 +117,13 @@ class PyAggResourceExisting(PyAggAbstractResource):
 class PyAggResourceMulti(PyAggAbstractResource):
 
     def get(self):
-        filters = self.reqparse_args(default=False)
-        return [res for res in self.controller.read(**filters).all()]
+        args = deepcopy(self.attrs)
+        args['limit'] = {'type': int, 'default': 10, 'force_default': True}
+        filters = self.reqparse_args(default=False, strict=False, args=args)
+        limit = filters.pop('limit', None)
+        if not limit:
+            return [res for res in self.controller.read(**filters).all()]
+        return [res for res in self.controller.read(**filters).limit(limit)]
 
     def post(self):
         status = 201
