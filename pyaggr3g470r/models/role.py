@@ -26,10 +26,16 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from .feed import Feed
-from .role import Role
-from .user import User
-from .article import Article
+from flask import g
+
+db = g.db
 
 
-__all__ = ['Feed', 'Role', 'User', 'Article']
+class Role(db.Model):
+    """
+    Represent a role.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), unique=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
