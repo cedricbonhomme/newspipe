@@ -2,12 +2,12 @@ import json
 import logging
 import dateutil.parser
 from functools import wraps
+from werkzeug.exceptions import Unauthorized
 from flask import request, g, session, Response
 from flask.ext.restful import Resource, reqparse
 
 from pyaggr3g470r.lib.utils import default_handler
 from pyaggr3g470r.models import User
-from pyaggr3g470r.lib.exceptions import PyAggError
 
 logger = logging.getLogger(__name__)
 
@@ -18,36 +18,31 @@ def authenticate(func):
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
+        logged_in = False
         if not getattr(func, 'authenticated', True):
-            return func(*args, **kwargs)
-
+            logged_in = True
         # authentication based on the session (already logged on the site)
-        if 'email' in session or g.user.is_authenticated():
-            return func(*args, **kwargs)
-
-        # authentication via HTTP only
-        auth = request.authorization
-        try:
+        elif 'email' in session or g.user.is_authenticated():
+            logged_in = True
+        else:
+            # authentication via HTTP only
+            auth = request.authorization
             user = User.query.filter(User.nickname == auth.username).first()
             if user and user.check_password(auth.password) \
                     and user.activation_key == "":
                 g.user = user
-        except Exception:
-            return Response('<Authentication required>', 401,
-                            {'WWWAuthenticate':
-                                'Basic realm="Login Required"'})
-        return func(*args, **kwargs)
+                logged_in = True
+
+        if logged_in:
+            return func(*args, **kwargs)
+        raise Unauthorized({'WWWAuthenticate': 'Basic realm="Login Required"'})
     return wrapper
 
 
 def to_response(func):
     def wrapper(*args, **kwargs):
         status_code = 200
-        try:
-            result = func(*args, **kwargs)
-        except PyAggError as error:
-            return Response(json.dumps(error, default=default_handler),
-                            status=status_code)
+        result = func(*args, **kwargs)
         if isinstance(result, Response):
             return result
         elif isinstance(result, tuple):

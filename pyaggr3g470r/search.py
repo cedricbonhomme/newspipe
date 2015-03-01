@@ -102,7 +102,7 @@ def delete_article(user_id, feed_id, article_id):
     try:
         ix = open_dir(indexdir)
     except (EmptyIndexError, OSError):
-        raise EmptyIndexError
+        return
     writer = ix.writer()
     document = And([Term("user_id", user_id), Term("feed_id", feed_id),
                     Term("article_id", article_id)])

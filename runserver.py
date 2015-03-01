@@ -45,7 +45,7 @@ from flask.ext.restful import Api
 from flask import g
 
 with application.app_context():
-    g.api = Api(application, prefix='/api/v1.0')
+    g.api = Api(application, prefix='/api/v2.0')
     g.babel = babel
     g.allowed_file = allowed_file
     g.db = db

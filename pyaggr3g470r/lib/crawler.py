@@ -10,6 +10,7 @@ from requests_futures.sessions import FuturesSession
 from pyaggr3g470r.lib.utils import default_handler
 
 logger = logging.getLogger(__name__)
+API_ROOT = "api/v2.0/"
 
 
 def extract_id(entry, keys=[('link', 'link'),
@@ -52,7 +53,7 @@ class AbstractCrawler:
         if data is None:
             data = {}
         method = getattr(self.session, method)
-        return method("%sapi/v1.0/%s" % (self.url, urn),
+        return method("%s%s%s" % (self.url, API_ROOT, urn),
                       auth=self.auth, data=json.dumps(data,
                                                       default=default_handler),
                       headers={'Content-Type': 'application/json'})
@@ -193,7 +194,7 @@ class CrawlerScheduler(AbstractCrawler):
                                       headers=self.prepare_headers(feed))
             future.add_done_callback(FeedCrawler(feed, self.auth).callback)
 
-    def run(self):
+    def run(self, **kwargs):
         logger.debug('retreving fetchable feed')
-        future = self.query_pyagg('get', 'feeds/fetchable')
+        future = self.query_pyagg('get', 'feeds/fetchable', kwargs)
         future.add_done_callback(self.callback)

@@ -21,14 +21,14 @@ def set_logging(log_path, log_level=logging.DEBUG,
     logger.addHandler(handler)
     logger.setLevel(log_level)
 
-set_logging(conf.LOG_PATH)
-
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('pyaggr3g470r')
 application.debug = conf.WEBSERVER_DEBUG
+set_logging(conf.LOG_PATH, log_level=logging.DEBUG if conf.WEBSERVER_DEBUG
+                                else logging.INFO)
 
 # Create dummy secrey key so we can use sessions
 application.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)

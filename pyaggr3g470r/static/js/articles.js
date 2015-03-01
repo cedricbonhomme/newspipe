@@ -18,6 +18,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+API_ROOT = 'api/v2.0/'
+
 if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
 +function ($) {
@@ -78,7 +80,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             // Encode your data as JSON.
             data: data,
             // This is the type of data you're expecting back from the server.
-            url: "/api/v1.0/articles/"+article_id,
+            url: API_ROOT + "article/" + article_id,
             success: function (result) {
                 //console.log(result);
             },
@@ -114,7 +116,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             // Encode your data as JSON.
             data: data,
             // This is the type of data you're expecting back from the server.
-            url: "/api/v1.0/articles/"+article_id,
+            url: API_ROOT + "article/" + article_id,
             success: function (result) {
                 //console.log(result);
             },
@@ -132,7 +134,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
          // sends the updates to the server
         $.ajax({
             type: 'DELETE',
-            url: "/api/v1.0/articles/"+article_id,
+            url: API_ROOT + "article/" + article_id,
             success: function (result) {
                 //console.log(result);
             },

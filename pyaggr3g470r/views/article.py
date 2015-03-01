@@ -21,7 +21,7 @@ def articles(feed_id=None, nb_articles=-1):
     if len(feed.articles.all()) <= nb_articles:
         nb_articles = -1
     if nb_articles == -1:
-        feed.articles = feed.article.limit(nb_articles)
+        feed.articles = feed.articles.limit(nb_articles)
     return render_template('articles.html', feed=feed, nb_articles=nb_articles)
 
 

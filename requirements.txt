@@ -5,7 +5,6 @@ requests
 beautifulsoup4
 lxml
 SQLAlchemy
-psycopg2
 Flask
 Flask-SQLAlchemy
 Flask-Login
@@ -21,3 +20,4 @@ python-postmark
 whoosh
 python-dateutil
 alembic
+requests-futures==0.9.5

@@ -92,6 +92,7 @@ If you want to use PostgreSQL
 .. code-block:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
+    $ pip install psycopg2
     $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
     $ chmod 700 ~/.pgpass
     $ sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
@@ -131,7 +132,7 @@ Configuration
 =============
 
 Configuration (database url, email, proxy, user agent, etc.) is done via the file *conf/conf.cfg*.
-Check these configuration before executing *db_create.py*.   
+Check these configuration before executing *db_create.py*.
 If you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value of
 *http_proxy* (most of the time: *http_proxy = 127.0.0.1:8118**). Else leave the value blank.
 
