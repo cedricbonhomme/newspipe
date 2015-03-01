@@ -12,7 +12,7 @@ if not (conf.WEBSERVER_DEBUG or conf.ON_HEROKU):
     gevent.monkey.patch_thread()
 
 
-def set_logging(log_path, log_level=logging.INFO,
+def set_logging(log_path, log_level=logging.DEBUG,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
     logger = logging.getLogger('pyaggr3g470r')
     formater = logging.Formatter(log_format)

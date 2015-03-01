@@ -5,6 +5,7 @@ recaptcha_public_key =
 recaptcha_private_key =
 log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
 python = python3.3
+nb_worker = 5
 [database]
 uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [feedparser]

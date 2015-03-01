@@ -116,7 +116,8 @@ class Feed(db.Model):
 
     # cache handling
     etag = db.Column(db.String(), default="")
-    last_modified = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
+    last_modified = db.Column(db.String(), default="")
+    last_retreived = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
 
     # error logging
     last_error = db.Column(db.String(), default="")
@@ -138,7 +139,9 @@ class Feed(db.Model):
                 "link": self.link,
                 "site_link": self.site_link,
                 "etag": self.etag,
-                "last_modified": self.last_modified}
+                "error_count": self.error_count,
+                "last_modified": self.last_modified,
+                "last_retreived": self.last_retreived}
 
 
 class Article(db.Model):
@@ -154,7 +157,6 @@ class Article(db.Model):
     like = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
-    guid = db.Column(db.String(), default="")
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))

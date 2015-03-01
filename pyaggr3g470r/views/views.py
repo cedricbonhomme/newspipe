@@ -156,34 +156,11 @@ def login():
         login_user(user)
         g.user = user
         session['email'] = form.email.data
-        identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+        identity_changed.send(current_app._get_current_object(),
+                              identity=Identity(user.id))
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
-
-@app.route('/api/csrf', methods=['GET'])
-def get_csrf():
-    try:
-        data = json.loads(request.data.decode())
-    except ValueError:
-        return Response(status=400)
-    email = data.get('email')
-    password = data.get('password')
-    if login is None or password is None:
-        return Response(status=401)
-    user = User.query.filter(User.email == email).first()
-    if not user:
-        return Response(status=404)
-    if not user.check_password(password):
-        return Response(status=401)
-    if not user.activation_key == "":
-        return Response(status=403)
-    login_user(user)
-    g.user = user
-    session['email'] = email
-    identity_changed.send(current_app._get_current_object(),
-                          identity=Identity(user.id))
-    return 'ok', 200
 
 
 @app.route('/logout')

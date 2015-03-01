@@ -1,11 +1,15 @@
 import json
-import types
+import logging
+import dateutil.parser
 from functools import wraps
 from flask import request, g, session, Response
 from flask.ext.restful import Resource, reqparse
 
+from pyaggr3g470r.lib.utils import default_handler
 from pyaggr3g470r.models import User
 from pyaggr3g470r.lib.exceptions import PyAggError
+
+logger = logging.getLogger(__name__)
 
 
 def authenticate(func):
@@ -24,54 +28,46 @@ def authenticate(func):
         # authentication via HTTP only
         auth = request.authorization
         try:
-            email = auth.username
-            user = User.query.filter(User.email == email).first()
-            if user and user.check_password(auth.password) and user.activation_key == "":
+            user = User.query.filter(User.nickname == auth.username).first()
+            if user and user.check_password(auth.password) \
+                    and user.activation_key == "":
                 g.user = user
-                return func(*args, **kwargs)
-        except AttributeError:
-            pass
-
-        return Response('<Authentication required>', 401,
-                        {'WWWAuthenticate':'Basic realm="Login Required"'})
+        except Exception:
+            return Response('<Authentication required>', 401,
+                            {'WWWAuthenticate':
+                                'Basic realm="Login Required"'})
+        return func(*args, **kwargs)
     return wrapper
-
-
-def default_handler(obj):
-    """JSON handler for default query formatting"""
-    if hasattr(obj, 'isoformat'):
-        return obj.isoformat()
-    if hasattr(obj, 'dump'):
-        return obj.dump()
-    if isinstance(obj, (set, frozenset, types.GeneratorType)):
-        return list(obj)
-    raise TypeError("Object of type %s with value of %r "
-                    "is not JSON serializable" % (type(obj), obj))
 
 
 def to_response(func):
     def wrapper(*args, **kwargs):
+        status_code = 200
         try:
             result = func(*args, **kwargs)
         except PyAggError as error:
-            response = Response(json.dumps(result[0], default=default_handler))
-            response.status_code = error.status_code
-            return response
-        status_code = 200
-        if isinstance(result, tuple):
-            result, status_code = result
-        response = Response(json.dumps(result, default=default_handler),
+            return Response(json.dumps(error, default=default_handler),
                             status=status_code)
-        return response
+        if isinstance(result, Response):
+            return result
+        elif isinstance(result, tuple):
+            result, status_code = result
+        return Response(json.dumps(result, default=default_handler),
+                        status=status_code)
     return wrapper
 
 
 class PyAggAbstractResource(Resource):
     method_decorators = [authenticate, to_response]
+    attrs = {}
+    to_date = []
 
     def __init__(self, *args, **kwargs):
-        self.controller = self.controller_cls(g.user.id)
         super(PyAggAbstractResource, self).__init__(*args, **kwargs)
+
+    @property
+    def controller(self):
+        return self.controller_cls(getattr(g.user, 'id', None))
 
     def reqparse_args(self, strict=False, default=True):
         """
@@ -83,10 +79,17 @@ class PyAggAbstractResource(Resource):
         """
         parser = reqparse.RequestParser()
         for attr_name, attrs in self.attrs.items():
-            if not default and attr_name not in request.args:
+            if not default and attr_name not in request.json:
                 continue
             parser.add_argument(attr_name, location='json', **attrs)
-        return parser.parse_args(strict=strict)
+        parsed = parser.parse_args(strict=strict)
+        for field in self.to_date:
+            if parsed.get(field):
+                try:
+                    parsed[field] = dateutil.parser.parse(parsed[field])
+                except Exception:
+                    logger.exception('failed to parse %r', parsed[field])
+        return parsed
 
 
 class PyAggResourceNew(PyAggAbstractResource):
@@ -98,13 +101,13 @@ class PyAggResourceNew(PyAggAbstractResource):
 class PyAggResourceExisting(PyAggAbstractResource):
 
     def get(self, obj_id=None):
-        return self.controller.get(id=obj_id).dump()
+        return self.controller.get(id=obj_id)
 
     def put(self, obj_id=None):
-        args = self.reqparse_args()
+        args = self.reqparse_args(default=False)
         new_values = {key: args[key] for key in
                       set(args).intersection(self.attrs)}
-        self.controller.update(obj_id, **new_values)
+        self.controller.update({'id': obj_id}, new_values)
 
     def delete(self, obj_id=None):
         self.controller.delete(obj_id)
@@ -115,7 +118,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
 
     def get(self):
         filters = self.reqparse_args(default=False)
-        return [res.dump() for res in self.controller.read(**filters).all()]
+        return [res for res in self.controller.read(**filters).all()]
 
     def post(self):
         status = 201
@@ -137,7 +140,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
             try:
                 new_values = {key: args[key] for key in
                               set(attrs).intersection(self.editable_attrs)}
-                self.controller.update(obj_id, **new_values)
+                self.controller.update({'id': obj_id}, new_values)
                 results.append('ok')
             except Exception as error:
                 status = 206

@@ -1,11 +1,10 @@
-from datetime import datetime
 from flask import g
-from flask.ext.restful import Resource, reqparse
 
 from pyaggr3g470r.controllers.feed import FeedController, \
                                           DEFAULT_MAX_ERROR, DEFAULT_LIMIT
 
-from pyaggr3g470r.views.api.common import PyAggResourceNew, \
+from pyaggr3g470r.views.api.common import PyAggAbstractResource, \
+                                          PyAggResourceNew, \
                                           PyAggResourceExisting, \
                                           PyAggResourceMulti
 
@@ -16,44 +15,40 @@ FEED_ATTRS = {'title': {'type': str},
               'site_link': {'type': str},
               'email_notification': {'type': bool, 'default': False},
               'enabled': {'type': bool, 'default': True},
-              'etag': {'type': str, 'default': None},
-              'last_modified': {'type': datetime},
-              'last_error': {'type': datetime},
+              'etag': {'type': str, 'default': ''},
+              'last_modified': {'type': str},
+              'last_retreived': {'type': str},
+              'last_error': {'type': str},
               'error_count': {'type': int, 'default': 0}}
 
 
 class FeedNewAPI(PyAggResourceNew):
     controller_cls = FeedController
     attrs = FEED_ATTRS
+    to_date = ['date', 'last_retreived']
 
 
 class FeedAPI(PyAggResourceExisting):
-    pass
     controller_cls = FeedController
     attrs = FEED_ATTRS
+    to_date = ['date', 'last_retreived']
 
 
 class FeedsAPI(PyAggResourceMulti):
-    pass
     controller_cls = FeedController
     attrs = FEED_ATTRS
+    to_date = ['date', 'last_retreived']
 
 
-class FetchableFeedAPI(Resource):
-
-    def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('max_error', type=int, location='json',
-                default=DEFAULT_MAX_ERROR)
-        self.reqparse.add_argument('limit', type=int, location='json',
-                default=DEFAULT_LIMIT)
-        super(FetchableFeedAPI, self).__init__()
+class FetchableFeedAPI(PyAggAbstractResource):
+    controller_cls = FeedController
+    to_date = ['date', 'last_retreived']
+    attrs = {'max_error': {'type': int, 'default': DEFAULT_MAX_ERROR},
+             'limit': {'type': int, 'default': DEFAULT_LIMIT}}
 
     def get(self):
-        args = self.reqparse.parse_args()
-        controller = FeedController(g.user.id)
-        return [feed for feed in controller.list_fetchable(
-                            max_error=args['max_error'], limit=args['limit'])]
+        return [feed for feed in self.controller.list_fetchable(
+                                                    **self.reqparse_args())]
 
 
 g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')

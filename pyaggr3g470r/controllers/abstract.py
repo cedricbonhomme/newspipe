@@ -1,5 +1,9 @@
+import logging
 from bootstrap import db
-from pyaggr3g470r.lib.exceptions import Forbidden, NotFound
+from sqlalchemy import update
+from werkzeug.exceptions import Forbidden, NotFound
+
+logger = logging.getLogger(__name__)
 
 
 class AbstractController(object):
@@ -9,7 +13,7 @@ class AbstractController(object):
     def __init__(self, user_id):
         self.user_id = user_id
 
-    def _get(self, **filters):
+    def _to_filters(self, **filters):
         if self.user_id:
             filters[self._user_id_key] = self.user_id
         db_filters = set()
@@ -28,7 +32,10 @@ class AbstractController(object):
                 db_filters.add(getattr(self._db_cls, key[:-4]).in_(value))
             else:
                 db_filters.add(getattr(self._db_cls, key) == value)
-        return self._db_cls.query.filter(*db_filters)
+        return db_filters
+
+    def _get(self, **filters):
+        return self._db_cls.query.filter(*self._to_filters(**filters))
 
     def get(self, **filters):
         obj = self._get(**filters).first()
@@ -41,7 +48,9 @@ class AbstractController(object):
         return obj
 
     def create(self, **attrs):
+        attrs['user_id'] = self.user_id
         obj = self._db_cls(**attrs)
+        db.session.add(obj)
         db.session.commit()
         return obj
 
