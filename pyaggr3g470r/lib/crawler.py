@@ -1,9 +1,11 @@
+import time
 import conf
 import json
 import logging
 import requests
 import feedparser
 import dateutil.parser
+from functools import wraps
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
@@ -35,6 +37,7 @@ def extract_id(entry, keys=[('link', 'link'),
 
 class AbstractCrawler:
     __session__ = None
+    __counter__ = 0
 
     def __init__(self, auth):
         self.auth = auth
@@ -49,6 +52,16 @@ class AbstractCrawler:
             cls.__session__.verify = False
         return cls.__session__
 
+    @classmethod
+    def count_on_me(cls, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            cls.__counter__ += 1
+            result = func(*args, **kwargs)
+            cls.__counter__ -= 1
+            return result
+        return wrapper
+
     def query_pyagg(self, method, urn, data=None):
         if data is None:
             data = {}
@@ -57,6 +70,12 @@ class AbstractCrawler:
                       auth=self.auth, data=json.dumps(data,
                                                       default=default_handler),
                       headers={'Content-Type': 'application/json'})
+
+    @classmethod
+    def wait(self):
+        time.sleep(1)
+        while self.__counter__:
+            time.sleep(1)
 
 
 class PyAggUpdater(AbstractCrawler):
@@ -93,25 +112,14 @@ class PyAggUpdater(AbstractCrawler):
                 'retrieved_date': date.isoformat(),
                 'date': date.isoformat()}
 
+    @AbstractCrawler.count_on_me
     def callback(self, response):
-        try:
-            results = response.result().json()
-        except Exception:
-            logger.exception('something went wront with feed %r %r %r %r',
-                             self.feed, self.headers, response.result(),
-                             getattr(response.result(), 'data', None))
-            return
-        logger.debug('%r %r - %d entries were not matched',
+        results = response.result().json()
+        logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
         for id_to_create in results:
             entry = self.entries[tuple(sorted(id_to_create.items()))]
-            try:
-                logger.debug('creating %r - %r', entry['title'], id_to_create)
-                self.to_article(entry)
-            except:
-                logger.exception('%r %r %r something failed when parsing %r',
-                                 self.feed['title'], self.feed['id'],
-                                 self.feed['link'], entry)
+            logger.info('creating %r - %r', entry['title'], id_to_create)
             self.query_pyagg('post', 'article', self.to_article(entry))
 
         now = datetime.now()
@@ -130,6 +138,7 @@ class FeedCrawler(AbstractCrawler):
         self.feed = feed
         super(FeedCrawler, self).__init__(auth)
 
+    @AbstractCrawler.count_on_me
     def callback(self, response):
         try:
             response = response.result()
@@ -137,22 +146,22 @@ class FeedCrawler(AbstractCrawler):
         except Exception as error:
             error_count = self.feed['error_count'] + 1
             logger.warn('%r %r - an error occured while fetching feed; bumping'
-                        ' error count to %r', self.feed['title'],
-                        self.feed['id'], error_count)
+                        ' error count to %r', self.feed['id'],
+                        self.feed['title'], error_count)
             self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                              {'error_count': error_count,
                               'last_error': str(error)})
             return
 
         if response.status_code == 304:
-            logger.debug("%r %r - feed responded with 304",
+            logger.info("%r %r - feed responded with 304",
                          self.feed['id'], self.feed['title'])
             return
         if self.feed['etag'] and response.headers.get('etag') \
                 and response.headers.get('etag') == self.feed['etag']:
-            logger.debug("%r %r - feed responded with same etag (%d) %r",
+            logger.info("%r %r - feed responded with same etag (%d)",
                          self.feed['id'], self.feed['title'],
-                         response.status_code, self.feed['link'])
+                         response.status_code)
             return
         ids, entries = [], {}
         parsed_response = feedparser.parse(response.text)
@@ -176,12 +185,13 @@ class CrawlerScheduler(AbstractCrawler):
         headers = {}
         if feed.get('etag', None):
             headers['If-None-Match'] = feed['etag']
-        elif feed.get('last_modified'):
+        if feed.get('last_modified'):
             headers['If-Modified-Since'] = feed['last_modified']
         logger.debug('%r %r - calculated headers %r',
                      feed['id'], feed['title'], headers)
         return headers
 
+    @AbstractCrawler.count_on_me
     def callback(self, response):
         response = response.result()
         response.raise_for_status()
@@ -194,6 +204,7 @@ class CrawlerScheduler(AbstractCrawler):
                                       headers=self.prepare_headers(feed))
             future.add_done_callback(FeedCrawler(feed, self.auth).callback)
 
+    @AbstractCrawler.count_on_me
     def run(self, **kwargs):
         logger.debug('retreving fetchable feed')
         future = self.query_pyagg('get', 'feeds/fetchable', kwargs)

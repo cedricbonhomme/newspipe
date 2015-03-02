@@ -83,5 +83,13 @@ def db_create():
         db.session.commit()
 
 
+@manager.command
+def fetch(user, password, limit=300):
+    from pyaggr3g470r.lib.crawler import CrawlerScheduler
+    scheduler = CrawlerScheduler(user, password)
+    scheduler.run(limit=limit)
+    scheduler.wait()
+
+
 if __name__ == '__main__':
     manager.run()
