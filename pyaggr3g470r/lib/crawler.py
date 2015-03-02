@@ -139,6 +139,11 @@ class FeedCrawler(AbstractCrawler):
         self.feed = feed
         super(FeedCrawler, self).__init__(auth)
 
+    def clean_feed(self):
+        if self.feed.get('error_count') or self.feed.get('last_error'):
+            self.query_pyagg('put', 'feed/%d' % self.feed['id'],
+                             {'error_count': 0, 'last_error': ''})
+
     @AbstractCrawler.count_on_me
     def callback(self, response):
         try:
@@ -157,12 +162,14 @@ class FeedCrawler(AbstractCrawler):
         if response.status_code == 304:
             logger.info("%r %r - feed responded with 304",
                          self.feed['id'], self.feed['title'])
+            self.clean_feed()
             return
         if self.feed['etag'] and response.headers.get('etag') \
                 and response.headers.get('etag') == self.feed['etag']:
             logger.info("%r %r - feed responded with same etag (%d)",
                          self.feed['id'], self.feed['title'],
                          response.status_code)
+            self.clean_feed()
             return
         ids, entries = [], {}
         parsed_response = feedparser.parse(response.text)
