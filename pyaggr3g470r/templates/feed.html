@@ -14,6 +14,16 @@
             ({{ ((feed.articles.all()|count * 100 ) / nb_articles) | round(2, 'floor') }}% {{ _('of the database') }})
         {% endif %}
         .<br />
+        {% if feed.error_count > 2 %}
+            <b>{{ _("That feed has encountered too much consecutive errors and won't be retreived anymore") }}</b>
+        {% elif feed.error_count > 0 %}
+            {{ _("That feed has encountered some errors but that counter will be reinitialized at the next successful retreiving") }}
+        {% endif %}
+        .<br />
+        {% if feed.last_error %}
+            {{ _("Here's the last error encountered while retreiving this feed:") }} <pre>{{ feed.last_error }}</pre>
+        {% endif %}
+
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
         {% if feed.site_link != "" %}
             {{ _('Address of the site') }}: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>

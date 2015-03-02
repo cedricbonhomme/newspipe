@@ -15,7 +15,7 @@ class FeedController(AbstractController):
         user = UserController(self.user_id).get(id=self.user_id)
         max_last = now - timedelta(minutes=user.refresh_rate or 60)
         feeds = [feed for feed in self.read(user_id=self.user_id,
-                            error_count__le=max_error, enabled=True,
+                            error_count__lt=max_error, enabled=True,
                             last_retreived__lt=max_last).limit(limit)]
 
         if feeds:

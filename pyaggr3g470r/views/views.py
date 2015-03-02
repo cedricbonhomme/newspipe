@@ -52,6 +52,7 @@ from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
                     ProfileForm, InformationMessageForm, RecoverPasswordForm
+from pyaggr3g470r.controllers import FeedController
 if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
 
@@ -246,11 +247,14 @@ def home():
     unread = db.session.query(Article.feed_id, func.count(Article.id))\
                        .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
+    in_error = {feed.id: feed.error_count for feed in
+                FeedController(g.user.id).read(error_count__gt=0).all()}
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=dict(unread), articles=articles.all())
+                           unread=dict(unread), articles=articles.all(),
+                           in_error=in_error)
 
 
 @app.route('/fetch', methods=['GET'])

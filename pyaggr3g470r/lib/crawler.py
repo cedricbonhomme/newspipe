@@ -129,6 +129,7 @@ class PyAggUpdater(AbstractCrawler):
 
         self.query_pyagg('put', 'feed/%d' % self.feed['id'], {'error_count': 0,
                      'etag': self.headers.get('etag', ''),
+                     'last_error': '',
                      'last_modified': self.headers.get('last-modified', '')})
 
 
