@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bootstrap import conf, application, db
+from bootstrap import conf, application, db, populate_g
 from flask.ext.babel import Babel
 from flask.ext.babel import format_datetime
 
@@ -45,11 +45,10 @@ from flask.ext.restful import Api
 from flask import g
 
 with application.app_context():
+    populate_g()
     g.api = Api(application, prefix='/api/v2.0')
     g.babel = babel
     g.allowed_file = allowed_file
-    g.db = db
-    g.app = application
 
     from pyaggr3g470r import views
     application.register_blueprint(views.articles_bp)

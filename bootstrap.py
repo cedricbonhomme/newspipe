@@ -41,3 +41,8 @@ application.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY
 application.config['RECAPTCHA_PRIVATE_KEY'] = conf.RECAPTCHA_PRIVATE_KEY
 
 db = SQLAlchemy(application)
+
+def populate_g():
+    from flask import g
+    g.db = db
+    g.app = application
