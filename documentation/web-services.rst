@@ -7,15 +7,23 @@ Articles
 .. code-block:: python
 
     >>> import requests, json
-    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/1s",
+    ...                  headers={'Content-type': 'application/json'},
     ...                  auth=("your-nickname", "your-password"))
     >>> r.status_code
     200  # OK
     >>> rjson = r.json()
-    >>> rjson[0]["title"]
+    >>> rjson["title"]
     'Sponsors required for KDE code sprint in Randa'
-    >>> rjson[0]["date"]
+    >>> rjson["date"]
     'Wed, 18 Jun 2014 14:25:18 GMT'
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/1s",
+    ...                  headers={'Content-type': 'application/json'},
+    ...                  auth=("your-nickname", "your-password"),
+    ...                  data=json.dumps({'id__in': [1, 2]}))
+    >>> r.json()
+    [{'id': 1, 'title': 'article1', [...]},
+     {'id': 2, 'title': 'article2', [...]}]
 
 Add an article:
 

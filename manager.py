@@ -84,7 +84,7 @@ def db_create():
 
 
 @manager.command
-def fetch(user, password, limit=300):
+def fetch(user, password, limit=10):
     from pyaggr3g470r.lib.crawler import CrawlerScheduler
     scheduler = CrawlerScheduler(user, password)
     scheduler.run(limit=limit)

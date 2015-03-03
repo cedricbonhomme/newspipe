@@ -148,9 +148,10 @@ class PyAggUpdater(AbstractCrawler):
         logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
         for id_to_create in results:
-            entry = self.entries[tuple(sorted(id_to_create.items()))]
+            entry = self.to_article(
+                    self.entries[tuple(sorted(id_to_create.items()))])
             logger.info('creating %r - %r', entry['title'], id_to_create)
-            self.query_pyagg('post', 'article', self.to_article(entry))
+            self.query_pyagg('post', 'article', entry)
 
         now = datetime.now()
         logger.debug('%r %r - updating feed etag %r last_mod %r',
