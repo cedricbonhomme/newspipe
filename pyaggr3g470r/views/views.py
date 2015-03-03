@@ -571,8 +571,7 @@ def edit_feed(feed_id=None):
             existing_feed = [f for f in g.user.feeds if feed.link == form.link.data]
             if len(existing_feed) == 0:
                 new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
-                                site_link=form.site_link.data, email_notification=form.email_notification.data, \
-                                enabled=form.enabled.data)
+                                site_link=form.site_link.data, enabled=form.enabled.data)
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
                 db.session.commit()

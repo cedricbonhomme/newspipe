@@ -1,5 +1,9 @@
             pyAggr3g470r project news
 
+6.2: 2015-02-26
+    The system of email notifications for new articles has been removed.
+    This feature was hardly used.
+
 6.1: 2015-02-23
     Improvements: articles are now identified with the id provided
     by the RSS/ATOM feed.

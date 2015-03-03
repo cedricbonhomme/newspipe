@@ -20,7 +20,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import conf
-from pyaggr3g470r import utils
 from pyaggr3g470r import emails
 
 
@@ -60,13 +59,3 @@ def new_password_notification(user, password):
                         (password, )
     plaintext += "\n\nIt is advised to replace it as soon as connected to pyAggr3g470r.\n\nSee you,"
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL, subject="[pyAggr3g470r]  New password", plaintext=plaintext)
-
-def new_article_notification(user, feed, article):
-    """
-    New article notification.
-    """
-    subject = '[pyAggr3g470r] ' + feed.title + ": " + article.title
-    html = """<html>\n<head>\n<title>%s</title>\n</head>\n<body>\n%s\n</body>\n</html>""" % \
-                        (feed.title + ": " + article.title, article.content)
-    plaintext = utils.clear_string(html)
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL, subject=subject, plaintext=plaintext, html=html)

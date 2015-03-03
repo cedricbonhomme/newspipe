@@ -83,7 +83,6 @@ class AddFeedForm(Form):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
     link = TextField(lazy_gettext("Feed link"), [validators.Optional()])
     site_link = TextField(lazy_gettext("Site link"))
-    email_notification = BooleanField(lazy_gettext("Email notification"), default=False)
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 

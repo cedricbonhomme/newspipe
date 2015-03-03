@@ -7,12 +7,13 @@ Welcome to pyAggr3g470r's documentation!
 ========================================
 
 
-Deployment and configuration
+Configuration and deployment
 ============================
 
 .. toctree::
     :maxdepth: 2
 
+    requirements
     deployment
 
 Web services
