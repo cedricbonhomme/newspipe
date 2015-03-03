@@ -23,7 +23,7 @@ import logging
 import dateutil.parser
 from copy import deepcopy
 from functools import wraps
-from werkzeug.exceptions import Unauthorized
+from werkzeug.exceptions import Unauthorized, BadRequest
 from flask import request, g, session, Response
 from flask.ext.restful import Resource, reqparse
 
@@ -148,26 +148,29 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """retreive several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
-        args = deepcopy(self.attrs)
-        args['limit'] = {'type': int, 'default': 10, 'force_default': True}
-        filters = self.reqparse_args(default=False, strict=False, args=args)
-        limit = filters.pop('limit', None)
+        if 'application/json' != request.headers.get('Content-Type'):
+            raise BadRequest("Content-Type must be application/json")
+        limit = request.json.pop('limit', 10)
         if not limit:
-            return [res for res in self.controller.read(**filters).all()]
-        return [res for res in self.controller.read(**filters).limit(limit)]
+            return [res for res in self.controller.read(**request.json).all()]
+        return [res for res in self.controller.read(**request.json).limit(limit)]
 
     def post(self):
         """creating several objects. payload should be a list of dict.
         """
+        if 'application/json' != request.headers.get('Content-Type'):
+            raise BadRequest("Content-Type must be application/json")
         status = 201
         results = []
-        args = []  # FIXME
-        for attrs in request.json():
+        for attrs in request.json:
             try:
-                results.append(self.controller.create(**arg).id)
+                results.append(self.controller.create(**attrs).id)
             except Exception as error:
                 status = 206
-                results.append(error)
+                results.append(str(error))
+        # if no operation succeded, it's not partial anymore, returning err 500
+        if status == 206 and results.count('ok') == 0:
+            status = 500
         return results, status
 
     def put(self):
@@ -176,28 +179,39 @@ class PyAggResourceMulti(PyAggAbstractResource):
         [[obj_id1, {attr1: val1, attr2: val2}]
          [obj_id2, {attr1: val1, attr2: val2}]]
         """
+        if 'application/json' != request.headers.get('Content-Type'):
+            raise BadRequest("Content-Type must be application/json")
         status = 200
         results = []
-        for obj_id, attrs in request.json():
+        for obj_id, attrs in request.json:
             try:
-                new_values = {key: args[key] for key in
-                              set(attrs).intersection(self.editable_attrs)}
+                new_values = {key: attrs[key] for key in
+                              set(attrs).intersection(self.attrs)}
                 self.controller.update({'id': obj_id}, new_values)
                 results.append('ok')
             except Exception as error:
                 status = 206
-                results.append(error)
+                results.append(str(error))
+        # if no operation succeded, it's not partial anymore, returning err 500
+        if status == 206 and results.count('ok') == 0:
+            status = 500
         return results, status
 
     def delete(self):
         """will delete several objects,
         a list of their ids should be in the payload"""
+        if 'application/json' != request.headers.get('Content-Type'):
+            raise BadRequest("Content-Type must be application/json")
         status = 204
-        for obj_id in request.json():
+        results = []
+        for obj_id in request.json:
             try:
                 self.controller.delete(obj_id)
                 results.append('ok')
             except Exception as error:
                 status = 206
                 results.append(error)
+        # if no operation succeded, it's not partial anymore, returning err 500
+        if status == 206 and results.count('ok') == 0:
+            status = 500
         return results, status
