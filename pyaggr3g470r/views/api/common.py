@@ -1,3 +1,23 @@
+"""For a given resources, classes in the module intend to create the following
+routes :
+    GET resource/<id>
+        -> to retreive one
+    POST resource
+        -> to create one
+    PUT resource/<id>
+        -> to update one
+    DELETE resource/<id>
+        -> to delete one
+
+    GET resources
+        -> to retreive several
+    POST resources
+        -> to create several
+    PUT resources
+        -> to update several
+    DELETE resources
+        -> to delete several
+"""
 import json
 import logging
 import dateutil.parser
@@ -41,6 +61,8 @@ def authenticate(func):
 
 
 def to_response(func):
+    """Will cast results of func as a result, and try to extract
+    a status_code for the Response object"""
     def wrapper(*args, **kwargs):
         status_code = 200
         result = func(*args, **kwargs)
@@ -56,7 +78,7 @@ def to_response(func):
 class PyAggAbstractResource(Resource):
     method_decorators = [authenticate, to_response]
     attrs = {}
-    to_date = []
+    to_date = []  # list of fields to cast to datetime
 
     def __init__(self, *args, **kwargs):
         super(PyAggAbstractResource, self).__init__(*args, **kwargs)
@@ -71,6 +93,8 @@ class PyAggAbstractResource(Resource):
             if True will throw 400 error if args are defined and not in request
         default: bool
             if True, won't return defaults
+        args: dict
+            the args to parse, if None, self.attrs will be used
         """
         parser = reqparse.RequestParser()
         for attr_name, attrs in (args or self.attrs).items():
@@ -95,21 +119,25 @@ class PyAggAbstractResource(Resource):
 class PyAggResourceNew(PyAggAbstractResource):
 
     def post(self):
+        """Create a single new object"""
         return self.controller.create(**self.reqparse_args()), 201
 
 
 class PyAggResourceExisting(PyAggAbstractResource):
 
     def get(self, obj_id=None):
+        """Retreive a single object"""
         return self.controller.get(id=obj_id)
 
     def put(self, obj_id=None):
+        """update an object, new attrs should be passed in the payload"""
         args = self.reqparse_args(default=False)
         new_values = {key: args[key] for key in
                       set(args).intersection(self.attrs)}
         self.controller.update({'id': obj_id}, new_values)
 
     def delete(self, obj_id=None):
+        """delete a object"""
         self.controller.delete(obj_id)
         return None, 204
 
@@ -117,6 +145,9 @@ class PyAggResourceExisting(PyAggAbstractResource):
 class PyAggResourceMulti(PyAggAbstractResource):
 
     def get(self):
+        """retreive several objects. filters can be set in the payload on the
+        different fields of the object, and a limit can be set in there as well
+        """
         args = deepcopy(self.attrs)
         args['limit'] = {'type': int, 'default': 10, 'force_default': True}
         filters = self.reqparse_args(default=False, strict=False, args=args)
@@ -126,10 +157,12 @@ class PyAggResourceMulti(PyAggAbstractResource):
         return [res for res in self.controller.read(**filters).limit(limit)]
 
     def post(self):
+        """creating several objects. payload should be a list of dict.
+        """
         status = 201
         results = []
         args = []  # FIXME
-        for arg in args:
+        for attrs in request.json():
             try:
                 results.append(self.controller.create(**arg).id)
             except Exception as error:
@@ -138,10 +171,14 @@ class PyAggResourceMulti(PyAggAbstractResource):
         return results, status
 
     def put(self):
+        """creating several objects. payload should be:
+        >>> payload
+        [[obj_id1, {attr1: val1, attr2: val2}]
+         [obj_id2, {attr1: val1, attr2: val2}]]
+        """
         status = 200
         results = []
-        args = {}  # FIXME
-        for obj_id, attrs in args.items():
+        for obj_id, attrs in request.json():
             try:
                 new_values = {key: args[key] for key in
                               set(attrs).intersection(self.editable_attrs)}
@@ -153,10 +190,10 @@ class PyAggResourceMulti(PyAggAbstractResource):
         return results, status
 
     def delete(self):
+        """will delete several objects,
+        a list of their ids should be in the payload"""
         status = 204
-        results = []
-        obj_ids = []  # FIXME extract some real ids
-        for obj_id in obj_ids:
+        for obj_id in request.json():
             try:
                 self.controller.delete(obj_id)
                 results.append('ok')

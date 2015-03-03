@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractController(object):
-    _db_cls = None
+    _db_cls = None  # reference to the database class
     _user_id_key = 'user_id'
 
     def __init__(self, user_id):
@@ -48,7 +48,7 @@ class AbstractController(object):
         return obj
 
     def create(self, **attrs):
-        attrs['user_id'] = self.user_id
+        attrs[self._user_id_key] = self.user_id
         obj = self._db_cls(**attrs)
         db.session.add(obj)
         db.session.commit()

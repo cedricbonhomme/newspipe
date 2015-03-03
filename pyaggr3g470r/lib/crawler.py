@@ -1,3 +1,17 @@
+"""
+Here's a sum up on how it works :
+
+CrawlerScheduler.run
+    will retreive a list of feeds to be refreshed and pass result to
+CrawlerScheduler.callback
+    which will retreive each feed and treat result with
+FeedCrawler.callback
+    which will interprete the result (status_code, etag) collect ids
+    and match them agaisnt pyagg which will cause
+PyAggUpdater.callback
+    to create the missing entries
+"""
+
 import time
 import conf
 import json
@@ -18,6 +32,10 @@ API_ROOT = "api/v2.0/"
 def extract_id(entry, keys=[('link', 'link'),
                             ('published', 'retrieved_date'),
                             ('updated', 'retrieved_date')], force_id=False):
+    """For a given entry will return a dict that allows to identify it. The
+    dict will be constructed on the uid of the entry. if that identifier is
+    absent, the dict will be constructed upon the values of "keys".
+    """
     entry_id = entry.get('entry_id') or entry.get('id')
     if entry_id:
         return {'entry_id': entry_id}
@@ -46,6 +64,7 @@ class AbstractCrawler:
 
     @classmethod
     def get_session(cls):
+        """methods that allows us to treat session as a singleton"""
         if cls.__session__ is None:
             cls.__session__ = FuturesSession(
                     executor=ThreadPoolExecutor(max_workers=conf.NB_WORKER))
@@ -54,6 +73,9 @@ class AbstractCrawler:
 
     @classmethod
     def count_on_me(cls, func):
+        """A basic decorator which will count +1 at the begining of a call
+        and -1 at the end. It kinda allows us to wait for the __counter__ value
+        to be 0, meaning nothing is done anymore."""
         @wraps(func)
         def wrapper(*args, **kwargs):
             cls.__counter__ += 1
@@ -63,6 +85,10 @@ class AbstractCrawler:
         return wrapper
 
     def query_pyagg(self, method, urn, data=None):
+        """A wrapper for internal call, method should be ones you can find
+        on requests (header, post, get, options, ...), urn the distant
+        resources you want to access on pyagg, and data, the data you wanna
+        transmit."""
         if data is None:
             data = {}
         method = getattr(self.session, method)
@@ -72,9 +98,10 @@ class AbstractCrawler:
                       headers={'Content-Type': 'application/json'})
 
     @classmethod
-    def wait(self):
+    def wait(cls):
+        "See count_on_me, that method will just wait for the counter to be 0"
         time.sleep(1)
-        while self.__counter__:
+        while cls.__counter__:
             time.sleep(1)
 
 
@@ -87,6 +114,7 @@ class PyAggUpdater(AbstractCrawler):
         super(PyAggUpdater, self).__init__(auth)
 
     def to_article(self, entry):
+        "Safe method to transorm a feedparser entry into an article"
         date = datetime.now()
 
         for date_key in ('published', 'updated'):
@@ -114,6 +142,8 @@ class PyAggUpdater(AbstractCrawler):
 
     @AbstractCrawler.count_on_me
     def callback(self, response):
+        """Will process the result from the challenge, creating missing article
+        and updating the feed"""
         results = response.result().json()
         logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
@@ -140,12 +170,15 @@ class FeedCrawler(AbstractCrawler):
         super(FeedCrawler, self).__init__(auth)
 
     def clean_feed(self):
+        """Will reset the errors counters on a feed that have known errors"""
         if self.feed.get('error_count') or self.feed.get('last_error'):
             self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                              {'error_count': 0, 'last_error': ''})
 
     @AbstractCrawler.count_on_me
     def callback(self, response):
+        """will fetch the feed and interprete results (304, etag) or will
+        challenge pyagg to compare gotten entries with existing ones"""
         try:
             response = response.result()
             response.raise_for_status()
@@ -190,6 +223,7 @@ class CrawlerScheduler(AbstractCrawler):
         super(CrawlerScheduler, self).__init__(self.auth)
 
     def prepare_headers(self, feed):
+        """For a known feed, will construct some header dictionnary"""
         headers = {}
         if feed.get('etag', None):
             headers['If-None-Match'] = feed['etag']
@@ -201,6 +235,7 @@ class CrawlerScheduler(AbstractCrawler):
 
     @AbstractCrawler.count_on_me
     def callback(self, response):
+        """processes feeds that need to be fetched"""
         response = response.result()
         response.raise_for_status()
         feeds = response.json()
@@ -214,6 +249,8 @@ class CrawlerScheduler(AbstractCrawler):
 
     @AbstractCrawler.count_on_me
     def run(self, **kwargs):
+        """entry point, will retreive feeds to be fetch
+        and launch the whole thing"""
         logger.debug('retreving fetchable feed')
         future = self.query_pyagg('get', 'feeds/fetchable', kwargs)
         future.add_done_callback(self.callback)
