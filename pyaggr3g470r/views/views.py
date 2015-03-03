@@ -554,7 +554,7 @@ def edit_feed(feed_id=None):
     """
     Add or edit a feed.
     """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
+    feed = FeedController(g.user.id).get(id=feed_id)
     form = AddFeedForm()
 
     if request.method == 'POST':
@@ -632,7 +632,9 @@ def profile():
             if form.password.data != "":
                 user.set_password(form.password.data)
             db.session.commit()
-            flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
+            flash("%s %s %s" % (gettext('User'), user.nickname,
+                                gettext('successfully updated.')),
+                  'success')
             return redirect(url_for('profile'))
         else:
             return render_template('profile.html', form=form)

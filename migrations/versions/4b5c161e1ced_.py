@@ -27,7 +27,7 @@ def upgrade():
             nullable=True, default=unix_start, server_default=str(unix_start)))
     op.add_column('feed', sa.Column('etag', sa.String(), nullable=True))
     op.add_column('user', sa.Column('refresh_rate', sa.Integer(),
-            nullable=True))
+            nullable=True, default=60))
     # end Alembic commands ###
 
 
