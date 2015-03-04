@@ -21,3 +21,4 @@ whoosh
 python-dateutil
 alembic
 requests-futures==0.9.5
+psycopg2
