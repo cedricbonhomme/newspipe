@@ -554,7 +554,6 @@ def edit_feed(feed_id=None):
     """
     Add or edit a feed.
     """
-    feed = FeedController(g.user.id).get(id=feed_id)
     form = AddFeedForm()
 
     if request.method == 'POST':
@@ -562,13 +561,14 @@ def edit_feed(feed_id=None):
             return render_template('edit_feed.html', form=form)
         if feed_id is not None:
             # Edit an existing feed
+            feed = FeedController(g.user.id).get(id=feed_id)
             form.populate_obj(feed)
             db.session.commit()
             flash(gettext('Feed successfully updated.'), 'success')
             return redirect('/edit_feed/' + str(feed_id))
         else:
             # Create a new feed
-            existing_feed = [f for f in g.user.feeds if feed.link == form.link.data]
+            existing_feed = [f for f in g.user.feeds if f.link == form.link.data]
             if len(existing_feed) == 0:
                 new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
                                 site_link=form.site_link.data, enabled=form.enabled.data)
@@ -587,6 +587,7 @@ def edit_feed(feed_id=None):
 
     if request.method == 'GET':
         if feed_id is not None:
+            feed = FeedController(g.user.id).get(id=feed_id)
             form = AddFeedForm(obj=feed)
             return render_template('edit_feed.html', action=gettext("Edit the feed"), form=form, feed=feed, \
                                     not_on_heroku = not conf.ON_HEROKU)
