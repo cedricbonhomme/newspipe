@@ -145,6 +145,6 @@ For example if you want to check for updates every 30 minutes, add this line to 
 
 .. code-block:: bash
 
-    */30 * * * * cd ~/.pyaggr3g470r/ ; python fetch.py firstname.lastname@mail.com
+    */30 * * * * cd ~/.pyaggr3g470r/ ; python manager.py fetch_asyncio None None
 
 You must give the email address you use to login to pyAggr3g470r.

@@ -20,10 +20,9 @@ Migrate(application, db)
 manager = Manager(application)
 manager.add_command('db', MigrateCommand)
 
-
 @manager.command
 def db_empty():
-    "will drop every datas stocked in db"
+    "Will drop every datas stocked in db."
     # From http://www.sqlalchemy.org/trac/wiki/UsageRecipes/DropEverything
     conn = db.engine.connect()
 
@@ -59,10 +58,9 @@ def db_empty():
 
     trans.commit()
 
-
 @manager.command
 def db_create():
-    "Will create the database from conf parameters"
+    "Will create the database from conf parameters."
     with application.app_context():
         populate_g()
         from pyaggr3g470r.models import User, Role
@@ -82,17 +80,17 @@ def db_create():
         db.session.add(user1)
         db.session.commit()
 
-
 @manager.command
 def fetch(user, password, limit=10):
+    "Crawl the feeds with the client crawler."
     from pyaggr3g470r.lib.crawler import CrawlerScheduler
     scheduler = CrawlerScheduler(user, password)
     scheduler.run(limit=limit)
     scheduler.wait()
 
 @manager.command
-def fetch_old(user_id, feed_id):
-    "Uses the old crawler (temporary)"
+def fetch_asyncio(user_id, feed_id):
+    "Crawl the feeds with asyncio."
     with application.app_context():
         populate_g()
         from pyaggr3g470r.models import User
