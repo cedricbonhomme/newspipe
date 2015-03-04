@@ -9,7 +9,7 @@
   "repository": "https://github.com/cedricbonhomme/pyAggr3g470r",
   "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
   "scripts": {
-    "postdeploy": "python db_create.py"
+    "postdeploy": "python manager.py db_create"
   },
   "env": {
     "HEROKU": "1",
