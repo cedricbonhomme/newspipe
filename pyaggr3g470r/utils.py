@@ -79,7 +79,7 @@ def opened_w_error(filename, mode="r"):
             f.close()
 
 def fetch(id, feed_id=None):
-    cmd = [conf.PYTHON, conf.basedir+'/fetch.py', str(id), str(feed_id)]
+    cmd = [conf.PYTHON, conf.basedir+'/manager.py', 'fetch_old', str(id), str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def import_opml(email, opml_content):

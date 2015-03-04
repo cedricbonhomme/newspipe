@@ -37,8 +37,8 @@ from bs4 import BeautifulSoup
 from sqlalchemy import or_
 
 from pyaggr3g470r import utils
-from pyaggr3g470r import conf
-from pyaggr3g470r import db
+import conf
+from bootstrap import db
 from pyaggr3g470r.models import User, Article
 if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
