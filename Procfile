@@ -1,2 +1,2 @@
 web: python runserver.py
-init: python db_create.py
+init: python manager.py db_create
