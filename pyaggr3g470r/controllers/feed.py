@@ -16,9 +16,9 @@ class FeedController(AbstractController):
         max_last = now - timedelta(minutes=user.refresh_rate or 60)
         feeds = [feed for feed in self.read(user_id=self.user_id,
                             error_count__lt=max_error, enabled=True,
-                            last_retreived__lt=max_last).limit(limit)]
+                            last_retrieved__lt=max_last).limit(limit)]
 
         if feeds:
             self.update({'id__in': [feed.id for feed in feeds]},
-                        {'last_retreived': now})
+                        {'last_retrieved': now})
         return feeds

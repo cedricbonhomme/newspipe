@@ -23,7 +23,7 @@ def upgrade():
     op.add_column('feed', sa.Column('last_error', sa.String(), nullable=True))
     op.add_column('feed', sa.Column('last_modified', sa.DateTime(),
             nullable=True, default=unix_start, server_default=str(unix_start)))
-    op.add_column('feed', sa.Column('last_retreived', sa.DateTime(),
+    op.add_column('feed', sa.Column('last_retrieved', sa.DateTime(),
             nullable=True, default=unix_start, server_default=str(unix_start)))
     op.add_column('feed', sa.Column('etag', sa.String(), nullable=True))
     op.add_column('user', sa.Column('refresh_rate', sa.Integer(),
@@ -37,6 +37,6 @@ def downgrade():
     op.drop_column('feed', 'last_modified')
     op.drop_column('feed', 'last_error')
     op.drop_column('feed', 'error_count')
-    op.drop_column('feed', 'last_retreived')
+    op.drop_column('feed', 'last_retrieved')
     op.drop_column('feed', 'etag')
     # end Alembic commands ###

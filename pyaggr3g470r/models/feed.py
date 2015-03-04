@@ -48,7 +48,7 @@ class Feed(db.Model):
     # cache handling
     etag = db.Column(db.String(), default="")
     last_modified = db.Column(db.String(), default="")
-    last_retreived = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
+    last_retrieved = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
 
     # error logging
     last_error = db.Column(db.String(), default="")
@@ -72,4 +72,4 @@ class Feed(db.Model):
                 "etag": self.etag,
                 "error_count": self.error_count,
                 "last_modified": self.last_modified,
-                "last_retreived": self.last_retreived}
+                "last_retrieved": self.last_retrieved}
