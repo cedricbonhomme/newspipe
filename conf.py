@@ -39,6 +39,7 @@ if not ON_HEROKU:
     RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
     LOG_PATH = config.get('misc', 'log_path')
     PYTHON = config.get('misc', 'python')
+    NB_WORKER = config.getint('misc', 'nb_worker')
 
     WHOOSH_ENABLED = True
 

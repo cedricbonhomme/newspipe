@@ -5,7 +5,6 @@ requests
 beautifulsoup4
 lxml
 SQLAlchemy
-psycopg2
 Flask
 Flask-SQLAlchemy
 Flask-Login
@@ -14,10 +13,11 @@ Flask-WTF
 Flask-RESTful
 Flask-Babel
 Flask-SSLify
+Flask-Migrate
+flask-Script
 WTForms
 python-postmark
 whoosh
 python-dateutil
 alembic
-flask-Migrate
-flask-Script
+requests-futures==0.9.5

@@ -1,10 +1,12 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from threading import Thread
 from functools import wraps
 
 from flask import g, redirect, url_for, flash
+from flask.ext.babel import gettext
+from flask.ext.login import login_required
 
 from pyaggr3g470r.models import Feed
 
@@ -19,6 +21,7 @@ def async(f):
         thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()
     return wrapper
+
 
 def feed_access_required(func):
     """
@@ -37,3 +40,11 @@ def feed_access_required(func):
         else:
             return func(*args, **kwargs)
     return decorated
+
+
+def pyagg_default_decorator(func):
+    @login_required
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper

@@ -1,7 +1,7 @@
 """add column entry_id
 
 Revision ID: 48f561c0ce6
-Revises: 
+Revises:
 Create Date: 2015-02-18 21:17:19.346998
 
 """

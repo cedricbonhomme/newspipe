@@ -7,28 +7,23 @@ Articles
 .. code-block:: python
 
     >>> import requests, json
-    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles", auth=("your-email", "your-password"))
-    >>> r.status_code-block
-    200
-    >>> rjson = json.loads(r.text)
-    >>> rjson["result"][0]["title"]
-    u'Sponsors required for KDE code sprint in Randa'
-    >>> rjson["result"][0]["date"]
-    u'Wed, 18 Jun 2014 14:25:18 GMT'
-
-Possible parameters:
-
-.. code-block:: bash
-
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=unread&feed=24"
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=read&feed=24&limit=20"
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?filter_=all&feed=24&limit=20"
-
-Get an article:
-
-.. code-block:: bash
-
-    $ curl --user your-email:your-password "https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84566"
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/1s",
+    ...                  headers={'Content-type': 'application/json'},
+    ...                  auth=("your-nickname", "your-password"))
+    >>> r.status_code
+    200  # OK
+    >>> rjson = r.json()
+    >>> rjson["title"]
+    'Sponsors required for KDE code sprint in Randa'
+    >>> rjson["date"]
+    'Wed, 18 Jun 2014 14:25:18 GMT'
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/1s",
+    ...                  headers={'Content-type': 'application/json'},
+    ...                  auth=("your-nickname", "your-password"),
+    ...                  data=json.dumps({'id__in': [1, 2]}))
+    >>> r.json()
+    [{'id': 1, 'title': 'article1', [...]},
+     {'id': 2, 'title': 'article2', [...]}]
 
 Add an article:
 
@@ -36,45 +31,85 @@ Add an article:
 
     >>> import requests, json
     >>> headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/', 'title': 'Sortie de pyAggr3g470r 5.3', 'content':'La page principale de pyAggr3g470r a été améliorée...', 'date':'06/23/2014 11:42 AM', 'feed_id':'42'}
-    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
-    >>> print r.content
-    {
-        "message": "ok"
-    }
-    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles?feed=42&limit=1", auth=("your-email", "your-password"))
-    >>> print json.loads(r.content)["result"][0]["title"]
-    Sortie de pyAggr3g470r 5.3
+    >>> payload = {'link': 'http://blog.cedricbonhomme.org/2014/05/24/sortie-de-pyaggr3g470r-5-3/',
+    ...            'title': 'Sortie de pyAggr3g470r 5.3',
+    ...            'content':'La page principale de pyAggr3g470r a été améliorée...',
+    ...            'date':'2014/06/23T11:42:20 GMT',
+    ...            'feed_id':'42'}
+    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v2.0/article",
+    ...                   headers=headers, auth=("your-nickname", "your-password"),
+    ...                   data=json.dumps(payload))
+    >>> r.status_code
+    201  # Created
+    >>> # creating several articles at once
+    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v2.0/article",
+    ...                   headers=headers, auth=("your-nickname", "your-password"),
+    ...                   data=json.dumps([payload, payload]))
+    >>> r.status_code
+    201  # Created
+    >>> r.json()
+    [123456, 234567]
+    >>> r = requests.get("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    ...                  auth=("your-nickname", "your-password")
+    ...                  data=json.dumps({'feed_id': 42, 'limit': 1}))
+    >>> r.json()[0]["title"]
+    "Sortie de pyAggr3g470r 5.3"
 
 Update an article:
 
 .. code-block:: python
 
-    >>> payload = {"like":True, "readed":False}
-    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/65", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
-    >>> print r.content
-    {
-        "message": "ok"
-    }
+    >>> import requests, json
+    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/65",
+    ...                  headers={'Content-Type': 'application/json'},
+    ...                  auth=("your-nickname", "your-password"),
+    ...                  data=json.dumps({"like":True, "readed": False}))
+    >>> r.status_code
+    200  # OK
+    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    ...                  headers={'Content-Type': 'application/json'},
+    ...                  auth=("your-nickname", "your-password"),
+    ...                  data=json.dumps([[1, {"like": True, "readed": False}],
+    ...                                   [2, {"like": True, "readed": True}]]))
+    >>> r.json()
+    ['ok', 'ok']
 
-Delete an article:
+Delete one or several article(s):
 
 .. code-block:: python
 
-    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
-    >>> print r.status_code
-    200
-    >>> print r.content
-    {
-        "message": "ok"
-    }
-    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/articles/84574", auth=("your-email", "your-password"))
-    >>> print r.status_code
-    200
-    >>> print r.content
-    {
-        "message": "Article not found."
-    }
+    >>> import json, requests
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/84574",
+    ...                     headers={'Content-Type': 'application/json'},
+    ...                     auth=("your-nickname", "your-password"))
+    >>> r.status_code
+    204  # deleted - No content
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/article/84574",
+    ...                     headers={'Content-Type': 'application/json'},
+    ...                     auth=("your-nickname", "your-password"))
+    >>> r.status_code
+    404  # not found
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    ...                     headers={'Content-Type': 'application/json'},
+    ...                     auth=("your-nickname", "your-password")
+    ...                     data=json.dumps([84574]))
+    >>> r.status_code
+    500 # already deleted
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    ...                     headers={'Content-Type': 'application/json'},
+    ...                     auth=("your-nickname", "your-password")
+    ...                     data=json.dumps([84575, 84576]))
+    >>> r.status_code
+    204  # deleted - No content
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/articles",
+    ...                     headers={'Content-Type': 'application/json'},
+    ...                     auth=("your-nickname", "your-password")
+    ...                     data=json.dumps([84575, 84576, 84577]))
+    >>> r.status_code
+    206  # partial - some deleted
+    >>> r.json()
+    ['404 - Not Found', '404 - Not Found', 'ok']
+
 
 Feeds
 -----
@@ -83,18 +118,30 @@ Add a feed:
 
 .. code-block:: python
 
-    >>> payload = {'link': 'http://blog.cedricbonhomme.org/feed'}
-    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+    >>> import json, requests
+    >>> r = requests.post("https://pyaggr3g470r.herokuapp.com/api/v2.0/feeds",
+    ...                   auth=("your-nickname", "your-password"),
+    ...                   headers={'Content-Type': 'application/json'},
+    ...                   data=json.dumps({'link': 'http://blog.cedricbonhomme.org/feed'}))
+    >>> r.status_code
+    200
 
 Update a feed:
 
 .. code-block:: python
 
-    >>> payload = {"title":"Feed new title", "description":"New description"}
-    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/42", headers=headers, auth=("your-email", "your-password"), data=json.dumps(payload))
+    >>> import json, requests
+    >>> r = requests.put("https://pyaggr3g470r.herokuapp.com/api/v2.0/feeds/42",
+    ...                  auth=("your-nickname", "your-password"),
+    ...                  headers={'Content-Type': 'application/json'},
+    ...                  data=json.dumps({"title":"Feed new title", "description":"New description"})
+    >>> r.status_code
+    201
 
 Delete a feed:
 
 .. code-block:: python
 
-    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v1.0/feeds/29", auth=("your-email", "your-password"))
+    >>> import requests
+    >>> r = requests.delete("https://pyaggr3g470r.herokuapp.com/api/v2.0/feeds/29",
+    ...                     auth=("your-nickname", "your-password"))

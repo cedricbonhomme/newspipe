@@ -27,9 +27,14 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
+import json
+import string
+import random
+import hashlib
 import datetime
 from collections import namedtuple
-from flask import abort, render_template, request, flash, session, \
+from bootstrap import application as app, db
+from flask import render_template, request, flash, session, Response, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
@@ -37,17 +42,17 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import desc, func, or_
+from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
 from pyaggr3g470r import utils, notifications, export, duplicate
-from pyaggr3g470r import app, db, allowed_file, babel
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
                     ProfileForm, InformationMessageForm, RecoverPasswordForm
+from pyaggr3g470r.controllers import FeedController
 if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
 
@@ -118,7 +123,7 @@ def redirect_url(default='home'):
             request.referrer or \
             url_for(default)
 
-@babel.localeselector
+@g.babel.localeselector
 def get_locale():
     """
     Called before each request to give us a chance to choose
@@ -126,7 +131,7 @@ def get_locale():
     """
     return request.accept_languages.best_match(conf.LANGUAGES.keys())
 
-@babel.timezoneselector
+@g.babel.timezoneselector
 def get_timezone():
     try:
         return conf.TIME_ZONE[get_locale()]
@@ -152,10 +157,12 @@ def login():
         login_user(user)
         g.user = user
         session['email'] = form.email.data
-        identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+        identity_changed.send(current_app._get_current_object(),
+                              identity=Identity(user.id))
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 @login_required
@@ -240,23 +247,14 @@ def home():
     unread = db.session.query(Article.feed_id, func.count(Article.id))\
                        .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
+    in_error = {feed.id: feed.error_count for feed in
+                FeedController(g.user.id).read(error_count__gt=0).all()}
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=dict(unread), articles=articles.all())
-
-
-@app.route('/article/redirect/<int:article_id>', methods=['GET'])
-@login_required
-def redirect_to_article(article_id):
-    article = Article.query.filter(Article.id == article_id,
-                                   Article.user_id == g.user.id).first()
-    if article is None:
-        abort(404)
-    article.readed = True
-    db.session.commit()
-    return redirect(article.link)
+                           unread=dict(unread), articles=articles.all(),
+                           in_error=in_error)
 
 
 @app.route('/fetch', methods=['GET'])
@@ -277,71 +275,6 @@ def about():
     'About' page.
     """
     return render_template('about.html')
-
-@app.route('/feeds', methods=['GET'])
-@login_required
-def feeds():
-    """
-    Lists the subscribed  feeds in a table.
-    """
-    user = User.query.filter(User.email == g.user.email).first()
-    return render_template('feeds.html', feeds=user.feeds)
-
-@app.route('/feed/<int:feed_id>', methods=['GET'])
-@login_required
-@feed_access_required
-def feed(feed_id=None):
-    """
-    Presents detailed information about a feed.
-    """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
-    word_size = 6
-    articles = feed.articles.all()
-    nb_articles = len(Article.query.filter(Article.user_id == g.user.id).all())
-    top_words = utils.top_words(articles, n=50, size=int(word_size))
-    tag_cloud = utils.tag_cloud(top_words)
-
-    today = datetime.datetime.now()
-    try:
-        last_article = articles[0].date
-        first_article = articles[-1].date
-        delta = last_article - first_article
-        average = round(float(len(articles)) / abs(delta.days), 2)
-    except:
-        last_article = datetime.datetime.fromtimestamp(0)
-        first_article = datetime.datetime.fromtimestamp(0)
-        delta = last_article - first_article
-        average = 0
-    elapsed = today - last_article
-
-    return render_template('feed.html', head_title=utils.clear_string(feed.title), feed=feed, tag_cloud=tag_cloud, \
-                        first_post_date=first_article, end_post_date=last_article , nb_articles=nb_articles, \
-                        average=average, delta=delta, elapsed=elapsed)
-
-@app.route('/article/<int:article_id>', methods=['GET'])
-@login_required
-def article(article_id=None):
-    """
-    Presents the content of an article.
-    """
-    article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
-    if article is not None:
-        if not article.readed:
-            article.readed = True
-            db.session.commit()
-
-        previous_article = article.previous_article()
-        if previous_article is None:
-            previous_article = article.source.articles[0]
-        next_article = article.next_article()
-        if next_article is None:
-            next_article = article.source.articles[-1]
-
-        return render_template('article.html', head_title=utils.clear_string(article.title),
-                               article=article,
-                               previous_article=previous_article, next_article=next_article)
-    flash(gettext("This article do not exist."), 'warning')
-    return redirect(url_for('home'))
 
 
 @app.route('/mark_as/<string:new_value>', methods=['GET'])
@@ -403,24 +336,6 @@ def delete(article_id=None):
         flash(gettext('This article do not exist.'), 'danger')
         return redirect(url_for('home'))
 
-@app.route('/articles/<feed_id>', methods=['GET'])
-@app.route('/articles/<feed_id>/<int:nb_articles>', methods=['GET'])
-@login_required
-@feed_access_required
-def articles(feed_id=None, nb_articles=-1):
-    """
-    List articles of a feed.
-    The administrator of the platform is able to access to this view for every users.
-    """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
-    new_feed = feed
-    if len(feed.articles.all()) <= nb_articles:
-        nb_articles = -1
-    if nb_articles == -1:
-        nb_articles = int(1e9)
-    new_feed.articles = Article.query.filter(Article.user_id == g.user.id, \
-                                        Article.feed_id == feed.id).order_by(desc("Article.date")).limit(nb_articles)
-    return render_template('articles.html', feed=new_feed, nb_articles=nb_articles)
 
 @app.route('/favorites', methods=['GET'])
 @login_required
@@ -591,7 +506,7 @@ def management():
         if None != request.files.get('opmlfile', None):
             # Import an OPML file
             data = request.files.get('opmlfile', None)
-            if not allowed_file(data.filename):
+            if not g.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
@@ -604,7 +519,7 @@ def management():
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
-            if not allowed_file(data.filename):
+            if not g.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
@@ -627,7 +542,7 @@ def management():
 @app.route('/history', methods=['GET'])
 @login_required
 def history():
-    user = User.query.filter(User.id == g.user.id).first()
+    #user = User.query.filter(User.id == g.user.id).first()
     return render_template('history.html')
 
 @app.route('/bookmarklet', methods=['GET'])
@@ -639,7 +554,7 @@ def edit_feed(feed_id=None):
     """
     Add or edit a feed.
     """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
+    feed = FeedController(g.user.id).get(id=feed_id)
     form = AddFeedForm()
 
     if request.method == 'POST':
@@ -653,7 +568,7 @@ def edit_feed(feed_id=None):
             return redirect('/edit_feed/' + str(feed_id))
         else:
             # Create a new feed
-            existing_feed = [feed for feed in g.user.feeds if feed.link == form.link.data]
+            existing_feed = [f for f in g.user.feeds if feed.link == form.link.data]
             if len(existing_feed) == 0:
                 new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
                                 site_link=form.site_link.data, enabled=form.enabled.data)
@@ -678,7 +593,7 @@ def edit_feed(feed_id=None):
 
         # Enable the user to add a feed with a bookmarklet
         if None is not request.args.get('url', None):
-            existing_feed = [feed for feed in g.user.feeds if feed.link == request.args.get('url', None)]
+            existing_feed = [f for f in g.user.feeds if feed.link == request.args.get('url', None)]
             if len(existing_feed) == 0:
                 g.user.feeds.append(Feed(link=request.args.get('url', None)))
                 db.session.commit()
@@ -717,7 +632,9 @@ def profile():
             if form.password.data != "":
                 user.set_password(form.password.data)
             db.session.commit()
-            flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
+            flash("%s %s %s" % (gettext('User'), user.nickname,
+                                gettext('successfully updated.')),
+                  'success')
             return redirect(url_for('profile'))
         else:
             return render_template('profile.html', form=form)
@@ -777,8 +694,6 @@ def recover():
     Enables the user to recover its account when he has forgotten
     its password.
     """
-    import string
-    import random
     form = RecoverPasswordForm()
 
     if request.method == 'POST':
@@ -920,7 +835,6 @@ def disable_user(user_id=None):
                 flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
 
         else:
-            import random, hashlib
             user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()[:86]
             flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
         db.session.commit()

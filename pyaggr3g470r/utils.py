@@ -51,8 +51,9 @@ from collections import Counter
 from contextlib import contextmanager
 
 import conf
-from pyaggr3g470r import db
+from flask import g
 from pyaggr3g470r.models import User, Feed, Article
+
 
 # regular expression to check URL
 url_finders = [
@@ -135,7 +136,7 @@ def import_opml(email, opml_content):
         return nb
 
     nb = read(subscriptions)
-    db.session.commit()
+    g.db.session.commit()
     return nb
 
 def import_json(email, json_content):
@@ -158,7 +159,7 @@ def import_json(email, json_content):
                                     enabled=feed["enabled"])
         user.feeds.append(new_feed)
         nb_feeds += 1
-    db.session.commit()
+    g.db.session.commit()
 
     # Create articles
     for feed in json_account["result"]:
@@ -178,7 +179,7 @@ def import_json(email, json_content):
 
                     user_feed.articles.append(new_article)
                     nb_articles += 1
-    db.session.commit()
+    g.db.session.commit()
 
     return nb_feeds, nb_articles
 
