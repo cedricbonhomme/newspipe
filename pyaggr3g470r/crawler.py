@@ -55,7 +55,8 @@ def get(*args, **kwargs):
         response = yield from aiohttp.request('GET', *args, **kwargs)
         return (yield from response.read_and_close(decode=False))
     except Exception as e:
-        print(e)
+        #print(e)
+        feed.last_error = str(e)
         return None
 
 @asyncio.coroutine
@@ -69,7 +70,11 @@ def parse_feed(user, feed):
         data = yield from get(feed.link)
 
     if data is None:
+        feed.error_count += 1
         return
+    feed.error_count = 0
+
+    feed.last_retrieved = datetime.now()
 
     a_feed = feedparser.parse(data)
     if a_feed['bozo'] == 1:

@@ -11,17 +11,21 @@
         <p>
         {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href="/articles/{{ feed.id }}/100">{{ _('articles') }}</a>
         {% if nb_articles != 0 %}
-            ({{ ((feed.articles.all()|count * 100 ) / nb_articles) | round(2, 'floor') }}% {{ _('of the database') }})
+            ({{ ((feed.articles.all()|count * 100 ) / nb_articles) | round(2, 'floor') }}% {{ _('of the database') }}).<br />
         {% endif %}
-        .<br />
+
+        {% if feed.last_retrieved %}
+            {{ _("Last download:") }} <pre>{{ feed.last_retrieved }}</pre><br />
+        {% endif %}
+
         {% if feed.error_count > 2 %}
-            <b>{{ _("That feed has encountered too much consecutive errors and won't be retreived anymore.") }}</b>
+            <b>{{ _("That feed has encountered too much consecutive errors and won't be retrieved anymore.") }}</b><br />
         {% elif feed.error_count > 0 %}
-            {{ _("That feed has encountered some errors but that counter will be reinitialized at the next successful retreiving.") }}
+            {{ _("The download of this feed has encountered some problems. However its error counter will be reinitialized at the next successful retrieving.") }}<br />
         {% endif %}
-        <br />
+
         {% if feed.last_error %}
-            {{ _("Here's the last error encountered while retreiving this feed:") }} <pre>{{ feed.last_error }}</pre>
+            {{ _("Here's the last error encountered while retreiving this feed:") }} <pre>{{ feed.last_error }}</pre><br />
         {% endif %}
 
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
