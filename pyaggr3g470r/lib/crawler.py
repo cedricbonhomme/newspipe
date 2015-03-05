@@ -26,6 +26,7 @@ from requests_futures.sessions import FuturesSession
 from pyaggr3g470r.lib.utils import default_handler
 
 logger = logging.getLogger(__name__)
+logging.captureWarnings(True)
 API_ROOT = "api/v2.0/"
 
 
