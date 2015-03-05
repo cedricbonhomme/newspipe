@@ -15,7 +15,7 @@
         {% endif %}
 
         {% if feed.last_retrieved %}
-            {{ _("Last download:") }} <pre>{{ feed.last_retrieved }}</pre><br />
+            {{ _("Last download:") }} {{ feed.last_retrieved | datetime }}<br />
         {% endif %}
 
         {% if feed.error_count > 2 %}
@@ -30,9 +30,9 @@
 
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
         {% if feed.site_link != "" %}
-            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a>
+            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a><br />
         {% endif %}
-        <br />
+
         {% if feed.articles.all()|count != 0 %}
             {{ _('The last article was posted') }} {{ elapsed.days }} {{ _('day(s) ago.') }}<br />
             {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} {{ first_post_date | datetime }} {{ _('and the') }} {{ end_post_date | datetime }}.

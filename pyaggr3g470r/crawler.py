@@ -56,7 +56,6 @@ def get(*args, **kwargs):
         return (yield from response.read_and_close(decode=False))
     except Exception as e:
         #print(e)
-        feed.last_error = str(e)
         return None
 
 @asyncio.coroutine
@@ -72,15 +71,18 @@ def parse_feed(user, feed):
     if data is None:
         feed.error_count += 1
         return
-    feed.error_count = 0
-
-    feed.last_retrieved = datetime.now()
 
     a_feed = feedparser.parse(data)
     if a_feed['bozo'] == 1:
-        logger.error(a_feed['bozo_exception'])
+        #logger.error(a_feed['bozo_exception'])
+        feed.last_error = str(a_feed['bozo_exception'])
+        feed.error_count += 1
+        db.session.commit()
     if a_feed['entries'] == []:
         return
+
+    feed.last_retrieved = datetime.now(dateutil.tz.tzlocal())
+    feed.error_count = 0
 
     # Feed informations
     if feed.title == "":
@@ -98,6 +100,7 @@ def parse_feed(user, feed):
             feed.description = a_feed.feed.subtitle
         except:
             feed.description = ""
+    db.session.commit()
 
     articles = []
     for article in a_feed['entries']:
