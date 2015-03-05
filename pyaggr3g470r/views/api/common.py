@@ -48,11 +48,12 @@ def authenticate(func):
         else:
             # authentication via HTTP only
             auth = request.authorization
-            user = User.query.filter(User.nickname == auth.username).first()
-            if user and user.check_password(auth.password) \
-                    and user.activation_key == "":
-                g.user = user
-                logged_in = True
+            if auth is not None:
+                user = User.query.filter(User.nickname == auth.username).first()
+                if user and user.check_password(auth.password) \
+                        and user.activation_key == "":
+                    g.user = user
+                    logged_in = True
 
         if logged_in:
             return func(*args, **kwargs)
