@@ -26,9 +26,7 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from flask import g
-
-db = g.db
+from bootstrap import db
 
 
 class Role(db.Model):

@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 from .abstract import AbstractController
 from pyaggr3g470r.models import Feed
 
+import logging
+logger = logging.getLogger(__name__)
+
 DEFAULT_MAX_ERROR = 3
 DEFAULT_LIMIT = 5
 
@@ -13,11 +16,11 @@ class FeedController(AbstractController):
         from pyaggr3g470r.controllers import UserController
         now = datetime.now()
         user = UserController(self.user_id).get(id=self.user_id)
-        #max_last = now - timedelta(minutes=user.refresh_rate or 60)
+        max_last = now - timedelta(minutes=user.refresh_rate or 60)
         feeds = [feed for feed in self.read(user_id=self.user_id,
-                            error_count__lt=max_error, enabled=True).limit(limit)]
-                            #last_retrieved__lt=max_last).limit(limit)]
-        """if feeds:
+                            error_count__lt=max_error, enabled=True,
+                            last_retrieved__lt=max_last).limit(limit)]
+        if feeds:
             self.update({'id__in': [feed.id for feed in feeds]},
-                        {'last_retrieved': now})"""
+                        {'last_retrieved': now})
         return feeds

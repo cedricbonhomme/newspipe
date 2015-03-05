@@ -30,11 +30,10 @@ import re
 import random
 import hashlib
 from datetime import datetime
-from flask import g
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
-db = g.db
+from bootstrap import db
 
 
 class User(db.Model, UserMixin):

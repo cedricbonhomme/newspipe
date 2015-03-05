@@ -58,6 +58,7 @@ class AbstractCrawler:
     __counter__ = 0
 
     def __init__(self, auth):
+        AbstractCrawler.__counter__ += 1
         self.auth = auth
         self.session = self.get_session()
         self.url = conf.PLATFORM_URL
@@ -84,6 +85,13 @@ class AbstractCrawler:
             return result
         return wrapper
 
+    @classmethod
+    def get_counter_callback(cls):
+        cls.__counter__ += 1
+        def debump(*args, **kwargs):
+            cls.__counter__ -= 1
+        return debump
+
     def query_pyagg(self, method, urn, data=None):
         """A wrapper for internal call, method should be ones you can find
         on requests (header, post, get, options, ...), urn the distant
@@ -95,13 +103,15 @@ class AbstractCrawler:
         return method("%s%s%s" % (self.url, API_ROOT, urn),
                       auth=self.auth, data=json.dumps(data,
                                                       default=default_handler),
-                      headers={'Content-Type': 'application/json'})
+                      headers={'Content-Type': 'application/json',
+                               'User-Agent': 'pyaggr3g470r'})
 
     @classmethod
     def wait(cls):
         "See count_on_me, that method will just wait for the counter to be 0"
         time.sleep(1)
         while cls.__counter__:
+            print('running %d' % cls.__counter__)
             time.sleep(1)
 
 
@@ -144,6 +154,7 @@ class PyAggUpdater(AbstractCrawler):
     def callback(self, response):
         """Will process the result from the challenge, creating missing article
         and updating the feed"""
+        AbstractCrawler.__counter__ -= 1
         results = response.result().json()
         logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
@@ -158,10 +169,12 @@ class PyAggUpdater(AbstractCrawler):
                      self.feed['id'], self.feed['title'],
                      self.headers.get('etag'), now)
 
-        self.query_pyagg('put', 'feed/%d' % self.feed['id'], {'error_count': 0,
-                     'etag': self.headers.get('etag', ''),
-                     'last_error': '',
-                     'last_modified': self.headers.get('last-modified', '')})
+        dico = {'error_count': 0, 'last_error': '',
+                'etag': self.headers.get('etag', ''),
+                'last_modified': self.headers.get('last-modified', '')}
+        if any([dico[key] == self.feed.get(key) for key in dico]):
+            future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], dico)
+            future.add_done_callback(self.get_counter_callback())
 
 
 class FeedCrawler(AbstractCrawler):
@@ -173,13 +186,15 @@ class FeedCrawler(AbstractCrawler):
     def clean_feed(self):
         """Will reset the errors counters on a feed that have known errors"""
         if self.feed.get('error_count') or self.feed.get('last_error'):
-            self.query_pyagg('put', 'feed/%d' % self.feed['id'],
-                             {'error_count': 0, 'last_error': ''})
+            future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
+                                      {'error_count': 0, 'last_error': ''})
+            future.add_done_callback(self.get_counter_callback())
 
     @AbstractCrawler.count_on_me
     def callback(self, response):
         """will fetch the feed and interprete results (304, etag) or will
         challenge pyagg to compare gotten entries with existing ones"""
+        AbstractCrawler.__counter__ -= 1
         try:
             response = response.result()
             response.raise_for_status()
@@ -188,9 +203,10 @@ class FeedCrawler(AbstractCrawler):
             logger.warn('%r %r - an error occured while fetching feed; bumping'
                         ' error count to %r', self.feed['id'],
                         self.feed['title'], error_count)
-            self.query_pyagg('put', 'feed/%d' % self.feed['id'],
-                             {'error_count': error_count,
-                              'last_error': str(error)})
+            future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
+                                      {'error_count': error_count,
+                                       'last_error': str(error)})
+            future.add_done_callback(self.get_counter_callback())
             return
 
         if response.status_code == 304:
@@ -222,10 +238,11 @@ class CrawlerScheduler(AbstractCrawler):
     def __init__(self, username, password):
         self.auth = (username, password)
         super(CrawlerScheduler, self).__init__(self.auth)
+        AbstractCrawler.__counter__ = 0
 
     def prepare_headers(self, feed):
         """For a known feed, will construct some header dictionnary"""
-        headers = {}
+        headers = {'User-Agent': 'pyaggr3g470r/crawler'}
         if feed.get('etag', None):
             headers['If-None-Match'] = feed['etag']
         if feed.get('last_modified'):
@@ -237,6 +254,7 @@ class CrawlerScheduler(AbstractCrawler):
     @AbstractCrawler.count_on_me
     def callback(self, response):
         """processes feeds that need to be fetched"""
+        AbstractCrawler.__counter__ -= 1
         response = response.result()
         response.raise_for_status()
         feeds = response.json()
@@ -254,4 +272,5 @@ class CrawlerScheduler(AbstractCrawler):
         and launch the whole thing"""
         logger.debug('retreving fetchable feed')
         future = self.query_pyagg('get', 'feeds/fetchable', kwargs)
+        AbstractCrawler.__counter__ += 1
         future.add_done_callback(self.callback)
