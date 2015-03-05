@@ -229,7 +229,7 @@ def home():
     """
     Home page for connected users. Displays by default unread articles.
     """
-    feeds = {feed.id: feed.title for feed in g.user.feeds if feed.enabled}
+    feeds = {feed.id: feed.title for feed in g.user.feeds}
     articles = Article.query.filter(Article.feed_id.in_(feeds.keys()),
                                     Article.user_id == g.user.id)
     filter_ = request.args.get('filter_', 'unread')
