@@ -70,6 +70,9 @@ def parse_feed(user, feed):
 
     if data is None:
         feed.error_count += 1
+        if feed.error_count > 2:
+            feed.enabled = False
+        db.session.commit()
         return
 
     a_feed = feedparser.parse(data)
@@ -77,6 +80,8 @@ def parse_feed(user, feed):
         #logger.error(a_feed['bozo_exception'])
         feed.last_error = str(a_feed['bozo_exception'])
         feed.error_count += 1
+        if feed.error_count > 2:
+            feed.enabled = False
         db.session.commit()
     if a_feed['entries'] == []:
         return
