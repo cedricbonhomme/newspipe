@@ -563,6 +563,10 @@ def edit_feed(feed_id=None):
             # Edit an existing feed
             feed = FeedController(g.user.id).get(id=feed_id)
             form.populate_obj(feed)
+            if feed.enabled:
+                # set the error count to 0
+                feed.error_count = 0
+                feed.last_error = ""
             db.session.commit()
             flash(gettext('Feed successfully updated.'), 'success')
             return redirect('/edit_feed/' + str(feed_id))
