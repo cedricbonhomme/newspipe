@@ -81,7 +81,7 @@ def db_create():
         db.session.commit()
 
 @manager.command
-def fetch(user, password, limit=10):
+def fetch(user, password, limit=100):
     "Crawl the feeds with the client crawler."
     from pyaggr3g470r.lib.crawler import CrawlerScheduler
     scheduler = CrawlerScheduler(user, password)

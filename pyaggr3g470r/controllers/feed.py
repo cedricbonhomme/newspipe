@@ -3,7 +3,7 @@ from .abstract import AbstractController
 from pyaggr3g470r.models import Feed
 
 DEFAULT_MAX_ERROR = 3
-DEFAULT_LIMIT = 100
+DEFAULT_LIMIT = 5
 
 
 class FeedController(AbstractController):
