@@ -1,7 +1,7 @@
 """For a given resources, classes in the module intend to create the following
 routes :
     GET resource/<id>
-        -> to retreive one
+        -> to retrieve one
     POST resource
         -> to create one
     PUT resource/<id>
@@ -10,7 +10,7 @@ routes :
         -> to delete one
 
     GET resources
-        -> to retreive several
+        -> to retrieve several
     POST resources
         -> to create several
     PUT resources
@@ -146,12 +146,16 @@ class PyAggResourceExisting(PyAggAbstractResource):
 class PyAggResourceMulti(PyAggAbstractResource):
 
     def get(self):
-        """retreive several objects. filters can be set in the payload on the
+        """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
         if 'application/json' != request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
-        limit = request.json.pop('limit', 10)
+        limit = 10
+        try:
+            limit = request.json.pop('limit', 10)
+        except:
+            return [res for res in self.controller.read().limit(limit)]
         if not limit:
             return [res for res in self.controller.read(**request.json).all()]
         return [res for res in self.controller.read(**request.json).limit(limit)]
