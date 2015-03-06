@@ -111,16 +111,16 @@ class AbstractCrawler:
         "See count_on_me, that method will just wait for the counter to be 0"
         time.sleep(1)
         while cls.__counter__:
-            print('running %d' % cls.__counter__)
             time.sleep(1)
 
 
 class PyAggUpdater(AbstractCrawler):
 
-    def __init__(self, feed, entries, headers, auth):
+    def __init__(self, feed, entries, headers, parsed_feed, auth):
         self.feed = feed
         self.entries = entries
         self.headers = headers
+        self.parsed_feed = parsed_feed.get('feed', {})
         super(PyAggUpdater, self).__init__(auth)
 
     def to_article(self, entry):
@@ -171,7 +171,10 @@ class PyAggUpdater(AbstractCrawler):
 
         dico = {'error_count': 0, 'last_error': '',
                 'etag': self.headers.get('etag', ''),
-                'last_modified': self.headers.get('last-modified', '')}
+                'last_modified': self.headers.get('last-modified', ''),
+                'site_link': self.parsed_feed.get('link')}
+        if not self.feed.get('title'):
+            dico['title'] = self.parsed_feed.get('title', '')
         if any([dico[key] == self.feed.get(key) for key in dico]):
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], dico)
             future.add_done_callback(self.get_counter_callback())
@@ -229,7 +232,8 @@ class FeedCrawler(AbstractCrawler):
         logger.debug('%r %r - found %d entries %r',
                      self.feed['id'], self.feed['title'], len(ids), ids)
         future = self.query_pyagg('get', 'articles/challenge', {'ids': ids})
-        updater = PyAggUpdater(self.feed, entries, response.headers, self.auth)
+        updater = PyAggUpdater(self.feed, entries, response.headers,
+                               parsed_response, self.auth)
         future.add_done_callback(updater.callback)
 
 
