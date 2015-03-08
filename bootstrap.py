@@ -9,7 +9,7 @@ import logging
 
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
-    logger = logging.getLogger('pyAggr3g470r')
+    logger = logging.getLogger('pyaggr3g470r')
     formater = logging.Formatter(log_format)
     handler = logging.FileHandler(log_path)
     handler.setFormatter(formater)
@@ -20,7 +20,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 # Create Flask application
-application = Flask('pyAggr3g470r')
+application = Flask('pyaggr3g470r')
 application.debug = conf.WEBSERVER_DEBUG
 set_logging(conf.LOG_PATH, log_level=logging.DEBUG if conf.WEBSERVER_DEBUG
                                 else logging.INFO)
