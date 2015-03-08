@@ -41,12 +41,14 @@ import logging
 import datetime
 import operator
 import urllib
+import itertools
 import subprocess
 try:
     from urlparse import urlparse, parse_qs, urlunparse
 except:
     from urllib.parse import urlparse, parse_qs, urlunparse
 from bs4 import BeautifulSoup
+from datetime import timedelta
 from collections import Counter
 from contextlib import contextmanager
 
@@ -283,6 +285,17 @@ def tag_cloud(tags):
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
 
+def compare_documents(feed):
+    """
+    Compare a list of documents by pair.
+    """
+    duplicates = []
+    for pair in itertools.combinations(feed.articles, 2):
+        date1, date2 = pair[0].date, pair[1].date
+        if clear_string(pair[0].title) == clear_string(pair[1].title) and \
+                                        (date1 - date2) < timedelta(days = 1):
+            duplicates.append(pair)
+    return duplicates
 
 def search_feed(url):
     """

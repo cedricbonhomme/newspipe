@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 from flask import g
 import dateutil.parser
 

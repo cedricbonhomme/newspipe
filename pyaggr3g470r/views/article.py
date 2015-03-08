@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 from flask import Blueprint, g, render_template, redirect
 from sqlalchemy import desc
 

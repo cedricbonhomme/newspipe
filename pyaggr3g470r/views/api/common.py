@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 """For a given resources, classes in the module intend to create the following
 routes :
     GET resource/<id>
@@ -54,12 +57,10 @@ def authenticate(func):
                         and user.activation_key == "":
                     g.user = user
                     logged_in = True
-
         if logged_in:
             return func(*args, **kwargs)
         raise Unauthorized({'WWWAuthenticate': 'Basic realm="Login Required"'})
     return wrapper
-
 
 def to_response(func):
     """Will cast results of func as a result, and try to extract
