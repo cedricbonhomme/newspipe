@@ -1,5 +1,13 @@
             pyAggr3g470r project news
 
+6.3: 2015-03-08
+    New:
+    * a new architecture with base for controllers;
+    * new, more complete RESTful API;
+    * a crawler handling errors and cache control;
+    * the new crawler takes advantage of the RESTful API
+    (can be run on the client side).
+
 6.2: 2015-02-26
     The system of email notifications for new articles has been removed.
     This feature was hardly used.
