@@ -18,7 +18,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-API_ROOT = 'api/v2.0/'
+API_ROOT = '/api/v2.0/'
 
 if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
