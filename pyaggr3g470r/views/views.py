@@ -574,18 +574,11 @@ def edit_feed(feed_id=None):
             # Create a new feed
             existing_feed = [f for f in g.user.feeds if f.link == form.link.data]
             if len(existing_feed) == 0:
-                print("Test 1")
                 new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
                                 site_link=form.site_link.data, enabled=form.enabled.data)
-                print("Test 2")
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-                print("Test 3")
-                try:
-                    db.session.commit()
-                except Ecxeption as e:
-                    print(e)
-                print("Test 4")
+                db.session.commit()
                 flash(gettext('Feed successfully created.'), 'success')
 
                 utils.fetch(g.user.id, Feed.query.filter(Feed.link == form.link.data).first().id)
