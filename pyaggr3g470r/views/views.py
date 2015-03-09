@@ -581,7 +581,10 @@ def edit_feed(feed_id=None):
                 g.user.feeds.append(new_feed)
                 #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
                 print("Test 3")
-                db.session.commit()
+                try:
+                    db.session.commit()
+                except Ecxeption as e:
+                    print(e)
                 print("Test 4")
                 flash(gettext('Feed successfully created.'), 'success')
 
