@@ -19,6 +19,7 @@ import logging
 import requests
 import feedparser
 import dateutil.parser
+from hashlib import md5
 from functools import wraps
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
@@ -27,6 +28,10 @@ from pyaggr3g470r.lib.utils import default_handler
 
 logger = logging.getLogger(__name__)
 API_ROOT = "api/v2.0/"
+
+
+def to_hash(text):
+    return md5(text.encode('utf8')).hexdigest()
 
 
 def extract_id(entry, keys=[('link', 'link'),
@@ -40,8 +45,8 @@ def extract_id(entry, keys=[('link', 'link'),
     if entry_id:
         return {'entry_id': entry_id}
     if not entry_id and force_id:
-        entry_id = hash("".join(entry[entry_key] for _, entry_key in keys
-                                if entry_key in entry))
+        entry_id = to_hash("".join(entry[entry_key] for _, entry_key in keys
+                                   if entry_key in entry).encode('utf8'))
     else:
         ids = {}
         for entry_key, pyagg_key in keys:
@@ -218,18 +223,32 @@ class FeedCrawler(AbstractCrawler):
             future.add_done_callback(self.get_counter_callback())
             return
 
+        etag_generated = False
         if response.status_code == 304:
             logger.info("%r %r - feed responded with 304",
+                        self.feed['id'], self.feed['title'])
+            self.clean_feed()
+            return
+        if not response.headers.get('etag'):
+            etag_generated = True
+            logger.debug('%r %r - manually generating etag',
                          self.feed['id'], self.feed['title'])
+            response.headers['etag'] = 'pyagg/"%s"' % to_hash(response.text)
+        if self.feed['etag'] and response.headers['etag'] == self.feed['etag']:
+            if etag_generated:
+                logger.info("%r %r - calculated hash matches (%d)",
+                            self.feed['id'], self.feed['title'],
+                            response.status_code)
+            else:
+                logger.info("%r %r - feed responded with same etag (%d)",
+                            self.feed['id'], self.feed['title'],
+                            response.status_code)
             self.clean_feed()
             return
-        if self.feed['etag'] and response.headers.get('etag') \
-                and response.headers.get('etag') == self.feed['etag']:
-            logger.info("%r %r - feed responded with same etag (%d)",
-                         self.feed['id'], self.feed['title'],
-                         response.status_code)
-            self.clean_feed()
-            return
+        else:
+            logger.info('%r %r - etag mismatch %r != %r',
+                        self.feed['id'], self.feed['title'],
+                        response.headers['etag'], self.feed['etag'])
         ids, entries = [], {}
         parsed_response = feedparser.parse(response.text)
         for entry in parsed_response['entries']:
@@ -253,7 +272,7 @@ class CrawlerScheduler(AbstractCrawler):
     def prepare_headers(self, feed):
         """For a known feed, will construct some header dictionnary"""
         headers = {'User-Agent': 'pyaggr3g470r/crawler'}
-        if feed.get('etag', None):
+        if feed.get('etag') and 'pyagg' not in feed.get('etag', ''):
             headers['If-None-Match'] = feed['etag']
         if feed.get('last_modified'):
             headers['If-Modified-Since'] = feed['last_modified']
