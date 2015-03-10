@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-08 17:28+0100\n"
+"POT-Creation-Date: 2015-03-10 22:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -418,6 +418,10 @@ msgstr ""
 
 #: pyaggr3g470r/templates/home.html:18 pyaggr3g470r/templates/layout.html:109
 msgid "All feeds"
+msgstr ""
+
+#: pyaggr3g470r/templates/home.html:25 pyaggr3g470r/templates/home.html:43
+msgid "error"
 msgstr ""
 
 #: pyaggr3g470r/templates/home.html:36 pyaggr3g470r/templates/home.html:54
