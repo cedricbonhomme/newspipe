@@ -107,11 +107,17 @@ class AbstractCrawler:
                                'User-Agent': 'pyaggr3g470r'})
 
     @classmethod
-    def wait(cls):
+    def wait(cls, max_wait=600):
         "See count_on_me, that method will just wait for the counter to be 0"
         time.sleep(1)
+        second_waited = 1
         while cls.__counter__:
+            if second_waited > max_wait:
+                logger.warn('Exiting after %d seconds, counter at %d',
+                            max_wait, cls.__counter__)
+                break
             time.sleep(1)
+            second_waited += 1
 
 
 class PyAggUpdater(AbstractCrawler):
