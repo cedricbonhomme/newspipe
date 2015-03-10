@@ -47,7 +47,7 @@ class Feed(db.Model):
 
     # cache handling
     etag = db.Column(db.String(), default="")
-    last_modified = db.Column(db.DateTime(), default=datetime.now)
+    last_modified = db.Column(db.String(), default="")
     last_retrieved = db.Column(db.DateTime(), default=datetime(1970, 1, 1))
 
     # error logging
