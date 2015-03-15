@@ -92,7 +92,6 @@ If you want to use PostgreSQL
 .. code-block:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
-    $ pip install psycopg2
     $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
     $ chmod 700 ~/.pgpass
     $ sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
