@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from .abstract import AbstractController
 from pyaggr3g470r.models import Feed
 
@@ -17,7 +17,7 @@ class FeedController(AbstractController):
         feeds = [feed for feed in self.read(user_id=self.user_id,
                             error_count__lt=max_error, enabled=True).limit(limit)]
                             #last_retrieved__lt=max_last).limit(limit)]
-        """if feeds:
+        if feeds:
             self.update({'id__in': [feed.id for feed in feeds]},
-                        {'last_retrieved': now})"""
+                        {'last_retrieved': now})
         return feeds

@@ -27,14 +27,13 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
-import json
 import string
 import random
 import hashlib
 import datetime
 from collections import namedtuple
 from bootstrap import application as app, db
-from flask import render_template, request, flash, session, Response, \
+from flask import render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin

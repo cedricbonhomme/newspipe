@@ -30,10 +30,12 @@ def information_message(subject, plaintext):
     from pyaggr3g470r.models import User
     users = User.query.all()
     # Only send email for activated accounts.
-    emails = [user.email for user in users if user.activation_key == ""]
+    user_emails = [user.email for user in users if user.activation_key == ""]
     # Postmark has a limit of twenty recipients per message in total.
-    for i in xrange(0, len(emails), 19):
-        emails.send(to=conf.NOTIFICATION_EMAIL, bcc=", ".join(emails[i:i+19]), subject=subject, plaintext=plaintext)
+    for i in xrange(0, len(user_emails), 19):
+        emails.send(to=conf.NOTIFICATION_EMAIL,
+                    bcc=", ".join(user_emails[i:i+19]),
+                    subject=subject, plaintext=plaintext)
 
 def new_account_notification(user):
     """
@@ -41,7 +43,8 @@ def new_account_notification(user):
     """
     plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL, subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
+    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
+                subject="[pyAggr3g470r] Account creation", plaintext=plaintext)
 
 def new_account_activation(user):
     """
@@ -49,7 +52,8 @@ def new_account_activation(user):
     """
     plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL)
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL, subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
+    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
+                subject="[pyAggr3g470r] Account activated", plaintext=plaintext)
 
 def new_password_notification(user, password):
     """
@@ -58,4 +62,6 @@ def new_password_notification(user, password):
     plaintext = """Hello,\n\nA new password has been generated at your request:\n\n%s""" % \
                         (password, )
     plaintext += "\n\nIt is advised to replace it as soon as connected to pyAggr3g470r.\n\nSee you,"
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL, subject="[pyAggr3g470r]  New password", plaintext=plaintext)
+    emails.send(to=user.email,
+                bcc=conf.NOTIFICATION_EMAIL,
+                subject="[pyAggr3g470r]  New password", plaintext=plaintext)

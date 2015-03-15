@@ -24,7 +24,6 @@ routes :
 import json
 import logging
 import dateutil.parser
-from copy import deepcopy
 from functools import wraps
 from werkzeug.exceptions import Unauthorized, BadRequest
 from flask import request, g, session, Response
