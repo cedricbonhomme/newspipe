@@ -541,6 +541,7 @@ def management():
 @app.route('/history', methods=['GET'])
 @app.route('/history/<int:year>', methods=['GET'])
 @app.route('/history/<int:year>/<int:month>', methods=['GET'])
+@login_required
 def history(year=None, month=None):
     articles_counter, articles = utils.history(year, month)
     return render_template('history.html', articles_counter=articles_counter,
