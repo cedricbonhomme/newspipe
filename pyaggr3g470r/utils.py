@@ -54,6 +54,7 @@ from contextlib import contextmanager
 
 import conf
 from flask import g
+from pyaggr3g470r import controllers
 from pyaggr3g470r.models import User, Feed, Article
 
 
@@ -83,6 +84,31 @@ def opened_w_error(filename, mode="r"):
 def fetch(id, feed_id=None):
     cmd = [conf.PYTHON, conf.basedir+'/manager.py', 'fetch_asyncio', str(id), str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+
+def history(year=None, month=None):
+    """
+    """
+    import datetime, time, sqlalchemy
+    articles_counter = Counter()
+    if None != month and None != year:
+        articles = controllers.ArticleController(1).read(). \
+                    filter(sqlalchemy.extract('year', Article.date) == year). \
+                    filter(sqlalchemy.extract('month', Article.date) == month)
+    elif None != year:
+        articles = controllers.ArticleController(1).read(). \
+                    filter(sqlalchemy.extract('year', Article.date) == year)
+    else:
+        articles = controllers.ArticleController(1).read()
+
+    for article in articles:
+        if None != month:
+            articles_counter[article.date.day] += 1
+        elif None != year:
+            articles_counter[article.date.month] += 1
+        else:
+            articles_counter[article.date.year] += 1
+
+    return articles_counter, articles
 
 def import_opml(email, opml_content):
     """

@@ -539,10 +539,13 @@ def management():
                             not_on_heroku = not conf.ON_HEROKU)
 
 @app.route('/history', methods=['GET'])
-@login_required
-def history():
-    #user = User.query.filter(User.id == g.user.id).first()
-    return render_template('history.html')
+@app.route('/history/<int:year>', methods=['GET'])
+@app.route('/history/<int:year>/<int:month>', methods=['GET'])
+def history(year=None, month=None):
+    articles_counter, articles = utils.history(year, month)
+    return render_template('history.html', articles_counter=articles_counter,
+                                            articles=articles,
+                                            year=year, month=month)
 
 @app.route('/bookmarklet', methods=['GET'])
 @app.route('/create_feed', methods=['GET', 'POST'])
