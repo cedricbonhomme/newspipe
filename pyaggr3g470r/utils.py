@@ -100,7 +100,6 @@ def history(user_id, year=None, month=None):
             articles_counter[article.date.month] += 1
         else:
             articles_counter[article.date.year] += 1
-
     return articles_counter, articles
 
 def import_opml(email, opml_content):
