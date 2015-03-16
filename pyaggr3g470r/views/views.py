@@ -543,10 +543,11 @@ def management():
 @app.route('/history/<int:year>/<int:month>', methods=['GET'])
 @login_required
 def history(year=None, month=None):
-    articles_counter, articles = utils.history(year, month)
-    return render_template('history.html', articles_counter=articles_counter,
-                                            articles=articles,
-                                            year=year, month=month)
+    articles_counter, articles = utils.history(g.user.id, year, month)
+    return render_template('history.html',
+                            articles_counter=articles_counter,
+                            articles=articles,
+                            year=year, month=month)
 
 @app.route('/bookmarklet', methods=['GET'])
 @app.route('/create_feed', methods=['GET', 'POST'])

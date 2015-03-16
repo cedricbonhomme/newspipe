@@ -43,6 +43,7 @@ import operator
 import urllib
 import itertools
 import subprocess
+import sqlalchemy
 try:
     from urlparse import urlparse, parse_qs, urlunparse
 except:
@@ -85,25 +86,18 @@ def fetch(id, feed_id=None):
     cmd = [conf.PYTHON, conf.basedir+'/manager.py', 'fetch_asyncio', str(id), str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
-def history(year=None, month=None):
+def history(user_id, year=None, month=None):
     """
     """
-    import datetime, time, sqlalchemy
     articles_counter = Counter()
-    if None != month and None != year:
-        articles = controllers.ArticleController(1).read(). \
-                    filter(sqlalchemy.extract('year', Article.date) == year). \
-                    filter(sqlalchemy.extract('month', Article.date) == month)
-    elif None != year:
-        articles = controllers.ArticleController(1).read(). \
-                    filter(sqlalchemy.extract('year', Article.date) == year)
-    else:
-        articles = controllers.ArticleController(1).read()
-
-    for article in articles:
+    articles = controllers.ArticleController(user_id).read()
+    if None != year:
+        articles = articles.filter(sqlalchemy.extract('year', Article.date) == year)
         if None != month:
-            articles_counter[article.date.day] += 1
-        elif None != year:
+            articles = articles.filter(sqlalchemy.extract('month', Article.date) == month)
+    print(articles.count())
+    for article in articles.all():
+        if None != year:
             articles_counter[article.date.month] += 1
         else:
             articles_counter[article.date.year] += 1

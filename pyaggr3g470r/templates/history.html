@@ -10,7 +10,7 @@
             <li class="list-group-item"><a href="/history/{{ year }}/{{ article }}">{{ article }}</a> : {{ articles_counter[article] }} articles</li>
         {% else %}
             {% for article in articles %}
-                <li class="list-group-item"><a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
+                <li class="list-group-item">{{ article.date }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
             {% endfor %}
         {% endif %}
      {% endfor %}
