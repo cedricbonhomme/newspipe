@@ -95,7 +95,6 @@ def history(user_id, year=None, month=None):
         articles = articles.filter(sqlalchemy.extract('year', Article.date) == year)
         if None != month:
             articles = articles.filter(sqlalchemy.extract('month', Article.date) == month)
-    print(articles.count())
     for article in articles.all():
         if None != year:
             articles_counter[article.date.month] += 1
