@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-10 22:10+0100\n"
-"PO-Revision-Date: 2015-03-10 22:11+0100\n"
+"POT-Creation-Date: 2015-03-17 18:22+0100\n"
+"PO-Revision-Date: 2015-03-17 18:22+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -427,6 +427,15 @@ msgstr "Flux désactivé"
 msgid "Duplicate articles"
 msgstr "Articles doublon"
 
+#: pyaggr3g470r/templates/history.html:4
+#: pyaggr3g470r/templates/layout.html:110
+msgid "History"
+msgstr "Historique"
+
+#: pyaggr3g470r/templates/history.html:9
+msgid "all years"
+msgstr "toutes les années"
+
 #: pyaggr3g470r/templates/home.html:10
 msgid "You don't have any feeds."
 msgstr "Vous n'avez pas de flux."
@@ -473,11 +482,11 @@ msgid "Unread"
 msgstr "Non lus"
 
 #: pyaggr3g470r/templates/home.html:81
-#: pyaggr3g470r/templates/admin/user.html:42 pyaggr3g470r/views/views.py:622
+#: pyaggr3g470r/templates/admin/user.html:42 pyaggr3g470r/views/views.py:626
 msgid "Feed"
 msgstr "Flux"
 
-#: pyaggr3g470r/templates/home.html:82 pyaggr3g470r/views/views.py:333
+#: pyaggr3g470r/templates/home.html:82 pyaggr3g470r/views/views.py:332
 msgid "Article"
 msgstr "Article"
 
@@ -505,7 +514,7 @@ msgstr "Télécharger"
 msgid "Mark all as read"
 msgstr "Marquer tout comme lu"
 
-#: pyaggr3g470r/templates/layout.html:100 pyaggr3g470r/views/views.py:609
+#: pyaggr3g470r/templates/layout.html:100 pyaggr3g470r/views/views.py:613
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
@@ -520,10 +529,6 @@ msgstr "Favoris"
 #: pyaggr3g470r/templates/layout.html:108
 msgid "Inactive feeds"
 msgstr "Flux inactifs"
-
-#: pyaggr3g470r/templates/layout.html:110
-msgid "History"
-msgstr "Historique"
 
 #: pyaggr3g470r/templates/layout.html:113
 msgid "Management"
@@ -686,7 +691,7 @@ msgid "You are going to delete this account."
 msgstr "Vous allez supprimer ce compte."
 
 #: pyaggr3g470r/templates/admin/dashboard.html:45
-#: pyaggr3g470r/views/views.py:789
+#: pyaggr3g470r/views/views.py:793
 msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
 
@@ -714,178 +719,178 @@ msgstr "Nom de famille"
 msgid "Number of articles"
 msgstr "Nombre d'articles"
 
-#: pyaggr3g470r/views/views.py:104
+#: pyaggr3g470r/views/views.py:103
 msgid "Authentication required."
 msgstr "Authentification requise."
 
-#: pyaggr3g470r/views/views.py:109
+#: pyaggr3g470r/views/views.py:108
 msgid "Forbidden."
 msgstr "Interdit."
 
-#: pyaggr3g470r/views/views.py:162
+#: pyaggr3g470r/views/views.py:161
 msgid "Logged in successfully."
 msgstr "Connecté avec succès."
 
-#: pyaggr3g470r/views/views.py:185
+#: pyaggr3g470r/views/views.py:184
 msgid "Logged out successfully."
 msgstr "Déconnecté avec succès."
 
-#: pyaggr3g470r/views/views.py:194
+#: pyaggr3g470r/views/views.py:193
 msgid "Self-registration is disabled."
 msgstr "L'auto-enregistrement est désactivé."
 
-#: pyaggr3g470r/views/views.py:211
+#: pyaggr3g470r/views/views.py:210
 msgid "Email already used."
 msgstr "Email déjà utilisé."
 
-#: pyaggr3g470r/views/views.py:218 pyaggr3g470r/views/views.py:840
+#: pyaggr3g470r/views/views.py:217 pyaggr3g470r/views/views.py:844
 msgid "Problem while sending activation email"
 msgstr "Problème lors de l'envoi d'email d'activation"
 
-#: pyaggr3g470r/views/views.py:221
+#: pyaggr3g470r/views/views.py:220
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer."
 
-#: pyaggr3g470r/views/views.py:269 pyaggr3g470r/views/views.py:516
+#: pyaggr3g470r/views/views.py:268 pyaggr3g470r/views/views.py:515
 msgid "Downloading articles..."
 msgstr "Téléchargement des articles."
 
-#: pyaggr3g470r/views/views.py:333
+#: pyaggr3g470r/views/views.py:332
 msgid "deleted."
 msgstr "supprimé."
 
-#: pyaggr3g470r/views/views.py:336
+#: pyaggr3g470r/views/views.py:335
 msgid "This article do not exist."
 msgstr "Cet article n'existe pas."
 
-#: pyaggr3g470r/views/views.py:414
+#: pyaggr3g470r/views/views.py:413
 msgid "Indexing database..."
 msgstr "Indexation la base de données..."
 
-#: pyaggr3g470r/views/views.py:416 pyaggr3g470r/views/views.py:485
+#: pyaggr3g470r/views/views.py:415 pyaggr3g470r/views/views.py:484
 msgid "An error occured"
 msgstr "Une erreur est survenue."
 
-#: pyaggr3g470r/views/views.py:419
+#: pyaggr3g470r/views/views.py:418
 msgid "Option not available on Heroku."
 msgstr "Option non disponible sur Heroku."
 
-#: pyaggr3g470r/views/views.py:434 pyaggr3g470r/views/views.py:444
+#: pyaggr3g470r/views/views.py:433 pyaggr3g470r/views/views.py:443
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'export des articles."
 
-#: pyaggr3g470r/views/views.py:450
+#: pyaggr3g470r/views/views.py:449
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
-#: pyaggr3g470r/views/views.py:473
+#: pyaggr3g470r/views/views.py:472
 msgid "Full text search is not yet implemented for Heroku."
 msgstr "La recherche rapide n'est pas supporté sur Heroku."
 
-#: pyaggr3g470r/views/views.py:510 pyaggr3g470r/views/views.py:523
-#: pyaggr3g470r/views/views.py:531
+#: pyaggr3g470r/views/views.py:509 pyaggr3g470r/views/views.py:522
+#: pyaggr3g470r/views/views.py:530
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: pyaggr3g470r/views/views.py:515
+#: pyaggr3g470r/views/views.py:514
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: pyaggr3g470r/views/views.py:518
+#: pyaggr3g470r/views/views.py:517
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: pyaggr3g470r/views/views.py:527
+#: pyaggr3g470r/views/views.py:526
 msgid "Account imported."
 msgstr "Compte importé."
 
-#: pyaggr3g470r/views/views.py:529
+#: pyaggr3g470r/views/views.py:528
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: pyaggr3g470r/views/views.py:571
+#: pyaggr3g470r/views/views.py:575
 msgid "Feed successfully updated."
 msgstr "Flux mis à jour avec succès."
 
-#: pyaggr3g470r/views/views.py:582
+#: pyaggr3g470r/views/views.py:586
 msgid "Feed successfully created."
 msgstr "Flux créé avec succès."
 
-#: pyaggr3g470r/views/views.py:585
+#: pyaggr3g470r/views/views.py:589
 msgid "Downloading articles for the new feed..."
 msgstr "Téléchargement des articles du nouveau flux..."
 
-#: pyaggr3g470r/views/views.py:589
+#: pyaggr3g470r/views/views.py:593
 msgid "Feed already in the database."
 msgstr "Flux déjà dans la base de données."
 
-#: pyaggr3g470r/views/views.py:596
+#: pyaggr3g470r/views/views.py:600
 msgid "Edit the feed"
 msgstr "Éditez ce flux"
 
-#: pyaggr3g470r/views/views.py:622 pyaggr3g470r/views/views.py:817
+#: pyaggr3g470r/views/views.py:626 pyaggr3g470r/views/views.py:821
 msgid "successfully deleted."
 msgstr "supprimé avec succès."
 
-#: pyaggr3g470r/views/views.py:640 pyaggr3g470r/views/views.py:767
-#: pyaggr3g470r/views/views.py:777 pyaggr3g470r/views/views.py:817
+#: pyaggr3g470r/views/views.py:644 pyaggr3g470r/views/views.py:771
+#: pyaggr3g470r/views/views.py:781 pyaggr3g470r/views/views.py:821
 msgid "User"
 msgstr "Utilisateur"
 
-#: pyaggr3g470r/views/views.py:641 pyaggr3g470r/views/views.py:767
+#: pyaggr3g470r/views/views.py:645 pyaggr3g470r/views/views.py:771
 msgid "successfully updated."
 msgstr "mis à jour avec succès."
 
-#: pyaggr3g470r/views/views.py:661
+#: pyaggr3g470r/views/views.py:665
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: pyaggr3g470r/views/views.py:663 pyaggr3g470r/views/views.py:803
-#: pyaggr3g470r/views/views.py:819 pyaggr3g470r/views/views.py:847
+#: pyaggr3g470r/views/views.py:667 pyaggr3g470r/views/views.py:807
+#: pyaggr3g470r/views/views.py:823 pyaggr3g470r/views/views.py:851
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
-#: pyaggr3g470r/views/views.py:677
+#: pyaggr3g470r/views/views.py:681
 msgid "Articles deleted."
 msgstr "Articles supprimés."
 
-#: pyaggr3g470r/views/views.py:691
+#: pyaggr3g470r/views/views.py:695
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: pyaggr3g470r/views/views.py:693
+#: pyaggr3g470r/views/views.py:697
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: pyaggr3g470r/views/views.py:715
+#: pyaggr3g470r/views/views.py:719
 msgid "New password sent to your address."
 msgstr "Nouveau mot de passe envoyé à votre adresse."
 
-#: pyaggr3g470r/views/views.py:717
+#: pyaggr3g470r/views/views.py:721
 msgid "Problem while sending your new password."
 msgstr "Problème lors de l'envoi de votre nouveau mot de passe."
 
-#: pyaggr3g470r/views/views.py:742
+#: pyaggr3g470r/views/views.py:746
 msgid "Problem while sending email"
 msgstr "Problème lors de l'envoi de l'email"
 
-#: pyaggr3g470r/views/views.py:777
+#: pyaggr3g470r/views/views.py:781
 msgid "successfully created."
 msgstr "créé avec succès."
 
-#: pyaggr3g470r/views/views.py:786
+#: pyaggr3g470r/views/views.py:790
 msgid "Edit the user"
 msgstr "Éditer cet utilisateur"
 
-#: pyaggr3g470r/views/views.py:838 pyaggr3g470r/views/views.py:844
+#: pyaggr3g470r/views/views.py:842 pyaggr3g470r/views/views.py:848
 msgid "Account of the user"
 msgstr "Compte de l'utilisateur"
 
-#: pyaggr3g470r/views/views.py:838
+#: pyaggr3g470r/views/views.py:842
 msgid "successfully activated."
 msgstr "activé avec succès."
 
-#: pyaggr3g470r/views/views.py:844
+#: pyaggr3g470r/views/views.py:848
 msgid "successfully disabled."
 msgstr "désactivé avec succès."
 
