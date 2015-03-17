@@ -1,5 +1,14 @@
             pyAggr3g470r project news
 
+6.4: 2015-03-17
+    New:
+     * a new page 'history' to explore your database of articles.
+    Changes:
+     * updated documentation;
+     * minor improvements.
+    Fixes:
+     * changed the type of the column 'last_modified' to string.
+
 6.3: 2015-03-08
     New:
     * a new architecture with base for controllers;
