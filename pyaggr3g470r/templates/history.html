@@ -16,7 +16,7 @@
         {% elif month == None %}
             <li class="list-group-item"><a href="/history/{{ year }}/{{ article }}">{{ article | month_name  }}</a> : {{ articles_counter[article] }} articles</li>
         {% else %}
-            {% for article in articles | sort(attribute="date") %}
+            {% for article in articles | sort(attribute="date", reverse = True) %}
                 <li class="list-group-item">{{ article.date }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
             {% endfor %}
         {% endif %}
