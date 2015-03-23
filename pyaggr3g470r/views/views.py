@@ -264,8 +264,12 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    utils.fetch(g.user.id, feed_id)
-    flash(gettext("Downloading articles..."), 'info')
+    if not conf.ON_HEROKU or g.user.is_admin():
+        utils.fetch(g.user.id, feed_id)
+        flash(gettext("Downloading articles..."), "info")
+    else:
+        flash(gettext("The manual retrieving of news is only available " +
+                      "for administrator, on the Heroku platform."), "info")
     return redirect(redirect_url())
 
 @app.route('/about', methods=['GET'])
