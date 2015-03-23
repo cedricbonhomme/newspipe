@@ -9,10 +9,13 @@
     </div>
     <div class="jumbotron">
         <p>
-        {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href="/articles/{{ feed.id }}/100">{{ _('articles') }}</a>
-        {% if nb_articles != 0 %}
-            ({{ ((feed.articles.all()|count * 100 ) / nb_articles) | round(2, 'floor') }}% {{ _('of the database') }}).<br />
+        {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href="/articles/{{ feed.id }}/100">{{ _('articles') }}</a>.<br />
+        {{ _('Address of the feed') }}: <a href="{{ feed.link }}" target="_blank">{{ feed.link }}</a><br />
+        {% if feed.site_link != "" %}
+            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}" target="_blank">{{ feed.site_link }}</a><br />
         {% endif %}
+
+        <br />
 
         {% if feed.last_retrieved %}
             {{ _("Last download:") }} {{ feed.last_retrieved | datetime }}<br />
@@ -26,11 +29,6 @@
 
         {% if feed.last_error %}
             {{ _("Here's the last error encountered while retrieving this feed:") }} <pre>{{ feed.last_error }}</pre><br />
-        {% endif %}
-
-        {{ _('Address of the feed') }}: <a href="{{ feed.link }}">{{ feed.link }}</a><br />
-        {% if feed.site_link != "" %}
-            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}">{{ feed.site_link }}</a><br />
         {% endif %}
 
         {% if feed.articles.all()|count != 0 %}

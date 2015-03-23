@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-17 18:22+0100\n"
+"POT-Creation-Date: 2015-03-23 19:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -299,55 +299,51 @@ msgstr ""
 msgid "articles"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:14
-msgid "of the database"
+#: pyaggr3g470r/templates/feed.html:13
+msgid "Address of the feed"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:18
+#: pyaggr3g470r/templates/feed.html:15
+msgid "Address of the site"
+msgstr ""
+
+#: pyaggr3g470r/templates/feed.html:21
 msgid "Last download:"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:22
+#: pyaggr3g470r/templates/feed.html:25
 msgid ""
 "That feed has encountered too much consecutive errors and won't be "
 "retrieved anymore."
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:24
+#: pyaggr3g470r/templates/feed.html:27
 msgid ""
 "The download of this feed has encountered some problems. However its "
 "error counter will be reinitialized at the next successful retrieving."
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:28
+#: pyaggr3g470r/templates/feed.html:31
 msgid "Here's the last error encountered while retrieving this feed:"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:31
-msgid "Address of the feed"
-msgstr ""
-
-#: pyaggr3g470r/templates/feed.html:33
-msgid "Address of the site"
-msgstr ""
-
-#: pyaggr3g470r/templates/feed.html:37
+#: pyaggr3g470r/templates/feed.html:35
 msgid "The last article was posted"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:37
+#: pyaggr3g470r/templates/feed.html:35
 msgid "day(s) ago."
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:38
+#: pyaggr3g470r/templates/feed.html:36
 msgid "Daily average"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:38
+#: pyaggr3g470r/templates/feed.html:36
 msgid "between the"
 msgstr ""
 
-#: pyaggr3g470r/templates/feed.html:38
+#: pyaggr3g470r/templates/feed.html:36
 msgid "and the"
 msgstr ""
 
