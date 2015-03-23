@@ -28,7 +28,7 @@
         {% endif %}
 
         {% if feed.last_error %}
-            {{ _("Here's the last error encountered while retrieving this feed:") }} <pre>{{ feed.last_error | safe }}</pre><br />
+            {{ _("Here's the last error encountered while retrieving this feed:") }} <pre>{{ feed.last_error }}</pre><br />
         {% endif %}
 
         {% if feed.articles.all()|count != 0 %}
