@@ -82,39 +82,20 @@ Deploying the application on a traditional server
 .. code-block:: bash
 
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
-    $ cd pyaggr3g470r
-    $ ./install.sh
+    $ cd pyaggr3g470r/
 
 If you want to use PostgreSQL
 '''''''''''''''''''''''''''''
-
 .. code-block:: bash
 
-    $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
-    $ sudo pip install psycopg2
-    $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
-    $ chmod 700 ~/.pgpass
-    $ sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
-    $ createdb aggregator --no-password
-    $ echo "ALTER USER pgsqluser WITH ENCRYPTED PASSWORD 'pgsqlpwd';" | sudo -u postgres psql
-    $ echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO pgsqluser;" | sudo -u postgres psql
-
-Edit the configuration file with the line:
-
-.. code-block:: cfg
-
-    [database]
-    uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator
+    $ ./install.sh postgre
 
 If you want to use SQLite
 '''''''''''''''''''''''''
 
-Just edit the configuration file with the line:
+.. code-block:: bash
 
-.. code-block:: cfg
-
-    [database]
-    uri = sqlite+pysqlite:///pyAggr3g470r.db
+    $ ./install.sh sqlite
 
 
 Finally:
