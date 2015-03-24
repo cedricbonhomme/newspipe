@@ -81,12 +81,9 @@ Deploying the application on a traditional server
 
 .. code-block:: bash
 
-    $ sudo apt-get install python libpq-dev python-dev python-pip build-essential git
-    $ sudo apt-get install libxml2-dev libxslt1-dev # for lxml
     $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
     $ cd pyaggr3g470r
-    $ sudo pip install --upgrade -r requirements.txt
-    $ cp conf/conf.cfg-sample conf/conf.cfg
+    $ ./install.sh
 
 If you want to use PostgreSQL
 '''''''''''''''''''''''''''''
@@ -94,6 +91,7 @@ If you want to use PostgreSQL
 .. code-block:: bash
 
     $ sudo apt-get install postgresql postgresql-server-dev-9.3 postgresql-client
+    $ sudo pip install psycopg2
     $ echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
     $ chmod 700 ~/.pgpass
     $ sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
