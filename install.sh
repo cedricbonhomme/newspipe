@@ -1,7 +1,8 @@
 #! /usr/bin/env bash
 
 #
-# This script install all dependencies for pyAggr3g470r.
+# This script install all dependencies and configure pyAggr3g470r
+# for Python 3.
 #
 
 sudo apt-get install python libpq-dev python-dev python-pip build-essential git
@@ -31,7 +32,11 @@ if [ "$1" == postgre ]; then
     echo '[database]' >> conf/conf.cfg
     echo 'uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator' >> conf/conf.cfg
 elif [ "$1" == sqlite ]; then
+    sudo pip install pysqlite # not working with Python 3!
     # Add configuration lines for SQLite
     echo '[database]' >> conf/conf.cfg
     echo 'uri = sqlite+pysqlite:///pyAggr3g470r.db' >> conf/conf.cfg
 fi
+
+python manager.py db_empty
+python manager.py db_create

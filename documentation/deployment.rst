@@ -102,7 +102,6 @@ Finally:
 
 .. code-block:: bash
 
-    $ python manager.py db_create
     $ python runserver.py
      * Running on http://0.0.0.0:5000/
      * Restarting with reloader
