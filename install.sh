@@ -5,8 +5,8 @@
 # for Python 3.
 #
 
-sudo apt-get install python libpq-dev python-dev python-pip build-essential git
-sudo apt-get install libxml2-dev libxslt1-dev # for lxml
+sudo apt-get install -y python libpq-dev python-dev python-pip build-essential git
+sudo apt-get install -y libxml2-dev libxslt1-dev # for lxml
 
 sed -i '/psycopg2/d' requirements.txt
 sudo pip install --upgrade -r requirements.txt
