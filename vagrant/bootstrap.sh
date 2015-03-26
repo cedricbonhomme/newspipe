@@ -11,6 +11,9 @@ if [ $? -ne 0 ]; then
     exit 1;
 fi
 
+# Installation of PostgreSQL
+apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
+
 # Install all Python requierements
 cd pyaggr3g470r
 # For lxml
@@ -25,9 +28,6 @@ sudo pip3 install feedparser==5.1.2
 cp vagrant/conf.cfg-sample conf/conf.cfg
 cd ..
 
-# Installation of PostgreSQL
-apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
-
 # Configuration of the database
 echo "127.0.0.1:5432:aggregator:vagrant:xxYzToW42" > .pgpass
 chmod 700 .pgpass
@@ -39,7 +39,8 @@ echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO vagrant;" | sudo -u postgre
 # Initializes the database
 cd pyaggr3g470r
 chown -R vagrant:vagrant .
-sudo -u vagrant python3 db_create.py
+sudo -u vagrant python3 manager.py db_empty
+sudo -u vagrant python3 manager.py db_create
 
 # start pyAggr3g470r at startup
 echo "#!/bin/sh -e" > /etc/rc.local
