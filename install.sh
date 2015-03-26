@@ -18,7 +18,7 @@ cp conf/conf.cfg-sample conf/conf.cfg
 sed -i '/database/d' conf/conf.cfg
 sed -i '/uri/d' conf/conf.cfg
 
-if [ "$1" == postgre ]; then
+if [ "$1" == postgres ]; then
     sudo apt-get install -y postgresql postgresql-server-dev-9.3 postgresql-client
     sudo pip install psycopg2
     echo "127.0.0.1:5432:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass

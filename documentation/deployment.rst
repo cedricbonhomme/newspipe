@@ -88,7 +88,7 @@ If you want to use PostgreSQL
 '''''''''''''''''''''''''''''
 .. code-block:: bash
 
-    $ ./install.sh postgre
+    $ ./install.sh postgres
 
 If you want to use SQLite
 '''''''''''''''''''''''''
