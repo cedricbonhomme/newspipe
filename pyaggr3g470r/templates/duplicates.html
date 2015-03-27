@@ -16,8 +16,8 @@
                 {% for pair in duplicates %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="/delete/{{ pair[0].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a></td>
-                        <td><a href="/delete/{{ pair[1].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a></td>
+                        <td><a href="/delete/{{ pair[0].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].entry_id }})</td>
+                        <td><a href="/delete/{{ pair[1].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].entry_id }})</td>
                     </tr>
                 {% endfor %}
                 </tobdy>
