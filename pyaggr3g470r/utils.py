@@ -299,7 +299,7 @@ def tag_cloud(tags):
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
-    return '\n'.join([('<font size=%d><a href="/search/?query=%s" title="Count: %s">%s</a></font>' % \
+    return '\n'.join([('<font size=%d><a href="/search?query=%s" title="Count: %s">%s</a></font>' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
 
