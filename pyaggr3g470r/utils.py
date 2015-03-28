@@ -312,7 +312,10 @@ def compare_documents(feed):
         date1, date2 = pair[0].date, pair[1].date
         if clear_string(pair[0].title) == clear_string(pair[1].title) and \
                                         (date1 - date2) < timedelta(days = 1):
-            duplicates.append(pair)
+            if pair[0].retrieved_date < pair[1].retrieved_date:
+                duplicates.append((pair[0], pair[1]))
+            else:
+                duplicates.append(((pair[1], pair[0]))
     return duplicates
 
 def search_feed(url):
