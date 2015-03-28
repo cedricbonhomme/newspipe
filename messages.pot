@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-23 21:46+0100\n"
+"POT-Creation-Date: 2015-03-28 11:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,8 +211,8 @@ msgid "from"
 msgstr ""
 
 #: pyaggr3g470r/templates/article.html:11
-#: pyaggr3g470r/templates/duplicates.html:19
-#: pyaggr3g470r/templates/duplicates.html:20
+#: pyaggr3g470r/templates/duplicates.html:23
+#: pyaggr3g470r/templates/duplicates.html:24
 #: pyaggr3g470r/templates/home.html:90
 msgid "Delete this article"
 msgstr ""
@@ -250,7 +250,12 @@ msgstr ""
 msgid "Duplicates in the feed"
 msgstr ""
 
-#: pyaggr3g470r/templates/duplicates.html:27
+#: pyaggr3g470r/templates/duplicates.html:12
+#: pyaggr3g470r/templates/duplicates.html:15
+msgid "Delete all in this column"
+msgstr ""
+
+#: pyaggr3g470r/templates/duplicates.html:31
 msgid "No duplicates in the feed"
 msgstr ""
 
