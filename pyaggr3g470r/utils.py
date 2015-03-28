@@ -315,7 +315,7 @@ def compare_documents(feed):
             if pair[0].retrieved_date < pair[1].retrieved_date:
                 duplicates.append((pair[0], pair[1]))
             else:
-                duplicates.append(((pair[1], pair[0]))
+                duplicates.append((pair[1], pair[0]))
     return duplicates
 
 def search_feed(url):
