@@ -163,7 +163,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def post(self):
         """creating several objects. payload should be a list of dict.
         """
-        if 'application/json' not int request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 201
         results = []
