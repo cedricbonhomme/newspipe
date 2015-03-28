@@ -149,7 +149,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         limit = 10
         try:
@@ -163,7 +163,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def post(self):
         """creating several objects. payload should be a list of dict.
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not int request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 201
         results = []
@@ -184,7 +184,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
         [[obj_id1, {attr1: val1, attr2: val2}]
          [obj_id2, {attr1: val1, attr2: val2}]]
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 200
         results = []
@@ -206,7 +206,6 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """will delete several objects,
         a list of their ids should be in the payload"""
         if 'application/json' not in request.headers.get('Content-Type'):
-            print(request.headers.get('Content-Type'))
             raise BadRequest("Content-Type must be application/json")
         status = 204
         results = []
