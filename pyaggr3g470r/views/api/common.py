@@ -205,7 +205,8 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def delete(self):
         """will delete several objects,
         a list of their ids should be in the payload"""
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
+            print(request.headers.get('Content-Type'))
             raise BadRequest("Content-Type must be application/json")
         status = 204
         results = []
