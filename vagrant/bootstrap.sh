@@ -51,3 +51,12 @@ chmod 755 /etc/rc.local
 
 # Start the application.
 /etc/init.d/rc.local start
+
+
+#write out current crontab
+sudo -u vagrant crontab -l > mycron
+#echo new cron into cron file
+sudo -u vagrant echo "*/30 * * * * cd /home/vagrant/pyaggr3g470r/ ; python3 manager.py fetch_asyncio None None" >> mycron
+#install new cron file
+sudo -u vagrant crontab mycron
+sudo -u vagrant rm mycron
