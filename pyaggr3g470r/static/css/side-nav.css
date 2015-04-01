@@ -1,0 +1,40 @@
+/* First level of nav */
+.sidenav {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top:    10px;
+    padding-bottom: 0px;
+    overflow-y: auto;
+    height: 90%;
+    z-index: 1000;
+    background-color: #ffffff;
+    border-radius: 2px;
+    font-size: 100%;
+}
+/* All levels of nav */
+.sidebar .nav > li > a {
+    display: block;
+    color: #716b7a;
+    padding: 5px 20px;
+}
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #e5e3e9;
+}
+.sidebar .nav > .active > a,
+.sidebar .nav > .active:hover > a,
+.sidebar .nav > .active:focus > a {
+    font-weight: bold;
+    color: #563d7c;
+    background-color: transparent;
+}
+/* Nav: second level */
+.sidebar .nav .nav {
+    margin-bottom: 8px;
+}
+.sidebar .nav .nav > li > a {
+    padding-top:    3px;
+    padding-bottom: 3px;
+    font-size: 80%;
+}

@@ -1,3 +1,23 @@
+body {
+    margin-top: 50px;
+}
+div.top {
+    position: relative;
+    top: -50px;
+    display: block;
+    height: 0;
+}
+/*ul.affix {
+    position: fixed;
+    top: 0px;
+}
+ul.affix-top {
+    position: static;
+}
+ul.affix-bottom {
+    position: absolute;
+}*/
+
 .navbar-custom {
     background-color: #205081;
     border: #205081;
