@@ -510,7 +510,7 @@ def management():
         if None != request.files.get('opmlfile', None):
             # Import an OPML file
             data = request.files.get('opmlfile', None)
-            if not g.allowed_file(data.filename):
+            if not utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
@@ -523,7 +523,7 @@ def management():
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
-            if not g.allowed_file(data.filename):
+            if not utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:

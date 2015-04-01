@@ -27,15 +27,6 @@ if conf.ON_HEROKU:
     from flask_sslify import SSLify
     SSLify(application)
 
-ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
-
-def allowed_file(filename):
-    """
-    Check if the uploaded file is allowed.
-    """
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 babel = Babel(application)
 
 # Jinja filters
@@ -54,7 +45,6 @@ with application.app_context():
     populate_g()
     g.api = Api(application, prefix='/api/v2.0')
     g.babel = babel
-    g.allowed_file = allowed_file
 
     from pyaggr3g470r import views
     application.register_blueprint(views.articles_bp)

@@ -56,10 +56,20 @@ from contextlib import contextmanager
 
 import conf
 from flask import g
+from bootstrap import application as app, db
 from pyaggr3g470r import controllers
 from pyaggr3g470r.models import User, Feed, Article
 
 logger = logging.getLogger(__name__)
+
+ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
+
+def allowed_file(filename):
+    """
+    Check if the uploaded file is allowed.
+    """
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @contextmanager
 def opened_w_error(filename, mode="r"):
@@ -143,7 +153,7 @@ def import_opml(email, opml_content):
                 nb += 1
         return nb
     nb = read(subscriptions)
-    g.db.session.commit()
+    db.session.commit()
     return nb
 
 def import_json(email, json_content):
@@ -167,7 +177,7 @@ def import_json(email, json_content):
                         enabled=feed["enabled"])
         user.feeds.append(new_feed)
         nb_feeds += 1
-    g.db.session.commit()
+    db.session.commit()
     # Create articles:
     for feed in json_account["result"]:
         user_feed = Feed.query.filter(Feed.user_id == user.id,
@@ -190,7 +200,7 @@ def import_json(email, json_content):
                                 feed_id=user_feed.id)
                     user_feed.articles.append(new_article)
                     nb_articles += 1
-    g.db.session.commit()
+    db.session.commit()
     return nb_feeds, nb_articles
 
 def clean_url(url):
