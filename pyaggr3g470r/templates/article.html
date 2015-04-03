@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="container" data-article="{{ article.id }}">
-    <div class="jumbotron">
+    <div class="well">
         <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
         <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
         <a href="/delete/{{ article.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>
@@ -21,10 +21,10 @@
         {% endif %}
         <h6>{{ article.date | datetime }}</h6>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         {{ article.content | safe }}
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <div class="row">
             <div class="col-md-6">
                 {{ _('Next post:') }} <a href="/article/{{ next_article.id }}">{{ next_article.title }}</a>
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
             <img src="/static/img/pinboard.png" title="{{ _('Share on') }} Pinboard" />
         </a>

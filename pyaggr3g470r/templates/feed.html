@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="jumbotron">
+    <div class="well">
         <h2>{{ feed.title }}</h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
         <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
         <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <p>
         {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href="/articles/{{ feed.id }}/100">{{ _('articles') }}</a>.<br />
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}" target="_blank">{{ feed.link }}</a><br />
@@ -37,7 +37,7 @@
         {% endif %}
         </p>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         {% if feed.articles.all()|count != 0 %}
             <div>{{ tag_cloud|safe }}</div>
         {% endif %}
