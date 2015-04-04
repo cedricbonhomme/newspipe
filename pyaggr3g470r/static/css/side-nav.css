@@ -7,26 +7,27 @@
     overflow-y: auto;
     height: 90%;
     z-index: 1000;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     border-radius: 2px;
     font-size: 100%;
 }
 /* All levels of nav */
 .sidebar .nav > li > a {
     display: block;
-    color: #716b7a;
+    color: #3572B0;
     padding: 5px 20px;
 }
 .sidebar .nav > li > a:hover,
 .sidebar .nav > li > a:focus {
     text-decoration: none;
-    background-color: #e5e3e9;
+    background-color: #F0FFFF;
 }
+
 .sidebar .nav > .active > a,
 .sidebar .nav > .active:hover > a,
 .sidebar .nav > .active:focus > a {
     font-weight: bold;
-    color: #563d7c;
+    color: #3572B0;
     background-color: transparent;
 }
 /* Nav: second level */
@@ -38,3 +39,7 @@
     padding-bottom: 3px;
     font-size: 80%;
 }
+
+li.feed-commands {display: none; text-align: right;}
+li.feed-commands > span > a {margin-right: 10px;}
+li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}
