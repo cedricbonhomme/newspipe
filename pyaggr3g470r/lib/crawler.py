@@ -85,9 +85,12 @@ class AbstractCrawler:
         @wraps(func)
         def wrapper(*args, **kwargs):
             cls.__counter__ += 1
-            result = func(*args, **kwargs)
-            cls.__counter__ -= 1
-            return result
+            try:
+                return func(*args, **kwargs)
+            except:
+                logger.exception('an error occured while %r', func)
+            finally:
+                cls.__counter__ -= 1
         return wrapper
 
     @classmethod
@@ -172,21 +175,27 @@ class PyAggUpdater(AbstractCrawler):
         for id_to_create in results:
             entry = self.to_article(
                     self.entries[tuple(sorted(id_to_create.items()))])
-            logger.info('creating %r - %r', entry['title'], id_to_create)
+            logger.warn('%r %r - creating %r - %r', self.feed['id'],
+                        self.feed['title'], entry['title'], id_to_create)
             self.query_pyagg('post', 'article', entry)
 
         now = datetime.now()
         logger.debug('%r %r - updating feed etag %r last_mod %r',
                      self.feed['id'], self.feed['title'],
-                     self.headers.get('etag'), now)
+                     self.headers.get('etag', ''),
+                     self.headers.get('last-modified', ''))
 
-        dico = {'error_count': 0, 'last_error': '',
+        dico = {'error_count': 0, 'last_error': None,
                 'etag': self.headers.get('etag', ''),
                 'last_modified': self.headers.get('last-modified', ''),
                 'site_link': self.parsed_feed.get('link')}
         if not self.feed.get('title'):
             dico['title'] = self.parsed_feed.get('title', '')
-        if any([dico[key] == self.feed.get(key) for key in dico]):
+        logger.info('%r %r - pushing feed attrs %r',
+                    self.feed['id'], self.feed['title'],
+                    {key: "%s -> %s" % (dico[key], self.feed.get(key))
+                     for key in dico if dico[key] != self.feed.get(key)})
+        if any([dico[key] != self.feed.get(key) for key in dico]):
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], dico)
             future.add_done_callback(self.get_counter_callback())
 
@@ -223,19 +232,18 @@ class FeedCrawler(AbstractCrawler):
             future.add_done_callback(self.get_counter_callback())
             return
 
-        etag_generated = False
         if response.status_code == 304:
             logger.info("%r %r - feed responded with 304",
                         self.feed['id'], self.feed['title'])
             self.clean_feed()
             return
-        if not response.headers.get('etag'):
-            etag_generated = True
+        if 'etag' not in response.headers:
             logger.debug('%r %r - manually generating etag',
                          self.feed['id'], self.feed['title'])
             response.headers['etag'] = 'pyagg/"%s"' % to_hash(response.text)
-        if self.feed['etag'] and response.headers['etag'] == self.feed['etag']:
-            if etag_generated:
+        if response.headers['etag'] and self.feed['etag'] \
+                and response.headers['etag'] == self.feed['etag']:
+            if 'pyagg' in self.feed['etag']:
                 logger.info("%r %r - calculated hash matches (%d)",
                             self.feed['id'], self.feed['title'],
                             response.status_code)
@@ -246,9 +254,12 @@ class FeedCrawler(AbstractCrawler):
             self.clean_feed()
             return
         else:
-            logger.info('%r %r - etag mismatch %r != %r',
-                        self.feed['id'], self.feed['title'],
-                        response.headers['etag'], self.feed['etag'])
+            logger.debug('%r %r - etag mismatch %r != %r',
+                         self.feed['id'], self.feed['title'],
+                         response.headers['etag'], self.feed['etag'])
+        logger.info('%r %r - cache validation failed, challenging entries',
+                    self.feed['id'], self.feed['title'])
+
         ids, entries = [], {}
         parsed_response = feedparser.parse(response.text)
         for entry in parsed_response['entries']:
@@ -272,10 +283,10 @@ class CrawlerScheduler(AbstractCrawler):
     def prepare_headers(self, feed):
         """For a known feed, will construct some header dictionnary"""
         headers = {'User-Agent': 'pyaggr3g470r/crawler'}
-        if feed.get('etag') and 'pyagg' not in feed.get('etag', ''):
-            headers['If-None-Match'] = feed['etag']
         if feed.get('last_modified'):
             headers['If-Modified-Since'] = feed['last_modified']
+        if feed.get('etag') and 'pyagg' not in feed['etag']:
+            headers['If-None-Match'] = feed['etag']
         logger.debug('%r %r - calculated headers %r',
                      feed['id'], feed['title'], headers)
         return headers
@@ -289,8 +300,8 @@ class CrawlerScheduler(AbstractCrawler):
         feeds = response.json()
         logger.debug('%d to fetch %r', len(feeds), feeds)
         for feed in feeds:
-            logger.info('%r %r - fetching resources',
-                        feed['id'], feed['title'])
+            logger.debug('%r %r - fetching resources',
+                         feed['id'], feed['title'])
             future = self.session.get(feed['link'],
                                       headers=self.prepare_headers(feed))
             future.add_done_callback(FeedCrawler(feed, self.auth).callback)

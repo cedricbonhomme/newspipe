@@ -248,7 +248,7 @@ def home():
                        .filter(Article.readed == False, Article.user_id == g.user.id)\
                        .group_by(Article.feed_id).all()
     in_error = {feed.id: feed.error_count for feed in
-                FeedController(g.user.id).read(error_count__gt=0).all()}
+                FeedController(g.user.id).read(error_count__gt=2).all()}
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,

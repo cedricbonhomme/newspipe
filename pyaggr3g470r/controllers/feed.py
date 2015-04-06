@@ -5,14 +5,15 @@ from .abstract import AbstractController
 from pyaggr3g470r.models import Feed
 
 logger = logging.getLogger(__name__)
-DEFAULT_MAX_ERROR = 3
+DEFAULT_MAX_ERROR = 6
 DEFAULT_LIMIT = 5
 
 
 class FeedController(AbstractController):
     _db_cls = Feed
 
-    def list_late(self, max_last, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT):
+    def list_late(self, max_last, max_error=DEFAULT_MAX_ERROR,
+                  limit=DEFAULT_LIMIT):
         return [feed for feed in self.read(
                             error_count__lt=max_error, enabled=True,
                             last_retrieved__lt=max_last)
