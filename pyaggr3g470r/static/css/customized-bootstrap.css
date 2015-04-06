@@ -7,16 +7,6 @@ div.top {
     display: block;
     height: 0;
 }
-/*ul.affix {
-    position: fixed;
-    top: 0px;
-}
-ul.affix-top {
-    position: static;
-}
-ul.affix-bottom {
-    position: absolute;
-}*/
 
 .navbar-custom {
     background-color: #205081;
@@ -51,8 +41,4 @@ ul.affix-bottom {
 }
 a {
     color: #3572B0;
-}
-
-.badge {
-    background-color: #3572B0;
 }

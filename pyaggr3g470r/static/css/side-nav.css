@@ -30,6 +30,11 @@
     color: #3572B0;
     background-color: transparent;
 }
+
+.badge {
+    background-color: #3572B0;
+}
+
 /* Nav: second level */
 .sidebar .nav .nav {
     margin-bottom: 8px;
