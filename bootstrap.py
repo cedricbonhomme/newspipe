@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 # required imports and code exection for basic functionning
 
 import os

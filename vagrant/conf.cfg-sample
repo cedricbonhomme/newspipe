@@ -1,10 +1,11 @@
 [misc]
-platform_url = https://pyaggr3g470r.herokuapp.com/
+platform_url = http://127.0.0.1:5000/
 admin_email =
 recaptcha_public_key =
 recaptcha_private_key =
 log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
 python = python3
+nb_worker = 5
 [database]
 uri = postgres://vagrant:xxYzToW42@127.0.0.1:5432/aggregator
 [feedparser]

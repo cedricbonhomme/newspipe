@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="jumbotron">
+    <div class="well">
         <a href="/admin/edit_user/{{ user.id }}" class="btn btn-default">{{ _('Edit this user') }}</a>
         <h2>{{ _('Membership') }}</h2>
         <div class="row">
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         {% if user.feeds.all()|count == 0 %}
             <h1>{{ _('This user is not subscribed to any feed.') }}</h1>
         {% else %}

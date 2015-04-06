@@ -1,5 +1,9 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 from datetime import datetime
 from flask import Blueprint, g, render_template
+from sqlalchemy import desc
 
 from pyaggr3g470r import controllers, utils
 from pyaggr3g470r.decorators import pyagg_default_decorator, \
@@ -22,9 +26,9 @@ def feed(feed_id=None):
     "Presents detailed information about a feed."
     feed = controllers.FeedController(g.user.id).get(id=feed_id)
     word_size = 6
-    articles = controllers.ArticleController(g.user.id)\
-                          .read(feed_id=feed_id).all()
-    nb_articles = controllers.ArticleController(g.user.id).read().count()
+    articles = controllers.ArticleController(g.user.id) \
+                          .read(feed_id=feed_id) \
+                          .order_by(desc("Article.date")).all()
     top_words = utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = utils.tag_cloud(top_words)
 
@@ -46,5 +50,4 @@ def feed(feed_id=None):
                            feed=feed, tag_cloud=tag_cloud,
                            first_post_date=first_article,
                            end_post_date=last_article,
-                           nb_articles=nb_articles,
                            average=average, delta=delta, elapsed=elapsed)

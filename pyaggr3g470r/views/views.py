@@ -27,14 +27,13 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
-import json
 import string
 import random
 import hashlib
 import datetime
 from collections import namedtuple
 from bootstrap import application as app, db
-from flask import render_template, request, flash, session, Response, \
+from flask import render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response, jsonify
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
@@ -47,7 +46,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-from pyaggr3g470r import utils, notifications, export, duplicate
+from pyaggr3g470r import utils, notifications, export
+from pyaggr3g470r import controllers
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
@@ -93,7 +93,7 @@ def before_request():
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
-    return User.query.filter(User.email == email).first()
+    return controllers.UserController(email).get(email=email)
 
 
 #
@@ -153,7 +153,7 @@ def login():
     form = SigninForm()
 
     if form.validate_on_submit():
-        user = User.query.filter(User.email == form.email.data).first()
+        user = controllers.UserController(form.email.data).get(email=form.email.data)
         login_user(user)
         g.user = user
         session['email'] = form.email.data
@@ -265,8 +265,12 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    utils.fetch(g.user.id, feed_id)
-    flash(gettext("Downloading articles..."), 'info')
+    if not conf.ON_HEROKU or g.user.is_admin():
+        utils.fetch(g.user.id, feed_id)
+        flash(gettext("Downloading articles..."), "info")
+    else:
+        flash(gettext("The manual retrieving of news is only available " +
+                      "for administrator, on the Heroku platform."), "info")
     return redirect(redirect_url())
 
 @app.route('/about', methods=['GET'])
@@ -378,7 +382,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    user = User.query.filter(User.id == g.user.id).first()
+    user = controllers.UserController(g.user.email).get(email=g.user.email)
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
@@ -399,7 +403,7 @@ def duplicates(feed_id=None):
     """
     feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
     duplicates = []
-    duplicates = duplicate.compare_documents(feed)
+    duplicates = utils.compare_documents(feed)
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
 
 @app.route('/index_database', methods=['GET'])
@@ -425,7 +429,7 @@ def export_articles():
     """
     Export all articles to HTML or JSON.
     """
-    user = User.query.filter(User.id == g.user.id).first()
+    user = controllers.UserController(g.user.email).get(id=g.user.id)
     if request.args.get('format') == "HTML":
         # Export to HTML
         try:
@@ -457,7 +461,7 @@ def export_opml():
     """
     Export all feeds to OPML.
     """
-    user = User.query.filter(User.id == g.user.id).first()
+    user = controllers.UserController(g.user.email).get(id=g.user.id)
     response = make_response(render_template('opml.xml', user=user, now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
@@ -506,7 +510,7 @@ def management():
         if None != request.files.get('opmlfile', None):
             # Import an OPML file
             data = request.files.get('opmlfile', None)
-            if not g.allowed_file(data.filename):
+            if not utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
@@ -519,7 +523,7 @@ def management():
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
-            if not g.allowed_file(data.filename):
+            if not utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
@@ -540,10 +544,15 @@ def management():
                             not_on_heroku = not conf.ON_HEROKU)
 
 @app.route('/history', methods=['GET'])
+@app.route('/history/<int:year>', methods=['GET'])
+@app.route('/history/<int:year>/<int:month>', methods=['GET'])
 @login_required
-def history():
-    #user = User.query.filter(User.id == g.user.id).first()
-    return render_template('history.html')
+def history(year=None, month=None):
+    articles_counter, articles = utils.history(g.user.id, year, month)
+    return render_template('history.html',
+                            articles_counter=articles_counter,
+                            articles=articles,
+                            year=year, month=month)
 
 @app.route('/bookmarklet', methods=['GET'])
 @app.route('/create_feed', methods=['GET', 'POST'])
@@ -628,7 +637,7 @@ def profile():
     """
     Edit the profile of the currently logged user.
     """
-    user = User.query.filter(User.email == g.user.email).first()
+    user = controllers.UserController(g.user.email).get(id=g.user.id)
     form = ProfileForm()
 
     if request.method == 'POST':
@@ -654,7 +663,7 @@ def delete_account():
     """
     Delete the account of the user (with all its data).
     """
-    user = User.query.filter(User.email == g.user.email).first()
+    user = controllers.UserController(g.user.email).get(id=g.user.id)
     if user is not None:
         db.session.delete(user)
         db.session.commit()

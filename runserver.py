@@ -18,7 +18,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import calendar
 from bootstrap import conf, application, db, populate_g
 from flask.ext.babel import Babel
 from flask.ext.babel import format_datetime
@@ -27,18 +27,15 @@ if conf.ON_HEROKU:
     from flask_sslify import SSLify
     SSLify(application)
 
-ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
-
-def allowed_file(filename):
-    """
-    Check if the uploaded file is allowed.
-    """
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 babel = Babel(application)
 
+# Jinja filters
 application.jinja_env.filters['datetime'] = format_datetime
+
+#@register.filter
+def month_name(month_number):
+    return calendar.month_name[month_number]
+application.jinja_env.filters['month_name'] = month_name
 
 # Views
 from flask.ext.restful import Api
@@ -48,7 +45,6 @@ with application.app_context():
     populate_g()
     g.api = Api(application, prefix='/api/v2.0')
     g.babel = babel
-    g.allowed_file = allowed_file
 
     from pyaggr3g470r import views
     application.register_blueprint(views.articles_bp)

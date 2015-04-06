@@ -1,0 +1,50 @@
+/* First level of nav */
+.sidenav {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top:    10px;
+    padding-bottom: 0px;
+    overflow-y: auto;
+    height: 90%;
+    z-index: 1000;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    font-size: 100%;
+}
+/* All levels of nav */
+.sidebar .nav > li > a {
+    display: block;
+    color: #3572B0;
+    padding: 5px 20px;
+}
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #F0FFFF;
+}
+
+.sidebar .nav > .active > a,
+.sidebar .nav > .active:hover > a,
+.sidebar .nav > .active:focus > a {
+    font-weight: bold;
+    color: #3572B0;
+    background-color: transparent;
+}
+
+.badge {
+    background-color: #3572B0;
+}
+
+/* Nav: second level */
+.sidebar .nav .nav {
+    margin-bottom: 8px;
+}
+.sidebar .nav .nav > li > a {
+    padding-top:    3px;
+    padding-bottom: 3px;
+    font-size: 80%;
+}
+
+li.feed-commands {display: none; text-align: right;}
+li.feed-commands > span > a {margin-right: 10px;}
+li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}

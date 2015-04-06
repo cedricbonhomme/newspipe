@@ -1,6 +1,5 @@
 import logging
 from bootstrap import db
-from sqlalchemy import update
 from werkzeug.exceptions import Forbidden, NotFound
 
 logger = logging.getLogger(__name__)

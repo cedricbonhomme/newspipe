@@ -1,0 +1,44 @@
+body {
+    margin-top: 50px;
+}
+div.top {
+    position: relative;
+    top: -50px;
+    display: block;
+    height: 0;
+}
+
+.navbar-custom {
+    background-color: #205081;
+    border: #205081;
+    color: #FFFFFF;
+    border-radius: 0;
+}
+
+.navbar-custom .navbar-nav > li > a {
+    color: #FFFFFF;
+}
+
+.navbar-custom .navbar-nav > li > a:hover {
+    background-color: #3572B0;
+}
+
+.navbar-custom .navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+    color: #FFFFFF;
+    background-color: #3572B0;
+}
+.navbar-custom .navbar-brand {
+    color: #FFFFFF;
+}
+
+.navbar-custom .navbar-nav > .open > a,
+.navbar-custom .navbar-nav > .open > a:hover,
+.navbar-custom .navbar-nav > .open > a:focus {
+    color: #FFFFFF;
+    background-color: #3572B0;
+}
+a {
+    color: #3572B0;
+}

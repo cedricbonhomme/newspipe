@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 from flask import g
 
 from pyaggr3g470r.controllers.feed import FeedController, \
@@ -7,7 +10,6 @@ from pyaggr3g470r.views.api.common import PyAggAbstractResource, \
                                           PyAggResourceNew, \
                                           PyAggResourceExisting, \
                                           PyAggResourceMulti
-
 
 FEED_ATTRS = {'title': {'type': str},
               'description': {'type': str},
@@ -20,24 +22,20 @@ FEED_ATTRS = {'title': {'type': str},
               'last_error': {'type': str},
               'error_count': {'type': int, 'default': 0}}
 
-
 class FeedNewAPI(PyAggResourceNew):
     controller_cls = FeedController
     attrs = FEED_ATTRS
     to_date = ['date', 'last_retrieved']
-
 
 class FeedAPI(PyAggResourceExisting):
     controller_cls = FeedController
     attrs = FEED_ATTRS
     to_date = ['date', 'last_retrieved']
 
-
 class FeedsAPI(PyAggResourceMulti):
     controller_cls = FeedController
     attrs = FEED_ATTRS
     to_date = ['date', 'last_retrieved']
-
 
 class FetchableFeedAPI(PyAggAbstractResource):
     controller_cls = FeedController
@@ -48,7 +46,6 @@ class FetchableFeedAPI(PyAggAbstractResource):
     def get(self):
         return [feed for feed in self.controller.list_fetchable(
                                                     **self.reqparse_args())]
-
 
 g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')
 g.api.add_resource(FeedAPI, '/feed/<int:obj_id>', endpoint='feed.json')

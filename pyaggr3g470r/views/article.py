@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 from flask import Blueprint, g, render_template, redirect
 from sqlalchemy import desc
 
@@ -18,10 +21,9 @@ def articles(feed_id=None, nb_articles=-1):
     feed.articles = controllers.ArticleController(g.user.id)\
                                .read(feed_id=feed.id)\
                                .order_by(desc("Article.date"))
-    if len(feed.articles.all()) <= nb_articles:
-        nb_articles = -1
-    if nb_articles == -1:
-        feed.articles = feed.articles.limit(nb_articles)
+    if len(feed.articles.all()) <= nb_articles or nb_articles == -1:
+        nb_articles = int(1e9)
+    feed.articles = feed.articles.limit(nb_articles)
     return render_template('articles.html', feed=feed, nb_articles=nb_articles)
 
 

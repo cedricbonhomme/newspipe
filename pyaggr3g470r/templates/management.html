@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="jumbotron">
+    <div class="well">
         <h1>{{ _('Your subscriptions') }}</h1>
         <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="/create_feed">{{ _('feed') }}</a>.</p>
         <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread">{{ _('unread articles') }}</a>.</p>
@@ -10,7 +10,7 @@
         {% endif %}
         <a href="/expire_articles?weeks=10" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <h1>{{ _('Your Profile') }}</h1>
         <div class="row">
             <div class="col-md-6">
@@ -25,7 +25,7 @@
             </div>
        </div>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <h1 id="import">{{ _('OPML import/export') }}</h1>
         <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
             <span class="btn btn-default btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
@@ -41,7 +41,7 @@
         <br />
         <a href="/export?format=JSON" class="btn btn-default">{{ _('Export account to JSON') }}</a>
     </div>
-    <div class="jumbotron">
+    <div class="well">
         <h1>{{ _('Export articles') }}</h1>
         <a href="/export?format=HTML" class="btn btn-default">HTML</a>
     </div>

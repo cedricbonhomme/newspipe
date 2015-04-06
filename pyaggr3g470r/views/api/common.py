@@ -1,7 +1,10 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -
+
 """For a given resources, classes in the module intend to create the following
 routes :
     GET resource/<id>
-        -> to retreive one
+        -> to retrieve one
     POST resource
         -> to create one
     PUT resource/<id>
@@ -10,7 +13,7 @@ routes :
         -> to delete one
 
     GET resources
-        -> to retreive several
+        -> to retrieve several
     POST resources
         -> to create several
     PUT resources
@@ -21,7 +24,6 @@ routes :
 import json
 import logging
 import dateutil.parser
-from copy import deepcopy
 from functools import wraps
 from werkzeug.exceptions import Unauthorized, BadRequest
 from flask import request, g, session, Response
@@ -54,12 +56,10 @@ def authenticate(func):
                         and user.activation_key == "":
                     g.user = user
                     logged_in = True
-
         if logged_in:
             return func(*args, **kwargs)
         raise Unauthorized({'WWWAuthenticate': 'Basic realm="Login Required"'})
     return wrapper
-
 
 def to_response(func):
     """Will cast results of func as a result, and try to extract
@@ -146,12 +146,16 @@ class PyAggResourceExisting(PyAggAbstractResource):
 class PyAggResourceMulti(PyAggAbstractResource):
 
     def get(self):
-        """retreive several objects. filters can be set in the payload on the
+        """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
-        limit = request.json.pop('limit', 10)
+        limit = 10
+        try:
+            limit = request.json.pop('limit', 10)
+        except:
+            return [res for res in self.controller.read().limit(limit)]
         if not limit:
             return [res for res in self.controller.read(**request.json).all()]
         return [res for res in self.controller.read(**request.json).limit(limit)]
@@ -159,7 +163,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def post(self):
         """creating several objects. payload should be a list of dict.
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 201
         results = []
@@ -180,7 +184,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
         [[obj_id1, {attr1: val1, attr2: val2}]
          [obj_id2, {attr1: val1, attr2: val2}]]
         """
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 200
         results = []
@@ -201,7 +205,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def delete(self):
         """will delete several objects,
         a list of their ids should be in the payload"""
-        if 'application/json' != request.headers.get('Content-Type'):
+        if 'application/json' not in request.headers.get('Content-Type'):
             raise BadRequest("Content-Type must be application/json")
         status = 204
         results = []

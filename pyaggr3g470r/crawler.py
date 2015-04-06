@@ -56,7 +56,7 @@ def get(*args, **kwargs):
         return (yield from response.read_and_close(decode=False))
     except Exception as e:
         #print(e)
-        return None
+        raise e
 
 @asyncio.coroutine
 def parse_feed(user, feed):
@@ -66,14 +66,17 @@ def parse_feed(user, feed):
     data = None
 
     with (yield from sem):
-        data = yield from get(feed.link)
-
-    if data is None:
-        feed.error_count += 1
-        if feed.error_count > 2:
-            feed.enabled = False
-        db.session.commit()
-        return
+        try:
+            data = yield from get(feed.link)
+        except Exception as e:
+            feed.last_error = str(e)
+        finally:
+            if data is None:
+                feed.error_count += 1
+                if feed.error_count > 2:
+                    feed.enabled = False
+                db.session.commit()
+                return
 
     a_feed = feedparser.parse(data)
     if a_feed['bozo'] == 1:
@@ -88,6 +91,7 @@ def parse_feed(user, feed):
 
     feed.last_retrieved = datetime.now(dateutil.tz.tzlocal())
     feed.error_count = 0
+    feed.last_error = ""
 
     # Feed informations
     if feed.title == "":

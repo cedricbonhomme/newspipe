@@ -33,7 +33,7 @@ from sqlalchemy import desc
 
 class Feed(db.Model):
     """
-    Represent a station.
+    Represent a feed.
     """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), default="No title")

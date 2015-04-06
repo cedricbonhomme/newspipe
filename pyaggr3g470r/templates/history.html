@@ -1,74 +1,26 @@
- {% extends "layout.html" %}
- {% block head %}
-{{ super() }}
-<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<style type="text/css">
-rect {
-        fill:  purple ;
-        padding: 7px;
-        margin: 2px;
-        color: white;
-    }
-rect:hover
-    {
-        opacity : 0.5;
-    }
-</style>
-{% endblock %}
-
+{% extends "layout.html" %}
 {% block content %}
 <div class="container">
-<h1>History</h1>
-<div align="center" id="pie_chart">
-    <div class="chart">
- </div>
-
-
-<script type="text/javascript">
-function createGraph(dataset, w, h) {
-    var barPadding = 1;
-
-    //Create SVG element
-    var svg = d3.select("#pie_chart .chart")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h);
-
-    svg.selectAll("rect")
-        .data(dataset)
-        .enter()
-        .append("rect")
-        .on("click", clickEvent)
-        .attr("x", function(d, i) {
-            return i * (w / dataset.length);
-        })
-        .attr("y", function(d) {
-            return h - (d * 4);
-        })
-        .attr("width", w / dataset.length - barPadding)
-        .attr("height", function(d) {
-            return d * 4;
-        });
-}
-
-function clickEvent(d){
-        //var op = prompt("Please enter the value", "");
-        alert(d);
-
-};
-
-
-
-var w = 800;
-var h = 100;
-var dataset = [ 12, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-                    11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-
-createGraph(dataset, w, h);
-
-
-</script>
-
-
-</div>
+    <h1>{{ _('History') }}</h1>
+    {% if month != None %}
+        <h2><a href="/history/{{ year }}"><span class="glyphicon glyphicon-chevron-left"></span> {{ year }}</a></h2>
+        <h3>{{ month | month_name }}</h3>
+    {% elif year != None %}
+        <h2><a href="/history"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp{{ _('all years') }}</a></h2>
+        <h3>{{ year }}</h3>
+    {% endif %}
+    <ul class="list-group">
+    {% for article in articles_counter %}
+        {% if year == None %}
+            <li class="list-group-item"><a href="/history/{{ article }}">{{ article }}</a> : {{ articles_counter[article] }} articles</li>
+        {% elif month == None %}
+            <li class="list-group-item"><a href="/history/{{ year }}/{{ article }}">{{ article | month_name  }}</a> : {{ articles_counter[article] }} articles</li>
+        {% else %}
+            {% for article in articles | sort(attribute="date", reverse = True) %}
+                <li class="list-group-item">{{ article.date | datetime }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
+            {% endfor %}
+        {% endif %}
+     {% endfor %}
+     </ul>
+</div><!-- /.container -->
 {% endblock %}

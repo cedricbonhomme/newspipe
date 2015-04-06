@@ -18,7 +18,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-API_ROOT = 'api/v2.0/'
+API_ROOT = '/api/v2.0/'
 
 if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
@@ -131,7 +131,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
         var article_id = $(this).parent().parent().parent().attr("data-article");
         $(this).parent().parent().parent().remove();
 
-         // sends the updates to the server
+        // sends the updates to the server
         $.ajax({
             type: 'DELETE',
             url: API_ROOT + "article/" + article_id,
@@ -142,6 +142,37 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
                 console.log(XMLHttpRequest.responseText);
             }
         });
+    });
+
+
+    // Delete all duplicate articles (used in the page /duplicates)
+    $('.delete-all').click(function(){
+        var data = [];
+
+        var columnNo = $(this).parent().index();
+        $(this).closest("table")
+            .find("tr td:nth-child(" + (columnNo+1) + ")")
+            .each(function(line, column) {
+                data.push(parseInt(column.id));
+            }).remove();
+
+        data = JSON.stringify(data);
+
+        // sends the updates to the server
+        $.ajax({
+            type: 'DELETE',
+            // Provide correct Content-Type, so that Flask will know how to process it.
+            contentType: 'application/json',
+            data: data,
+            url: API_ROOT + "articles",
+            success: function (result) {
+                //console.log(result);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.responseText);
+            }
+        });
+
     });
 
 }(jQuery);
