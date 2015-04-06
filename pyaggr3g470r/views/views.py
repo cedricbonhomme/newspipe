@@ -93,7 +93,7 @@ def before_request():
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
-    return controllers.UserController(email).get(email=email)
+    return controllers.UserController().get(email=email)
 
 
 #
@@ -153,7 +153,7 @@ def login():
     form = SigninForm()
 
     if form.validate_on_submit():
-        user = controllers.UserController(form.email.data).get(email=form.email.data)
+        user = controllers.UserController().get(email=form.email.data)
         login_user(user)
         g.user = user
         session['email'] = form.email.data
@@ -382,7 +382,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    user = controllers.UserController(g.user.email).get(email=g.user.email)
+    user = controllers.UserController(g.user.id).get(email=g.user.email)
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
@@ -429,7 +429,7 @@ def export_articles():
     """
     Export all articles to HTML or JSON.
     """
-    user = controllers.UserController(g.user.email).get(id=g.user.id)
+    user = controllers.UserController(g.user.id).get(id=g.user.id)
     if request.args.get('format') == "HTML":
         # Export to HTML
         try:
@@ -439,7 +439,8 @@ def export_articles():
             return redirect(redirect_url())
         response = make_response(archive_file)
         response.headers['Content-Type'] = 'application/x-compressed'
-        response.headers['Content-Disposition'] = 'attachment; filename='+archive_file_name
+        response.headers['Content-Disposition'] = 'attachment; filename=%s' \
+                % archive_file_name
     elif request.args.get('format') == "JSON":
         # Export to JSON
         try:
@@ -461,8 +462,9 @@ def export_opml():
     """
     Export all feeds to OPML.
     """
-    user = controllers.UserController(g.user.email).get(id=g.user.id)
-    response = make_response(render_template('opml.xml', user=user, now=datetime.datetime.now()))
+    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    response = make_response(render_template('opml.xml', user=user,
+                                             now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
@@ -637,7 +639,7 @@ def profile():
     """
     Edit the profile of the currently logged user.
     """
-    user = controllers.UserController(g.user.email).get(id=g.user.id)
+    user = controllers.UserController(g.user.id).get(id=g.user.id)
     form = ProfileForm()
 
     if request.method == 'POST':
@@ -663,7 +665,7 @@ def delete_account():
     """
     Delete the account of the user (with all its data).
     """
-    user = controllers.UserController(g.user.email).get(id=g.user.id)
+    user = controllers.UserController(g.user.id).get(id=g.user.id)
     if user is not None:
         db.session.delete(user)
         db.session.commit()
