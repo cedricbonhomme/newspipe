@@ -1,5 +1,12 @@
             pyAggr3g470r project news
 
+6.5: 2015-04-07 
+    Improvements:
+     * new CSS;
+     * improved installation script;
+     * it is now possible to delete all duplicate articles with one HTTP
+     delete request.
+
 6.4: 2015-03-17
     New:
      * a new page 'history' to explore your database of articles.
