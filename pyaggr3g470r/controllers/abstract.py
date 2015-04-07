@@ -9,11 +9,25 @@ class AbstractController(object):
     _db_cls = None  # reference to the database class
     _user_id_key = 'user_id'
 
-    def __init__(self, user_id):
+    def __init__(self, user_id=None):
+        """User id is a right management mechanism that should be used to
+        filter objects in database on their denormalized "user_id" field
+        (or "id" field for users).
+        Should no user_id be provided, the Controller won't apply any filter
+        allowing for a kind of "super user" mode.
+        """
         self.user_id = user_id
 
     def _to_filters(self, **filters):
-        if self.user_id:
+        """
+        Will translate filters to sqlalchemy filter.
+        This method will also apply user_id restriction if available.
+
+        each parameters of the function is treated as an equality unless the
+        name of the parameter ends with either "__gt", "__lt", "__ge", "__le",
+        "__ne" or "__in".
+        """
+        if self.user_id is not None:
             filters[self._user_id_key] = self.user_id
         db_filters = set()
         for key, value in filters.items():
@@ -37,17 +51,21 @@ class AbstractController(object):
         return self._db_cls.query.filter(*self._to_filters(**filters))
 
     def get(self, **filters):
+        """Will return one single objects corresponding to filters"""
         obj = self._get(**filters).first()
         if not obj:
             raise NotFound({'message': 'No %r (%r)'
                                 % (self._db_cls.__class__.__name__, filters)})
-        if getattr(obj, self._user_id_key) != self.user_id:
+        if self.user_id is not None \
+                and getattr(obj, self._user_id_key) != self.user_id:
             raise Forbidden({'message': 'No authorized to access %r (%r)'
                                 % (self._db_cls.__class__.__name__, filters)})
         return obj
 
     def create(self, **attrs):
-        attrs[self._user_id_key] = self.user_id
+        assert self._user_id_key in attrs or self.user_id is not None, \
+                "You must provide user_id one way or another"
+        attrs[self._user_id_key] = self.user_id or attrs.get(self._user_id_key)
         obj = self._db_cls(**attrs)
         db.session.add(obj)
         db.session.commit()

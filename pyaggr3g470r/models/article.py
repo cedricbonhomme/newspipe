@@ -27,11 +27,9 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import json
+from bootstrap import db
 from datetime import datetime
-from flask import g
 from sqlalchemy import asc, desc
-
-db = g.db
 
 
 class Article(db.Model):
