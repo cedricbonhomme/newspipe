@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import calendar
-from bootstrap import conf, application, db, populate_g
+from bootstrap import conf, application, populate_g
 from flask.ext.babel import Babel
 from flask.ext.babel import format_datetime
 
@@ -30,12 +30,10 @@ if conf.ON_HEROKU:
 babel = Babel(application)
 
 # Jinja filters
-application.jinja_env.filters['datetime'] = format_datetime
-
-#@register.filter
 def month_name(month_number):
     return calendar.month_name[month_number]
 application.jinja_env.filters['month_name'] = month_name
+application.jinja_env.filters['datetime'] = format_datetime
 
 # Views
 from flask.ext.restful import Api

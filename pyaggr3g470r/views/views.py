@@ -249,8 +249,9 @@ def home():
                        .group_by(Article.feed_id).all()
     in_error = {feed.id: feed.error_count for feed in
                 FeedController(g.user.id).read(error_count__gt=2).all()}
+
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
-        return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
+        return url_for('home', filter_=filter_, limit=limit, feed=feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=dict(unread), articles=articles.all(),
@@ -283,7 +284,6 @@ def about():
 
 
 @app.route('/mark_as/<string:new_value>', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
 @app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
 @login_required
 @feed_access_required
@@ -557,82 +557,6 @@ def history(year=None, month=None):
                             articles=articles,
                             year=year, month=month)
 
-@app.route('/bookmarklet', methods=['GET'])
-@app.route('/create_feed', methods=['GET', 'POST'])
-@app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
-@login_required
-@feed_access_required
-def edit_feed(feed_id=None):
-    """
-    Add or edit a feed.
-    """
-    form = AddFeedForm()
-
-    if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('edit_feed.html', form=form)
-        if feed_id is not None:
-            # Edit an existing feed
-            feed = FeedController(g.user.id).get(id=feed_id)
-            form.populate_obj(feed)
-            if feed.enabled:
-                # set the error count to 0
-                feed.error_count = 0
-                feed.last_error = ""
-            db.session.commit()
-            flash(gettext('Feed successfully updated.'), 'success')
-            return redirect('/edit_feed/' + str(feed_id))
-        else:
-            # Create a new feed
-            existing_feed = [f for f in g.user.feeds if f.link == form.link.data]
-            if len(existing_feed) == 0:
-                new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
-                                site_link=form.site_link.data, enabled=form.enabled.data)
-                g.user.feeds.append(new_feed)
-                #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-                db.session.commit()
-                flash(gettext('Feed successfully created.'), 'success')
-
-                utils.fetch(g.user.id, Feed.query.filter(Feed.link == form.link.data).first().id)
-                flash(gettext("Downloading articles for the new feed..."), 'info')
-
-                return redirect('/edit_feed/' + str(new_feed.id))
-            else:
-                flash(gettext('Feed already in the database.'), 'warning')
-                return redirect('/edit_feed/' + str(existing_feed[0].id))
-
-    if request.method == 'GET':
-        if feed_id is not None:
-            feed = FeedController(g.user.id).get(id=feed_id)
-            form = AddFeedForm(obj=feed)
-            return render_template('edit_feed.html', action=gettext("Edit the feed"), form=form, feed=feed, \
-                                    not_on_heroku = not conf.ON_HEROKU)
-
-        # Enable the user to add a feed with a bookmarklet
-        if None is not request.args.get('url', None):
-            existing_feed = [f for f in g.user.feeds if feed.link == request.args.get('url', None)]
-            if len(existing_feed) == 0:
-                g.user.feeds.append(Feed(link=request.args.get('url', None)))
-                db.session.commit()
-                return jsonify({"message":"ok"})
-            return jsonify({"message":"Feed already in the database."})
-
-        # Return an empty form in order to create a new feed
-        return render_template('edit_feed.html', action=gettext("Add a feed"), form=form, \
-                                not_on_heroku = not conf.ON_HEROKU)
-
-@app.route('/delete_feed/<feed_id>', methods=['GET'])
-@login_required
-@feed_access_required
-def delete_feed(feed_id=None):
-    """
-    Delete a feed with all associated articles.
-    """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
-    db.session.delete(feed)
-    db.session.commit()
-    flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully deleted.'), 'success')
-    return redirect(redirect_url())
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required

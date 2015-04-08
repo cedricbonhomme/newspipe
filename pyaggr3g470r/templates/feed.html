@@ -4,8 +4,8 @@
     <div class="well">
         <h2>{{ feed.title }}</h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
-        <a href="/delete_feed/{{ feed.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-        <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+        <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+        <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
     </div>
     <div class="well">
         <p>

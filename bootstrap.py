@@ -6,6 +6,7 @@
 import os
 import conf
 import logging
+from urllib.parse import urlsplit
 
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
@@ -22,8 +23,12 @@ from flask.ext.sqlalchemy import SQLAlchemy
 # Create Flask application
 application = Flask('pyaggr3g470r')
 application.debug = conf.WEBSERVER_DEBUG
-set_logging(conf.LOG_PATH, log_level=logging.DEBUG if conf.WEBSERVER_DEBUG
-                                else logging.INFO)
+scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
+application.config['SERVER_NAME'] = domain
+application.config['PREFERRED_URL_SCHEME'] = scheme
+
+set_logging(conf.LOG_PATH,
+            log_level=logging.DEBUG if conf.WEBSERVER_DEBUG else logging.INFO)
 
 # Create dummy secrey key so we can use sessions
 application.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)

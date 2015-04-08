@@ -56,8 +56,8 @@ class AbstractController(object):
         if not obj:
             raise NotFound({'message': 'No %r (%r)'
                                 % (self._db_cls.__class__.__name__, filters)})
-        if self.user_id is not None \
-                and getattr(obj, self._user_id_key) != self.user_id:
+
+        if not self._has_right_on(obj):
             raise Forbidden({'message': 'No authorized to access %r (%r)'
                                 % (self._db_cls.__class__.__name__, filters)})
         return obj
@@ -84,3 +84,8 @@ class AbstractController(object):
         db.session.delete(obj)
         db.session.commit()
         return obj
+
+    def _has_right_on(self, obj):
+        # user_id == None is like being admin
+        return self.user_id is None \
+                or getattr(obj, self._user_id_key, None) == self.user_id

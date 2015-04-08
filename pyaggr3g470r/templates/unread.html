@@ -16,8 +16,8 @@
                 <a href="/articles/{{ feed.id }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('More articles') }}"></i></a>
                 <a href="/feed/{{ feed.id }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/edit_feed/{{ feed.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="/mark_as/read/feed/{{ feed.id }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all feed as read') }}"></i></a>
-                <a href="/mark_as/unread/feed/{{ feed.id }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark all feed as unread') }}"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="read") }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark all feed as read') }}"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="unread") }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark all feed as unread') }}"></i></a>
                 <h3>{{ feed.articles|length }} {{ _('unread articles') }}.</h3>
                 </div>
             </div>

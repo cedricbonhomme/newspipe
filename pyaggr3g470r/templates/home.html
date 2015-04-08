@@ -3,7 +3,7 @@
 {% if feeds|count == 0 %}
     <div class="col-md-4 col-md-offset-4">
         <h1>{{ _("You don't have any feeds.") }}</h1>
-        <h1><a href="/create_feed">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management">{{ _('upload an OPML file.') }}</a></h1>
+        <h1><a href="{{ url_for("feed.form") }}">{{ _('Add some') }}</a>, {{ _('or') }} <a href="/management">{{ _('upload an OPML file.') }}</a></h1>
     </div>
 {% else %}
     <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
@@ -26,10 +26,10 @@
             <li class="feed-commands"><span>
                 <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
-                <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-                <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for("feed.form", feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="{{ url_for("feed.delete", feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="read") }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="unread") }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
             </span></li>
         {% endfor %}
         {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
@@ -44,10 +44,10 @@
             <li class="feed-commands"><span>
                 <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
-                <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-                <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for("feed.form", feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="{{ url_for("feed.delete", feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="read") }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for("feed.update", feed_id=fid, action="unread") }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
             </span></li>
         {% endfor %}
         </ul>

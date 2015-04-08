@@ -38,7 +38,7 @@
                         <li><a accesskey="r" href="/fetch">{{ _('Fetch') }}</a></li>
                         <li><a href="/mark_as/read">{{ _('Mark all as read') }}</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li><a href="/create_feed">{{ _('Add a feed') }}</a></li>
+                        <li><a href="{{ url_for("feed.form") }}">{{ _('Add a feed') }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -47,7 +47,7 @@
                         <li><a accesskey="u" href="/unread">{{ _('Unread') }}</a></li>
                         <li><a accesskey="f" href="/favorites">{{ _('Favorites') }}</a></li>
                         <li><a accesskey="i" href="/inactives">{{ _('Inactive feeds') }}</a></li>
-                        <li><a href="/feeds">{{ _('All feeds') }}</a></li>
+                        <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All feeds') }}</a></li>
                         <li><a href="/history">{{ _('History') }}</a></li>
                     </ul>
                 </li>
