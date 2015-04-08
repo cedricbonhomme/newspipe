@@ -75,7 +75,7 @@ def delete(feed_id=None):
 @login_required
 def reset_errors(feed_id):
     feed_contr = FeedController(g.user.id)
-    feed = feed_contr.get(feed_id)
+    feed = feed_contr.get(id=feed_id)
     feed_contr.update({'id': feed_id}, {'error_count': 0, 'last_error': ''})
     flash(gettext('Feed %(feed_title)r successfully updated.',
                   feed_title=feed.title), 'success')
