@@ -34,25 +34,25 @@ import datetime
 from collections import namedtuple
 from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
-                  url_for, redirect, g, current_app, make_response, jsonify
+                  url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import func, or_
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
 from pyaggr3g470r import utils, notifications, export
-from pyaggr3g470r import controllers
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
                     ProfileForm, InformationMessageForm, RecoverPasswordForm
-from pyaggr3g470r.controllers import FeedController
+from pyaggr3g470r.controllers import UserController, FeedController, \
+                                     ArticleController
 if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
 
@@ -93,7 +93,7 @@ def before_request():
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
-    return controllers.UserController().get(email=email)
+    return UserController().get(email=email)
 
 
 #
@@ -153,7 +153,7 @@ def login():
     form = SigninForm()
 
     if form.validate_on_submit():
-        user = controllers.UserController().get(email=form.email.data)
+        user = UserController().get(email=form.email.data)
         login_user(user)
         g.user = user
         session['email'] = form.email.data
@@ -229,32 +229,34 @@ def home():
     """
     Home page for connected users. Displays by default unread articles.
     """
-    feeds = {feed.id: feed.title for feed in g.user.feeds}
-    articles = Article.query.filter(Article.feed_id.in_(feeds.keys()),
-                                    Article.user_id == g.user.id)
+    feed_contr = FeedController(g.user.id)
+    arti_contr = ArticleController(g.user.id)
+    feeds = {feed.id: feed.title for feed in feed_contr.read()}
+
+    unread = arti_contr.get_unread()
+    in_error = {feed.id: feed.error_count for feed in
+                feed_contr.read(error_count__gt=2)}
+
     filter_ = request.args.get('filter_', 'unread')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
-    if filter_ != 'all':
-        articles = articles.filter(Article.readed == (filter_ == 'read'))
-    if feed_id:
-        articles = articles.filter(Article.feed_id == feed_id)
 
-    articles = articles.order_by(Article.date.desc())
+    filters = {}
+    if filter_ != 'all':
+        filters['readed'] = filter_ == 'read'
+    if feed_id:
+        filters['feed_id'] = feed_id
+
+    articles = arti_contr.read(**filters).order_by(Article.date.desc())
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
-    unread = db.session.query(Article.feed_id, func.count(Article.id))\
-                       .filter(Article.readed == False, Article.user_id == g.user.id)\
-                       .group_by(Article.feed_id).all()
-    in_error = {feed.id: feed.error_count for feed in
-                FeedController(g.user.id).read(error_count__gt=2).all()}
 
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return url_for('home', filter_=filter_, limit=limit, feed=feed)
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=dict(unread), articles=articles.all(),
+                           unread=unread, articles=list(articles),
                            in_error=in_error,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
 
@@ -383,7 +385,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    user = controllers.UserController(g.user.id).get(email=g.user.email)
+    user = UserController(g.user.id).get(email=g.user.email)
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
@@ -430,7 +432,7 @@ def export_articles():
     """
     Export all articles to HTML or JSON.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     if request.args.get('format') == "HTML":
         # Export to HTML
         try:
@@ -463,7 +465,7 @@ def export_opml():
     """
     Export all feeds to OPML.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     response = make_response(render_template('opml.xml', user=user,
                                              now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
@@ -564,7 +566,7 @@ def profile():
     """
     Edit the profile of the currently logged user.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     form = ProfileForm()
 
     if request.method == 'POST':
@@ -590,7 +592,7 @@ def delete_account():
     """
     Delete the account of the user (with all its data).
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     if user is not None:
         db.session.delete(user)
         db.session.commit()
