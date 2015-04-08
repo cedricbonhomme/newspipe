@@ -1,5 +1,10 @@
             pyAggr3g470r project news
 
+6.5.1: 2015-04-08
+    Improvements:
+     * improvements on the controllers;
+     * the minimum error count is now specified in the configuration file.
+
 6.5: 2015-04-07 
     Improvements:
      * new CSS;
