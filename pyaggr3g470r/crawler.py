@@ -71,9 +71,7 @@ def parse_feed(user, feed):
         except Exception as e:
             feed.last_error = str(e)
         finally:
-            print(feed.link)
             if data is None:
-                print('error')
                 feed.error_count += 1
                 if feed.error_count >= conf.DEFAULT_MAX_ERROR:
                     feed.enabled = False
