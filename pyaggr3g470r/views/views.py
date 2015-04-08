@@ -254,7 +254,8 @@ def home():
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=dict(unread), articles=articles.all(),
-                           in_error=in_error)
+                           in_error=in_error,
+                           default_max_error = conf.DEFAULT_MAX_ERROR)
 
 
 @app.route('/fetch', methods=['GET'])

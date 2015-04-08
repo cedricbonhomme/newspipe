@@ -12,6 +12,7 @@ uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
 resolve_article_url = 0
+default_max_error = 6
 [webserver]
 debug = 1
 host = 0.0.0.0

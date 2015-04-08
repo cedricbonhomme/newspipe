@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 3.1 $"
+__version__ = "$Revision: 3.2 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2015/02/08 $"
+__revision__ = "$Date: 2015/04/08 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -71,9 +71,11 @@ def parse_feed(user, feed):
         except Exception as e:
             feed.last_error = str(e)
         finally:
+            print(feed.link)
             if data is None:
+                print('error')
                 feed.error_count += 1
-                if feed.error_count > 2:
+                if feed.error_count >= conf.DEFAULT_MAX_ERROR:
                     feed.enabled = False
                 db.session.commit()
                 return
@@ -83,7 +85,7 @@ def parse_feed(user, feed):
         #logger.error(a_feed['bozo_exception'])
         feed.last_error = str(a_feed['bozo_exception'])
         feed.error_count += 1
-        if feed.error_count > 2:
+        if feed.error_count >= conf.DEFAULT_MAX_ERROR:
             feed.enabled = False
         db.session.commit()
     if a_feed['entries'] == []:

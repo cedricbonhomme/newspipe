@@ -48,6 +48,7 @@ if not ON_HEROKU:
     HTTP_PROXY = config.get('feedparser', 'http_proxy')
     USER_AGENT = config.get('feedparser', 'user_agent')
     RESOLVE_ARTICLE_URL = int(config.get('feedparser', 'resolve_article_url')) == 1
+    DEFAULT_MAX_ERROR = int(config.get('feedparser', 'default_max_error'))
 
     WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
     WEBSERVER_HOST = config.get('webserver', 'host')
@@ -77,6 +78,7 @@ else:
     HTTP_PROXY = ""
     USER_AGENT = "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
     RESOLVE_ARTICLE_URL = int(os.environ.get('RESOLVE_ARTICLE_URL', 0)) == 1
+    DEFAULT_MAX_ERROR = int(os.environ.get('DEFAULT_MAX_ERROR', 6))
 
     WEBSERVER_DEBUG = False
     WEBSERVER_HOST = '0.0.0.0'
