@@ -254,10 +254,14 @@ def home():
 
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
         return url_for('home', filter_=filter_, limit=limit, feed=feed)
+
+    articles = list(articles)
+    if not articles:
+        return redirect(gen_url(filter_='all'))
+
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=unread, articles=list(articles),
-                           in_error=in_error,
+                           unread=unread, articles=articles, in_error=in_error,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
 
 
