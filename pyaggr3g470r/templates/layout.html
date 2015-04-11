@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="pyAggr3g470r is a web-based news aggregator." />
     <meta name="author" content="" />
-    <title>{% if head_title %}{{ head_title }} - {% endif %}pyAggr3g470r</title>
+    <title>pyAggr3g470r{% if head_title %} - {{ head_title }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" />
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename = 'css/bootstrap.css') }}" rel="stylesheet" media="screen" />
@@ -25,7 +25,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">pyAggr3g470r</a>
+          <a class="navbar-brand" href="/">pyAggr3g470r</a><span class="navbar-brand">{% if head_title %}-  {{ head_title }}{% endif %}</span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -101,18 +101,19 @@
     <script src="{{ url_for('static', filename = 'js/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
     <script type="text/javascript" class="source">
-        if (window.location.href.indexOf("filter_=all") > -1){
-            $("#tab-all").attr('class', "active");
+        var filter_ = {% if filter_ %}"{{ filter_ }}"{% else %}undefined{% endif %};
+        if (filter_ == undefined) {
+            if (window.location.href.indexOf("filter_=all") > -1){
+                filter_ = 'all';
+            }
+            else if (window.location.href.indexOf("filter_=unread") > -1) {
+                filter_ = 'unread';
+            }
+            else if (window.location.href.indexOf("filter_=read") > -1) {
+                filter_ = 'read';
+            }
         }
-        else if (window.location.href.indexOf("filter_=unread") > -1) {
-            $("#tab-unread").attr('class', "active");
-        }
-        else if (window.location.href.indexOf("filter_=read") > -1) {
-            $("#tab-read").attr('class', "active");
-        }
-        else {
-            $("#tab-unread").attr('class', "active");
-        }
+        $("#tab-" + filter_).attr('class', "active");
     </script>
   </body>
 </html>

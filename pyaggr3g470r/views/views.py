@@ -224,11 +224,14 @@ def signup():
     return render_template('signup.html', form=form)
 
 @app.route('/')
+@app.route('/favorites')
 @login_required
 def home():
     """
     Home page for connected users. Displays by default unread articles.
     """
+    favorites = request.path.startswith('/favorites')
+    head_title = gettext('Favorites') if favorites else ''
     feed_contr = FeedController(g.user.id)
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
@@ -237,11 +240,13 @@ def home():
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 
-    filter_ = request.args.get('filter_', 'unread')
+    filter_ = request.args.get('filter_', 'all' if favorites else 'unread')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
 
     filters = {}
+    if favorites:
+        filters['like'] = True
     if filter_ != 'all':
         filters['readed'] = filter_ == 'read'
     if feed_id:
@@ -256,12 +261,13 @@ def home():
         return url_for('home', filter_=filter_, limit=limit, feed=feed)
 
     articles = list(articles)
-    if not articles:
+    if not articles and not favorites:
         return redirect(gen_url(filter_='all'))
 
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
+                           head_title=head_title,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
 
 
@@ -346,22 +352,6 @@ def delete(article_id=None):
     else:
         flash(gettext('This article do not exist.'), 'danger')
         return redirect(url_for('home'))
-
-
-@app.route('/favorites', methods=['GET'])
-@login_required
-def favorites():
-    """
-    List favorites articles.
-    """
-    feeds_with_like = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(like=True))
-    result, nb_favorites = [], 0
-    light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
-    for feed in feeds_with_like:
-        articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
-        result.append(light_feed(feed.id, feed.title, articles))
-        nb_favorites += len(articles)
-    return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
 
 
 @app.route('/inactives', methods=['GET'])
