@@ -224,13 +224,11 @@ def signup():
     return render_template('signup.html', form=form)
 
 @app.route('/')
-@app.route('/favorites')
 @login_required
-def home():
+def home(favorites=False):
     """
     Home page for connected users. Displays by default unread articles.
     """
-    favorites = request.path.startswith('/favorites')
     head_title = gettext('Favorites') if favorites else ''
     feed_contr = FeedController(g.user.id)
     arti_contr = ArticleController(g.user.id)
@@ -269,6 +267,12 @@ def home():
                            unread=unread, articles=articles, in_error=in_error,
                            head_title=head_title,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
+
+
+@app.route('/favorites')
+@login_required
+def favorties():
+    return home(favorites=True)
 
 
 @app.route('/fetch', methods=['GET'])

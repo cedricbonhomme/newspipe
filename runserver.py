@@ -34,6 +34,7 @@ def month_name(month_number):
     return calendar.month_name[month_number]
 application.jinja_env.filters['month_name'] = month_name
 application.jinja_env.filters['datetime'] = format_datetime
+application.jinja_env.globals['conf'] = conf
 
 # Views
 from flask.ext.restful import Api

@@ -112,15 +112,16 @@ def read(feed_id):
     return redirect(request.referrer or url_for('home'))
 
 
-@feed_bp.route('/update/<int:feed_id>/<action>', methods=['GET', 'POST'])
+@feed_bp.route('/update/<action>/<int:feed_id>', methods=['GET', 'POST'])
+@feeds_bp.route('/update/<action>', methods=['GET', 'POST'])
 @login_required
-def update(feed_id, action):
+def update(action, feed_id=None):
     readed = action == 'read'
-    ArticleController(g.user.id).update({'readed__ne': readed,
-                                         'feed_id': feed_id},
-                                        {'readed': readed})
-    flash(gettext('Feed successfully updated.',
-                  feed_title=feed.title), 'success')
+    filters = {'readed__ne': readed}
+    if feed_id:
+        filters['feed_id'] = feed_id
+    ArticleController(g.user.id).update(filters, {'readed': readed})
+    flash(gettext('Feed successfully updated.'), 'success')
     return redirect(request.referrer or url_for('home'))
 
 
