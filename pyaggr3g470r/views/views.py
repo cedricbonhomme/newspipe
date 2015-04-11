@@ -259,7 +259,7 @@ def home(favorites=False):
         return url_for('home', filter_=filter_, limit=limit, feed=feed)
 
     articles = list(articles)
-    if not articles and not favorites:
+    if not articles and not favorites and feed_id:
         return redirect(gen_url(filter_='all'))
 
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
