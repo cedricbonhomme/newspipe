@@ -535,12 +535,11 @@ def management():
         else:
             flash(gettext('File not allowed.'), 'danger')
 
-    form = AddFeedForm()
     nb_feeds = len(g.user.feeds.all())
     articles = Article.query.filter(Article.user_id == g.user.id)
     nb_articles = articles.count()
     nb_unread_articles = articles.filter(Article.readed == False).count()
-    return render_template('management.html', user=g.user, form=form,
+    return render_template('management.html', user=g.user,
                             nb_feeds=nb_feeds, nb_articles=nb_articles,
                             nb_unread_articles=nb_unread_articles)
 
@@ -690,7 +689,6 @@ def create_user(user_id=None):
 
     if request.method == 'POST':
         if form.validate():
-            print("Form validated...")
             role_user = Role.query.filter(Role.name == "user").first()
             if user_id is not None:
                 # Edit a user
@@ -702,7 +700,6 @@ def create_user(user_id=None):
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
             else:
                 # Create a new user
-                print("A new user...")
                 user = User(nickname=form.nickname.data,
                              email=form.email.data,
                              pwdhash=generate_password_hash(form.password.data))
@@ -713,7 +710,6 @@ def create_user(user_id=None):
                 flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
             return redirect("/admin/edit_user/"+str(user.id))
         else:
-            print("Problem with the form")
             return redirect(url_for('create_user'))
 
     if request.method == 'GET':
