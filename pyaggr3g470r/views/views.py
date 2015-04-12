@@ -34,25 +34,25 @@ import datetime
 from collections import namedtuple
 from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
-                  url_for, redirect, g, current_app, make_response, jsonify
+                  url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import func, or_
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
 from pyaggr3g470r import utils, notifications, export
-from pyaggr3g470r import controllers
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, AddFeedForm, \
                     ProfileForm, InformationMessageForm, RecoverPasswordForm
-from pyaggr3g470r.controllers import FeedController
+from pyaggr3g470r.controllers import UserController, FeedController, \
+                                     ArticleController
 if not conf.ON_HEROKU:
     import pyaggr3g470r.search as fastsearch
 
@@ -93,7 +93,7 @@ def before_request():
 @login_manager.user_loader
 def load_user(email):
     # Return an instance of the User model
-    return controllers.UserController().get(email=email)
+    return UserController().get(email=email)
 
 
 #
@@ -153,7 +153,7 @@ def login():
     form = SigninForm()
 
     if form.validate_on_submit():
-        user = controllers.UserController().get(email=form.email.data)
+        user = UserController().get(email=form.email.data)
         login_user(user)
         g.user = user
         session['email'] = form.email.data
@@ -225,37 +225,58 @@ def signup():
 
 @app.route('/')
 @login_required
-def home():
+def home(favorites=False):
     """
     Home page for connected users. Displays by default unread articles.
     """
-    feeds = {feed.id: feed.title for feed in g.user.feeds}
-    articles = Article.query.filter(Article.feed_id.in_(feeds.keys()),
-                                    Article.user_id == g.user.id)
-    filter_ = request.args.get('filter_', 'unread')
+    head_title = gettext('Favorites') if favorites else ''
+    feed_contr = FeedController(g.user.id)
+    arti_contr = ArticleController(g.user.id)
+    feeds = {feed.id: feed.title for feed in feed_contr.read()}
+
+    unread = arti_contr.get_unread()
+    in_error = {feed.id: feed.error_count for feed in
+                feed_contr.read(error_count__gt=2)}
+
+    filter_ = request.args.get('filter_', 'all' if favorites else 'unread')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
-    if filter_ != 'all':
-        articles = articles.filter(Article.readed == (filter_ == 'read'))
-    if feed_id:
-        articles = articles.filter(Article.feed_id == feed_id)
 
-    articles = articles.order_by(Article.date.desc())
+    filters = {}
+    if favorites:
+        filters['like'] = True
+    if filter_ != 'all':
+        filters['readed'] = filter_ == 'read'
+    if feed_id:
+        filters['feed_id'] = feed_id
+        if head_title:
+            head_title += ' - '
+        head_title += feed_contr.get(id=feed_id).title
+
+    articles = arti_contr.read(**filters).order_by(Article.date.desc())
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
-    unread = db.session.query(Article.feed_id, func.count(Article.id))\
-                       .filter(Article.readed == False, Article.user_id == g.user.id)\
-                       .group_by(Article.feed_id).all()
-    in_error = {feed.id: feed.error_count for feed in
-                FeedController(g.user.id).read(error_count__gt=2).all()}
+
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
-        return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
+        return url_for('favorites' if favorites else 'home',
+                       filter_=filter_, limit=limit, feed=feed)
+
+    articles = list(articles)
+    if not articles and not favorites and feed_id:
+        return redirect(gen_url(filter_='all'))
+
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=dict(unread), articles=articles.all(),
-                           in_error=in_error,
+                           unread=unread, articles=articles, in_error=in_error,
+                           head_title=head_title, favorites=favorites,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
+
+
+@app.route('/favorites')
+@login_required
+def favorites():
+    return home(favorites=True)
 
 
 @app.route('/fetch', methods=['GET'])
@@ -283,7 +304,6 @@ def about():
 
 
 @app.route('/mark_as/<string:new_value>', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/feed/<int:feed_id>', methods=['GET'])
 @app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
 @login_required
 @feed_access_required
@@ -342,40 +362,6 @@ def delete(article_id=None):
         return redirect(url_for('home'))
 
 
-@app.route('/favorites', methods=['GET'])
-@login_required
-def favorites():
-    """
-    List favorites articles.
-    """
-    feeds_with_like = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(like=True))
-    result, nb_favorites = [], 0
-    light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
-    for feed in feeds_with_like:
-        articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.like == True).all()
-        result.append(light_feed(feed.id, feed.title, articles))
-        nb_favorites += len(articles)
-    return render_template('favorites.html', feeds=result, nb_favorites=nb_favorites)
-
-@app.route('/unread/<int:feed_id>', methods=['GET'])
-@app.route('/unread', methods=['GET'])
-@login_required
-def unread(feed_id=None):
-    """
-    List unread articles.
-    """
-    if feed_id is not None:
-        feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id)
-    else:
-        feeds_with_unread = Feed.query.filter(Feed.user_id == g.user.id, Feed.articles.any(readed=False))
-    result, nb_unread = [], 0
-    light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
-    for feed in feeds_with_unread:
-        articles = Article.query.filter(Article.user_id == g.user.id, Article.feed_id == feed.id, Article.readed == False).all()
-        result.append(light_feed(feed.id, feed.title, articles))
-        nb_unread += len(articles)
-    return render_template('unread.html', feeds=result, nb_unread=nb_unread)
-
 @app.route('/inactives', methods=['GET'])
 @login_required
 def inactives():
@@ -383,7 +369,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    user = controllers.UserController(g.user.id).get(email=g.user.email)
+    user = UserController(g.user.id).get(email=g.user.email)
     today = datetime.datetime.now()
     inactives = []
     for feed in user.feeds:
@@ -430,7 +416,7 @@ def export_articles():
     """
     Export all articles to HTML or JSON.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     if request.args.get('format') == "HTML":
         # Export to HTML
         try:
@@ -463,7 +449,7 @@ def export_opml():
     """
     Export all feeds to OPML.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     response = make_response(render_template('opml.xml', user=user,
                                              now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
@@ -557,82 +543,6 @@ def history(year=None, month=None):
                             articles=articles,
                             year=year, month=month)
 
-@app.route('/bookmarklet', methods=['GET'])
-@app.route('/create_feed', methods=['GET', 'POST'])
-@app.route('/edit_feed/<int:feed_id>', methods=['GET', 'POST'])
-@login_required
-@feed_access_required
-def edit_feed(feed_id=None):
-    """
-    Add or edit a feed.
-    """
-    form = AddFeedForm()
-
-    if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('edit_feed.html', form=form)
-        if feed_id is not None:
-            # Edit an existing feed
-            feed = FeedController(g.user.id).get(id=feed_id)
-            form.populate_obj(feed)
-            if feed.enabled:
-                # set the error count to 0
-                feed.error_count = 0
-                feed.last_error = ""
-            db.session.commit()
-            flash(gettext('Feed successfully updated.'), 'success')
-            return redirect('/edit_feed/' + str(feed_id))
-        else:
-            # Create a new feed
-            existing_feed = [f for f in g.user.feeds if f.link == form.link.data]
-            if len(existing_feed) == 0:
-                new_feed = Feed(title=form.title.data, description="", link=form.link.data, \
-                                site_link=form.site_link.data, enabled=form.enabled.data)
-                g.user.feeds.append(new_feed)
-                #user.feeds = sorted(user.feeds, key=lambda t: t.title.lower())
-                db.session.commit()
-                flash(gettext('Feed successfully created.'), 'success')
-
-                utils.fetch(g.user.id, Feed.query.filter(Feed.link == form.link.data).first().id)
-                flash(gettext("Downloading articles for the new feed..."), 'info')
-
-                return redirect('/edit_feed/' + str(new_feed.id))
-            else:
-                flash(gettext('Feed already in the database.'), 'warning')
-                return redirect('/edit_feed/' + str(existing_feed[0].id))
-
-    if request.method == 'GET':
-        if feed_id is not None:
-            feed = FeedController(g.user.id).get(id=feed_id)
-            form = AddFeedForm(obj=feed)
-            return render_template('edit_feed.html', action=gettext("Edit the feed"), form=form, feed=feed, \
-                                    not_on_heroku = not conf.ON_HEROKU)
-
-        # Enable the user to add a feed with a bookmarklet
-        if None is not request.args.get('url', None):
-            existing_feed = [f for f in g.user.feeds if feed.link == request.args.get('url', None)]
-            if len(existing_feed) == 0:
-                g.user.feeds.append(Feed(link=request.args.get('url', None)))
-                db.session.commit()
-                return jsonify({"message":"ok"})
-            return jsonify({"message":"Feed already in the database."})
-
-        # Return an empty form in order to create a new feed
-        return render_template('edit_feed.html', action=gettext("Add a feed"), form=form, \
-                                not_on_heroku = not conf.ON_HEROKU)
-
-@app.route('/delete_feed/<feed_id>', methods=['GET'])
-@login_required
-@feed_access_required
-def delete_feed(feed_id=None):
-    """
-    Delete a feed with all associated articles.
-    """
-    feed = Feed.query.filter(Feed.id == feed_id).first()
-    db.session.delete(feed)
-    db.session.commit()
-    flash(gettext('Feed') + ' ' + feed.title + ' ' + gettext('successfully deleted.'), 'success')
-    return redirect(redirect_url())
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -640,7 +550,7 @@ def profile():
     """
     Edit the profile of the currently logged user.
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     form = ProfileForm()
 
     if request.method == 'POST':
@@ -666,7 +576,7 @@ def delete_account():
     """
     Delete the account of the user (with all its data).
     """
-    user = controllers.UserController(g.user.id).get(id=g.user.id)
+    user = UserController(g.user.id).get(id=g.user.id)
     if user is not None:
         db.session.delete(user)
         db.session.commit()

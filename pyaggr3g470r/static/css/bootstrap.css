@@ -6582,3 +6582,4 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.glyphicon.delete, .glyphicon.like, .glyphicon.readed { cursor: pointer; }

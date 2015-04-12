@@ -1,3 +1,6 @@
+from sqlalchemy import func
+
+from bootstrap import db
 import conf
 from .abstract import AbstractController
 from pyaggr3g470r.models import Article
@@ -25,3 +28,9 @@ class ArticleController(AbstractController):
             if self.read(**id_).first():
                 continue
             yield id_
+
+    def get_unread(self):
+        return dict(db.session.query(Article.feed_id, func.count(Article.id))
+                       .filter(Article.readed == False,
+                               Article.user_id == self.user_id)
+                       .group_by(Article.feed_id).all())

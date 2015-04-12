@@ -66,7 +66,8 @@ if not ON_HEROKU:
     WEBZINE_ROOT = PATH + "/pyaggr3g470r/var/export/"
 
 else:
-    PLATFORM_URL = os.environ.get('PLATFORM_URL', 'https://pyaggr3g470r.herokuapp.com/')
+    PLATFORM_URL = os.environ.get('PLATFORM_URL',
+            'https://pyaggr3g470r.herokuapp.com/')
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '')
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
