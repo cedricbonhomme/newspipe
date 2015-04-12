@@ -249,6 +249,9 @@ def home(favorites=False):
         filters['readed'] = filter_ == 'read'
     if feed_id:
         filters['feed_id'] = feed_id
+        if head_title:
+            head_title += ' - '
+        head_title += feed_contr.get(id=feed_id).title
 
     articles = arti_contr.read(**filters).order_by(Article.date.desc())
     if limit != 'all':
@@ -256,7 +259,8 @@ def home(favorites=False):
         articles = articles.limit(limit)
 
     def gen_url(filter_=filter_, limit=limit, feed=feed_id):
-        return url_for('home', filter_=filter_, limit=limit, feed=feed)
+        return url_for('favorites' if favorites else 'home',
+                       filter_=filter_, limit=limit, feed=feed)
 
     articles = list(articles)
     if not articles and not favorites and feed_id:
