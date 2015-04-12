@@ -65,7 +65,7 @@
                 {% else %}
                 <li><a accesskey="f" href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
                 {% endif %}
-                {% if conf.ON_HEROKU and g.user.is_admin() %}
+                {% if not conf.ON_HEROKU or g.user.is_admin() %}
                 <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span>{{ _('Fetch') }}</a></li>
                 {% endif %}
                 <li class="dropdown">
