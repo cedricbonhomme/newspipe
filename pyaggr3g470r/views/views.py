@@ -138,6 +138,16 @@ def get_timezone():
     except:
         return conf.TIME_ZONE["en"]
 
+@app.context_processor
+def inject_feed_form():
+    """
+    Injects the 'AddFeedForm' objects in all templates.
+
+    Context processors run before the template is rendered and have the
+    ability to inject new values into the template context.
+    """
+    return dict(create_feed_form=AddFeedForm())
+
 #
 # Views.
 #

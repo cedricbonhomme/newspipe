@@ -87,10 +87,15 @@ class SigninForm(Form):
 
 class AddFeedForm(Form):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(lazy_gettext("Feed link"), [validators.Optional()])
-    site_link = TextField(lazy_gettext("Site link"))
+    link = TextField(lazy_gettext("Feed link"))
+    site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
+
+    def validate(self):
+        if not super(AddFeedForm, self).validate():
+            return False
+        return True
 
 
 class ProfileForm(Form):

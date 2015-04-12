@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
   <head>
     {% block head %}
@@ -33,7 +33,33 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
             {% if g.user.is_authenticated() %}
-                <li><a href="{{ url_for("feed.form") }}"><span class="glyphicon glyphicon-plus-sign"></span>{{ _('Add a feed') }}</a></li>
+                <!-- <li><a href="{{ url_for("feed.form") }}"><span class="glyphicon glyphicon-plus-sign"></span> {{ _('Add a feed') }}</a></li> -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{{ _('Add a feed') }}</div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form action="/feed/create" class="navbar-form" method="POST" name="save">
+                                {{ create_feed_form.hidden_tag() }}
+
+                                {{ create_feed_form.link.label }}
+                                {{ create_feed_form.link(class_="form-control", placeholder="Feed link") }} {% for error in create_feed_form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                                {{ create_feed_form.title.label }}
+                                {{ create_feed_form.title(class_="form-control", placeholder="Optional") }} {% for error in create_feed_form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                                {{ create_feed_form.site_link.label }}
+                                {{ create_feed_form.site_link(class_="form-control", placeholder="Optional") }} {% for error in create_feed_form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                                {{ create_feed_form.enabled.label }}
+                                {{ create_feed_form.enabled(class_="checkbox") }}
+                                <br />
+                                {{ create_feed_form.submit(class_="btn btn-default") }}
+                            </form>
+                        </li>
+                    </ul>
+                </li>
                 {% if favorites %}
                 <li><a href="{{ url_for("home") }}"><span class="glyphicon glyphicon-home"></span> {{ _('Home') }}</a></li>
                 {% else %}
@@ -78,7 +104,7 @@ i                       <li><a accesskey="m" href="{{ url_for("management") }}">
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>{{ _('About') }}</a></li>
+                <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
