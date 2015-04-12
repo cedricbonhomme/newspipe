@@ -2,6 +2,20 @@
 {% block content %}
 <div class="container">
     <div class="well">
+        <h1>{{ _('Your Profile') }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
+                <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="/delete_account" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+            </div>
+       </div>
+    </div>
+    <div class="well">
         <h2>Edit your profile</h2>
         <form action="" method="post" name="save">
             {{ form.hidden_tag() }}
@@ -14,8 +28,10 @@
 
             {{ form.password.label }}
             {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
             {{ form.password_conf.label }}
             {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
             {{ form.refresh_rate.label }}
             {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             <br />

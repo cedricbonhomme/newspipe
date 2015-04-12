@@ -37,6 +37,9 @@ from flask_wtf import RecaptchaField
 from pyaggr3g470r.models import User
 
 class SignupForm(Form):
+    """
+    Sign up form (registration to pyAggr3g470r).
+    """
     nickname = TextField(lazy_gettext("Nickname"),
             [validators.Required(lazy_gettext("Please enter your nickname."))])
     email = EmailField(lazy_gettext("Email"),
@@ -59,7 +62,7 @@ class SignupForm(Form):
 
 class SigninForm(Form):
     """
-    Sign in form.
+    Sign in form (connection to pyAggr3g470r).
     """
     email = EmailField("Email", [validators.Length(min=6, max=35),
         validators.Required(lazy_gettext("Please enter your email address."))])
@@ -85,20 +88,33 @@ class SigninForm(Form):
             return False
 
 
-class AddFeedForm(Form):
-    title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(lazy_gettext("Feed link"))
-    site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
-    enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
+class UserForm(Form):
+    """
+    Create or edit a user (for the administrator).
+    """
+    nickname = TextField(lazy_gettext("Nickname"),
+            [validators.Required(lazy_gettext("Please enter your nickname."))])
+    email = EmailField(lazy_gettext("Email"),
+               [validators.Length(min=6, max=35),
+                validators.Required(lazy_gettext("Please enter your email."))])
+    password = PasswordField(lazy_gettext("Password"))
+    refresh_rate = IntegerField(lazy_gettext("Feeds refresh frequency "
+                                             "(in minutes)"),
+                                default=60)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
-        if not super(AddFeedForm, self).validate():
-            return False
-        return True
+        validated = super(UserForm, self).validate()
+        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+            validated = False
+        return validated
 
 
 class ProfileForm(Form):
+    """
+    Edit user information.
+    """
     nickname = TextField(lazy_gettext("Nickname"),
             [validators.Required(lazy_gettext("Please enter your nickname."))])
     email = EmailField(lazy_gettext("Email"),
@@ -124,6 +140,19 @@ class ProfileForm(Form):
                     ' underscores only.'))
             validated = False
         return validated
+
+
+class AddFeedForm(Form):
+    title = TextField(lazy_gettext("Title"), [validators.Optional()])
+    link = TextField(lazy_gettext("Feed link"))
+    site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
+    enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
+    submit = SubmitField(lazy_gettext("Save"))
+
+    def validate(self):
+        if not super(AddFeedForm, self).validate():
+            return False
+        return True
 
 
 class InformationMessageForm(Form):
