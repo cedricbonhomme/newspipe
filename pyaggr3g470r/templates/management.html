@@ -5,7 +5,7 @@
         <h1>{{ _('Your subscriptions') }}</h1>
         <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="{{ url_for("feed.form") }}">{{ _('feed') }}</a>.</p>
         <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread">{{ _('unread articles') }}</a>.</p>
-        {% if not conf.ON_HEROKU %}
+        {% if not on_heroku %}
             <a href="/index_database" class="btn btn-default">{{ _('Index database') }}</a>
         {% endif %}
         <a href="/expire_articles?weeks=10" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>

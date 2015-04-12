@@ -147,7 +147,7 @@ def inject_feed_form():
     ability to inject new values into the template context.
     """
     return dict(create_feed_form=AddFeedForm(),
-                on_HEROKU=conf.ON_HEROKU)
+                on_heroku=conf.ON_HEROKU)
 
 #
 # Views.
