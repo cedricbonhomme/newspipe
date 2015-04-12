@@ -562,6 +562,7 @@ def profile():
     Edit the profile of the currently logged user.
     """
     user = UserController(g.user.id).get(id=g.user.id)
+    print(user)
     form = ProfileForm()
 
     if request.method == 'POST':
@@ -575,7 +576,7 @@ def profile():
                   'success')
             return redirect(url_for('profile'))
         else:
-            return render_template('profile.html', form=form)
+            return render_template('profile.html', user=user, form=form)
 
     if request.method == 'GET':
         form = ProfileForm(obj=user)
