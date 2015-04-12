@@ -25,7 +25,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">pyAggr3g470r</a>
+          <a class="navbar-brand" href="{{ url_for("home") }}">pyAggr3g470r</a>
           <span class="navbar-brand">{% if head_title %} - {{ head_title }}{% endif %}</span>
         </div>
 
@@ -34,7 +34,11 @@
           <ul class="nav navbar-nav navbar-right">
             {% if g.user.is_authenticated() %}
                 <li><a href="{{ url_for("feed.form") }}"><span class="glyphicon glyphicon-plus-sign"></span>{{ _('Add a feed') }}</a></li>
-                <li><a accesskey="f" href="/favorites"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
+                {% if favorites %}
+                <li><a href="{{ url_for("home") }}"><span class="glyphicon glyphicon-home"></span> {{ _('Home') }}</a></li>
+                {% else %}
+                <li><a accesskey="f" href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
+                {% endif %}
                 {% if conf.ON_HEROKU and g.user.is_admin() %}
                 <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span>{{ _('Fetch') }}</a></li>
                 {% endif %}
@@ -43,22 +47,22 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for("feeds.update", action="read") }}">{{ _('Mark all as read') }}</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li><a accesskey="i" href="/inactives">{{ _('Inactive') }}</a></li>
-                        <li><a href="/history">{{ _('History') }}</a></li>
+                        <li><a accesskey="i" href="{{ url_for("inactives") }}">{{ _('Inactive') }}</a></li>
+                        <li><a href="{{ url_for("history") }}">{{ _('History') }}</a></li>
                         <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All') }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Tools') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a accesskey="m" href="/management"><span class="glyphicon glyphicon-cog"></span> {{ _('Management') }}</a></li>
+i                       <li><a accesskey="m" href="{{ url_for("management") }}"><span class="glyphicon glyphicon-cog"></span> {{ _('Management') }}</a></li>
                         {% if g.user.is_admin() %}
-                        <li><a href="{{ url_for('dashboard') }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
+                        <li><a href="{{ url_for("dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                         {% endif %}
-                        <li><a href="/about"><span class="glyphicon glyphicon-question-sign"></span>{{ _('About') }}</a></li>
+                        <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>{{ _('About') }}</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>
+                <li><a href="{{ url_for("logout") }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <div><span class="glyphicon glyphicon-search"></span>&nbsp;<b class="caret"></b></div>
@@ -74,7 +78,7 @@
                     </ul>
                 </li>
             {% else %}
-                <li><a href="/about">{{ _('About') }}</a></li>
+                <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>{{ _('About') }}</a></li>
             {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->

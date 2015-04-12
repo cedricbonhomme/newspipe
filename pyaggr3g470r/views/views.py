@@ -265,13 +265,13 @@ def home(favorites=False):
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title,
+                           head_title=head_title, favorites=favorites,
                            default_max_error = conf.DEFAULT_MAX_ERROR)
 
 
 @app.route('/favorites')
 @login_required
-def favorties():
+def favorites():
     return home(favorites=True)
 
 
