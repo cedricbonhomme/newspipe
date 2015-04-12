@@ -139,6 +139,7 @@ def get_timezone():
     except:
         return conf.TIME_ZONE["en"]
 
+
 @app.context_processor
 def inject_feed_form():
     """
@@ -147,8 +148,7 @@ def inject_feed_form():
     Context processors run before the template is rendered and have the
     ability to inject new values into the template context.
     """
-    return dict(create_feed_form=AddFeedForm(),
-                on_heroku=conf.ON_HEROKU)
+    return dict(create_feed_form=AddFeedForm())
 
 #
 # Views.
@@ -285,8 +285,7 @@ def home(favorites=False):
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title, favorites=favorites,
-                           default_max_error = conf.DEFAULT_MAX_ERROR)
+                           head_title=head_title, favorites=favorites)
 
 
 @app.route('/favorites')

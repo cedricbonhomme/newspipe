@@ -17,7 +17,7 @@
             <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
-                        <span style="background-color: {{ "red" if in_error[fid] > default_max_error -1 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }} {{ _("error") }}{% if in_error[fid] > 1 %}s{% endif %}</span>
+                        <span style="background-color: {{ "red" if in_error[fid] > conf.DEFAULT_MAX_ERROR -1 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }} {{ _("error") }}{% if in_error[fid] > 1 %}s{% endif %}</span>
                     {% endif %}
                     <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
                     {{ feeds[fid]|safe }}
@@ -35,7 +35,7 @@
         {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
             <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
-                    <span style="background-color: {{ "red" if in_error[fid] > default_max_error - 1 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }} {{ _("error") }}{% if in_error[fid] > 1 %}s{% endif %}</span>
+                    <span style="background-color: {{ "red" if in_error[fid] > conf.DEFAULT_MAX_ERROR - 1 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }} {{ _("error") }}{% if in_error[fid] > 1 %}s{% endif %}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
                     {{ ftitle|safe }}

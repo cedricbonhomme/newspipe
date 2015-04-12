@@ -23,6 +23,26 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
+DEFAULTS = {"python": "/usr/bin/python3.4",
+            "recaptcha_public_key": "",
+            "recaptcha_private_key": "",
+            "nb_worker": "100",
+            "default_max_error": "3",
+            "log_path": "pyaggr3g470r.log",
+            "user_agent": "pyAggr3g470r " \
+                    "(https://bitbucket.org/cedricbonhomme/pyaggr3g470r)",
+            "resolve_article_url": "false",
+            "http_proxy": "",
+            "debug": "true",
+            "secret": "",
+            "enabled": "false",
+            "email": "",
+            "tls": "false",
+            "ssl": "true",
+            "host": "0.0.0.0",
+            "port": "5000",
+            "crawling_method": "classic",
+}
 
 if not ON_HEROKU:
     try:
@@ -30,13 +50,14 @@ if not ON_HEROKU:
     except:
         import ConfigParser as confparser
     # load the configuration
-    config = confparser.SafeConfigParser()
+    config = confparser.SafeConfigParser(defaults=DEFAULTS)
     config.read(os.path.join(basedir, "conf/conf.cfg"))
 
     PLATFORM_URL = config.get('misc', 'platform_url')
     ADMIN_EMAIL = config.get('misc', 'admin_email')
     RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
-    RECAPTCHA_PRIVATE_KEY = config.get('misc', 'recaptcha_private_key')
+    RECAPTCHA_PRIVATE_KEY = config.get('misc',
+                                       'recaptcha_private_key')
     LOG_PATH = config.get('misc', 'log_path')
     PYTHON = config.get('misc', 'python')
     NB_WORKER = config.getint('misc', 'nb_worker')
@@ -47,19 +68,22 @@ if not ON_HEROKU:
 
     HTTP_PROXY = config.get('feedparser', 'http_proxy')
     USER_AGENT = config.get('feedparser', 'user_agent')
-    RESOLVE_ARTICLE_URL = int(config.get('feedparser', 'resolve_article_url')) == 1
-    DEFAULT_MAX_ERROR = int(config.get('feedparser', 'default_max_error'))
+    RESOLVE_ARTICLE_URL = config.getboolean('feedparser',
+                                            'resolve_article_url')
+    DEFAULT_MAX_ERROR = config.getint('feedparser',
+                                      'default_max_error')
+    CRAWLING_METHOD = config.get('feedparser', 'crawling_method')
 
-    WEBSERVER_DEBUG = int(config.get('webserver', 'debug')) == 1
+    WEBSERVER_DEBUG = config.getboolean('webserver', 'debug')
     WEBSERVER_HOST = config.get('webserver', 'host')
-    WEBSERVER_PORT = int(config.get('webserver', 'port'))
+    WEBSERVER_PORT = config.getint('webserver', 'port')
     WEBSERVER_SECRET = config.get('webserver', 'secret')
 
     NOTIFICATION_EMAIL = config.get('notification', 'email')
     NOTIFICATION_HOST = config.get('notification', 'host')
-    NOTIFICATION_PORT = int(config.get('notification', 'port'))
-    NOTIFICATION_TLS = int(config.get('notification', 'tls')) == 1
-    NOTIFICATION_SSL = int(config.get('notification', 'ssl')) == 1
+    NOTIFICATION_PORT = config.getint('notification', 'port')
+    NOTIFICATION_TLS = config.getboolean('notification', 'tls')
+    NOTIFICATION_SSL = config.getboolean('notification', 'ssl')
     NOTIFICATION_USERNAME = config.get('notification', 'username')
     NOTIFICATION_PASSWORD = config.get('notification', 'password')
 
@@ -77,7 +101,8 @@ else:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
     HTTP_PROXY = ""
-    USER_AGENT = "Mozilla/5.0 (X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
+    USER_AGENT = "Mozilla/5.0 " \
+            "(X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
     RESOLVE_ARTICLE_URL = int(os.environ.get('RESOLVE_ARTICLE_URL', 0)) == 1
     DEFAULT_MAX_ERROR = int(os.environ.get('DEFAULT_MAX_ERROR', 6))
 

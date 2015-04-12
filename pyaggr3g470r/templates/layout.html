@@ -65,7 +65,7 @@
                 {% else %}
                 <li><a accesskey="f" href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
                 {% endif %}
-                {% if not on_heroku or g.user.is_admin() %}
+                {% if conf.CRAWLING_METHOD == "classic" and (not conf.ON_HEROKU or g.user.is_admin()) %}
                 <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
                 {% endif %}
                 <li class="dropdown">
@@ -94,7 +94,7 @@
                     </ul>
                 </li>
 
-                {% if not on_heroku %}
+                {% if not conf.ON_HEROKU %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <div><span class="glyphicon glyphicon-search"></span>&nbsp;<b class="caret"></b></div>
