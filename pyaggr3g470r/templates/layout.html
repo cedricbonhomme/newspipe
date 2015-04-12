@@ -66,7 +66,7 @@
                 <li><a accesskey="f" href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
                 {% endif %}
                 {% if not conf.ON_HEROKU or g.user.is_admin() %}
-                <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span>{{ _('Fetch') }}</a></li>
+                <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
                 {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Feed') }} <b class="caret"></b></a>
@@ -85,7 +85,7 @@ i                       <li><a accesskey="m" href="{{ url_for("management") }}">
                         {% if g.user.is_admin() %}
                         <li><a href="{{ url_for("dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                         {% endif %}
-                        <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>{{ _('About') }}</a></li>
+                        <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span> {{ _('About') }}</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ url_for("logout") }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>
