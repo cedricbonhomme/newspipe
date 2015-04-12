@@ -146,7 +146,8 @@ def inject_feed_form():
     Context processors run before the template is rendered and have the
     ability to inject new values into the template context.
     """
-    return dict(create_feed_form=AddFeedForm())
+    return dict(create_feed_form=AddFeedForm(),
+                on_HEROKU=conf.ON_HEROKU)
 
 #
 # Views.
@@ -539,8 +540,8 @@ def management():
     nb_articles = articles.count()
     nb_unread_articles = articles.filter(Article.readed == False).count()
     return render_template('management.html', user=g.user, form=form,
-                            nb_feeds=nb_feeds, nb_articles=nb_articles, nb_unread_articles=nb_unread_articles,
-                            not_on_heroku = not conf.ON_HEROKU)
+                            nb_feeds=nb_feeds, nb_articles=nb_articles,
+                            nb_unread_articles=nb_unread_articles)
 
 @app.route('/history', methods=['GET'])
 @app.route('/history/<int:year>', methods=['GET'])
