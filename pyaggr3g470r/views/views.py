@@ -251,6 +251,7 @@ def home(favorites=False):
                 feed_contr.read(error_count__gt=2)}
 
     filter_ = request.args.get('filter_', 'all' if favorites else 'unread')
+    sort_ = request.args.get('sort_', 'date')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
 
@@ -270,13 +271,16 @@ def home(favorites=False):
         limit = int(limit)
         articles = articles.limit(limit)
 
-    def gen_url(filter_=filter_, limit=limit, feed=feed_id):
+    def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed=feed_id):
         return url_for('favorites' if favorites else 'home',
-                       filter_=filter_, limit=limit, feed=feed)
+                       filter_=filter_, sort_=sort_, limit=limit, feed=feed)
 
     articles = list(articles)
     if not articles and not favorites and feed_id:
         return redirect(gen_url(filter_='all'))
+
+    if sort_ == "feed":
+        articles.sort(key=lambda article: article.source.title)
 
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
