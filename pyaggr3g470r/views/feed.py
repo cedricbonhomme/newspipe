@@ -163,7 +163,8 @@ def form(feed_id=None):
         flash(gettext('Feed %(feed_title)r successfully created.',
                       feed_title=new_feed.title), 'success')
 
-        utils.fetch(g.user.id, new_feed.id)
+        if conf.CRAWLING_METHOD == "classic":
+            utils.fetch(g.user.id, new_feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
         return redirect(url_for('feed.form',
@@ -175,9 +176,8 @@ def form(feed_id=None):
         form = AddFeedForm(obj=feed)
         return render_template('edit_feed.html',
                                action=gettext("Edit the feed"),
-                               form=form, feed=feed,
-                               not_on_heroku=not conf.ON_HEROKU)
+                               form=form, feed=feed)
 
     # Return an empty form in order to create a new feed
     return render_template('edit_feed.html', action=gettext("Add a feed"),
-                            form=form, not_on_heroku=not conf.ON_HEROKU)
+                           form=form)

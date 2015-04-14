@@ -139,6 +139,7 @@ def get_timezone():
     except:
         return conf.TIME_ZONE["en"]
 
+
 @app.context_processor
 def inject_feed_form():
     """
@@ -147,8 +148,7 @@ def inject_feed_form():
     Context processors run before the template is rendered and have the
     ability to inject new values into the template context.
     """
-    return dict(create_feed_form=AddFeedForm(),
-                on_heroku=conf.ON_HEROKU)
+    return dict(create_feed_form=AddFeedForm())
 
 #
 # Views.
@@ -285,8 +285,7 @@ def home(favorites=False):
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title, favorites=favorites,
-                           default_max_error = conf.DEFAULT_MAX_ERROR)
+                           head_title=head_title, favorites=favorites)
 
 
 @app.route('/favorites')
@@ -303,7 +302,8 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    if not conf.ON_HEROKU or g.user.is_admin():
+    if conf.CRAWLING_METHOD == "classic" \
+            and (not conf.ON_HEROKU or g.user.is_admin()):
         utils.fetch(g.user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")
     else:
@@ -520,11 +520,14 @@ def management():
             else:
                 try:
                     nb = utils.import_opml(g.user.email, data.read())
-                    utils.fetch(g.user.email, None)
-                    flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
-                    flash(gettext("Downloading articles..."), 'info')
+                    if conf.CRAWLING_METHOD == "classic":
+                        utils.fetch(g.user.email, None)
+                        flash(str(nb) + '  ' + gettext('feeds imported.'),
+                                "success")
+                        flash(gettext("Downloading articles..."), 'info')
                 except:
-                    flash(gettext("Impossible to import the new feeds."), "danger")
+                    flash(gettext("Impossible to import the new feeds."),
+                            "danger")
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
@@ -535,7 +538,8 @@ def management():
                     nb = utils.import_json(g.user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
-                    flash(gettext("Impossible to import the account."), "danger")
+                    flash(gettext("Impossible to import the account."),
+                            "danger")
         else:
             flash(gettext('File not allowed.'), 'danger')
 

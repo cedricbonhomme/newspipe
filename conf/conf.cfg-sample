@@ -11,10 +11,11 @@ uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [feedparser]
 http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
-resolve_article_url = 0
+resolve_article_url = false
 default_max_error = 6
+crawling_method = classic
 [webserver]
-debug = 1
+debug = true
 host = 0.0.0.0
 port = 5000
 secret = a secret only you know
@@ -22,7 +23,7 @@ secret = a secret only you know
 email = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com
 port = 465
-tls = 0
-ssl = 1
+tls = false
+ssl = true
 username = your-gmail-username
 password = your-gmail-password
