@@ -134,8 +134,6 @@ def form(feed_id=None):
 
     if request.method == 'POST':
         if not form.validate():
-            print(dir(form))
-            print("oups")
             return render_template('edit_feed.html', form=form)
         existing_feeds = list(feed_contr.read(link=form.link.data))
         if existing_feeds and feed_id is None:
@@ -144,7 +142,6 @@ def form(feed_id=None):
             return redirect(url_for('feed.form',
                                     feed_id=existing_feeds[0].id))
         # Edit an existing feed
-        print("new...")
         if feed_id is not None:
             feed_contr.update({'id': feed_id},
                               {'title': form.title.data,
@@ -156,7 +153,6 @@ def form(feed_id=None):
             return redirect(url_for('feed.form', feed_id=feed_id))
 
         # Create a new feed
-        print("new feed")
         new_feed = FeedController(g.user.id).create(
                         title=form.title.data,
                         description="",
@@ -166,6 +162,9 @@ def form(feed_id=None):
 
         flash(gettext('Feed %(feed_title)r successfully created.',
                       feed_title=new_feed.title), 'success')
+
+        utils.fetch(g.user.id, new_feed.id)
+        flash(gettext("Downloading articles for the new feed..."), 'info')
 
         return redirect(url_for('feed.form',
                                 feed_id=new_feed.id))
