@@ -4,7 +4,7 @@
     <div class="well">
         <h1>{{ _('Your subscriptions') }}</h1>
         <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. {{ _('Add a') }} <a href="{{ url_for("feed.form") }}">{{ _('feed') }}</a>.</p>
-        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} <a href="/unread">{{ _('unread articles') }}</a>.</p>
+        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} {{ _('unread articles') }}.</p>
         {% if not on_heroku %}
             <a href="/index_database" class="btn btn-default">{{ _('Index database') }}</a>
         {% endif %}
