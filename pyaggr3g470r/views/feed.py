@@ -163,7 +163,8 @@ def form(feed_id=None):
         flash(gettext('Feed %(feed_title)r successfully created.',
                       feed_title=new_feed.title), 'success')
 
-        utils.fetch(g.user.id, new_feed.id)
+        if conf.CRAWLING_METHOD == "classic":
+            utils.fetch(g.user.id, new_feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
         return redirect(url_for('feed.form',

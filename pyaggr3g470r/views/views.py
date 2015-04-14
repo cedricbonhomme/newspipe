@@ -302,7 +302,8 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process, mandatory for Heroku.
     """
-    if not conf.ON_HEROKU or g.user.is_admin():
+    if conf.CRAWLING_METHOD == "classic" \
+            and (not conf.ON_HEROKU or g.user.is_admin()):
         utils.fetch(g.user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")
     else:
@@ -519,11 +520,14 @@ def management():
             else:
                 try:
                     nb = utils.import_opml(g.user.email, data.read())
-                    utils.fetch(g.user.email, None)
-                    flash(str(nb) + '  ' + gettext('feeds imported.'), "success")
-                    flash(gettext("Downloading articles..."), 'info')
+                    if conf.CRAWLING_METHOD == "classic":
+                        utils.fetch(g.user.email, None)
+                        flash(str(nb) + '  ' + gettext('feeds imported.'),
+                                "success")
+                        flash(gettext("Downloading articles..."), 'info')
                 except:
-                    flash(gettext("Impossible to import the new feeds."), "danger")
+                    flash(gettext("Impossible to import the new feeds."),
+                            "danger")
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
@@ -534,7 +538,8 @@ def management():
                     nb = utils.import_json(g.user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
-                    flash(gettext("Impossible to import the account."), "danger")
+                    flash(gettext("Impossible to import the account."),
+                            "danger")
         else:
             flash(gettext('File not allowed.'), 'danger')
 
