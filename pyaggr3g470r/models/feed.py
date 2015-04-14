@@ -36,7 +36,7 @@ class Feed(db.Model):
     Represent a feed.
     """
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(), default="No title")
+    title = db.Column(db.String(), default="")
     description = db.Column(db.String(), default="FR")
     link = db.Column(db.String())
     site_link = db.Column(db.String(), default="")
