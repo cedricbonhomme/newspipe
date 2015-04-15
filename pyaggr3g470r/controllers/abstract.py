@@ -25,7 +25,7 @@ class AbstractController(object):
 
         each parameters of the function is treated as an equality unless the
         name of the parameter ends with either "__gt", "__lt", "__ge", "__le",
-        "__ne" or "__in".
+        "__ne", "__in" ir "__like".
         """
         if self.user_id is not None:
             filters[self._user_id_key] = self.user_id
@@ -43,6 +43,8 @@ class AbstractController(object):
                 db_filters.add(getattr(self._db_cls, key[:-4]) != value)
             elif key.endswith('__in'):
                 db_filters.add(getattr(self._db_cls, key[:-4]).in_(value))
+            elif key.endswith('__like'):
+                db_filters.add(getattr(self._db_cls, key[:-6]).like(value))
             else:
                 db_filters.add(getattr(self._db_cls, key) == value)
         return db_filters

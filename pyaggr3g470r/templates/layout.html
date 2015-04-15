@@ -86,6 +86,7 @@
                         <li><a href="{{ url_for("profile") }}"><span class="glyphicon glyphicon-user"></span> {{ _('Profile') }}</a></li>
                         <li><a href="{{ url_for("management") }}"><span class="glyphicon glyphicon-cog"></span> {{ _('Your data') }}</a></li>
                         {% if g.user.is_admin() %}
+                        <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span> {{ _('About') }}</a></li>
                         <li role="presentation" class="divider"></li>
                         <li><a href="{{ url_for("dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                         <li role="presentation" class="divider"></li>
@@ -101,9 +102,15 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <form class="navbar-form" method=get action="/search" role="search">
+                            <form class="navbar-form" method=get action="{{ url_for("search") }}" role="search">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="query" placeholder="Search">
+                                    {% if filter_ %}<input type="hidden" name="filter_" value="{{ filter_ }}" />{% endif %}
+                                    {% if limit %}<input type="hidden" name="limit" value="{{ limit }}" />{% endif %}
+                                    <label for="search_title">{{ _("Title") }}</label>
+                                    <input type="checkbox" name="search_title" {% if search_title == 'on' or not (search_title == 'on' or search_content == 'on') %}checked{%endif%}/>
+                                    <label for="search_content">{{ _("Content") }}</label>
+                                    <input type="checkbox" name="search_content" {% if search_content == 'on' %}checked{%endif%}/>
+                                    <input type="text" class="form-control" name="query" placeholder="{{ _("Search") }}" {% if search_query %} value="{{ search_query }}"{% endif %} />
                                 </div>
                             </form>
                         </li>

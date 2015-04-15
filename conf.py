@@ -1,11 +1,9 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
-
+# -*- coding: utf-8 -*-
 """ Program variables.
 
 This file contain the variables used by the application.
 """
-
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -29,7 +27,7 @@ DEFAULTS = {"python": "/usr/bin/python3.4",
             "nb_worker": "100",
             "default_max_error": "3",
             "log_path": "pyaggr3g470r.log",
-            "user_agent": "pyAggr3g470r " \
+            "user_agent": "pyAggr3g470r "
                     "(https://bitbucket.org/cedricbonhomme/pyaggr3g470r)",
             "resolve_article_url": "false",
             "http_proxy": "",
@@ -42,7 +40,7 @@ DEFAULTS = {"python": "/usr/bin/python3.4",
             "host": "0.0.0.0",
             "port": "5000",
             "crawling_method": "classic",
-}
+            }
 
 if not ON_HEROKU:
     try:
@@ -105,7 +103,8 @@ else:
             "(X11; Debian; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
     RESOLVE_ARTICLE_URL = int(os.environ.get('RESOLVE_ARTICLE_URL', 0)) == 1
     DEFAULT_MAX_ERROR = int(os.environ.get('DEFAULT_MAX_ERROR', 6))
-    CRAWLING_METHOD = os.environ.get('CRAWLING_METHOD', DEFAULTS['crawling_method'])
+    CRAWLING_METHOD = os.environ.get('CRAWLING_METHOD',
+                                     DEFAULTS['crawling_method'])
 
     WEBSERVER_DEBUG = False
     WEBSERVER_HOST = '0.0.0.0'
