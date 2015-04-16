@@ -106,6 +106,7 @@
                                 <div class="input-group">
                                     {% if filter_ %}<input type="hidden" name="filter_" value="{{ filter_ }}" />{% endif %}
                                     {% if limit %}<input type="hidden" name="limit" value="{{ limit }}" />{% endif %}
+                                    {% if feed_id %}<input type="hidden" name="feed_id" value="{{ feed_id }}" />{% endif %}
                                     <label for="search_title">{{ _("Title") }}</label>
                                     <input type="checkbox" name="search_title" {% if search_title == 'on' or not (search_title == 'on' or search_content == 'on') %}checked{%endif%}/>
                                     <label for="search_content">{{ _("Content") }}</label>

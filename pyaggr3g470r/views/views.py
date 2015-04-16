@@ -255,9 +255,8 @@ def render_home(filters={}, head_title='', page_to_render='home', **kwargs):
         filters['readed'] = filter_ == 'read'
     if feed_id:
         filters['feed_id'] = feed_id
-        if head_title:
-            head_title += ' - '
-        head_title += feed_contr.get(id=feed_id).title
+        head_title = "%s%s" % (feed_contr.get(id=feed_id).title,
+                               (' - %s' % head_title) if head_title else '')
 
     articles = arti_contr.read(**filters).order_by(Article.date.desc())
     if limit != 'all':
@@ -275,7 +274,7 @@ def render_home(filters={}, head_title='', page_to_render='home', **kwargs):
 
     articles = list(articles)
     if (page_to_render == 'home' and feed_id or page_to_render == 'search') \
-            and not articles:
+            and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
 
     if sort_ == "feed":
@@ -315,6 +314,8 @@ def search():
         filters['title__like'] = "%%%s%%" % query
     if search_content == 'on':
         filters['content__like'] = "%%%s%%" % query
+    if len(filters) > 1:
+        filters = {"__or__": filters}
     return render_home(filters, "%s %s" % (gettext('Search:'), query),
                        'search', search_query=query, search_title=search_title,
                        search_content=search_content)
