@@ -108,6 +108,7 @@ NOTIFICATION_TLS = config.getboolean('notification', 'tls')
 NOTIFICATION_SSL = config.getboolean('notification', 'ssl')
 NOTIFICATION_USERNAME = config.get('notification', 'username')
 NOTIFICATION_PASSWORD = config.get('notification', 'password')
+POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY', '')
 
 WEBZINE_ROOT = config.get('webserver', 'webzine_root')
 
