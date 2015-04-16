@@ -23,6 +23,7 @@ TIME_ZONE = {
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"python": "/usr/bin/python3.4",
+            "platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
             "nb_worker": "100",
