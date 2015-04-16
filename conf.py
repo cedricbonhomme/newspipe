@@ -24,6 +24,7 @@ TIME_ZONE = {
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"python": "/usr/bin/python3.4",
             "platform_url": "https://pyaggr3g470r.herokuapp.com/",
+            "postmark_api_key": "",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
             "nb_worker": "100",
@@ -109,7 +110,7 @@ NOTIFICATION_TLS = config.getboolean('notification', 'tls')
 NOTIFICATION_SSL = config.getboolean('notification', 'ssl')
 NOTIFICATION_USERNAME = config.get('notification', 'username')
 NOTIFICATION_PASSWORD = config.get('notification', 'password')
-POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY', '')
+POSTMARK_API_KEY = config.get('postmark_api_key', '')
 
 WEBZINE_ROOT = config.get('webserver', 'webzine_root')
 
