@@ -18,6 +18,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import logging
 import calendar
 from bootstrap import conf, application, populate_g
 from flask.ext.babel import Babel
@@ -55,4 +56,4 @@ with application.app_context():
 if __name__ == '__main__':
     application.run(host=conf.WEBSERVER_HOST,
                     port=conf.WEBSERVER_PORT,
-                    debug=conf.WEBSERVER_DEBUG)
+                    debug=conf.LOG_LEVEL <= logging.DEBUG)

@@ -235,13 +235,10 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/')
-@login_required
-def home(favorites=False):
-    """
-    Home page for connected users. Displays by default unread articles.
-    """
-    head_title = gettext('Favorites') if favorites else ''
+
+def render_home(filters=None, head_title='', page_to_render='home', **kwargs):
+    if filters is None:
+        filters = {}
     feed_contr = FeedController(g.user.id)
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
@@ -250,48 +247,83 @@ def home(favorites=False):
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 
-    filter_ = request.args.get('filter_', 'all' if favorites else 'unread')
+    filter_ = request.args.get('filter_',
+                               'unread' if page_to_render == 'home' else 'all')
     sort_ = request.args.get('sort_', 'date')
-    feed_id = int(request.args.get('feed', 0))
+    feed_id = int(request.args.get('feed_id', 0))
     limit = request.args.get('limit', 1000)
 
-    filters = {}
-    if favorites:
-        filters['like'] = True
     if filter_ != 'all':
         filters['readed'] = filter_ == 'read'
     if feed_id:
         filters['feed_id'] = feed_id
-        if head_title:
-            head_title += ' - '
-        head_title += feed_contr.get(id=feed_id).title
+        head_title = "%s%s" % (feed_contr.get(id=feed_id).title,
+                               (' - %s' % head_title) if head_title else '')
 
-    articles = arti_contr.read(**filters).order_by(Article.date.desc())
+    sort_param = {"feed": Article.title.desc(),
+                  "date": Article.date.desc(),
+                  "-feed": Article.title.asc(),
+                  "-date": Article.date.asc(),
+                  }.get(sort_, Article.date.desc())
+
+    articles = arti_contr.read(**filters).order_by(sort_param)
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
 
-    def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed=feed_id):
-        return url_for('favorites' if favorites else 'home',
-                       filter_=filter_, sort_=sort_, limit=limit, feed=feed)
+    def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed_id=feed_id,
+                **kwargs):
+        if page_to_render == 'search':
+            kwargs['query'] = request.args.get('query', '')
+            kwargs['search_title'] = request.args.get('search_title', 'on')
+            kwargs['search_content'] = request.args.get('searc_content', 'off')
+        return url_for(page_to_render, filter_=filter_, sort_=sort_,
+                       limit=limit, feed_id=feed_id, **kwargs)
 
     articles = list(articles)
-    if not articles and not favorites and feed_id:
+    if (page_to_render == 'home' and feed_id or page_to_render == 'search') \
+            and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
-
-    if sort_ == "feed":
-        articles.sort(key=lambda article: article.source.title)
 
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title, favorites=favorites)
+                           head_title=head_title, sort_=sort_, **kwargs)
+
+
+@app.route('/')
+@login_required
+def home():
+    "Home page for connected users. Displays by default unread articles."
+    return render_home()
 
 
 @app.route('/favorites')
 @login_required
 def favorites():
-    return home(favorites=True)
+    return render_home({'like': True}, gettext('Favorites'), 'favorites')
+
+
+@app.route('/search', methods=['GET'])
+@login_required
+def search():
+    "Search articles corresponding to the query."
+    if 'query' not in request.args:
+        flash(gettext("No text to search were provided."), "warning")
+        return render_home()
+    query = request.args['query']
+    filters = {}
+    search_title = request.args.get('search_title')
+    search_content = request.args.get('search_content')
+    if search_title == 'on':
+        filters['title__like'] = "%%%s%%" % query
+    if search_content == 'on':
+        filters['content__like'] = "%%%s%%" % query
+    if len(filters) > 1:
+        filters = {"__or__": filters}
+    return render_home(filters, "%s %s" % (gettext('Search:'), query),
+                       'search', search_query=query, search_title=search_title,
+                       search_content=search_content)
 
 
 @app.route('/fetch', methods=['GET'])
@@ -472,38 +504,6 @@ def export_opml():
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
 
-@app.route('/search', methods=['GET'])
-@login_required
-def search():
-    """
-    Search articles corresponding to the query.
-    """
-    if conf.ON_HEROKU:
-        flash(gettext("Full text search is not yet implemented for Heroku."), "warning")
-        return redirect(url_for('home'))
-    user = User.query.filter(User.id == g.user.id).first()
-
-    search_result, result = [], []
-    nb_articles = 0
-
-    query = request.args.get('query', None)
-    if query is not None:
-        try:
-            search_result, nb_articles = fastsearch.search(user.id, query)
-        except Exception as e:
-            flash(gettext('An error occured') + ' (%s).' % e, 'danger')
-        light_feed = namedtuple('Feed', ['id', 'title', 'articles'], verbose=False, rename=False)
-        for feed_id in search_result:
-            for feed in user.feeds:
-                if feed.id == feed_id:
-                    articles = []
-                    for article_id in search_result[feed_id]:
-                        current_article = Article.query.filter(Article.user_id == g.user.id, Article.id == article_id).first()
-                        articles.append(current_article)
-                    articles = sorted(articles, key=lambda t: t.date, reverse=True)
-                    result.append(light_feed(feed.id, feed.title, articles))
-                    break
-    return render_template('search.html', feeds=result, nb_articles=nb_articles, query=query)
 
 @app.route('/management', methods=['GET', 'POST'])
 @login_required
