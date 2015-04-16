@@ -258,7 +258,13 @@ def render_home(filters={}, head_title='', page_to_render='home', **kwargs):
         head_title = "%s%s" % (feed_contr.get(id=feed_id).title,
                                (' - %s' % head_title) if head_title else '')
 
-    articles = arti_contr.read(**filters).order_by(Article.date.desc())
+    sort_param = {"feed": Article.title.desc(),
+                  "date": Article.date.desc(),
+                  "-feed": Article.title.asc(),
+                  "-date": Article.date.asc(),
+                  }.get(sort_, Article.date.desc())
+
+    articles = arti_contr.read(**filters).order_by(sort_param)
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
@@ -277,13 +283,10 @@ def render_home(filters={}, head_title='', page_to_render='home', **kwargs):
             and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
 
-    if sort_ == "feed":
-        articles.sort(key=lambda article: article.source.title)
-
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title, **kwargs)
+                           head_title=head_title, sort_=sort_, **kwargs)
 
 
 @app.route('/')

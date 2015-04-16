@@ -73,9 +73,9 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th><a href="{{ gen_url(sort_='feed') }}">{{ _('Feed') }}</a></th>
+                            <th><a href="{{ gen_url(sort_='-feed' if sort_ == 'feed' else 'feed') }}">{{ _('Feed') }}</a></th>
                             <th>{{ _('Article') }}</th>
-                            <th><a href="{{ gen_url(sort_='date') }}">{{ _('Date') }}</a></th>
+                            <th><a href="{{ gen_url(sort_='-date' if sort_ == 'date' else 'date') }}">{{ _('Date') }}</a></th>
                         </tr>
                     </thead>
                     <tbody>
