@@ -6,6 +6,7 @@ recaptcha_private_key =
 log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
 python = python3.3
 nb_worker = 5
+log_level = info
 [database]
 uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [feedparser]
@@ -15,7 +16,6 @@ resolve_article_url = false
 default_max_error = 6
 crawling_method = classic
 [webserver]
-debug = true
 host = 0.0.0.0
 port = 5000
 secret = a secret only you know
