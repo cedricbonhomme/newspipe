@@ -108,6 +108,7 @@
                                     {% if feed_id %}<input type="hidden" name="feed_id" value="{{ feed_id }}" />{% endif %}
                                     <label for="search_title">{{ _("Title") }}</label>
                                     <input type="checkbox" name="search_title" {% if search_title == 'on' or not (search_title == 'on' or search_content == 'on') %}checked{%endif%}/>
+                                    <br />
                                     <label for="search_content">{{ _("Content") }}</label>
                                     <input type="checkbox" name="search_content" {% if search_content == 'on' %}checked{%endif%}/>
                                     <input type="text" class="form-control" name="query" placeholder="{{ _("Search") }}" {% if search_query %} value="{{ search_query }}"{% endif %} />
