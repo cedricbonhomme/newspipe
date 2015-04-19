@@ -83,7 +83,7 @@ NB_WORKER = config.getint('misc', 'nb_worker')
 
 WHOOSH_ENABLED = True
 
-SQLALCHEMY_DATABASE_URI = config.get('database', 'uri')
+SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
 HTTP_PROXY = config.get('feedparser', 'http_proxy')
 USER_AGENT = config.get('feedparser', 'user_agent')
