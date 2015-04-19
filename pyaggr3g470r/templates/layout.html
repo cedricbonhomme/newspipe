@@ -95,7 +95,6 @@
                     </ul>
                 </li>
 
-                {% if not conf.ON_HEROKU %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <div><span class="glyphicon glyphicon-search"></span>&nbsp;<b class="caret"></b></div>
@@ -117,7 +116,6 @@
                         </li>
                     </ul>
                 </li>
-                {% endif %}
             {% else %}
                 <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
