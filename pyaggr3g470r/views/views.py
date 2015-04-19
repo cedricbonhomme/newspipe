@@ -165,14 +165,18 @@ def login():
     form = SigninForm()
 
     if form.validate_on_submit():
+        print("Form OK!")
         user = UserController().get(email=form.email.data)
         login_user(user)
+        print("User loaded!")
         g.user = user
         session['email'] = form.email.data
         identity_changed.send(current_app._get_current_object(),
                               identity=Identity(user.id))
+        print("Identity changed!")
         flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
+    print("Form not OK!!!")
     return render_template('login.html', form=form)
 
 
