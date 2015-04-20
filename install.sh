@@ -16,7 +16,7 @@ cp conf/conf.cfg-sample conf/conf.cfg
 
 # Delete default database configuration
 sed -i '/database/d' conf/conf.cfg
-sed -i '/uri/d' conf/conf.cfg
+sed -i '/database_url/d' conf/conf.cfg
 
 if [ "$1" == postgres ]; then
     sudo apt-get install -y postgresql postgresql-server-dev-9.3 postgresql-client
@@ -30,12 +30,12 @@ if [ "$1" == postgres ]; then
 
     # Add configuration lines for PostgreSQL
     echo '[database]' >> conf/conf.cfg
-    echo 'uri = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator' >> conf/conf.cfg
+    echo 'database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator' >> conf/conf.cfg
 elif [ "$1" == sqlite ]; then
     sudo pip install pysqlite # not working with Python 3!
     # Add configuration lines for SQLite
     echo '[database]' >> conf/conf.cfg
-    echo 'uri = sqlite+pysqlite:///pyAggr3g470r.db' >> conf/conf.cfg
+    echo 'database_url = sqlite+pysqlite:///pyAggr3g470r.db' >> conf/conf.cfg
 fi
 
 python manager.py db_empty

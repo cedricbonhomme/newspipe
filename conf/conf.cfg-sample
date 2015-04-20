@@ -8,7 +8,7 @@ python = python3.3
 nb_worker = 5
 log_level = info
 [database]
-DATABASE_URL = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
+database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [feedparser]
 http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
