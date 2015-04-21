@@ -172,7 +172,7 @@ def import_json(email, json_content):
                         description="",
                         link=feed["link"],
                         site_link=feed["site_link"],
-                        created_date=datetime.datetime.\
+                        created_date=datetime.datetime.
                             fromtimestamp(int(feed["created_date"])),
                         enabled=feed["enabled"])
         user.feeds.append(new_feed)
@@ -191,10 +191,10 @@ def import_json(email, json_content):
                                 title=article["title"],
                                 content=article["content"],
                                 readed=article["readed"],
-                                like=article["like"], \
-                                retrieved_date=datetime.datetime.\
+                                like=article["like"],
+                                retrieved_date=datetime.datetime.
                                     fromtimestamp(int(article["retrieved_date"])),
-                                date=datetime.datetime.\
+                                date=datetime.datetime.
                                     fromtimestamp(int(article["date"])),
                                 user_id=user.id,
                                 feed_id=user_feed.id)
@@ -228,7 +228,7 @@ def open_url(url):
     if conf.HTTP_PROXY == "":
         proxy = {}
     else:
-        proxy = {"http" : conf.HTTP_PROXY}
+        proxy = {"http": conf.HTTP_PROXY}
     opener = urllib.request.FancyURLopener(proxy)
     try:
         opener = urllib.request.build_opener()
@@ -236,26 +236,27 @@ def open_url(url):
         return (True, opener.open(url))
     except urllib.error.HTTPError as e:
         # server couldn't fulfill the request
-        error = (url, e.code, \
-                        http.server.BaseHTTPRequestHandler.responses[e.code][1])
+        error = (url, e.code,
+                 http.server.BaseHTTPRequestHandler.responses[e.code][1])
         return (False, error)
     except urllib.error.URLError as e:
         # failed to reach the server
         if type(e.reason) == str:
             error = (url, e.reason, e.reason)
-            #pyaggr3g470r_log.error(url + " " + e.reason)
         else:
             error = (url, e.reason.errno, e.reason.strerror)
         return (False, error)
+
 
 def clear_string(data):
     """
     Clear a string by removing HTML tags, HTML special caracters
     and consecutive white spaces (more that one).
     """
-    p = re.compile('<[^>]+>') # HTML tags
-    q = re.compile('\s') # consecutive white spaces
+    p = re.compile('<[^>]+>')  # HTML tags
+    q = re.compile('\s')  # consecutive white spaces
     return p.sub('', q.sub(' ', data))
+
 
 def load_stop_words():
     """

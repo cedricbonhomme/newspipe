@@ -228,15 +228,19 @@ def signup():
             flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
             return redirect(url_for('home'))
 
-        flash(gettext('Your account has been created. Check your mail to confirm it.'), 'success')
+        flash(gettext('Your account has been created. '
+                      'Check your mail to confirm it.'), 'success')
         return redirect(url_for('home'))
 
     return render_template('signup.html', form=form)
 
 
-def render_home(filters=None, head_title='', page_to_render='home', **kwargs):
+def render_home(filters=None, head_titles=None,
+                page_to_render='home', **kwargs):
     if filters is None:
         filters = {}
+    if head_titles is None:
+        head_titles = []
     feed_contr = FeedController(g.user.id)
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
@@ -255,8 +259,7 @@ def render_home(filters=None, head_title='', page_to_render='home', **kwargs):
         filters['readed'] = filter_ == 'read'
     if feed_id:
         filters['feed_id'] = feed_id
-        head_title = "%s%s" % (feed_contr.get(id=feed_id).title,
-                               (' - %s' % head_title) if head_title else '')
+        head_titles.append(feed_contr.get(id=feed_id).title)
 
     sort_param = {"feed": Article.title.desc(),
                   "date": Article.date.desc(),
@@ -286,7 +289,7 @@ def render_home(filters=None, head_title='', page_to_render='home', **kwargs):
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
-                           head_title=head_title, sort_=sort_, **kwargs)
+                           head_titles=head_titles, sort_=sort_, **kwargs)
 
 
 @app.route('/')
@@ -299,7 +302,7 @@ def home():
 @app.route('/favorites')
 @login_required
 def favorites():
-    return render_home({'like': True}, gettext('Favorites'), 'favorites')
+    return render_home({'like': True}, [gettext('Favorites')], 'favorites')
 
 
 @app.route('/search', methods=['GET'])
@@ -319,7 +322,7 @@ def search():
         filters['content__like'] = "%%%s%%" % query
     if len(filters) > 1:
         filters = {"__or__": filters}
-    return render_home(filters, "%s %s" % (gettext('Search:'), query),
+    return render_home(filters, ["%s %s" % (gettext('Search:'), query)],
                        'search', search_query=query, search_title=search_title,
                        search_content=search_content)
 

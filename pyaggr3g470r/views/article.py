@@ -49,7 +49,7 @@ def article(article_id=None):
         next_article = article.source.articles[-1]
 
     return render_template('article.html',
-                           head_title=utils.clear_string(article.title),
+                           head_titles=[utils.clear_string(article.title)],
                            article=article,
                            previous_article=previous_article,
                            next_article=next_article)
