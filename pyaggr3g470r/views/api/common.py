@@ -51,7 +51,8 @@ def authenticate(func):
             # authentication via HTTP only
             auth = request.authorization
             if auth is not None:
-                user = User.query.filter(User.nickname == auth.username).first()
+                user = User.query.filter(
+                        User.nickname == auth.username).first()
                 if user and user.check_password(auth.password) \
                         and user.activation_key == "":
                     g.user = user
@@ -60,6 +61,7 @@ def authenticate(func):
             return func(*args, **kwargs)
         raise Unauthorized({'WWWAuthenticate': 'Basic realm="Login Required"'})
     return wrapper
+
 
 def to_response(func):
     """Will cast results of func as a result, and try to extract
@@ -158,7 +160,8 @@ class PyAggResourceMulti(PyAggAbstractResource):
             return [res for res in self.controller.read().limit(limit)]
         if not limit:
             return [res for res in self.controller.read(**request.json).all()]
-        return [res for res in self.controller.read(**request.json).limit(limit)]
+        return [res
+                for res in self.controller.read(**request.json).limit(limit)]
 
     def post(self):
         """creating several objects. payload should be a list of dict.

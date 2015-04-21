@@ -27,8 +27,9 @@ from .abstract import AbstractController
 from pyaggr3g470r.models import Feed
 
 logger = logging.getLogger(__name__)
-DEFAULT_MAX_ERROR = conf.DEFAULT_MAX_ERROR
 DEFAULT_LIMIT = 5
+DEFAULT_REFRESH_RATE = 60
+DEFAULT_MAX_ERROR = conf.DEFAULT_MAX_ERROR
 
 
 class FeedController(AbstractController):
@@ -42,11 +43,10 @@ class FeedController(AbstractController):
                                 .order_by('Feed.last_retrieved')
                                 .limit(limit)]
 
-    def list_fetchable(self, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT):
-        from pyaggr3g470r.controllers import UserController
+    def list_fetchable(self, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT,
+                       refresh_rate=DEFAULT_REFRESH_RATE):
         now = datetime.now()
-        user = UserController(self.user_id).get(id=self.user_id)
-        max_last = now - timedelta(minutes=user.refresh_rate or 60)
+        max_last = now - timedelta(minutes=refresh_rate)
         feeds = self.list_late(max_last, max_error, limit)
         if feeds:
             self.update({'id__in': [feed.id for feed in feeds]},

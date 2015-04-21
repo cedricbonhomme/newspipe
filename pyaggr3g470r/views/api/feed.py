@@ -3,8 +3,10 @@
 
 from flask import g
 
-from pyaggr3g470r.controllers.feed import FeedController, \
-                                          DEFAULT_MAX_ERROR, DEFAULT_LIMIT
+from pyaggr3g470r.controllers.feed import (FeedController,
+                                           DEFAULT_MAX_ERROR,
+                                           DEFAULT_LIMIT,
+                                           DEFAULT_REFRESH_RATE)
 
 from pyaggr3g470r.views.api.common import PyAggAbstractResource, \
                                           PyAggResourceNew, \
@@ -41,11 +43,20 @@ class FetchableFeedAPI(PyAggAbstractResource):
     controller_cls = FeedController
     to_date = ['date', 'last_retrieved']
     attrs = {'max_error': {'type': int, 'default': DEFAULT_MAX_ERROR},
-             'limit': {'type': int, 'default': DEFAULT_LIMIT}}
+             'limit': {'type': int, 'default': DEFAULT_LIMIT},
+             'refresh_rate': {'type': int, 'default': DEFAULT_REFRESH_RATE},
+             'retreive_all': {'type': bool, 'default': False}}
 
     def get(self):
-        return [feed for feed in self.controller.list_fetchable(
-                                                    **self.reqparse_args())]
+        args = self.reqparse_args()
+        if g.user.refresh_rate:
+            args['refresh_rate'] = g.user.refresh_rate
+
+        dont_filter_by_user = args.pop('retreive_all') and g.user.is_admin()
+
+        contr = self.controller_cls() if dont_filter_by_user \
+                else self.controller
+        return [feed for feed in contr.list_fetchable(**args)]
 
 g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')
 g.api.add_resource(FeedAPI, '/feed/<int:obj_id>', endpoint='feed.json')

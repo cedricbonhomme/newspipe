@@ -16,7 +16,6 @@ import time
 import conf
 import json
 import logging
-import requests
 import feedparser
 import dateutil.parser
 from hashlib import md5
@@ -97,6 +96,7 @@ class AbstractCrawler:
     @classmethod
     def get_counter_callback(cls):
         cls.__counter__ += 1
+
         def debump(*args, **kwargs):
             cls.__counter__ -= 1
         return debump
@@ -157,6 +157,7 @@ class PyAggUpdater(AbstractCrawler):
             content = entry['summary']
 
         return {'feed_id': self.feed['id'],
+                'user_id': self.feed['user_id'],
                 'entry_id': extract_id(entry).get('entry_id', None),
                 'link': entry.get('link', self.feed['site_link']),
                 'title': entry.get('title', 'No title'),
@@ -176,11 +177,11 @@ class PyAggUpdater(AbstractCrawler):
         for id_to_create in results:
             entry = self.to_article(
                     self.entries[tuple(sorted(id_to_create.items()))])
-            logger.warn('%r %r - creating %r - %r', self.feed['id'],
-                        self.feed['title'], entry['title'], id_to_create)
+            logger.warn('%r %r - creating %r for %r - %r', self.feed['id'],
+                        self.feed['title'], entry['title'], entry['user_id'],
+                        id_to_create)
             self.query_pyagg('post', 'article', entry)
 
-        now = datetime.now()
         logger.debug('%r %r - updating feed etag %r last_mod %r',
                      self.feed['id'], self.feed['title'],
                      self.headers.get('etag', ''),
@@ -264,8 +265,10 @@ class FeedCrawler(AbstractCrawler):
         ids, entries = [], {}
         parsed_response = feedparser.parse(response.text)
         for entry in parsed_response['entries']:
-            entries[tuple(sorted(extract_id(entry).items()))] = entry
-            ids.append(extract_id(entry))
+            entry_ids = extract_id(entry)
+            entry_ids['feed_id'] = self.feed['id']
+            entries[tuple(sorted(entry_ids.items()))] = entry
+            ids.append(entry_ids)
         logger.debug('%r %r - found %d entries %r',
                      self.feed['id'], self.feed['title'], len(ids), ids)
         future = self.query_pyagg('get', 'articles/challenge', {'ids': ids})
