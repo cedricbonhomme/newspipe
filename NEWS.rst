@@ -1,5 +1,8 @@
             pyAggr3g470r project news
 
+6.5.5: 2015-04-22
+    The full text search powered by Whoosh has been removed.
+
 6.5.4: 2015-04-16
     This release introduces a new config module and a new search functionality.
     The result of a search is integrated in the main page.
