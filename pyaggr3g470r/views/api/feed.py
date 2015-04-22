@@ -52,11 +52,12 @@ class FetchableFeedAPI(PyAggAbstractResource):
         if g.user.refresh_rate:
             args['refresh_rate'] = g.user.refresh_rate
 
-        dont_filter_by_user = args.pop('retreive_all') and g.user.is_admin()
-
-        contr = self.controller_cls() if dont_filter_by_user \
-                else self.controller
+        if args.pop('retreive_all'):
+            contr = self.wider_controller
+        else:
+            contr = self.controller
         return [feed for feed in contr.list_fetchable(**args)]
+
 
 g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')
 g.api.add_resource(FeedAPI, '/feed/<int:obj_id>', endpoint='feed.json')

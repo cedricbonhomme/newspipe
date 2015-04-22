@@ -90,6 +90,12 @@ class PyAggAbstractResource(Resource):
     def controller(self):
         return self.controller_cls(getattr(g.user, 'id', None))
 
+    @property
+    def wider_controller(self):
+        if g.user.is_admin():
+            return self.controller_cls()
+        return self.controller_cls(getattr(g.user, 'id', None))
+
     def reqparse_args(self, req=None, strict=False, default=True, args=None):
         """
         strict: bool
