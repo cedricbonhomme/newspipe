@@ -1,5 +1,16 @@
             pyAggr3g470r project news
 
+6.5.4: 2015-04-16
+    This release introduces a new config module and a new search functionality.
+    The result of a search is integrated in the main page.
+
+6.5.3: 2015-04-14
+    The fetch call is now dependent to the selected crawling method.
+
+6.5.2: 2015-04-14
+    The look and feel has been globally improved.
+    It is now possible to add a new feed from any page via a dropdown menu.
+
 6.5.1: 2015-04-08
     Improvements:
      * improvements on the controllers;
