@@ -40,8 +40,6 @@ from pyaggr3g470r import utils
 import conf
 from bootstrap import db
 from pyaggr3g470r.models import User, Article
-if not conf.ON_HEROKU:
-    import pyaggr3g470r.search as fastsearch
 
 logger = logging.getLogger(__name__)
 
@@ -227,15 +225,6 @@ def init_process(user, feed):
     # Fetch the feed and insert new articles in the database
     articles = yield from asyncio.async(insert_database(user, feed))
     #print('inserted articles for {}'.format(feed.title))
-
-    # Indexation of the new articles for the feed
-    if not conf.ON_HEROKU and articles != []:
-        try:
-            #print('indexing articles for {}'.format(feed.title))
-            fastsearch.add_to_index(user.id, articles, feed)
-        except:
-            logger.exception("Problem during indexation:")
-
     return articles
 
 def retrieve_feed(user, feed_id=None):

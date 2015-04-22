@@ -54,8 +54,6 @@ from pyaggr3g470r.forms import SignupForm, SigninForm, \
                     AddFeedForm, InformationMessageForm
 from pyaggr3g470r.controllers import UserController, FeedController, \
                                      ArticleController
-if not conf.ON_HEROKU:
-    import pyaggr3g470r.search as fastsearch
 
 
 Principal(app)
@@ -399,10 +397,6 @@ def delete(article_id=None):
     if article is not None and article.source.subscriber.id == g.user.id:
         db.session.delete(article)
         db.session.commit()
-        try:
-            fastsearch.delete_article(g.user.id, article.feed_id, article.id)
-        except:
-            pass
         flash(gettext('Article') + ' ' + article.title + ' ' + gettext('deleted.'), 'success')
         return redirect(redirect_url())
     else:
@@ -440,23 +434,6 @@ def duplicates(feed_id=None):
     duplicates = []
     duplicates = utils.compare_documents(feed)
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
-
-@app.route('/index_database', methods=['GET'])
-@login_required
-def index_database():
-    """
-    Index all the database.
-    """
-    if not conf.ON_HEROKU:
-        try:
-            fastsearch.create_index(g.user.id)
-            flash(gettext('Indexing database...'), 'success')
-        except Exception as e:
-            flash(gettext('An error occured') + ' (%s).' % e, 'danger')
-        return redirect(url_for('home'))
-    else:
-        flash(gettext('Option not available on Heroku.'), 'success')
-        return redirect(url_for('home'))
 
 @app.route('/export', methods=['GET'])
 @login_required

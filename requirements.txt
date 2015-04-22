@@ -8,7 +8,6 @@ opml
 psycopg2
 SQLAlchemy
 alembic
-whoosh
 Flask
 Flask-SQLAlchemy
 Flask-Login
