@@ -70,7 +70,9 @@ class AbstractController(object):
     def create(self, **attrs):
         assert self._user_id_key in attrs or self.user_id is not None, \
                 "You must provide user_id one way or another"
-        attrs[self._user_id_key] = self.user_id or attrs.get(self._user_id_key)
+
+        if self._user_id_key not in attrs:
+            attrs[self._user_id_key] = self.user_id
         obj = self._db_cls(**attrs)
         db.session.add(obj)
         db.session.commit()

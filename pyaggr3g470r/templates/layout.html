@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="pyAggr3g470r is a web-based news aggregator." />
     <meta name="author" content="" />
-    <title>pyAggr3g470r{% if head_title %} - {{ head_title }}{% endif %}</title>
+    <title>pyAggr3g470r{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" />
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" media="screen" />
@@ -26,7 +26,12 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ url_for("home") }}">pyAggr3g470r</a>
-          <span class="navbar-brand">{% if head_title %} - {{ head_title }}{% endif %}</span>
+          {% if head_titles %}
+            {% for head_title in head_titles %}
+              <span class="navbar-brand"> - </span>
+              <span class="navbar-brand">{{ head_title }}</span>
+            {% endfor %}
+          {% endif %}
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

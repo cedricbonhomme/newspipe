@@ -27,11 +27,11 @@ def db_create():
         pyaggr3g470r.models.db_create(db)
 
 @manager.command
-def fetch(user, password, limit=100):
+def fetch(user, password, limit=100, retreive_all=False):
     "Crawl the feeds with the client crawler."
     from pyaggr3g470r.lib.crawler import CrawlerScheduler
     scheduler = CrawlerScheduler(user, password)
-    scheduler.run(limit=limit)
+    scheduler.run(limit=limit, retreive_all=retreive_all)
     scheduler.wait()
 
 @manager.command

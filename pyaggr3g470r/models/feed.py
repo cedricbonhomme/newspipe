@@ -63,6 +63,7 @@ class Feed(db.Model):
 
     def dump(self):
         return {"id": self.id,
+                "user_id": self.user_id,
                 "title": self.title,
                 "description": self.description,
                 "link": self.link,

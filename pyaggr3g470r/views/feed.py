@@ -53,7 +53,7 @@ def feed(feed_id=None):
     elapsed = today - last_article
 
     return render_template('feed.html',
-                           head_title=utils.clear_string(feed.title),
+                           head_titles=[utils.clear_string(feed.title)],
                            feed=feed, tag_cloud=tag_cloud,
                            first_post_date=first_article,
                            end_post_date=last_article,
