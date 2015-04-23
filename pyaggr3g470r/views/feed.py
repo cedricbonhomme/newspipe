@@ -165,7 +165,7 @@ def form(feed_id=None):
 
         if conf.CRAWLING_METHOD == "classic":
             utils.fetch(g.user.id, new_feed.id)
-        flash(gettext("Downloading articles for the new feed..."), 'info')
+            flash(gettext("Downloading articles for the new feed..."), 'info')
 
         return redirect(url_for('feed.form',
                                 feed_id=new_feed.id))
