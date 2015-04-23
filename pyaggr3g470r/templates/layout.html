@@ -68,17 +68,17 @@
                 {% if favorites %}
                 <li><a href="{{ url_for("home") }}"><span class="glyphicon glyphicon-home"></span> {{ _('Home') }}</a></li>
                 {% else %}
-                <li><a accesskey="f" href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
+                <li><a href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
                 {% endif %}
                 {% if conf.CRAWLING_METHOD == "classic" and (not conf.ON_HEROKU or g.user.is_admin()) %}
-                <li><a accesskey="r" href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
+                <li><a href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
                 {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Feed') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for("feeds.update", action="read") }}">{{ _('Mark all as read') }}</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li><a accesskey="i" href="{{ url_for("inactives") }}">{{ _('Inactive') }}</a></li>
+                        <li><a href="{{ url_for("inactives") }}">{{ _('Inactive') }}</a></li>
                         <li><a href="{{ url_for("history") }}">{{ _('History') }}</a></li>
                         <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All') }}</a></li>
                     </ul>
