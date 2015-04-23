@@ -276,8 +276,11 @@ def render_home(filters=None, head_titles=None,
                 **kwargs):
         if page_to_render == 'search':
             kwargs['query'] = request.args.get('query', '')
-            kwargs['search_title'] = request.args.get('search_title', 'on')
+            kwargs['search_title'] = request.args.get('search_title', 'off')
             kwargs['search_content'] = request.args.get('search_content', 'off')
+            if kwargs['search_title']=='off' and \
+                                                kwargs['search_content']=='off':
+                kwargs['search_title'] = 'on'
         return url_for(page_to_render, filter_=filter_, sort_=sort_,
                        limit=limit, feed_id=feed_id, **kwargs)
 
@@ -314,12 +317,15 @@ def search():
         return render_home()
     query = request.args['query']
     filters = {}
-    search_title = request.args.get('search_title')
-    search_content = request.args.get('search_content')
+    search_title = request.args.get('search_title', 'off')
+    search_content = request.args.get('search_content', 'off')
     if search_title == 'on':
         filters['title__like'] = "%%%s%%" % query
     if search_content == 'on':
         filters['content__like'] = "%%%s%%" % query
+    if len(filters) == 0:
+        search_title = 'on'
+        filters['title__like'] = "%%%s%%" % query
     if len(filters) > 1:
         filters = {"__or__": filters}
     return render_home(filters, ["%s %s" % (gettext('Search:'), query)],
