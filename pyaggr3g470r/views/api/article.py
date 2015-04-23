@@ -51,7 +51,7 @@ class ArticlesChallenge(PyAggAbstractResource):
                 if key in id_dict:
                     id_dict[key] = dateutil.parser.parse(id_dict[key])
 
-        return self.controller.challenge(parsed_args['ids'])
+        return self.wider_controller.challenge(parsed_args['ids'])
 
 
 g.api.add_resource(ArticleNewAPI, '/article', endpoint='article_new.json')

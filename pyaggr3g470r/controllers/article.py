@@ -23,6 +23,6 @@ class ArticleController(AbstractController):
 
     def get_unread(self):
         return dict(db.session.query(Article.feed_id, func.count(Article.id))
-                       .filter(Article.readed == False,
-                               Article.user_id == self.user_id)
+                       .filter(*self._to_filters(readed=False,
+                                                 user_id=self.user_id))
                        .group_by(Article.feed_id).all())

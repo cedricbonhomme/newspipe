@@ -1,4 +1,5 @@
 import logging
+from flask import g
 from bootstrap import db
 from sqlalchemy import or_
 from werkzeug.exceptions import Forbidden, NotFound
@@ -18,6 +19,9 @@ class AbstractController(object):
         allowing for a kind of "super user" mode.
         """
         self.user_id = user_id
+        if self.user_id is not None \
+                and self.user_id != g.user.id and not g.user.is_admin():
+            self.user_id = g.user.id
 
     def _to_filters(self, **filters):
         """
@@ -51,7 +55,12 @@ class AbstractController(object):
         return db_filters
 
     def _get(self, **filters):
-        if self.user_id is not None:
+        """ Will add the current user id if that one is not none (in which case
+        the decision has been made in the code that the query shouldn't be user
+        dependant) and the user is not an admin and the filters doesn't already
+        contains a filter for that user.
+        """
+        if self.user_id and filters.get(self._user_id_key) != self.user_id:
             filters[self._user_id_key] = self.user_id
         return self._db_cls.query.filter(*self._to_filters(**filters))
 

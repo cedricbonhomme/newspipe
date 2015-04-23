@@ -267,6 +267,7 @@ class FeedCrawler(AbstractCrawler):
         for entry in parsed_response['entries']:
             entry_ids = extract_id(entry)
             entry_ids['feed_id'] = self.feed['id']
+            entry_ids['user_id'] = self.feed['user_id']
             entries[tuple(sorted(entry_ids.items()))] = entry
             ids.append(entry_ids)
         logger.debug('%r %r - found %d entries %r',
