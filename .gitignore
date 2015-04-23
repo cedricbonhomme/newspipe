@@ -6,9 +6,11 @@ syntax: glob
 *~
 *.db
 
+# Emacs
+eproject.cfg
+
 # Temporary files (vim backups)
 *.swp
-
 
 # Log files:
 *.log
@@ -16,9 +18,9 @@ syntax: glob
 # Vagrant:
 .vagrant/
 
-*.cfg
-pyaggr3g470r/var/indexdir/
-
 # Virtualenv
 venv
 build
+
+
+conf/conf.cfg
