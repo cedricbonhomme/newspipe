@@ -277,7 +277,7 @@ def render_home(filters=None, head_titles=None,
         if page_to_render == 'search':
             kwargs['query'] = request.args.get('query', '')
             kwargs['search_title'] = request.args.get('search_title', 'on')
-            kwargs['search_content'] = request.args.get('searc_content', 'off')
+            kwargs['search_content'] = request.args.get('search_content', 'off')
         return url_for(page_to_render, filter_=filter_, sort_=sort_,
                        limit=limit, feed_id=feed_id, **kwargs)
 
