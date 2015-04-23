@@ -10,7 +10,11 @@
         <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li><a href="{{ gen_url(feed_id=0) }}">
                 {% if not feed_id %}<b>{% endif %}
+                    {% if filter_=='all' %}
                     {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ unread.items()|sum(attribute="1") }} / {{ articles.__len__() }}</span>
+                    {% else %}
+                    {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
+                    {% endif %}
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
