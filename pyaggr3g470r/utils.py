@@ -35,6 +35,7 @@ __license__ = "AGPLv3"
 #
 
 import re
+import sys
 import glob
 import opml
 import json
@@ -88,7 +89,7 @@ def fetch(id, feed_id=None):
     Fetch the feeds in a new processus.
     The "asyncio" crawler is launched with the manager.
     """
-    cmd = [conf.PYTHON, conf.basedir+'/manager.py', 'fetch_asyncio', str(id),
+    cmd = [sys.executable, conf.BASE_DIR+'/manager.py', 'fetch_asyncio', str(id),
             str(feed_id)]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 

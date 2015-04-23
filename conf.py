@@ -7,7 +7,7 @@ This file contain the variables used by the application.
 import os
 import logging
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 PATH = os.path.abspath(".")
 
 # available languages
@@ -22,8 +22,7 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
-DEFAULTS = {"python": "/usr/bin/python3.4",
-            "platform_url": "https://pyaggr3g470r.herokuapp.com/",
+DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
@@ -53,7 +52,7 @@ if not ON_HEROKU:
         import ConfigParser as confparser
     # load the configuration
     config = confparser.SafeConfigParser(defaults=DEFAULTS)
-    config.read(os.path.join(basedir, "conf/conf.cfg"))
+    config.read(os.path.join(BASE_DIR, "conf/conf.cfg"))
 else:
     class Config(object):
         def get(self, _, name):
@@ -78,20 +77,19 @@ RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('misc',
                                     'recaptcha_private_key')
 LOG_PATH = config.get('misc', 'log_path')
-PYTHON = config.get('misc', 'python')
 NB_WORKER = config.getint('misc', 'nb_worker')
 
 WHOOSH_ENABLED = True
 
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
-HTTP_PROXY = config.get('feedparser', 'http_proxy')
-USER_AGENT = config.get('feedparser', 'user_agent')
-RESOLVE_ARTICLE_URL = config.getboolean('feedparser',
+HTTP_PROXY = config.get('crawler', 'http_proxy')
+USER_AGENT = config.get('crawler', 'user_agent')
+RESOLVE_ARTICLE_URL = config.getboolean('crawler',
                                         'resolve_article_url')
-DEFAULT_MAX_ERROR = config.getint('feedparser',
+DEFAULT_MAX_ERROR = config.getint('crawler',
                                     'default_max_error')
-CRAWLING_METHOD = config.get('feedparser', 'crawling_method')
+CRAWLING_METHOD = config.get('crawler', 'crawling_method')
 
 LOG_LEVEL = {'debug': logging.DEBUG,
              'info': logging.INFO,
