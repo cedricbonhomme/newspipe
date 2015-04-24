@@ -169,7 +169,6 @@ def login():
         session['email'] = form.email.data
         identity_changed.send(current_app._get_current_object(),
                               identity=Identity(user.id))
-        flash(gettext("Logged in successfully."), 'success')
         return redirect(url_for('home'))
     return render_template('login.html', form=form)
 
@@ -190,7 +189,8 @@ def logout():
         session.pop(key, None)
 
     # Tell Flask-Principal the user is anonymous
-    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
+    identity_changed.send(current_app._get_current_object(),
+                          identity=AnonymousIdentity())
 
     flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
@@ -224,8 +224,9 @@ def signup():
         # Send the confirmation email
         try:
             notifications.new_account_notification(user)
-        except Exception as e:
-            flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
+        except Exception as error:
+            flash(gettext('Problem while sending activation email: %(error)s',
+                          error=error), 'danger')
             return redirect(url_for('home'))
 
         flash(gettext('Your account has been created. '
@@ -286,9 +287,9 @@ def render_home(filters=None, head_titles=None,
         if page_to_render == 'search':
             kwargs['query'] = request.args.get('query', '')
             kwargs['search_title'] = request.args.get('search_title', 'off')
-            kwargs['search_content'] = request.args.get('search_content', 'off')
-            if kwargs['search_title']=='off' and \
-                                                kwargs['search_content']=='off':
+            kwargs['search_content'] = request.args.get(
+                    'search_content', 'off')
+            if kwargs['search_title'] == kwargs['search_content'] == 'off':
                 kwargs['search_title'] = 'on'
         return url_for(page_to_render, filter_=filter_, sort_=sort_,
                        limit=limit, feed_id=feed_id, **kwargs)
