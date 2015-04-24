@@ -24,3 +24,4 @@ build
 
 
 conf/conf.cfg
+.coverage

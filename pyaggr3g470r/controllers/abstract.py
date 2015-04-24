@@ -19,9 +19,12 @@ class AbstractController(object):
         allowing for a kind of "super user" mode.
         """
         self.user_id = user_id
-        if self.user_id is not None \
-                and self.user_id != g.user.id and not g.user.is_admin():
-            self.user_id = g.user.id
+        try:
+            if self.user_id is not None \
+                    and self.user_id != g.user.id and not g.user.is_admin():
+                self.user_id = g.user.id
+        except RuntimeError:  # passing on out of context errors
+            pass
 
     def _to_filters(self, **filters):
         """
@@ -67,12 +70,12 @@ class AbstractController(object):
     def get(self, **filters):
         """Will return one single objects corresponding to filters"""
         obj = self._get(**filters).first()
+
+        if obj and not self._has_right_on(obj):
+            raise Forbidden({'message': 'No authorized to access %r (%r)'
+                                % (self._db_cls.__class__.__name__, filters)})
         if not obj:
             raise NotFound({'message': 'No %r (%r)'
-                                % (self._db_cls.__class__.__name__, filters)})
-
-        if not self._has_right_on(obj):
-            raise Forbidden({'message': 'No authorized to access %r (%r)'
                                 % (self._db_cls.__class__.__name__, filters)})
         return obj
 

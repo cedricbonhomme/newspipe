@@ -99,3 +99,4 @@ def db_create(db):
 
     db.session.add(user1)
     db.session.commit()
+    return role_admin, role_user
