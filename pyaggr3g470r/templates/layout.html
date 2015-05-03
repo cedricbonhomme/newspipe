@@ -49,13 +49,13 @@
                                 {{ create_feed_form.hidden_tag() }}
 
                                 {{ create_feed_form.link.label }}
-                                {{ create_feed_form.link(class_="form-control", placeholder="Feed link") }} {% for error in create_feed_form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                                {{ create_feed_form.link(class_="form-control") }} {% for error in create_feed_form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
                                 {{ create_feed_form.title.label }}
-                                {{ create_feed_form.title(class_="form-control", placeholder="Optional") }} {% for error in create_feed_form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                                {{ create_feed_form.title(class_="form-control", placeholder=_('Optional')) }} {% for error in create_feed_form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
                                 {{ create_feed_form.site_link.label }}
-                                {{ create_feed_form.site_link(class_="form-control", placeholder="Optional") }} {% for error in create_feed_form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                                {{ create_feed_form.site_link(class_="form-control", placeholder=_('Optional')) }} {% for error in create_feed_form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
                                 {{ create_feed_form.enabled.label }}
                                 {{ create_feed_form.enabled(class_="checkbox") }}

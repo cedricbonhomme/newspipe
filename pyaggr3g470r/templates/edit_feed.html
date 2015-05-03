@@ -10,10 +10,10 @@
             {{ form.link(class_="form-control") }} {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.title.label }}
-            {{ form.title(class_="form-control", placeholder="Optional") }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            {{ form.title(class_="form-control", placeholder=_('Optional')) }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.site_link.label }}
-            {{ form.site_link(class_="form-control", placeholder="Optional") }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            {{ form.site_link(class_="form-control", placeholder=_('Optional')) }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
             {{ form.enabled.label }}
             {{ form.enabled(class_="checkbox") }}
