@@ -14,11 +14,10 @@
   "env": {
     "HEROKU": "1",
     "ADMIN_EMAIL": "root@pyAggr3g470r.localhost",
-    "NOTIFICATION_SENDER": "pyAggr3g470r@no-reply.com",
     "ADMIN_PASSWORD": "password",
+    "NOTIFICATION_EMAIL": "pyAggr3g470r@no-reply.com",
     "RECAPTCHA_PRIVATE_KEY": "REDACTED",
     "RECAPTCHA_PUBLIC_KEY": "REDACTED",
-    "NOTIFICATION_EMAIL": "REDACTED",
     "POSTMARK_API_KEY": "REDACTED"
   },
   "addons": [

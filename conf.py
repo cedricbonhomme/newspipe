@@ -37,7 +37,7 @@ DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "http_proxy": "",
             "secret": "",
             "enabled": "false",
-            "notification_sender": "pyAggr3g470r@no-reply.com",
+            "notification_email": "pyAggr3g470r@no-reply.com",
             "tls": "false",
             "ssl": "true",
             "host": "0.0.0.0",
@@ -102,7 +102,7 @@ WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
 WEBSERVER_SECRET = config.get('webserver', 'secret')
 
-NOTIFICATION_EMAIL = config.get('notification', 'notification_sender')
+NOTIFICATION_EMAIL = config.get('notification', 'notification_email')
 NOTIFICATION_HOST = config.get('notification', 'host')
 NOTIFICATION_PORT = config.getint('notification', 'port')
 NOTIFICATION_TLS = config.getboolean('notification', 'tls')
