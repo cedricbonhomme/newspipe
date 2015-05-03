@@ -19,7 +19,7 @@ http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
 resolve_article_url = false
 [notification]
-email = pyAggr3g470r@no-reply.com
+notification_sender = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com
 port = 465
 tls = false

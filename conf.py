@@ -23,6 +23,7 @@ TIME_ZONE = {
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
+            "admin_email": "root@pyAggr3g470r.localhost",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
@@ -36,7 +37,7 @@ DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "http_proxy": "",
             "secret": "",
             "enabled": "false",
-            "email": "",
+            "notification_sender": "pyAggr3g470r@no-reply.com",
             "tls": "false",
             "ssl": "true",
             "host": "0.0.0.0",
@@ -101,7 +102,7 @@ WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
 WEBSERVER_SECRET = config.get('webserver', 'secret')
 
-NOTIFICATION_EMAIL = config.get('notification', 'email')
+NOTIFICATION_EMAIL = config.get('notification', 'notification_sender')
 NOTIFICATION_HOST = config.get('notification', 'host')
 NOTIFICATION_PORT = config.getint('notification', 'port')
 NOTIFICATION_TLS = config.getboolean('notification', 'tls')
