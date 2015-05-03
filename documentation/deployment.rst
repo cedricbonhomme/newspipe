@@ -55,7 +55,7 @@ variables:
     $ heroku config:set PLATFORM_URL=<URL-of-your-platform>
     $ heroku config:set RECAPTCHA_PUBLIC_KEY=<your-recaptcha-public-key>
     $ heroku config:set RECAPTCHA_PRIVATE_KEY=<your-recaptcha-private-key>
-    $ heroku config:set NOTIFICATION_SENDER=<notification-email>
+    $ heroku config:set NOTIFICATION_EMAIL=<notification-email>
     $ heroku config:set POSTMARK_API_KEY=<your-postmark-api-key>
     $ heroku addons:add postmark:10k
 
