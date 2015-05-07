@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.2 $"
+__version__ = "$Revision: 0.3 $"
 __date__ = "$Date: 2013/11/05 $"
-__revision__ = "$Date: 2013/13/05 $"
+__revision__ = "$Date: 2015/05/06 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -144,7 +144,8 @@ class ProfileForm(Form):
 
 class AddFeedForm(Form):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(lazy_gettext("Feed link"))
+    link = TextField(lazy_gettext("Feed link"),
+            [validators.Required(lazy_gettext("Please enter the URL."))])
     site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
