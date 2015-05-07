@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-03 18:19+0200\n"
+"POT-Creation-Date: 2015-05-07 08:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgid "Please enter your nickname."
 msgstr ""
 
 #: pyaggr3g470r/forms.py:45 pyaggr3g470r/forms.py:97 pyaggr3g470r/forms.py:120
-#: pyaggr3g470r/forms.py:167 pyaggr3g470r/templates/admin/dashboard.html:13
+#: pyaggr3g470r/forms.py:168 pyaggr3g470r/templates/admin/dashboard.html:13
 msgid "Email"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:48 pyaggr3g470r/forms.py:68 pyaggr3g470r/forms.py:170
+#: pyaggr3g470r/forms.py:48 pyaggr3g470r/forms.py:68 pyaggr3g470r/forms.py:171
 msgid "Please enter your email address."
 msgstr ""
 
@@ -75,7 +75,7 @@ msgid "Feeds refresh frequency (in minutes)"
 msgstr ""
 
 #: pyaggr3g470r/forms.py:104 pyaggr3g470r/forms.py:128
-#: pyaggr3g470r/forms.py:150
+#: pyaggr3g470r/forms.py:151
 msgid "Save"
 msgstr ""
 
@@ -96,43 +96,47 @@ msgstr ""
 msgid "Feed link"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:148 pyaggr3g470r/templates/admin/user.html:28
+#: pyaggr3g470r/forms.py:148
+msgid "Please enter the URL."
+msgstr ""
+
+#: pyaggr3g470r/forms.py:149 pyaggr3g470r/templates/admin/user.html:28
 msgid "Site link"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:149
+#: pyaggr3g470r/forms.py:150
 msgid "Check for updates"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:159
+#: pyaggr3g470r/forms.py:160
 msgid "Subject"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:160
+#: pyaggr3g470r/forms.py:161
 msgid "Please enter a subject."
 msgstr ""
 
-#: pyaggr3g470r/forms.py:161
+#: pyaggr3g470r/forms.py:162
 msgid "Message"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:162
+#: pyaggr3g470r/forms.py:163
 msgid "Please enter a content."
 msgstr ""
 
-#: pyaggr3g470r/forms.py:163
+#: pyaggr3g470r/forms.py:164
 msgid "Send"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:171
+#: pyaggr3g470r/forms.py:172
 msgid "Recover"
 msgstr ""
 
-#: pyaggr3g470r/forms.py:181
+#: pyaggr3g470r/forms.py:182
 msgid "Account not confirmed."
 msgstr ""
 
-#: pyaggr3g470r/forms.py:184
+#: pyaggr3g470r/forms.py:185
 msgid "Invalid email."
 msgstr ""
 
