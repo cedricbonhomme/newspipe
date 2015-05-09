@@ -29,7 +29,6 @@
             </a></li>
             <li class="feed-commands"><span>
                 <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
-                <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
                 <a href="{{ url_for("feed.form", feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for("feed.delete", feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
                 <a href="{{ url_for("feed.update", feed_id=fid, action="read") }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
@@ -47,7 +46,6 @@
             </a></li>
             <li class="feed-commands"><span>
                 <a href="{{ url_for("feed.feed", feed_id=fid) }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
-                <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
                 <a href="{{ url_for("feed.form", feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for("feed.delete", feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
                 <a href="{{ url_for("feed.update", feed_id=fid, action="read") }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
