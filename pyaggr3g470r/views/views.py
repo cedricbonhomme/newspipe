@@ -440,6 +440,7 @@ def inactives():
         elapsed = today - last_post
         if elapsed > datetime.timedelta(days=nb_days):
             inactives.append((feed, elapsed))
+    inactives.sort(key=lambda tup: tup[1], reverse=True)
     return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
 
 @app.route('/duplicates/<int:feed_id>', methods=['GET'])
