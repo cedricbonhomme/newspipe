@@ -17,11 +17,10 @@ def populate_db(db):
             db.session.add(feed)
             db.session.commit()
             for article in ['article1', 'article2', 'article3']:
-                article = Article(entry_id=article, link=article,
+                entry = "%s %s %s" % (user.nickname, feed.title, article)
+                article = Article(entry_id=entry, link=article,
                                   feed_id=feed.id, user_id=user.id,
-                                  title="%r %r %r" % (user.nickname,
-                                                      feed.title, article),
-                                  content=article)
+                                  title=entry, content=article)
                 db.session.add(article)
             db.session.commit()
 

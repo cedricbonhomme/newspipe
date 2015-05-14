@@ -74,6 +74,7 @@ class Article(db.Model):
     def dump(self):
         return {"id": self.id,
                 "user_id": self.user_id,
+                "entry_id": self.entry_id,
                 "title": self.title,
                 "link": self.link,
                 "content": self.content,
