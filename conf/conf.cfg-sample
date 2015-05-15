@@ -1,9 +1,9 @@
 [webserver]
-host = 0.0.0.0
+host = 127.0.0.1
 port = 5000
 secret = a secret only you know
 [misc]
-platform_url = http://0.0.0.0:5000/
+platform_url = http://127.0.0.1:5000/
 admin_email =
 recaptcha_public_key =
 recaptcha_private_key =
