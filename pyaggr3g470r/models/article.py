@@ -66,14 +66,15 @@ class Article(db.Model):
                             .order_by(asc("Article.date")).first()
 
     def __repr__(self):
-        return json.dumps({
-                            "title": self.title,
-                            "link": self.link,
-                            "content": self.content
-                         })
+        return json.dumps({"title": self.title,
+                           "link": self.link,
+                           "content": self.content
+                           })
 
     def dump(self):
         return {"id": self.id,
+                "user_id": self.user_id,
+                "entry_id": self.entry_id,
                 "title": self.title,
                 "link": self.link,
                 "content": self.content,

@@ -225,9 +225,9 @@ class FeedCrawler(AbstractCrawler):
             response.raise_for_status()
         except Exception as error:
             error_count = self.feed['error_count'] + 1
-            logger.warn('%r %r - an error occured while fetching feed; bumping'
-                        ' error count to %r', self.feed['id'],
-                        self.feed['title'], error_count)
+            logger.error('%r %r - an error occured while fetching '
+                         'feed; bumping  error count to %r', self.feed['id'],
+                         self.feed['title'], error_count)
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                                       {'error_count': error_count,
                                        'last_error': str(error)})

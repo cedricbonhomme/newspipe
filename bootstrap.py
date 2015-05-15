@@ -22,7 +22,15 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('pyaggr3g470r')
-application.debug = conf.LOG_LEVEL <= logging.DEBUG
+if os.environ.get('PYAGG_TESTING', False) == 'true':
+    application.debug = logging.DEBUG
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    application.config['TESTING'] = True
+else:
+    application.debug = conf.LOG_LEVEL <= logging.DEBUG
+    application.config['SQLALCHEMY_DATABASE_URI'] \
+            = conf.SQLALCHEMY_DATABASE_URI
+
 scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
 application.config['SERVER_NAME'] = domain
 application.config['PREFERRED_URL_SCHEME'] = scheme
@@ -33,7 +41,6 @@ set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
 application.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)
 if not application.config['SECRET_KEY']:
     application.config['SECRET_KEY'] = os.urandom(12)
-application.config['SQLALCHEMY_DATABASE_URI'] = conf.SQLALCHEMY_DATABASE_URI
 
 application.config['RECAPTCHA_USE_SSL'] = True
 application.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY
