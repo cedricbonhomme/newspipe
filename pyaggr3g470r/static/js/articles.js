@@ -24,6 +24,24 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
 +function ($) {
 
+    // Mark an article as read when it is opened in a new table
+    $('.open-article').on('click', function(e) {
+      var feed_id = $(this).parent().parent().attr("data-feed");
+      var filter = $('#filters').attr("data-filter");
+      console.log("unread");
+      if (filter == "unread") {
+        $(this).parent().parent().remove();
+        $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
+        if (parseInt($("#unread-"+feed_id).text()) == 1) {
+            $("#unread-"+feed_id).remove();
+        } else {
+            $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
+        }
+      }
+    });
+
+
+
     // Mark an article as read or unread.
     $('.readed').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
@@ -90,6 +108,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
         });
     });
 
+
+
     // Like or unlike an article
     $('.like').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
@@ -143,6 +163,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             }
         });
     });
+
 
 
     // Delete all duplicate articles (used in the page /duplicates)
