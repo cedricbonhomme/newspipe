@@ -28,7 +28,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
     $('.open-article').on('click', function(e) {
       var feed_id = $(this).parent().parent().attr("data-feed");
       var filter = $('#filters').attr("data-filter");
-      console.log("unread");
       if (filter == "unread") {
         $(this).parent().parent().remove();
         $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
