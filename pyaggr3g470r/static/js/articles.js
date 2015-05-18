@@ -22,6 +22,16 @@ API_ROOT = '/api/v2.0/'
 
 if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
+function change_unread_counter(feed_id, increment) {
+    var new_value = parseInt($("#unread-"+feed_id).text()) + increment;
+    $("#unread-"+feed_id).text(new_value);
+    if (new_value == 0) {
+        $("#unread-"+feed_id).hide();
+    } else {
+        $("#unread-"+feed_id).show();
+    }
+}
+
 +function ($) {
 
     // Mark an article as read when it is opened in a new table
@@ -30,16 +40,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
       var filter = $('#filters').attr("data-filter");
       if (filter == "unread") {
         $(this).parent().parent().remove();
-        $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
-        if (parseInt($("#unread-"+feed_id).text()) == 1) {
-            $("#unread-"+feed_id).remove();
-        } else {
-            $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
-        }
+        change_unread_counter(feed_id, -1);
       }
     });
-
-
 
     // Mark an article as read or unread.
     $('.readed').on('click', function() {
@@ -55,38 +58,25 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             if (filter == "read") {
                 $(this).parent().parent().parent().remove();
                 $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
-                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) + 1);
             }
             else {
                 // here, filter == "all"
                 $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "bold" );
                 $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
-                $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) + 1);
             }
+            change_unread_counter(feed_id, 1);
         }
         else {
-            data = JSON.stringify({
-                readed: true
-                })
+            data = JSON.stringify({readed: true})
             if (filter == "unread") {
                 $(this).parent().parent().parent().remove();
-                $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
-                if (parseInt($("#unread-"+feed_id).text()) == 1) {
-                    $("#unread-"+feed_id).remove();
-                } else {
-                    $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
-                }
             }
             else {
                 // here, filter == "all"
                 $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "normal" );
                 $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-                if (parseInt($("#unread-"+feed_id).text()) == 1) {
-                    $("#unread-"+feed_id).remove();
-                } else {
-                    $("#unread-"+feed_id).text(parseInt($("#unread-"+feed_id).text()) - 1);
-                }
             }
+            change_unread_counter(feed_id, -1);
         }
 
         // sends the updates to the server
@@ -115,15 +105,11 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
         var data;
         if ($(this).hasClass("glyphicon-star")) {
-            data = JSON.stringify({
-                like: false
-                })
-                $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+            data = JSON.stringify({like: false})
+            $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
         }
         else {
-            data = JSON.stringify({
-                like: true
-                })
+            data = JSON.stringify({like: true})
             $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
         }
 
@@ -162,8 +148,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
             }
         });
     });
-
-
 
     // Delete all duplicate articles (used in the page /duplicates)
     $('.delete-all').click(function(){
