@@ -12,6 +12,7 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
+import conf
 from alembic import op
 import sqlalchemy as sa
 
@@ -21,4 +22,5 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_column('article', 'entry_id')
+    if 'sqlite' not in conf.SQLALCHEMY_DATABASE_URI:
+        op.drop_column('article', 'entry_id')
