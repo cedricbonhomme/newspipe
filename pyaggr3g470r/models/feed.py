@@ -42,6 +42,7 @@ class Feed(db.Model):
     site_link = db.Column(db.String(), default="")
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
+    filters = db.Column(db.PickleType, default=[])
 
     # cache handling
     etag = db.Column(db.String(), default="")

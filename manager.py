@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import asyncio
-
 from bootstrap import application, db, populate_g
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -39,6 +37,8 @@ def fetch(user, password, limit=100, retreive_all=False):
 @manager.command
 def fetch_asyncio(user_id, feed_id):
     "Crawl the feeds with asyncio."
+    import asyncio
+
     with application.app_context():
         populate_g()
         from pyaggr3g470r.models import User
