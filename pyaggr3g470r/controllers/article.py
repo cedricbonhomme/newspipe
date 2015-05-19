@@ -33,15 +33,16 @@ class ArticleController(AbstractController):
                        .group_by(Article.feed_id).all())
 
     def create(self, **attrs):
+        # handling special denorm for article rights
         assert 'feed_id' in attrs
         feed = FeedController(
                 attrs.get('user_id', self.user_id)).get(id=attrs['feed_id'])
         if 'user_id' in attrs:
             assert feed.user_id == attrs['user_id'] or self.user_id is None
         attrs['user_id'] = feed.user_id
-        if not feed.filters:
-            return super().create(**attrs)
-        for filter_ in feed.filters:
+
+        # handling feed's filters
+        for filter_ in feed.filters or []:
             match = False
             if filter_.get('type') == 'regex':
                 match = re.match(filter_['pattern'], attrs.get('title', ''))
@@ -63,5 +64,3 @@ class ArticleController(AbstractController):
                             attrs['link'])
 
         return super().create(**attrs)
-
-

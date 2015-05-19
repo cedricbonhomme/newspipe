@@ -41,7 +41,11 @@ class ArticleControllerTest(BasePyaggTest):
                         {'filters': [{"type": "regex",
                                       "pattern": ".*(pattern1|pattern2).*",
                                       "action on": "no match",
-                                      "action": "mark as favorite"}]})
+                                      "action": "mark as favorite"},
+                                     {"type": "simple match",
+                                      "pattern": "no see pattern",
+                                      "action on": "match",
+                                      "action": "mark as read"}]})
         art1 = ArticleController(2).create(
                 entry_id="thisisnotatest",
                 feed_id=feed1['id'],
@@ -85,7 +89,7 @@ class ArticleControllerTest(BasePyaggTest):
         art7 = ArticleController(2).create(
                 entry_id="thisisnotatesteither",
                 feed_id=feed3['id'],
-                title="garbage pattern3 garbage",
+                title="garbage no see pattern3 garbage",
                 content="doesn't matter3",
                 link="doesn't matter either3")
         art8 = ArticleController(2).create(
@@ -107,7 +111,7 @@ class ArticleControllerTest(BasePyaggTest):
         self.assertFalse(art5.like)
         self.assertFalse(art6.readed)
         self.assertFalse(art6.like)
-        self.assertFalse(art7.readed)
+        self.assertTrue(art7.readed)
         self.assertTrue(art7.like)
         self.assertFalse(art8.readed)
         self.assertTrue(art8.like)
