@@ -23,9 +23,9 @@ class ArticleControllerTest(BasePyaggTest):
 
     def test_article_get_unread(self):
         self.assertEquals({1: 3, 2: 3, 3: 3},
-                ArticleController(2).get_unread())
+                ArticleController(2).count_by_feed(readed=False))
         self.assertEquals({4: 3, 5: 3, 6: 3},
-                ArticleController(3).get_unread())
+                ArticleController(3).count_by_feed(readed=False))
 
     def test_create_using_filters(self):
         feed_ctr = FeedController(2)

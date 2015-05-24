@@ -246,7 +246,7 @@ def render_home(filters=None, head_titles=None,
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
 
-    unread = arti_contr.get_unread()
+    unread = arti_contr.count_by_feed(readed=False)
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 

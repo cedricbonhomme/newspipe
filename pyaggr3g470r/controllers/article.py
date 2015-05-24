@@ -26,11 +26,12 @@ class ArticleController(AbstractController):
                 continue
             yield id_
 
-    def get_unread(self):
+    def count_by_feed(self, **filters):
+        if self.user_id:
+            filters['user_id'] = self.user_id
         return dict(db.session.query(Article.feed_id, func.count(Article.id))
-                       .filter(*self._to_filters(readed=False,
-                                                 user_id=self.user_id))
-                       .group_by(Article.feed_id).all())
+                              .filter(*self._to_filters(**filters))
+                              .group_by(Article.feed_id).all())
 
     def create(self, **attrs):
         # handling special denorm for article rights
