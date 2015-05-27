@@ -248,7 +248,9 @@ def retrieve_feed(user, feed_id=None):
         tasks = [asyncio.ensure_future(init_process(user, feed)) for feed in feeds]
     except:
         tasks = [init_process(user, feed) for feed in feeds]
-    loop.run_until_complete(asyncio.wait(tasks))
-    loop.close()
+    try:
+        loop.run_until_complete(asyncio.wait(tasks))
+    finally:
+        loop.close()
 
     logger.info("All articles retrieved. End of the processus.")
