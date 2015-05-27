@@ -71,8 +71,6 @@ def parse_feed(user, feed):
         finally:
             if data is None:
                 feed.error_count += 1
-                if feed.error_count >= conf.DEFAULT_MAX_ERROR:
-                    feed.enabled = False
                 db.session.commit()
                 return
 
@@ -81,8 +79,6 @@ def parse_feed(user, feed):
         #logger.error(a_feed['bozo_exception'])
         feed.last_error = str(a_feed['bozo_exception'])
         feed.error_count += 1
-        if feed.error_count >= conf.DEFAULT_MAX_ERROR:
-            feed.enabled = False
         db.session.commit()
     if a_feed['entries'] == []:
         return
@@ -235,7 +231,9 @@ def retrieve_feed(user, feed_id=None):
 
     # Get the list of feeds to fetch
     user = User.query.filter(User.email == user.email).first()
-    feeds = [feed for feed in user.feeds if feed.enabled]
+    feeds = [feed for feed in user.feeds if
+                feed.error_count <= conf.DEFAULT_MAX_ERROR and \
+                feed.enabled]
     if feed_id is not None:
         feeds = [feed for feed in feeds if feed.id == feed_id]
 
