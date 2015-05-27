@@ -246,6 +246,7 @@ def render_home(filters=None, head_titles=None,
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
 
+    unread = arti_contr.get_unread()
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 
@@ -268,19 +269,9 @@ def render_home(filters=None, head_titles=None,
                   }.get(sort_, Article.date.desc())
 
     articles = arti_contr.read(**filters).order_by(sort_param)
-    unread_counter = {}
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
-    {article.feed_id: 1
-        if article.feed_id not in unread_counter and
-                            not unread_counter.update({article.feed_id: 1})
-        else unread_counter[article.feed_id] + 1
-            if not unread_counter.update({article.feed_id:
-                                       unread_counter[article.feed_id] + 1})
-            else 1
-        for article in articles if article.readed==False
-    }
 
     def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed_id=feed_id,
                 **kwargs):
@@ -301,7 +292,7 @@ def render_home(filters=None, head_titles=None,
 
     return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
-                           unread=unread_counter, articles=articles, in_error=in_error,
+                           unread=unread, articles=articles, in_error=in_error,
                            head_titles=head_titles, sort_=sort_, **kwargs)
 
 
