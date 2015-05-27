@@ -242,8 +242,13 @@ def retrieve_feed(user, feed_id=None):
 
     # Launch the process for all the feeds
     loop = asyncio.get_event_loop()
-    tasks = [init_process(user, feed) for feed in feeds]
-    #tasks = [asyncio.async(init_process(user, feed)) for feed in feeds]
+    tasks = []
+    try:
+        # Python 3.5 (test)
+        tasks = [asyncio.ensure_future(init_process(user, feed)) for feed in feeds]
+    except:
+        tasks = [init_process(user, feed) for feed in feeds]
     loop.run_until_complete(asyncio.wait(tasks))
+    loop.close()
 
     logger.info("All articles retrieved. End of the processus.")
