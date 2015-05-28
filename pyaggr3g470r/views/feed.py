@@ -23,9 +23,12 @@ feed_bp = Blueprint('feed', __name__, url_prefix='/feed')
 @login_required
 def feeds():
     "Lists the subscribed  feeds in a table."
+    art_contr = ArticleController(g.user.id)
     return render_template('feeds.html',
             feeds=FeedController(g.user.id).read(),
-            article_count=ArticleController(g.user.id).count_by_feed())
+            unread_article_count=art_contr.count_by_feed(readed=False),
+            article_count=art_contr.count_by_feed(),
+            )
 
 
 @feed_bp.route('/<int:feed_id>', methods=['GET'])

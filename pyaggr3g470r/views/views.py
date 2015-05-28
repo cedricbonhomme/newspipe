@@ -736,9 +736,14 @@ def user(user_id=None):
     """
     See information about a user (stations, etc.).
     """
-    user = User.query.filter(User.id == user_id).first()
+    user = UserController().get(id=user_id)
     if user is not None:
-        return render_template('/admin/user.html', user=user)
+        article_contr = ArticleController(user_id)
+        return render_template('/admin/user.html', user=user,
+                article_count=article_contr.count_by_feed(),
+                unread_article_count=article_contr.count_by_feed(readed=False),
+                )
+
     else:
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(redirect_url())
