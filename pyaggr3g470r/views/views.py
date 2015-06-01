@@ -322,12 +322,12 @@ def search():
     search_title = request.args.get('search_title', 'off')
     search_content = request.args.get('search_content', 'off')
     if search_title == 'on':
-        filters['title__like'] = "%%%s%%" % query
+        filters['title__ilike'] = "%%%s%%" % query
     if search_content == 'on':
-        filters['content__like'] = "%%%s%%" % query
+        filters['content__ilike'] = "%%%s%%" % query
     if len(filters) == 0:
         search_title = 'on'
-        filters['title__like'] = "%%%s%%" % query
+        filters['title__ilike'] = "%%%s%%" % query
     if len(filters) > 1:
         filters = {"__or__": filters}
     return render_home(filters, ["%s %s" % (gettext('Search:'), query)],
