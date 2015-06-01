@@ -262,13 +262,14 @@ def render_home(filters=None, head_titles=None,
         filters['feed_id'] = feed_id
         head_titles.append(feed_contr.get(id=feed_id).title)
 
-    sort_param = {"feed": Article.title.desc(),
+    sort_param = {"feed": Feed.title.desc(),
                   "date": Article.date.desc(),
-                  "-feed": Article.title.asc(),
+                  "-feed": Feed.title.asc(),
                   "-date": Article.date.asc(),
                   }.get(sort_, Article.date.desc())
 
-    articles = arti_contr.read(**filters).order_by(sort_param)
+    articles = arti_contr.read(**filters).join(Article.source). \
+                                            order_by(sort_param)
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
