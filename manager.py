@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import asyncio
+
 from bootstrap import application, db, populate_g
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -55,10 +57,12 @@ def fetch_asyncio(user_id, feed_id):
     except:
         feed_id = None
 
+    loop = asyncio.get_event_loop()
     for user in users:
         if user.activation_key == "":
             print("Fetching articles for " + user.nickname)
-            feed_getter = crawler.retrieve_feed(user, feed_id)
+            feed_getter = crawler.retrieve_feed(loop, user, feed_id)
+    loop.close()
 
 if __name__ == '__main__':
     manager.run()

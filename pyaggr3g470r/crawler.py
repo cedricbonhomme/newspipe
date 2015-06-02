@@ -223,7 +223,7 @@ def init_process(user, feed):
     #print('inserted articles for {}'.format(feed.title))
     return articles
 
-def retrieve_feed(user, feed_id=None):
+def retrieve_feed(loop, user, feed_id=None):
     """
     Launch the processus.
     """
@@ -239,9 +239,8 @@ def retrieve_feed(user, feed_id=None):
 
     if feeds == []:
         return
-
+    import time
     # Launch the process for all the feeds
-    loop = asyncio.get_event_loop()
     tasks = []
     try:
         # Python 3.5 (test)
@@ -250,7 +249,7 @@ def retrieve_feed(user, feed_id=None):
         tasks = [init_process(user, feed) for feed in feeds]
     try:
         loop.run_until_complete(asyncio.wait(tasks))
-    finally:
-        loop.close()
+    except Exception as e:
+        print(e)
 
     logger.info("All articles retrieved. End of the processus.")
