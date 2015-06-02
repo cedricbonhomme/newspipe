@@ -264,8 +264,10 @@ def render_home(filters=None, head_titles=None,
 
     sort_param = {"feed": Feed.title.desc(),
                   "date": Article.date.desc(),
+                  "article": Article.title.desc(),
                   "-feed": Feed.title.asc(),
                   "-date": Article.date.asc(),
+                  "-article": Article.title.asc()
                   }.get(sort_, Article.date.desc())
 
     articles = arti_contr.read(**filters).join(Article.source). \
