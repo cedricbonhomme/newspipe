@@ -41,7 +41,7 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
@@ -603,7 +603,10 @@ def expire_articles():
     """
     current_time = datetime.datetime.utcnow()
     weeks_ago = current_time - datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
-    articles_to_delete = Article.query.filter(User.email == g.user.email, or_(Article.date < weeks_ago, Article.retrieved_date < weeks_ago))
+    articles_to_delete = Article.query.filter(
+                                and_(Article.user_id == g.user.id,
+                                        or_(Article.date < weeks_ago,
+                                        Article.retrieved_date < weeks_ago)))
     for article in articles_to_delete:
         db.session.delete(article)
     flash(gettext('Articles deleted.'), 'info')
