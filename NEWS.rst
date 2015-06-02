@@ -1,5 +1,17 @@
             pyAggr3g470r project news
 
+6.6: 2015-06-02
+    New:
+     * it is now possible to sort the list of articles by feed title or
+     article title;
+     * added base unittests. 
+    Improvements:
+     * fixed some minor bugs;
+     * improved the asyncio crawler;
+     * automatically use the good Python executable for the asyncio crawler;
+     * improved controllers (enforcing better use of user_id);
+     * the search is now case insensitive.
+
 6.5.5: 2015-04-22
     The full text search powered by Whoosh has been removed.
 
