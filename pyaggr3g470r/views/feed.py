@@ -100,6 +100,9 @@ def bookmarklet():
 
     feed = feed_contr.create(link=url)
     flash(gettext('Feed was successfully created.'), 'success')
+    if conf.CRAWLING_METHOD == "classic":
+        utils.fetch(g.user.id, feed.id)
+        flash(gettext("Downloading articles for the new feed..."), 'info')
     return redirect(url_for('feed.form', feed_id=feed.id))
 
 
