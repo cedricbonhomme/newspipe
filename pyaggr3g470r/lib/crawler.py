@@ -21,6 +21,7 @@ import dateutil.parser
 from hashlib import md5
 from functools import wraps
 from datetime import datetime
+from time import strftime, gmtime
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from pyaggr3g470r.lib.utils import default_handler
@@ -189,7 +190,8 @@ class PyAggUpdater(AbstractCrawler):
 
         dico = {'error_count': 0, 'last_error': None,
                 'etag': self.headers.get('etag', ''),
-                'last_modified': self.headers.get('last-modified', ''),
+                'last_modified': self.headers.get('last-modified',
+                    strftime('%a, %d %b %Y %X %Z', gmtime())),
                 'site_link': self.parsed_feed.get('link')}
         if not self.feed.get('title'):
             dico['title'] = self.parsed_feed.get('title', '')
