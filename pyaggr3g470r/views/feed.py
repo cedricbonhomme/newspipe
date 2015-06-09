@@ -27,8 +27,7 @@ def feeds():
     return render_template('feeds.html',
             feeds=FeedController(g.user.id).read(),
             unread_article_count=art_contr.count_by_feed(readed=False),
-            article_count=art_contr.count_by_feed(),
-            )
+            article_count=art_contr.count_by_feed())
 
 
 @feed_bp.route('/<int:feed_id>', methods=['GET'])
@@ -108,15 +107,6 @@ def bookmarklet():
         utils.fetch(g.user.id, feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
     return redirect(url_for('feed.form', feed_id=feed.id))
-
-
-@feed_bp.route('/read/<int:feed_id>', methods=['GET', 'POST'])
-@login_required
-def read(feed_id):
-    FeedController(g.user.id).update(readed=True)
-    flash(gettext('Feed successfully updated.',
-                  feed_title=feed.title), 'success')
-    return redirect(request.referrer or url_for('home'))
 
 
 @feed_bp.route('/update/<action>/<int:feed_id>', methods=['GET', 'POST'])

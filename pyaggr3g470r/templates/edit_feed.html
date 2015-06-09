@@ -2,23 +2,46 @@
 {% block content %}
 <div class="container">
     <div class="well">
-        <h1>{{ action }}</h1>
-        <form action="" method="post" name="save">
+        <h3>{{ action }}</h3>
+        <form action="" method="post" name="save" class="form-horizontal">
             {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="{{ form.link.id }}" class="col-sm-3 control-label">{{ form.link.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.link(size="100%") }}
+                </div>
+                {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
 
-            {{ form.link.label }}
-            {{ form.link(class_="form-control") }} {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="form-group">
+                <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.title(size="100%", placeholder=_('Optional')) }}
+                </div>
+                {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
 
-            {{ form.title.label }}
-            {{ form.title(class_="form-control", placeholder=_('Optional')) }} {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="form-group">
+                <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.site_link(size="100%", placeholder=_('Optional')) }}
+                </div>
+                {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
 
-            {{ form.site_link.label }}
-            {{ form.site_link(class_="form-control", placeholder=_('Optional')) }} {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.enabled.label }}
-            {{ form.enabled(class_="checkbox") }}
-            <br />
-            {{ form.submit(class_="btn btn-default") }}
+            <div class="form-group">
+                <label for="{{ form.enabled.id }}" class="col-sm-3 control-label">{{ form.enabled.label }}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox">
+                        {{ form.enabled(style="margin-left: 0px;") }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{ form.submit(class_="btn btn-default") }}
+                </div>
+            </div>
         </form>
     </div>
 </div><!-- /.container -->
