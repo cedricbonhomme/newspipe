@@ -448,7 +448,7 @@ def duplicates(feed_id=None):
     duplicates = []
     duplicates = utils.compare_documents(feed)
     if len(duplicates) == 0:
-        flash(gettext('No duplicates in the feed "{}"".').format(feed.title),
+        flash(gettext('No duplicates in the feed "{}".').format(feed.title),
                 'info')
         return redirect(redirect_url())
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
