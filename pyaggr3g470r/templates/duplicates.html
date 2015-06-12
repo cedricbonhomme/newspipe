@@ -1,34 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    {% if duplicates != [] %}
-        <p><h1>{{ _('Duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th align="center">
-                            <span class="delete-all btn btn-default">{{ _('Delete all in this column') }}</span>
-                        </th>
-                        <th align="center">
-                            <span class="delete-all btn btn-default">{{ _('Delete all in this column') }}</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for pair in duplicates %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td id="{{ pair[0].id }}"><a href="/delete/{{ pair[0].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].retrieved_date }})</td>
-                        <td id="{{ pair[1].id }}"><a href="/delete/{{ pair[1].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].retrieved_date }})</td>
-                    </tr>
-                {% endfor %}
-                </tobdy>
-            </table>
-        </div>
-    {% else %}
-        <p><h1>{{ _('No duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
-    {% endif %}
+    <p><h1>{{ _('Duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th align="center">
+                        <span class="delete-all btn btn-default">{{ _('Delete all in this column') }}</span>
+                    </th>
+                    <th align="center">
+                        <span class="delete-all btn btn-default">{{ _('Delete all in this column') }}</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pair in duplicates %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td id="{{ pair[0].id }}"><a href="/delete/{{ pair[0].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].retrieved_date }})</td>
+                    <td id="{{ pair[1].id }}"><a href="/delete/{{ pair[1].id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].retrieved_date }})</td>
+                </tr>
+            {% endfor %}
+            </tobdy>
+        </table>
+    </div>
 </div><!-- /.container -->
 {% endblock %}

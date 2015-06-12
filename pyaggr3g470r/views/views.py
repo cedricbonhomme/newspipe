@@ -447,6 +447,10 @@ def duplicates(feed_id=None):
     feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
     duplicates = []
     duplicates = utils.compare_documents(feed)
+    if len(duplicates) == 0:
+        flash(gettext('No duplicates in the feed "{}"".').format(feed.title),
+                'info')
+        return redirect(redirect_url())
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
 
 @app.route('/export', methods=['GET'])
