@@ -293,7 +293,8 @@ def render_home(filters=None, head_titles=None,
             and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
 
-    return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
+    return render_template('home.html', page_to_render=page_to_render,
+                           gen_url=gen_url, feed_id=feed_id,
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=unread, articles=articles, in_error=in_error,
                            head_titles=head_titles, sort_=sort_, **kwargs)

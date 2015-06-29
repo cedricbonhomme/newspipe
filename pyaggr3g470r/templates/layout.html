@@ -65,7 +65,7 @@
                         </li>
                     </ul>
                 </li>
-                {% if favorites %}
+                {% if page_to_render == "favorites" %}
                 <li><a href="{{ url_for("home") }}"><span class="glyphicon glyphicon-home"></span> {{ _('Home') }}</a></li>
                 {% else %}
                 <li><a href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
