@@ -30,7 +30,7 @@
                     </td>
                     <td><a href="{{ url_for("feed.feed", feed_id=feed.id) }}" {% if feed.description %}title="{{ feed.description  }}"{% endif %}>{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
-                    <td>{{ feed.articles.count() }}</td>
+                    <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
                     <td>
                         <a href="{{ url_for("home", feed_id=feed.id, filter_="all") }}"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
                         <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>

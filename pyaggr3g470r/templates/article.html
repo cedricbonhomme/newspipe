@@ -16,7 +16,7 @@
         {% endif %}
         {% if article.readed %}
             <a href="#"><i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i></a>
-        {% else %}
+        {% else %}
             <a href="#"><i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i></a>
         {% endif %}
         <h6>{{ article.date | datetime }}</h6>

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -
 
 from flask import Blueprint, g, render_template, redirect
-from sqlalchemy import desc
 
 from pyaggr3g470r import controllers, utils
 from pyaggr3g470r.decorators import pyagg_default_decorator

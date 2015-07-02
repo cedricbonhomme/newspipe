@@ -21,7 +21,7 @@
             {{ _("Last download:") }} {{ feed.last_retrieved | datetime }}<br />
         {% endif %}
 
-        {% if feed.error_count > 2 %}
+        {% if feed.error_count > conf.DEFAULT_MAX_ERROR %}
             <b>{{ _("That feed has encountered too much consecutive errors and won't be retrieved anymore.") }}</b><br />
             {{ _("You can click <a href='%(reset_error_url)s'>here</a> to reset the error count and reactivate the feed.", reset_error_url=url_for("feed.reset_errors", feed_id=feed.id)) }}
         {% elif feed.error_count > 0 %}

@@ -26,7 +26,7 @@
                         <th>{{ _('Name') }}</th>
                         <th>{{ _('Feed link') }}</th>
                         <th>{{ _('Site link') }}</th>
-                        <th>{{ _('Number of articles') }}</th>
+                        <th>{{ _('(unread) articles') }}</th>
                         <th>{{ _('Actions') }}</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                         <td><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></td>
                         <td>{{ feed.link }}</td>
                         <td>{{ feed.site_link }}</td>
-                        <td>{{ feed.articles.all()|count }}</td>
+                        <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
                         <td>
                             <a href="{{ url_for("feed.feed", feed_id=feed.id) }}"><i class="glyphicon glyphicon-th-list" title="{{ _('Feed') }}"></i></a>
                             <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>

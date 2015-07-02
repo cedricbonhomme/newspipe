@@ -246,7 +246,7 @@ def render_home(filters=None, head_titles=None,
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
 
-    unread = arti_contr.get_unread()
+    unread = arti_contr.count_by_feed(readed=False)
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 
@@ -736,9 +736,14 @@ def user(user_id=None):
     """
     See information about a user (stations, etc.).
     """
-    user = User.query.filter(User.id == user_id).first()
+    user = UserController().get(id=user_id)
     if user is not None:
-        return render_template('/admin/user.html', user=user)
+        article_contr = ArticleController(user_id)
+        return render_template('/admin/user.html', user=user,
+                article_count=article_contr.count_by_feed(),
+                unread_article_count=article_contr.count_by_feed(readed=False),
+                )
+
     else:
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(redirect_url())
