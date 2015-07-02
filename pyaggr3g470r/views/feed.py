@@ -122,59 +122,64 @@ def update(action, feed_id=None):
     return redirect(request.referrer or url_for('home'))
 
 
-@feed_bp.route('/create', methods=['GET', 'POST', 'PUT'])
-@feed_bp.route('/edit/<int:feed_id>', methods=['GET', 'POST'])
+@feed_bp.route('/create', methods=['GET'])
+@feed_bp.route('/edit/<int:feed_id>', methods=['GET'])
 @login_required
 def form(feed_id=None):
+    action = gettext("Add a feed")
+    head_titles = [action]
+    if feed_id is None:
+        return render_template('edit_feed.html', action=action,
+                               head_titles=head_titles, form=AddFeedForm())
+    feed = FeedController(g.user.id).get(id=feed_id)
+    action = gettext('Edit feed')
+    head_titles = [action]
+    if feed.title:
+        head_titles.append(feed.title)
+    return render_template('edit_feed.html', action=action,
+                           head_titles=head_titles,
+                           form=AddFeedForm(obj=feed), feed=feed)
+
+
+@feed_bp.route('/create', methods=['POST'])
+@feed_bp.route('/edit/<int:feed_id>', methods=['POST'])
+@login_required
+def process_form(feed_id=None):
     form = AddFeedForm()
     feed_contr = FeedController(g.user.id)
 
-    if request.method == 'POST':
-        if not form.validate():
-            return render_template('edit_feed.html', form=form)
-        existing_feeds = list(feed_contr.read(link=form.link.data))
-        if existing_feeds and feed_id is None:
-            flash(gettext("Couldn't add feed: feed already exists."),
-                  "warning")
-            return redirect(url_for('feed.form',
-                                    feed_id=existing_feeds[0].id))
-        # Edit an existing feed
-        if feed_id is not None:
-            feed_contr.update({'id': feed_id},
-                              {'title': form.title.data,
-                               'link': form.link.data,
-                               'enabled': form.enabled.data,
-                               'site_link': form.site_link.data})
-            flash(gettext('Feed %(feed_title)r successfully updated.',
-                          feed_title=form.title.data), 'success')
-            return redirect(url_for('feed.form', feed_id=feed_id))
+    if not form.validate():
+        return render_template('edit_feed.html', form=form)
+    existing_feeds = list(feed_contr.read(link=form.link.data))
+    if existing_feeds and feed_id is None:
+        flash(gettext("Couldn't add feed: feed already exists."), "warning")
+        return redirect(url_for('feed.form', feed_id=existing_feeds[0].id))
+    # Edit an existing feed
+    feed_attr = {'title': form.title.data, 'enabled': form.enabled.data,
+                 'link': form.link.data, 'site_link': form.site_link.data,
+                 'filters': []}
 
-        # Create a new feed
-        new_feed = FeedController(g.user.id).create(
-                        title=form.title.data,
-                        description="",
-                        link=form.link.data,
-                        site_link=form.site_link.data,
-                        enabled=form.enabled.data)
+    for filter_attr in ('type', 'pattern', 'action on', 'action'):
+        for i, value in enumerate(
+                request.form.getlist(filter_attr.replace(' ', '_'))):
+            if i >= len(feed_attr['filters']):
+                feed_attr['filters'].append({})
+            feed_attr['filters'][i][filter_attr] = value
 
-        flash(gettext('Feed %(feed_title)r successfully created.',
-                      feed_title=new_feed.title), 'success')
-
-        if conf.CRAWLING_METHOD == "classic":
-            utils.fetch(g.user.id, new_feed.id)
-            flash(gettext("Downloading articles for the new feed..."), 'info')
-
-        return redirect(url_for('feed.form',
-                                feed_id=new_feed.id))
-
-    # Getting the form for an existing feed
     if feed_id is not None:
-        feed = FeedController(g.user.id).get(id=feed_id)
-        form = AddFeedForm(obj=feed)
-        return render_template('edit_feed.html',
-                               action=gettext("Edit the feed"),
-                               form=form, feed=feed)
+        feed_contr.update({'id': feed_id}, feed_attr)
+        flash(gettext('Feed %(feed_title)r successfully updated.',
+                      feed_title=feed_attr['title']), 'success')
+        return redirect(url_for('feed.form', feed_id=feed_id))
 
-    # Return an empty form in order to create a new feed
-    return render_template('edit_feed.html', action=gettext("Add a feed"),
-                           form=form)
+    # Create a new feed
+    new_feed = FeedController(g.user.id).create(**feed_attr)
+
+    flash(gettext('Feed %(feed_title)r successfully created.',
+                  feed_title=new_feed.title), 'success')
+
+    if conf.CRAWLING_METHOD == "classic":
+        utils.fetch(g.user.id, new_feed.id)
+        flash(gettext("Downloading articles for the new feed..."), 'info')
+
+    return redirect(url_for('feed.form', feed_id=new_feed.id))

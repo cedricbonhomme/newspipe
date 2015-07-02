@@ -37,6 +37,29 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group" id="filters-container">
+                <label class="col-sm-3 control-label">{{ _("Filters") }} <input value="+" type="button" id="add-feed-filter-row" /></label>
+                {% if feed %}
+                {% for filter_ in feed.filters or [] %}
+                    <div class="col-sm-9">
+                        <input value="-" type="button" class="del-feed-filter-row" />
+                        <select name="type">
+                            <option value="simple match" {% if filter_.get("type") == "simple match" %}selected{% endif %}>{{ _("simple match") }}</option>
+                            <option value="regex" {% if filter_.get("type") == "regex" %}selected{% endif %}>{{ _("regex") }}</option>
+                        </select/>
+                        <input type="text" value="{{ filter_.get("pattern") }}" size="50%" name="pattern" />
+                        <select name="action_on">
+                            <option value="match" {% if filter_.get("action on") == "match" %}selected{% endif %}>{{ _("match") }}</option>
+                            <option value="no match" {% if filter_.get("action on") == "no match" %}selected{% endif %}>{{ _("no match") }}</option>
+                        </select/>
+                        <select name="action">
+                            <option value="mark as read" {% if filter_.get("action") == "mark as read" %}selected{% endif %}>{{ _("mark as read") }}</option>
+                            <option value="mark as favorite" {% if filter_.get("action") == "mark as favorite" %}selected{% endif %}>{{ _("mark as favorite") }}</option>
+                        </select/>
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     {{ form.submit(class_="btn btn-default") }}
