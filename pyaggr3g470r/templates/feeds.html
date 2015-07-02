@@ -24,6 +24,9 @@
                         {% else %}
                             <i class="glyphicon glyphicon-eye-close" title="{{ _('Feed disabled') }}"></i>
                         {% endif %}
+                        {% if feed.error_count > conf.DEFAULT_MAX_ERROR %}
+                            <i class="glyphicon glyphicon-exclamation-sign" title="{{ _('Feed encountered too much errors.') }}"></i>
+                        {% endif %}
                     </td>
                     <td><a href="{{ url_for("feed.feed", feed_id=feed.id) }}" {% if feed.description %}title="{{ feed.description  }}"{% endif %}>{{ feed.title }}</a></td>
                     <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
