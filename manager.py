@@ -5,6 +5,8 @@ from bootstrap import application, db, populate_g
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
+import pyaggr3g470r.models
+
 Migrate(application, db)
 
 manager = Manager(application)
@@ -15,7 +17,6 @@ def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         populate_g()
-        import pyaggr3g470r.models
         pyaggr3g470r.models.db_empty(db)
 
 @manager.command
@@ -23,7 +24,6 @@ def db_create():
     "Will create the database from conf parameters."
     with application.app_context():
         populate_g()
-        import pyaggr3g470r.models
         pyaggr3g470r.models.db_create(db)
 
 @manager.command

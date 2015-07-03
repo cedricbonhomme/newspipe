@@ -43,6 +43,7 @@ class Feed(db.Model):
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
     filters = db.Column(db.PickleType, default=[])
+    icon = db.Column(db.String(), default="")
 
     # cache handling
     etag = db.Column(db.String(), default="")
@@ -70,6 +71,7 @@ class Feed(db.Model):
                 "link": self.link,
                 "site_link": self.site_link,
                 "etag": self.etag,
+                "icon": self.icon,
                 "error_count": self.error_count,
                 "last_modified": self.last_modified,
                 "last_retrieved": self.last_retrieved}

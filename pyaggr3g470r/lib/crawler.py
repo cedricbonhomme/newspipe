@@ -24,7 +24,7 @@ from datetime import datetime
 from time import strftime, gmtime
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from pyaggr3g470r.lib.utils import default_handler
+from pyaggr3g470r.lib.utils import default_handler, construct_feed_from
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)
@@ -136,7 +136,7 @@ class PyAggUpdater(AbstractCrawler):
         self.feed = feed
         self.entries = entries
         self.headers = headers
-        self.parsed_feed = parsed_feed.get('feed', {})
+        self.parsed_feed = parsed_feed
         super(PyAggUpdater, self).__init__(auth)
 
     def to_article(self, entry):
@@ -188,19 +188,26 @@ class PyAggUpdater(AbstractCrawler):
                      self.headers.get('etag', ''),
                      self.headers.get('last-modified', ''))
 
-        dico = {'error_count': 0, 'last_error': None,
-                'etag': self.headers.get('etag', ''),
-                'last_modified': self.headers.get('last-modified',
-                    strftime('%a, %d %b %Y %X %Z', gmtime())),
-                'site_link': self.parsed_feed.get('link')}
+        up_feed = {'error_count': 0, 'last_error': None,
+                   'etag': self.headers.get('etag', ''),
+                   'last_modified': self.headers.get('last-modified',
+                                    strftime('%a, %d %b %Y %X %Z', gmtime()))}
+        fresh_feed = construct_feed_from(url=self.feed['link'],
+                                         fp_parsed=self.parsed_feed,
+                                         feed=self.feed)
+        for key in ('description', 'site_link', 'icon'):
+            if fresh_feed.get(key) and fresh_feed[key] != self.feed.get(key):
+                up_feed[key] = fresh_feed[key]
         if not self.feed.get('title'):
-            dico['title'] = self.parsed_feed.get('title', '')
+            up_feed['title'] = fresh_feed.get('title', '')
+
         logger.info('%r %r - pushing feed attrs %r',
                     self.feed['id'], self.feed['title'],
-                    {key: "%s -> %s" % (dico[key], self.feed.get(key))
-                     for key in dico if dico[key] != self.feed.get(key)})
-        if any([dico[key] != self.feed.get(key) for key in dico]):
-            future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], dico)
+                    {key: "%s -> %s" % (up_feed[key], self.feed.get(key))
+                     for key in up_feed if up_feed[key] != self.feed.get(key)})
+        if any([up_feed[key] != self.feed.get(key) for key in up_feed]):
+            future = self.query_pyagg('put',
+                    'feed/%d' % self.feed['id'], up_feed)
             future.add_done_callback(self.get_counter_callback())
 
 
@@ -265,7 +272,7 @@ class FeedCrawler(AbstractCrawler):
                     self.feed['id'], self.feed['title'])
 
         ids, entries = [], {}
-        parsed_response = feedparser.parse(response.text)
+        parsed_response = feedparser.parse(response.content)
         for entry in parsed_response['entries']:
             entry_ids = extract_id(entry)
             entry_ids['feed_id'] = self.feed['id']
