@@ -37,6 +37,13 @@ def rebuild_url(url, base_split):
     return urllib.parse.urlunsplit(new_split)
 
 
+def try_splits(url, *splits):
+    for split in splits:
+        if requests.get(rebuild_url(url, split), verify=False).ok:
+            return rebuild_url(url, split)
+    return None
+
+
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     if url is None and fp_parsed is not None:
         url = fp_parsed.get('url')
@@ -45,7 +52,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         fp_parsed = feedparser.parse(response.content)
     assert url is not None and fp_parsed is not None
     feed = feed or {}
-    split = urllib.parse.urlsplit(url)
+    feed_split = urllib.parse.urlsplit(url)
     if not fp_parsed['bozo']:
         feed['link'] = url
         feed['site_link'] = try_keys(fp_parsed['feed'], 'href', 'link')
@@ -56,11 +63,13 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         feed['site_link'] = url
 
     if feed.get('site_link'):
-        feed['site_link'] = rebuild_url(feed['site_link'], split)
-        split = urllib.parse.urlsplit(feed['site_link'])
+        feed['site_link'] = rebuild_url(feed['site_link'], feed_split)
+        site_split = urllib.parse.urlsplit(feed['site_link'])
 
     if feed.get('icon'):
-        feed['icon'] = rebuild_url(feed['icon'], split)
+        feed['icon'] = try_splits(feed['icon'], site_split, feed_split)
+        if feed['icon'] is None:
+            del feed['icon']
 
     if not feed.get('site_link') or not query_site \
             or all(bool(feed.get(key)) for key in ('link', 'title', 'icon')):
@@ -91,11 +100,16 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         if not len(icons):
             icons = bs_parsed.find_all(check_keys(rel=['icon']))
         if len(icons) >= 1:
-            feed['icon'] = rebuild_url(icons[0].attrs['href'], split)
-        else:  # trying the default one
-            icon = rebuild_url('/favicon.ico', split)
-            if requests.get(icon, verify=False).ok:
-                feed['icon'] = icon
+            for icon in icons:
+                feed['icon'] = try_splits(icon.attrs['href'],
+                                          site_split, feed_split)
+                if feed['icon'] is not None:
+                    break
+
+        if feed['icon'] is None:
+            feed['icon'] = try_splits('/favicon.ico', site_split, feed_split)
+        if feed['icon'] is None:
+            del feed['icon']
 
     if not feed.get('link'):
         alternate = bs_parsed.find_all(check_keys(rel=['alternate'],
