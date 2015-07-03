@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label for="{{ form.link.id }}" class="col-sm-3 control-label">{{ form.link.label }}</label>
                 <div class="col-sm-9">
-                    {{ form.link(size="100%") }}
+                    {{ form.link(class_="form-control", size="100%") }}
                 </div>
                 {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
                 <div class="col-sm-9">
-                    {{ form.title(size="100%", placeholder=_('Optional')) }}
+                    {{ form.title(class_="form-control", size="100%", placeholder=_('Optional')) }}
                 </div>
                 {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
                 <div class="col-sm-9">
-                    {{ form.site_link(size="100%", placeholder=_('Optional')) }}
+                    {{ form.site_link(class_="form-control", size="100%", placeholder=_('Optional')) }}
                 </div>
                 {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -33,33 +33,40 @@
                 <label for="{{ form.enabled.id }}" class="col-sm-3 control-label">{{ form.enabled.label }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
-                        {{ form.enabled(style="margin-left: 0px;") }}
+                        {{ form.enabled(class_="checkbox",  style="margin-left: 0px;") }}
                     </div>
                 </div>
             </div>
-            <div class="form-group" id="filters-container">
-                <label class="col-sm-3 control-label">{{ _("Filters") }} <input value="+" type="button" id="add-feed-filter-row" /></label>
-                {% if feed %}
-                {% for filter_ in feed.filters or [] %}
-                    <div class="col-sm-9">
-                        <input value="-" type="button" class="del-feed-filter-row" />
-                        <select name="type">
-                            <option value="simple match" {% if filter_.get("type") == "simple match" %}selected{% endif %}>{{ _("simple match") }}</option>
-                            <option value="regex" {% if filter_.get("type") == "regex" %}selected{% endif %}>{{ _("regex") }}</option>
-                        </select/>
-                        <input type="text" value="{{ filter_.get("pattern") }}" size="50%" name="pattern" />
-                        <select name="action_on">
-                            <option value="match" {% if filter_.get("action on") == "match" %}selected{% endif %}>{{ _("match") }}</option>
-                            <option value="no match" {% if filter_.get("action on") == "no match" %}selected{% endif %}>{{ _("no match") }}</option>
-                        </select/>
-                        <select name="action">
-                            <option value="mark as read" {% if filter_.get("action") == "mark as read" %}selected{% endif %}>{{ _("mark as read") }}</option>
-                            <option value="mark as favorite" {% if filter_.get("action") == "mark as favorite" %}selected{% endif %}>{{ _("mark as favorite") }}</option>
-                        </select/>
-                    </div>
-                {% endfor %}
-                {% endif %}
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ _("Filters") }}</label>
+                <div class="col-sm-1">
+                    <input value="+" type="button" class="form-control" id="add-feed-filter-row" />
+                </div>
             </div>
+                {% if feed %}
+                    <div class="form-inline col-sm-offset-4 col-sm-8" id="filters-container">
+                    {% for filter_ in feed.filters or [] %}
+                        <div class="form-group">
+                            <input value="-" type="button" class="form-control del-feed-filter-row" />
+                            <select name="type" class="form-control" >
+                                <option value="simple match" {% if filter_.get("type") == "simple match" %}selected{% endif %}>{{ _("simple match") }}</option>
+                                <option value="regex" {% if filter_.get("type") == "regex" %}selected{% endif %}>{{ _("regex") }}</option>
+                            </select>
+                            <input type="text" class="form-control" value="{{ filter_.get("pattern") }}" name="pattern" />
+                            <select name="action_on" class="form-control">
+                                <option value="match" {% if filter_.get("action on") == "match" %}selected{% endif %}>{{ _("match") }}</option>
+                                <option value="no match" {% if filter_.get("action on") == "no match" %}selected{% endif %}>{{ _("no match") }}</option>
+                            </select>
+                            <select name="action" class="form-control">
+                                <option value="mark as read" {% if filter_.get("action") == "mark as read" %}selected{% endif %}>{{ _("mark as read") }}</option>
+                                <option value="mark as favorite" {% if filter_.get("action") == "mark as favorite" %}selected{% endif %}>{{ _("mark as favorite") }}</option>
+                            </select>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                {% endif %}
+
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     {{ form.submit(class_="btn btn-default") }}
