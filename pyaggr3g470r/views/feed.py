@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
-
+import logging
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
@@ -99,8 +99,7 @@ def bookmarklet():
     if feed_exists:
         flash(gettext("Couldn't add feed: feed already exists."),
                 "warning")
-        return redirect(url_for('feed.form',
-                                feed_id=existing_feeds[0].id))
+        return redirect(url_for('feed.form', feed_id=feed_exists[0].id))
 
     feed = feed_contr.create(**construct_feed_from(url))
     flash(gettext('Feed was successfully created.'), 'success')

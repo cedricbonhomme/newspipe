@@ -1,8 +1,11 @@
 import types
 import urllib
+import logging
 import requests
 import feedparser
 from bs4 import BeautifulSoup, SoupStrainer
+
+logger = logging.getLogger(__name__)
 
 
 def default_handler(obj):
@@ -48,8 +51,13 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     if url is None and fp_parsed is not None:
         url = fp_parsed.get('url')
     if url is not None and fp_parsed is None:
-        response = requests.get(url, verify=False)
-        fp_parsed = feedparser.parse(response.content)
+        try:
+            response = requests.get(url, verify=False)
+            fp_parsed = feedparser.parse(response.content,
+                                         request_headers=response.headers)
+        except Exception:
+            logger.exception('failed to retreive that url')
+            fp_parsed = {'bozo': True}
     assert url is not None and fp_parsed is not None
     feed = feed or {}
     feed_split = urllib.parse.urlsplit(url)
@@ -106,17 +114,14 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
                 if feed['icon'] is not None:
                     break
 
-        if feed['icon'] is None:
+        if feed.get('icon') is None:
             feed['icon'] = try_splits('/favicon.ico', site_split, feed_split)
-        if feed['icon'] is None:
+        if 'icon' in feed and feed['icon'] is None:
             del feed['icon']
 
     if not feed.get('link'):
         alternate = bs_parsed.find_all(check_keys(rel=['alternate'],
                 type=['application/rss+xml']))
-        if len(alternate) == 1:
+        if len(alternate) >= 1:
             feed['link'] = alternate[0].attrs['href']
-        elif len(alternate) > 1:
-            feed['link'] = alternate[0].attrs['href']
-            feed['other_link'] = [al.attrs['href'] for al in alternate[1:]]
     return feed
