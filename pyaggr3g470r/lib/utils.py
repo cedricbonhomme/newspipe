@@ -77,7 +77,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
 
     response = requests.get(feed['site_link'], verify=False)
     bs_parsed = BeautifulSoup(response.content, 'html.parser',
-                           parse_only=SoupStrainer('head'))
+                              parse_only=SoupStrainer('head'))
 
     if not feed.get('title'):
         try:
@@ -115,9 +115,8 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         alternate = bs_parsed.find_all(check_keys(rel=['alternate'],
                 type=['application/rss+xml']))
         if len(alternate) == 1:
-            feed['link'] = rebuild_url(alternate[0].attrs['href'], split)
+            feed['link'] = alternate[0].attrs['href']
         elif len(alternate) > 1:
-            feed['link'] = rebuild_url(alternate[0].attrs['href'], split)
-            feed['other_link'] = [rebuild_url(al.attrs['href'], split)
-                                  for al in alternate[1:]]
+            feed['link'] = alternate[0].attrs['href']
+            feed['other_link'] = [al.attrs['href'] for al in alternate[1:]]
     return feed

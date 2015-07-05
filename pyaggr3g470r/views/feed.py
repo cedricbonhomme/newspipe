@@ -12,6 +12,7 @@ from flask.ext.login import login_required
 
 import conf
 from pyaggr3g470r import utils
+from pyaggr3g470r.lib.utils import construct_feed_from
 from pyaggr3g470r.forms import AddFeedForm
 from pyaggr3g470r.controllers import FeedController, ArticleController
 
@@ -94,14 +95,14 @@ def bookmarklet():
         flash(gettext("Couldn't add feed: url missing."), "error")
         raise BadRequest("url is missing")
 
-    existing_feeds = list(feed_contr.read(link=url))
-    if existing_feeds:
+    feed_exists = list(feed_contr.read(__or__={'link': url, 'site_link': url}))
+    if feed_exists:
         flash(gettext("Couldn't add feed: feed already exists."),
                 "warning")
         return redirect(url_for('feed.form',
                                 feed_id=existing_feeds[0].id))
 
-    feed = feed_contr.create(link=url)
+    feed = feed_contr.create(**construct_feed_from(url))
     flash(gettext('Feed was successfully created.'), 'success')
     if conf.CRAWLING_METHOD == "classic":
         utils.fetch(g.user.id, feed.id)
