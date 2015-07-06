@@ -45,13 +45,25 @@ logger = logging.getLogger(__name__)
 
 sem = asyncio.Semaphore(5)
 
+import ssl
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+    # Handle target environment that doesn't support HTTPS verification
+    ssl._create_default_https_context = _create_unverified_https_context
+
 @asyncio.coroutine
 def get(*args, **kwargs):
-    kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
+    #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
     try:
         #logger.info("Fetching the feed: " + args[0])
-        response = yield from aiohttp.request('GET', *args, **kwargs)
-        return (yield from response.read_and_close(decode=False))
+        #response = yield from aiohttp.request('GET', *args, **kwargs)
+        #return (yield from response.read_and_close(decode=False))
+        data = feedparser.parse(args[0])
+        return data
     except Exception as e:
         #print(e)
         raise e
@@ -61,20 +73,19 @@ def parse_feed(user, feed):
     """
     Fetch a feed.
     """
-    data = None
-
+    a_feed = None
     with (yield from sem):
         try:
-            data = yield from get(feed.link)
+            a_feed = yield from get(feed.link)
         except Exception as e:
             feed.last_error = str(e)
         finally:
-            if data is None:
+            if a_feed is None:
                 feed.error_count += 1
                 db.session.commit()
                 return
 
-    a_feed = feedparser.parse(data)
+    #a_feed = feedparser.parse(data)
     if a_feed['bozo'] == 1:
         #logger.error(a_feed['bozo_exception'])
         feed.last_error = str(a_feed['bozo_exception'])
@@ -102,9 +113,12 @@ def parse_feed(user, feed):
     except:
         feed.description = ""
     try:
-        feed.icon = a_feed.feed.image.href
+
+        feed.icon = [a_feed.feed.get('image', False) and
+            a_feed.feed.image.get('href', "") or a_feed.feed.get('icon', "")][0]
     except:
         feed.icon = ""
+
     db.session.commit()
 
     articles = []
