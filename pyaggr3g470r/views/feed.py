@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
 import base64
+from hashlib import md5
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
@@ -186,6 +187,11 @@ def process_form(feed_id=None):
 
 
 @feed_bp.route('/icon/<int:feed_id>', methods=['GET'])
+@login_required
 def icon(feed_id):
-    return Response(base64.b64decode(FeedController().get(id=feed_id).icon),
-                    mimetype='image')
+    icon = FeedController(g.user.id).get(id=feed_id).icon
+    etag = md5(icon.encode('utf8')).hexdigest()
+    headers = {'Cache-Control': 'max-age=86400', 'ETag': etag}
+    if request.headers.get('if-none-match') == etag:
+        return Response(status=304, headers=headers)
+    return Response(base64.b64decode(icon), mimetype='image', headers=headers)
