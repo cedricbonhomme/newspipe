@@ -38,7 +38,7 @@ def construct_article(entry, feed):
     if hasattr(feed, 'dump'):  # this way can be a sqlalchemy obj or a dict
         feed = feed.dump()
     "Safe method to transorm a feedparser entry into an article"
-    now = datetime.now()
+    date = datetime.now()
 
     for date_key in ('published', 'updated'):
         if entry.get(date_key):
@@ -72,5 +72,5 @@ def construct_article(entry, feed):
             'title': entry.get('title', 'No title'),
             'readed': False, 'like': False,
             'content': content,
-            'retrieved_date': now.isoformat(),
-            'date': (date or now).isoformat()}
+            'retrieved_date': date.isoformat(),
+            'date': date.isoformat()}
