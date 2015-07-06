@@ -106,7 +106,7 @@
                                     {% endif %}
                                 </td>
                                 <td><a class="open-article" href="/article/redirect/{{ article.id}}" target="_blank">
-                                        {% if article.source.icon %}<img src="{{ article.source.icon }}" width="16px" />{% endif %}
+                                        {% if article.source.icon %}<img src="{{ url_for('feed.icon', feed_id=article.feed_id) }}" width="16px" />{% endif %}
                                         <span class="hidden-xs">{{ article.source.title|safe }}</span></a></td>
                                 <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
                                     <a href="/article/{{ article.id }}">{{ article.title|safe }}</a>

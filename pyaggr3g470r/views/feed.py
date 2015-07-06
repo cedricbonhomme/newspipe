@@ -1,17 +1,18 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
+import base64
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, g, render_template, flash, \
-                  redirect, request, url_for
+                  redirect, request, url_for, Response
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
 import conf
 from pyaggr3g470r import utils
-from pyaggr3g470r.lib.feed.utils import construct_feed_from
+from pyaggr3g470r.lib.feed_utils import construct_feed_from
 from pyaggr3g470r.forms import AddFeedForm
 from pyaggr3g470r.controllers import FeedController, ArticleController
 
@@ -182,3 +183,9 @@ def process_form(feed_id=None):
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
+
+
+@feed_bp.route('/icon/<int:feed_id>', methods=['GET'])
+def icon(feed_id):
+    return Response(base64.b64decode(FeedController().get(id=feed_id).icon),
+                    mimetype='image')

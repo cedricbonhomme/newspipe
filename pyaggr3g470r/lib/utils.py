@@ -1,5 +1,6 @@
 import types
 import urllib
+import base64
 import logging
 import requests
 from hashlib import md5
@@ -41,8 +42,10 @@ def rebuild_url(url, base_split):
 
 def try_splits(url, *splits):
     for split in splits:
-        if requests.get(rebuild_url(url, split), verify=False).ok:
-            return rebuild_url(url, split)
+        rb_url = rebuild_url(url, split)
+        response = requests.get(rb_url, verify=False, timeout=10)
+        if response.ok and 'html' not in response.headers['content-type']:
+            return base64.b64encode(response.content).decode('utf8')
     return None
 
 
