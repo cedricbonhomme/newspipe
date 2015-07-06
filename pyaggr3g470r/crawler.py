@@ -27,19 +27,18 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import asyncio
-import aiohttp
 import logging
-import requests
 import feedparser
 import dateutil.parser
 from datetime import datetime
-from bs4 import BeautifulSoup
 from sqlalchemy import or_
 
-from pyaggr3g470r import utils
 import conf
 from bootstrap import db
-from pyaggr3g470r.models import User, Article
+from pyaggr3g470r.models import User
+from pyaggr3g470r.controllers import FeedController, ArticleController
+from pyaggr3g470r.lib.feed_utils import construct_feed_from
+from pyaggr3g470r.lib.article_utils import construct_article, extract_id
 
 logger = logging.getLogger(__name__)
 
@@ -85,122 +84,26 @@ def parse_feed(user, feed):
                 db.session.commit()
                 return
 
-    #a_feed = feedparser.parse(data)
+    up_feed = {}
     if a_feed['bozo'] == 1:
-        #logger.error(a_feed['bozo_exception'])
-        feed.last_error = str(a_feed['bozo_exception'])
-        feed.error_count += 1
+        up_feed['last_error'] = str(a_feed['bozo_exception'])
+        up_feed['error_count'] = feed.error_count + 1
         db.session.commit()
     if a_feed['entries'] == []:
         return
 
-    feed.last_retrieved = datetime.now(dateutil.tz.tzlocal())
-    feed.error_count = 0
-    feed.last_error = ""
+    up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
+    up_feed['error_count'] = 0
+    up_feed['last_error'] = ""
 
     # Feed informations
-    try:
-        feed.title = a_feed.feed.title
-    except:
-        feed.title = "No title"
-    if feed.link == "":
-        try:
-            feed.link = a_feed.feed.link
-        except:
-            feed.link = ""
-    try:
-        feed.description = a_feed.feed.subtitle
-    except:
-        feed.description = ""
-    try:
+    up_feed.update(construct_feed_from(feed.link, a_feed))
+    if feed.title and 'title' in up_feed:
+        del up_feed['title']
+    FeedController().update({'id': feed.id}, up_feed)
 
-        feed.icon = [a_feed.feed.get('image', False) and
-            a_feed.feed.image.get('href', "") or a_feed.feed.get('icon', "")][0]
-    except:
-        feed.icon = ""
+    return a_feed['entries']
 
-    db.session.commit()
-
-    articles = []
-    for article in a_feed['entries']:
-
-        try:
-            nice_url = article.link
-        except:
-            # if not able to get the link of the article, continue
-            continue
-        if conf.RESOLVE_ARTICLE_URL:
-            try:
-                # resolves URL behind proxies
-                # (like feedproxy.google.com)
-                r = requests.get(article.link, timeout=5.0)
-                nice_url = r.url
-            except Exception as error:
-                logger.warning(
-                        "Unable to get the real URL of %s. Error: %s",
-                        article.link, error)
-                pass
-        # remove utm_* parameters
-        nice_url = utils.clean_url(nice_url)
-
-        try:
-            entry_id = article.id
-        except:
-            entry_id = nice_url
-
-        description = ""
-        article_title = article.get('title', '')
-        try:
-            # article content
-            description = article.content[0].value
-        except AttributeError:
-            # article description
-            description = article.get('description', '')
-
-        try:
-            soup = BeautifulSoup(description, "lxml")
-
-            # Prevents BeautifulSoup4 from adding extra <html><body> tags
-            # to the soup with the lxml parser.
-            if soup.html.body:
-                description = soup.html.body.decode_contents()
-            elif soup.html:
-                description = soup.html.decode_contents()
-            else:
-                description = soup.decode()
-        except:
-            logger.error("Problem when sanitizing the content of the article %s (%s)",
-                                article_title, nice_url)
-
-        # Get the date of publication of the article
-        post_date = None
-        for date_key in ('published_parsed', 'published',
-                        'updated_parsed', 'updated'):
-            if not date_key in article:
-                continue
-
-            try:
-                post_date = dateutil.parser.parse(article[date_key],
-                        dayfirst=True)
-                break
-            except:
-                try:  # trying to clean date field from letters
-                    post_date = dateutil.parser.parse(
-                                re.sub('[A-z]', '', article[date_key]),
-                                dayfirst=True)
-                    break
-                except:
-                    pass
-        else:
-            post_date = datetime.now(dateutil.tz.tzlocal())
-
-        # create the models.Article object and append it to the list of articles
-        article = Article(entry_id=entry_id, link=nice_url, title=article_title,
-                        content=description, readed=False, like=False,
-                        date=post_date, user_id=user.id,
-                        feed_id=feed.id)
-        articles.append(article)
-    return articles
 
 @asyncio.coroutine
 def insert_database(user, feed):
@@ -209,34 +112,32 @@ def insert_database(user, feed):
     if None is articles:
         return []
 
-    #print('inserting articles for {}'.format(feed.title))
+    logger.debug('inserting articles for {}'.format(feed.title))
 
     logger.info("Database insertion...")
     new_articles = []
-    query1 = Article.query.filter(Article.user_id == user.id)
-    query2 = query1.filter(Article.feed_id == feed.id)
+    art_contr = ArticleController(user.id)
     for article in articles:
-        exist = query2.filter(or_(Article.entry_id==article.entry_id, Article.link==article.link)).count() != 0
+        exist = art_contr.read(feed_id=feed.id, **extract_id(article))
         if exist:
-            #logger.debug("Article %r (%r) already in the database.", article.title, article.link)
+            logger.debug("Article %r (%r) already in the database.",
+                         article.title, article.link)
             continue
-        new_articles.append(article)
+        article = construct_article(article, feed)
         try:
-            feed.articles.append(article)
-            #db.session.merge(article)
-            db.session.commit()
-            #logger.info("New article % (%r) added.", article.title, article.link)
-        except Exception as e:
-            logger.error("Error when inserting article in database: " + str(e))
+            new_articles.append(art_contr.create(**article))
+            logger.info("New article % (%r) added.",
+                        article.title, article.link)
+        except Exception:
+            logger.exception("Error when inserting article in database:")
             continue
-    #db.session.close()
     return new_articles
 
 @asyncio.coroutine
 def init_process(user, feed):
     # Fetch the feed and insert new articles in the database
     articles = yield from asyncio.async(insert_database(user, feed))
-    #print('inserted articles for {}'.format(feed.title))
+    logger.debug('inserted articles for %s', feed.title)
     return articles
 
 def retrieve_feed(loop, user, feed_id=None):
@@ -248,24 +149,23 @@ def retrieve_feed(loop, user, feed_id=None):
     # Get the list of feeds to fetch
     user = User.query.filter(User.email == user.email).first()
     feeds = [feed for feed in user.feeds if
-                feed.error_count <= conf.DEFAULT_MAX_ERROR and \
-                feed.enabled]
+             feed.error_count <= conf.DEFAULT_MAX_ERROR and feed.enabled]
     if feed_id is not None:
         feeds = [feed for feed in feeds if feed.id == feed_id]
 
     if feeds == []:
         return
-    import time
     # Launch the process for all the feeds
     tasks = []
     try:
         # Python 3.5 (test)
-        tasks = [asyncio.ensure_future(init_process(user, feed)) for feed in feeds]
+        tasks = [asyncio.ensure_future(init_process(user, feed))
+                 for feed in feeds]
     except:
         tasks = [init_process(user, feed) for feed in feeds]
     try:
         loop.run_until_complete(asyncio.wait(tasks))
-    except Exception as e:
-        print(e)
+    except Exception:
+        logger.exception('an error occured')
 
     logger.info("All articles retrieved. End of the processus.")

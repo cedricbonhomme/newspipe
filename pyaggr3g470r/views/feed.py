@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
-import logging
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
@@ -12,7 +11,7 @@ from flask.ext.login import login_required
 
 import conf
 from pyaggr3g470r import utils
-from pyaggr3g470r.lib.utils import construct_feed_from
+from pyaggr3g470r.lib.feed.utils import construct_feed_from
 from pyaggr3g470r.forms import AddFeedForm
 from pyaggr3g470r.controllers import FeedController, ArticleController
 
