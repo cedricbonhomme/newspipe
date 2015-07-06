@@ -88,21 +88,23 @@ def parse_feed(user, feed):
     feed.last_error = ""
 
     # Feed informations
-    if feed.title == "":
-        try:
-            feed.title = a_feed.feed.title
-        except:
-            feed.title = "No title"
+    try:
+        feed.title = a_feed.feed.title
+    except:
+        feed.title = "No title"
     if feed.link == "":
         try:
             feed.link = a_feed.feed.link
         except:
             feed.link = ""
-    if feed.description == "":
-        try:
-            feed.description = a_feed.feed.subtitle
-        except:
-            feed.description = ""
+    try:
+        feed.description = a_feed.feed.subtitle
+    except:
+        feed.description = ""
+    try:
+        feed.icon = a_feed.feed.image.href
+    except:
+        feed.icon = ""
     db.session.commit()
 
     articles = []
