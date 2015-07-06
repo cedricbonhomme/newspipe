@@ -1,17 +1,19 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
-
+import base64
+from hashlib import md5
 from datetime import datetime
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, g, render_template, flash, \
-                  redirect, request, url_for
+                  redirect, request, url_for, Response
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
 import conf
 from pyaggr3g470r import utils
+from pyaggr3g470r.lib.feed_utils import construct_feed_from
 from pyaggr3g470r.forms import AddFeedForm
 from pyaggr3g470r.controllers import FeedController, ArticleController
 
@@ -94,14 +96,13 @@ def bookmarklet():
         flash(gettext("Couldn't add feed: url missing."), "error")
         raise BadRequest("url is missing")
 
-    existing_feeds = list(feed_contr.read(link=url))
-    if existing_feeds:
+    feed_exists = list(feed_contr.read(__or__={'link': url, 'site_link': url}))
+    if feed_exists:
         flash(gettext("Couldn't add feed: feed already exists."),
                 "warning")
-        return redirect(url_for('feed.form',
-                                feed_id=existing_feeds[0].id))
+        return redirect(url_for('feed.form', feed_id=feed_exists[0].id))
 
-    feed = feed_contr.create(link=url)
+    feed = feed_contr.create(**construct_feed_from(url))
     flash(gettext('Feed was successfully created.'), 'success')
     if conf.CRAWLING_METHOD == "classic":
         utils.fetch(g.user.id, feed.id)
@@ -183,3 +184,14 @@ def process_form(feed_id=None):
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
+
+
+@feed_bp.route('/icon/<int:feed_id>', methods=['GET'])
+@login_required
+def icon(feed_id):
+    icon = FeedController(g.user.id).get(id=feed_id).icon
+    etag = md5(icon.encode('utf8')).hexdigest()
+    headers = {'Cache-Control': 'max-age=86400', 'ETag': etag}
+    if request.headers.get('if-none-match') == etag:
+        return Response(status=304, headers=headers)
+    return Response(base64.b64decode(icon), mimetype='image', headers=headers)

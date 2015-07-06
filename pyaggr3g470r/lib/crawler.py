@@ -17,46 +17,17 @@ import conf
 import json
 import logging
 import feedparser
-import dateutil.parser
-from hashlib import md5
 from functools import wraps
-from datetime import datetime
 from time import strftime, gmtime
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-from pyaggr3g470r.lib.utils import default_handler, construct_feed_from
+from pyaggr3g470r.lib.utils import default_handler, to_hash
+from pyaggr3g470r.lib.feed_utils import construct_feed_from
+from pyaggr3g470r.lib.article_utils import extract_id, construct_article
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)
 API_ROOT = "api/v2.0/"
-
-
-def to_hash(text):
-    return md5(text.encode('utf8')).hexdigest()
-
-
-def extract_id(entry, keys=[('link', 'link'),
-                            ('published', 'retrieved_date'),
-                            ('updated', 'retrieved_date')], force_id=False):
-    """For a given entry will return a dict that allows to identify it. The
-    dict will be constructed on the uid of the entry. if that identifier is
-    absent, the dict will be constructed upon the values of "keys".
-    """
-    entry_id = entry.get('entry_id') or entry.get('id')
-    if entry_id:
-        return {'entry_id': entry_id}
-    if not entry_id and force_id:
-        entry_id = to_hash("".join(entry[entry_key] for _, entry_key in keys
-                                   if entry_key in entry).encode('utf8'))
-    else:
-        ids = {}
-        for entry_key, pyagg_key in keys:
-            if entry_key in entry and pyagg_key not in ids:
-                ids[pyagg_key] = entry[entry_key]
-                if 'date' in pyagg_key:
-                    ids[pyagg_key] = dateutil.parser.parse(ids[pyagg_key])\
-                                                    .isoformat()
-        return ids
 
 
 class AbstractCrawler:
@@ -139,34 +110,6 @@ class PyAggUpdater(AbstractCrawler):
         self.parsed_feed = parsed_feed
         super(PyAggUpdater, self).__init__(auth)
 
-    def to_article(self, entry):
-        "Safe method to transorm a feedparser entry into an article"
-        date = datetime.now()
-
-        for date_key in ('published', 'updated'):
-            if entry.get(date_key):
-                try:
-                    date = dateutil.parser.parse(entry[date_key])
-                except Exception:
-                    pass
-                else:
-                    break
-        content = ''
-        if entry.get('content'):
-            content = entry['content'][0]['value']
-        elif entry.get('summary'):
-            content = entry['summary']
-
-        return {'feed_id': self.feed['id'],
-                'user_id': self.feed['user_id'],
-                'entry_id': extract_id(entry).get('entry_id', None),
-                'link': entry.get('link', self.feed['site_link']),
-                'title': entry.get('title', 'No title'),
-                'readed': False, 'like': False,
-                'content': content,
-                'retrieved_date': date.isoformat(),
-                'date': date.isoformat()}
-
     @AbstractCrawler.count_on_me
     def callback(self, response):
         """Will process the result from the challenge, creating missing article
@@ -176,8 +119,9 @@ class PyAggUpdater(AbstractCrawler):
         logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
         for id_to_create in results:
-            entry = self.to_article(
-                    self.entries[tuple(sorted(id_to_create.items()))])
+            entry = construct_article(
+                    self.entries[tuple(sorted(id_to_create.items()))],
+                    self.feed)
             logger.warn('%r %r - creating %r for %r - %r', self.feed['id'],
                         self.feed['title'], entry['title'], entry['user_id'],
                         id_to_create)
@@ -193,8 +137,7 @@ class PyAggUpdater(AbstractCrawler):
                    'last_modified': self.headers.get('last-modified',
                                     strftime('%a, %d %b %Y %X %Z', gmtime()))}
         fresh_feed = construct_feed_from(url=self.feed['link'],
-                                         fp_parsed=self.parsed_feed,
-                                         feed=self.feed)
+                                         fp_parsed=self.parsed_feed)
         for key in ('description', 'site_link', 'icon'):
             if fresh_feed.get(key) and fresh_feed[key] != self.feed.get(key):
                 up_feed[key] = fresh_feed[key]
