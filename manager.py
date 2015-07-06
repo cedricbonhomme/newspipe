@@ -41,28 +41,30 @@ def fetch_asyncio(user_id, feed_id):
 
     with application.app_context():
         populate_g()
+        from flask import g
         from pyaggr3g470r.models import User
         from pyaggr3g470r import crawler
-    users, feed_id = [], None
-    try:
-        users = User.query.filter(User.id == int(user_id)).all()
-    except:
-        users = User.query.all()
-    finally:
-        if users == []:
+        users, feed_id = [], None
+        try:
+            users = User.query.filter(User.id == int(user_id)).all()
+        except:
             users = User.query.all()
+        finally:
+            if users == []:
+                users = User.query.all()
 
-    try:
-        feed_id = int(feed_id)
-    except:
-        feed_id = None
+        try:
+            feed_id = int(feed_id)
+        except:
+            feed_id = None
 
-    loop = asyncio.get_event_loop()
-    for user in users:
-        if user.activation_key == "":
-            print("Fetching articles for " + user.nickname)
-            feed_getter = crawler.retrieve_feed(loop, user, feed_id)
-    loop.close()
+        loop = asyncio.get_event_loop()
+        for user in users:
+            if user.activation_key == "":
+                print("Fetching articles for " + user.nickname)
+                g.user = user
+                feed_getter = crawler.retrieve_feed(loop, g.user, feed_id)
+        loop.close()
 
 if __name__ == '__main__':
     manager.run()

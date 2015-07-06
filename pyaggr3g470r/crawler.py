@@ -64,7 +64,6 @@ def get(*args, **kwargs):
         data = feedparser.parse(args[0])
         return data
     except Exception as e:
-        #print(e)
         raise e
 
 @asyncio.coroutine
@@ -118,7 +117,8 @@ def insert_database(user, feed):
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
-        exist = art_contr.read(feed_id=feed.id, **extract_id(article))
+        exist = art_contr.read(feed_id=feed.id,
+                        **extract_id(article)).count() != 0
         if exist:
             logger.debug("Article %r (%r) already in the database.",
                          article.title, article.link)
@@ -128,7 +128,7 @@ def insert_database(user, feed):
             new_articles.append(art_contr.create(**article))
             logger.info("New article % (%r) added.",
                         article.title, article.link)
-        except Exception:
+        except Exception as e:
             logger.exception("Error when inserting article in database:")
             continue
     return new_articles

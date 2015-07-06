@@ -52,25 +52,6 @@ def construct_article(entry, feed):
     elif entry.get('summary'):
         content = entry['summary']
 
-    description = entry.get('description', '')
-    try:
-        description = entry.content[0].value
-    except Exception:
-        pass
-
-    try:
-        soup = BeautifulSoup(description, "lxml")
-        # Prevents BeautifulSoup4 from adding extra <html><body> tags
-        # to the soup with the lxml parser.
-        if soup.html.body:
-            description = soup.html.body.decode_contents()
-        elif soup.html:
-            description = soup.html.decode_contents()
-        else:
-            description = soup.decode()
-    except Exception:
-        pass
-
     article_link = entry.get('link')
     if conf.RESOLVE_ARTICLE_URL and article_link:
         try:
@@ -82,13 +63,12 @@ def construct_article(entry, feed):
             logger.warning("Unable to get the real URL of %s. Error: %s",
                            article_link, error)
 
-    return {'feed_id': feed['id'],
-            'user_id': feed['user_id'],
+    return {'feed_id': feed.id,
+            'user_id': feed.user_id,
             'entry_id': extract_id(entry).get('entry_id', None),
-            'link': entry.get('link', feed['site_link']),
+            'link': entry.get('link', feed.site_link),
             'title': entry.get('title', 'No title'),
             'readed': False, 'like': False,
-            'description': description,
             'content': content,
             'retrieved_date': now.isoformat(),
             'date': (date or now).isoformat()}
