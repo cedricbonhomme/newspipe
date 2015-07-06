@@ -189,7 +189,8 @@ def process_form(feed_id=None):
 @feed_bp.route('/icon/<int:feed_id>', methods=['GET'])
 @login_required
 def icon(feed_id):
-    icon = FeedController(g.user.id).get(id=feed_id).icon
+    icon = FeedController(None if g.user.is_admin() else g.user.id)\
+            .get(id=feed_id).icon
     etag = md5(icon.encode('utf8')).hexdigest()
     headers = {'Cache-Control': 'max-age=86400', 'ETag': etag}
     if request.headers.get('if-none-match') == etag:
