@@ -143,7 +143,11 @@ class PyAggResourceExisting(PyAggAbstractResource):
         args = self.reqparse_args(default=False)
         new_values = {key: args[key] for key in
                       set(args).intersection(self.attrs)}
-        self.controller.update({'id': obj_id}, new_values)
+        if 'user_id' in new_values and g.user.is_admin():
+            controller = self.wider_controller
+        else:
+            controller = self.controller
+        return controller.update({'id': obj_id}, new_values), 200
 
     def delete(self, obj_id=None):
         """delete a object"""

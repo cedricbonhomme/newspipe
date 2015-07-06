@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ _('Name') }}</th>
+                        <th>{{ _('Title') }}</th>
                         <th>{{ _('Feed link') }}</th>
                         <th>{{ _('Site link') }}</th>
                         <th>{{ _('(unread) articles') }}</th>
@@ -34,7 +34,7 @@
                 {% for feed in user.feeds|sort(attribute="title") %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="/feed/{{ feed.id }}">{{ feed.title }}</a></td>
+                        <td><a href="{{ url_for("feed.feed", feed_id=feed.id) }}">{%if feed.icon%}<img src="{{ url_for('feed.icon', feed_id=feed.id) }}" width="16px" />{%endif%}{{ feed.title }}</a></td>
                         <td>{{ feed.link }}</td>
                         <td>{{ feed.site_link }}</td>
                         <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
