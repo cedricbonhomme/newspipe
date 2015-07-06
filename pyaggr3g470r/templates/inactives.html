@@ -9,8 +9,13 @@
         <br />
         {% if inactives != [] %}
             <ul class="list-group">
-            {% for item in inactives %}
-                <li class="list-group-item"><a href="/feed/{{ item[0].id }}">{{ item[0].title }}</a> - {{ item[1].days }} {{ _('days') }}</li>
+            {% for feed, delta in inactives %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('feed.feed', feed_id=feed.id) }}">
+                        {% if feed.icon %}<img src="{{ url_for('feed.icon', feed_id=feed.id) }}" width="16px" />{% endif %}
+                        {{ feed.title }}
+                    </a> - {{ delta.days }} {{ _('days') }}
+                </li>
             {% endfor %}
             </ul>
         {% else %}

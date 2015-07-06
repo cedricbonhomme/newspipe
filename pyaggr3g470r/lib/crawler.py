@@ -143,6 +143,7 @@ class PyAggUpdater(AbstractCrawler):
                 up_feed[key] = fresh_feed[key]
         if not self.feed.get('title'):
             up_feed['title'] = fresh_feed.get('title', '')
+        up_feed['user_id'] = self.feed['user_id']
 
         logger.info('%r %r - pushing feed attrs %r',
                     self.feed['id'], self.feed['title'],
