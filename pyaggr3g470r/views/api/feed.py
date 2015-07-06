@@ -16,6 +16,7 @@ from pyaggr3g470r.views.api.common import PyAggAbstractResource, \
 FEED_ATTRS = {'title': {'type': str},
               'description': {'type': str},
               'link': {'type': str},
+              'user_id': {'type': int},
               'site_link': {'type': str},
               'enabled': {'type': bool, 'default': True},
               'etag': {'type': str, 'default': ''},
