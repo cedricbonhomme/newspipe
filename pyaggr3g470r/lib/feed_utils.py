@@ -23,6 +23,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     assert url is not None and fp_parsed is not None
     feed = feed or {}
     feed_split = urllib.parse.urlsplit(url)
+    site_split = None
     if not fp_parsed['bozo']:
         feed['link'] = url
         feed['site_link'] = try_keys(fp_parsed['feed'], 'href', 'link')
@@ -82,8 +83,8 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             del feed['icon']
 
     if not feed.get('link'):
-        alternate = bs_parsed.find_all(check_keys(rel=['alternate'],
+        alternates = bs_parsed.find_all(check_keys(rel=['alternate'],
                 type=['application/rss+xml']))
-        if len(alternate) >= 1:
-            feed['link'] = alternate[0].attrs['href']
+        if len(alternates) >= 1:
+            feed['link'] = rebuild_url(alternates[0].attrs['href'], feed_split)
     return feed
