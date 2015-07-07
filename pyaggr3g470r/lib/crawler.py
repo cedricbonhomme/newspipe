@@ -17,6 +17,7 @@ import conf
 import json
 import logging
 import feedparser
+from datetime import datetime, timedelta
 from functools import wraps
 from time import strftime, gmtime
 from concurrent.futures import ThreadPoolExecutor
@@ -118,7 +119,9 @@ class PyAggUpdater(AbstractCrawler):
         results = response.result().json()
         logger.debug('%r %r - %d entries were not matched and will be created',
                      self.feed['id'], self.feed['title'], len(results))
+        article_created = False
         for id_to_create in results:
+            article_created = True
             entry = construct_article(
                     self.entries[tuple(sorted(id_to_create.items()))],
                     self.feed)
@@ -144,6 +147,10 @@ class PyAggUpdater(AbstractCrawler):
         if not self.feed.get('title'):
             up_feed['title'] = fresh_feed.get('title', '')
         up_feed['user_id'] = self.feed['user_id']
+        # re-getting that feed earlier since new entries appeared
+        if article_created:
+            up_feed['last_retrieved'] \
+                    = (datetime.now() - timedelta(minutes=45)).isoformat()
 
         logger.info('%r %r - pushing feed attrs %r',
                     self.feed['id'], self.feed['title'],
