@@ -45,22 +45,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <form action="/feed/create" class="navbar-form" method="POST" name="save">
-                                {{ create_feed_form.hidden_tag() }}
-
-                                {{ create_feed_form.link.label }}
-                                {{ create_feed_form.link(class_="form-control") }} {% for error in create_feed_form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                                {{ create_feed_form.title.label }}
-                                {{ create_feed_form.title(class_="form-control", placeholder=_('Optional')) }} {% for error in create_feed_form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                                {{ create_feed_form.site_link.label }}
-                                {{ create_feed_form.site_link(class_="form-control", placeholder=_('Optional')) }} {% for error in create_feed_form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                                {{ create_feed_form.enabled.label }}
-                                {{ create_feed_form.enabled(class_="checkbox") }}
-                                <br />
-                                {{ create_feed_form.submit(class_="btn btn-default") }}
+                            <form action="{{ url_for('feed.bookmarklet') }}" class="navbar-form" method="GET" name="save">
+                                <input class="form-control" name="url" type="text" placeholder="{{_("site or feed url")}}" /> <input type="submit" value="+" class="btn btn-default" />
                             </form>
                         </li>
                     </ul>
