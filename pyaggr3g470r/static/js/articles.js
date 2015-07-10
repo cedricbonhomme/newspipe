@@ -25,6 +25,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 function change_unread_counter(feed_id, increment) {
     var new_value = parseInt($("#unread-"+feed_id).text()) + increment;
     $("#unread-"+feed_id).text(new_value);
+    $("#total-unread").text(parseInt($("#total-unread").text()) + increment);
     if (new_value == 0) {
         $("#unread-"+feed_id).hide();
     } else {
@@ -57,7 +58,6 @@ function change_unread_counter(feed_id, increment) {
                 })
             if (filter == "read") {
                 $(this).parent().parent().parent().remove();
-                $("#total-unread").text(parseInt($("#total-unread").text()) - 1);
             }
             else {
                 // here, filter == "all"
@@ -133,6 +133,7 @@ function change_unread_counter(feed_id, increment) {
 
     // Delete an article
     $('.delete').on('click', function() {
+        var feed_id = $(this).parent().parent().parent().attr("data-feed");
         var article_id = $(this).parent().parent().parent().attr("data-article");
         $(this).parent().parent().parent().remove();
 
@@ -141,7 +142,7 @@ function change_unread_counter(feed_id, increment) {
             type: 'DELETE',
             url: API_ROOT + "article/" + article_id,
             success: function (result) {
-                //console.log(result);
+                change_unread_counter(feed_id, -1);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
                 console.log(XMLHttpRequest.responseText);
