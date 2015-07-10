@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
 import base64
+import requests.exceptions
 from hashlib import md5
 from datetime import datetime
 from sqlalchemy import desc
@@ -102,7 +103,11 @@ def bookmarklet():
                 "warning")
         return redirect(url_for('feed.form', feed_id=feed_exists[0].id))
 
-    feed = construct_feed_from(url)
+    try:
+        feed = construct_feed_from(url)
+    except requests.exceptions.ConnectionError as e:
+        flash(gettext("Impossible to connect to the address: {}.".format(url)), "danger")
+        return redirect(url_for('home'))
     if not feed.get('link'):
         feed['enabled'] = False
         flash(gettext("Couldn't find a feed url, you'll need to find a Atom or"
