@@ -102,7 +102,12 @@ def bookmarklet():
                 "warning")
         return redirect(url_for('feed.form', feed_id=feed_exists[0].id))
 
-    feed = feed_contr.create(**construct_feed_from(url))
+    feed = construct_feed_from(url)
+    if not feed.get('link'):
+        feed['enabled'] = False
+        flash(gettext("Couldn't find a feed url, you'll need to find a Atom or"
+                      "RSS link manually and reactivate this feed"), 'warning')
+    feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
     if conf.CRAWLING_METHOD == "classic":
         utils.fetch(g.user.id, feed.id)

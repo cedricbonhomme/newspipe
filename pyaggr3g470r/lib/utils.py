@@ -42,6 +42,8 @@ def rebuild_url(url, base_split):
 
 def try_splits(url, *splits):
     for split in splits:
+        if split is None:
+            continue
         rb_url = rebuild_url(url, split)
         response = requests.get(rb_url, verify=False, timeout=10)
         if response.ok and 'html' not in response.headers['content-type']:
