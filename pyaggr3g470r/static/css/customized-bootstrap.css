@@ -41,3 +41,9 @@ div.top {
 a {
     color: #3572B0;
 }
+
+.input-group-inline {
+    min-width: 0;
+    width: 200px;
+    display: inline;
+}

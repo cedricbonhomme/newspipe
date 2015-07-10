@@ -45,8 +45,13 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <form action="{{ url_for('feed.bookmarklet') }}" class="navbar-form" method="GET" name="save">
-                                <input class="form-control" name="url" type="text" placeholder="{{_("site or feed url")}}" /> <input type="submit" value="+" class="btn btn-default" />
+                            <form action="{{ url_for('feed.bookmarklet') }}" class="navbar-form  navbar-left" method="GET" name="save">
+                              <div class="input-group input-group-inline">
+                                  <input class="form-control" name="url" type="url" placeholder="{{_("site or feed url")}}" required="required"/>
+                                  <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default" /><span class="glyphicon glyphicon-plus"></span></button>
+                                  </span>
+                              </div><!-- /input-group -->
                             </form>
                         </li>
                     </ul>
