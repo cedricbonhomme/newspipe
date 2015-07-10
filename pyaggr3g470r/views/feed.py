@@ -111,7 +111,7 @@ def bookmarklet():
     if not feed.get('link'):
         feed['enabled'] = False
         flash(gettext("Couldn't find a feed url, you'll need to find a Atom or"
-                      "RSS link manually and reactivate this feed"), 'warning')
+                      " RSS link manually and reactivate this feed"), 'warning')
     feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
     if feed.enabled and conf.CRAWLING_METHOD == "classic":
