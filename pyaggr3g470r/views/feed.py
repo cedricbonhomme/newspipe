@@ -109,7 +109,7 @@ def bookmarklet():
                       "RSS link manually and reactivate this feed"), 'warning')
     feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
-    if conf.CRAWLING_METHOD == "classic":
+    if feed.enabled and conf.CRAWLING_METHOD == "classic":
         utils.fetch(g.user.id, feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
     return redirect(url_for('feed.form', feed_id=feed.id))
