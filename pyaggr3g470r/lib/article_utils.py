@@ -2,7 +2,6 @@ import logging
 import requests
 import dateutil.parser
 from datetime import datetime
-from bs4 import BeautifulSoup
 
 import conf
 from pyaggr3g470r.lib.utils import to_hash
@@ -10,9 +9,8 @@ from pyaggr3g470r.lib.utils import to_hash
 logger = logging.getLogger(__name__)
 
 
-def extract_id(entry, keys=[('link', 'link'),
-                            ('published', 'retrieved_date'),
-                            ('updated', 'retrieved_date')], force_id=False):
+def extract_id(entry, keys=[('link', 'link'), ('published', 'date'),
+                            ('updated', 'date')], force_id=False):
     """For a given entry will return a dict that allows to identify it. The
     dict will be constructed on the uid of the entry. if that identifier is
     absent, the dict will be constructed upon the values of "keys".
@@ -21,7 +19,7 @@ def extract_id(entry, keys=[('link', 'link'),
     if entry_id:
         return {'entry_id': entry_id}
     if not entry_id and force_id:
-        entry_id = to_hash("".join(entry[entry_key] for _, entry_key in keys
+        return to_hash("".join(entry[entry_key] for _, entry_key in keys
                                    if entry_key in entry).encode('utf8'))
     else:
         ids = {}
@@ -38,8 +36,8 @@ def construct_article(entry, feed):
     if hasattr(feed, 'dump'):  # this way can be a sqlalchemy obj or a dict
         feed = feed.dump()
     "Safe method to transorm a feedparser entry into an article"
-    date = datetime.now()
-
+    now = datetime.now()
+    date = None
     for date_key in ('published', 'updated'):
         if entry.get(date_key):
             try:
@@ -72,5 +70,5 @@ def construct_article(entry, feed):
             'title': entry.get('title', 'No title'),
             'readed': False, 'like': False,
             'content': content,
-            'retrieved_date': date.isoformat(),
-            'date': date.isoformat()}
+            'retrieved_date': now.isoformat(),
+            'date': (date or now).isoformat()}

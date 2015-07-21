@@ -105,13 +105,15 @@ def bookmarklet():
 
     try:
         feed = construct_feed_from(url)
-    except requests.exceptions.ConnectionError as e:
-        flash(gettext("Impossible to connect to the address: {}.".format(url)), "danger")
+    except requests.exceptions.ConnectionError:
+        flash(gettext("Impossible to connect to the address: {}.".format(url)),
+              "danger")
         return redirect(url_for('home'))
     if not feed.get('link'):
         feed['enabled'] = False
         flash(gettext("Couldn't find a feed url, you'll need to find a Atom or"
-                      " RSS link manually and reactivate this feed"), 'warning')
+                      " RSS link manually and reactivate this feed"),
+              'warning')
     feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
     if feed.enabled and conf.CRAWLING_METHOD == "classic":
@@ -202,7 +204,12 @@ def icon(feed_id):
     icon = FeedController(None if g.user.is_admin() else g.user.id)\
             .get(id=feed_id).icon
     etag = md5(icon.encode('utf8')).hexdigest()
-    headers = {'Cache-Control': 'max-age=86400', 'ETag': etag}
+    headers = {'Cache-Control': 'max-age=86400', 'etag': etag}
     if request.headers.get('if-none-match') == etag:
         return Response(status=304, headers=headers)
-    return Response(base64.b64decode(icon), mimetype='image', headers=headers)
+    if '\n' in icon:
+        content_type, icon = icon.split()
+        headers['content-type'] = content_type
+    else:
+        headers['content-type'] = 'application/image'
+    return Response(base64.b64decode(icon), headers=headers)

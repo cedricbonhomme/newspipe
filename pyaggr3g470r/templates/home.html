@@ -105,11 +105,16 @@
                                         {% if filter_ == 'all' %}</b>{% endif %}
                                     {% endif %}
                                 </td>
-                                <td><a class="open-article" href="/article/redirect/{{ article.id}}" target="_blank">
-                                        {% if article.source.icon %}<img src="{{ url_for('feed.icon', feed_id=article.feed_id) }}" width="16px" />{% endif %}
-                                        <span class="hidden-xs">{{ article.source.title|safe }}</span></a></td>
+                                <td>
+                                    <a class="open-article" href="{{ url_for("article.redirect_to_article", article_id=article.id)}}" target="_blank" title="{{article.link}}" alt="{{article.link}}">
+                                  {% if article.source.icon %}
+                                    <img src="{{ url_for('feed.icon', feed_id=article.feed_id) }}" width="16px" />
+                                  {% else %}
+                                    <span class="glyphicon glyphicon-ban-circle" title='{{_("No icon found for this feed")}}' alt='{{_("No icon found for this feed")}}'></span>
+                                  {% endif %}
+                                  <span class="hidden-xs">{{ article.source.title|safe }}</span></a></td>
                                 <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                    <a href="/article/{{ article.id }}">{{ article.title|safe }}</a>
+                                    <a href="{{ url_for("article.article", article_id=article.id) }}">{{ article.title|safe }}</a>
                                 </td>
                                 <td class="date">{{ article.date|datetime }}</a></td>
                             </tr>

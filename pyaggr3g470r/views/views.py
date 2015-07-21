@@ -30,11 +30,13 @@ import os
 import string
 import random
 import hashlib
+import logging
 import datetime
-from collections import namedtuple
+from collections import OrderedDict
+
 from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
-                  url_for, redirect, g, current_app, make_response
+                  url_for, redirect, g, current_app, make_response, Response
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
@@ -46,12 +48,13 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
+from pyaggr3g470r.lib.utils import to_hash
 from pyaggr3g470r import utils, notifications, export
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
-from pyaggr3g470r.forms import SignupForm, SigninForm, \
-                    ProfileForm, UserForm, RecoverPasswordForm, \
-                    AddFeedForm, InformationMessageForm
+from pyaggr3g470r.forms import SignupForm, SigninForm, InformationMessageForm,\
+                    ProfileForm, UserForm, RecoverPasswordForm \
+
 from pyaggr3g470r.controllers import UserController, FeedController, \
                                      ArticleController
 
@@ -62,6 +65,7 @@ admin_permission = Permission(RoleNeed('admin'))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+logger = logging.getLogger(__name__)
 
 #
 # Management of the user's session.
@@ -235,7 +239,6 @@ def render_home(filters=None, head_titles=None,
     arti_contr = ArticleController(g.user.id)
     feeds = {feed.id: feed.title for feed in feed_contr.read()}
 
-    unread = arti_contr.count_by_feed(readed=False)
     in_error = {feed.id: feed.error_count for feed in
                 feed_contr.read(error_count__gt=2)}
 
@@ -267,26 +270,41 @@ def render_home(filters=None, head_titles=None,
 
     def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed_id=feed_id,
                 **kwargs):
+        o_kwargs = OrderedDict()
+        for key in sorted(kwargs):
+            o_kwargs[key] = kwargs[key]
         if page_to_render == 'search':
-            kwargs['query'] = request.args.get('query', '')
-            kwargs['search_title'] = request.args.get('search_title', 'off')
-            kwargs['search_content'] = request.args.get(
+            o_kwargs['query'] = request.args.get('query', '')
+            o_kwargs['search_title'] = request.args.get('search_title', 'off')
+            o_kwargs['search_content'] = request.args.get(
                     'search_content', 'off')
-            if kwargs['search_title'] == kwargs['search_content'] == 'off':
-                kwargs['search_title'] = 'on'
-        return url_for(page_to_render, filter_=filter_, sort_=sort_,
-                       limit=limit, feed_id=feed_id, **kwargs)
+            # if nor title and content are selected, selecting title
+            if o_kwargs['search_title'] == o_kwargs['search_content'] == 'off':
+                o_kwargs['search_title'] = 'on'
+        o_kwargs['filter_'] = filter_
+        o_kwargs['sort_'] = sort_
+        o_kwargs['limit'] = limit
+        o_kwargs['feed_id'] = feed_id
+        return url_for(page_to_render, **o_kwargs)
 
     articles = list(articles)
     if (page_to_render == 'home' and feed_id or page_to_render == 'search') \
             and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
 
-    return render_template('home.html', page_to_render=page_to_render,
-                           gen_url=gen_url, feed_id=feed_id,
-                           filter_=filter_, limit=limit, feeds=feeds,
-                           unread=unread, articles=articles, in_error=in_error,
-                           head_titles=head_titles, sort_=sort_, **kwargs)
+    etag = to_hash("".join([str(filters[key]) for key in sorted(filters)])
+                   + "".join([str(art.id) for art in articles]))
+    if request.headers.get('if-none-match') == etag:
+        return Response(status=304, headers={'etag': etag,
+                        'Cache-Control': 'pragma: no-cache'})
+    response = make_response(render_template('home.html', gen_url=gen_url,
+                             feed_id=feed_id, page_to_render=page_to_render,
+                             filter_=filter_, limit=limit, feeds=feeds,
+                             unread=arti_contr.count_by_feed(readed=False),
+                             articles=articles, in_error=in_error,
+                             head_titles=head_titles, sort_=sort_, **kwargs))
+    response.headers['etag'] = etag
+    return response
 
 
 @app.route('/')

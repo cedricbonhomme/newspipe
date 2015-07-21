@@ -40,14 +40,17 @@ def rebuild_url(url, base_split):
     return urllib.parse.urlunsplit(new_split)
 
 
-def try_splits(url, *splits):
+def try_get_b64icon(url, *splits):
     for split in splits:
         if split is None:
             continue
         rb_url = rebuild_url(url, split)
         response = requests.get(rb_url, verify=False, timeout=10)
-        if response.ok and 'html' not in response.headers['content-type']:
-            return base64.b64encode(response.content).decode('utf8')
+        # if html in content-type, we assume it's a fancy 404 page
+        content_type = response.headers.get('content-type', '')
+        if response.ok and 'html' not in content_type:
+            return content_type + (
+                    '\n%s' % base64.b64encode(response.content).decode('utf8'))
     return None
 
 

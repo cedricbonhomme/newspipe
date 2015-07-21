@@ -27,10 +27,9 @@
           </button>
           <a class="navbar-brand" href="{{ url_for("home") }}">pyAggr3g470r</a>
           {% if head_titles %}
-            {% for head_title in head_titles %}
-              <span class="navbar-brand"> - </span>
-              <span class="navbar-brand">{{ head_title }}</span>
-            {% endfor %}
+            <p class="navbar-text" style="max-height: 20px; overflow: hidden">
+            {{ " - ".join(head_titles) }}
+            </p>
           {% endif %}
         </div>
 
