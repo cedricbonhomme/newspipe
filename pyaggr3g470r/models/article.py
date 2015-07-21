@@ -26,7 +26,6 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-import json
 from bootstrap import db
 from datetime import datetime
 from sqlalchemy import asc, desc
@@ -66,10 +65,9 @@ class Article(db.Model):
                             .order_by(asc("Article.date")).first()
 
     def __repr__(self):
-        return json.dumps({"title": self.title,
-                           "link": self.link,
-                           "content": self.content
-                           })
+        return "<Article(id=%d, entry_id=%s, title=%r, " \
+               "date=%r, retrieved_date=%r)>" % (self.id, self.entry_id,
+                       self.title, self.date, self.retrieved_date)
 
     def dump(self):
         return {"id": self.id,
