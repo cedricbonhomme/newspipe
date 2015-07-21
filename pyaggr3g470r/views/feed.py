@@ -207,4 +207,9 @@ def icon(feed_id):
     headers = {'Cache-Control': 'max-age=86400', 'etag': etag}
     if request.headers.get('if-none-match') == etag:
         return Response(status=304, headers=headers)
-    return Response(base64.b64decode(icon), mimetype='image', headers=headers)
+    if '\n' in icon:
+        content_type, icon = icon.split()
+        headers['content-type'] = content_type
+    else:
+        headers['content-type'] = 'application/image'
+    return Response(base64.b64decode(icon), headers=headers)

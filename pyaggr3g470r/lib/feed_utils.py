@@ -4,7 +4,7 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup, SoupStrainer
 
-from pyaggr3g470r.lib.utils import try_keys, try_splits, rebuild_url
+from pyaggr3g470r.lib.utils import try_keys, try_get_b64icon, rebuild_url
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         site_split = urllib.parse.urlsplit(feed['site_link'])
 
     if feed.get('icon'):
-        feed['icon'] = try_splits(feed['icon'], site_split, feed_split)
+        feed['icon'] = try_get_b64icon(feed['icon'], site_split, feed_split)
         if feed['icon'] is None:
             del feed['icon']
 
@@ -72,13 +72,14 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             icons = bs_parsed.find_all(check_keys(rel=['icon']))
         if len(icons) >= 1:
             for icon in icons:
-                feed['icon'] = try_splits(icon.attrs['href'],
+                feed['icon'] = try_get_b64icon(icon.attrs['href'],
                                           site_split, feed_split)
                 if feed['icon'] is not None:
                     break
 
         if feed.get('icon') is None:
-            feed['icon'] = try_splits('/favicon.ico', site_split, feed_split)
+            feed['icon'] = try_get_b64icon('/favicon.ico',
+                                           site_split, feed_split)
         if 'icon' in feed and feed['icon'] is None:
             del feed['icon']
 
