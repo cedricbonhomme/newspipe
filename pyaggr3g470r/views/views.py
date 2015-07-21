@@ -32,6 +32,8 @@ import random
 import hashlib
 import logging
 import datetime
+from collections import OrderedDict
+
 from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response, Response
@@ -268,15 +270,22 @@ def render_home(filters=None, head_titles=None,
 
     def gen_url(filter_=filter_, sort_=sort_, limit=limit, feed_id=feed_id,
                 **kwargs):
+        o_kwargs = OrderedDict()
+        for key in sorted(kwargs):
+            o_kwargs[key] = kwargs[key]
         if page_to_render == 'search':
-            kwargs['query'] = request.args.get('query', '')
-            kwargs['search_title'] = request.args.get('search_title', 'off')
-            kwargs['search_content'] = request.args.get(
+            o_kwargs['query'] = request.args.get('query', '')
+            o_kwargs['search_title'] = request.args.get('search_title', 'off')
+            o_kwargs['search_content'] = request.args.get(
                     'search_content', 'off')
-            if kwargs['search_title'] == kwargs['search_content'] == 'off':
-                kwargs['search_title'] = 'on'
-        return url_for(page_to_render, filter_=filter_, sort_=sort_,
-                       limit=limit, feed_id=feed_id, **kwargs)
+            # if nor title and content are selected, selecting title
+            if o_kwargs['search_title'] == o_kwargs['search_content'] == 'off':
+                o_kwargs['search_title'] = 'on'
+        o_kwargs['filter_'] = filter_
+        o_kwargs['sort_'] = sort_
+        o_kwargs['limit'] = limit
+        o_kwargs['feed_id'] = feed_id
+        return url_for(page_to_render, **o_kwargs)
 
     articles = list(articles)
     if (page_to_render == 'home' and feed_id or page_to_render == 'search') \
