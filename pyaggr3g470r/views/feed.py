@@ -208,7 +208,7 @@ def icon(feed_id):
     if request.headers.get('if-none-match') == etag:
         return Response(status=304, headers=headers)
     if '\n' in icon:
-        content_type, icon = icon.split()
+        content_type, *_, icon = icon.split()
         headers['content-type'] = content_type
     else:
         headers['content-type'] = 'application/image'
