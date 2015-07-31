@@ -28,6 +28,8 @@ DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
             "nb_worker": "100",
+            "api_login": "",
+            "api_passwd": "",
             "default_max_error": "3",
             "log_path": "pyaggr3g470r.log",
             "log_level": "info",
@@ -79,6 +81,8 @@ RECAPTCHA_PRIVATE_KEY = config.get('misc',
                                     'recaptcha_private_key')
 LOG_PATH = config.get('misc', 'log_path')
 NB_WORKER = config.getint('misc', 'nb_worker')
+API_LOGIN = config.get('crawler', 'api_login')
+API_PASSWD = config.get('crawler', 'api_passwd')
 
 WHOOSH_ENABLED = True
 

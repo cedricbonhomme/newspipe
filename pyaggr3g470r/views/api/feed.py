@@ -3,6 +3,7 @@
 
 from flask import g
 
+import conf
 from pyaggr3g470r.controllers.feed import (FeedController,
                                            DEFAULT_MAX_ERROR,
                                            DEFAULT_LIMIT,
@@ -54,7 +55,7 @@ class FetchableFeedAPI(PyAggAbstractResource):
         if g.user.refresh_rate:
             args['refresh_rate'] = g.user.refresh_rate
 
-        if args.pop('retreive_all'):
+        if args.pop('retreive_all', False):
             contr = self.wider_controller
         else:
             contr = self.controller

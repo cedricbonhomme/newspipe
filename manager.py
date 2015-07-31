@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bootstrap import application, db, populate_g
+from bootstrap import application, db, populate_g, conf
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -27,10 +27,10 @@ def db_create():
         pyaggr3g470r.models.db_create(db)
 
 @manager.command
-def fetch(user, password, limit=100, retreive_all=False):
+def fetch(limit=100, retreive_all=False):
     "Crawl the feeds with the client crawler."
     from pyaggr3g470r.lib.crawler import CrawlerScheduler
-    scheduler = CrawlerScheduler(user, password)
+    scheduler = CrawlerScheduler(conf.API_LOGIN, conf.API_PASSWD)
     scheduler.run(limit=limit, retreive_all=retreive_all)
     scheduler.wait()
 
@@ -65,6 +65,10 @@ def fetch_asyncio(user_id, feed_id):
                 g.user = user
                 feed_getter = crawler.retrieve_feed(loop, g.user, feed_id)
         loop.close()
+
+from scripts.probes import ArticleProbe, FeedProbe
+manager.add_command('probe_articles', ArticleProbe())
+manager.add_command('probe_feeds', FeedProbe())
 
 if __name__ == '__main__':
     manager.run()
