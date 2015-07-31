@@ -48,7 +48,7 @@ def try_get_b64icon(url, *splits):
         response = requests.get(rb_url, verify=False, timeout=10)
         # if html in content-type, we assume it's a fancy 404 page
         content_type = response.headers.get('content-type', '')
-        if response.ok and 'html' not in content_type:
+        if response.ok and 'html' not in content_type and response.content:
             return content_type + (
                     '\n%s' % base64.b64encode(response.content).decode('utf8'))
     return None
