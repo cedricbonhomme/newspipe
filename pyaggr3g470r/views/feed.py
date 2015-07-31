@@ -14,6 +14,7 @@ from flask.ext.login import login_required
 
 import conf
 from pyaggr3g470r import utils
+from pyaggr3g470r.lib.view_utils import etag_match
 from pyaggr3g470r.lib.feed_utils import construct_feed_from
 from pyaggr3g470r.forms import AddFeedForm
 from pyaggr3g470r.controllers import FeedController, ArticleController
@@ -24,6 +25,7 @@ feed_bp = Blueprint('feed', __name__, url_prefix='/feed')
 
 @feeds_bp.route('/', methods=['GET'])
 @login_required
+@etag_match
 def feeds():
     "Lists the subscribed  feeds in a table."
     art_contr = ArticleController(g.user.id)
@@ -35,6 +37,7 @@ def feeds():
 
 @feed_bp.route('/<int:feed_id>', methods=['GET'])
 @login_required
+@etag_match
 def feed(feed_id=None):
     "Presents detailed information about a feed."
     feed = FeedController(g.user.id).get(id=feed_id)
@@ -138,6 +141,7 @@ def update(action, feed_id=None):
 @feed_bp.route('/create', methods=['GET'])
 @feed_bp.route('/edit/<int:feed_id>', methods=['GET'])
 @login_required
+@etag_match
 def form(feed_id=None):
     action = gettext("Add a feed")
     head_titles = [action]

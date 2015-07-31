@@ -4,6 +4,7 @@
 from flask import Blueprint, g, render_template, redirect
 
 from pyaggr3g470r import controllers, utils
+from pyaggr3g470r.lib.view_utils import etag_match
 from pyaggr3g470r.decorators import pyagg_default_decorator
 
 articles_bp = Blueprint('articles', __name__, url_prefix='/articles')
@@ -19,6 +20,7 @@ def redirect_to_article(article_id):
 
 @article_bp.route('/<int:article_id>', methods=['GET'])
 @pyagg_default_decorator
+@etag_match
 def article(article_id=None):
     """
     Presents the content of an article.
