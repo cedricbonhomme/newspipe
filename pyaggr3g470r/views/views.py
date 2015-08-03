@@ -36,7 +36,7 @@ from collections import OrderedDict
 
 from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
-                  url_for, redirect, g, current_app, make_response, Response
+                  url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, \
                             login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
@@ -48,8 +48,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
-from pyaggr3g470r.lib.utils import to_hash
 from pyaggr3g470r import utils, notifications, export
+from pyaggr3g470r.lib.view_utils import etag_match
 from pyaggr3g470r.models import User, Feed, Article, Role
 from pyaggr3g470r.decorators import feed_access_required
 from pyaggr3g470r.forms import SignupForm, SigninForm, InformationMessageForm,\
@@ -229,6 +229,7 @@ def signup():
     return render_template('signup.html', form=form)
 
 
+@etag_match
 def render_home(filters=None, head_titles=None,
                 page_to_render='home', **kwargs):
     if filters is None:
@@ -292,19 +293,12 @@ def render_home(filters=None, head_titles=None,
             and filter_ != 'all' and not articles:
         return redirect(gen_url(filter_='all'))
 
-    etag = to_hash("".join([str(filters[key]) for key in sorted(filters)])
-                   + "".join([str(art.id) for art in articles]))
-    if request.headers.get('if-none-match') == etag:
-        return Response(status=304, headers={'etag': etag,
-                        'Cache-Control': 'pragma: no-cache'})
-    response = make_response(render_template('home.html', gen_url=gen_url,
-                             feed_id=feed_id, page_to_render=page_to_render,
-                             filter_=filter_, limit=limit, feeds=feeds,
-                             unread=arti_contr.count_by_feed(readed=False),
-                             articles=articles, in_error=in_error,
-                             head_titles=head_titles, sort_=sort_, **kwargs))
-    response.headers['etag'] = etag
-    return response
+    return render_template('home.html', gen_url=gen_url,
+                           feed_id=feed_id, page_to_render=page_to_render,
+                           filter_=filter_, limit=limit, feeds=feeds,
+                           unread=arti_contr.count_by_feed(readed=False),
+                           articles=articles, in_error=in_error,
+                           head_titles=head_titles, sort_=sort_, **kwargs)
 
 
 @app.route('/')
@@ -362,7 +356,9 @@ def fetch(feed_id=None):
                       "for administrator, on the Heroku platform."), "info")
     return redirect(redirect_url())
 
+
 @app.route('/about', methods=['GET'])
+@etag_match
 def about():
     """
     'About' page.

@@ -1,6 +1,5 @@
 import types
 import urllib
-import base64
 import logging
 import requests
 from hashlib import md5
@@ -40,7 +39,7 @@ def rebuild_url(url, base_split):
     return urllib.parse.urlunsplit(new_split)
 
 
-def try_get_b64icon(url, *splits):
+def try_get_icon_url(url, *splits):
     for split in splits:
         if split is None:
             continue
@@ -48,11 +47,11 @@ def try_get_b64icon(url, *splits):
         response = requests.get(rb_url, verify=False, timeout=10)
         # if html in content-type, we assume it's a fancy 404 page
         content_type = response.headers.get('content-type', '')
-        if response.ok and 'html' not in content_type:
-            return content_type + (
-                    '\n%s' % base64.b64encode(response.content).decode('utf8'))
+        if response.ok and 'html' not in content_type and response.content:
+            return response.url
     return None
 
 
 def to_hash(text):
-    return md5(text.encode('utf8')).hexdigest()
+    return md5(text.encode('utf8') if hasattr(text, 'encode') else text)\
+            .hexdigest()

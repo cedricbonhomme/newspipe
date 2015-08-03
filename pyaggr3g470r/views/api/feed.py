@@ -20,7 +20,7 @@ FEED_ATTRS = {'title': {'type': str},
               'site_link': {'type': str},
               'enabled': {'type': bool, 'default': True},
               'etag': {'type': str, 'default': ''},
-              'icon': {'type': str, 'default': ''},
+              'icon_url': {'type': str, 'default': ''},
               'last_modified': {'type': str},
               'last_retrieved': {'type': str},
               'last_error': {'type': str},
@@ -54,7 +54,7 @@ class FetchableFeedAPI(PyAggAbstractResource):
         if g.user.refresh_rate:
             args['refresh_rate'] = g.user.refresh_rate
 
-        if args.pop('retreive_all'):
+        if args.pop('retreive_all', False):
             contr = self.wider_controller
         else:
             contr = self.controller

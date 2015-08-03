@@ -18,6 +18,8 @@ default_max_error = 6
 http_proxy =
 user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
 resolve_article_url = false
+api_login =
+api_passwd =
 [notification]
 notification_email = pyAggr3g470r@no-reply.com
 host = smtp.googlemail.com

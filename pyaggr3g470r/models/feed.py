@@ -35,7 +35,7 @@ class Feed(db.Model):
     """
     Represent a feed.
     """
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(), default="")
     description = db.Column(db.String(), default="FR")
     link = db.Column(db.String())
@@ -43,7 +43,6 @@ class Feed(db.Model):
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.now)
     filters = db.Column(db.PickleType, default=[])
-    icon = db.Column(db.String(), default="")
 
     # cache handling
     etag = db.Column(db.String(), default="")
@@ -55,7 +54,8 @@ class Feed(db.Model):
     error_count = db.Column(db.Integer(), default=0)
 
     # relationship
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     articles = db.relationship('Article', backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
                                order_by=desc("Article.date"))
@@ -71,7 +71,7 @@ class Feed(db.Model):
                 "link": self.link,
                 "site_link": self.site_link,
                 "etag": self.etag,
-                "icon": self.icon,
+                "icon_url": self.icon_url,
                 "error_count": self.error_count,
                 "last_modified": self.last_modified,
                 "last_retrieved": self.last_retrieved}

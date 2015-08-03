@@ -4,7 +4,7 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup, SoupStrainer
 
-from pyaggr3g470r.lib.utils import try_keys, try_get_b64icon, rebuild_url
+from pyaggr3g470r.lib.utils import try_keys, try_get_icon_url, rebuild_url
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         feed['site_link'] = try_keys(fp_parsed['feed'], 'href', 'link')
         feed['title'] = fp_parsed['feed'].get('title')
         feed['description'] = try_keys(fp_parsed['feed'], 'subtitle', 'title')
-        feed['icon'] = try_keys(fp_parsed['feed'], 'icon')
+        feed['icon_url'] = try_keys(fp_parsed['feed'], 'icon')
     else:
         feed['site_link'] = url
 
@@ -37,13 +37,14 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         feed['site_link'] = rebuild_url(feed['site_link'], feed_split)
         site_split = urllib.parse.urlsplit(feed['site_link'])
 
-    if feed.get('icon'):
-        feed['icon'] = try_get_b64icon(feed['icon'], site_split, feed_split)
-        if feed['icon'] is None:
-            del feed['icon']
+    if feed.get('icon_url'):
+        feed['icon_url'] = try_get_icon_url(
+                feed['icon_url'], site_split, feed_split)
+        if feed['icon_url'] is None:
+            del feed['icon_url']
 
     if not feed.get('site_link') or not query_site \
-            or all(bool(feed.get(key)) for key in ('link', 'title', 'icon')):
+            or all(bool(feed.get(k)) for k in ('link', 'title', 'icon_url')):
         return feed
 
     response = requests.get(feed['site_link'], verify=False)
@@ -66,22 +67,22 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             return True
         return wrapper
 
-    if not feed.get('icon'):
+    if not feed.get('icon_url'):
         icons = bs_parsed.find_all(check_keys(rel=['icon', 'shortcut']))
         if not len(icons):
             icons = bs_parsed.find_all(check_keys(rel=['icon']))
         if len(icons) >= 1:
             for icon in icons:
-                feed['icon'] = try_get_b64icon(icon.attrs['href'],
-                                          site_split, feed_split)
-                if feed['icon'] is not None:
+                feed['icon_url'] = try_get_icon_url(icon.attrs['href'],
+                                                    site_split, feed_split)
+                if feed['icon_url'] is not None:
                     break
 
-        if feed.get('icon') is None:
-            feed['icon'] = try_get_b64icon('/favicon.ico',
-                                           site_split, feed_split)
-        if 'icon' in feed and feed['icon'] is None:
-            del feed['icon']
+        if feed.get('icon_url') is None:
+            feed['icon_url'] = try_get_icon_url('/favicon.ico',
+                                                site_split, feed_split)
+        if 'icon_url' in feed and feed['icon_url'] is None:
+            del feed['icon_url']
 
     if not feed.get('link'):
         alternates = bs_parsed.find_all(check_keys(rel=['alternate'],

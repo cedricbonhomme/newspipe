@@ -125,7 +125,7 @@ class PyAggUpdater(AbstractCrawler):
             entry = construct_article(
                     self.entries[tuple(sorted(id_to_create.items()))],
                     self.feed)
-            logger.warn('%r %r - creating %r for %r - %r', self.feed['id'],
+            logger.info('%r %r - creating %r for %r - %r', self.feed['id'],
                         self.feed['title'], entry['title'], entry['user_id'],
                         id_to_create)
             self.query_pyagg('post', 'article', entry)
@@ -141,7 +141,7 @@ class PyAggUpdater(AbstractCrawler):
                                     strftime('%a, %d %b %Y %X %Z', gmtime()))}
         fresh_feed = construct_feed_from(url=self.feed['link'],
                                          fp_parsed=self.parsed_feed)
-        for key in ('description', 'site_link', 'icon'):
+        for key in ('description', 'site_link', 'icon_url'):
             if fresh_feed.get(key) and fresh_feed[key] != self.feed.get(key):
                 up_feed[key] = fresh_feed[key]
         if not self.feed.get('title'):
@@ -152,11 +152,12 @@ class PyAggUpdater(AbstractCrawler):
             up_feed['last_retrieved'] \
                     = (datetime.now() - timedelta(minutes=45)).isoformat()
 
-        logger.info('%r %r - pushing feed attrs %r',
+        if any([up_feed[key] != self.feed.get(key) for key in up_feed]):
+            logger.warn('%r %r - pushing feed attrs %r',
                     self.feed['id'], self.feed['title'],
                     {key: "%s -> %s" % (up_feed[key], self.feed.get(key))
                      for key in up_feed if up_feed[key] != self.feed.get(key)})
-        if any([up_feed[key] != self.feed.get(key) for key in up_feed]):
+
             future = self.query_pyagg('put',
                     'feed/%d' % self.feed['id'], up_feed)
             future.add_done_callback(self.get_counter_callback())
