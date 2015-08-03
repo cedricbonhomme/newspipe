@@ -21,9 +21,11 @@
 
 import logging
 from datetime import datetime, timedelta
+from werkzeug.exceptions import NotFound
 
 import conf
 from .abstract import AbstractController
+from .icon import IconController
 from pyaggr3g470r.models import Feed
 
 logger = logging.getLogger(__name__)
@@ -52,3 +54,20 @@ class FeedController(AbstractController):
             self.update({'id__in': [feed.id for feed in feeds]},
                         {'last_retrieved': now})
         return feeds
+
+    def _ensure_icon(self, attrs):
+        if not attrs.get('icon_url'):
+            return
+        icon_contr = IconController()
+        try:
+            icon_contr.get(url=attrs['icon_url'])
+        except NotFound:
+            icon_contr.create(**{'url': attrs['icon_url']})
+
+    def create(self, **attrs):
+        self._ensure_icon(attrs)
+        return super().create(**attrs)
+
+    def update(self, filters, attrs):
+        self._ensure_icon(attrs)
+        return super().update(filters, attrs)

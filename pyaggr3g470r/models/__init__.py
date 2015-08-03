@@ -30,8 +30,9 @@ from .feed import Feed
 from .role import Role
 from .user import User
 from .article import Article
+from .icon import Icon
 
-__all__ = ['Feed', 'Role', 'User', 'Article']
+__all__ = ['Feed', 'Role', 'User', 'Article', 'Icon']
 
 import os
 

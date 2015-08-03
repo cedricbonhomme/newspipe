@@ -141,7 +141,7 @@ class PyAggUpdater(AbstractCrawler):
                                     strftime('%a, %d %b %Y %X %Z', gmtime()))}
         fresh_feed = construct_feed_from(url=self.feed['link'],
                                          fp_parsed=self.parsed_feed)
-        for key in ('description', 'site_link', 'icon'):
+        for key in ('description', 'site_link', 'icon_url'):
             if fresh_feed.get(key) and fresh_feed[key] != self.feed.get(key):
                 up_feed[key] = fresh_feed[key]
         if not self.feed.get('title'):

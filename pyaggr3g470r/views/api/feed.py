@@ -3,7 +3,6 @@
 
 from flask import g
 
-import conf
 from pyaggr3g470r.controllers.feed import (FeedController,
                                            DEFAULT_MAX_ERROR,
                                            DEFAULT_LIMIT,
@@ -21,7 +20,7 @@ FEED_ATTRS = {'title': {'type': str},
               'site_link': {'type': str},
               'enabled': {'type': bool, 'default': True},
               'etag': {'type': str, 'default': ''},
-              'icon': {'type': str, 'default': ''},
+              'icon_url': {'type': str, 'default': ''},
               'last_modified': {'type': str},
               'last_retrieved': {'type': str},
               'last_error': {'type': str},

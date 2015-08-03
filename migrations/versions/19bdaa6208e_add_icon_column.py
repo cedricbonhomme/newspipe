@@ -1,4 +1,4 @@
-"""empty message
+"""adding icon columns
 
 Revision ID: 19bdaa6208e
 Revises: 422da2d0234

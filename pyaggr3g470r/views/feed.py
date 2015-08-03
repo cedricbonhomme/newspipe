@@ -200,20 +200,3 @@ def process_form(feed_id=None):
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
-
-
-@feed_bp.route('/icon/<int:feed_id>', methods=['GET'])
-@login_required
-def icon(feed_id):
-    icon = FeedController(None if g.user.is_admin() else g.user.id)\
-            .get(id=feed_id).icon
-    etag = md5(icon.encode('utf8')).hexdigest()
-    headers = {'Cache-Control': 'max-age=86400', 'etag': etag}
-    if request.headers.get('if-none-match') == etag:
-        return Response(status=304, headers=headers)
-    if '\n' in icon:
-        content_type, *_, icon = icon.split()
-        headers['content-type'] = content_type
-    else:
-        headers['content-type'] = 'application/image'
-    return Response(base64.b64decode(icon), headers=headers)

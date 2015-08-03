@@ -45,8 +45,10 @@ class FeedProbe(AbstractMuninPlugin):
 
     def execute(self):
         delta = datetime.now() - timedelta(minutes=LATE_AFTER + FETCH_RATE + 1)
+        total = FeedController().read().count()
 
-        print("feeds.value %d" % len(FeedController().list_late(delta)))
+        print("feeds.value %d"
+                % len(FeedController().list_late(delta, limit=total)))
         print("feeds_total.value %d" % FeedController().read().count())
 
 

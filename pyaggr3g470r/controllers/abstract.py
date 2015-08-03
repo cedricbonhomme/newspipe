@@ -65,7 +65,8 @@ class AbstractController(object):
         dependant) and the user is not an admin and the filters doesn't already
         contains a filter for that user.
         """
-        if self.user_id and filters.get(self._user_id_key) != self.user_id:
+        if self._user_id_key is not None and self.user_id \
+                and filters.get(self._user_id_key) != self.user_id:
             filters[self._user_id_key] = self.user_id
         return self._db_cls.query.filter(*self._to_filters(**filters))
 
@@ -82,10 +83,11 @@ class AbstractController(object):
         return obj
 
     def create(self, **attrs):
-        assert self._user_id_key in attrs or self.user_id is not None, \
+        assert self._user_id_key is None or self._user_id_key in attrs \
+                or self.user_id is not None, \
                 "You must provide user_id one way or another"
 
-        if self._user_id_key not in attrs:
+        if self._user_id_key is not None and self._user_id_key not in attrs:
             attrs[self._user_id_key] = self.user_id
         obj = self._db_cls(**attrs)
         db.session.add(obj)
@@ -108,5 +110,7 @@ class AbstractController(object):
 
     def _has_right_on(self, obj):
         # user_id == None is like being admin
+        if self._user_id_key is None:
+            return True
         return self.user_id is None \
                 or getattr(obj, self._user_id_key, None) == self.user_id
