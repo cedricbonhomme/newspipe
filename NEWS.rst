@@ -1,10 +1,21 @@
             pyAggr3g470r project news
 
+6.7: 2015-07-21
+    New:
+     * a filter mechanism for feeds has been added (PR #14);
+     * icon of feeds is now an url retrieved from the feed or the site link (PR #15).
+    Improvements:
+     * improvements for the bookmarklet (PR #16 and PR #18);
+     * performance improvements (display of the /feed page);
+     * enhancements for the two crawlers;
+     * enhancements of the UI (PR #14);
+     * misc changes to the models and controllers.
+
 6.6: 2015-06-02
     New:
      * it is now possible to sort the list of articles by feed title or
      article title;
-     * added base unittests. 
+     * added base unittests.
     Improvements:
      * fixed some minor bugs;
      * improved the asyncio crawler;
@@ -31,7 +42,7 @@
      * improvements on the controllers;
      * the minimum error count is now specified in the configuration file.
 
-6.5: 2015-04-07 
+6.5: 2015-04-07
     Improvements:
      * new CSS;
      * improved installation script;
