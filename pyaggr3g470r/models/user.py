@@ -59,9 +59,9 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         """
-        Return the id (email) of the user.
+        Return the id of the user.
         """
-        return self.email
+        return self.id
 
     def set_password(self, password):
         """

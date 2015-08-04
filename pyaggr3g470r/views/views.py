@@ -94,9 +94,9 @@ def before_request():
         db.session.commit()
 
 @login_manager.user_loader
-def load_user(email):
+def load_user(id):
     # Return an instance of the User model
-    return UserController().get(email=email)
+    return UserController().get(id=id)
 
 
 #
