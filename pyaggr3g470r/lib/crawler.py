@@ -116,19 +116,21 @@ class PyAggUpdater(AbstractCrawler):
         """Will process the result from the challenge, creating missing article
         and updating the feed"""
         AbstractCrawler.__counter__ -= 1
-        results = response.result().json()
-        logger.debug('%r %r - %d entries were not matched and will be created',
-                     self.feed['id'], self.feed['title'], len(results))
         article_created = False
-        for id_to_create in results:
-            article_created = True
-            entry = construct_article(
-                    self.entries[tuple(sorted(id_to_create.items()))],
-                    self.feed)
-            logger.info('%r %r - creating %r for %r - %r', self.feed['id'],
-                        self.feed['title'], entry['title'], entry['user_id'],
-                        id_to_create)
-            self.query_pyagg('post', 'article', entry)
+        if response.result().status_code != 204:
+            results = response.result().json()
+            logger.debug('%r %r - %d entries were not matched '
+                         'and will be created',
+                         self.feed['id'], self.feed['title'], len(results))
+            for id_to_create in results:
+                article_created = True
+                entry = construct_article(
+                        self.entries[tuple(sorted(id_to_create.items()))],
+                        self.feed)
+                logger.info('%r %r - creating %r for %r - %r', self.feed['id'],
+                            self.feed['title'], entry['title'],
+                            entry['user_id'], id_to_create)
+                self.query_pyagg('post', 'article', entry)
 
         logger.debug('%r %r - updating feed etag %r last_mod %r',
                      self.feed['id'], self.feed['title'],
@@ -263,6 +265,9 @@ class CrawlerScheduler(AbstractCrawler):
         AbstractCrawler.__counter__ -= 1
         response = response.result()
         response.raise_for_status()
+        if response.status_code == 204:
+            logger.debug("No feed to fetch")
+            return
         feeds = response.json()
         logger.debug('%d to fetch %r', len(feeds), feeds)
         for feed in feeds:

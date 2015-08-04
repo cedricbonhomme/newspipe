@@ -58,7 +58,8 @@ class FetchableFeedAPI(PyAggAbstractResource):
             contr = self.wider_controller
         else:
             contr = self.controller
-        return [feed for feed in contr.list_fetchable(**args)]
+        result = [feed for feed in contr.list_fetchable(**args)]
+        return result or None, 200 if result else 204
 
 
 g.api.add_resource(FeedNewAPI, '/feed', endpoint='feed_new.json')
