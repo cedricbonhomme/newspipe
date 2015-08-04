@@ -26,14 +26,16 @@ __revision__ = "$Date: 2015/05/06 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from flask import flash
+
+from flask import flash, request, url_for, redirect
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
-        SubmitField, IntegerField, validators
+        SubmitField, IntegerField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
 from flask_wtf import RecaptchaField
 
+from pyaggr3g470r import utils
 from pyaggr3g470r.models import User
 
 class SignupForm(Form):
@@ -59,8 +61,24 @@ class SignupForm(Form):
             validated = False
         return validated
 
+class RedirectForm(Form):
+    """
+    Secure back redirects with WTForms.
+    """
+    next = HiddenField()
 
-class SigninForm(Form):
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+        if not self.next.data:
+            self.next.data = utils.get_redirect_target() or ''
+
+    def redirect(self, endpoint='home', **values):
+        if utils.is_safe_url(self.next.data):
+            return redirect(self.next.data)
+        target = utils.get_redirect_target()
+        return redirect(target or url_for(endpoint, **values))
+
+class SigninForm(RedirectForm):
     """
     Sign in form (connection to pyAggr3g470r).
     """

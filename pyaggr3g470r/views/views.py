@@ -38,7 +38,8 @@ from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, \
-                            login_required, current_user, AnonymousUserMixin
+                            login_required, current_user, AnonymousUserMixin, \
+                            login_url
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
@@ -65,6 +66,10 @@ admin_permission = Permission(RoleNeed('admin'))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_message = gettext('Authentication required.')
+login_manager.login_message_category = "info"
+login_manager.login_view = 'login'
+
 logger = logging.getLogger(__name__)
 
 #
@@ -98,7 +103,6 @@ def load_user(id):
     # Return an instance of the User model
     return UserController().get(id=id)
 
-
 #
 # Custom error pages.
 #
@@ -110,7 +114,7 @@ def authentication_required(e):
 @app.errorhandler(403)
 def authentication_failed(e):
     flash(gettext('Forbidden.'), 'danger')
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -151,10 +155,8 @@ def login():
     """
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('home'))
-
     g.user = AnonymousUserMixin()
     form = SigninForm()
-
     if form.validate_on_submit():
         user = UserController().get(email=form.email.data)
         login_user(user)
@@ -162,9 +164,8 @@ def login():
         session['email'] = form.email.data
         identity_changed.send(current_app._get_current_object(),
                               identity=Identity(user.id))
-        return redirect(url_for('home'))
+        return form.redirect('home')
     return render_template('login.html', form=form)
-
 
 @app.route('/logout')
 @login_required
