@@ -21,7 +21,6 @@
 
 import logging
 from datetime import datetime, timedelta
-from werkzeug.exceptions import NotFound
 
 import conf
 from .abstract import AbstractController
@@ -59,9 +58,7 @@ class FeedController(AbstractController):
         if not attrs.get('icon_url'):
             return
         icon_contr = IconController()
-        try:
-            icon_contr.get(url=attrs['icon_url'])
-        except NotFound:
+        if not icon_contr.read(url=attrs['icon_url']).count():
             icon_contr.create(**{'url': attrs['icon_url']})
 
     def create(self, **attrs):
