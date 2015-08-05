@@ -132,10 +132,9 @@ def update(action, feed_id=None):
     readed = action == 'read'
     filters = {'readed__ne': readed}
 
-    nb_days = request.args.get('nb_days', None)
-    if nb_days is not None:
-        delete_before = datetime.now() - timedelta(days=int(nb_days))
-        filters['date__lt'] = delete_before
+    nb_days = request.args.get('nb_days', 0, type=int)
+    if nb_days != 0:
+        filters['date__lt'] = datetime.now() - timedelta(days=nb_days)
 
     if feed_id:
         filters['feed_id'] = feed_id
