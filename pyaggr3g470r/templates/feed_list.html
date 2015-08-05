@@ -23,7 +23,7 @@
                     {% else %}
                         <i class="glyphicon glyphicon-eye-close" title="{{ _('Feed disabled') }}"></i>
                     {% endif %}
-                    {% if feed.error_count > conf.DEFAULT_MAX_ERROR %}
+                    {% if feed.error_count >= conf.DEFAULT_MAX_ERROR %}
                         <i class="glyphicon glyphicon-exclamation-sign" title="{{ _('Feed encountered too much errors.') }}"></i>
                     {% endif %}
                 </td>

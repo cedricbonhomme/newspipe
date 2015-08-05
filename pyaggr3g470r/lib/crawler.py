@@ -167,7 +167,8 @@ class FeedCrawler(AbstractCrawler):
                          self.feed['title'], error_count)
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                                       {'error_count': error_count,
-                                       'last_error': str(error)})
+                                       'last_error': str(error),
+                                       'user_id': self.feed['user_id']})
             return
 
         if response.status_code == 304:
