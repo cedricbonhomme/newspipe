@@ -67,6 +67,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Feed') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for("feeds.update", action="read") }}">{{ _('Mark all as read') }}</a></li>
+                        <li><a href="{{ url_for("feeds.update", action="read", nb_days="1") }}">{{ _('Mark all as read older than yesterday') }}</a></li>
+                        <li><a href="{{ url_for("feeds.update", action="read", nb_days="10") }}">{{ _('Mark all as read older than 10 days') }}</a></li>
                         <li role="presentation" class="divider"></li>
                         <li><a href="{{ url_for("inactives") }}">{{ _('Inactive') }}</a></li>
                         <li><a href="{{ url_for("history") }}">{{ _('History') }}</a></li>

@@ -3,7 +3,7 @@
 import base64
 import requests.exceptions
 from hashlib import md5
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
@@ -131,6 +131,12 @@ def bookmarklet():
 def update(action, feed_id=None):
     readed = action == 'read'
     filters = {'readed__ne': readed}
+
+    nb_days = request.args.get('nb_days', None)
+    if nb_days is not None:
+        delete_before = datetime.now() - timedelta(days=int(nb_days))
+        filters['date__lt'] = delete_before
+
     if feed_id:
         filters['feed_id'] = feed_id
     ArticleController(g.user.id).update(filters, {'readed': readed})
