@@ -161,17 +161,17 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
-        if 'application/json' not in request.headers.get('Content-Type'):
-            raise BadRequest("Content-Type must be application/json")
-        limit = 10
         try:
             limit = request.json.pop('limit', 10)
+            order_by = request.json.pop('order_by', None)
+            query = self.controller.read(**request.json)
         except:
-            return [res for res in self.controller.read().limit(limit)]
-        if not limit:
-            return [res for res in self.controller.read(**request.json).all()]
-        return [res
-                for res in self.controller.read(**request.json).limit(limit)]
+            limit, order_by, query = 10, None, self.controller.read()
+        if order_by:
+            query = query.order_by(order_by)
+        if limit:
+            query = query.limit(limit)
+        return [res for res in query]
 
     def post(self):
         """creating several objects. payload should be a list of dict.
