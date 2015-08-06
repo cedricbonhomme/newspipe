@@ -33,10 +33,8 @@ API_ROOT = "api/v2.0/"
 
 class AbstractCrawler:
     __session__ = None
-    __counter__ = 0
 
     def __init__(self, auth):
-        AbstractCrawler.__counter__ += 1
         self.auth = auth
         self.session = self.get_session()
         self.url = conf.PLATFORM_URL
@@ -49,30 +47,6 @@ class AbstractCrawler:
                     executor=ThreadPoolExecutor(max_workers=conf.NB_WORKER))
             cls.__session__.verify = False
         return cls.__session__
-
-    @classmethod
-    def count_on_me(cls, func):
-        """A basic decorator which will count +1 at the begining of a call
-        and -1 at the end. It kinda allows us to wait for the __counter__ value
-        to be 0, meaning nothing is done anymore."""
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            cls.__counter__ += 1
-            try:
-                return func(*args, **kwargs)
-            except:
-                logger.exception('an error occured while %r', func)
-            finally:
-                cls.__counter__ -= 1
-        return wrapper
-
-    @classmethod
-    def get_counter_callback(cls):
-        cls.__counter__ += 1
-
-        def debump(*args, **kwargs):
-            cls.__counter__ -= 1
-        return debump
 
     def query_pyagg(self, method, urn, data=None):
         """A wrapper for internal call, method should be ones you can find
@@ -89,17 +63,23 @@ class AbstractCrawler:
                                'User-Agent': 'pyaggr3g470r'})
 
     @classmethod
-    def wait(cls, max_wait=600):
+    def wait(cls, max_wait=300, checks=5, wait_for=2):
         "See count_on_me, that method will just wait for the counter to be 0"
-        time.sleep(1)
-        second_waited = 1
-        while cls.__counter__:
+        checked, second_waited = 0, 0
+        checked = 0
+        while True:
+            time.sleep(wait_for)
+            second_waited += wait_for
             if second_waited > max_wait:
                 logger.warn('Exiting after %d seconds, counter at %d',
-                            max_wait, cls.__counter__)
+                            max_wait, len(cls.__counter__))
                 break
-            time.sleep(1)
-            second_waited += 1
+            if cls.get_session().executor._work_queue.queue:
+                checked = 0
+                continue 
+            checked += 1
+            if checked == checks:
+                break 
 
 
 class PyAggUpdater(AbstractCrawler):
@@ -109,26 +89,26 @@ class PyAggUpdater(AbstractCrawler):
         self.entries = entries
         self.headers = headers
         self.parsed_feed = parsed_feed
-        super(PyAggUpdater, self).__init__(auth)
+        super().__init__(auth)
 
-    @AbstractCrawler.count_on_me
     def callback(self, response):
         """Will process the result from the challenge, creating missing article
         and updating the feed"""
-        AbstractCrawler.__counter__ -= 1
-        results = response.result().json()
-        logger.debug('%r %r - %d entries were not matched and will be created',
-                     self.feed['id'], self.feed['title'], len(results))
         article_created = False
-        for id_to_create in results:
-            article_created = True
-            entry = construct_article(
-                    self.entries[tuple(sorted(id_to_create.items()))],
-                    self.feed)
-            logger.info('%r %r - creating %r for %r - %r', self.feed['id'],
-                        self.feed['title'], entry['title'], entry['user_id'],
-                        id_to_create)
-            self.query_pyagg('post', 'article', entry)
+        if response.result().status_code != 204:
+            results = response.result().json()
+            logger.debug('%r %r - %d entries were not matched '
+                         'and will be created',
+                         self.feed['id'], self.feed['title'], len(results))
+            for id_to_create in results:
+                article_created = True
+                entry = construct_article(
+                        self.entries[tuple(sorted(id_to_create.items()))],
+                        self.feed)
+                logger.info('%r %r - creating %r for %r - %r', self.feed['id'],
+                            self.feed['title'], entry['title'],
+                            entry['user_id'], id_to_create)
+                self.query_pyagg('post', 'article', entry)
 
         logger.debug('%r %r - updating feed etag %r last_mod %r',
                      self.feed['id'], self.feed['title'],
@@ -160,27 +140,23 @@ class PyAggUpdater(AbstractCrawler):
 
             future = self.query_pyagg('put',
                     'feed/%d' % self.feed['id'], up_feed)
-            future.add_done_callback(self.get_counter_callback())
 
 
 class FeedCrawler(AbstractCrawler):
 
     def __init__(self, feed, auth):
         self.feed = feed
-        super(FeedCrawler, self).__init__(auth)
+        super().__init__(auth)
 
     def clean_feed(self):
         """Will reset the errors counters on a feed that have known errors"""
         if self.feed.get('error_count') or self.feed.get('last_error'):
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                                       {'error_count': 0, 'last_error': ''})
-            future.add_done_callback(self.get_counter_callback())
 
-    @AbstractCrawler.count_on_me
     def callback(self, response):
         """will fetch the feed and interprete results (304, etag) or will
         challenge pyagg to compare gotten entries with existing ones"""
-        AbstractCrawler.__counter__ -= 1
         try:
             response = response.result()
             response.raise_for_status()
@@ -191,8 +167,8 @@ class FeedCrawler(AbstractCrawler):
                          self.feed['title'], error_count)
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                                       {'error_count': error_count,
-                                       'last_error': str(error)})
-            future.add_done_callback(self.get_counter_callback())
+                                       'last_error': str(error),
+                                       'user_id': self.feed['user_id']})
             return
 
         if response.status_code == 304:
@@ -244,7 +220,6 @@ class CrawlerScheduler(AbstractCrawler):
     def __init__(self, username, password):
         self.auth = (username, password)
         super(CrawlerScheduler, self).__init__(self.auth)
-        AbstractCrawler.__counter__ = 0
 
     def prepare_headers(self, feed):
         """For a known feed, will construct some header dictionnary"""
@@ -257,12 +232,13 @@ class CrawlerScheduler(AbstractCrawler):
                      feed['id'], feed['title'], headers)
         return headers
 
-    @AbstractCrawler.count_on_me
     def callback(self, response):
         """processes feeds that need to be fetched"""
-        AbstractCrawler.__counter__ -= 1
         response = response.result()
         response.raise_for_status()
+        if response.status_code == 204:
+            logger.debug("No feed to fetch")
+            return
         feeds = response.json()
         logger.debug('%d to fetch %r', len(feeds), feeds)
         for feed in feeds:
@@ -272,11 +248,9 @@ class CrawlerScheduler(AbstractCrawler):
                                       headers=self.prepare_headers(feed))
             future.add_done_callback(FeedCrawler(feed, self.auth).callback)
 
-    @AbstractCrawler.count_on_me
     def run(self, **kwargs):
         """entry point, will retreive feeds to be fetch
         and launch the whole thing"""
         logger.debug('retreving fetchable feed')
         future = self.query_pyagg('get', 'feeds/fetchable', kwargs)
-        AbstractCrawler.__counter__ += 1
         future.add_done_callback(self.callback)

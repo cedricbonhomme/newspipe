@@ -718,8 +718,10 @@ def create_user(user_id=None):
                 user.activation_key = ""
                 db.session.add(user)
                 db.session.commit()
-                flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully created.'), 'success')
-            return redirect("/admin/edit_user/"+str(user.id))
+                flash("%s %s %s" % (gettext('User'), user.nickname,
+                                    gettext('successfully created.')),
+                      'success')
+            return redirect(url_for('create_user', user_id=user.id))
         else:
             return redirect(url_for('create_user'))
 
@@ -727,11 +729,13 @@ def create_user(user_id=None):
         if user_id is not None:
             user = User.query.filter(User.id == user_id).first()
             form = UserForm(obj=user)
-            message = gettext('Edit the user') + ' <i>' + user.nickname + '</i>'
+            message = "%s <i>%s</i>" % (gettext('Edit the user'),
+                                        user.nickname)
         else:
             form = UserForm()
             message = gettext('Add a new user')
-        return render_template('/admin/create_user.html', form=form, message=message)
+        return render_template('/admin/create_user.html',
+                               form=form, message=message)
 
 @app.route('/admin/user/<int:user_id>', methods=['GET'])
 @login_required
@@ -743,10 +747,9 @@ def user(user_id=None):
     user = UserController().get(id=user_id)
     if user is not None:
         article_contr = ArticleController(user_id)
-        return render_template('/admin/user.html', user=user,
+        return render_template('/admin/user.html', user=user, feeds=user.feeds,
                 article_count=article_contr.count_by_feed(),
-                unread_article_count=article_contr.count_by_feed(readed=False),
-                )
+                unread_article_count=article_contr.count_by_feed(readed=False))
 
     else:
         flash(gettext('This user does not exist.'), 'danger')
