@@ -13,12 +13,15 @@ from web.views.api.common import PyAggAbstractResource,\
 
 ARTICLE_ATTRS = {'user_id': {'type': int},
                  'feed_id': {'type': int},
+                 'category_id': {'type': int},
                  'entry_id': {'type': str},
                  'link': {'type': str},
                  'title': {'type': str},
-                 'readed': {'type': bool}, 'like': {'type': bool},
+                 'readed': {'type': bool},
+                 'like': {'type': bool},
                  'content': {'type': str},
-                 'date': {'type': str}, 'retrieved_date': {'type': str}}
+                 'date': {'type': str},
+                 'retrieved_date': {'type': str}}
 
 
 class ArticleNewAPI(PyAggResourceNew):

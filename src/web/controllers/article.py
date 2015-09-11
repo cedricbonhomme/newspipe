@@ -34,8 +34,7 @@ class ArticleController(AbstractController):
                               .group_by(Article.feed_id).all())
 
     def count_by_user_id(self, **filters):
-        return dict(db.session.query(Article.user_id,
-                                            func.count(Article.id))
+        return dict(db.session.query(Article.user_id, func.count(Article.id))
                               .filter(*self._to_filters(**filters))
                               .group_by(Article.user_id).all())
 

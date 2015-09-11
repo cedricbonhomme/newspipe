@@ -12,12 +12,14 @@ Migrate(application, db)
 manager = Manager(application)
 manager.add_command('db', MigrateCommand)
 
+
 @manager.command
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         populate_g()
         web.models.db_empty(db)
+
 
 @manager.command
 def db_create():
@@ -26,6 +28,7 @@ def db_create():
         populate_g()
         web.models.db_create(db)
 
+
 @manager.command
 def fetch(limit=100, retreive_all=False):
     "Crawl the feeds with the client crawler."
@@ -33,6 +36,7 @@ def fetch(limit=100, retreive_all=False):
     scheduler = CrawlerScheduler(conf.API_LOGIN, conf.API_PASSWD)
     scheduler.run(limit=limit, retreive_all=retreive_all)
     scheduler.wait()
+
 
 @manager.command
 def fetch_asyncio(user_id, feed_id):
@@ -63,7 +67,7 @@ def fetch_asyncio(user_id, feed_id):
             if user.activation_key == "":
                 print("Fetching articles for " + user.nickname)
                 g.user = user
-                feed_getter = crawler.retrieve_feed(loop, g.user, feed_id)
+                crawler.retrieve_feed(loop, g.user, feed_id)
         loop.close()
 
 from scripts.probes import ArticleProbe, FeedProbe
