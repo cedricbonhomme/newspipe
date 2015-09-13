@@ -45,6 +45,8 @@ function change_unread_counter(feed_id, increment) {
       }
     });
 
+
+
     // Mark an article as read or unread.
     $('.readed').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
@@ -102,11 +104,13 @@ function change_unread_counter(feed_id, increment) {
     // Like or unlike an article
     $('.like').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
-
         var data;
         if ($(this).hasClass("glyphicon-star")) {
             data = JSON.stringify({like: false})
             $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+            if(window.location.pathname.indexOf('/favorites') != -1) {
+                $(this).parent().parent().parent().remove();
+            }
         }
         else {
             data = JSON.stringify({like: true})
@@ -131,6 +135,8 @@ function change_unread_counter(feed_id, increment) {
         });
     });
 
+
+
     // Delete an article
     $('.delete').on('click', function() {
         var feed_id = $(this).parent().parent().parent().attr("data-feed");
@@ -149,6 +155,8 @@ function change_unread_counter(feed_id, increment) {
             }
         });
     });
+
+
 
     // Delete all duplicate articles (used in the page /duplicates)
     $('.delete-all').click(function(){
