@@ -93,7 +93,7 @@ def on_identity_loaded(sender, identity):
 @app.before_request
 def before_request():
     g.user = current_user
-    if g.user.is_authenticated():
+    if g.user.is_authenticated:
         g.user.last_seen = datetime.datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
@@ -153,7 +153,7 @@ def login():
     """
     Log in view.
     """
-    if g.user is not None and g.user.is_authenticated():
+    if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('home'))
     g.user = AnonymousUserMixin()
     form = SigninForm()
@@ -197,7 +197,7 @@ def signup():
     if int(os.environ.get("SELF_REGISTRATION", 0)) != 1:
         flash(gettext("Self-registration is disabled."), 'warning')
         return redirect(url_for('home'))
-    if g.user is not None and g.user.is_authenticated():
+    if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('home'))
 
     form = SignupForm()

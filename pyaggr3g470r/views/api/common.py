@@ -45,7 +45,7 @@ def authenticate(func):
         if not getattr(func, 'authenticated', True):
             logged_in = True
         # authentication based on the session (already logged on the site)
-        elif 'email' in session or g.user.is_authenticated():
+        elif 'email' in session or g.user.is_authenticated:
             logged_in = True
         else:
             # authentication via HTTP only
