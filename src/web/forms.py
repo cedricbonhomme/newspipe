@@ -31,7 +31,7 @@ from flask import flash, url_for, redirect
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
-        SubmitField, IntegerField, validators, HiddenField
+        SubmitField, IntegerField, SelectField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
 from flask_wtf import RecaptchaField
 
@@ -170,6 +170,13 @@ class AddFeedForm(Form):
     site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
+    category_id = SelectField(lazy_gettext("Category of the feed"),
+                              [validators.Optional()])
+
+    def set_category_choices(self, categories):
+        self.category_id.choices = [('0', 'No Category')]
+        self.category_id.choices += [(str(cat.id), cat.name)
+                                      for cat in categories]
 
 
 class AddCategoryForm(Form):

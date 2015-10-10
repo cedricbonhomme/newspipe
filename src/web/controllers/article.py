@@ -45,7 +45,7 @@ class ArticleController(AbstractController):
                 attrs.get('user_id', self.user_id)).get(id=attrs['feed_id'])
         if 'user_id' in attrs:
             assert feed.user_id == attrs['user_id'] or self.user_id is None
-        attrs['user_id'] = feed.user_id
+        attrs['user_id'], attrs['category_id'] = feed.user_id, feed.category_id
 
         # handling feed's filters
         for filter_ in feed.filters or []:

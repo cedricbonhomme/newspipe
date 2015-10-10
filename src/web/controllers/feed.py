@@ -66,5 +66,12 @@ class FeedController(AbstractController):
         return super().create(**attrs)
 
     def update(self, filters, attrs):
+        from .article import ArticleController
         self._ensure_icon(attrs)
-        return super().update(filters, attrs)
+        result = super().update(filters, attrs)
+        if 'category_id' in attrs:
+            art_contr = ArticleController(self.user_id)
+            for feed in self.read(**filters):
+                art_contr.update({'feed_id': feed.id},
+                                 {'category_id': feed.category_id})
+        return result
