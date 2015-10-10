@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 
-from flask import flash, request, url_for, redirect
+from flask import flash, url_for, redirect
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
@@ -57,7 +57,9 @@ class SignupForm(Form):
     def validate(self):
         validated = super(SignupForm, self).validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(lazy_gettext(
+                    'This nickname has invalid characters. '
+                    'Please use letters, numbers, dots and underscores only.'))
             validated = False
         return validated
 
@@ -102,7 +104,6 @@ class SigninForm(RedirectForm):
             return False
         else:
             flash(lazy_gettext('Invalid email or password'), 'danger')
-            #self.email.errors.append("Invalid email or password")
             return False
 
 
@@ -124,7 +125,9 @@ class UserForm(Form):
     def validate(self):
         validated = super(UserForm, self).validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(lazy_gettext(
+                    'This nickname has invalid characters. '
+                    'Please use letters, numbers, dots and underscores only.'))
             validated = False
         return validated
 
@@ -168,10 +171,10 @@ class AddFeedForm(Form):
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
-    def validate(self):
-        if not super(AddFeedForm, self).validate():
-            return False
-        return True
+
+class AddCategoryForm(Form):
+    name = TextField(lazy_gettext("Name"))
+    submit = SubmitField(lazy_gettext("Sign up"))
 
 
 class InformationMessageForm(Form):
@@ -201,5 +204,4 @@ class RecoverPasswordForm(Form):
             return False
         else:
             flash(lazy_gettext('Invalid email.'), 'danger')
-            #self.email.errors.append("Invalid email")
             return False
