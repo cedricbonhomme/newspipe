@@ -81,12 +81,12 @@
                         <div><span class="glyphicon glyphicon-user"></span>&nbsp;<b class="caret"></b></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url_for("profile") }}"><span class="glyphicon glyphicon-user"></span> {{ _('Profile') }}</a></li>
-                        <li><a href="{{ url_for("management") }}"><span class="glyphicon glyphicon-cog"></span> {{ _('Your data') }}</a></li>
+                        <li><a href="{{ url_for("user.profile") }}"><span class="glyphicon glyphicon-user"></span> {{ _('Profile') }}</a></li>
+                        <li><a href="{{ url_for("user.management") }}"><span class="glyphicon glyphicon-cog"></span> {{ _('Your data') }}</a></li>
                         <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span> {{ _('About') }}</a></li>
                         {% if g.user.is_admin() %}
                         <li role="presentation" class="divider"></li>
-                        <li><a href="{{ url_for("dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
+                        <li><a href="{{ url_for("admin.dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                         <li role="presentation" class="divider"></li>
                         {% endif %}
                         <li><a href="{{ url_for("logout") }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>

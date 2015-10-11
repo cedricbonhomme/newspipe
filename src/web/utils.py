@@ -112,7 +112,7 @@ def fetch(id, feed_id=None):
     """
     cmd = [sys.executable, conf.BASE_DIR+'/manager.py', 'fetch_asyncio', str(id),
             str(feed_id)]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    return subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def history(user_id, year=None, month=None):
     """

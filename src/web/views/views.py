@@ -53,8 +53,7 @@ from web import utils, notifications, export
 from web.lib.view_utils import etag_match
 from web.models import User, Feed, Article, Role
 from web.decorators import feed_access_required
-from web.forms import SignupForm, SigninForm, InformationMessageForm,\
-                    ProfileForm, UserForm, RecoverPasswordForm \
+from web.forms import SignupForm, SigninForm
 
 from web.controllers import UserController, FeedController, \
                                      ArticleController
@@ -130,11 +129,6 @@ def internal_server_error(e):
     return render_template('errors/500.html'), 500
 
 
-def redirect_url(default='home'):
-    return request.args.get('next') or \
-            request.referrer or \
-            url_for(default)
-
 @g.babel.localeselector
 def get_locale():
     """
@@ -195,6 +189,7 @@ def logout():
 
     flash(gettext("Logged out successfully."), 'success')
     return redirect(url_for('login'))
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -423,94 +418,6 @@ def export_opml():
     return response
 
 
-@app.route('/management', methods=['GET', 'POST'])
-@login_required
-def management():
-    """
-    Display the management page.
-    """
-    if request.method == 'POST':
-        if None != request.files.get('opmlfile', None):
-            # Import an OPML file
-            data = request.files.get('opmlfile', None)
-            if not utils.allowed_file(data.filename):
-                flash(gettext('File not allowed.'), 'danger')
-            else:
-                try:
-                    nb = utils.import_opml(g.user.email, data.read())
-                    if conf.CRAWLING_METHOD == "classic":
-                        utils.fetch(g.user.email, None)
-                        flash(str(nb) + '  ' + gettext('feeds imported.'),
-                                "success")
-                        flash(gettext("Downloading articles..."), 'info')
-                except:
-                    flash(gettext("Impossible to import the new feeds."),
-                            "danger")
-        elif None != request.files.get('jsonfile', None):
-            # Import an account
-            data = request.files.get('jsonfile', None)
-            if not utils.allowed_file(data.filename):
-                flash(gettext('File not allowed.'), 'danger')
-            else:
-                try:
-                    nb = utils.import_json(g.user.email, data.read())
-                    flash(gettext('Account imported.'), "success")
-                except:
-                    flash(gettext("Impossible to import the account."),
-                            "danger")
-        else:
-            flash(gettext('File not allowed.'), 'danger')
-
-    nb_feeds = len(g.user.feeds.all())
-    articles = Article.query.filter(Article.user_id == g.user.id)
-    nb_articles = articles.count()
-    nb_unread_articles = articles.filter(Article.readed == False).count()
-    return render_template('management.html', user=g.user,
-                            nb_feeds=nb_feeds, nb_articles=nb_articles,
-                            nb_unread_articles=nb_unread_articles)
-
-
-@app.route('/profile', methods=['GET', 'POST'])
-@login_required
-def profile():
-    """
-    Edit the profile of the currently logged user.
-    """
-    user = UserController(g.user.id).get(id=g.user.id)
-    form = ProfileForm()
-
-    if request.method == 'POST':
-        if form.validate():
-            form.populate_obj(user)
-            if form.password.data != "":
-                user.set_password(form.password.data)
-            db.session.commit()
-            flash("%s %s %s" % (gettext('User'), user.nickname,
-                                gettext('successfully updated.')),
-                  'success')
-            return redirect(url_for('profile'))
-        else:
-            return render_template('profile.html', user=user, form=form)
-
-    if request.method == 'GET':
-        form = ProfileForm(obj=user)
-        return render_template('profile.html', user=user, form=form)
-
-@app.route('/delete_account', methods=['GET'])
-@login_required
-def delete_account():
-    """
-    Delete the account of the user (with all its data).
-    """
-    user = UserController(g.user.id).get(id=g.user.id)
-    if user is not None:
-        db.session.delete(user)
-        db.session.commit()
-        flash(gettext('Your account has been deleted.'), 'success')
-    else:
-        flash(gettext('This user does not exist.'), 'danger')
-    return redirect(url_for('login'))
-
 @app.route('/expire_articles', methods=['GET'])
 @login_required
 def expire_articles():
@@ -525,181 +432,4 @@ def expire_articles():
                                 Article.retrieved_date < weeks_ago))).delete()
     flash(gettext('Articles deleted.'), 'info')
     db.session.commit()
-    return redirect(redirect_url())
-
-@app.route('/confirm_account/<string:activation_key>', methods=['GET'])
-def confirm_account(activation_key=None):
-    """
-    Confirm the account of a user.
-    """
-    if activation_key != "":
-        user = User.query.filter(User.activation_key == activation_key).first()
-        if user is not None:
-            user.activation_key = ""
-            db.session.commit()
-            flash(gettext('Your account has been confirmed.'), 'success')
-        else:
-            flash(gettext('Impossible to confirm this account.'), 'danger')
-    return redirect(url_for('login'))
-
-@app.route('/recover', methods=['GET', 'POST'])
-def recover():
-    """
-    Enables the user to recover its account when he has forgotten
-    its password.
-    """
-    form = RecoverPasswordForm()
-
-    if request.method == 'POST':
-        if form.validate():
-            user = User.query.filter(User.email == form.email.data).first()
-            characters = string.ascii_letters + string.digits
-            password = "".join(random.choice(characters) for x in range(random.randint(8, 16)))
-            user.set_password(password)
-            db.session.commit()
-
-            # Send the confirmation email
-            try:
-                notifications.new_password_notification(user, password)
-                flash(gettext('New password sent to your address.'), 'success')
-            except Exception as e:
-                flash(gettext('Problem while sending your new password.') + ': ' + str(e), 'danger')
-
-            return redirect(url_for('login'))
-        return render_template('recover.html', form=form)
-
-    if request.method == 'GET':
-        return render_template('recover.html', form=form)
-
-#
-# Views dedicated to administration tasks.
-#
-@app.route('/admin/dashboard', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require(http_exception=403)
-def dashboard():
-    """
-    Adminstrator's dashboard.
-    """
-    form = InformationMessageForm()
-
-    if request.method == 'POST':
-        if form.validate():
-            try:
-                notifications.information_message(form.subject.data, form.message.data)
-            except Exception as e:
-                flash(gettext('Problem while sending email') + ': ' + str(e), 'danger')
-
-    users = User.query.all()
-    return render_template('admin/dashboard.html', users=users, current_user=g.user, form=form)
-
-@app.route('/admin/create_user', methods=['GET', 'POST'])
-@app.route('/admin/edit_user/<int:user_id>', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require(http_exception=403)
-def create_user(user_id=None):
-    """
-    Create or edit a user.
-    """
-    form = UserForm()
-
-    if request.method == 'POST':
-        if form.validate():
-            role_user = Role.query.filter(Role.name == "user").first()
-            if user_id is not None:
-                # Edit a user
-                user = User.query.filter(User.id == user_id).first()
-                form.populate_obj(user)
-                if form.password.data != "":
-                    user.set_password(form.password.data)
-                db.session.commit()
-                flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully updated.'), 'success')
-            else:
-                # Create a new user
-                user = User(nickname=form.nickname.data,
-                             email=form.email.data,
-                             pwdhash=generate_password_hash(form.password.data))
-                user.roles.extend([role_user])
-                user.activation_key = ""
-                db.session.add(user)
-                db.session.commit()
-                flash("%s %s %s" % (gettext('User'), user.nickname,
-                                    gettext('successfully created.')),
-                      'success')
-            return redirect(url_for('create_user', user_id=user.id))
-        else:
-            return redirect(url_for('create_user'))
-
-    if request.method == 'GET':
-        if user_id is not None:
-            user = User.query.filter(User.id == user_id).first()
-            form = UserForm(obj=user)
-            message = "%s <i>%s</i>" % (gettext('Edit the user'),
-                                        user.nickname)
-        else:
-            form = UserForm()
-            message = gettext('Add a new user')
-        return render_template('/admin/create_user.html',
-                               form=form, message=message)
-
-@app.route('/admin/user/<int:user_id>', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def user(user_id=None):
-    """
-    See information about a user (stations, etc.).
-    """
-    user = UserController().get(id=user_id)
-    if user is not None:
-        article_contr = ArticleController(user_id)
-        return render_template('/admin/user.html', user=user, feeds=user.feeds,
-                article_count=article_contr.count_by_feed(),
-                unread_article_count=article_contr.count_by_feed(readed=False))
-
-    else:
-        flash(gettext('This user does not exist.'), 'danger')
-        return redirect(redirect_url())
-
-@app.route('/admin/delete_user/<int:user_id>', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def delete_user(user_id=None):
-    """
-    Delete a user (with all its data).
-    """
-    user = User.query.filter(User.id == user_id).first()
-    if user is not None:
-        db.session.delete(user)
-        db.session.commit()
-        flash(gettext('User') + ' ' + user.nickname + ' ' + gettext('successfully deleted.'), 'success')
-    else:
-        flash(gettext('This user does not exist.'), 'danger')
-    return redirect(redirect_url())
-
-@app.route('/admin/enable_user/<int:user_id>', methods=['GET'])
-@app.route('/admin/disable_user/<int:user_id>', methods=['GET'])
-@login_required
-@admin_permission.require()
-def disable_user(user_id=None):
-    """
-    Enable or disable the account of a user.
-    """
-    user = User.query.filter(User.id == user_id).first()
-    if user is not None:
-        if user.activation_key != "":
-
-            # Send the confirmation email
-            try:
-                notifications.new_account_activation(user)
-                user.activation_key = ""
-                flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully activated.'), 'success')
-            except Exception as e:
-                flash(gettext('Problem while sending activation email') + ': ' + str(e), 'danger')
-
-        else:
-            user.activation_key = hashlib.sha512(str(random.getrandbits(256)).encode("utf-8")).hexdigest()[:86]
-            flash(gettext('Account of the user') + ' ' + user.nickname + ' ' + gettext('successfully disabled.'), 'success')
-        db.session.commit()
-    else:
-        flash(gettext('This user does not exist.'), 'danger')
     return redirect(redirect_url())

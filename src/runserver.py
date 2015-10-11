@@ -54,6 +54,9 @@ with application.app_context():
     application.register_blueprint(views.categories_bp)
     application.register_blueprint(views.category_bp)
     application.register_blueprint(views.icon_bp)
+    application.register_blueprint(views.admin_bp)
+    application.register_blueprint(views.users_bp)
+    application.register_blueprint(views.user_bp)
 
 
 if __name__ == '__main__':
