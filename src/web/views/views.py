@@ -38,8 +38,7 @@ from bootstrap import application as app, db
 from flask import render_template, request, flash, session, \
                   url_for, redirect, g, current_app, make_response
 from flask.ext.login import LoginManager, login_user, logout_user, \
-                            login_required, current_user, AnonymousUserMixin, \
-                            login_url
+                            login_required, current_user, AnonymousUserMixin
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
@@ -49,6 +48,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
 import conf
+from web.lib.utils import redirect_url
 from web import utils, notifications, export
 from web.lib.view_utils import etag_match
 from web.models import User, Feed, Article, Role
@@ -90,6 +90,7 @@ def on_identity_loaded(sender, identity):
         for role in current_user.roles:
             identity.provides.add(RoleNeed(role.name))
 
+
 @app.before_request
 def before_request():
     g.user = current_user
@@ -97,6 +98,7 @@ def before_request():
         g.user.last_seen = datetime.datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(id):
@@ -111,14 +113,17 @@ def authentication_required(e):
     flash(gettext('Authentication required.'), 'info')
     return redirect(url_for('login'))
 
+
 @app.errorhandler(403)
 def authentication_failed(e):
     flash(gettext('Forbidden.'), 'danger')
     return redirect(url_for('login'))
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errors/404.html'), 404
+
 
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -137,6 +142,7 @@ def get_locale():
     the language to use when producing its response.
     """
     return request.accept_languages.best_match(conf.LANGUAGES.keys())
+
 
 @g.babel.timezoneselector
 def get_timezone():
@@ -166,6 +172,7 @@ def login():
                               identity=Identity(user.id))
         return form.redirect('home')
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 @login_required
@@ -367,97 +374,6 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/mark_as/<string:new_value>', methods=['GET'])
-@app.route('/mark_as/<string:new_value>/article/<int:article_id>', methods=['GET'])
-@login_required
-@feed_access_required
-def mark_as(new_value='read', feed_id=None, article_id=None):
-    """
-    Mark all unreaded articles as read.
-    """
-    readed = new_value == 'read'
-    articles = Article.query.filter(Article.user_id == g.user.id)
-    if feed_id is not None:
-        articles = articles.filter(Article.feed_id == feed_id)
-        message = 'Feed marked as %s.'
-    elif article_id is not None:
-        articles = articles.filter(Article.id == article_id)
-        message = 'Article marked as %s.'
-    else:
-        message = 'All article marked as %s.'
-    articles.filter(Article.readed == (not readed)).update({"readed": readed})
-    flash(gettext(message % new_value), 'info')
-    db.session.commit()
-    if readed:
-        return redirect(redirect_url())
-    return redirect(url_for('home'))
-
-@app.route('/like/<int:article_id>', methods=['GET'])
-@login_required
-def like(article_id=None):
-    """
-    Mark or unmark an article as favorites.
-    """
-    Article.query.filter(Article.user_id == g.user.id, Article.id == article_id). \
-                update({
-                        "like": not Article.query.filter(Article.id == article_id).first().like
-                       })
-    db.session.commit()
-    return redirect(redirect_url())
-
-@app.route('/delete/<int:article_id>', methods=['GET'])
-@login_required
-def delete(article_id=None):
-    """
-    Delete an article from the database.
-    """
-    article = Article.query.filter(Article.id == article_id).first()
-    if article is not None and article.source.subscriber.id == g.user.id:
-        db.session.delete(article)
-        db.session.commit()
-        flash(gettext('Article') + ' ' + article.title + ' ' + gettext('deleted.'), 'success')
-        return redirect(redirect_url())
-    else:
-        flash(gettext('This article do not exist.'), 'danger')
-        return redirect(url_for('home'))
-
-
-@app.route('/inactives', methods=['GET'])
-@login_required
-def inactives():
-    """
-    List of inactive feeds.
-    """
-    nb_days = int(request.args.get('nb_days', 365))
-    user = UserController(g.user.id).get(email=g.user.email)
-    today = datetime.datetime.now()
-    inactives = []
-    for feed in user.feeds:
-        try:
-            last_post = feed.articles[0].date
-        except IndexError:
-            continue
-        elapsed = today - last_post
-        if elapsed > datetime.timedelta(days=nb_days):
-            inactives.append((feed, elapsed))
-    inactives.sort(key=lambda tup: tup[1], reverse=True)
-    return render_template('inactives.html', inactives=inactives, nb_days=nb_days)
-
-@app.route('/duplicates/<int:feed_id>', methods=['GET'])
-@login_required
-def duplicates(feed_id=None):
-    """
-    Return duplicates article for a feed.
-    """
-    feed = Feed.query.filter(Feed.user_id == g.user.id, Feed.id == feed_id).first()
-    duplicates = []
-    duplicates = utils.compare_documents(feed)
-    if len(duplicates) == 0:
-        flash(gettext('No duplicates in the feed "{}".').format(feed.title),
-                'info')
-        return redirect(redirect_url())
-    return render_template('duplicates.html', duplicates=duplicates, feed=feed)
-
 @app.route('/export', methods=['GET'])
 @login_required
 def export_articles():
@@ -485,11 +401,13 @@ def export_articles():
             return redirect(redirect_url())
         response = make_response(json_result)
         response.mimetype = 'application/json'
-        response.headers["Content-Disposition"] = 'attachment; filename=account.json'
+        response.headers["Content-Disposition"] \
+                = 'attachment; filename=account.json'
     else:
         flash(gettext('Export format not supported.'), 'warning')
         return redirect(redirect_url())
     return response
+
 
 @app.route('/export_opml', methods=['GET'])
 @login_required
@@ -550,17 +468,6 @@ def management():
     return render_template('management.html', user=g.user,
                             nb_feeds=nb_feeds, nb_articles=nb_articles,
                             nb_unread_articles=nb_unread_articles)
-
-@app.route('/history', methods=['GET'])
-@app.route('/history/<int:year>', methods=['GET'])
-@app.route('/history/<int:year>/<int:month>', methods=['GET'])
-@login_required
-def history(year=None, month=None):
-    articles_counter, articles = utils.history(g.user.id, year, month)
-    return render_template('history.html',
-                            articles_counter=articles_counter,
-                            articles=articles,
-                            year=year, month=month)
 
 
 @app.route('/profile', methods=['GET', 'POST'])

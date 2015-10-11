@@ -20,12 +20,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import itertools
 from datetime import datetime, timedelta
 
 import conf
 from .abstract import AbstractController
 from .icon import IconController
 from web.models import Feed
+from web.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 DEFAULT_LIMIT = 5
@@ -53,6 +55,37 @@ class FeedController(AbstractController):
             self.update({'id__in': [feed.id for feed in feeds]},
                         {'last_retrieved': now})
         return feeds
+
+    def get_duplicates(self, feed_id):
+        """
+        Compare a list of documents by pair.
+        Pairs of duplicates are sorted by "retrieved date".
+        """
+        feed = self.get(id=feed_id)
+        duplicates = []
+        for pair in itertools.combinations(feed.articles, 2):
+            date1, date2 = pair[0].date, pair[1].date
+            if clear_string(pair[0].title) == clear_string(pair[1].title) \
+                    and (date1 - date2) < timedelta(days=1):
+                if pair[0].retrieved_date < pair[1].retrieved_date:
+                    duplicates.append((pair[0], pair[1]))
+                else:
+                    duplicates.append((pair[1], pair[0]))
+        return feed, duplicates
+
+    def get_inactives(self, nb_days):
+        today = datetime.now()
+        inactives = []
+        for feed in self.read():
+            try:
+                last_post = feed.articles[0].date
+            except IndexError:
+                continue
+            elapsed = today - last_post
+            if elapsed > timedelta(days=nb_days):
+                inactives.append((feed, elapsed))
+        inactives.sort(key=lambda tup: tup[1], reverse=True)
+        return inactives
 
     def _ensure_icon(self, attrs):
         if not attrs.get('icon_url'):

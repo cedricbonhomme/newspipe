@@ -1,6 +1,8 @@
 import re
 import logging
+import sqlalchemy
 from sqlalchemy import func
+from collections import Counter
 
 from bootstrap import db
 from .abstract import AbstractController
@@ -70,3 +72,22 @@ class ArticleController(AbstractController):
                             attrs['link'])
 
         return super().create(**attrs)
+
+    def get_history(self, year=None, month=None):
+        """
+        Sort articles by year and month.
+        """
+        articles_counter = Counter()
+        articles = self.read()
+        if year is not None:
+            articles = articles.filter(
+                    sqlalchemy.extract('year', Article.date) == year)
+            if month is not None:
+                articles = articles.filter(
+                        sqlalchemy.extract('month', Article.date) == month)
+        for article in articles.all():
+            if year is not None:
+                articles_counter[article.date.month] += 1
+            else:
+                articles_counter[article.date.year] += 1
+        return articles_counter, articles

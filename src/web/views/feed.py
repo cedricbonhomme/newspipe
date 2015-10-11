@@ -217,3 +217,29 @@ def process_form(feed_id=None):
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
+
+
+@feeds_bp.route('/inactives', methods=['GET'])
+@login_required
+def inactives():
+    """
+    List of inactive feeds.
+    """
+    nb_days = int(request.args.get('nb_days', 365))
+    inactives = FeedController(g.user.id).get_inactives(nb_days)
+    return render_template('inactives.html',
+                           inactives=inactives, nb_days=nb_days)
+
+
+@feed_bp.route('/duplicates/<int:feed_id>', methods=['GET'])
+@login_required
+def duplicates(feed_id):
+    """
+    Return duplicates article for a feed.
+    """
+    feed, duplicates = FeedController(g.user.id).get_duplicates(feed_id)
+    if len(duplicates) == 0:
+        flash(gettext('No duplicates in the feed "{}".').format(feed.title),
+                'info')
+        return redirect('home')
+    return render_template('duplicates.html', duplicates=duplicates, feed=feed)

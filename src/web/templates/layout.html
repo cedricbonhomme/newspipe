@@ -71,8 +71,8 @@
                         <li><a href="{{ url_for("feeds.update", action="read", nb_days="5") }}">{{ gettext('Mark all as read older than %(days)s days', days=5) }}</a></li>
                         <li><a href="{{ url_for("feeds.update", action="read", nb_days="10") }}">{{ gettext('Mark all as read older than %(days)s days', days=10) }}</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li><a href="{{ url_for("inactives") }}">{{ _('Inactive') }}</a></li>
-                        <li><a href="{{ url_for("history") }}">{{ _('History') }}</a></li>
+                        <li><a href="{{ url_for("feeds.inactives") }}">{{ _('Inactive') }}</a></li>
+                        <li><a href="{{ url_for("articles.history") }}">{{ _('History') }}</a></li>
                         <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All') }}</a></li>
                     </ul>
                 </li>

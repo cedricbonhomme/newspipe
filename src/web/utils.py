@@ -61,6 +61,7 @@ from flask import g
 from bootstrap import application as app, db
 from web import controllers
 from web.models import User, Feed, Article
+from web.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 
