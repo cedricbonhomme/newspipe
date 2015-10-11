@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
-from flask import Blueprint, g, render_template, redirect, flash, url_for
+from datetime import datetime, timedelta
+from flask import (Blueprint, g, render_template, redirect,
+                   flash, url_for, request)
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
@@ -101,3 +103,21 @@ def mark_as(new_value='read', feed_id=None, article_id=None):
     if readed:
         return redirect(redirect_url())
     return redirect('home')
+
+
+@articles_bp.route('/expire_articles', methods=['GET'])
+@login_required
+def expire():
+    """
+    Delete articles older than the given number of weeks.
+    """
+    current_time = datetime.utcnow()
+    weeks_ago = current_time - timedelta(int(request.args.get('weeks', 10)))
+    art_contr = ArticleController(g.user.id)
+
+    query = art_contr.read(__or__={'date__lt': weeks_ago,
+                                   'retrieved_date__lt': weeks_ago})
+    count = query.count()
+    query.delete()
+    flash(gettext('%(count)d articles deleted', count=count), 'info')
+    return redirect(redirect_url())

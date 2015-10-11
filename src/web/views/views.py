@@ -416,20 +416,3 @@ def export_opml():
     response.headers['Content-Type'] = 'application/xml'
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
-
-
-@app.route('/expire_articles', methods=['GET'])
-@login_required
-def expire_articles():
-    """
-    Delete articles older than the given number of weeks.
-    """
-    weeks_ago = datetime.datetime.utcnow() - \
-                datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
-    Article.query.filter(
-                        and_(Article.user_id == g.user.id,
-                                or_(Article.date < weeks_ago,
-                                Article.retrieved_date < weeks_ago))).delete()
-    flash(gettext('Articles deleted.'), 'info')
-    db.session.commit()
-    return redirect(redirect_url())
