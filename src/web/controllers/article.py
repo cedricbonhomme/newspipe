@@ -28,12 +28,11 @@ class ArticleController(AbstractController):
                 continue
             yield id_
 
+    def count_by_category(self, **filters):
+        return self._count_by(Article.category_id, filters)
+
     def count_by_feed(self, **filters):
-        if self.user_id:
-            filters['user_id'] = self.user_id
-        return dict(db.session.query(Article.feed_id, func.count(Article.id))
-                              .filter(*self._to_filters(**filters))
-                              .group_by(Article.feed_id).all())
+        return self._count_by(Article.feed_id, filters)
 
     def count_by_user_id(self, **filters):
         return dict(db.session.query(Article.user_id, func.count(Article.id))

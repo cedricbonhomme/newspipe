@@ -38,6 +38,7 @@ from flask_wtf import RecaptchaField
 from web import utils
 from web.models import User
 
+
 class SignupForm(Form):
     """
     Sign up form (registration to jarr).
@@ -63,6 +64,7 @@ class SignupForm(Form):
             validated = False
         return validated
 
+
 class RedirectForm(Form):
     """
     Secure back redirects with WTForms.
@@ -79,6 +81,7 @@ class RedirectForm(Form):
             return redirect(self.next.data)
         target = utils.get_redirect_target()
         return redirect(target or url_for(endpoint, **values))
+
 
 class SigninForm(RedirectForm):
     """
@@ -179,9 +182,9 @@ class AddFeedForm(Form):
                                       for cat in categories]
 
 
-class AddCategoryForm(Form):
+class CategoryForm(Form):
     name = TextField(lazy_gettext("Name"))
-    submit = SubmitField(lazy_gettext("Sign up"))
+    submit = SubmitField(lazy_gettext("Submit"))
 
 
 class InformationMessageForm(Form):

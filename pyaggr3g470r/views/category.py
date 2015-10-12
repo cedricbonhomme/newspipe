@@ -2,12 +2,27 @@ from flask import g, Blueprint, render_template, flash, redirect, url_for
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
-from pyaggr3g470r.forms import AddCategoryForm
+from pyaggr3g470r.forms import CategoryForm
+from pyaggr3g470r.lib.utils import redirect_url
 from pyaggr3g470r.lib.view_utils import etag_match
-from pyaggr3g470r.controllers.category import CategoryController
+from pyaggr3g470r.controllers \
+        import ArticleController, FeedController, CategoryController
 
 categories_bp = Blueprint('categories', __name__, url_prefix='/categories')
 category_bp = Blueprint('category', __name__, url_prefix='/category')
+
+
+@categories_bp.route('/', methods=['GET'])
+@login_required
+@etag_match
+def list_():
+    "Lists the subscribed  feeds in a table."
+    art_contr = ArticleController(g.user.id)
+    return render_template('categories.html',
+            categories=list(CategoryController(g.user.id).read()),
+            feeds_count=FeedController(g.user.id).count_by_category(),
+            unread_article_count=art_contr.count_by_category(readed=False),
+            article_count=art_contr.count_by_category())
 
 
 @category_bp.route('/create', methods=['GET'])
@@ -19,7 +34,7 @@ def form(category_id=None):
     head_titles = [action]
     if category_id is None:
         return render_template('edit_category.html', action=action,
-                               head_titles=head_titles, form=AddCategoryForm())
+                               head_titles=head_titles, form=CategoryForm())
     category = CategoryController(g.user.id).get(id=category_id)
     action = gettext('Edit category')
     head_titles = [action]
@@ -27,14 +42,23 @@ def form(category_id=None):
         head_titles.append(category.name)
     return render_template('edit_category.html', action=action,
                            head_titles=head_titles, category=category,
-                           form=AddCategoryForm(obj=category))
+                           form=CategoryForm(obj=category))
+
+
+@category_bp.route('/delete/<int:category_id>', methods=['GET'])
+@login_required
+def delete(category_id=None):
+    category = CategoryController(g.user.id).delete(category_id)
+    flash(gettext("Category %(category_name)s successfully deleted.",
+                  category_name=category.name), 'success')
+    return redirect(redirect_url())
 
 
 @category_bp.route('/create', methods=['POST'])
-@category_bp.route('/edit/<int:cat_id>', methods=['POST'])
+@category_bp.route('/edit/<int:category_id>', methods=['POST'])
 @login_required
 def process_form(category_id=None):
-    form = AddCategoryForm()
+    form = CategoryForm()
     cat_contr = CategoryController(g.user.id)
 
     if not form.validate():

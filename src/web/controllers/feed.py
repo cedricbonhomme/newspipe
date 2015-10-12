@@ -87,6 +87,9 @@ class FeedController(AbstractController):
         inactives.sort(key=lambda tup: tup[1], reverse=True)
         return inactives
 
+    def count_by_category(self, **filters):
+        return self._count_by(Feed.category_id, filters)
+
     def _ensure_icon(self, attrs):
         if not attrs.get('icon_url'):
             return
@@ -101,10 +104,9 @@ class FeedController(AbstractController):
     def update(self, filters, attrs):
         from .article import ArticleController
         self._ensure_icon(attrs)
-        result = super().update(filters, attrs)
         if 'category_id' in attrs:
             art_contr = ArticleController(self.user_id)
             for feed in self.read(**filters):
                 art_contr.update({'feed_id': feed.id},
-                                 {'category_id': feed.category_id})
-        return result
+                                 {'category_id': attrs['category_id']})
+        return super().update(filters, attrs)
