@@ -71,6 +71,7 @@ login_manager.login_view = 'login'
 
 logger = logging.getLogger(__name__)
 
+
 #
 # Management of the user's session.
 #
@@ -103,6 +104,7 @@ def before_request():
 def load_user(id):
     # Return an instance of the User model
     return UserController().get(id=id)
+
 
 #
 # Custom error pages.
@@ -144,6 +146,7 @@ def get_timezone():
         return conf.TIME_ZONE[get_locale()]
     except:
         return conf.TIME_ZONE["en"]
+
 
 #
 # Views.
