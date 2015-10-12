@@ -49,7 +49,7 @@ def feed(feed_id=None):
         category = CategoryController(g.user.id).get(id=feed.category_id)
     articles = ArticleController(g.user.id) \
             .read(feed_id=feed_id) \
-            .order_by(desc("Article.date")).all()
+            .order_by(desc("date")).all()
     top_words = utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = utils.tag_cloud(top_words)
 

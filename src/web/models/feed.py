@@ -59,7 +59,7 @@ class Feed(db.Model):
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
     articles = db.relationship('Article', backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
-                               order_by=desc("Article.date"))
+                               order_by=desc("date"))
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)

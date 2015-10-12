@@ -54,7 +54,7 @@ class Article(db.Model):
         """
         return Article.query.filter(Article.date < self.date,
                                     Article.feed_id == self.feed_id)\
-                            .order_by(desc("Article.date")).first()
+                            .order_by(desc("date")).first()
 
     def next_article(self):
         """
@@ -62,7 +62,7 @@ class Article(db.Model):
         """
         return Article.query.filter(Article.date > self.date,
                                     Article.feed_id == self.feed_id)\
-                            .order_by(asc("Article.date")).first()
+                            .order_by(asc("date")).first()
 
     def __repr__(self):
         return "<Article(id=%d, entry_id=%s, title=%r, " \
