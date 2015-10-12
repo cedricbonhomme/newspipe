@@ -6,11 +6,10 @@ from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
 import conf
-from pyaggr3g470r import utils, notifications
-from pyaggr3g470r.controllers import (UserController, FeedController,
-                                      ArticleController)
+from web import utils, notifications
+from web.controllers import (UserController, FeedController, ArticleController)
 
-from pyaggr3g470r.forms import ProfileForm, RecoverPasswordForm
+from web.forms import ProfileForm, RecoverPasswordForm
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 user_bp = Blueprint('user', __name__, url_prefix='/user')

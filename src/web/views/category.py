@@ -2,11 +2,11 @@ from flask import g, Blueprint, render_template, flash, redirect, url_for
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
-from pyaggr3g470r.forms import CategoryForm
-from pyaggr3g470r.lib.utils import redirect_url
-from pyaggr3g470r.lib.view_utils import etag_match
-from pyaggr3g470r.controllers \
-        import ArticleController, FeedController, CategoryController
+from web.forms import CategoryForm
+from web.lib.utils import redirect_url
+from web.lib.view_utils import etag_match
+from web.controllers import ArticleController, FeedController, \
+                            CategoryController
 
 categories_bp = Blueprint('categories', __name__, url_prefix='/categories')
 category_bp = Blueprint('category', __name__, url_prefix='/category')

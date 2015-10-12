@@ -27,9 +27,6 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import os
-import string
-import random
-import hashlib
 import logging
 import datetime
 from collections import OrderedDict
@@ -43,7 +40,6 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
                                 identity_changed, identity_loaded, Permission,\
                                 RoleNeed, UserNeed
 from flask.ext.babel import gettext
-from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
 from werkzeug import generate_password_hash
 
@@ -52,11 +48,10 @@ from web.lib.utils import redirect_url
 from web import utils, notifications, export
 from web.lib.view_utils import etag_match
 from web.models import User, Feed, Article, Role
-from web.decorators import feed_access_required
 from web.forms import SignupForm, SigninForm
 
 from web.controllers import UserController, FeedController, \
-                                     ArticleController
+                            ArticleController, CategoryController
 
 
 Principal(app)
@@ -233,6 +228,48 @@ def signup():
         return redirect(url_for('home'))
 
     return render_template('signup.html', form=form)
+
+
+from flask import jsonify
+
+
+@app.route('/home2')
+def new_home():
+    return render_template('home2.html')
+
+
+@app.route('/menu')
+@login_required
+def get_menu():
+    categories = {c.id: c.dump() for c in CategoryController(g.user.id).read()}
+    categories[0] = {'name': 'No category', 'id': 0}
+    unread = ArticleController(g.user.id).count_by_feed(readed=False)
+    for cat_id in categories:
+        categories[cat_id]['unread'] = 0
+        categories[cat_id]['feeds'] = []
+    for feed in FeedController(g.user.id).read():
+        feed = feed.dump()
+        feed['category_id'] = feed['category_id'] or 0
+        feed['unread'] = unread.get(feed['id'], 0)
+        if feed.get('icon_url'):
+            feed['icon_url'] = url_for('icon.icon', url=feed['icon_url'])
+        categories[feed['category_id']]['unread'] += feed['unread']
+        categories[feed['category_id']]['feeds'].append(feed)
+    return jsonify(**{'categories': list(categories.values()),
+                      'all_unread_count': sum(unread.values())})
+
+
+@app.route('/middle_panel')
+@login_required
+def get_middle_panel():
+    fd_hash = {fd.id: fd for fd in FeedController(g.user.id).read()}
+    articles = ArticleController(g.user.id).read(readed=False)
+    return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
+            'read': art.readed, 'article_id': art.id,
+            'feed_title': fd_hash[art.feed_id].title,
+            'icon_url': url_for('icon.icon', url=fd_hash[art.feed_id].icon_url)
+                if fd_hash[art.feed_id].icon_url else None,
+            'date': art.date} for art in articles]})
 
 
 @etag_match

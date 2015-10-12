@@ -48,3 +48,4 @@
 li.feed-commands {display: none; text-align: right;}
 li.feed-commands > span > a {margin-right: 10px;}
 li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}
+.glyphicon.delete, .glyphicon.like, .glyphicon.readed { cursor: pointer; }

@@ -40,7 +40,6 @@ class Article(db.Model):
     content = db.Column(db.String())
     readed = db.Column(db.Boolean(), default=False)
     like = db.Column(db.Boolean(), default=False)
-    #notes = db.Column(db.String(), default="")
     date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
 

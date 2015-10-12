@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ _('You are subscribed to') }} {{ feeds|count }} {{ _('feeds') }} &middot; {{ _('Add a') }} <a href="{{ url_for("feed.form") }}">{{ _('feed') }}</a></h1>
+    <h1>{{ _('You are subscribed to %(feed_count)d feeds.', feed_count=feeds.count()) }} &middot; {{ _('Add a') }} <a href="{{ url_for("feed.form") }}">{{ _('feed') }}</a></h1>
     {% include "feed_list.html" %}
 </div><!-- /.container -->
 {% endblock %}

@@ -1,20 +1,17 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
-import base64
 import requests.exceptions
-from hashlib import md5
 from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, g, render_template, flash, \
-                  redirect, request, url_for, Response
+                  redirect, request, url_for
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
 import conf
 from web import utils
-from web.lib.utils import redirect_url
 from web.lib.view_utils import etag_match
 from web.lib.feed_utils import construct_feed_from
 from web.forms import AddFeedForm

@@ -1,9 +1,9 @@
 from flask import g
 
-from pyaggr3g470r.controllers.category import CategoryController
-from pyaggr3g470r.views.api.common import (PyAggResourceNew,
-                                           PyAggResourceExisting,
-                                           PyAggResourceMulti)
+from web.controllers.category import CategoryController
+from web.views.api.common import (PyAggResourceNew,
+                                  PyAggResourceExisting,
+                                  PyAggResourceMulti)
 
 
 CAT_ATTRS = {'name': {'type': str},

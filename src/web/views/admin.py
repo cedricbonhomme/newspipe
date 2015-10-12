@@ -5,12 +5,12 @@ from flask.ext.login import login_required
 
 from flask.ext.principal import Permission, RoleNeed
 
-from pyaggr3g470r.lib.utils import redirect_url
-from pyaggr3g470r.models import Role
-from pyaggr3g470r.controllers import UserController, ArticleController
+from web.lib.utils import redirect_url
+from web.models import Role
+from web.controllers import UserController, ArticleController
 
-from pyaggr3g470r.forms import InformationMessageForm, UserForm
-from pyaggr3g470r import notifications
+from web.forms import InformationMessageForm, UserForm
+from web import notifications
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 admin_permission = Permission(RoleNeed('admin'))

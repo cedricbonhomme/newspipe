@@ -1,5 +1,5 @@
 from .abstract import AbstractController
-from pyaggr3g470r.models import Category
+from web.models import Category
 from .feed import FeedController
 
 

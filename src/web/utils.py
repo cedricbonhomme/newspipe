@@ -57,8 +57,7 @@ from contextlib import contextmanager
 from flask import request
 
 import conf
-from flask import g
-from bootstrap import application as app, db
+from bootstrap import db
 from web import controllers
 from web.models import User, Feed, Article
 from web.lib.utils import clear_string
@@ -268,16 +267,6 @@ def open_url(url):
         else:
             error = (url, e.reason.errno, e.reason.strerror)
         return (False, error)
-
-
-def clear_string(data):
-    """
-    Clear a string by removing HTML tags, HTML special caracters
-    and consecutive white spaces (more that one).
-    """
-    p = re.compile('<[^>]+>')  # HTML tags
-    q = re.compile('\s')  # consecutive white spaces
-    return p.sub('', q.sub(' ', data))
 
 
 def load_stop_words():
