@@ -41,7 +41,7 @@ class FeedController(AbstractController):
         return [feed for feed in self.read(
                             error_count__lt=max_error, enabled=True,
                             last_retrieved__lt=max_last)
-                                .order_by('Feed.last_retrieved')
+                                .order_by('last_retrieved')
                                 .limit(limit)]
 
     def list_fetchable(self, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT,
