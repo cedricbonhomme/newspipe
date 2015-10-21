@@ -121,14 +121,18 @@ class PyAggUpdater(AbstractCrawler):
             up_feed['last_retrieved'] \
                     = (datetime.now() - timedelta(minutes=45)).isoformat()
 
-        if any([up_feed[key] != self.feed.get(key) for key in up_feed]):
-            logger.warn('%r %r - pushing feed attrs %r',
-                    self.feed['id'], self.feed['title'],
-                    {key: "%s -> %s" % (up_feed[key], self.feed.get(key))
-                     for key in up_feed if up_feed[key] != self.feed.get(key)})
+        diff_keys = {key for key in up_feed
+                     if up_feed[key] != self.feed.get(key)}
+        if not diff_keys:
+            return  # no change in the feed, no update
+        if not article_created and diff_keys == {'last_modified', 'etag'}:
+            return  # meaningless if no new article has been published
+        logger.info('%r %r - pushing feed attrs %r',
+                self.feed['id'], self.feed['title'],
+                {key: "%s -> %s" % (up_feed[key], self.feed.get(key))
+                 for key in up_feed if up_feed[key] != self.feed.get(key)})
 
-            future = self.query_pyagg('put',
-                    'feed/%d' % self.feed['id'], up_feed)
+        future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], up_feed)
 
 
 class FeedCrawler(AbstractCrawler):
