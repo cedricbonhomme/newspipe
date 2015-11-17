@@ -28,6 +28,7 @@ if os.environ.get('PYAGG_TESTING', False) == 'true':
     application.config['TESTING'] = True
 else:
     application.debug = conf.LOG_LEVEL <= logging.DEBUG
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     application.config['SQLALCHEMY_DATABASE_URI'] \
             = conf.SQLALCHEMY_DATABASE_URI
 
