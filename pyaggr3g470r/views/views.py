@@ -612,12 +612,10 @@ def expire_articles():
     """
     current_time = datetime.datetime.utcnow()
     weeks_ago = current_time - datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
-    articles_to_delete = Article.query.filter(
-                                and_(Article.user_id == g.user.id,
-                                        or_(Article.date < weeks_ago,
-                                        Article.retrieved_date < weeks_ago)))
-    for article in articles_to_delete:
-        db.session.delete(article)
+    Article.query.filter(
+                        and_(Article.user_id == g.user.id,
+                                or_(Article.date < weeks_ago,
+                                Article.retrieved_date < weeks_ago))).delete()
     flash(gettext('Articles deleted.'), 'info')
     db.session.commit()
     return redirect(redirect_url())
