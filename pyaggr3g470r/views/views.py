@@ -610,8 +610,8 @@ def expire_articles():
     """
     Delete articles older than the given number of weeks.
     """
-    current_time = datetime.datetime.utcnow()
-    weeks_ago = current_time - datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
+    weeks_ago = datetime.datetime.utcnow() - \
+                datetime.timedelta(weeks=int(request.args.get('weeks', 10)))
     Article.query.filter(
                         and_(Article.user_id == g.user.id,
                                 or_(Article.date < weeks_ago,
