@@ -21,6 +21,7 @@ routes :
     DELETE resources
         -> to delete several
 """
+import ast
 import json
 import logging
 import dateutil.parser
@@ -161,19 +162,21 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
-        args = None
-        args = [item[0] for item in request.args.items()]
-        args = json.loads(args[0])
-
         try:
             limit = request.json.pop('limit', 10)
             order_by = request.json.pop('order_by', None)
             query = self.controller.read(**request.json)
         except:
-            if None is not args:
-                limit, order_by, query = 10, None, self.controller.read(**args)
-            else:
-                limit, order_by, query = 10, None, self.controller.read()
+            args = {}
+            for k, v in request.args.items():
+                if k in self.attrs.keys():
+                    if self.attrs[k]['type'] in [bool, int]:
+                        args[k] = ast.literal_eval(v)
+                    else:
+                        args[k] = v
+            limit = request.args.get('limit', 10)
+            order_by = request.args.get('order_by', None)
+            query = self.controller.read(**args)
         if order_by:
             query = query.order_by(order_by)
         if limit:
