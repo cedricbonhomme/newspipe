@@ -22,7 +22,7 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
-DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
+DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "admin_email": "root@pyAggr3g470r.localhost",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
@@ -31,10 +31,10 @@ DEFAULTS = {"platform_url": "https://pyaggr3g470r.herokuapp.com/",
             "api_login": "",
             "api_passwd": "",
             "default_max_error": "3",
-            "log_path": "pyaggr3g470r.log",
+            "log_path": "jarr.log",
             "log_level": "info",
-            "user_agent": "pyAggr3g470r "
-                    "(https://bitbucket.org/cedricbonhomme/pyaggr3g470r)",
+            "user_agent": "JARR "
+                    "(https://github.com/JARR-aggregator)",
             "resolve_article_url": "false",
             "http_proxy": "",
             "secret": "",
