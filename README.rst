@@ -1,11 +1,11 @@
-++++++++++++
-pyAggr3g470r
-++++++++++++
+++++
+JARR
+++++
 
 Presentation
 ============
 
-`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_ is a
+`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_ is a
 web-based news aggregator.
 
 Features
@@ -36,19 +36,19 @@ A documentation is available `here <https://pyaggr3g470r.readthedocs.org>`_.
 Internationalization
 ====================
 
-pyAggr3g470r is translated into English and French.
+JARR is translated into English and French.
 
 Donation
 ========
 
-If you wish and if you like *pyAggr3g470r*, you can donate via bitcoin
+If you wish and if you like *JARR*, you can donate via bitcoin
 `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
 License
 =======
 
-`pyAggr3g470r <https://bitbucket.org/cedricbonhomme/pyaggr3g470r>`_
+`JARR <https://github.com/JARR-aggregator/JARR>`_
 is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact
