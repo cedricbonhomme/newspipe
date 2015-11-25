@@ -22,8 +22,8 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
-DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
-            "admin_email": "root@pyAggr3g470r.localhost",
+DEFAULTS = {"platform_url": "https://JARR.herokuapp.com/",
+            "admin_email": "root@jarr.localhost",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
@@ -39,7 +39,7 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "http_proxy": "",
             "secret": "",
             "enabled": "false",
-            "notification_email": "pyAggr3g470r@no-reply.com",
+            "notification_email": "jarr@no-reply.com",
             "tls": "false",
             "ssl": "true",
             "host": "0.0.0.0",

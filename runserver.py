@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# pyAggr3g470r - A Web based news aggregator.
-# Copyright (C) 2010-2015  Cédric Bonhomme - https://www.cedricbonhomme.org
+# jarr - A Web based news aggregator.
+# Copyright (C) 2010-2015  Cédric Bonhomme - https://www.JARR-aggregator.org
 #
-# For more information : https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+# For more information : https://github.com/JARR-aggregator/JARR/
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -46,7 +46,7 @@ with application.app_context():
     g.api = Api(application, prefix='/api/v2.0')
     g.babel = babel
 
-    from pyaggr3g470r import views
+    from web import views
     application.register_blueprint(views.articles_bp)
     application.register_blueprint(views.article_bp)
     application.register_blueprint(views.feeds_bp)

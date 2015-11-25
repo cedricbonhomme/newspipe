@@ -10,7 +10,7 @@ from urllib.parse import urlsplit
 
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
-    logger = logging.getLogger('pyaggr3g470r')
+    logger = logging.getLogger('jarr')
     formater = logging.Formatter(log_format)
     handler = logging.FileHandler(log_path)
     handler.setFormatter(formater)
@@ -21,7 +21,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 # Create Flask application
-application = Flask('pyaggr3g470r')
+application = Flask('web')
 if os.environ.get('PYAGG_TESTING', False) == 'true':
     application.debug = logging.DEBUG
     application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'

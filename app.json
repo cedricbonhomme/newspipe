@@ -1,12 +1,12 @@
 {
-  "name": "pyAggr3g470r",
+  "name": "JARR",
   "description": "A news aggregator that can be deployed on Heroku.",
   "keywords": [
     "aggregator",
     "news",
     "RSS"
   ],
-  "repository": "https://github.com/cedricbonhomme/pyAggr3g470r",
+  "repository": "https://github.com/JARR-aggregator/JARR.git",
   "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
   "scripts": {
     "postdeploy": "python manager.py db_create"

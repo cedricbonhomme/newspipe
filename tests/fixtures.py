@@ -1,4 +1,4 @@
-from pyaggr3g470r.models import db_create, db_empty, User, Article, Feed
+from web.models import db_create, db_empty, User, Article, Feed
 
 
 def populate_db(db):

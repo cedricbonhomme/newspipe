@@ -7,7 +7,7 @@ platform_url = http://127.0.0.1:5000/
 admin_email =
 recaptcha_public_key =
 recaptcha_private_key =
-log_path = ./pyaggr3g470r/var/pyaggr3g470r.log
+log_path = ./web/var/jarr.log
 nb_worker = 5
 log_level = info
 [database]
@@ -16,12 +16,12 @@ database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 crawling_method = classic
 default_max_error = 6
 http_proxy =
-user_agent = pyAggr3g470r (https://bitbucket.org/cedricbonhomme/pyaggr3g470r)
+user_agent = JARR (https://github.com/JARR-aggregator/JARR)
 resolve_article_url = false
 api_login =
 api_passwd =
 [notification]
-notification_email = pyAggr3g470r@no-reply.com
+notification_email = jarr@no-reply.com
 host = smtp.googlemail.com
 port = 465
 tls = false

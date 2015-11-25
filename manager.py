@@ -5,7 +5,7 @@ from bootstrap import application, db, populate_g, conf
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
-import pyaggr3g470r.models
+import webr.models
 
 Migrate(application, db)
 
@@ -17,19 +17,19 @@ def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         populate_g()
-        pyaggr3g470r.models.db_empty(db)
+        jarr.models.db_empty(db)
 
 @manager.command
 def db_create():
     "Will create the database from conf parameters."
     with application.app_context():
         populate_g()
-        pyaggr3g470r.models.db_create(db)
+        jarr.models.db_create(db)
 
 @manager.command
 def fetch(limit=100, retreive_all=False):
     "Crawl the feeds with the client crawler."
-    from pyaggr3g470r.lib.crawler import CrawlerScheduler
+    from web.lib.crawler import CrawlerScheduler
     scheduler = CrawlerScheduler(conf.API_LOGIN, conf.API_PASSWD)
     scheduler.run(limit=limit, retreive_all=retreive_all)
     scheduler.wait()
@@ -42,8 +42,8 @@ def fetch_asyncio(user_id, feed_id):
     with application.app_context():
         populate_g()
         from flask import g
-        from pyaggr3g470r.models import User
-        from pyaggr3g470r import crawler
+        from web.models import User
+        from web import crawler
         users, feed_id = [], None
         try:
             users = User.query.filter(User.id == int(user_id)).all()

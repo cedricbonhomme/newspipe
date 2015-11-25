@@ -1,6 +1,6 @@
 from tests.base import BasePyaggTest
-from pyaggr3g470r.controllers import FeedController
-from pyaggr3g470r.controllers import ArticleController
+from web.controllers import FeedController
+from web.controllers import ArticleController
 
 
 class FeedControllerTest(BasePyaggTest):

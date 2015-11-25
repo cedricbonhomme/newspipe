@@ -3,7 +3,7 @@ import sys
 from datetime import datetime, timedelta
 from flask.ext.script import Command, Option
 
-from pyaggr3g470r.controllers \
+from web.controllers \
         import UserController, FeedController, ArticleController
 DEFAULT_HEADERS = {'Content-Type': 'application/json', 'User-Agent': 'munin'}
 LATE_AFTER = 60
