@@ -4,7 +4,7 @@ Deployment
 This application can be deployed on Heroku or on a traditional server.
 
 After installation, you will be able to connect with the email
-*root@pyAggr3g470r.localhost* and the password *password*.
+*root@jarr.localhost* and the password *password*.
 
 Deploying the application with Vagrant
 --------------------------------------
@@ -17,12 +17,12 @@ Installation of VirtualBox and Vagrant
     $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
     $ sudo dpkg -i vagrant_1.7.2_x86_64.deb
 
-Deployment of pyAggr3g470r
+Deployment of JARR
 
 .. code-block:: bash
 
-    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
-    $ cd pyaggr3g470r/vagrant/
+    $ git clone https://github.com/JARR-aggregator/JARR.git
+    $ cd JARR/vagrant/
     $ vagrant up
 
 Once the VM configured, go to the address http://127.0.0.1:5000.
@@ -30,15 +30,15 @@ Once the VM configured, go to the address http://127.0.0.1:5000.
 Deploying the application on Heroku
 -----------------------------------
 
-An instance of pyAggr3g470r is running `here <https://pyaggr3g470r.herokuapp.com>`_.
+An instance of JARR is running `here <https://jarr.herokuapp.com>`_.
 
 The geek way
 ''''''''''''
 
 .. code-block:: bash
 
-    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
-    $ cd pyaggr3g470r
+    $ git clone https://github.com/JARR-aggregator/JARR.git
+    $ cd JARR
     $ heroku create
     $ heroku addons:add heroku-postgresql:dev
     $ heroku config:set HEROKU=1
@@ -71,7 +71,7 @@ The simple way
 Alternatively, you can deploy your own copy of the app using this button:
 
 .. image:: https://www.herokucdn.com/deploy/button.png
-    :target: https://heroku.com/deploy?template=https://github.com/cedricbonhomme/pyAggr3g470r
+    :target: https://heroku.com/deploy?template=https://github.com/JARR-aggregator/JARR.git
 
 You will be prompted to choose an email and a password for the administrator's account.
 And some other optional environment variables, as previously presented.
@@ -81,8 +81,8 @@ Deploying the application on a traditional server
 
 .. code-block:: bash
 
-    $ git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
-    $ cd pyaggr3g470r/
+    $ git clone https://github.com/JARR-aggregator/JARR.git
+    $ cd JARR/
 
 If you want to use PostgreSQL
 '''''''''''''''''''''''''''''
@@ -114,7 +114,7 @@ Configuration (database url, email, proxy, user agent, etc.) is done via the
 file `conf/conf.cfg`.
 Check this file before initializing the database (with `manager.py`).
 
-If you want to use pyAggr3g470r with Tor/Privoxy, you just have to set the value
+If you want to use JARR with Tor/Privoxy, you just have to set the value
 of `http_proxy` (most of the time: `http_proxy = 127.0.0.1:8118`). Else leave
 the value blank.
 
@@ -128,4 +128,4 @@ your cron rules (*crontab -e*):
 
 .. code-block:: bash
 
-    */30 * * * * cd ~/.pyaggr3g470r/ ; python manager.py fetch_asyncio None None
+    */30 * * * * cd ~/.JARR/ ; python manager.py fetch_asyncio None None

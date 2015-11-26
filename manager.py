@@ -17,14 +17,14 @@ def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         populate_g()
-        jarr.models.db_empty(db)
+        web.models.db_empty(db)
 
 @manager.command
 def db_create():
     "Will create the database from conf parameters."
     with application.app_context():
         populate_g()
-        jarr.models.db_create(db)
+        web.models.db_create(db)
 
 @manager.command
 def fetch(limit=100, retreive_all=False):

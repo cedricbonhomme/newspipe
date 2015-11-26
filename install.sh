@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 #
-# This script install all dependencies and configure pyAggr3g470r
+# This script install all dependencies and configure JARR
 # for Python 3.
 #
 
@@ -37,7 +37,7 @@ elif [ "$1" == sqlite ]; then
     sudo pip$PYTHON_VERSION install pysqlite # not working with Python 3!
     # Add configuration lines for SQLite
     echo '[database]' >> conf/conf.cfg
-    echo 'database_url = sqlite+pysqlite:///pyAggr3g470r.db' >> conf/conf.cfg
+    echo 'database_url = sqlite+pysqlite:///jarr.db' >> conf/conf.cfg
 fi
 
 python$PYTHON_VERSION manager.py db_empty

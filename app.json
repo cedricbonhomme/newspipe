@@ -1,5 +1,5 @@
 {
-  "name": "JARR",
+  "name": "JARR (Just Another RSS Reader)",
   "description": "A news aggregator that can be deployed on Heroku.",
   "keywords": [
     "aggregator",
@@ -7,15 +7,15 @@
     "RSS"
   ],
   "repository": "https://github.com/JARR-aggregator/JARR.git",
-  "logo": "https://raw.githubusercontent.com/cedricbonhomme/pyAggr3g470r/master/pyaggr3g470r/static/img/logo.png",
+  "logo": "https://raw.githubusercontent.com/JARR-aggregator/JARR/master/web/static/img/logo.png",
   "scripts": {
     "postdeploy": "python manager.py db_create"
   },
   "env": {
     "HEROKU": "1",
-    "ADMIN_EMAIL": "root@pyAggr3g470r.localhost",
+    "ADMIN_EMAIL": "root@jarr.localhost",
     "ADMIN_PASSWORD": "password",
-    "NOTIFICATION_EMAIL": "pyAggr3g470r@no-reply.com",
+    "NOTIFICATION_EMAIL": "JARR@no-reply.com",
     "RECAPTCHA_PRIVATE_KEY": "REDACTED",
     "RECAPTCHA_PUBLIC_KEY": "REDACTED",
     "POSTMARK_API_KEY": "REDACTED"

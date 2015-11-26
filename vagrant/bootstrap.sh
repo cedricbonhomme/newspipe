@@ -4,8 +4,8 @@ apt-get update
 apt-get upgrade
 apt-get install -y python3 python3-dev libpq-dev python3-pip build-essential git
 
-# Clone the source code of pyAggr3g470r
-git clone https://bitbucket.org/cedricbonhomme/pyaggr3g470r.git
+# Clone the source code of JARR
+git clone https://github.com/JARR-aggregator/JARR.git
 if [ $? -ne 0 ]; then
     echo "\nERROR: unable to clone the git repository\n"
     exit 1;
@@ -15,7 +15,7 @@ fi
 apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
 
 # Install all Python requierements
-cd pyaggr3g470r
+cd JARR
 # For lxml
 apt-get install -y libxml2-dev libxslt1-dev
 # installation with pip
@@ -33,14 +33,14 @@ echo "ALTER USER vagrant WITH ENCRYPTED PASSWORD 'xxYzToW42';" | sudo -u postgre
 echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO vagrant;" | sudo -u postgres psql
 
 # Initializes the database
-cd pyaggr3g470r
+cd JARR
 chown -R vagrant:vagrant .
 sudo -u vagrant python3 manager.py db_empty
 sudo -u vagrant python3 manager.py db_create
 
 # start pyAggr3g470r at startup
 echo "#!/bin/sh -e" > /etc/rc.local
-echo "cd /home/vagrant/pyaggr3g470r/" >> /etc/rc.local
+echo "cd /home/vagrant/JARR/" >> /etc/rc.local
 echo "sudo -u vagrant python3 runserver.py &" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 chmod 755 /etc/rc.local
@@ -52,7 +52,7 @@ chmod 755 /etc/rc.local
 #write out current crontab
 sudo -u vagrant crontab -l > mycron
 #echo new cron into cron file
-sudo -u vagrant echo "*/30 * * * * cd /home/vagrant/pyaggr3g470r/ ; python3 manager.py fetch_asyncio None None" >> mycron
+sudo -u vagrant echo "*/30 * * * * cd /home/vagrant/JARR/ ; python3 manager.py fetch_asyncio None None" >> mycron
 #install new cron file
 sudo -u vagrant crontab mycron
 sudo -u vagrant rm mycron

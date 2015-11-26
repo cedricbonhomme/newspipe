@@ -21,7 +21,7 @@ resolve_article_url = false
 api_login =
 api_passwd =
 [notification]
-notification_email = jarr@no-reply.com
+notification_email = JARR@no-reply.com
 host = smtp.googlemail.com
 port = 465
 tls = false

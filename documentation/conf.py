@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'jarr'
+project = u'JARR (Just Another RSS Reader)'
 copyright = u'2015, Cédric Bonhomme'
 
 # The version info for the project you're documenting, acts as replacement for
