@@ -121,13 +121,13 @@ def insert_database(user, feed):
                         **extract_id(article)).count() != 0
         if exist:
             logger.debug("Article %r (%r) already in the database.",
-                         article.title, article.link)
+                         article['title'], article['link'])
             continue
         article = construct_article(article, feed)
         try:
             new_articles.append(art_contr.create(**article))
             logger.info("New article % (%r) added.",
-                        article.title, article.link)
+                        article['title'], article['link'])
         except Exception as e:
             logger.exception("Error when inserting article in database:")
             continue
