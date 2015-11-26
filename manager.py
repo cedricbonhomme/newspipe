@@ -5,7 +5,7 @@ from bootstrap import application, db, populate_g, conf
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
-import webr.models
+import web.models
 
 Migrate(application, db)
 
