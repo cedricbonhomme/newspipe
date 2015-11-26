@@ -31,7 +31,7 @@ Python 3.4 is recommended.
 Documentation
 =============
 
-A documentation is available `here <https://pyaggr3g470r.readthedocs.org>`_.
+A documentation is available `here <https://jarr.readthedocs.org>`_.
 
 Internationalization
 ====================
