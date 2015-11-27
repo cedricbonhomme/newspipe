@@ -41,7 +41,7 @@ chown -R vagrant:vagrant .
 sudo -u vagrant python3 manager.py db_empty
 sudo -u vagrant python3 manager.py db_create
 
-# start pyAggr3g470r at startup
+# start JARR at startup
 echo "#!/bin/sh -e" > /etc/rc.local
 echo "cd /home/vagrant/JARR/" >> /etc/rc.local
 echo "sudo -u vagrant python3 runserver.py &" >> /etc/rc.local
@@ -49,7 +49,7 @@ echo "exit 0" >> /etc/rc.local
 chmod 755 /etc/rc.local
 
 # Start the application.
-/etc/init.d/rc.local start
+sudo /etc/init.d/rc.local start
 
 
 #write out current crontab
