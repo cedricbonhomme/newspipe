@@ -8,11 +8,11 @@ Presentation
 `JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_ is a
 web-based news aggregator.
 
-Features
-========
+Main features
+=============
 
-* can be deployed on Heroku or on a traditional server;
-* multiple users can use the platform;
+* can be easily deployed on Heroku or on a traditional server;
+* multiple users can use a JARR instance;
 * a RESTful API to manage your articles;
 * data liberation: export and import all your account with a JSON file;
 * export and import feeds with OPML files;
@@ -31,7 +31,8 @@ Python 3.4 is recommended.
 Documentation
 =============
 
-A documentation is available `here <https://jarr.readthedocs.org>`_.
+A documentation is available `here <https://jarr.readthedocs.org>`_ and provides
+different ways to install JARR.
 
 Internationalization
 ====================
