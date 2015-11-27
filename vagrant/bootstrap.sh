@@ -19,6 +19,9 @@ cd JARR
 # For lxml
 apt-get install -y libxml2-dev libxslt1-dev
 # installation with pip
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3.4 get-pip.py
+rm get-pip.py
 sudo pip3 install --upgrade -r requirements.txt
 # copy of the default configuration files for vagrant
 cp vagrant/conf.cfg-sample conf/conf.cfg
