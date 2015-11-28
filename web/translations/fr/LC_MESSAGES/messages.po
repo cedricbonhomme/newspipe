@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-29 00:04+0100\n"
-"PO-Revision-Date: 2015-11-29 00:08+0100\n"
+"POT-Creation-Date: 2015-11-29 00:16+0100\n"
+"PO-Revision-Date: 2015-11-29 00:18+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -152,8 +152,12 @@ msgid "JARR is a news aggregator platform."
 msgstr "JARR est un agrégateur de nouvelles Web."
 
 #: web/templates/about.html:8
-msgid "You can easily install JARR on your server."
-msgstr "Vous pouvez facilement installer JARR sur votre serveur."
+msgid ""
+"You can easily <a href=\"https://jarr.readthedocs.org/en/latest/deployment."
+"html\">install JARR on your server</a>."
+msgstr ""
+"Vous pouvez facilement <a href=\"https://jarr.readthedocs.org/en/latest/"
+"deployment.html\">installer JARR sur votre serveur</a>."
 
 #: web/templates/about.html:9
 msgid "Alternatively, you can deploy your own copy using this button:"
@@ -931,6 +935,9 @@ msgstr "Problème lors de l'envoi d'email d'activation"
 #: web/views/views.py:794
 msgid "successfully disabled."
 msgstr "désactivé avec succès."
+
+#~ msgid "You can easily install JARR on your server."
+#~ msgstr "Vous pouvez facilement installer JARR sur votre serveur."
 
 #~ msgid ""
 #~ "pyAggr3g470r is a news aggregator platform and can be shared between "

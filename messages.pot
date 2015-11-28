@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-29 00:03+0100\n"
+"POT-Creation-Date: 2015-11-29 00:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,7 +148,10 @@ msgid "JARR is a news aggregator platform."
 msgstr ""
 
 #: web/templates/about.html:8
-msgid "You can easily install JARR on your server."
+msgid ""
+"You can easily <a "
+"href=\"https://jarr.readthedocs.org/en/latest/deployment.html\">install "
+"JARR on your server</a>."
 msgstr ""
 
 #: web/templates/about.html:9
