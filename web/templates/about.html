@@ -4,19 +4,19 @@
     <div class="well">
         <h1>{{ _('About') }}</h1>
         <p>
-        {{ _('JARR is a news aggregator platform and can be shared between several users.') }}
+        {{ _('JARR is a news aggregator platform.') }}
         {{ _('You can easily install JARR on your server.') }}
         {{ _('Alternatively, you can deploy your own copy using this button:') }}</p>
-        <a class="reference external image-reference" href="https://heroku.com/deploy?template=https://github.com/cedricbonhomme/JARR"><img alt="https://www.herokucdn.com/deploy/button.png" src="https://www.herokucdn.com/deploy/button.png" /></a></p>
+        <a class="reference external image-reference" href="https://github.com/JARR-aggregator/JARR"><img alt="https://www.herokucdn.com/deploy/button.png" src="https://www.herokucdn.com/deploy/button.png" /></a></p>
         <p>{{ _('This software is under AGPLv3 license. You are welcome to copy, modify or
-        redistribute the <a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r">source code</a>
+        redistribute the <a href="https://github.com/JARR-aggregator/JARR">source code</a>
         according to the <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero GPL</a> license.') }}</p>
-        <p>{{ _('Found a bug? Report it <a href="https://bitbucket.org/cedricbonhomme/pyaggr3g470r/issues">here</a>.') }}</p>
+        <p>{{ _('Found a bug? Report it <a href="https://github.com/JARR-aggregator/JARR/issues">here</a>.') }}</p>
     </div>
     <div class="well">
         <h1>{{ _('Help') }}</h1>
-        <p>{{ _('If you have any problem, <a href="http://wiki.cedricbonhomme.org/contact">contact</a> the administrator.') }}</p>
-        <p>{{ _('The documentation of the RESTful API is <a href="https://pyaggr3g470r.readthedocs.org/en/latest/web-services.html">here</a>.') }}</p>
+        <p>{{ _('If you have any problem, <a href="https://wiki.cedricbonhomme.org/contact">contact</a> the administrator.') }}</p>
+        <p>{{ _('The documentation of the RESTful API is <a href="https://jarr.readthedocs.org/en/latest/web-services.html">here</a>.') }}</p>
         <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
         {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using JARR</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
     </div>
