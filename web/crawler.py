@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 3.2 $"
+__version__ = "$Revision: 3.3 $"
 __date__ = "$Date: 2010/09/02 $"
-__revision__ = "$Date: 2015/04/08 $"
+__revision__ = "$Date: 2015/12/07 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -54,8 +54,8 @@ else:
     # Handle target environment that doesn't support HTTPS verification
     ssl._create_default_https_context = _create_unverified_https_context
 
-@asyncio.coroutine
-def get(*args, **kwargs):
+
+async def get(*args, **kwargs):
     #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
     try:
         #logger.info("Fetching the feed: " + args[0])
@@ -66,15 +66,15 @@ def get(*args, **kwargs):
     except Exception as e:
         raise e
 
-@asyncio.coroutine
-def parse_feed(user, feed):
+
+async def parse_feed(user, feed):
     """
     Fetch a feed.
     """
     a_feed = None
-    with (yield from sem):
+    with (await sem):
         try:
-            a_feed = yield from get(feed.link)
+            a_feed = await get(feed.link)
         except Exception as e:
             feed.last_error = str(e)
         finally:
@@ -104,10 +104,9 @@ def parse_feed(user, feed):
     return a_feed['entries']
 
 
-@asyncio.coroutine
-def insert_database(user, feed):
+async def insert_database(user, feed):
 
-    articles = yield from asyncio.async(parse_feed(user, feed))
+    articles = await parse_feed(user, feed)
     if None is articles:
         return []
 
@@ -133,12 +132,13 @@ def insert_database(user, feed):
             continue
     return new_articles
 
-@asyncio.coroutine
-def init_process(user, feed):
+
+async def init_process(user, feed):
     # Fetch the feed and insert new articles in the database
-    articles = yield from asyncio.async(insert_database(user, feed))
+    articles = await insert_database(user, feed)
     logger.debug('inserted articles for %s', feed.title)
     return articles
+
 
 def retrieve_feed(loop, user, feed_id=None):
     """
@@ -155,14 +155,10 @@ def retrieve_feed(loop, user, feed_id=None):
 
     if feeds == []:
         return
+
     # Launch the process for all the feeds
-    tasks = []
-    try:
-        # Python 3.5 (test)
-        tasks = [asyncio.ensure_future(init_process(user, feed))
-                 for feed in feeds]
-    except:
-        tasks = [init_process(user, feed) for feed in feeds]
+    tasks = [asyncio.ensure_future(init_process(user, feed)) for feed in feeds]
+
     try:
         loop.run_until_complete(asyncio.wait(tasks))
     except Exception:
