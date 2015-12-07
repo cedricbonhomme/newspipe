@@ -25,7 +25,7 @@ The core technologies are `Flask <http://flask.pocoo.org>`_,
 `asyncio <https://www.python.org/dev/peps/pep-3156/>`_ and
 `SQLAlchemy <http://www.sqlalchemy.org>`_.
 
-Python 3.4 is recommended.
+Python 3.5 is recommended.
 
 Documentation
 =============
