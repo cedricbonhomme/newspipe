@@ -22,6 +22,6 @@ eproject.cfg
 venv
 build
 
-
+documentation/_build/
 conf/conf.cfg
 .coverage
