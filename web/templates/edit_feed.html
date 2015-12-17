@@ -43,8 +43,8 @@
                     <input value="+" type="button" class="form-control" id="add-feed-filter-row" />
                 </div>
             </div>
+            <div class="form-inline col-sm-offset-4 col-sm-8" id="filters-container">
                 {% if feed %}
-                    <div class="form-inline col-sm-offset-4 col-sm-8" id="filters-container">
                     {% for filter_ in feed.filters or [] %}
                         <div class="form-group">
                             <input value="-" type="button" class="form-control del-feed-filter-row" />
@@ -63,9 +63,8 @@
                             </select>
                         </div>
                     {% endfor %}
-                    </div>
-
                 {% endif %}
+            </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
