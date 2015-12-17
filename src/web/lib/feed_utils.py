@@ -47,7 +47,11 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             or all(bool(feed.get(k)) for k in ('link', 'title', 'icon_url')):
         return feed
 
-    response = requests.get(feed['site_link'], verify=False)
+    try:
+        response = requests.get(feed['site_link'], verify=False)
+    except Exception:
+        logger.exception('failed to retreive %r', feed['site_link'])
+        return feed
     bs_parsed = BeautifulSoup(response.content, 'html.parser',
                               parse_only=SoupStrainer('head'))
 
