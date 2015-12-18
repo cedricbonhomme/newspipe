@@ -9,7 +9,7 @@
   "repository": "https://github.com/JARR-aggregator/JARR.git",
   "logo": "https://raw.githubusercontent.com/JARR-aggregator/JARR/master/web/static/img/logo.png",
   "scripts": {
-    "postdeploy": "python manager.py db_create"
+    "postdeploy": "python src/manager.py db_create"
   },
   "env": {
     "HEROKU": "1",
