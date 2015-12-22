@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-29 00:16+0100\n"
+"POT-Creation-Date: 2015-12-22 16:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,148 +17,149 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.1.1\n"
 
-#: web/forms.py:45 web/forms.py:113 web/forms.py:136
-#: web/templates/admin/dashboard.html:12
+#: src/web/forms.py:45 src/web/forms.py:113 src/web/forms.py:136
+#: src/web/templates/admin/dashboard.html:12
 msgid "Nickname"
 msgstr ""
 
-#: web/forms.py:46 web/forms.py:114 web/forms.py:137
+#: src/web/forms.py:46 src/web/forms.py:114 src/web/forms.py:137
 msgid "Please enter your nickname."
 msgstr ""
 
-#: web/forms.py:47 web/forms.py:115 web/forms.py:138 web/forms.py:186
-#: web/templates/admin/dashboard.html:13
+#: src/web/forms.py:47 src/web/forms.py:115 src/web/forms.py:138
+#: src/web/forms.py:186 src/web/templates/admin/dashboard.html:13
 msgid "Email"
 msgstr ""
 
-#: web/forms.py:50 web/forms.py:86 web/forms.py:189
+#: src/web/forms.py:50 src/web/forms.py:86 src/web/forms.py:189
 msgid "Please enter your email address."
 msgstr ""
 
-#: web/forms.py:51 web/forms.py:87 web/forms.py:118 web/forms.py:141
+#: src/web/forms.py:51 src/web/forms.py:87 src/web/forms.py:118
+#: src/web/forms.py:141
 msgid "Password"
 msgstr ""
 
-#: web/forms.py:52 web/forms.py:88
+#: src/web/forms.py:52 src/web/forms.py:88
 msgid "Please enter a password."
 msgstr ""
 
-#: web/forms.py:55 web/templates/login.html:26
+#: src/web/forms.py:55 src/web/templates/login.html:26
 msgid "Sign up"
 msgstr ""
 
-#: web/forms.py:60 web/forms.py:127 web/forms.py:156
+#: src/web/forms.py:60 src/web/forms.py:127 src/web/forms.py:156
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
 msgstr ""
 
-#: web/forms.py:90 web/templates/login.html:5
+#: src/web/forms.py:90 src/web/templates/login.html:5
 msgid "Log In"
 msgstr ""
 
-#: web/forms.py:101
+#: src/web/forms.py:101
 msgid "Account not confirmed"
 msgstr ""
 
-#: web/forms.py:104
+#: src/web/forms.py:104
 msgid "Invalid email or password"
 msgstr ""
 
-#: web/forms.py:117 web/forms.py:140
+#: src/web/forms.py:117 src/web/forms.py:140
 msgid "Please enter your email."
 msgstr ""
 
-#: web/forms.py:119 web/forms.py:143
+#: src/web/forms.py:119 src/web/forms.py:143
 msgid "Feeds refresh frequency (in minutes)"
 msgstr ""
 
-#: web/forms.py:122 web/forms.py:146 web/forms.py:169
+#: src/web/forms.py:122 src/web/forms.py:146 src/web/forms.py:169
 msgid "Save"
 msgstr ""
 
-#: web/forms.py:142
+#: src/web/forms.py:142
 msgid "Password Confirmation"
 msgstr ""
 
-#: web/forms.py:151
+#: src/web/forms.py:151
 msgid "Passwords aren't the same."
 msgstr ""
 
-#: web/forms.py:164 web/templates/feed_list.html:10
-#: web/templates/layout.html:106
+#: src/web/forms.py:164 src/web/templates/feed_list.html:10
+#: src/web/templates/layout.html:106
 msgid "Title"
 msgstr ""
 
-#: web/forms.py:165
+#: src/web/forms.py:165
 msgid "Feed link"
 msgstr ""
 
-#: web/forms.py:166
+#: src/web/forms.py:166
 msgid "Please enter the URL."
 msgstr ""
 
-#: web/forms.py:167
+#: src/web/forms.py:167
 msgid "Site link"
 msgstr ""
 
-#: web/forms.py:168
+#: src/web/forms.py:168
 msgid "Check for updates"
 msgstr ""
 
-#: web/forms.py:178
+#: src/web/forms.py:178
 msgid "Subject"
 msgstr ""
 
-#: web/forms.py:179
+#: src/web/forms.py:179
 msgid "Please enter a subject."
 msgstr ""
 
-#: web/forms.py:180
+#: src/web/forms.py:180
 msgid "Message"
 msgstr ""
 
-#: web/forms.py:181
+#: src/web/forms.py:181
 msgid "Please enter a content."
 msgstr ""
 
-#: web/forms.py:182
+#: src/web/forms.py:182
 msgid "Send"
 msgstr ""
 
-#: web/forms.py:190
+#: src/web/forms.py:190
 msgid "Recover"
 msgstr ""
 
-#: web/forms.py:200
+#: src/web/forms.py:200
 msgid "Account not confirmed."
 msgstr ""
 
-#: web/forms.py:203
+#: src/web/forms.py:203
 msgid "Invalid email."
 msgstr ""
 
-#: web/templates/about.html:5 web/templates/layout.html:85
-#: web/templates/layout.html:118
+#: src/web/templates/about.html:5 src/web/templates/layout.html:85
+#: src/web/templates/layout.html:118
 msgid "About"
 msgstr ""
 
-#: web/templates/about.html:7
+#: src/web/templates/about.html:7
 msgid "JARR is a news aggregator platform."
 msgstr ""
 
-#: web/templates/about.html:8
+#: src/web/templates/about.html:8
 msgid ""
 "You can easily <a "
 "href=\"https://jarr.readthedocs.org/en/latest/deployment.html\">install "
 "JARR on your server</a>."
 msgstr ""
 
-#: web/templates/about.html:9
+#: src/web/templates/about.html:9
 msgid "Alternatively, you can deploy your own copy using this button:"
 msgstr ""
 
-#: web/templates/about.html:11
+#: src/web/templates/about.html:11
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
@@ -169,739 +170,742 @@ msgid ""
 "license."
 msgstr ""
 
-#: web/templates/about.html:14
+#: src/web/templates/about.html:14
 msgid ""
 "Found a bug? Report it <a href=\"https://github.com/JARR-"
 "aggregator/JARR/issues\">here</a>."
 msgstr ""
 
-#: web/templates/about.html:17
+#: src/web/templates/about.html:17
 msgid "Help"
 msgstr ""
 
-#: web/templates/about.html:18
+#: src/web/templates/about.html:18
 msgid ""
 "If you have any problem, <a "
 "href=\"https://wiki.cedricbonhomme.org/contact\">contact</a> the "
 "administrator."
 msgstr ""
 
-#: web/templates/about.html:19
+#: src/web/templates/about.html:19
 msgid ""
 "The documentation of the RESTful API is <a "
 "href=\"https://jarr.readthedocs.org/en/latest/web-"
 "services.html\">here</a>."
 msgstr ""
 
-#: web/templates/about.html:20
+#: src/web/templates/about.html:20
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following "
 "button to your browser bookmarks."
 msgstr ""
 
-#: web/templates/about.html:21
+#: src/web/templates/about.html:21
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" "
 "rel=\"bookmark\">Subscribe to this feed using JARR</a>"
 msgstr ""
 
-#: web/templates/about.html:24
+#: src/web/templates/about.html:24
 msgid "Donation"
 msgstr ""
 
-#: web/templates/about.html:25
+#: src/web/templates/about.html:25
 msgid ""
 "If you wish and if you like JARR, you can donate via bitcoin <a "
 "href=\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>."
 " Thank you!"
 msgstr ""
 
-#: web/templates/article.html:6
+#: src/web/templates/article.html:6
 msgid "from"
 msgstr ""
 
-#: web/templates/article.html:7 web/templates/duplicates.html:22
-#: web/templates/duplicates.html:23 web/templates/home.html:95
+#: src/web/templates/article.html:7 src/web/templates/duplicates.html:22
+#: src/web/templates/duplicates.html:23 src/web/templates/home.html:95
 msgid "Delete this article"
 msgstr ""
 
-#: web/templates/article.html:9 web/templates/home.html:97
+#: src/web/templates/article.html:9 src/web/templates/home.html:97
 msgid "One of your favorites"
 msgstr ""
 
-#: web/templates/article.html:11 web/templates/home.html:99
+#: src/web/templates/article.html:11 src/web/templates/home.html:99
 msgid "Click if you like this article"
 msgstr ""
 
-#: web/templates/article.html:14 web/templates/home.html:102
+#: src/web/templates/article.html:14 src/web/templates/home.html:102
 msgid "Mark this article as unread"
 msgstr ""
 
-#: web/templates/article.html:16 web/templates/home.html:104
+#: src/web/templates/article.html:16 src/web/templates/home.html:104
 msgid "Mark this article as read"
 msgstr ""
 
-#: web/templates/article.html:26
+#: src/web/templates/article.html:26
 msgid "Next post:"
 msgstr ""
 
-#: web/templates/article.html:29
+#: src/web/templates/article.html:29
 msgid "Previous post:"
 msgstr ""
 
-#: web/templates/article.html:35 web/templates/article.html:38
-#: web/templates/article.html:41
+#: src/web/templates/article.html:35 src/web/templates/article.html:38
+#: src/web/templates/article.html:41
 msgid "Share on"
 msgstr ""
 
-#: web/templates/duplicates.html:4
+#: src/web/templates/duplicates.html:4
 msgid "Duplicates in the feed"
 msgstr ""
 
-#: web/templates/duplicates.html:11 web/templates/duplicates.html:14
+#: src/web/templates/duplicates.html:11 src/web/templates/duplicates.html:14
 msgid "Delete all in this column"
 msgstr ""
 
-#: web/templates/edit_feed.html:19 web/templates/edit_feed.html:27
+#: src/web/templates/edit_feed.html:19 src/web/templates/edit_feed.html:27
 msgid "Optional"
 msgstr ""
 
-#: web/templates/edit_feed.html:41
+#: src/web/templates/edit_feed.html:41
 msgid "Filters"
 msgstr ""
 
-#: web/templates/edit_feed.html:52
+#: src/web/templates/edit_feed.html:52
 msgid "simple match"
 msgstr ""
 
-#: web/templates/edit_feed.html:53
+#: src/web/templates/edit_feed.html:53
 msgid "regex"
 msgstr ""
 
-#: web/templates/edit_feed.html:57
+#: src/web/templates/edit_feed.html:57
 msgid "match"
 msgstr ""
 
-#: web/templates/edit_feed.html:58
+#: src/web/templates/edit_feed.html:58
 msgid "no match"
 msgstr ""
 
-#: web/templates/edit_feed.html:61
+#: src/web/templates/edit_feed.html:61
 msgid "mark as read"
 msgstr ""
 
-#: web/templates/edit_feed.html:62
+#: src/web/templates/edit_feed.html:62
 msgid "mark as favorite"
 msgstr ""
 
-#: web/templates/feed.html:7 web/templates/feed_list.html:40
-#: web/templates/home.html:31 web/templates/home.html:48
+#: src/web/templates/feed.html:7 src/web/templates/feed_list.html:40
+#: src/web/templates/home.html:31 src/web/templates/home.html:48
 msgid "Delete this feed"
 msgstr ""
 
-#: web/templates/feed.html:7 web/templates/feed_list.html:40
-#: web/templates/home.html:31 web/templates/home.html:48
+#: src/web/templates/feed.html:7 src/web/templates/feed_list.html:40
+#: src/web/templates/home.html:31 src/web/templates/home.html:48
 msgid "You are going to delete this feed."
 msgstr ""
 
-#: web/templates/feed.html:8 web/templates/feed_list.html:38
-#: web/templates/home.html:30 web/templates/home.html:47
+#: src/web/templates/feed.html:8 src/web/templates/feed_list.html:38
+#: src/web/templates/home.html:30 src/web/templates/home.html:47
 msgid "Edit this feed"
 msgstr ""
 
-#: web/templates/feed.html:12
+#: src/web/templates/feed.html:12
 msgid "This feed contains"
 msgstr ""
 
-#: web/templates/feed.html:12
+#: src/web/templates/feed.html:12
 msgid "articles"
 msgstr ""
 
-#: web/templates/feed.html:13
+#: src/web/templates/feed.html:13
 msgid "Address of the feed"
 msgstr ""
 
-#: web/templates/feed.html:15
+#: src/web/templates/feed.html:15
 msgid "Address of the site"
 msgstr ""
 
-#: web/templates/feed.html:21
+#: src/web/templates/feed.html:21
 msgid "Last download:"
 msgstr ""
 
-#: web/templates/feed.html:25
+#: src/web/templates/feed.html:25
 msgid ""
 "That feed has encountered too much consecutive errors and won't be "
 "retrieved anymore."
 msgstr ""
 
-#: web/templates/feed.html:26
+#: src/web/templates/feed.html:26
 #, python-format
 msgid ""
 "You can click <a href='%(reset_error_url)s'>here</a> to reset the error "
 "count and reactivate the feed."
 msgstr ""
 
-#: web/templates/feed.html:28
+#: src/web/templates/feed.html:28
 msgid ""
 "The download of this feed has encountered some problems. However its "
 "error counter will be reinitialized at the next successful retrieving."
 msgstr ""
 
-#: web/templates/feed.html:32
+#: src/web/templates/feed.html:32
 msgid "Here's the last error encountered while retrieving this feed:"
 msgstr ""
 
-#: web/templates/feed.html:36
+#: src/web/templates/feed.html:36
 msgid "The last article was posted"
 msgstr ""
 
-#: web/templates/feed.html:36
+#: src/web/templates/feed.html:36
 msgid "day(s) ago."
 msgstr ""
 
-#: web/templates/feed.html:37
+#: src/web/templates/feed.html:37
 msgid "Daily average"
 msgstr ""
 
-#: web/templates/feed.html:37
+#: src/web/templates/feed.html:37
 msgid "between the"
 msgstr ""
 
-#: web/templates/feed.html:37
+#: src/web/templates/feed.html:37
 msgid "and the"
 msgstr ""
 
-#: web/templates/feed_list.html:2
+#: src/web/templates/feed_list.html:2
 msgid "No feed"
 msgstr ""
 
-#: web/templates/feed_list.html:9
+#: src/web/templates/feed_list.html:9
 msgid "Status"
 msgstr ""
 
-#: web/templates/feed_list.html:11
+#: src/web/templates/feed_list.html:11
 msgid "Site"
 msgstr ""
 
-#: web/templates/feed_list.html:12 web/templates/feed_list.html:37
+#: src/web/templates/feed_list.html:12 src/web/templates/feed_list.html:37
 msgid "Articles"
 msgstr ""
 
-#: web/templates/feed_list.html:13 web/templates/admin/dashboard.html:15
+#: src/web/templates/feed_list.html:13
+#: src/web/templates/admin/dashboard.html:15
 msgid "Actions"
 msgstr ""
 
-#: web/templates/feed_list.html:22
+#: src/web/templates/feed_list.html:22
 msgid "Feed enabled"
 msgstr ""
 
-#: web/templates/feed_list.html:24
+#: src/web/templates/feed_list.html:24
 msgid "Feed disabled"
 msgstr ""
 
-#: web/templates/feed_list.html:27
+#: src/web/templates/feed_list.html:27
 msgid "Feed encountered too much errors."
 msgstr ""
 
-#: web/templates/feed_list.html:39
+#: src/web/templates/feed_list.html:39
 msgid "Duplicate articles"
 msgstr ""
 
-#: web/templates/feeds.html:4 web/templates/management.html:6
+#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
 msgid "You are subscribed to"
 msgstr ""
 
-#: web/templates/feeds.html:4 web/templates/management.html:6
+#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
 msgid "feeds"
 msgstr ""
 
-#: web/templates/feeds.html:4 web/templates/management.html:6
+#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
 msgid "Add a"
 msgstr ""
 
-#: web/templates/feeds.html:4 web/templates/management.html:6
+#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
 msgid "feed"
 msgstr ""
 
-#: web/templates/history.html:4 web/templates/layout.html:74
+#: src/web/templates/history.html:4 src/web/templates/layout.html:74
 msgid "History"
 msgstr ""
 
-#: web/templates/history.html:9
+#: src/web/templates/history.html:9
 msgid "all years"
 msgstr ""
 
-#: web/templates/home.html:5
+#: src/web/templates/home.html:5
 msgid "You don't have any feeds."
 msgstr ""
 
-#: web/templates/home.html:6
+#: src/web/templates/home.html:6
 msgid "Add some"
 msgstr ""
 
-#: web/templates/home.html:6 web/templates/management.html:13
+#: src/web/templates/home.html:6 src/web/templates/management.html:13
 msgid "or"
 msgstr ""
 
-#: web/templates/home.html:6
+#: src/web/templates/home.html:6
 msgid "upload an OPML file."
 msgstr ""
 
-#: web/templates/home.html:15
+#: src/web/templates/home.html:15
 msgid "All feeds"
 msgstr ""
 
-#: web/templates/home.html:22 web/templates/home.html:39
+#: src/web/templates/home.html:22 src/web/templates/home.html:39
 msgid "error"
 msgstr ""
 
-#: web/templates/home.html:29 web/templates/home.html:46
+#: src/web/templates/home.html:29 src/web/templates/home.html:46
 msgid "Details"
 msgstr ""
 
-#: web/templates/home.html:32 web/templates/home.html:49
+#: src/web/templates/home.html:32 src/web/templates/home.html:49
 msgid "Mark this feed as read"
 msgstr ""
 
-#: web/templates/home.html:33 web/templates/home.html:50
+#: src/web/templates/home.html:33 src/web/templates/home.html:50
 msgid "Mark this feed as unread"
 msgstr ""
 
-#: web/templates/home.html:68 web/templates/home.html:76
-#: web/templates/layout.html:75
+#: src/web/templates/home.html:68 src/web/templates/home.html:76
+#: src/web/templates/layout.html:75
 msgid "All"
 msgstr ""
 
-#: web/templates/home.html:69
+#: src/web/templates/home.html:69
 msgid "Read"
 msgstr ""
 
-#: web/templates/home.html:70
+#: src/web/templates/home.html:70
 msgid "Unread"
 msgstr ""
 
-#: web/templates/home.html:86 web/templates/layout.html:67
+#: src/web/templates/home.html:86 src/web/templates/layout.html:67
 msgid "Feed"
 msgstr ""
 
-#: web/templates/home.html:87 web/views/views.py:418
+#: src/web/templates/home.html:87 src/web/views/views.py:418
 msgid "Article"
 msgstr ""
 
-#: web/templates/home.html:88
+#: src/web/templates/home.html:88
 msgid "Date"
 msgstr ""
 
-#: web/templates/home.html:113
+#: src/web/templates/home.html:113
 msgid "No icon found for this feed"
 msgstr ""
 
-#: web/templates/inactives.html:6
+#: src/web/templates/inactives.html:6
 msgid "Days of inactivity"
 msgstr ""
 
-#: web/templates/inactives.html:17
+#: src/web/templates/inactives.html:17
 msgid "days"
 msgstr ""
 
-#: web/templates/inactives.html:22
+#: src/web/templates/inactives.html:22
 msgid "No inactive feeds."
 msgstr ""
 
-#: web/templates/layout.html:40 web/templates/layout.html:43
-#: web/views/feed.py:151
+#: src/web/templates/layout.html:40 src/web/templates/layout.html:43
+#: src/web/views/feed.py:151
 msgid "Add a feed"
 msgstr ""
 
-#: web/templates/layout.html:49
+#: src/web/templates/layout.html:49
 msgid "site or feed url"
 msgstr ""
 
-#: web/templates/layout.html:59
+#: src/web/templates/layout.html:59
 msgid "Home"
 msgstr ""
 
-#: web/templates/layout.html:61 web/views/views.py:315
+#: src/web/templates/layout.html:61 src/web/views/views.py:315
 msgid "Favorites"
 msgstr ""
 
-#: web/templates/layout.html:64
+#: src/web/templates/layout.html:64
 msgid "Fetch"
 msgstr ""
 
-#: web/templates/layout.html:69
+#: src/web/templates/layout.html:69
 msgid "Mark all as read"
 msgstr ""
 
-#: web/templates/layout.html:70
+#: src/web/templates/layout.html:70
 msgid "Mark all as read older than yesterday"
 msgstr ""
 
-#: web/templates/layout.html:71
+#: src/web/templates/layout.html:71
 msgid "Mark all as read older than 10 days"
 msgstr ""
 
-#: web/templates/layout.html:73
+#: src/web/templates/layout.html:73
 msgid "Inactive"
 msgstr ""
 
-#: web/templates/layout.html:83
+#: src/web/templates/layout.html:83
 msgid "Profile"
 msgstr ""
 
-#: web/templates/layout.html:84
+#: src/web/templates/layout.html:84
 msgid "Your data"
 msgstr ""
 
-#: web/templates/layout.html:88
+#: src/web/templates/layout.html:88
 msgid "Dashboard"
 msgstr ""
 
-#: web/templates/layout.html:91
+#: src/web/templates/layout.html:91
 msgid "Logout"
 msgstr ""
 
-#: web/templates/layout.html:109
+#: src/web/templates/layout.html:109
 msgid "Content"
 msgstr ""
 
-#: web/templates/layout.html:111
+#: src/web/templates/layout.html:111
 msgid "Search"
 msgstr ""
 
-#: web/templates/login.html:10 web/templates/recover.html:12
+#: src/web/templates/login.html:10 src/web/templates/recover.html:12
 msgid "Your email"
 msgstr ""
 
-#: web/templates/login.html:17
+#: src/web/templates/login.html:17
 msgid "Your Password"
 msgstr ""
 
-#: web/templates/login.html:28
+#: src/web/templates/login.html:28
 msgid "Forgot password"
 msgstr ""
 
-#: web/templates/management.html:5
+#: src/web/templates/management.html:5
 msgid "Your subscriptions"
 msgstr ""
 
-#: web/templates/management.html:7
+#: src/web/templates/management.html:7
 msgid "articles are stored in the database with"
 msgstr ""
 
-#: web/templates/management.html:7
+#: src/web/templates/management.html:7
 msgid "unread articles"
 msgstr ""
 
-#: web/templates/management.html:8
+#: src/web/templates/management.html:8
 msgid "You are going to delete old articles."
 msgstr ""
 
-#: web/templates/management.html:8
+#: src/web/templates/management.html:8
 msgid "Delete articles older than 10 weeks"
 msgstr ""
 
-#: web/templates/management.html:11
+#: src/web/templates/management.html:11
 msgid "OPML import/export"
 msgstr ""
 
-#: web/templates/management.html:13
+#: src/web/templates/management.html:13
 msgid "Batch import feeds from OPML"
 msgstr ""
 
-#: web/templates/management.html:17
+#: src/web/templates/management.html:17
 msgid "Export feeds to OPML"
 msgstr ""
 
-#: web/templates/management.html:18
+#: src/web/templates/management.html:18
 msgid "Data liberation"
 msgstr ""
 
-#: web/templates/management.html:20
+#: src/web/templates/management.html:20
 msgid "Import account"
 msgstr ""
 
-#: web/templates/management.html:24
+#: src/web/templates/management.html:24
 msgid "Export account to JSON"
 msgstr ""
 
-#: web/templates/management.html:27
+#: src/web/templates/management.html:27
 msgid "Export articles"
 msgstr ""
 
-#: web/templates/profile.html:5
+#: src/web/templates/profile.html:5
 msgid "Your Profile"
 msgstr ""
 
-#: web/templates/profile.html:8 web/templates/admin/user.html:12
+#: src/web/templates/profile.html:8 src/web/templates/admin/user.html:12
 msgid "Member since"
 msgstr ""
 
-#: web/templates/profile.html:9 web/templates/admin/user.html:13
+#: src/web/templates/profile.html:9 src/web/templates/admin/user.html:13
 msgid "Last seen:"
 msgstr ""
 
-#: web/templates/profile.html:14
+#: src/web/templates/profile.html:14
 msgid "You are going to delete your account."
 msgstr ""
 
-#: web/templates/profile.html:14
+#: src/web/templates/profile.html:14
 msgid "Delete your account"
 msgstr ""
 
-#: web/templates/recover.html:5
+#: src/web/templates/recover.html:5
 msgid "Recover your account"
 msgstr ""
 
-#: web/templates/signup.html:10
+#: src/web/templates/signup.html:10
 msgid "Letters, numbers, dots and underscores only."
 msgstr ""
 
-#: web/templates/signup.html:17
+#: src/web/templates/signup.html:17
 msgid "Minimum 6 characters."
 msgstr ""
 
-#: web/templates/admin/dashboard.html:7
+#: src/web/templates/admin/dashboard.html:7
 msgid "Registered users"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:14
+#: src/web/templates/admin/dashboard.html:14
 msgid "Last seen"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:30
+#: src/web/templates/admin/dashboard.html:30
 msgid "View this user"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:31 web/templates/admin/user.html:8
+#: src/web/templates/admin/dashboard.html:31
+#: src/web/templates/admin/user.html:8
 msgid "Edit this user"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:38
+#: src/web/templates/admin/dashboard.html:38
 msgid "Delete this user"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:38
+#: src/web/templates/admin/dashboard.html:38
 msgid "You are going to delete this account."
 msgstr ""
 
-#: web/templates/admin/dashboard.html:45 web/views/views.py:734
+#: src/web/templates/admin/dashboard.html:45 src/web/views/views.py:734
 msgid "Add a new user"
 msgstr ""
 
-#: web/templates/admin/dashboard.html:46
+#: src/web/templates/admin/dashboard.html:46
 msgid "Send notification messages"
 msgstr ""
 
-#: web/templates/admin/user.html:9
+#: src/web/templates/admin/user.html:9
 msgid "Membership"
 msgstr ""
 
-#: web/views/feed.py:78
+#: src/web/views/feed.py:78
 #, python-format
 msgid "Feed %(feed_title)s successfully deleted."
 msgstr ""
 
-#: web/views/feed.py:89 web/views/feed.py:193
+#: src/web/views/feed.py:89 src/web/views/feed.py:193
 #, python-format
 msgid "Feed %(feed_title)r successfully updated."
 msgstr ""
 
-#: web/views/feed.py:100
+#: src/web/views/feed.py:100
 msgid "Couldn't add feed: url missing."
 msgstr ""
 
-#: web/views/feed.py:105 web/views/feed.py:177
+#: src/web/views/feed.py:105 src/web/views/feed.py:177
 msgid "Couldn't add feed: feed already exists."
 msgstr ""
 
-#: web/views/feed.py:112
+#: src/web/views/feed.py:112
 msgid "Impossible to connect to the address: {}."
 msgstr ""
 
-#: web/views/feed.py:117
+#: src/web/views/feed.py:117
 msgid ""
 "Couldn't find a feed url, you'll need to find a Atom or RSS link manually"
 " and reactivate this feed"
 msgstr ""
 
-#: web/views/feed.py:121
+#: src/web/views/feed.py:121
 msgid "Feed was successfully created."
 msgstr ""
 
-#: web/views/feed.py:124 web/views/feed.py:205
+#: src/web/views/feed.py:124 src/web/views/feed.py:205
 msgid "Downloading articles for the new feed..."
 msgstr ""
 
-#: web/views/feed.py:142
+#: src/web/views/feed.py:142
 msgid "Feed successfully updated."
 msgstr ""
 
-#: web/views/feed.py:157
+#: src/web/views/feed.py:157
 msgid "Edit feed"
 msgstr ""
 
-#: web/views/feed.py:200
+#: src/web/views/feed.py:200
 #, python-format
 msgid "Feed %(feed_title)r successfully created."
 msgstr ""
 
-#: web/views/views.py:69 web/views/views.py:111
+#: src/web/views/views.py:69 src/web/views/views.py:111
 msgid "Authentication required."
 msgstr ""
 
-#: web/views/views.py:116
+#: src/web/views/views.py:116
 msgid "Forbidden."
 msgstr ""
 
-#: web/views/views.py:189
+#: src/web/views/views.py:189
 msgid "Logged out successfully."
 msgstr ""
 
-#: web/views/views.py:198
+#: src/web/views/views.py:198
 msgid "Self-registration is disabled."
 msgstr ""
 
-#: web/views/views.py:215
+#: src/web/views/views.py:215
 msgid "Email already used."
 msgstr ""
 
-#: web/views/views.py:222
+#: src/web/views/views.py:222
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr ""
 
-#: web/views/views.py:226
+#: src/web/views/views.py:226
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: web/views/views.py:323
+#: src/web/views/views.py:323
 msgid "No text to search were provided."
 msgstr ""
 
-#: web/views/views.py:338
+#: src/web/views/views.py:338
 msgid "Search:"
 msgstr ""
 
-#: web/views/views.py:354 web/views/views.py:527
+#: src/web/views/views.py:354 src/web/views/views.py:527
 msgid "Downloading articles..."
 msgstr ""
 
-#: web/views/views.py:356
+#: src/web/views/views.py:356
 msgid ""
 "The manual retrieving of news is only available for administrator, on the"
 " Heroku platform."
 msgstr ""
 
-#: web/views/views.py:418
+#: src/web/views/views.py:418
 msgid "deleted."
 msgstr ""
 
-#: web/views/views.py:421
+#: src/web/views/views.py:421
 msgid "This article do not exist."
 msgstr ""
 
-#: web/views/views.py:456
+#: src/web/views/views.py:456
 msgid "No duplicates in the feed \"{}\"."
 msgstr ""
 
-#: web/views/views.py:473 web/views/views.py:484
+#: src/web/views/views.py:473 src/web/views/views.py:484
 msgid "Error when exporting articles."
 msgstr ""
 
-#: web/views/views.py:490
+#: src/web/views/views.py:490
 msgid "Export format not supported."
 msgstr ""
 
-#: web/views/views.py:519 web/views/views.py:535 web/views/views.py:544
+#: src/web/views/views.py:519 src/web/views/views.py:535
+#: src/web/views/views.py:544
 msgid "File not allowed."
 msgstr ""
 
-#: web/views/views.py:525
+#: src/web/views/views.py:525
 msgid "feeds imported."
 msgstr ""
 
-#: web/views/views.py:529
+#: src/web/views/views.py:529
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: web/views/views.py:539
+#: src/web/views/views.py:539
 msgid "Account imported."
 msgstr ""
 
-#: web/views/views.py:541
+#: src/web/views/views.py:541
 msgid "Impossible to import the account."
 msgstr ""
 
-#: web/views/views.py:581 web/views/views.py:709 web/views/views.py:719
-#: web/views/views.py:767
+#: src/web/views/views.py:581 src/web/views/views.py:709
+#: src/web/views/views.py:719 src/web/views/views.py:767
 msgid "User"
 msgstr ""
 
-#: web/views/views.py:582 web/views/views.py:709
+#: src/web/views/views.py:582 src/web/views/views.py:709
 msgid "successfully updated."
 msgstr ""
 
-#: web/views/views.py:602
+#: src/web/views/views.py:602
 msgid "Your account has been deleted."
 msgstr ""
 
-#: web/views/views.py:604 web/views/views.py:753 web/views/views.py:769
-#: web/views/views.py:797
+#: src/web/views/views.py:604 src/web/views/views.py:753
+#: src/web/views/views.py:769 src/web/views/views.py:797
 msgid "This user does not exist."
 msgstr ""
 
-#: web/views/views.py:619
+#: src/web/views/views.py:619
 msgid "Articles deleted."
 msgstr ""
 
-#: web/views/views.py:633
+#: src/web/views/views.py:633
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: web/views/views.py:635
+#: src/web/views/views.py:635
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: web/views/views.py:657
+#: src/web/views/views.py:657
 msgid "New password sent to your address."
 msgstr ""
 
-#: web/views/views.py:659
+#: src/web/views/views.py:659
 msgid "Problem while sending your new password."
 msgstr ""
 
-#: web/views/views.py:684
+#: src/web/views/views.py:684
 msgid "Problem while sending email"
 msgstr ""
 
-#: web/views/views.py:720
+#: src/web/views/views.py:720
 msgid "successfully created."
 msgstr ""
 
-#: web/views/views.py:730
+#: src/web/views/views.py:730
 msgid "Edit the user"
 msgstr ""
 
-#: web/views/views.py:767
+#: src/web/views/views.py:767
 msgid "successfully deleted."
 msgstr ""
 
-#: web/views/views.py:788 web/views/views.py:794
+#: src/web/views/views.py:788 src/web/views/views.py:794
 msgid "Account of the user"
 msgstr ""
 
-#: web/views/views.py:788
+#: src/web/views/views.py:788
 msgid "successfully activated."
 msgstr ""
 
-#: web/views/views.py:790
+#: src/web/views/views.py:790
 msgid "Problem while sending activation email"
 msgstr ""
 
-#: web/views/views.py:794
+#: src/web/views/views.py:794
 msgid "successfully disabled."
 msgstr ""
 
