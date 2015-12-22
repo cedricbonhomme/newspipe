@@ -40,5 +40,5 @@ elif [ "$1" == sqlite ]; then
     echo 'database_url = sqlite+pysqlite:///jarr.db' >> src/conf/conf.cfg
 fi
 
-python$PYTHON_VERSION manager.py db_empty
-python$PYTHON_VERSION manager.py db_create
+python$PYTHON_VERSION src/manager.py db_empty
+python$PYTHON_VERSION src/manager.py db_create
