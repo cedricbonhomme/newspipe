@@ -44,7 +44,7 @@ def fetch_asyncio(user_id, feed_id):
         from flask import g
         from web.models import User
         from web import crawler
-        users, feed_id = [], None
+        users = []
         try:
             users = User.query.filter(User.id == int(user_id)).all()
         except:

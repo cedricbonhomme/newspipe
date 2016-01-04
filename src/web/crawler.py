@@ -70,38 +70,42 @@ async def get(*args, **kwargs):
 async def parse_feed(user, feed):
     """
     Fetch a feed.
+    Update the feed and return the articles.
     """
-    a_feed = None
+    parsed_feed = None
+    up_feed = {}
+    articles = []
     with (await sem):
         try:
-            a_feed = await get(feed.link)
+            parsed_feed = await get(feed.link)
         except Exception as e:
-            feed.last_error = str(e)
+            up_feed['last_error'] = str(e)
+            up_feed['error_count'] = feed.error_count + 1
         finally:
-            if a_feed is None:
-                feed.error_count += 1
-                db.session.commit()
+            up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
+            if parsed_feed is None:
+                FeedController().update({'id': feed.id}, up_feed)
                 return
 
-    up_feed = {}
-    if a_feed['bozo'] == 1:
-        up_feed['last_error'] = str(a_feed['bozo_exception'])
+    if parsed_feed['bozo'] == 1:
+        up_feed['last_error'] = str(parsed_feed['bozo_exception'])
         up_feed['error_count'] = feed.error_count + 1
-        db.session.commit()
-    if a_feed['entries'] == []:
+        FeedController().update({'id': feed.id}, up_feed)
         return
+    if parsed_feed['entries'] != []:
+        articles = parsed_feed['entries']
 
-    up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
     up_feed['error_count'] = 0
     up_feed['last_error'] = ""
 
     # Feed informations
-    up_feed.update(construct_feed_from(feed.link, a_feed))
+    construct_feed_from(feed.link, parsed_feed).update(up_feed)
     if feed.title and 'title' in up_feed:
+        # do not override the title set by the user
         del up_feed['title']
     FeedController().update({'id': feed.id}, up_feed)
 
-    return a_feed['entries']
+    return articles
 
 
 async def insert_database(user, feed):
