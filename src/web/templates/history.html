@@ -10,7 +10,7 @@
         <h3>{{ year }}</h3>
     {% endif %}
     <ul class="list-group">
-    {% for article in articles_counter %}
+    {% for article in articles_counter | sort(reverse = True) %}
         {% if year == None %}
             <li class="list-group-item"><a href="/history/{{ article }}">{{ article }}</a> : {{ articles_counter[article] }} articles</li>
         {% elif month == None %}
