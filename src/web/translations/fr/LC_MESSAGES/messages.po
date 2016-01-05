@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-12-22 16:37+0100\n"
-"PO-Revision-Date: 2015-12-22 16:37+0100\n"
+"POT-Creation-Date: 2016-01-05 14:37+0100\n"
+"PO-Revision-Date: 2016-01-05 14:39+0100\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -91,7 +91,7 @@ msgid "Passwords aren't the same."
 msgstr "Les mots de passe ne sont pas identiques."
 
 #: src/web/forms.py:164 src/web/templates/feed_list.html:10
-#: src/web/templates/layout.html:106
+#: src/web/templates/layout.html:107
 msgid "Title"
 msgstr "Titre"
 
@@ -143,8 +143,8 @@ msgstr "Compte non confirmé."
 msgid "Invalid email."
 msgstr "Email invalide."
 
-#: src/web/templates/about.html:5 src/web/templates/layout.html:85
-#: src/web/templates/layout.html:118
+#: src/web/templates/about.html:5 src/web/templates/layout.html:86
+#: src/web/templates/layout.html:119
 msgid "About"
 msgstr "À propos"
 
@@ -446,15 +446,15 @@ msgstr "Vous êtes abonné à"
 msgid "feeds"
 msgstr "flux"
 
-#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
+#: src/web/templates/feeds.html:4
 msgid "Add a"
 msgstr "Ajouter un"
 
-#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
+#: src/web/templates/feeds.html:4
 msgid "feed"
 msgstr "flux"
 
-#: src/web/templates/history.html:4 src/web/templates/layout.html:74
+#: src/web/templates/history.html:4 src/web/templates/layout.html:75
 msgid "History"
 msgstr "Historique"
 
@@ -499,7 +499,7 @@ msgid "Mark this feed as unread"
 msgstr "Marquer ce flux comme non lu"
 
 #: src/web/templates/home.html:68 src/web/templates/home.html:76
-#: src/web/templates/layout.html:75
+#: src/web/templates/layout.html:76
 msgid "All"
 msgstr "Tout"
 
@@ -568,35 +568,36 @@ msgstr "Marquer tout comme lu"
 msgid "Mark all as read older than yesterday"
 msgstr "Marquer tout comme lu plus ancien qu'hier"
 
-#: src/web/templates/layout.html:71
-msgid "Mark all as read older than 10 days"
-msgstr "Marquer tout comme lu plus ancien que 10 jours"
+#: src/web/templates/layout.html:71 src/web/templates/layout.html:72
+#, python-format
+msgid "Mark all as read older than %(days)s days"
+msgstr "Marquer tout comme lu plus ancien que %(days)s jours"
 
-#: src/web/templates/layout.html:73
+#: src/web/templates/layout.html:74
 msgid "Inactive"
 msgstr "Flux inactifs"
 
-#: src/web/templates/layout.html:83
+#: src/web/templates/layout.html:84
 msgid "Profile"
 msgstr "Profil"
 
-#: src/web/templates/layout.html:84
+#: src/web/templates/layout.html:85
 msgid "Your data"
 msgstr "Vos données"
 
-#: src/web/templates/layout.html:88
+#: src/web/templates/layout.html:89
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/web/templates/layout.html:91
+#: src/web/templates/layout.html:92
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: src/web/templates/layout.html:109
+#: src/web/templates/layout.html:110
 msgid "Content"
 msgstr "Contenu"
 
-#: src/web/templates/layout.html:111
+#: src/web/templates/layout.html:112
 msgid "Search"
 msgstr "Recherche"
 
@@ -615,6 +616,14 @@ msgstr "Mot de passe oublié"
 #: src/web/templates/management.html:5
 msgid "Your subscriptions"
 msgstr "Vos abonnements"
+
+#: src/web/templates/management.html:6
+msgid "Add"
+msgstr "Ajouter"
+
+#: src/web/templates/management.html:6
+msgid "a feed"
+msgstr "un flux"
 
 #: src/web/templates/management.html:7
 msgid "articles are stored in the database with"

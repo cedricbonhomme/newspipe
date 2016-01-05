@@ -1,21 +1,21 @@
 # Translations template for PROJECT.
-# Copyright (C) 2015 ORGANIZATION
+# Copyright (C) 2016 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-12-22 16:36+0100\n"
+"POT-Creation-Date: 2016-01-05 14:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.1.1\n"
+"Generated-By: Babel 2.2.0\n"
 
 #: src/web/forms.py:45 src/web/forms.py:113 src/web/forms.py:136
 #: src/web/templates/admin/dashboard.html:12
@@ -87,7 +87,7 @@ msgid "Passwords aren't the same."
 msgstr ""
 
 #: src/web/forms.py:164 src/web/templates/feed_list.html:10
-#: src/web/templates/layout.html:106
+#: src/web/templates/layout.html:107
 msgid "Title"
 msgstr ""
 
@@ -139,8 +139,8 @@ msgstr ""
 msgid "Invalid email."
 msgstr ""
 
-#: src/web/templates/about.html:5 src/web/templates/layout.html:85
-#: src/web/templates/layout.html:118
+#: src/web/templates/about.html:5 src/web/templates/layout.html:86
+#: src/web/templates/layout.html:119
 msgid "About"
 msgstr ""
 
@@ -419,15 +419,15 @@ msgstr ""
 msgid "feeds"
 msgstr ""
 
-#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
+#: src/web/templates/feeds.html:4
 msgid "Add a"
 msgstr ""
 
-#: src/web/templates/feeds.html:4 src/web/templates/management.html:6
+#: src/web/templates/feeds.html:4
 msgid "feed"
 msgstr ""
 
-#: src/web/templates/history.html:4 src/web/templates/layout.html:74
+#: src/web/templates/history.html:4 src/web/templates/layout.html:75
 msgid "History"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgid "Mark this feed as unread"
 msgstr ""
 
 #: src/web/templates/home.html:68 src/web/templates/home.html:76
-#: src/web/templates/layout.html:75
+#: src/web/templates/layout.html:76
 msgid "All"
 msgstr ""
 
@@ -541,35 +541,36 @@ msgstr ""
 msgid "Mark all as read older than yesterday"
 msgstr ""
 
-#: src/web/templates/layout.html:71
-msgid "Mark all as read older than 10 days"
+#: src/web/templates/layout.html:71 src/web/templates/layout.html:72
+#, python-format
+msgid "Mark all as read older than %(days)s days"
 msgstr ""
 
-#: src/web/templates/layout.html:73
+#: src/web/templates/layout.html:74
 msgid "Inactive"
 msgstr ""
 
-#: src/web/templates/layout.html:83
+#: src/web/templates/layout.html:84
 msgid "Profile"
 msgstr ""
 
-#: src/web/templates/layout.html:84
+#: src/web/templates/layout.html:85
 msgid "Your data"
 msgstr ""
 
-#: src/web/templates/layout.html:88
+#: src/web/templates/layout.html:89
 msgid "Dashboard"
 msgstr ""
 
-#: src/web/templates/layout.html:91
+#: src/web/templates/layout.html:92
 msgid "Logout"
 msgstr ""
 
-#: src/web/templates/layout.html:109
+#: src/web/templates/layout.html:110
 msgid "Content"
 msgstr ""
 
-#: src/web/templates/layout.html:111
+#: src/web/templates/layout.html:112
 msgid "Search"
 msgstr ""
 
@@ -587,6 +588,14 @@ msgstr ""
 
 #: src/web/templates/management.html:5
 msgid "Your subscriptions"
+msgstr ""
+
+#: src/web/templates/management.html:6
+msgid "Add"
+msgstr ""
+
+#: src/web/templates/management.html:6
+msgid "a feed"
 msgstr ""
 
 #: src/web/templates/management.html:7
