@@ -34,7 +34,7 @@
 
         {% if feed.articles.all()|count != 0 %}
             {{ _('The last article was posted') }} {{ elapsed.days }} {{ _('day(s) ago.') }}<br />
-            {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} {{ first_post_date | datetime }} {{ _('and the') }} {{ end_post_date | datetime }}.
+            {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} <i>{{ first_post_date | datetime }}</i> {{ _('and the') }} <i>{{ end_post_date | datetime }}</i>.
         {% endif %}
         </p>
     </div>
