@@ -79,7 +79,7 @@ ADMIN_EMAIL = config.get('misc', 'admin_email')
 RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('misc',
                                     'recaptcha_private_key')
-LOG_PATH = config.get('misc', 'log_path')
+LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 NB_WORKER = config.getint('misc', 'nb_worker')
 API_LOGIN = config.get('crawler', 'api_login')
 API_PASSWD = config.get('crawler', 'api_passwd')
