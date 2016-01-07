@@ -87,7 +87,7 @@ async def parse_feed(user, feed):
                 FeedController().update({'id': feed.id}, up_feed)
                 return
 
-    if parsed_feed['bozo'] == 1:
+    if parsed_feed['bozo'] == 1 and parsed_feed['entries'] == []:
         up_feed['last_error'] = str(parsed_feed['bozo_exception'])
         up_feed['error_count'] = feed.error_count + 1
         FeedController().update({'id': feed.id}, up_feed)
