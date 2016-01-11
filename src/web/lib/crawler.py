@@ -52,7 +52,7 @@ class AbstractCrawler:
                       auth=self.auth, data=json.dumps(data,
                                                       default=default_handler),
                       headers={'Content-Type': 'application/json',
-                               'User-Agent': 'jarr'})
+                               'User-Agent': conf.USER_AGENT})
 
     def wait(self, max_wait=300, checks=5, wait_for=2):
         checked, second_waited = 0, 0
@@ -217,7 +217,7 @@ class CrawlerScheduler(AbstractCrawler):
 
     def prepare_headers(self, feed):
         """For a known feed, will construct some header dictionnary"""
-        headers = {'User-Agent': 'jarr/crawler'}
+        headers = {'User-Agent': conf.USER_AGENT}
         if feed.get('last_modified'):
             headers['If-Modified-Since'] = feed['last_modified']
         if feed.get('etag') and 'pyagg' not in feed['etag']:

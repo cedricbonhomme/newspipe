@@ -37,7 +37,7 @@ import conf
 from bootstrap import db
 from web.models import User
 from web.controllers import FeedController, ArticleController
-from web.lib.feed_utils import construct_feed_from
+from web.lib.feed_utils import construct_feed_from, is_parsing_ok
 from web.lib.article_utils import construct_article, extract_id
 
 logger = logging.getLogger(__name__)
@@ -87,7 +87,7 @@ async def parse_feed(user, feed):
                 FeedController().update({'id': feed.id}, up_feed)
                 return
 
-    if parsed_feed['bozo'] == 1 and parsed_feed['entries'] == []:
+    if not is_parsing_ok(parsed_feed):
         up_feed['last_error'] = str(parsed_feed['bozo_exception'])
         up_feed['error_count'] = feed.error_count + 1
         FeedController().update({'id': feed.id}, up_feed)
