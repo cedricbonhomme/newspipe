@@ -2,19 +2,26 @@ import urllib
 import logging
 import requests
 import feedparser
+from conf import USER_AGENT
 from bs4 import BeautifulSoup, SoupStrainer
 
 from web.lib.utils import try_keys, try_get_icon_url, rebuild_url
 
 logger = logging.getLogger(__name__)
+logging.captureWarnings(True)
+
+
+def is_parsing_ok(parsed_feed):
+    return parsed_feed['entries'] or not parsed_feed['bozo']
 
 
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
+    requests_kwargs = {'headers': {'User-Agent': USER_AGENT}, 'verify': False}
     if url is None and fp_parsed is not None:
         url = fp_parsed.get('url')
     if url is not None and fp_parsed is None:
         try:
-            response = requests.get(url, verify=False)
+            response = requests.get(url, **requests_kwargs)
             fp_parsed = feedparser.parse(response.content,
                                          request_headers=response.headers)
         except Exception:
@@ -24,7 +31,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     feed = feed or {}
     feed_split = urllib.parse.urlsplit(url)
     site_split = None
-    if not fp_parsed['bozo']:
+    if is_parsing_ok(fp_parsed):
         feed['link'] = url
         feed['site_link'] = try_keys(fp_parsed['feed'], 'href', 'link')
         feed['title'] = fp_parsed['feed'].get('title')
@@ -48,7 +55,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         return feed
 
     try:
-        response = requests.get(feed['site_link'], verify=False)
+        response = requests.get(feed['site_link'], **requests_kwargs)
     except Exception:
         logger.exception('failed to retreive %r', feed['site_link'])
         return feed
