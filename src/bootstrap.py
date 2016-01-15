@@ -10,12 +10,13 @@ from urllib.parse import urlsplit
 
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
-    logger = logging.getLogger('jarr')
     formater = logging.Formatter(log_format)
     handler = logging.FileHandler(log_path)
     handler.setFormatter(formater)
-    logger.addHandler(handler)
-    logger.setLevel(log_level)
+    for logger_name in ('bootstrap', 'web', 'manager', 'runserver'):
+        logger = logging.getLogger(logger_name)
+        logger.addHandler(handler)
+        logger.setLevel(log_level)
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
