@@ -50,10 +50,8 @@ var TableLine = React.createClass({
 });
 
 var TableBody = React.createClass({
-    propTypes: {articles: React.PropTypes.array.isRequired,
-    },
     getInitialState: function() {
-        return {articles: this.props.articles,
+        return {articles: [],
         };
     },
     render: function() {
@@ -73,19 +71,6 @@ var TableBody = React.createClass({
                 </table>
                 </div>
         );
-    }
-});
-
-var MiddlePanel = React.createClass({
-    getInitialState: function() {
-        return {articles: []};
-    },
-    render: function() {
-        var body = null;
-        if(this.state.articles.length) {
-            body = (<TableBody articles={this.state.articles} />);
-        }
-        return (<div className="col-md-offset-2 col-md-10 main">{body}</div>);
     },
     componentDidMount: function() {
         MiddlePanelActions.reload();
@@ -95,8 +80,16 @@ var MiddlePanel = React.createClass({
         MiddlePanelStore.removeChangeListener(this._onChange);
     },
     _onChange: function() {
-        var datas = MiddlePanelStore.getAll();
-        this.setState({articles: datas.articles});
+        this.setState({articles: MiddlePanelStore.getArticles()});
+    },
+});
+
+var MiddlePanel = React.createClass({
+    render: function() {
+        return (<div className="col-md-offset-2 col-md-10 main">
+                    <TableBody />
+                </div>
+        );
     },
 });
 

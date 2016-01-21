@@ -1,10 +1,11 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
 var MiddlePanelActionTypes = require('../constants/JarrConstants').MiddlePanelActionTypes;
+var jquery = require('jquery');
 
 
 var MiddlePanelActions = {
     reload: function() {
-        $.getJSON('/middle_panel', function(payload) {
+        jquery.getJSON('/middle_panel', function(payload) {
             JarrDispatcher.dispatch({
                 type: MiddlePanelActionTypes.RELOAD_MIDDLE_PANEL,
                 articles: payload.articles,

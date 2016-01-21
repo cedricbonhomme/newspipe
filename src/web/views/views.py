@@ -263,9 +263,10 @@ def get_menu():
 @login_required
 def get_middle_panel():
     fd_hash = {fd.id: fd for fd in FeedController(g.user.id).read()}
-    articles = ArticleController(g.user.id).read(readed=False)
+    articles = ArticleController(g.user.id).read(readed=False).order_by('date')
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id,
+            'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id].title,
             'icon_url': url_for('icon.icon', url=fd_hash[art.feed_id].icon_url)
                 if fd_hash[art.feed_id].icon_url else None,

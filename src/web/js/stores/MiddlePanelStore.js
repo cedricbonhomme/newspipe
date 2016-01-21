@@ -11,6 +11,21 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     getAll: function() {
         return this._datas;
     },
+    getArticles: function() {
+        var articles = [];
+        var key = null;
+        var id = null;
+        if (this._datas.parent_filter_type) {
+            key = this._datas.parent_filter_type + '_id';
+            id = this._datas.parent_filter_id;
+        }
+        this._datas.articles.map(function(article) {
+            if(!key || article[key] == id) {
+                articles.push(article);
+            }
+        });
+        return articles;
+    },
     setFilter: function(value) {
         if(this._datas.filter != value) {
             this._datas.filter = value;
@@ -46,7 +61,7 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
         // PARENT FILTER
         case MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER:
             MiddlePanelStore.setParentFilter(action.parent_type,
-                                             action.filter_id);
+                                             action.parent_id);
             break;
         // FILTER
         case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_ALL:

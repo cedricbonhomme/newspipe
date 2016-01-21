@@ -5,8 +5,10 @@
   "repository": "https://github.com/JARR-aggregator/JARR",
   "main": "src/web/js/app.js",
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "classnames": "^2.1.3",
     "flux": "^2.0.1",
+    "jquery": "^2.2.0",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
     "react": "^0.12.0"
