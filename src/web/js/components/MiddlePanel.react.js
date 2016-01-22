@@ -1,4 +1,7 @@
 var React = require('react');
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+
 var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
 
@@ -51,11 +54,21 @@ var TableLine = React.createClass({
 
 var TableBody = React.createClass({
     getInitialState: function() {
-        return {articles: [],
-        };
+        return {filter: 'unread', articles: []};
     },
     render: function() {
         return (<div className="table-responsive">
+                <ButtonGroup>
+                    <Button active={this.state.filter == "all"}
+                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelAll}
+                            bsSize="small">All</Button>
+                    <Button active={this.state.filter == "unread"}
+                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelUnread}
+                            bsSize="small">Unread</Button>
+                    <Button active={this.state.filter == "liked"}
+                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelLiked}
+                            bsSize="small">Liked</Button>
+                </ButtonGroup>
                 <table className="table table-striped strict-table">
                 <tbody>
                     {this.state.articles.map(function(article){
@@ -80,7 +93,8 @@ var TableBody = React.createClass({
         MiddlePanelStore.removeChangeListener(this._onChange);
     },
     _onChange: function() {
-        this.setState({articles: MiddlePanelStore.getArticles()});
+        this.setState({filter: MiddlePanelStore._datas.filter,
+                       articles: MiddlePanelStore.getArticles()});
     },
 });
 

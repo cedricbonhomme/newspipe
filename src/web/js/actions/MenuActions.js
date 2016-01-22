@@ -3,7 +3,6 @@ var MenuActionTypes = require('../constants/JarrConstants').MenuActionTypes;
 var jquery = require('jquery');
 
 
-
 var MenuActions = {
     // PARENT FILTERS
     reload: function() {

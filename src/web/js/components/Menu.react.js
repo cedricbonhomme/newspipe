@@ -1,4 +1,7 @@
 var React = require('react');
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+
 var MenuStore = require('../stores/MenuStore');
 var MenuActions = require('../actions/MenuActions');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
@@ -85,11 +88,22 @@ var Category = React.createClass({
 
 var Menu = React.createClass({
     getInitialState: function() {
-        return {categories: [], all_unread_count: 0};
+        return {filter: 'all', categories: [], all_unread_count: 0};
     },
     render: function() {
         return (<div id="sidebar" data-spy="affix" role="navigation"
                      className="col-md-2 sidebar sidebar-offcanvas pre-scrollable hidden-sm hidden-xs affix">
+                    <ButtonGroup>
+                        <Button active={this.state.filter == "all"}
+                                onMouseDown={MenuActions.setFilterMenuAll}
+                                bsSize="small">All</Button>
+                        <Button active={this.state.filter == "unread"}
+                                onMouseDown={MenuActions.setFilterMenuUnread}
+                                bsSize="small">Unread</Button>
+                        <Button active={this.state.filter == "error"}
+                                onMouseDown={MenuActions.setFilterMenuError}
+                                bsSize="small" bsStyle="warning">Error</Button>
+                    </ButtonGroup>
                     {this.state.categories.map(function(category){
                         return (<Category key={"cat" + category.id}
                                           category_id={category.id}
@@ -101,7 +115,6 @@ var Menu = React.createClass({
                 </div>
         );
     },
-
     componentDidMount: function() {
         MenuActions.reload();
         MenuStore.addChangeListener(this._onChange);
@@ -111,7 +124,8 @@ var Menu = React.createClass({
     },
     _onChange: function() {
         var datas = MenuStore.getAll();
-        this.setState({categories: datas.categories,
+        this.setState({filter: datas.filter,
+                       categories: datas.categories,
                        all_unread_count: datas.all_unread_count});
     },
 });
