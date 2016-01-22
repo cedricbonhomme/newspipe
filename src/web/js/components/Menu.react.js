@@ -1,6 +1,7 @@
 var React = require('react');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+var Badge = require('react-bootstrap/lib/Badge');
 
 var MenuStore = require('../stores/MenuStore');
 var MenuActions = require('../actions/MenuActions');
@@ -10,25 +11,28 @@ var FeedItem = React.createClass({
     propTypes: {feed_id: React.PropTypes.number.isRequired,
                 title: React.PropTypes.string.isRequired,
                 unread: React.PropTypes.number.isRequired,
+                error_count: React.PropTypes.number.isRequired,
                 icon_url: React.PropTypes.string,
     },
     render: function() {
-        var unread = undefined;
-        var icon = undefined;
+        var icon = null;
+        var badge_unread = null;
+        var badge_error = null;
         if(this.props.icon_url){
             icon = (<img width="16px" src={this.props.icon_url} />);
         } else {
             icon = (<span className="glyphicon glyphicon-ban-circle" />);
         }
         if(this.props.unread){
-            unread = (
-                    <span className="badge pull-right">
-                        {this.props.unread}
-                    </span>
-            );
+            badge_unread = <Badge pullRight>{this.props.unread}</Badge>;
+        }
+        if(this.props.error_count == 6) {
+            badge_unread = <Badge pullRight error>error</Badge>;
+        } else if(this.props.error_count > 3) {
+            badge_unread = <Badge pullRight warning>warn</Badge>;
         }
         return (<li onMouseDown={this.handleClick}>
-                    {icon} {this.props.title} {unread}
+                    {icon}{this.props.title}{badge_unread}{badge_error}
                 </li>
         );
     },
@@ -56,6 +60,7 @@ var Category = React.createClass({
         }).map(function(feed) {
             return (<FeedItem key={"feed" + feed.id} feed_id={feed.id}
                               title={feed.title} unread={feed.unread}
+                              error_count={feed.error_count}
                               icon_url={feed.icon_url} />);
         });
         var unread = undefined;
@@ -79,10 +84,18 @@ var Category = React.createClass({
 
 var Menu = React.createClass({
     getInitialState: function() {
-        return {filter: 'all', categories: [], all_unread_count: 0};
+        return {filter: 'all', categories: [],
+                feed_in_error: false, all_unread_count: 0};
     },
     render: function() {
         var filter = this.state.filter;
+        var error_button = null;
+        if (this.state.feed_in_error) {
+            error_button = (<Button active={this.state.filter == "error"}
+                                onMouseDown={MenuActions.setFilterError}
+                                bsSize="small" bsStyle="warning">Error</Button>
+            );
+        }
         return (<div id="sidebar" data-spy="affix" role="navigation"
                      className="col-md-2 sidebar sidebar-offcanvas pre-scrollable hidden-sm hidden-xs affix">
                     <ButtonGroup>
@@ -92,10 +105,8 @@ var Menu = React.createClass({
                         <Button active={this.state.filter == "unread"}
                                 onMouseDown={MenuActions.setFilterUnread}
                                 bsSize="small">Unread</Button>
-                        <Button active={this.state.filter == "error"}
-                                onMouseDown={MenuActions.setFilterError}
-                                bsSize="small" bsStyle="warning">Error</Button>
-                    </ButtonGroup>
+                        {error_button}
+                   </ButtonGroup>
                     {this.state.categories.map(function(category){
                         return (<Category key={"cat" + category.id}
                                           filter={filter}
@@ -119,6 +130,7 @@ var Menu = React.createClass({
         var datas = MenuStore.getAll();
         this.setState({filter: datas.filter,
                        categories: datas.categories,
+                       feed_in_error: datas.feed_in_error,
                        all_unread_count: datas.all_unread_count});
     },
 });

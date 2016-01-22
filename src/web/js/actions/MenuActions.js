@@ -10,6 +10,7 @@ var MenuActions = {
             JarrDispatcher.dispatch({
                 type: MenuActionTypes.RELOAD_MENU,
                 categories: payload.categories,
+                feed_in_error: payload.feed_in_error,
                 all_unread_count: payload.all_unread_count,
             });
         });

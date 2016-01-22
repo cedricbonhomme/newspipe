@@ -6,7 +6,8 @@ var assign = require('object-assign');
 
 
 var MenuStore = assign({}, EventEmitter.prototype, {
-    _datas: {filter: 'all', categories: [], all_unread_count: 0},
+    _datas: {filter: 'all', categories: [],
+             all_unread_count: 0, feed_in_error: false},
     getAll: function() {
         return this._datas;
     },
@@ -35,6 +36,7 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
         case MenuActionTypes.RELOAD_MENU:
             MenuStore._datas['categories'] = action.categories;
+            MenuStore._datas['feed_in_error'] = action.feed_in_error;
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
             MenuStore.emitChange();
             break;
