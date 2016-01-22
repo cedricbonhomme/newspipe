@@ -15,21 +15,14 @@ var TableLine = React.createClass({
                 liked: React.PropTypes.bool.isRequired,
     },
     getInitialState: function() {
-        return {article_id: this.props.article_id,
-                title: this.props.title,
-                icon_url: this.props.icon_url,
-                feed_title: this.props.feed_title,
-                date: this.props.date,
-                read: this.props.read,
-                liked: this.props.liked,
-        };
+        return {read: this.props.read, liked: this.props.liked};
     },
     render: function() {
         var read = this.state.read ? 'r' : '';
         var liked = this.state.liked ? 'l' : '';
         var icon = undefined;
-        if(this.state.icon_url){
-            icon = (<img width="16px" src={this.state.icon_url} />);
+        if(this.props.icon_url){
+            icon = (<img width="16px" src={this.props.icon_url} />);
         } else {
             icon = (<span className="glyphicon glyphicon-ban-circle" />);
         }
@@ -37,16 +30,16 @@ var TableLine = React.createClass({
                 <tr>
                 <td>{icon}{liked}</td>
                 <td>
-                    <a href={'/redirect/' + this.state.article_id}>
-                        {this.state.feed_title}
+                    <a href={'/redirect/' + this.props.article_id}>
+                        {this.props.feed_title}
                     </a>
                 </td>
                 <td>
-                    <a href={'/article/' + this.state.article_id}>
-                        {this.state.title}
+                    <a href={'/article/' + this.props.article_id}>
+                        {this.props.title}
                     </a>
                 </td>
-                <td>{this.state.date}</td>
+                <td>{this.props.date}</td>
                 </tr>
         );
     },
@@ -60,13 +53,13 @@ var TableBody = React.createClass({
         return (<div className="table-responsive">
                 <ButtonGroup>
                     <Button active={this.state.filter == "all"}
-                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelAll}
+                            onMouseDown={MiddlePanelActions.setFilterAll}
                             bsSize="small">All</Button>
                     <Button active={this.state.filter == "unread"}
-                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelUnread}
+                            onMouseDown={MiddlePanelActions.setFilterUnread}
                             bsSize="small">Unread</Button>
                     <Button active={this.state.filter == "liked"}
-                            onMouseDown={MiddlePanelActions.setFilterMiddlePanelLiked}
+                            onMouseDown={MiddlePanelActions.setFilterLiked}
                             bsSize="small">Liked</Button>
                 </ButtonGroup>
                 <table className="table table-striped strict-table">

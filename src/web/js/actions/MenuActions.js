@@ -14,19 +14,19 @@ var MenuActions = {
             });
         });
     },
-    setFilterMenuAll: function() {
+    setFilterAll: function() {
         JarrDispatcher.dispatch({
             component: 'menu',
             type: MenuActionTypes.MENU_FILTER_ALL,
         });
     },
-    setFilterMenuUnread: function() {
+    setFilterUnread: function() {
         JarrDispatcher.dispatch({
             component: 'menu',
             type: MenuActionTypes.MENU_FILTER_UNREAD,
         });
     },
-    setFilterMenuError: function() {
+    setFilterError: function() {
         JarrDispatcher.dispatch({
             type: MenuActionTypes.MENU_FILTER_ERROR,
         });

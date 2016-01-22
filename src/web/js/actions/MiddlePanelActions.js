@@ -33,19 +33,19 @@ var MiddlePanelActions = {
             parent_id: feed_id,
         });
     },
-    setFilterMiddlePanelAll: function() {
+    setFilterAll: function() {
         JarrDispatcher.dispatch({
             component: 'middle_panel',
             type: MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_ALL,
         });
     },
-    setFilterMiddlePanelUnread: function() {
+    setFilterUnread: function() {
         JarrDispatcher.dispatch({
             component: 'middle_panel',
             type: MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_UNREAD,
         });
     },
-    setFilterMiddlePanelUnread: function() {
+    setFilterLiked: function() {
         JarrDispatcher.dispatch({
             type: MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_LIKED,
         });
