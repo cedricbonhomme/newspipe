@@ -46,10 +46,13 @@ var Category = React.createClass({
     },
     render: function() {
         var filter = this.props.filter;
+        // filtering according to this.props.filter
         var feeds = this.props.feeds.filter(function(feed) {
             if (filter == 'unread' && feed.unread <= 0) {return false;}
             else if (filter == 'error' && feed.error_count <= 3){return false;}
             return true;
+        }).sort(function(feed_a, feed_b){
+            return feed_b.unread - feed_a.unread;
         }).map(function(feed) {
             return (<FeedItem key={"feed" + feed.id} feed_id={feed.id}
                               title={feed.title} unread={feed.unread}
