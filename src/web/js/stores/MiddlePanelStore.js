@@ -1,5 +1,6 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
 var MiddlePanelActionTypes = require('../constants/JarrConstants').MiddlePanelActionTypes;
+var MenuActionTypes = require('../constants/JarrConstants').MenuActionTypes;
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change_middle_panel';
 var assign = require('object-assign');
@@ -21,7 +22,7 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
         var id = null;
         var filter = this._datas.filter;
         if (this._datas.filter_type) {
-            key = this._datas.filter_type + '_id';
+            key = this._datas.filter_type;
             id = this._datas.filter_id;
         }
         return this._datas.articles.filter(function(article) {
@@ -72,7 +73,7 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
             MiddlePanelStore.setArticles(action.articles);
             MiddlePanelStore.emitChange();
             break;
-        case MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER:
+        case MiddlePanelActionTypes.PARENT_FILTER:
             changed = MiddlePanelStore.setParentFilter(action.filter_type,
                                                        action.filter_id);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
@@ -82,6 +83,20 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
             changed = MiddlePanelStore.setFilter(action.filter);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
             if(changed) {MiddlePanelStore.emitChange();}
+            break;
+        case MiddlePanelActionTypes.CHANGE_ATTR:
+            var id = action.article_id;
+            var attr = action.attribute;
+            var val = action.value;
+            for (var i in MiddlePanelStore._datas.articles) {
+                if(MiddlePanelStore._datas.articles[i].article_id == id) {
+                    if (MiddlePanelStore._datas.articles[i][attr] != val) {
+                        MiddlePanelStore._datas.articles[i][attr] = val;
+                        MiddlePanelStore.emitChange();
+                    }
+                    break;
+                }
+            }
             break;
         default:
             // pass

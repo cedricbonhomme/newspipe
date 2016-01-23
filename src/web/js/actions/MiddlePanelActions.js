@@ -28,10 +28,11 @@ var reloadIfNecessaryAndDispatch = function(dispath_payload) {
                 filters[key] = dispath_payload[key];
             }
         }
-        jquery.getJSON('/middle_panel', dispath_payload, function(payload) {
-            dispath_payload.articles = payload.articles;
-            JarrDispatcher.dispatch(dispath_payload);
-            _last_fetched_with = MiddlePanelStore.getRequestFilter();
+        jquery.getJSON('/middle_panel', dispath_payload,
+                function(payload) {
+                    dispath_payload.articles = payload.articles;
+                    JarrDispatcher.dispatch(dispath_payload);
+                    _last_fetched_with = MiddlePanelStore.getRequestFilter();
         });
     } else {
         JarrDispatcher.dispatch(dispath_payload);
@@ -50,24 +51,24 @@ var MiddlePanelActions = {
             });
         });
     },
-    removeParentFilter: function(filter_type, filter_id) {
+    removeParentFilter: function() {
         reloadIfNecessaryAndDispatch({
-            type: MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER,
+            type: MiddlePanelActionTypes.PARENT_FILTER,
             filter_type: null,
             filter_id: null,
         });
     },
     setCategoryFilter: function(category_id) {
         reloadIfNecessaryAndDispatch({
-            type: MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER,
-            filter_type: 'category',
+            type: MiddlePanelActionTypes.PARENT_FILTER,
+            filter_type: 'category_id',
             filter_id: category_id,
         });
     },
     setFeedFilter: function(feed_id) {
         reloadIfNecessaryAndDispatch({
-            type: MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER,
-            filter_type: 'feed',
+            type: MiddlePanelActionTypes.PARENT_FILTER,
+            filter_type: 'feed_id',
             filter_id: feed_id,
         });
     },
@@ -87,6 +88,42 @@ var MiddlePanelActions = {
         reloadIfNecessaryAndDispatch({
             type: MiddlePanelActionTypes.MIDDLE_PANEL_FILTER,
             filter: 'liked',
+        });
+    },
+    changeRead: function(article_id, new_value){
+        jquery.ajax({type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({readed: new_value}),
+                url: "api/v2.0/article/" + article_id,
+                success: function (result) {
+                    JarrDispatcher.dispatch({
+                        type: MiddlePanelActionTypes.CHANGE_ATTR,
+                        article_id: article_id,
+                        attribute: 'read',
+                        value: new_value,
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest.responseText);
+                },
+        });
+    },
+    changeLike: function(article_id, new_value){
+        jquery.ajax({type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({like: new_value}),
+                url: "api/v2.0/article/" + article_id,
+                success: function (result) {
+                    JarrDispatcher.dispatch({
+                        type: MiddlePanelActionTypes.CHANGE_ATTR,
+                        article_id: article_id,
+                        attribute: 'liked',
+                        value: new_value,
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest.responseText);
+                },
         });
     },
 };

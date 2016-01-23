@@ -17,19 +17,20 @@ var MenuActions = {
     },
     setFilterAll: function() {
         JarrDispatcher.dispatch({
-            component: 'menu',
-            type: MenuActionTypes.MENU_FILTER_ALL,
+            type: MenuActionTypes.MENU_FILTER,
+            filter: 'all',
         });
     },
     setFilterUnread: function() {
         JarrDispatcher.dispatch({
-            component: 'menu',
-            type: MenuActionTypes.MENU_FILTER_UNREAD,
+            type: MenuActionTypes.MENU_FILTER,
+            filter: 'unread',
         });
     },
     setFilterError: function() {
         JarrDispatcher.dispatch({
-            type: MenuActionTypes.MENU_FILTER_ERROR,
+            type: MenuActionTypes.MENU_FILTER,
+            filter: 'error',
         });
     },
 

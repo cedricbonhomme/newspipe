@@ -273,7 +273,7 @@ def get_middle_panel():
         filters['like'] = True
     filter_type = request.args.get('filter_type')
     if filter_type in {'feed', 'category'} and request.args.get('filter_id'):
-        filters[filter_type + '_id'] = int(request.args['filter_id'])
+        filters[filter_type + '_id'] = int(request.args['filter_id']) or None
 
     fd_hash = {feed.id: {'title': feed.title,
                          'icon_url': url_for('icon.icon', url=feed.icon_url)

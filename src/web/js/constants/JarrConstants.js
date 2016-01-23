@@ -14,13 +14,13 @@ var keyMirror = require('keymirror');
 module.exports = {
     MenuActionTypes: keyMirror({
         RELOAD_MENU: null,
-        MENU_FILTER_ALL: null,
-        MENU_FILTER_UNREAD: null,
-        MENU_FILTER_ERROR: null,
+        PARENT_FILTER: null,
+        MENU_FILTER: null,
     }),
     MiddlePanelActionTypes: keyMirror({
+        PARENT_FILTER: null,
         RELOAD_MIDDLE_PANEL: null,
-        MIDDLE_PANEL_PARENT_FILTER: null,
         MIDDLE_PANEL_FILTER: null,
+        CHANGE_ATTR: null,
     }),
 };

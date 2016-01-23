@@ -6,7 +6,7 @@ var assign = require('object-assign');
 
 
 var MenuStore = assign({}, EventEmitter.prototype, {
-    _datas: {filter: 'all', categories: [],
+    _datas: {filter: 'all', categories: [], active_type: null, active_id: null,
              all_unread_count: 0, feed_in_error: false},
     getAll: function() {
         return this._datas;
@@ -14,6 +14,13 @@ var MenuStore = assign({}, EventEmitter.prototype, {
     setFilter: function(value) {
         if(this._datas.filter != value) {
             this._datas.filter = value;
+            this.emitChange();
+        }
+    },
+    setActive: function(type, value) {
+        if(this._datas.active_id != value || this._datas.active_type != type) {
+            this._datas.active_type = type;
+            this._datas.active_id = value;
             this.emitChange();
         }
     },
@@ -40,14 +47,17 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
             MenuStore.emitChange();
             break;
-        case MenuActionTypes.MENU_FILTER_ALL:
-            MenuStore.setFilter('all');
+        case MenuActionTypes.PARENT_FILTER:
+            MenuStore.setActive(action.filter_type, action.filter_id);
             break;
-        case MenuActionTypes.MENU_FILTER_UNREAD:
-            MenuStore.setFilter('unread');
+        case MenuActionTypes.MENU_FILTER:
+            MenuStore.setFilter(action.filter);
             break;
-        case MenuActionTypes.MENU_FILTER_ERROR:
-            MenuStore.setFilter('error');
+        case MenuActionTypes.MENU_FILTER:
+            MenuStore.setFilter(action.filter);
+            break;
+        case MenuActionTypes.MENU_FILTER:
+            MenuStore.setFilter(action.filter);
             break;
 
         default:
