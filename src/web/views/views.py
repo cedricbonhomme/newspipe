@@ -266,17 +266,26 @@ def get_menu():
 @app.route('/middle_panel')
 @login_required
 def get_middle_panel():
+    filters = {}
+    if request.args.get('filter') == 'unread':
+        filters['readed'] = False
+    elif request.args.get('filter') == 'liked':
+        filters['like'] = True
+    filter_type = request.args.get('filter_type')
+    if filter_type in {'feed', 'category'} and request.args.get('filter_id'):
+        filters[filter_type + '_id'] = int(request.args['filter_id'])
+
     fd_hash = {feed.id: {'title': feed.title,
                          'icon_url': url_for('icon.icon', url=feed.icon_url)
                                      if feed.icon_url else None}
                for feed in FeedController(g.user.id).read()}
-    articles = ArticleController(g.user.id).read(readed=False).order_by('date')
+    articles = ArticleController(g.user.id).read(**filters).order_by('-date')
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id]['title'],
             'icon_url': fd_hash[art.feed_id]['icon_url'],
-            'date': art.date} for art in articles]})
+            'date': art.date} for art in articles.limit(1000)]})
 
 
 @etag_match

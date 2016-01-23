@@ -20,7 +20,7 @@ var TableLine = React.createClass({
     render: function() {
         var read = this.state.read ? 'r' : '';
         var liked = this.state.liked ? 'l' : '';
-        var icon = undefined;
+        var icon = null;
         if(this.props.icon_url){
             icon = (<img width="16px" src={this.props.icon_url} />);
         } else {

@@ -21,8 +21,6 @@ module.exports = {
     MiddlePanelActionTypes: keyMirror({
         RELOAD_MIDDLE_PANEL: null,
         MIDDLE_PANEL_PARENT_FILTER: null,
-        MIDDLE_PANEL_FILTER_ALL: null,
-        MIDDLE_PANEL_FILTER_UNREAD: null,
-        MIDDLE_PANEL_FILTER_LIKED: null,
+        MIDDLE_PANEL_FILTER: null,
     }),
 };

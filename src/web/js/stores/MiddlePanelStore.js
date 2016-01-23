@@ -7,38 +7,51 @@ var assign = require('object-assign');
 
 var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     _datas: {filter: 'unread', articles: [],
-             parent_filter_type: null, parent_filter_id: null},
+             filter_type: null, filter_id: null},
     getAll: function() {
         return this._datas;
     },
+    getRequestFilter: function() {
+        return {'filter': this._datas.filter,
+                'filter_type': this._datas.filter_type,
+                'filter_id': this._datas.filter_id};
+    },
     getArticles: function() {
-        var articles = [];
         var key = null;
         var id = null;
-        if (this._datas.parent_filter_type) {
-            key = this._datas.parent_filter_type + '_id';
-            id = this._datas.parent_filter_id;
+        var filter = this._datas.filter;
+        if (this._datas.filter_type) {
+            key = this._datas.filter_type + '_id';
+            id = this._datas.filter_id;
         }
-        this._datas.articles.map(function(article) {
-            if(!key || article[key] == id) {
-                articles.push(article);
-            }
+        return this._datas.articles.filter(function(article) {
+            return ((!key || article[key] == id)
+                    && (filter == 'all'
+                        || (filter == 'unread' && !article.read)
+                        || (filter == 'liked' && article.liked)));
         });
-        return articles;
+    },
+    setArticles: function(articles) {
+        if(articles || articles == []) {
+            this._datas.articles = articles;
+            return true;
+        }
+        return false;
     },
     setFilter: function(value) {
         if(this._datas.filter != value) {
             this._datas.filter = value;
-            this.emitChange();
+            return true;
         }
+        return false;
     },
     setParentFilter: function(type, value) {
-        if(this._datas['parent_filter_id'] != value
-                || this._datas['parent_filter_type'] != type) {
-            this._datas['parent_filter_type'] = type;
-            this._datas['parent_filter_id'] = value;
-            this.emitChange();
+        if(this._datas.filter_id != value || this._datas.filter_type != type) {
+            this._datas.filter_type = type;
+            this._datas.filter_id = value;
+            return true;
         }
+        return false;
     },
     emitChange: function() {
         this.emit(CHANGE_EVENT);
@@ -53,30 +66,25 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
 
 
 MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
+    var changed = false;
     switch(action.type) {
         case MiddlePanelActionTypes.RELOAD_MIDDLE_PANEL:
-            MiddlePanelStore._datas['articles'] = action.articles;
+            MiddlePanelStore.setArticles(action.articles);
             MiddlePanelStore.emitChange();
             break;
-        // PARENT FILTER
         case MiddlePanelActionTypes.MIDDLE_PANEL_PARENT_FILTER:
-            MiddlePanelStore.setParentFilter(action.parent_type,
-                                             action.parent_id);
+            changed = MiddlePanelStore.setParentFilter(action.filter_type,
+                                                       action.filter_id);
+            changed = MiddlePanelStore.setArticles(action.articles) || changed;
+            if(changed) {MiddlePanelStore.emitChange();}
             break;
-        // FILTER
-        case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_ALL:
-            MiddlePanelStore.setFilter('all');
+        case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER:
+            changed = MiddlePanelStore.setFilter(action.filter);
+            changed = MiddlePanelStore.setArticles(action.articles) || changed;
+            if(changed) {MiddlePanelStore.emitChange();}
             break;
-        case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_UNREAD:
-            MiddlePanelStore.setFilter('unread');
-            break;
-        case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER_LIKED:
-            MiddlePanelStore.setFilter('liked');
-            break;
-
-
         default:
-            // do nothing
+            // pass
     }
 });
 
