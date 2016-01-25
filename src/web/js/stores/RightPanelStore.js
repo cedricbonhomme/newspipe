@@ -1,6 +1,5 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
-var RightPanelActionTypes = require('../constants/JarrConstants').RightPanelActionTypes;
-var MenuActionTypes = require('../constants/JarrConstants').MenuActionTypes;
+var ActionTypes = require('../constants/JarrConstants');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change_middle_panel';
 var assign = require('object-assign');

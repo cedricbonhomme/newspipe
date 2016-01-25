@@ -11,19 +11,12 @@
 
 var keyMirror = require('keymirror');
 
-module.exports = {
-    MenuActionTypes: keyMirror({
+module.exports = keyMirror({
         RELOAD_MENU: null,
         PARENT_FILTER: null,
         MENU_FILTER: null,
-    }),
-    MiddlePanelActionTypes: keyMirror({
-        PARENT_FILTER: null,
+        CHANGE_ATTR: null,
         RELOAD_MIDDLE_PANEL: null,
         MIDDLE_PANEL_FILTER: null,
-        CHANGE_ATTR: null,
-    }),
-    RightPanelActionTypes: keyMirror({
         LOAD_RIGHT_PANEL: null,
-    }),
-};
+});

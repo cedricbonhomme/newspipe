@@ -58,7 +58,6 @@ var RightPanel = React.createClass({
         return <div />;
     },
     componentDidMount: function() {
-        RightPanelActions.reload();
         RightPanelStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {

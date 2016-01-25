@@ -1,6 +1,5 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
-var MiddlePanelActionTypes = require('../constants/JarrConstants').MiddlePanelActionTypes;
-var MenuActionTypes = require('../constants/JarrConstants').MenuActionTypes;
+var ActionTypes = require('../constants/JarrConstants');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change_middle_panel';
 var assign = require('object-assign');
@@ -69,22 +68,22 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
 MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     var changed = false;
     switch(action.type) {
-        case MiddlePanelActionTypes.RELOAD_MIDDLE_PANEL:
+        case ActionTypes.RELOAD_MIDDLE_PANEL:
             MiddlePanelStore.setArticles(action.articles);
             MiddlePanelStore.emitChange();
             break;
-        case MiddlePanelActionTypes.PARENT_FILTER:
+        case ActionTypes.PARENT_FILTER:
             changed = MiddlePanelStore.setParentFilter(action.filter_type,
                                                        action.filter_id);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
             if(changed) {MiddlePanelStore.emitChange();}
             break;
-        case MiddlePanelActionTypes.MIDDLE_PANEL_FILTER:
+        case ActionTypes.MIDDLE_PANEL_FILTER:
             changed = MiddlePanelStore.setFilter(action.filter);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
             if(changed) {MiddlePanelStore.emitChange();}
             break;
-        case MiddlePanelActionTypes.CHANGE_ATTR:
+        case ActionTypes.CHANGE_ATTR:
             var id = action.article_id;
             var attr = action.attribute;
             var val = action.value;
@@ -92,7 +91,10 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
                 if(MiddlePanelStore._datas.articles[i].article_id == id) {
                     if (MiddlePanelStore._datas.articles[i][attr] != val) {
                         MiddlePanelStore._datas.articles[i][attr] = val;
-                        MiddlePanelStore.emitChange();
+                        // avoiding redraw if not filter, display won't change anyway
+                        if(MiddlePanelStore._datas.filter != 'all') {
+                            MiddlePanelStore.emitChange();
+                        }
                     }
                     break;
                 }

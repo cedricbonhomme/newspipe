@@ -1,5 +1,5 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
-var MenuActionTypes = require('../constants/JarrConstants').MenuActionTypes;
+var ActionTypes = require('../constants/JarrConstants');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change_menu';
 var assign = require('object-assign');
@@ -41,25 +41,50 @@ var MenuStore = assign({}, EventEmitter.prototype, {
 
 MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
-        case MenuActionTypes.RELOAD_MENU:
+        case ActionTypes.RELOAD_MENU:
             MenuStore._datas['categories'] = action.categories;
             MenuStore._datas['feed_in_error'] = action.feed_in_error;
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
             MenuStore.emitChange();
             break;
-        case MenuActionTypes.PARENT_FILTER:
+        case ActionTypes.PARENT_FILTER:
             MenuStore.setActive(action.filter_type, action.filter_id);
             break;
-        case MenuActionTypes.MENU_FILTER:
+        case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);
             break;
-        case MenuActionTypes.MENU_FILTER:
+        case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);
             break;
-        case MenuActionTypes.MENU_FILTER:
+        case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);
             break;
+        case ActionTypes.CHANGE_ATTR:
+            if(action.attribute != 'read') {
+                return;
+            }
+            for(var i in MenuStore._datas.categories) {
+                if(MenuStore._datas.categories[i].id == action.category_id) {
+                    for(var j in MenuStore._datas.categories[i].feeds) {
+                        if(MenuStore._datas.categories[i].feeds[j].id == action.feed_id) {
+                            if(action.value) {
+                                MenuStore._datas.categories[i].feeds[j].unread -= 1;
+                            } else {
+                                MenuStore._datas.categories[i].feeds[j].unread += 1;
+                            }
 
+                        }
+                    }
+                    if(action.value) {
+                        MenuStore._datas.categories[i].unread -= 1;
+                    } else {
+                        MenuStore._datas.categories[i].unread += 1;
+                    }
+                    MenuStore.emitChange();
+                    break;
+                }
+            }
+            break;
         default:
             // do nothing
     }

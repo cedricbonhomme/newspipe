@@ -29,7 +29,7 @@ var TableLine = React.createClass({
         } else {
             icon = <Glyphicon glyph="ban-circle" />;
         }
-        var title = (<a href={'/redirect/' + this.props.article_id}>
+        var title = (<a href={'/article/redirect/' + this.props.article_id}>
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
@@ -46,11 +46,13 @@ var TableLine = React.createClass({
     },
     toogleRead: function() {
         this.setState({read: !this.state.read});
-        MiddlePanelActions.changeRead(this.props.article_id, !this.state.read);
+        MiddlePanelActions.changeRead(this.props.category_id,
+                this.props.feed_id, this.props.article_id, !this.state.read);
     },
     toogleLike: function() {
         this.setState({liked: !this.state.liked});
-        MiddlePanelActions.changeLike(this.props.article_id, !this.state.liked);
+        MiddlePanelActions.changeLike(this.props.category_id,
+                this.props.feed_id, this.props.article_id, !this.state.liked);
     },
 });
 
@@ -100,6 +102,8 @@ var MiddlePanel = React.createClass({
                                         liked={article.liked}
                                         date={article.date}
                                         article_id={article.article_id}
+                                        feed_id={article.feed_id}
+                                        category_id={article.category_id}
                                         feed_title={article.feed_title} />);})}
                     </ListGroup>
                 </Row>

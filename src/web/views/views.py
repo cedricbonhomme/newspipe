@@ -279,7 +279,8 @@ def get_middle_panel():
                          'icon_url': url_for('icon.icon', url=feed.icon_url)
                                      if feed.icon_url else None}
                for feed in FeedController(g.user.id).read()}
-    articles = ArticleController(g.user.id).read(**filters).order_by('-date')
+    articles = ArticleController(g.user.id).read(**filters)\
+                                           .order_by(Article.date.desc())
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
