@@ -4,6 +4,7 @@ var Grid = require('react-bootstrap/lib/Grid');
 
 var Menu = require('./Menu.react');
 var MiddlePanel = require('./MiddlePanel.react');
+var RightPanel = require('./RightPanel.react');
 
 
 var MainApp = React.createClass({
@@ -16,6 +17,10 @@ var MainApp = React.createClass({
                     <Col xs={2} sm={2} md={4} lg={4}>
                         <MiddlePanel.MiddlePanelFilter />
                         <MiddlePanel.MiddlePanel />
+                    </Col>
+                    <Col xs={10} sm={10} md={8} lg={8}>
+                        <RightPanel.RightPanelMenu />
+                        <RightPanel.RightPanel />
                     </Col>
                 </Grid>
        );

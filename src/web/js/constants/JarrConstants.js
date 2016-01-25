@@ -23,4 +23,7 @@ module.exports = {
         MIDDLE_PANEL_FILTER: null,
         CHANGE_ATTR: null,
     }),
+    RightPanelActionTypes: keyMirror({
+        LOAD_RIGHT_PANEL: null,
+    }),
 };
