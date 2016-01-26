@@ -141,7 +141,16 @@ var MenuFilter = React.createClass({
     setFilter: function(filter) {
         this.setState({filter: filter});
         MenuActions.setFilter(filter);
-    }
+    },
+    componentDidMount: function() {
+        MenuStore.addChangeListener(this._onChange);
+    },
+    componentWillUnmount: function() {
+        MenuStore.removeChangeListener(this._onChange);
+    },
+    _onChange: function() {
+        this.setState({feed_in_error: MenuStore._datas.feed_in_error});
+    },
 });
 
 var Menu = React.createClass({
