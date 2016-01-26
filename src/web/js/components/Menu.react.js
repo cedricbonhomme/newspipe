@@ -121,34 +121,27 @@ var MenuFilter = React.createClass({
         var error_button = null;
         if (this.state.feed_in_error) {
             error_button = (<Button active={this.state.filter == "error"}
-                                onMouseDown={MenuActions.setFilterError}
+                                onMouseDown={() => this.setFilter("error")}
                                 bsSize="small" bsStyle="warning">Error</Button>
             );
         }
         return (<Row className="show-grid">
                     <ButtonGroup>
                         <Button active={this.state.filter == "all"}
-                                onMouseDown={MenuActions.setFilterAll}
+                                onMouseDown={() => this.setFilter("all")}
                                 bsSize="small">All</Button>
                         <Button active={this.state.filter == "unread"}
-                                onMouseDown={MenuActions.setFilterUnread}
+                                onMouseDown={() => this.setFilter("unread")}
                                 bsSize="small">Unread</Button>
                         {error_button}
                     </ButtonGroup>
                 </Row>
         );
     },
-    componentDidMount: function() {
-        MenuStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function() {
-        MenuStore.removeChangeListener(this._onChange);
-    },
-    _onChange: function() {
-        var datas = MenuStore.getAll();
-        this.setState({filter: datas.filter,
-                       feed_in_error: datas.feed_in_error});
-    },
+    setFilter: function(filter) {
+        this.setState({filter: filter});
+        MenuActions.setFilter(filter);
+    }
 });
 
 var Menu = React.createClass({

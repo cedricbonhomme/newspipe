@@ -15,25 +15,12 @@ var MenuActions = {
             });
         });
     },
-    setFilterAll: function() {
+    setFilter: function(filter) {
         JarrDispatcher.dispatch({
             type: ActionTypes.MENU_FILTER,
-            filter: 'all',
+            filter: filter,
         });
     },
-    setFilterUnread: function() {
-        JarrDispatcher.dispatch({
-            type: ActionTypes.MENU_FILTER,
-            filter: 'unread',
-        });
-    },
-    setFilterError: function() {
-        JarrDispatcher.dispatch({
-            type: ActionTypes.MENU_FILTER,
-            filter: 'error',
-        });
-    },
-
 };
 
 module.exports = MenuActions;

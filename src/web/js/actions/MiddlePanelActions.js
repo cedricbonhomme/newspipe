@@ -73,22 +73,10 @@ var MiddlePanelActions = {
             filter_id: feed_id,
         });
     },
-    setFilterAll: function() {
+    setFilter: function(filter) {
         reloadIfNecessaryAndDispatch({
             type: ActionTypes.MIDDLE_PANEL_FILTER,
-            filter: 'all',
-        });
-    },
-    setFilterUnread: function() {
-        reloadIfNecessaryAndDispatch({
-            type: ActionTypes.MIDDLE_PANEL_FILTER,
-            filter: 'unread',
-        });
-    },
-    setFilterLiked: function() {
-        reloadIfNecessaryAndDispatch({
-            type: ActionTypes.MIDDLE_PANEL_FILTER,
-            filter: 'liked',
+            filter: filter,
         });
     },
     changeRead: function(category_id, feed_id, article_id, new_value){
