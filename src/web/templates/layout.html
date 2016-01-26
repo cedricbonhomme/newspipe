@@ -55,11 +55,6 @@
                         </li>
                     </ul>
                 </li>
-                {% if page_to_render == "favorites" %}
-                <li><a href="{{ url_for("home") }}"><span class="glyphicon glyphicon-home"></span> {{ _('Home') }}</a></li>
-                {% else %}
-                <li><a href="{{ url_for("favorites") }}"><span class="glyphicon glyphicon-star"></span> {{ _('Favorites') }}</a></li>
-                {% endif %}
                 {% if conf.CRAWLING_METHOD == "classic" and (not conf.ON_HEROKU or g.user.is_admin()) %}
                 <li><a href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
                 {% endif %}
@@ -92,29 +87,6 @@
                         <li><a href="{{ url_for("logout") }}"><span class="glyphicon glyphicon-log-out"></span> {{ _('Logout') }}</a></li>
                     </ul>
                 </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <div><span class="glyphicon glyphicon-search"></span>&nbsp;<b class="caret"></b></div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <form class="navbar-form" method=get action="{{ url_for("search") }}" role="search">
-                                <div class="input-group">
-                                    {% if filter_ %}<input type="hidden" name="filter_" value="{{ filter_ }}" />{% endif %}
-                                    {% if limit %}<input type="hidden" name="limit" value="{{ limit }}" />{% endif %}
-                                    {% if feed_id %}<input type="hidden" name="feed_id" value="{{ feed_id }}" />{% endif %}
-                                    <label for="search_title">{{ _("Title") }}</label>
-                                    <input type="checkbox" name="search_title" {% if search_title == 'on' or not (search_title == 'on' or search_content == 'on') %}checked{%endif%}/>
-                                    <br />
-                                    <label for="search_content">{{ _("Content") }}</label>
-                                    <input type="checkbox" name="search_content" {% if search_content == 'on' %}checked{%endif%}/>
-                                    <input type="text" class="form-control" name="query" placeholder="{{ _("Search") }}" {% if search_query %} value="{{ search_query }}"{% endif %} />
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
             {% else %}
                 <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
@@ -140,5 +112,27 @@
     </div>
 
     {% block content %}{% endblock %}
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/feed.js') }}"></script>
+    <script type="text/javascript" class="source">
+        var filter_ = {% if filter_ %}"{{ filter_ }}"{% else %}undefined{% endif %};
+        if (filter_ == undefined) {
+            if (window.location.href.indexOf("filter_=all") > -1){
+                filter_ = 'all';
+            }
+            else if (window.location.href.indexOf("filter_=unread") > -1) {
+                filter_ = 'unread';
+            }
+            else if (window.location.href.indexOf("filter_=read") > -1) {
+                filter_ = 'read';
+            }
+        }
+        $("#tab-" + filter_).attr('class', "active");
+    </script>
   </body>
 </html>
