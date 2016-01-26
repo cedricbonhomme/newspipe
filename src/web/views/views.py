@@ -263,30 +263,47 @@ def get_menu():
                       'all_unread_count': sum(unread.values())})
 
 
+def _get_filters(in_dict):
+    filters = {}
+    if in_dict.get('filter') == 'unread':
+        filters['readed'] = False
+    elif in_dict.get('filter') == 'liked':
+        filters['like'] = True
+    filter_type = in_dict.get('filter_type')
+    if filter_type in {'feed_id', 'category_id'} and in_dict.get('filter_id'):
+        filters[filter_type] = int(in_dict['filter_id']) or None
+    return filters
+
+
+def _articles_to_json(articles, fd_hash=None):
+    return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
+            'read': art.readed, 'article_id': art.id,
+            'feed_id': art.feed_id, 'category_id': art.category_id or 0,
+            'feed_title': fd_hash[art.feed_id]['title'] if fd_hash else None,
+            'icon_url': fd_hash[art.feed_id]['icon_url'] if fd_hash else None,
+            'date': art.date} for art in articles.limit(1000)]})
+
+
 @app.route('/middle_panel')
 @login_required
 def get_middle_panel():
-    filters = {}
-    if request.args.get('filter') == 'unread':
-        filters['readed'] = False
-    elif request.args.get('filter') == 'liked':
-        filters['like'] = True
-    filter_type = request.args.get('filter_type')
-    if filter_type in {'feed', 'category'} and request.args.get('filter_id'):
-        filters[filter_type + '_id'] = int(request.args['filter_id']) or None
-
+    filters = _get_filters(request.args)
+    art_contr = ArticleController(g.user.id)
     fd_hash = {feed.id: {'title': feed.title,
                          'icon_url': url_for('icon.icon', url=feed.icon_url)
                                      if feed.icon_url else None}
                for feed in FeedController(g.user.id).read()}
-    articles = ArticleController(g.user.id).read(**filters)\
-                                           .order_by(Article.date.desc())
-    return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
-            'read': art.readed, 'article_id': art.id,
-            'feed_id': art.feed_id, 'category_id': art.category_id or 0,
-            'feed_title': fd_hash[art.feed_id]['title'],
-            'icon_url': fd_hash[art.feed_id]['icon_url'],
-            'date': art.date} for art in articles.limit(1000)]})
+    articles = art_contr.read(**filters).order_by(Article.date.desc())
+    return _articles_to_json(articles, fd_hash)
+
+
+@app.route('/mark_all_as_read', methods=['PUT'])
+@login_required
+def mark_all_as_read():
+    filters, acontr = _get_filters(request.json), ArticleController(g.user.id)
+    articles = _articles_to_json(acontr.read(**filters))
+    acontr.update(filters, {'readed': True})
+    return articles
 
 
 @etag_match

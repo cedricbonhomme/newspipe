@@ -73,6 +73,10 @@ var MiddlePanelFilter = React.createClass({
                                 onMouseDown={() => this.setFilter("liked")}
                                 bsSize="small">Liked</Button>
                     </ButtonGroup>
+                    <ButtonGroup>
+                        <Button onMouseDown={MiddlePanelActions.markAllAsRead}
+                                bsSize="small">Mark all as read</Button>
+                    </ButtonGroup>
                 </Row>
         );
     },

@@ -63,27 +63,23 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             if(action.attribute != 'read') {
                 return;
             }
-            for(var i in MenuStore._datas.categories) {
-                if(MenuStore._datas.categories[i].id == action.category_id) {
-                    for(var j in MenuStore._datas.categories[i].feeds) {
-                        if(MenuStore._datas.categories[i].feeds[j].id == action.feed_id) {
-                            if(action.value) {
-                                MenuStore._datas.categories[i].feeds[j].unread -= 1;
-                            } else {
-                                MenuStore._datas.categories[i].feeds[j].unread += 1;
-                            }
+            var val = action.value_num;
+            action.articles.map(function(article) {
+                for(var i in MenuStore._datas.categories) {
+                    if(MenuStore._datas.categories[i].id == article.category_id) {
+                        for(var j in MenuStore._datas.categories[i].feeds) {
+                            if(MenuStore._datas.categories[i].feeds[j].id == article.feed_id) {
+                                MenuStore._datas.categories[i].feeds[j].unread += val;
+                                break;
 
+                            }
                         }
+                        MenuStore._datas.categories[i].unread += val;
+                        break;
                     }
-                    if(action.value) {
-                        MenuStore._datas.categories[i].unread -= 1;
-                    } else {
-                        MenuStore._datas.categories[i].unread += 1;
-                    }
-                    MenuStore.emitChange();
-                    break;
                 }
-            }
+            });
+            MenuStore.emitChange();
             break;
         default:
             // do nothing

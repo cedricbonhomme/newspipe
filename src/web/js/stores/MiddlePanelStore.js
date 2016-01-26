@@ -84,21 +84,22 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
             if(changed) {MiddlePanelStore.emitChange();}
             break;
         case ActionTypes.CHANGE_ATTR:
-            var id = action.article_id;
             var attr = action.attribute;
-            var val = action.value;
-            for (var i in MiddlePanelStore._datas.articles) {
-                if(MiddlePanelStore._datas.articles[i].article_id == id) {
-                    if (MiddlePanelStore._datas.articles[i][attr] != val) {
-                        MiddlePanelStore._datas.articles[i][attr] = val;
-                        // avoiding redraw if not filter, display won't change anyway
-                        if(MiddlePanelStore._datas.filter != 'all') {
-                            MiddlePanelStore.emitChange();
+            var val = action.value_bool;
+            action.articles.map(function(article) {
+                for (var i in MiddlePanelStore._datas.articles) {
+                    if(MiddlePanelStore._datas.articles[i].article_id == article.article_id) {
+                        if (MiddlePanelStore._datas.articles[i][attr] != val) {
+                            MiddlePanelStore._datas.articles[i][attr] = val;
+                            // avoiding redraw if not filter, display won't change anyway
+                            if(MiddlePanelStore._datas.filter != 'all') {
+                                MiddlePanelStore.emitChange();
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
-            }
+            });
             break;
         default:
             // pass

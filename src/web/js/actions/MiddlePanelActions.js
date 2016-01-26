@@ -43,7 +43,7 @@ var reloadIfNecessaryAndDispatch = function(dispath_payload) {
 
 var MiddlePanelActions = {
     reload: function() {
-        filters = MiddlePanelStore.getRequestFilter();
+        var filters = MiddlePanelStore.getRequestFilter();
         jquery.getJSON('/middle_panel', filters, function(payload) {
             _last_fetched_with = filters;
             JarrDispatcher.dispatch({
@@ -84,18 +84,16 @@ var MiddlePanelActions = {
                 contentType: 'application/json',
                 data: JSON.stringify({readed: new_value}),
                 url: "api/v2.0/article/" + article_id,
-                success: function (result) {
+                success: function () {
                     JarrDispatcher.dispatch({
                         type: ActionTypes.CHANGE_ATTR,
-                        article_id: article_id,
-                        category_id: category_id,
-                        feed_id: feed_id,
                         attribute: 'read',
-                        value: new_value,
+                        value_bool: new_value,
+                        value_num: new_value ? -1 : 1,
+                        articles: [{article_id: article_id,
+                                    category_id: category_id,
+                                    feed_id: feed_id}],
                     });
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(XMLHttpRequest.responseText);
                 },
         });
     },
@@ -104,18 +102,33 @@ var MiddlePanelActions = {
                 contentType: 'application/json',
                 data: JSON.stringify({like: new_value}),
                 url: "api/v2.0/article/" + article_id,
-                success: function (result) {
+                success: function () {
                     JarrDispatcher.dispatch({
                         type: ActionTypes.CHANGE_ATTR,
-                        article_id: article_id,
-                        category_id: category_id,
-                        feed_id: feed_id,
                         attribute: 'liked',
-                        value: new_value,
+                        value_bool: new_value,
+                        value_num: new_value ? -1 : 1,
+                        articles: [{article_id: article_id,
+                                    category_id: category_id,
+                                    feed_id: feed_id}],
                     });
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(XMLHttpRequest.responseText);
+        });
+    },
+    markAllAsRead: function() {
+        var filters = MiddlePanelStore.getRequestFilter();
+        jquery.ajax({type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(filters),
+                url: "/mark_all_as_read",
+                success: function (payload) {
+                    JarrDispatcher.dispatch({
+                        type: ActionTypes.CHANGE_ATTR,
+                        attribute: 'read',
+                        value_num: -1,
+                        value_bool: true,
+                        articles: payload.articles,
+                    });
                 },
         });
     },
