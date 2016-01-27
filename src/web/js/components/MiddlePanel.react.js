@@ -1,10 +1,8 @@
 var React = require('react');
-var Row = require('react-bootstrap/lib/Row');
-var Button = require('react-bootstrap/lib/Button');
-var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
-var ListGroup = require('react-bootstrap/lib/ListGroup');
-var ListGroupItem = require('react-bootstrap/lib/ListGroupItem');
-var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var Row = require('react-bootstrap/Row');
+var Button = require('react-bootstrap/Button');
+var ButtonGroup = require('react-bootstrap/ButtonGroup');
+var Glyphicon = require('react-bootstrap/Glyphicon');
 
 var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
@@ -36,12 +34,10 @@ var TableLine = React.createClass({
                                onClick={this.toogleRead} />);
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
-        return (
-                <ListGroupItem header={title}>
-                            {read}
-                            {liked}
-                    {this.props.title}
-                </ListGroupItem>
+        return (<div className="list-group-item">
+                    <h4>{title}</h4>
+                    {read} {liked} {this.props.title}
+                </div>
         );
     },
     toogleRead: function() {
@@ -92,7 +88,7 @@ var MiddlePanel = React.createClass({
     },
     render: function() {
         return (<Row className="show-grid">
-                    <ListGroup>
+                    <div className="list-group">
                     {this.state.articles.map(function(article){
                         return (<TableLine key={"a" + article.article_id}
                                         title={article.title}
@@ -104,7 +100,7 @@ var MiddlePanel = React.createClass({
                                         feed_id={article.feed_id}
                                         category_id={article.category_id}
                                         feed_title={article.feed_title} />);})}
-                    </ListGroup>
+                    </div>
                 </Row>
         );
     },

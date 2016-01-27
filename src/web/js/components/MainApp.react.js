@@ -1,6 +1,6 @@
 var React = require('react');
-var Col = require('react-bootstrap/lib/Col');
-var Grid = require('react-bootstrap/lib/Grid');
+var Col = require('react-bootstrap/Col');
+var Row = require('react-bootstrap/Row');
 
 var Menu = require('./Menu.react');
 var MiddlePanel = require('./MiddlePanel.react');
@@ -9,11 +9,8 @@ var RightPanel = require('./RightPanel.react');
 
 var MainApp = React.createClass({
     render: function() {
-        return (<Grid fluid>
-                    <Col xsHidden smHidden md={3} lg={2}>
-                        <Menu.MenuFilter />
-                        <Menu.Menu />
-                    </Col>
+        return (<Row>
+                    <Menu />
                     <Col xs={2} sm={2} md={4} lg={4}>
                         <MiddlePanel.MiddlePanelFilter />
                         <MiddlePanel.MiddlePanel />
@@ -22,7 +19,7 @@ var MainApp = React.createClass({
                         <RightPanel.RightPanelMenu />
                         <RightPanel.RightPanel />
                     </Col>
-                </Grid>
+                </Row>
        );
     },
 });

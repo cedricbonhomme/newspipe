@@ -1,11 +1,9 @@
 var React = require('react');
-var Row = require('react-bootstrap/lib/Row');
-var Badge = require('react-bootstrap/lib/Badge');
-var Button = require('react-bootstrap/lib/Button');
-var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
-var ListGroup = require('react-bootstrap/lib/ListGroup');
-var ListGroupItem = require('react-bootstrap/lib/ListGroupItem');
-var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var Col = require('react-bootstrap/Col');
+var Badge = require('react-bootstrap/Badge');
+var Button = require('react-bootstrap/Button');
+var ButtonGroup = require('react-bootstrap/ButtonGroup');
+var Glyphicon = require('react-bootstrap/Glyphicon');
 
 var MenuStore = require('../stores/MenuStore');
 var MenuActions = require('../actions/MenuActions');
@@ -36,10 +34,9 @@ var FeedItem = React.createClass({
         } else if(this.props.error_count > 3) {
             style = "warning";
         }
-        return (<ListGroupItem onMouseDown={this.handleClick} bsStyle={style}
-                               href="#" active={this.props.active}>
+        return (<li onClick={this.handleClick}>
                     {icon}{this.props.title}{badge_unread}
-                </ListGroupItem>
+                </li>
         );
     },
     handleClick: function() {
@@ -48,6 +45,34 @@ var FeedItem = React.createClass({
 });
 
 var Category = React.createClass({
+    propTypes: {category_id: React.PropTypes.number.isRequired,
+                filter: React.PropTypes.string.isRequired,
+                active_type: React.PropTypes.string,
+                active_id: React.PropTypes.number},
+    render: function() {
+        if(this.props.active_type == 'active_id'
+           && this.props.active_id == this.props.category_id) {
+            var classes = "success active";
+        } else {
+            var classes = "success";
+        }
+        return (<li className={classes}>
+                    <h4 onClick={this.handleClick}>
+                        {this.props.children}
+                    </h4>
+                </li>
+        );
+    },
+    handleClick: function() {
+        if(this.props.category_id != null) {
+            MiddlePanelActions.setCategoryFilter(this.props.category_id);
+        } else {
+            MiddlePanelActions.removeParentFilter();
+        }
+    },
+});
+
+var CategoryGroup = React.createClass({
     propTypes: {cat_id: React.PropTypes.number.isRequired,
                 filter: React.PropTypes.string.isRequired,
                 active_type: React.PropTypes.string,
@@ -89,19 +114,18 @@ var Category = React.createClass({
         if(this.props.unread){
             unread = <Badge pullRight>{this.props.unread}</Badge>;
         }
-        var active = a_type == 'category_id' && a_id == this.props.cat_id;
         var ctrl = (<Glyphicon onMouseDown={this.toggleFolding} pullLeft
                         glyph={this.state.unfolded?"menu-down":"menu-right"} />
                     );
 
-        return (<ListGroup>
-                    <ListGroupItem href="#" bsStyle="success"
-                                   active={active}
-                                   onMouseDown={this.handleClick}>
+        return (<ul className="nav nav-sidebar">
+                    <Category category_id={this.props.cat_id}
+                              active_type={this.props.active_id}
+                              active_type={this.props.active_type}>
                         {ctrl} <strong>{this.props.name}</strong> {unread}
-                    </ListGroupItem>
+                    </Category>
                     {feeds}
-                </ListGroup>
+                </ul>
         );
     },
     handleClick: function() {
@@ -114,42 +138,26 @@ var Category = React.createClass({
 });
 
 var MenuFilter = React.createClass({
-    getInitialState: function() {
-        return {filter: 'all', feed_in_error: false};
-    },
+    propTypes: {feed_in_error: React.PropTypes.bool,
+                filter: React.PropTypes.string.isRequired},
     render: function() {
         var error_button = null;
-        if (this.state.feed_in_error) {
-            error_button = (<Button active={this.state.filter == "error"}
-                                onMouseDown={() => this.setFilter("error")}
+        if (this.props.feed_in_error) {
+            error_button = (<Button active={this.props.filter == "error"}
+                                onMouseDown={() => MenuActions.setFilter("error")}
                                 bsSize="small" bsStyle="warning">Error</Button>
             );
         }
-        return (<Row className="show-grid">
-                    <ButtonGroup>
-                        <Button active={this.state.filter == "all"}
-                                onMouseDown={() => this.setFilter("all")}
-                                bsSize="small">All</Button>
-                        <Button active={this.state.filter == "unread"}
-                                onMouseDown={() => this.setFilter("unread")}
-                                bsSize="small">Unread</Button>
-                        {error_button}
-                    </ButtonGroup>
-                </Row>
+        return (<ButtonGroup className="nav nav-sidebar">
+                    <Button active={this.props.filter == "all"}
+                            onMouseDown={() => MenuActions.setFilter("all")}
+                            bsSize="small">All</Button>
+                    <Button active={this.props.filter == "unread"}
+                            onMouseDown={() => MenuActions.setFilter("unread")}
+                            bsSize="small">Unread</Button>
+                    {error_button}
+                </ButtonGroup>
         );
-    },
-    setFilter: function(filter) {
-        this.setState({filter: filter});
-        MenuActions.setFilter(filter);
-    },
-    componentDidMount: function() {
-        MenuStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function() {
-        MenuStore.removeChangeListener(this._onChange);
-    },
-    _onChange: function() {
-        this.setState({feed_in_error: MenuStore._datas.feed_in_error});
     },
 });
 
@@ -160,25 +168,36 @@ var Menu = React.createClass({
     },
     render: function() {
         var state = this.state;
-        var rmPrntFilt = (<ListGroupItem href="#" bsStyle="success"
-                active={this.state.active_type == null
-                        || this.state.active_id == null}
-                onMouseDown={MiddlePanelActions.removeParentFilter}
-                header="All"></ListGroupItem>);
+        if (this.state.active_type == null || this.state.active_id == null) {
+            var all_classname = "success active";
+        } else {
+            var all_classname = "success";
+        }
+        var rmPrntFilt = (
+                <ul className="nav nav-sidebar">
+                    <Category category_id={null}
+                              active_type={this.props.active_id}
+                              active_type={this.props.active_type}>
+                        <strong>All</strong>
+                    </Category>
+                </ul>
+        );
 
-        return (<Row className="show-grid">
-                    <ListGroup>{rmPrntFilt}</ListGroup>
+        return (<Col xsHidden smHidden md={3} lg={2} className="show-grid sidebar">
+                    <MenuFilter filter={this.state.filter}
+                                feed_in_error={this.state.feed_in_error} />
+                    {rmPrntFilt}
                     {this.state.categories.map(function(category){
-                        return (<Category key={"c" + category.id}
-                                            filter={state.filter}
-                                            active_type={state.active_type}
-                                            active_id={state.active_id}
-                                            cat_id={category.id}
-                                            feeds={category.feeds}
-                                            name={category.name}
-                                            unread={category.unread} />);
+                        return (<CategoryGroup key={"c" + category.id}
+                                               filter={state.filter}
+                                               active_type={state.active_type}
+                                               active_id={state.active_id}
+                                               cat_id={category.id}
+                                               feeds={category.feeds}
+                                               name={category.name}
+                                               unread={category.unread} />);
                         })}
-                </Row>
+                </Col>
         );
     },
     componentDidMount: function() {
@@ -194,8 +213,9 @@ var Menu = React.createClass({
                        categories: datas.categories,
                        active_type: datas.active_type,
                        active_id: datas.active_id,
+                       feed_in_error: datas.feed_in_error,
                        all_unread_count: datas.all_unread_count});
     },
 });
 
-module.exports = {Menu: Menu, MenuFilter: MenuFilter};
+module.exports = Menu;
