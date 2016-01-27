@@ -29,13 +29,18 @@ var FeedItem = React.createClass({
         if(this.props.unread){
             badge_unread = <Badge pullRight>{this.props.unread}</Badge>;
         }
-        if(this.props.error_count == 6) {
-            style = "danger";
-        } else if(this.props.error_count > 3) {
-            style = "warning";
+        var classes = "nav-feed";
+        if(this.props.active) {
+            classes += " bg-primary";
         }
-        return (<li onClick={this.handleClick}>
-                    {icon}{this.props.title}{badge_unread}
+        if(this.props.error_count == 6) {
+            classes += " bg-danger";
+        } else if(this.props.error_count > 3) {
+            classes += " bg-warning";
+        }
+        var title = <span className="title">{this.props.title}</span>;
+        return (<li className={classes} onClick={this.handleClick}>
+                    {icon}{title}{badge_unread}
                 </li>
         );
     },
@@ -45,25 +50,26 @@ var FeedItem = React.createClass({
 });
 
 var Category = React.createClass({
-    propTypes: {category_id: React.PropTypes.number.isRequired,
-                filter: React.PropTypes.string.isRequired,
+    propTypes: {category_id: React.PropTypes.number,
                 active_type: React.PropTypes.string,
-                active_id: React.PropTypes.number},
+                active_id: React.PropTypes.number,
+                glyph: React.PropTypes.object},
     render: function() {
-        if(this.props.active_type == 'active_id'
+        var classes = "nav-cat";
+        if((this.props.active_type == 'category_id'
+            || this.props.category_id == null)
            && this.props.active_id == this.props.category_id) {
-            var classes = "success active";
-        } else {
-            var classes = "success";
+            classes += " bg-primary";
         }
         return (<li className={classes}>
+                    {this.props.glyph}
                     <h4 onClick={this.handleClick}>
                         {this.props.children}
                     </h4>
                 </li>
         );
     },
-    handleClick: function() {
+    handleClick: function(evnt) {
         if(this.props.category_id != null) {
             MiddlePanelActions.setCategoryFilter(this.props.category_id);
         } else {
@@ -88,25 +94,25 @@ var CategoryGroup = React.createClass({
         var filter = this.props.filter;
         var a_type = this.props.active_type;
         var a_id = this.props.active_id;
-        // filtering according to this.props.filter
         if(this.state.unfolded) {
-        var feeds = this.props.feeds.filter(function(feed) {
-            if (filter == 'unread' && feed.unread <= 0) {
-                return false;
-            } else if (filter == 'error' && feed.error_count <= 3) {
-                return false;
-            }
-            return true;
-        }).sort(function(feed_a, feed_b){
-            return feed_b.unread - feed_a.unread;
-        }).map(function(feed) {
-            return (<FeedItem key={"f" + feed.id} feed_id={feed.id}
-                              title={feed.title} unread={feed.unread}
-                              error_count={feed.error_count}
-                              active={a_type == 'feed_id' && a_id == feed.id}
-                              icon_url={feed.icon_url} />
-            );
-        });
+            // filtering according to this.props.filter
+            var feeds = this.props.feeds.filter(function(feed) {
+                if (filter == 'unread' && feed.unread <= 0) {
+                    return false;
+                } else if (filter == 'error' && feed.error_count <= 3) {
+                    return false;
+                }
+                return true;
+            }).sort(function(feed_a, feed_b){
+                return feed_b.unread - feed_a.unread;
+            }).map(function(feed) {
+                return (<FeedItem key={"f" + feed.id} feed_id={feed.id}
+                                title={feed.title} unread={feed.unread}
+                                error_count={feed.error_count}
+                                active={a_type == 'feed_id' && a_id == feed.id}
+                                icon_url={feed.icon_url} />
+                );
+            });
         } else {
             var feeds = [];
         }
@@ -120,9 +126,10 @@ var CategoryGroup = React.createClass({
 
         return (<ul className="nav nav-sidebar">
                     <Category category_id={this.props.cat_id}
-                              active_type={this.props.active_id}
-                              active_type={this.props.active_type}>
-                        {ctrl} <strong>{this.props.name}</strong> {unread}
+                              active_id={this.props.active_id}
+                              active_type={this.props.active_type}
+                              glyph={ctrl}>
+                        <strong>{this.props.name}</strong> {unread}
                     </Category>
                     {feeds}
                 </ul>
@@ -143,9 +150,10 @@ var MenuFilter = React.createClass({
     render: function() {
         var error_button = null;
         if (this.props.feed_in_error) {
-            error_button = (<Button active={this.props.filter == "error"}
-                                onMouseDown={() => MenuActions.setFilter("error")}
-                                bsSize="small" bsStyle="warning">Error</Button>
+            error_button = (
+                    <Button active={this.props.filter == "error"}
+                            onMouseDown={() => MenuActions.setFilter("error")}
+                            bsSize="small" bsStyle="warning">Error</Button>
             );
         }
         return (<ButtonGroup className="nav nav-sidebar">
@@ -168,22 +176,18 @@ var Menu = React.createClass({
     },
     render: function() {
         var state = this.state;
-        if (this.state.active_type == null || this.state.active_id == null) {
-            var all_classname = "success active";
-        } else {
-            var all_classname = "success";
-        }
         var rmPrntFilt = (
                 <ul className="nav nav-sidebar">
                     <Category category_id={null}
-                              active_type={this.props.active_id}
-                              active_type={this.props.active_type}>
+                              active_id={this.state.active_id}
+                              active_type={this.state.active_type}>
                         <strong>All</strong>
                     </Category>
                 </ul>
         );
 
-        return (<Col xsHidden smHidden md={3} lg={2} className="show-grid sidebar">
+        return (<Col xsHidden smHidden md={3} lg={2} data-spy="affix"
+                     id="menu" className="show-grid sidebar">
                     <MenuFilter filter={this.state.filter}
                                 feed_in_error={this.state.feed_in_error} />
                     {rmPrntFilt}

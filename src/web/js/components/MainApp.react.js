@@ -11,11 +11,13 @@ var MainApp = React.createClass({
     render: function() {
         return (<Row>
                     <Menu />
-                    <Col xs={2} sm={2} md={4} lg={4}>
+                    <Col id="middle-panel"
+                         mdOffset={3} lgOffset={2} xs={2} sm={2} md={4} lg={4}>
                         <MiddlePanel.MiddlePanelFilter />
                         <MiddlePanel.MiddlePanel />
                     </Col>
-                    <Col xs={10} sm={10} md={8} lg={8}>
+                    <Col id="right-panel"
+                        xs={10} sm={10} md={8} lg={8}>
                         <RightPanel.RightPanelMenu />
                         <RightPanel.RightPanel />
                     </Col>
