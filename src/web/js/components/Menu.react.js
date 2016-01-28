@@ -20,7 +20,6 @@ var FeedItem = React.createClass({
     render: function() {
         var icon = null;
         var badge_unread = null;
-        var style = null;
         if(this.props.icon_url){
             icon = (<img width="16px" src={this.props.icon_url} />);
         } else {
@@ -152,20 +151,29 @@ var MenuFilter = React.createClass({
         if (this.props.feed_in_error) {
             error_button = (
                     <Button active={this.props.filter == "error"}
-                            onMouseDown={() => MenuActions.setFilter("error")}
+                            onMouseDown={this.setErrorFilter}
                             bsSize="small" bsStyle="warning">Error</Button>
             );
         }
         return (<ButtonGroup className="nav nav-sidebar">
                     <Button active={this.props.filter == "all"}
-                            onMouseDown={() => MenuActions.setFilter("all")}
+                            onMouseDown={this.setAllFilter}
                             bsSize="small">All</Button>
                     <Button active={this.props.filter == "unread"}
-                            onMouseDown={() => MenuActions.setFilter("unread")}
+                            onMouseDown={this.setUnreadFilter}
                             bsSize="small">Unread</Button>
                     {error_button}
                 </ButtonGroup>
         );
+    },
+    setAllFilter: function() {
+        MenuActions.setFilter("all");
+    },
+    setUnreadFilter: function() {
+        MenuActions.setFilter("unread");
+    },
+    setErrorFilter: function() {
+        MenuActions.setFilter("error");
     },
 });
 

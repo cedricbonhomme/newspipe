@@ -60,13 +60,13 @@ var MiddlePanelFilter = React.createClass({
         return (<Row className="show-grid">
                     <ButtonGroup>
                         <Button active={this.state.filter == "all"}
-                                onMouseDown={() => this.setFilter("all")}
+                                onMouseDown={this.setAllFilter}
                                 bsSize="small">All</Button>
                         <Button active={this.state.filter == "unread"}
-                                onMouseDown={() => this.setFilter("unread")}
+                                onMouseDown={this.setUnreadFilter}
                                 bsSize="small">Unread</Button>
                         <Button active={this.state.filter == "liked"}
-                                onMouseDown={() => this.setFilter("liked")}
+                                onMouseDown={this.setLikedFilter}
                                 bsSize="small">Liked</Button>
                     </ButtonGroup>
                     <ButtonGroup>
@@ -76,10 +76,18 @@ var MiddlePanelFilter = React.createClass({
                 </Row>
         );
     },
-    setFilter: function(filter) {
-        this.setState({filter: filter});
-        MiddlePanelActions.setFilter(filter);
-    }
+    setAllFilter: function() {
+        this.setState({filter: 'all'});
+        MiddlePanelActions.setFilter('all');
+    },
+    setUnreadFilter: function() {
+        this.setState({filter: 'unread'});
+        MiddlePanelActions.setFilter('unread');
+    },
+    setLikedFilter: function() {
+        this.setState({filter: 'liked'});
+        MiddlePanelActions.setFilter('liked');
+    },
 });
 
 var MiddlePanel = React.createClass({

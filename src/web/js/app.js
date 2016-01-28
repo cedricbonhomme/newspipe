@@ -8,10 +8,11 @@
  */
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var MainApp = require('./components/MainApp.react');
 
-React.render(
+ReactDOM.render(
     <MainApp />,
     document.getElementById('jarrapp')
 );
