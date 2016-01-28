@@ -119,29 +119,41 @@ var MiddlePanelFilter = React.createClass({
         if(this.state.display_search) {
             search_row = <MiddlePanelSearchRow />
         }
+        var delay = 750;
         return (<div>
                 <Row className="show-grid">
                     <ButtonGroup>
                         <Button active={this.state.filter == "all"}
-                                onMouseDown={this.setAllFilter}
-                                bsSize="small">All</Button>
+                                title="Display all articles"
+                                onMouseDown={this.setAllFilter} bsSize="small">
+                            <Glyphicon glyph="menu-hamburger" />
+                        </Button>
                         <Button active={this.state.filter == "unread"}
+                                title="Display only unread article"
                                 onMouseDown={this.setUnreadFilter}
-                                bsSize="small">Unread</Button>
+                                bsSize="small">
+                            <Glyphicon glyph="unchecked" />
+                        </Button>
                         <Button active={this.state.filter == "liked"}
+                                title="Filter only liked articles"
                                 onMouseDown={this.setLikedFilter}
                                 bsSize="small">
                             <Glyphicon glyph="star" />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button onMouseDown={this.toogleSearch} bsSize="small">
+                        <Button onMouseDown={this.toogleSearch}
+                                title="Search through displayed articles"
+                                bsSize="small">
                             <Glyphicon glyph="search" />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
                         <Button onMouseDown={MiddlePanelActions.markAllAsRead}
-                                bsSize="small">Mark all as read</Button>
+                                title="Mark all displayed article as read"
+                                bsSize="small">
+                            <Glyphicon glyph="trash" />
+                        </Button>
                     </ButtonGroup>
                 </Row>
                 {search_row}

@@ -32,7 +32,7 @@ var FeedItem = React.createClass({
         if(this.props.active) {
             classes += " bg-primary";
         }
-        if(this.props.error_count == 6) {
+        if(this.props.error_count >= 6) {
             classes += " bg-danger";
         } else if(this.props.error_count > 3) {
             classes += " bg-warning";
@@ -151,17 +151,25 @@ var MenuFilter = React.createClass({
         if (this.props.feed_in_error) {
             error_button = (
                     <Button active={this.props.filter == "error"}
+                            title="Some of your feeds are in error, click here to list them"
                             onMouseDown={this.setErrorFilter}
-                            bsSize="small" bsStyle="warning">Error</Button>
+                            bsSize="small" bsStyle="warning">
+                        <Glyphicon glyph="exclamation-sign" />
+                    </Button>
             );
         }
         return (<ButtonGroup className="nav nav-sidebar">
                     <Button active={this.props.filter == "all"}
-                            onMouseDown={this.setAllFilter}
-                            bsSize="small">All</Button>
+                            title="Display all feeds"
+                            onMouseDown={this.setAllFilter} bsSize="small">
+                        <Glyphicon glyph="menu-hamburger" />
+                    </Button>
                     <Button active={this.props.filter == "unread"}
+                            title="Display only feed with unread article"
                             onMouseDown={this.setUnreadFilter}
-                            bsSize="small">Unread</Button>
+                            bsSize="small">
+                        <Glyphicon glyph="unchecked" />
+                    </Button>
                     {error_button}
                 </ButtonGroup>
         );
