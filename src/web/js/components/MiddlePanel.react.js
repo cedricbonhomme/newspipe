@@ -35,20 +35,22 @@ var TableLine = React.createClass({
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
         return (<div className="list-group-item">
-                    <h4>{title}</h4>
-                    {read} {liked} {this.props.title}
+                    <h5><strong>{title}</strong></h5><div />
+                    <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
     },
     toogleRead: function() {
-        this.setState({read: !this.state.read});
-        MiddlePanelActions.changeRead(this.props.category_id,
-                this.props.feed_id, this.props.article_id, !this.state.read);
+        this.setState({read: !this.state.read}, function() {
+            MiddlePanelActions.changeRead(this.props.category_id,
+                    this.props.feed_id, this.props.article_id, this.state.read);
+        }.bind(this));
     },
     toogleLike: function() {
-        this.setState({liked: !this.state.liked});
-        MiddlePanelActions.changeLike(this.props.category_id,
-                this.props.feed_id, this.props.article_id, !this.state.liked);
+        this.setState({liked: !this.state.liked}, function() {
+            MiddlePanelActions.changeLike(this.props.category_id,
+                    this.props.feed_id, this.props.article_id, this.state.liked);
+        }.bind(this));
     },
 });
 

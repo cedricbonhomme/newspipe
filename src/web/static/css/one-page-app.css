@@ -87,3 +87,18 @@
 #middle-panel .input-group {
   margin-bottom: 10px;
 }
+#middle-panel div.list-group-item{
+  padding: 5px 8px;
+  cursor: pointer;
+}
+#middle-panel div.list-group-item:hover {
+  background-color: #f0f0f0;
+}
+#middle-panel div.list-group-item>h5 {
+  margin: 0px;
+}
+#middle-panel div.list-group-item>div:last-child{
+  width: 100%;
+  max-height: 22px;
+  overflow: hidden;
+}
