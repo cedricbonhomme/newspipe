@@ -6,7 +6,8 @@ var assign = require('object-assign');
 
 
 var MenuStore = assign({}, EventEmitter.prototype, {
-    _datas: {filter: 'all', categories: [], active_type: null, active_id: null,
+    _datas: {filter: 'all', feeds: {}, categories: {},
+             active_type: null, active_id: null,
              all_unread_count: 0, feed_in_error: false},
     getAll: function() {
         return this._datas;
@@ -42,6 +43,7 @@ var MenuStore = assign({}, EventEmitter.prototype, {
 MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
         case ActionTypes.RELOAD_MENU:
+            MenuStore._datas['feeds'] = action.feeds;
             MenuStore._datas['categories'] = action.categories;
             MenuStore._datas['feed_in_error'] = action.feed_in_error;
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
@@ -65,19 +67,8 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             }
             var val = action.value_num;
             action.articles.map(function(article) {
-                for(var i in MenuStore._datas.categories) {
-                    if(MenuStore._datas.categories[i].id == article.category_id) {
-                        for(var j in MenuStore._datas.categories[i].feeds) {
-                            if(MenuStore._datas.categories[i].feeds[j].id == article.feed_id) {
-                                MenuStore._datas.categories[i].feeds[j].unread += val;
-                                break;
-
-                            }
-                        }
-                        MenuStore._datas.categories[i].unread += val;
-                        break;
-                    }
-                }
+                MenuStore._datas.categories[article.category_id].unread += val;
+                MenuStore._datas.feeds[article.feed_id].unread += val;
             });
             MenuStore.emitChange();
             break;

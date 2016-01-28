@@ -132,9 +132,6 @@ var CategoryGroup = React.createClass({
                 </ul>
         );
     },
-    handleClick: function() {
-        MiddlePanelActions.setCategoryFilter(this.props.cat_id);
-    },
     toggleFolding: function(evnt) {
         this.setState({unfolded: !this.state.unfolded});
         evnt.stopPropagation();
@@ -185,11 +182,11 @@ var MenuFilter = React.createClass({
 
 var Menu = React.createClass({
     getInitialState: function() {
-        return {filter: 'all', categories: [], all_unread_count: 0,
+        return {filter: 'all', categories: {}, feeds: {},
                 active_type: null, active_id: null};
     },
     render: function() {
-        var state = this.state;
+        var feed_in_error = false;
         var rmPrntFilt = (
                 <ul className="nav nav-sidebar">
                     <Category category_id={null}
@@ -199,22 +196,29 @@ var Menu = React.createClass({
                     </Category>
                 </ul>
         );
+        var categories = [];
+        for(var cat_id in this.state.categories) {
+            var feeds = [];
+            var unread = 0;
+            this.state.categories[cat_id].feeds.map(function(feed_id) {
+                unread += this.state.feeds[feed_id].unread;
+                feeds.push(this.state.feeds[feed_id]);
+            }.bind(this));
+            categories.push(<CategoryGroup key={"c" + cat_id} feeds={feeds}
+                                    filter={this.state.filter}
+                                    active_type={this.state.active_type}
+                                    active_id={this.state.active_id}
+                                    name={this.state.categories[cat_id].name}
+                                    cat_id={this.state.categories[cat_id].id}
+                                    unread={unread} />);
+        }
 
         return (<Col xsHidden smHidden md={3} lg={2} data-spy="affix"
                      id="menu" className="show-grid sidebar">
                     <MenuFilter filter={this.state.filter}
                                 feed_in_error={this.state.feed_in_error} />
                     {rmPrntFilt}
-                    {this.state.categories.map(function(category){
-                        return (<CategoryGroup key={"c" + category.id}
-                                               filter={state.filter}
-                                               active_type={state.active_type}
-                                               active_id={state.active_id}
-                                               cat_id={category.id}
-                                               feeds={category.feeds}
-                                               name={category.name}
-                                               unread={category.unread} />);
-                        })}
+                    {categories}
                 </Col>
         );
     },
@@ -228,11 +232,10 @@ var Menu = React.createClass({
     _onChange: function() {
         var datas = MenuStore.getAll();
         this.setState({filter: datas.filter,
+                       feeds: datas.feeds,
                        categories: datas.categories,
                        active_type: datas.active_type,
-                       active_id: datas.active_id,
-                       feed_in_error: datas.feed_in_error,
-                       all_unread_count: datas.all_unread_count});
+                       active_id: datas.active_id});
     },
 });
 

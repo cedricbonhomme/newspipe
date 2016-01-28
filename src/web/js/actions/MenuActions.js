@@ -9,8 +9,8 @@ var MenuActions = {
         jquery.getJSON('/menu', function(payload) {
             JarrDispatcher.dispatch({
                 type: ActionTypes.RELOAD_MENU,
+                feeds: payload.feeds,
                 categories: payload.categories,
-                feed_in_error: payload.feed_in_error,
                 all_unread_count: payload.all_unread_count,
             });
         });

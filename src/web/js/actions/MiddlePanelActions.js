@@ -21,14 +21,16 @@ var shouldFetch = function(filters) {
 //    }
 //    return false;
 }
+var key_whitelist = ['filter_id', 'filter_type',
+                     'query', 'search_title', 'search_content'];
 var reloadIfNecessaryAndDispatch = function(dispath_payload) {
     if(shouldFetch(dispath_payload)) {
         var filters = MiddlePanelStore.getRequestFilter();
-        for (var key in filters) {
-            if(dispath_payload[key] != null) {
+        key_whitelist.map(function(key) {
+            if(key in dispath_payload) {
                 filters[key] = dispath_payload[key];
             }
-        }
+        });
         jquery.getJSON('/middle_panel', filters,
                 function(payload) {
                     dispath_payload.articles = payload.articles;
@@ -43,13 +45,8 @@ var reloadIfNecessaryAndDispatch = function(dispath_payload) {
 
 var MiddlePanelActions = {
     reload: function() {
-        var filters = MiddlePanelStore.getRequestFilter();
-        jquery.getJSON('/middle_panel', filters, function(payload) {
-            _last_fetched_with = filters;
-            JarrDispatcher.dispatch({
-                type: ActionTypes.RELOAD_MIDDLE_PANEL,
-                articles: payload.articles,
-            });
+        reloadIfNecessaryAndDispatch({
+            type: ActionTypes.RELOAD_MIDDLE_PANEL,
         });
     },
     search: function(search) {

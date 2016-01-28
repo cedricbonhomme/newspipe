@@ -245,22 +245,18 @@ def get_menu():
     categories = {c.id: c.dump() for c in CategoryController(g.user.id).read()}
     categories[0] = {'name': 'No category', 'id': 0}
     unread = ArticleController(g.user.id).count_by_feed(readed=False)
-    feed_in_error = False
     for cat_id in categories:
         categories[cat_id]['unread'] = 0
         categories[cat_id]['feeds'] = []
-    for feed in FeedController(g.user.id).read():
-        if feed.error_count > 3:
-            feed_in_error = True
-        feed = feed.dump()
+    feeds = {feed.id: feed.dump() for feed in FeedController(g.user.id).read()}
+    for feed_id, feed in feeds.items():
         feed['category_id'] = feed['category_id'] or 0
         feed['unread'] = unread.get(feed['id'], 0)
         if feed.get('icon_url'):
             feed['icon_url'] = url_for('icon.icon', url=feed['icon_url'])
         categories[feed['category_id']]['unread'] += feed['unread']
-        categories[feed['category_id']]['feeds'].append(feed)
-    return jsonify(**{'categories': list(categories.values()),
-                      'feed_in_error': feed_in_error,
+        categories[feed['category_id']]['feeds'].append(feed_id)
+    return jsonify(**{'feeds': feeds, 'categories': categories,
                       'all_unread_count': sum(unread.values())})
 
 
