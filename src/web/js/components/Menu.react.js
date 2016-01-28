@@ -201,6 +201,9 @@ var Menu = React.createClass({
             var feeds = [];
             var unread = 0;
             this.state.categories[cat_id].feeds.map(function(feed_id) {
+                if(this.state.feeds[feed_id].error_count > 3) {
+                    feed_in_error = true;
+                }
                 unread += this.state.feeds[feed_id].unread;
                 feeds.push(this.state.feeds[feed_id]);
             }.bind(this));
@@ -213,10 +216,10 @@ var Menu = React.createClass({
                                     unread={unread} />);
         }
 
-        return (<Col xsHidden smHidden md={3} lg={2} data-spy="affix"
-                     id="menu" className="show-grid sidebar">
+        return (<Col xsHidden smHidden md={3} lg={2}
+                     id="menu" className="sidebar">
                     <MenuFilter filter={this.state.filter}
-                                feed_in_error={this.state.feed_in_error} />
+                                feed_in_error={feed_in_error} />
                     {rmPrntFilt}
                     {categories}
                 </Col>

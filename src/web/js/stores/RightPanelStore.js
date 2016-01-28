@@ -3,10 +3,11 @@ var ActionTypes = require('../constants/JarrConstants');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change_middle_panel';
 var assign = require('object-assign');
+var MenuStore = require('../stores/MenuStore');
 
 
 var RightPanelStore = assign({}, EventEmitter.prototype, {
-    _datas: {},
+    _datas: {category: null, feed: null, article: null},
     getAll: function() {
         return this._datas;
     },
@@ -24,6 +25,20 @@ var RightPanelStore = assign({}, EventEmitter.prototype, {
 
 RightPanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
+        case ActionTypes.PARENT_FILTER:
+            if(action.filter_id == null) {
+                RightPanelStore._datas.category = null;
+                RightPanelStore._datas.feed = null;
+            } else if(action.filter_type == 'category_id') {
+                RightPanelStore._datas.category = MenuStore._datas.categories[action.filter_id];
+                RightPanelStore._datas.feed = null;
+            } else {
+
+                RightPanelStore._datas.feed = MenuStore._datas.feeds[action.filter_id];
+                RightPanelStore._datas.category = MenuStore._datas.categories[RightPanelStore._datas.feed.category_id];
+            }
+            RightPanelStore.emitChange();
+            break;
         default:
             // pass
     }

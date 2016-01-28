@@ -1,6 +1,10 @@
+#jarr-container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 #menu {
   position: fixed;
-  top: 51px;
+  top: 50px;
   bottom: 0px;
   left: 0px;
   z-index: 1000;
@@ -66,7 +70,7 @@
   padding-top: 10px;
   padding-right: 20px;
   position: fixed;
-  top: 51px;
+  top: 50px;
   bottom: 0px;
   left: 0px;
   z-index: 1000;
@@ -101,4 +105,7 @@
   width: 100%;
   max-height: 22px;
   overflow: hidden;
+}
+#right-panel>ol{
+  margin-top: 10px;
 }

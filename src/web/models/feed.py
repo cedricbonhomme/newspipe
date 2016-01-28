@@ -75,5 +75,6 @@ class Feed(db.Model):
                 "etag": self.etag,
                 "icon_url": self.icon_url,
                 "error_count": self.error_count,
+                "created_date": self.created_date,
                 "last_modified": self.last_modified,
                 "last_retrieved": self.last_retrieved}
