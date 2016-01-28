@@ -51,8 +51,7 @@ var FeedItem = React.createClass({
 var Category = React.createClass({
     propTypes: {category_id: React.PropTypes.number,
                 active_type: React.PropTypes.string,
-                active_id: React.PropTypes.number,
-                glyph: React.PropTypes.object},
+                active_id: React.PropTypes.number},
     render: function() {
         var classes = "nav-cat";
         if((this.props.active_type == 'category_id'
@@ -60,19 +59,19 @@ var Category = React.createClass({
            && this.props.active_id == this.props.category_id) {
             classes += " bg-primary";
         }
-        return (<li className={classes}>
-                    {this.props.glyph}
-                    <h4 onClick={this.handleClick}>
-                        {this.props.children}
-                    </h4>
+        return (<li className={classes} onClick={this.handleClick}>
+                    {this.props.children}
                 </li>
         );
     },
     handleClick: function(evnt) {
-        if(this.props.category_id != null) {
-            MiddlePanelActions.setCategoryFilter(this.props.category_id);
-        } else {
-            MiddlePanelActions.removeParentFilter();
+        // hack to avoid selection when clicking on folding icon
+        if(!evnt.target.classList.contains('glyphicon')) {
+            if(this.props.category_id != null) {
+                MiddlePanelActions.setCategoryFilter(this.props.category_id);
+            } else {
+                MiddlePanelActions.removeParentFilter();
+            }
         }
     },
 });
@@ -126,9 +125,8 @@ var CategoryGroup = React.createClass({
         return (<ul className="nav nav-sidebar">
                     <Category category_id={this.props.cat_id}
                               active_id={this.props.active_id}
-                              active_type={this.props.active_type}
-                              glyph={ctrl}>
-                        <strong>{this.props.name}</strong> {unread}
+                              active_type={this.props.active_type}>
+                        {ctrl}<h4>{this.props.name}</h4>{unread}
                     </Category>
                     {feeds}
                 </ul>
@@ -197,7 +195,7 @@ var Menu = React.createClass({
                     <Category category_id={null}
                               active_id={this.state.active_id}
                               active_type={this.state.active_type}>
-                        <strong>All</strong>
+                        <h4>All</h4>
                     </Category>
                 </ul>
         );
