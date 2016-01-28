@@ -23,13 +23,13 @@ var shouldFetch = function(filters) {
 }
 var reloadIfNecessaryAndDispatch = function(dispath_payload) {
     if(shouldFetch(dispath_payload)) {
-        filters = MiddlePanelStore.getRequestFilter();
+        var filters = MiddlePanelStore.getRequestFilter();
         for (var key in filters) {
             if(dispath_payload[key] != null) {
                 filters[key] = dispath_payload[key];
             }
         }
-        jquery.getJSON('/middle_panel', dispath_payload,
+        jquery.getJSON('/middle_panel', filters,
                 function(payload) {
                     dispath_payload.articles = payload.articles;
                     JarrDispatcher.dispatch(dispath_payload);
@@ -51,6 +51,17 @@ var MiddlePanelActions = {
                 articles: payload.articles,
             });
         });
+    },
+    search: function(search) {
+        MiddlePanelStore._datas.display_search = true;
+        MiddlePanelStore._datas.query = search.query;
+        MiddlePanelStore._datas.search_content = search.content;
+        MiddlePanelStore._datas.search_content = search.content;
+        this.reload();
+    },
+    search_off: function() {
+        MiddlePanelStore._datas.display_search = false;
+        this.reload();
     },
     removeParentFilter: function() {
         reloadIfNecessaryAndDispatch({

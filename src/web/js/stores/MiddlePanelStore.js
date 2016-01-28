@@ -7,14 +7,23 @@ var assign = require('object-assign');
 
 var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     _datas: {filter: 'unread', articles: [],
-             filter_type: null, filter_id: null},
+             filter_type: null, filter_id: null,
+             display_search: false, query: null,
+             search_title: true, search_content: false},
     getAll: function() {
         return this._datas;
     },
     getRequestFilter: function() {
-        return {'filter': this._datas.filter,
-                'filter_type': this._datas.filter_type,
-                'filter_id': this._datas.filter_id};
+        var filters = {'filter': this._datas.filter,
+                       'filter_type': this._datas.filter_type,
+                       'filter_id': this._datas.filter_id,
+        };
+        if(this._datas.display_search) {
+            filters.query = this._datas.query;
+            filters.search_title = this._datas.search_title;
+            filters.search_content = this._datas.search_content;
+        };
+        return filters;
     },
     getArticles: function() {
         var key = null;

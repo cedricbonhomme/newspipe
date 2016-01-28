@@ -80,3 +80,10 @@
   margin-right: 10px;
   margin-bottom: 10px;
 }
+#middle-panel .btn-group:last-child {
+  margin-right: 0px;
+  float: right;
+}
+#middle-panel .input-group {
+  margin-bottom: 10px;
+}

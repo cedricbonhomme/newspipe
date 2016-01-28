@@ -52,12 +52,75 @@ var TableLine = React.createClass({
     },
 });
 
-var MiddlePanelFilter = React.createClass({
+var MiddlePanelSearchRow = React.createClass({
     getInitialState: function() {
-        return {filter: MiddlePanelStore._datas.filter};
+        return {query: MiddlePanelStore._datas.query,
+                search_title: MiddlePanelStore._datas.search_title,
+                search_content: MiddlePanelStore._datas.search_content,
+        };
     },
     render: function() {
-        return (<Row className="show-grid">
+        return (<Row>
+                    <form onSubmit={this.launchSearch}>
+                    <div className="input-group input-group-sm">
+                        <span className="input-group-addon">
+                            <span onClick={this.toogleSTitle}>Title</span>
+                            <input id="search-title" type="checkbox"
+                                   onChange={this.toogleSTitle}
+                                   checked={this.state.search_title}
+                                   aria-label="Search title" />
+                        </span>
+                        <span className="input-group-addon">
+                            <span onClick={this.toogleSContent}>Content</span>
+                            <input id="search-content" type="checkbox"
+                                   onChange={this.toogleSContent}
+                                   checked={this.state.search_content}
+                                   aria-label="Search content" />
+                        </span>
+                        <input type="text" className="form-control"
+                               onChange={this.setQuery}
+                               placeholder="Search text" />
+                    </div>
+                    </form>
+                </Row>
+        );
+    },
+    setQuery: function(evnt) {
+        this.setState({query: evnt.target.value});
+    },
+    toogleSTitle: function() {
+        this.setState({search_title: !this.state.search_title},
+                      this.launchSearch);
+    },
+    toogleSContent: function() {
+        this.setState({search_content: !this.state.search_content},
+                      this.launchSearch);
+    },
+    launchSearch: function(evnt) {
+        if(this.state.query && (this.state.search_title
+                             || this.state.search_content)) {
+            MiddlePanelActions.search({query: this.state.query,
+                                       title: this.state.search_title,
+                                       content: this.state.search_content});
+        }
+        if(evnt) {
+            evnt.preventDefault();
+        }
+    },
+});
+
+var MiddlePanelFilter = React.createClass({
+    getInitialState: function() {
+        return {filter: MiddlePanelStore._datas.filter,
+                display_search: MiddlePanelStore._datas.display_search};
+    },
+    render: function() {
+        var search_row = null;
+        if(this.state.display_search) {
+            search_row = <MiddlePanelSearchRow />
+        }
+        return (<div>
+                <Row className="show-grid">
                     <ButtonGroup>
                         <Button active={this.state.filter == "all"}
                                 onMouseDown={this.setAllFilter}
@@ -67,13 +130,22 @@ var MiddlePanelFilter = React.createClass({
                                 bsSize="small">Unread</Button>
                         <Button active={this.state.filter == "liked"}
                                 onMouseDown={this.setLikedFilter}
-                                bsSize="small">Liked</Button>
+                                bsSize="small">
+                            <Glyphicon glyph="star" />
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup>
+                        <Button onMouseDown={this.toogleSearch} bsSize="small">
+                            <Glyphicon glyph="search" />
+                        </Button>
                     </ButtonGroup>
                     <ButtonGroup>
                         <Button onMouseDown={MiddlePanelActions.markAllAsRead}
                                 bsSize="small">Mark all as read</Button>
                     </ButtonGroup>
                 </Row>
+                {search_row}
+                </div>
         );
     },
     setAllFilter: function() {
@@ -87,6 +159,12 @@ var MiddlePanelFilter = React.createClass({
     setLikedFilter: function() {
         this.setState({filter: 'liked'});
         MiddlePanelActions.setFilter('liked');
+    },
+    toogleSearch: function() {
+        if(this.state.display_search) {
+            MiddlePanelActions.search_off();
+        }
+        this.setState({display_search: !this.state.display_search});
     },
 });
 
