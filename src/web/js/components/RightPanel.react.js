@@ -2,7 +2,6 @@ var React = require('react');
 var Col = require('react-bootstrap/Col');
 var Panel = require('react-bootstrap/Panel');
 var RightPanelStore = require('../stores/RightPanelStore');
-var RightPanelActions = require('../actions/RightPanelActions');
 
 var Article = React.createClass({
     propTypes: {article: React.PropTypes.object.isRequired},

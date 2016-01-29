@@ -1,8 +1,6 @@
 var JarrDispatcher = require('../dispatcher/JarrDispatcher');
 var ActionTypes = require('../constants/JarrConstants');
 var jquery = require('jquery');
-var RightPanelStore = require('../stores/RightPanelStore');
-
 
 var RightPanelActions = {
     loadArticle: function(article_id) {

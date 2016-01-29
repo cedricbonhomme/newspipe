@@ -127,7 +127,6 @@ var MiddlePanelFilter = React.createClass({
         if(this.state.display_search) {
             search_row = <MiddlePanelSearchRow />
         }
-        var delay = 750;
         return (<div>
                 <Row className="show-grid">
                     <ButtonGroup>

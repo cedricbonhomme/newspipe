@@ -1,8 +1,11 @@
 {
   "name": "jarr",
   "version": "0.0.1",
+  "author": {"name": "François Schmidts", "email": "francois.schmidts@gmail.com", "url": "1pxsolidblack.pl"},
   "description": "jarr (Just Another RSS Reader) is a web-based news aggregator.",
-  "repository": "https://github.com/JARR-aggregator/JARR",
+  "repository": {"type": "git", "url": "https://github.com/JARR-aggregator/JARR"},
+  "license": "GNU Affero General Public License version 3",
+  "engines": {"npm": "^3.3.12"},
   "main": "src/web/js/app.js",
   "dependencies": {
     "bootstrap": "^3.3.6",
@@ -26,7 +29,6 @@
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > src/web/static/js/bundle.min.js"
   },
-  "author": "François Schmidts",
   "browserify": {
     "transform": [
       "reactify",
