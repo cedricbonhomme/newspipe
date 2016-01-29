@@ -306,6 +306,17 @@ def get_middle_panel():
     return _articles_to_json(articles, fd_hash)
 
 
+@app.route('/getart/<int:article_id>')
+@login_required
+def get_article(article_id):
+    article = ArticleController(g.user.id).get(id=article_id).dump()
+    article['category_id'] = article['category_id'] or 0
+    feed = FeedController(g.user.id).get(id=article['feed_id'])
+    article['icon_url'] = url_for('icon.icon', url=feed.icon_url) \
+            if feed.icon_url else None
+    return jsonify(**article)
+
+
 @app.route('/mark_all_as_read', methods=['PUT'])
 @login_required
 def mark_all_as_read():

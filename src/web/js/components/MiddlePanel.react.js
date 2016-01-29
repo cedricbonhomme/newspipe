@@ -6,6 +6,7 @@ var Glyphicon = require('react-bootstrap/Glyphicon');
 
 var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
+var RightPanelActions = require('../actions/RightPanelActions');
 
 var TableLine = React.createClass({
     propTypes: {article_id: React.PropTypes.number.isRequired,
@@ -34,23 +35,28 @@ var TableLine = React.createClass({
                                onClick={this.toogleRead} />);
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
-        return (<div className="list-group-item">
+        return (<div className="list-group-item" onClick={this.loadArticle}>
                     <h5><strong>{title}</strong></h5><div />
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
     },
-    toogleRead: function() {
+    toogleRead: function(evnt) {
         this.setState({read: !this.state.read}, function() {
             MiddlePanelActions.changeRead(this.props.category_id,
                     this.props.feed_id, this.props.article_id, this.state.read);
         }.bind(this));
+        evnt.stopPropagation();
     },
-    toogleLike: function() {
+    toogleLike: function(evnt) {
         this.setState({liked: !this.state.liked}, function() {
             MiddlePanelActions.changeLike(this.props.category_id,
                     this.props.feed_id, this.props.article_id, this.state.liked);
         }.bind(this));
+        evnt.stopPropagation();
+    },
+    loadArticle: function() {
+        RightPanelActions.loadArticle(this.props.article_id);
     },
 });
 

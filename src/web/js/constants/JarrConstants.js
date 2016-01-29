@@ -18,5 +18,5 @@ module.exports = keyMirror({
         CHANGE_ATTR: null,
         RELOAD_MIDDLE_PANEL: null,
         MIDDLE_PANEL_FILTER: null,
-        LOAD_RIGHT_PANEL: null,
+        LOAD_ARTICLE: null,
 });

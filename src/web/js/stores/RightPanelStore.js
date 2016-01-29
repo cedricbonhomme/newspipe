@@ -26,17 +26,27 @@ var RightPanelStore = assign({}, EventEmitter.prototype, {
 RightPanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
         case ActionTypes.PARENT_FILTER:
+            RightPanelStore._datas.article = null;
             if(action.filter_id == null) {
                 RightPanelStore._datas.category = null;
                 RightPanelStore._datas.feed = null;
             } else if(action.filter_type == 'category_id') {
                 RightPanelStore._datas.category = MenuStore._datas.categories[action.filter_id];
                 RightPanelStore._datas.feed = null;
+                RightPanelStore._datas.current = 'category';
             } else {
 
                 RightPanelStore._datas.feed = MenuStore._datas.feeds[action.filter_id];
                 RightPanelStore._datas.category = MenuStore._datas.categories[RightPanelStore._datas.feed.category_id];
+                RightPanelStore._datas.current = 'feed';
             }
+            RightPanelStore.emitChange();
+            break;
+        case ActionTypes.LOAD_ARTICLE:
+            RightPanelStore._datas.feed = MenuStore._datas.feeds[action.article.feed_id];
+            RightPanelStore._datas.category = MenuStore._datas.categories[action.article.category_id];
+            RightPanelStore._datas.article = action.article;
+            RightPanelStore._datas.current = 'article';
             RightPanelStore.emitChange();
             break;
         default:

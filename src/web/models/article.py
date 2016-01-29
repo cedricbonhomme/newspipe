@@ -79,5 +79,5 @@ class Article(db.Model):
                 "like": self.like,
                 "date": self.date,
                 "retrieved_date": self.retrieved_date,
-                "feed_id": getattr(self.source, 'id', None),
-                "feed_name": getattr(self.source, 'title', None)}
+                "feed_id": self.feed_id,
+                "category_id": self.category_id}

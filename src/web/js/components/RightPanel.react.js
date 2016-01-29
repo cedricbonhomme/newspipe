@@ -7,7 +7,17 @@ var RightPanelActions = require('../actions/RightPanelActions');
 var Article = React.createClass({
     propTypes: {article: React.PropTypes.object.isRequired},
     render: function() {
-        return (<div />);
+        var icon = null;
+        if(this.props.article.icon_url){
+            icon = (<img width="16px" src={this.props.article.icon_url} />);
+        }
+        var header = (<h4>
+                        {icon}<strong>Title:</strong> {this.props.article.title}
+                      </h4>);
+        return (<Panel header={header}>
+                    <div dangerouslySetInnerHTML={{__html: this.props.article.content}} />
+                </Panel>
+        );
     },
 });
 
@@ -61,7 +71,7 @@ var Category = React.createClass({
 
 var RightPanel = React.createClass({
     getInitialState: function() {
-        return {category: null, feed: null, article: null};
+        return {category: null, feed: null, article: null, current: null};
     },
     getCategoryCrum: function() {
         return (<li><a onClick={this.selectCategory} href="#">
@@ -74,28 +84,39 @@ var RightPanel = React.createClass({
                 </a></li>);
     },
     getArticleCrum: function() {
-        return <li>Article</li>;
+        return <li>{this.state.article.title}</li>;
     },
     render: function() {
         var content = null;
+        var brd_category = null;
+        var brd_feed = null;
+        var brd_article = null;
         var breadcrum = null;
+        if(this.state.category) {
+            brd_category = (<li><a onClick={this.selectCategory} href="#">
+                                {this.state.category.name}
+                            </a></li>);
+        }
+        if(this.state.feed) {
+            brd_feed = (<li><a onClick={this.selectFeed} href="#">
+                            {this.state.feed.title}
+                        </a></li>);
+        }
         if(this.state.article) {
-            var breadcrum = (<ol className="breadcrumb">
-                                {this.getCategoryCrum()}
-                                {this.getFeedCrum()}
-                                {this.getArticleCrum()}
-                             </ol>);
-            var content = <Article />;
-        } else if(this.state.feed) {
-            var breadcrum = (<ol className="breadcrumb">
-                                {this.getCategoryCrum()}
-                                {this.getFeedCrum()}
-                             </ol>);
+            brd_article = <li>{this.state.article.title}</li>;
+        }
+        if(brd_category || brd_feed || brd_article) {
+            breadcrum = (<ol className="breadcrumb">
+                            {brd_category}
+                            {brd_feed}
+                            {brd_article}
+                         </ol>);
+        }
+        if(this.state.current == 'article') {
+            var content = <Article article={this.state.article} />;
+        } else if(this.state.current == 'feed') {
             var content = <Feed feed={this.state.feed} />;
-        } else if(this.state.category) {
-            var breadcrum = (<ol className="breadcrumb">
-                                {this.getCategoryCrum()}
-                             </ol>);
+        } else if(this.state.current == 'category') {
             var content = <Category category={this.state.category} />;
         }
 
@@ -108,10 +129,13 @@ var RightPanel = React.createClass({
         );
     },
     selectCategory: function() {
-        this.setState({feed: null, article: null});
+        this.setState({current: 'category'});
     },
     selectFeed: function() {
-        this.setState({article: null});
+        this.setState({current: 'feed'});
+    },
+    selectArticle: function() {
+        this.setState({current: 'article'});
     },
     componentDidMount: function() {
         RightPanelStore.addChangeListener(this._onChange);
