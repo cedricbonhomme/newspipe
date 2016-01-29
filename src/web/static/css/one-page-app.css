@@ -116,6 +116,12 @@
   max-height: 22px;
   overflow: hidden;
 }
+#middle-panel div.list-group-item>time {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  display: block;
+}
 #right-panel>ol{
   margin-top: 10px;
 }

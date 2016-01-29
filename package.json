@@ -1,11 +1,20 @@
 {
   "name": "jarr",
   "version": "0.0.1",
-  "author": {"name": "François Schmidts", "email": "francois.schmidts@gmail.com", "url": "1pxsolidblack.pl"},
+  "author": {
+    "name": "François Schmidts",
+    "email": "francois.schmidts@gmail.com",
+    "url": "1pxsolidblack.pl"
+  },
   "description": "jarr (Just Another RSS Reader) is a web-based news aggregator.",
-  "repository": {"type": "git", "url": "https://github.com/JARR-aggregator/JARR"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JARR-aggregator/JARR"
+  },
   "license": "GNU Affero General Public License version 3",
-  "engines": {"npm": "^3.3.12"},
+  "engines": {
+    "npm": "^3.3.12"
+  },
   "main": "src/web/js/app.js",
   "dependencies": {
     "bootstrap": "^3.3.6",
@@ -16,7 +25,8 @@
     "object-assign": "^1.0.0",
     "react": "^0.14.6",
     "react-bootstrap": "^0.14.1",
-    "react-dom": "^0.14.6"
+    "react-dom": "^0.14.6",
+    "react-intl": "^1.2.2"
   },
   "devDependencies": {
     "browserify": "^6.2.0",

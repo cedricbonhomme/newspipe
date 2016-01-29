@@ -1,4 +1,7 @@
 var React = require('react');
+var ReactIntl = require('react-intl');
+var FormattedRelative = ReactIntl.FormattedRelative;
+
 var Row = require('react-bootstrap/Row');
 var Button = require('react-bootstrap/Button');
 var ButtonGroup = require('react-bootstrap/ButtonGroup');
@@ -9,10 +12,12 @@ var MiddlePanelActions = require('../actions/MiddlePanelActions');
 var RightPanelActions = require('../actions/RightPanelActions');
 
 var TableLine = React.createClass({
+    mixins: [ReactIntl.IntlMixin],
     propTypes: {article_id: React.PropTypes.number.isRequired,
                 feed_title: React.PropTypes.string.isRequired,
                 icon_url: React.PropTypes.string,
                 title: React.PropTypes.string.isRequired,
+                timestamp: React.PropTypes.number.isRequired,
                 date: React.PropTypes.string.isRequired,
                 read: React.PropTypes.bool.isRequired,
                 selected: React.PropTypes.bool.isRequired,
@@ -42,8 +47,13 @@ var TableLine = React.createClass({
         if(this.props.selected) {
             clsses += " active";
         }
+        // FIXME https://github.com/yahoo/react-intl/issues/189
+        // use FormattedRelative when fixed, will have to upgrade to ReactIntlv2
+        var date = (<time dateTime={this.props.date} title={this.props.date}>
+                        {this.formatRelative(this.props.timestamp)}
+                    </time>);
         return (<div className={clsses} onClick={this.loadArticle}>
-                    <h5><strong>{title}</strong></h5><div />
+                    <h5><strong>{title}</strong></h5>{date}
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
@@ -219,10 +229,12 @@ var MiddlePanel = React.createClass({
                                         icon_url={article.icon_url}
                                         read={article.read}
                                         liked={article.liked}
+                                        timestamp={article.timestamp}
                                         date={article.date}
                                         selected={article.selected}
                                         article_id={article.article_id}
                                         feed_id={article.feed_id}
+                                        locales={['en']}
                                         category_id={article.category_id}
                                         feed_title={article.feed_title} />);})}
                     </div>

@@ -284,13 +284,18 @@ def _get_filters(in_dict):
     return filters
 
 
+import calendar
+
+
 def _articles_to_json(articles, fd_hash=None):
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id, 'selected': False,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id]['title'] if fd_hash else None,
             'icon_url': fd_hash[art.feed_id]['icon_url'] if fd_hash else None,
-            'date': art.date} for art in articles.limit(1000)]})
+            'date': art.date,
+            'timestamp': calendar.timegm(art.date.timetuple()) * 1000}
+            for art in articles.limit(1000)]})
 
 
 @app.route('/middle_panel')
