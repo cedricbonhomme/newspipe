@@ -109,3 +109,6 @@
 #right-panel>ol{
   margin-top: 10px;
 }
+#right-panel .panel-body img {
+  max-width: 100%;
+}
