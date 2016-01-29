@@ -98,6 +98,16 @@
 #middle-panel div.list-group-item:hover {
   background-color: #f0f0f0;
 }
+#middle-panel div.list-group-item.active a {
+  color: #eee;
+}
+#middle-panel div.list-group-item.active:hover {
+  background-color: #4d94d1;
+  border-color: #4d94d1;
+}
+#middle-panel div.list-group-item:hover {
+  background-color: #f0f0f0;
+}
 #middle-panel div.list-group-item>h5 {
   margin: 0px;
 }

@@ -8,8 +8,8 @@ var assign = require('object-assign');
 var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     filter_whitelist: ['filter', 'filter_id', 'filter_type', 'display_search',
                        'query', 'search_title', 'search_content'],
-    _datas: {filter: 'unread', articles: [],
-             filter_type: null, filter_id: null,
+    _datas: {articles: [], selected_article: null,
+             filter: 'unread', filter_type: null, filter_id: null,
              display_search: false, query: null,
              search_title: true, search_content: false},
     getAll: function() {
@@ -30,17 +30,26 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     getArticles: function() {
         var key = null;
         var id = null;
-        var filter = this._datas.filter;
         if (this._datas.filter_type) {
             key = this._datas.filter_type;
             id = this._datas.filter_id;
         }
-        return this._datas.articles.filter(function(article) {
-            return ((!key || article[key] == id)
-                    && (filter == 'all'
-                        || (filter == 'unread' && !article.read)
-                        || (filter == 'liked' && article.liked)));
-        });
+        return this._datas.articles
+        .map(function(article) {
+            if(article.article_id == this._datas.selected_article) {
+                article.selected = true;
+            } else if(article.selected) {
+                article.selected = false;
+            }
+            return article;
+        }.bind(this))
+        .filter(function(article) {
+            return (article.selected || ((!key || article[key] == id)
+                    && (this._datas.filter == 'all'
+                        || (this._datas.filter == 'unread' && !article.read)
+                        || (this._datas.filter == 'liked' && article.liked))));
+        }.bind(this));
+
     },
     setArticles: function(articles) {
         if(articles || articles == []) {
@@ -77,17 +86,14 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
         case ActionTypes.RELOAD_MIDDLE_PANEL:
             changed = MiddlePanelStore.registerFilter(action);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            if(changed) {MiddlePanelStore.emitChange()};
             break;
         case ActionTypes.PARENT_FILTER:
             changed = MiddlePanelStore.registerFilter(action);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            if(changed) {MiddlePanelStore.emitChange();}
             break;
         case ActionTypes.MIDDLE_PANEL_FILTER:
             changed = MiddlePanelStore.registerFilter(action);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            if(changed) {MiddlePanelStore.emitChange();}
             break;
         case ActionTypes.CHANGE_ATTR:
             var attr = action.attribute;
@@ -99,7 +105,7 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
                             MiddlePanelStore._datas.articles[i][attr] = val;
                             // avoiding redraw if not filter, display won't change anyway
                             if(MiddlePanelStore._datas.filter != 'all') {
-                                MiddlePanelStore.emitChange();
+                                changed = true;
                             }
                         }
                         break;
@@ -107,9 +113,19 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
                 }
             });
             break;
+        case ActionTypes.LOAD_ARTICLE:
+            changed = true;
+            MiddlePanelStore._datas.selected_article = action.article.id;
+            for (var i in MiddlePanelStore._datas.articles) {
+                if(MiddlePanelStore._datas.articles[i].article_id == action.article.id) {
+                    MiddlePanelStore._datas.articles[i].read = true;
+                    console.log(MiddlePanelStore._datas.articles[i]);
+                }
+            }
         default:
             // pass
     }
+    if(changed) {MiddlePanelStore.emitChange();}
 });
 
 module.exports = MiddlePanelStore;

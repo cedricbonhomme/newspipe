@@ -15,10 +15,12 @@ var TableLine = React.createClass({
                 title: React.PropTypes.string.isRequired,
                 date: React.PropTypes.string.isRequired,
                 read: React.PropTypes.bool.isRequired,
+                selected: React.PropTypes.bool.isRequired,
                 liked: React.PropTypes.bool.isRequired,
     },
     getInitialState: function() {
-        return {read: this.props.read, liked: this.props.liked};
+        return {read: this.props.read, liked: this.props.liked,
+                selected: false};
     },
     render: function() {
         var liked = this.state.liked ? 'l' : '';
@@ -28,14 +30,19 @@ var TableLine = React.createClass({
         } else {
             icon = <Glyphicon glyph="ban-circle" />;
         }
-        var title = (<a href={'/article/redirect/' + this.props.article_id}>
+        var title = (<a href={'/article/redirect/' + this.props.article_id}
+                        onClick={this.stopPropagation}>
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
                                onClick={this.toogleRead} />);
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
-        return (<div className="list-group-item" onClick={this.loadArticle}>
+        var clsses = "list-group-item";
+        if(this.props.selected) {
+            clsses += " active";
+        }
+        return (<div className={clsses} onClick={this.loadArticle}>
                     <h5><strong>{title}</strong></h5><div />
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
@@ -56,7 +63,13 @@ var TableLine = React.createClass({
         evnt.stopPropagation();
     },
     loadArticle: function() {
-        RightPanelActions.loadArticle(this.props.article_id);
+        this.setState({active: true, read: true}, function() {
+            RightPanelActions.loadArticle(
+                    this.props.article_id, this.props.read);
+        }.bind(this));
+    },
+    stopPropagation: function(evnt) {
+        evnt.stopPropagation();
     },
 });
 
@@ -207,6 +220,7 @@ var MiddlePanel = React.createClass({
                                         read={article.read}
                                         liked={article.liked}
                                         date={article.date}
+                                        selected={article.selected}
                                         article_id={article.article_id}
                                         feed_id={article.feed_id}
                                         category_id={article.category_id}

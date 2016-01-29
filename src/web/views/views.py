@@ -286,7 +286,7 @@ def _get_filters(in_dict):
 
 def _articles_to_json(articles, fd_hash=None):
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
-            'read': art.readed, 'article_id': art.id,
+            'read': art.readed, 'article_id': art.id, 'selected': False,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id]['title'] if fd_hash else None,
             'icon_url': fd_hash[art.feed_id]['icon_url'] if fd_hash else None,
@@ -309,7 +309,10 @@ def get_middle_panel():
 @app.route('/getart/<int:article_id>')
 @login_required
 def get_article(article_id):
-    article = ArticleController(g.user.id).get(id=article_id).dump()
+    contr = ArticleController(g.user.id)
+    article = contr.get(id=article_id).dump()
+    if not article['readed']:
+        contr.update({'id': article_id}, {'readed': True})
     article['category_id'] = article['category_id'] or 0
     feed = FeedController(g.user.id).get(id=article['feed_id'])
     article['icon_url'] = url_for('icon.icon', url=feed.icon_url) \

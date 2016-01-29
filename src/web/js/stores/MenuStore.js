@@ -71,6 +71,13 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             });
             MenuStore.emitChange();
             break;
+        case ActionTypes.LOAD_ARTICLE:
+            if(!action.was_read_before) {
+                MenuStore._datas.categories[action.article.category_id].unread -= 1;
+                MenuStore._datas.feeds[action.article.feed_id].unread -= 1;
+                MenuStore.emitChange();
+            }
+            break;
         default:
             // do nothing
     }
