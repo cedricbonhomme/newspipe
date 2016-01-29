@@ -163,22 +163,28 @@ var MiddlePanelFilter = React.createClass({
         );
     },
     setAllFilter: function() {
-        this.setState({filter: 'all'});
-        MiddlePanelActions.setFilter('all');
+        this.setState({filter: 'all'}, function() {
+            MiddlePanelActions.setFilter('all');
+        }.bind(this));
     },
     setUnreadFilter: function() {
-        this.setState({filter: 'unread'});
-        MiddlePanelActions.setFilter('unread');
+        this.setState({filter: 'unread'}, function() {
+            MiddlePanelActions.setFilter('unread');
+        }.bind(this));
     },
     setLikedFilter: function() {
-        this.setState({filter: 'liked'});
-        MiddlePanelActions.setFilter('liked');
+        this.setState({filter: 'liked'}, function() {
+            MiddlePanelActions.setFilter('liked');
+        }.bind(this));
     },
     toogleSearch: function() {
-        if(this.state.display_search) {
-            MiddlePanelActions.search_off();
-        }
-        this.setState({display_search: !this.state.display_search});
+        this.setState({display_search: !this.state.display_search},
+            function() {
+                if(!this.state.display_search) {
+                    MiddlePanelActions.search_off();
+                }
+            }.bind(this)
+        );
     },
 });
 

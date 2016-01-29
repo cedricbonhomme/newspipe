@@ -21,7 +21,7 @@ var Feed = React.createClass({
         var header = (<h4>
                         {icon}<strong>Title:</strong> {this.props.feed.title}
                       </h4>);
-        return (<Panel header={header}>
+        return (<Panel collapsible defaultExpanded header={header}>
                     <dl className="dl-horizontal">
                         <dt>Description</dt>
                         <dd>{this.props.feed.description}</dd>

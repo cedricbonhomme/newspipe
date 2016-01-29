@@ -6,6 +6,8 @@ var assign = require('object-assign');
 
 
 var MiddlePanelStore = assign({}, EventEmitter.prototype, {
+    filter_whitelist: ['filter', 'filter_id', 'filter_type', 'display_search',
+                       'query', 'search_title', 'search_content'],
     _datas: {filter: 'unread', articles: [],
              filter_type: null, filter_id: null,
              display_search: false, query: null,
@@ -13,12 +15,12 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
     getAll: function() {
         return this._datas;
     },
-    getRequestFilter: function() {
+    getRequestFilter: function(display_search) {
         var filters = {'filter': this._datas.filter,
                        'filter_type': this._datas.filter_type,
                        'filter_id': this._datas.filter_id,
         };
-        if(this._datas.display_search) {
+        if(display_search || (display_search == undefined && this._datas.display_search)) {
             filters.query = this._datas.query;
             filters.search_title = this._datas.search_title;
             filters.search_content = this._datas.search_content;
@@ -47,20 +49,15 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
         }
         return false;
     },
-    setFilter: function(value) {
-        if(this._datas.filter != value) {
-            this._datas.filter = value;
-            return true;
-        }
-        return false;
-    },
-    setParentFilter: function(type, value) {
-        if(this._datas.filter_id != value || this._datas.filter_type != type) {
-            this._datas.filter_type = type;
-            this._datas.filter_id = value;
-            return true;
-        }
-        return false;
+    registerFilter: function(action) {
+        var changed = false;
+        this.filter_whitelist.map(function(key) {
+            if(key in action && this._datas[key] != action[key]) {
+                changed = true;
+                this._datas[key] = action[key];
+            }
+        }.bind(this));
+        return changed;
     },
     emitChange: function() {
         this.emit(CHANGE_EVENT);
@@ -78,17 +75,17 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     var changed = false;
     switch(action.type) {
         case ActionTypes.RELOAD_MIDDLE_PANEL:
-            MiddlePanelStore.setArticles(action.articles);
-            MiddlePanelStore.emitChange();
+            changed = MiddlePanelStore.registerFilter(action);
+            changed = MiddlePanelStore.setArticles(action.articles) || changed;
+            if(changed) {MiddlePanelStore.emitChange()};
             break;
         case ActionTypes.PARENT_FILTER:
-            changed = MiddlePanelStore.setParentFilter(action.filter_type,
-                                                       action.filter_id);
+            changed = MiddlePanelStore.registerFilter(action);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
             if(changed) {MiddlePanelStore.emitChange();}
             break;
         case ActionTypes.MIDDLE_PANEL_FILTER:
-            changed = MiddlePanelStore.setFilter(action.filter);
+            changed = MiddlePanelStore.registerFilter(action);
             changed = MiddlePanelStore.setArticles(action.articles) || changed;
             if(changed) {MiddlePanelStore.emitChange();}
             break;

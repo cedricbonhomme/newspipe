@@ -21,16 +21,21 @@ var shouldFetch = function(filters) {
 //    }
 //    return false;
 }
-var key_whitelist = ['filter_id', 'filter_type',
-                     'query', 'search_title', 'search_content'];
 var reloadIfNecessaryAndDispatch = function(dispath_payload) {
     if(shouldFetch(dispath_payload)) {
-        var filters = MiddlePanelStore.getRequestFilter();
-        key_whitelist.map(function(key) {
+        var filters = MiddlePanelStore.getRequestFilter(
+                    dispath_payload.display_search);
+        MiddlePanelStore.filter_whitelist.map(function(key) {
             if(key in dispath_payload) {
                 filters[key] = dispath_payload[key];
             }
+            if(filters[key] == null) {
+                delete filters[key];
+            }
         });
+        if('display_search' in filters) {
+            delete filters['display_search'];
+        }
         jquery.getJSON('/middle_panel', filters,
                 function(payload) {
                     dispath_payload.articles = payload.articles;
@@ -50,15 +55,19 @@ var MiddlePanelActions = {
         });
     },
     search: function(search) {
-        MiddlePanelStore._datas.display_search = true;
-        MiddlePanelStore._datas.query = search.query;
-        MiddlePanelStore._datas.search_content = search.content;
-        MiddlePanelStore._datas.search_content = search.content;
-        this.reload();
+        reloadIfNecessaryAndDispatch({
+            type: ActionTypes.RELOAD_MIDDLE_PANEL,
+            display_search: true,
+            query: search.query,
+            search_title: search.title,
+            search_content: search.content,
+        });
     },
     search_off: function() {
-        MiddlePanelStore._datas.display_search = false;
-        this.reload();
+        reloadIfNecessaryAndDispatch({
+            type: ActionTypes.RELOAD_MIDDLE_PANEL,
+            display_search: false,
+        });
     },
     removeParentFilter: function() {
         reloadIfNecessaryAndDispatch({
