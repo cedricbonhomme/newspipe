@@ -7,9 +7,13 @@ var MenuStore = require('../stores/MenuStore');
 
 
 var RightPanelStore = assign({}, EventEmitter.prototype, {
-    _datas: {category: null, feed: null, article: null},
+    category: null,
+    feed: null,
+    article: null,
+    current: null,
     getAll: function() {
-        return this._datas;
+        return {category: this.category, feed: this.feed,
+                article: this.article, current: this.current};
     },
     emitChange: function() {
         this.emit(CHANGE_EVENT);
@@ -26,31 +30,45 @@ var RightPanelStore = assign({}, EventEmitter.prototype, {
 RightPanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     switch(action.type) {
         case ActionTypes.PARENT_FILTER:
-            RightPanelStore._datas.article = null;
+            RightPanelStore.article = null;
             if(action.filter_id == null) {
-                RightPanelStore._datas.category = null;
-                RightPanelStore._datas.feed = null;
-                RightPanelStore._datas.current = null;
+                RightPanelStore.category = null;
+                RightPanelStore.feed = null;
+                RightPanelStore.current = null;
             } else if(action.filter_type == 'category_id') {
-                RightPanelStore._datas.category = MenuStore._datas.categories[action.filter_id];
-                RightPanelStore._datas.feed = null;
-                RightPanelStore._datas.current = 'category';
+                RightPanelStore.category = MenuStore._datas.categories[action.filter_id];
+                RightPanelStore.feed = null;
+                RightPanelStore.current = 'category';
                 RightPanelStore.emitChange();
             } else {
 
-                RightPanelStore._datas.feed = MenuStore._datas.feeds[action.filter_id];
-                RightPanelStore._datas.category = MenuStore._datas.categories[RightPanelStore._datas.feed.category_id];
-                RightPanelStore._datas.current = 'feed';
+                RightPanelStore.feed = MenuStore._datas.feeds[action.filter_id];
+                RightPanelStore.category = MenuStore._datas.categories[RightPanelStore.feed.category_id];
+                RightPanelStore.current = 'feed';
                 RightPanelStore.emitChange();
             }
             break;
         case ActionTypes.LOAD_ARTICLE:
-            RightPanelStore._datas.feed = MenuStore._datas.feeds[action.article.feed_id];
-            RightPanelStore._datas.category = MenuStore._datas.categories[action.article.category_id];
-            RightPanelStore._datas.article = action.article;
-            RightPanelStore._datas.current = 'article';
+            RightPanelStore.feed = MenuStore._datas.feeds[action.article.feed_id];
+            RightPanelStore.category = MenuStore._datas.categories[action.article.category_id];
+            RightPanelStore.article = action.article;
+            RightPanelStore.current = 'article';
             RightPanelStore.emitChange();
             break;
+        case ActionTypes.RELOAD_MENU:
+            RightPanelStore.article = null;
+            if(RightPanelStore.category && !(RightPanelStore.category.id.toString() in action.categories)) {
+                RightPanelStore.category = null;
+                RightPanelStore.current = null;
+            }
+            if(RightPanelStore.feed && !(RightPanelStore.feed.id.toString() in action.feeds)) {
+                RightPanelStore.feed = null;
+                RightPanelStore.current = null;
+            }
+            if(RightPanelStore.current == 'article') {
+                RightPanelStore.current = null;
+            }
+            RightPanelStore.emitChange();
         default:
             // pass
     }
