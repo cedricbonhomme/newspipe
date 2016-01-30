@@ -120,11 +120,38 @@
   position: absolute;
   top: 2px;
   right: 4px;
-  display: block;
 }
 #right-panel>ol{
   margin-top: 10px;
 }
 #right-panel .panel-body img {
   max-width: 100%;
+}
+#right-panel-heading * {
+  display: inline;
+}
+#right-panel-heading h4 img {
+  margin-right: 5px;
+}
+#right-panel-heading div.btn-group {
+  float: right;
+  margin-top: -5px;
+  margin-right: -8px;
+}
+.panel-body dd>input {
+  width: 100%;
+}
+.filter-row>select.form-control:first-child {
+  width: 10%;
+}
+.filter-row>select.form-control {
+  width: 15%;
+}
+.filter-row>select.form-control:last-child {
+  width: 25%;
+}
+.filter-row>input.form-control {
+  width: auto;
+}
+#filter-button-row>*{
 }

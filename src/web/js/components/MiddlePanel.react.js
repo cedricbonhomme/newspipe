@@ -1,6 +1,4 @@
 var React = require('react');
-var ReactIntl = require('react-intl');
-var FormattedRelative = ReactIntl.FormattedRelative;
 
 var Row = require('react-bootstrap/Row');
 var Button = require('react-bootstrap/Button');
@@ -11,8 +9,9 @@ var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
 var RightPanelActions = require('../actions/RightPanelActions');
 
+var JarrTime = require('./time.react');
+
 var TableLine = React.createClass({
-    mixins: [ReactIntl.IntlMixin],
     propTypes: {article_id: React.PropTypes.number.isRequired,
                 feed_title: React.PropTypes.string.isRequired,
                 icon_url: React.PropTypes.string,
@@ -49,11 +48,10 @@ var TableLine = React.createClass({
         }
         // FIXME https://github.com/yahoo/react-intl/issues/189
         // use FormattedRelative when fixed, will have to upgrade to ReactIntlv2
-        var date = (<time dateTime={this.props.date} title={this.props.date}>
-                        {this.formatRelative(this.props.timestamp)}
-                    </time>);
         return (<div className={clsses} onClick={this.loadArticle}>
-                    <h5><strong>{title}</strong></h5>{date}
+                    <h5><strong>{title}</strong></h5>
+                    <JarrTime text={this.props.date}
+                              stamp={this.props.timestamp} />
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
         );

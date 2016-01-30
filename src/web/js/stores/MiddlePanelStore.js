@@ -119,9 +119,10 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
             for (var i in MiddlePanelStore._datas.articles) {
                 if(MiddlePanelStore._datas.articles[i].article_id == action.article.id) {
                     MiddlePanelStore._datas.articles[i].read = true;
-                    console.log(MiddlePanelStore._datas.articles[i]);
+                    break;
                 }
             }
+            break;
         default:
             // pass
     }

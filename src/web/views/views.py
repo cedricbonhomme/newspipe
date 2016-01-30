@@ -230,6 +230,7 @@ def signup():
     return render_template('signup.html', form=form)
 
 
+from calendar import timegm
 from flask import jsonify
 
 
@@ -250,8 +251,12 @@ def get_menu():
         categories[cat_id]['feeds'] = []
     feeds = {feed.id: feed.dump() for feed in FeedController(g.user.id).read()}
     for feed_id, feed in feeds.items():
+        feed['created_stamp'] = timegm(feed['created_date'].timetuple()) * 1000
+        feed['last_stamp'] = timegm(feed['last_retrieved'].timetuple()) * 1000
         feed['category_id'] = feed['category_id'] or 0
         feed['unread'] = unread.get(feed['id'], 0)
+        if not feed['filters']:
+            feed['filters'] = []
         if feed.get('icon_url'):
             feed['icon_url'] = url_for('icon.icon', url=feed['icon_url'])
         categories[feed['category_id']]['unread'] += feed['unread']
@@ -284,17 +289,13 @@ def _get_filters(in_dict):
     return filters
 
 
-import calendar
-
-
 def _articles_to_json(articles, fd_hash=None):
     return jsonify(**{'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id, 'selected': False,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id]['title'] if fd_hash else None,
             'icon_url': fd_hash[art.feed_id]['icon_url'] if fd_hash else None,
-            'date': art.date,
-            'timestamp': calendar.timegm(art.date.timetuple()) * 1000}
+            'date': art.date, 'timestamp': timegm(art.date.timetuple()) * 1000}
             for art in articles.limit(1000)]})
 
 

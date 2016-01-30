@@ -73,6 +73,8 @@ class Feed(db.Model):
                 "link": self.link,
                 "site_link": self.site_link,
                 "etag": self.etag,
+                "enabled": self.enabled,
+                "filters": self.filters,
                 "icon_url": self.icon_url,
                 "error_count": self.error_count,
                 "created_date": self.created_date,

@@ -30,17 +30,19 @@ RightPanelStore.dispatchToken = JarrDispatcher.register(function(action) {
             if(action.filter_id == null) {
                 RightPanelStore._datas.category = null;
                 RightPanelStore._datas.feed = null;
+                RightPanelStore._datas.current = null;
             } else if(action.filter_type == 'category_id') {
                 RightPanelStore._datas.category = MenuStore._datas.categories[action.filter_id];
                 RightPanelStore._datas.feed = null;
                 RightPanelStore._datas.current = 'category';
+                RightPanelStore.emitChange();
             } else {
 
                 RightPanelStore._datas.feed = MenuStore._datas.feeds[action.filter_id];
                 RightPanelStore._datas.category = MenuStore._datas.categories[RightPanelStore._datas.feed.category_id];
                 RightPanelStore._datas.current = 'feed';
+                RightPanelStore.emitChange();
             }
-            RightPanelStore.emitChange();
             break;
         case ActionTypes.LOAD_ARTICLE:
             RightPanelStore._datas.feed = MenuStore._datas.feeds[action.article.feed_id];
