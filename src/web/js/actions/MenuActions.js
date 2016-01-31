@@ -11,6 +11,7 @@ var MenuActions = {
                 type: ActionTypes.RELOAD_MENU,
                 feeds: payload.feeds,
                 categories: payload.categories,
+                categories_order: payload.categories_order,
                 is_admin: payload.is_admin,
                 max_error: payload.max_error,
                 error_threshold: payload.error_threshold,

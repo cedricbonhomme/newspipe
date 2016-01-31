@@ -89,6 +89,10 @@ var CategoryGroup = React.createClass({
         return {unfolded: true};
     },
     render: function() {
+        // hidden the no category if empty
+        if(!this.props.cat_id && !this.props.feeds.length) {
+            return <ul className="hidden" />;
+        }
         var filter = this.props.filter;
         var a_type = this.props.active_type;
         var a_id = this.props.active_id;
@@ -197,7 +201,8 @@ var Menu = React.createClass({
                 </ul>
         );
         var categories = [];
-        for(var cat_id in this.state.categories) {
+        for(var index in this.state.categories_order) {
+            var cat_id = this.state.categories_order[index];
             var feeds = [];
             var unread = 0;
             this.state.categories[cat_id].feeds.map(function(feed_id) {
@@ -237,6 +242,7 @@ var Menu = React.createClass({
         this.setState({filter: datas.filter,
                        feeds: datas.feeds,
                        categories: datas.categories,
+                       categories_order: datas.categories_order,
                        active_type: datas.active_type,
                        active_id: datas.active_id});
     },

@@ -243,8 +243,11 @@ def home():
 @app.route('/menu')
 @login_required
 def get_menu():
-    categories = {c.id: c.dump() for c in CategoryController(g.user.id).read()}
-    categories[0] = {'name': 'No category', 'id': 0}
+    categories_order = [0]
+    categories = {0: {'name': 'No category', 'id': 0}}
+    for cat in CategoryController(g.user.id).read().order_by('name'):
+        categories_order.append(cat.id)
+        categories[cat.id] = cat.dump()
     unread = ArticleController(g.user.id).count_by_feed(readed=False)
     for cat_id in categories:
         categories[cat_id]['unread'] = 0
@@ -262,6 +265,7 @@ def get_menu():
         categories[feed['category_id']]['unread'] += feed['unread']
         categories[feed['category_id']]['feeds'].append(feed_id)
     return jsonify(**{'feeds': feeds, 'categories': categories,
+                      'categories_order': categories_order,
                       'crawling_method': conf.CRAWLING_METHOD,
                       'max_error': conf.DEFAULT_MAX_ERROR,
                       'error_threshold': conf.ERROR_THRESHOLD,

@@ -6,7 +6,7 @@ var assign = require('object-assign');
 
 
 var MenuStore = assign({}, EventEmitter.prototype, {
-    _datas: {filter: 'all', feeds: {}, categories: {},
+    _datas: {filter: 'all', feeds: {}, categories: {}, categories_order: [],
              active_type: null, active_id: null,
              is_admin: false, crawling_method: 'classic',
              all_unread_count: 0, max_error: 0, error_threshold: 0},
@@ -46,6 +46,7 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
         case ActionTypes.RELOAD_MENU:
             MenuStore._datas['feeds'] = action.feeds;
             MenuStore._datas['categories'] = action.categories;
+            MenuStore._datas['categories_order'] = action.categories_order;
             MenuStore._datas['is_admin'] = action.is_admin;
             MenuStore._datas['max_error'] = action.max_error;
             MenuStore._datas['error_threshold'] = action.error_threshold;
