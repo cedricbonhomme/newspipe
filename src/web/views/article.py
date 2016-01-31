@@ -17,7 +17,10 @@ article_bp = Blueprint('article', __name__, url_prefix='/article')
 @article_bp.route('/redirect/<int:article_id>', methods=['GET'])
 @login_required
 def redirect_to_article(article_id):
-    article = ArticleController(g.user.id).get(id=article_id)
+    contr = ArticleController(g.user.id)
+    article = contr.get(id=article_id)
+    if not article.readed:
+        contr.update({'id': article.id}, {'readed': True})
     return redirect(article.link)
 
 

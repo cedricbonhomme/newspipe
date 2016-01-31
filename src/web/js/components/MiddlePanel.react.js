@@ -35,7 +35,7 @@ var TableLine = React.createClass({
             icon = <Glyphicon glyph="ban-circle" />;
         }
         var title = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.stopPropagation}>
+                        onClick={this.openRedirectLink}>
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
@@ -55,6 +55,11 @@ var TableLine = React.createClass({
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
+    },
+    openRedirectLink: function(evnt) {
+        if(!this.state.read) {
+            this.toogleRead(evnt);
+        }
     },
     toogleRead: function(evnt) {
         this.setState({read: !this.state.read}, function() {
