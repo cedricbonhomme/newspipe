@@ -32,9 +32,9 @@ var FeedItem = React.createClass({
         if(this.props.active) {
             classes += " bg-primary";
         }
-        if(this.props.error_count >= 6) {
+        if(this.props.error_count >= MenuStore._datas.max_error) {
             classes += " bg-danger";
-        } else if(this.props.error_count > 3) {
+        } else if(this.props.error_count > MenuStore._datas.error_threshold) {
             classes += " bg-warning";
         }
         var title = <span className="title">{this.props.title}</span>;
@@ -97,7 +97,7 @@ var CategoryGroup = React.createClass({
             var feeds = this.props.feeds.filter(function(feed) {
                 if (filter == 'unread' && feed.unread <= 0) {
                     return false;
-                } else if (filter == 'error' && feed.error_count <= 3) {
+                } else if (filter == 'error' && feed.error_count <= MenuStore._datas.error_threshold) {
                     return false;
                 }
                 return true;
@@ -201,7 +201,7 @@ var Menu = React.createClass({
             var feeds = [];
             var unread = 0;
             this.state.categories[cat_id].feeds.map(function(feed_id) {
-                if(this.state.feeds[feed_id].error_count > 3) {
+                if(this.state.feeds[feed_id].error_count > MenuStore._datas.error_threshold) {
                     feed_in_error = true;
                 }
                 unread += this.state.feeds[feed_id].unread;

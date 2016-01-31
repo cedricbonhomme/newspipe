@@ -92,7 +92,9 @@ USER_AGENT = config.get('crawler', 'user_agent')
 RESOLVE_ARTICLE_URL = config.getboolean('crawler',
                                         'resolve_article_url')
 DEFAULT_MAX_ERROR = config.getint('crawler',
-                                    'default_max_error')
+                                  'default_max_error')
+ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
+
 CRAWLING_METHOD = config.get('crawler', 'crawling_method')
 
 LOG_LEVEL = {'debug': logging.DEBUG,

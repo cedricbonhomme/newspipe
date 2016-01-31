@@ -247,7 +247,38 @@ var Feed = React.createClass({
                   <dt>Category</dt><dd>{content}</dd>
                 </dl>);
     },
+    getErrorFields: function() {
+        if(this.props.obj.error_count < MenuStore._datas.error_threshold) {
+            return;
+        }
+        if(this.props.obj.error_count < MenuStore._datas.max_error) {
+            return (<dl className="dl-horizontal">
+                        <dt>State</dt>
+                        <dd>The download of this feed has encountered some problems. However its error counter will be reinitialized at the next successful retrieving.</dd>
+                        <dt>Last error</dt>
+                        <dd>{this.props.obj.last_error}</dd>
+                    </dl>);
+        }
+    return (<dl className="dl-horizontal">
+                <dt>State</dt>
+                <dd>That feed has encountered too much consecutive errors and won't be retrieved anymore.</dd>
 
+                <dt>Last error</dt>
+                <dd>{this.props.obj.last_error}</dd>
+                <dd>
+                    <Button onClick={this.resetErrors}>Reset error count
+                    </Button>
+                </dd>
+            </dl>);
+
+    },
+    resetErrors: function() {
+        var obj = this.state.obj;
+        obj.error_count = 0;
+        this.setState({obj: obj}, function() {
+            RightPanelActions.resetErrors(this.props.obj.id);
+        }.bind(this));
+    },
     getBody: function() {
         return (<div className="panel-body">
                     <dl className="dl-horizontal">
@@ -260,6 +291,7 @@ var Feed = React.createClass({
                                       text={this.props.obj.last_retrieved} />
                         </dd>
                     </dl>
+                    {this.getErrorFields()}
                     {this.getCategorySelect()}
                     {this.getCore()}
                     {this.getFilterRows()}

@@ -263,6 +263,8 @@ def get_menu():
         categories[feed['category_id']]['feeds'].append(feed_id)
     return jsonify(**{'feeds': feeds, 'categories': categories,
                       'crawling_method': conf.CRAWLING_METHOD,
+                      'max_error': conf.DEFAULT_MAX_ERROR,
+                      'error_threshold': conf.ERROR_THRESHOLD,
                       'is_admin': g.user.is_admin(),
                       'all_unread_count': sum(unread.values())})
 

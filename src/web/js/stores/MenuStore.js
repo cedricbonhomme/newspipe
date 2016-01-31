@@ -9,7 +9,7 @@ var MenuStore = assign({}, EventEmitter.prototype, {
     _datas: {filter: 'all', feeds: {}, categories: {},
              active_type: null, active_id: null,
              is_admin: false, crawling_method: 'classic',
-             all_unread_count: 0},
+             all_unread_count: 0, max_error: 0, error_threshold: 0},
     getAll: function() {
         return this._datas;
     },
@@ -47,6 +47,8 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             MenuStore._datas['feeds'] = action.feeds;
             MenuStore._datas['categories'] = action.categories;
             MenuStore._datas['is_admin'] = action.is_admin;
+            MenuStore._datas['max_error'] = action.max_error;
+            MenuStore._datas['error_threshold'] = action.error_threshold;
             MenuStore._datas['crawling_method'] = action.crawling_method;
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
             MenuStore.emitChange();

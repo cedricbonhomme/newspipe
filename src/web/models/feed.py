@@ -77,6 +77,7 @@ class Feed(db.Model):
                 "filters": self.filters,
                 "icon_url": self.icon_url,
                 "error_count": self.error_count,
+                "last_error": self.last_error,
                 "created_date": self.created_date,
                 "last_modified": self.last_modified,
                 "last_retrieved": self.last_retrieved}

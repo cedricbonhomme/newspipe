@@ -12,6 +12,8 @@ var MenuActions = {
                 feeds: payload.feeds,
                 categories: payload.categories,
                 is_admin: payload.is_admin,
+                max_error: payload.max_error,
+                error_threshold: payload.error_threshold,
                 crawling_method: payload.crawling_method,
                 all_unread_count: payload.all_unread_count,
             });

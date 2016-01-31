@@ -28,6 +28,15 @@ var RightPanelActions = {
     delObj: function(id, obj_type, fields) {
         this._apiReq('DELETE', id, obj_type, null, MenuActions.reload);
     },
+    resetErrors: function(feed_id) {
+        jquery.ajax({type: 'GET',
+                    url: "feed/reset_errors/" + feed_id,
+                    success: function() {
+                        MenuActions.reload();
+                    },
+        });
+
+    },
 };
 
 module.exports = RightPanelActions;
