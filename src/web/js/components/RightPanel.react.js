@@ -293,6 +293,7 @@ var RightPanel = React.createClass({
         return <li>{this.state.article.title}</li>;
     },
     render: function() {
+        window.scrollTo(0, 0);
         var brd_category = null;
         var brd_feed = null;
         var brd_article = null;
