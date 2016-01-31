@@ -1,9 +1,9 @@
 var React = require('react');
-var Col = require('react-bootstrap/Col');
-var Badge = require('react-bootstrap/Badge');
-var Button = require('react-bootstrap/Button');
-var ButtonGroup = require('react-bootstrap/ButtonGroup');
-var Glyphicon = require('react-bootstrap/Glyphicon');
+var Col = require('react-bootstrap/lib/Col');
+var Badge = require('react-bootstrap/lib/Badge');
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 
 var MenuStore = require('../stores/MenuStore');
 var MenuActions = require('../actions/MenuActions');

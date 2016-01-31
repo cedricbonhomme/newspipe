@@ -11,6 +11,8 @@ var MenuActions = {
                 type: ActionTypes.RELOAD_MENU,
                 feeds: payload.feeds,
                 categories: payload.categories,
+                is_admin: payload.is_admin,
+                crawling_method: payload.crawling_method,
                 all_unread_count: payload.all_unread_count,
             });
         });

@@ -1,8 +1,8 @@
 var React = require('react');
-var Col = require('react-bootstrap/Col');
-var Glyphicon = require('react-bootstrap/Glyphicon');
-var Button = require('react-bootstrap/Button');
-var ButtonGroup = require('react-bootstrap/ButtonGroup');
+var Col = require('react-bootstrap/lib/Col');
+var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 
 var RightPanelActions = require('../actions/RightPanelActions');
 var RightPanelStore = require('../stores/RightPanelStore');
@@ -293,7 +293,6 @@ var RightPanel = React.createClass({
         return <li>{this.state.article.title}</li>;
     },
     render: function() {
-        var content = null;
         var brd_category = null;
         var brd_feed = null;
         var brd_article = null;
@@ -329,9 +328,9 @@ var RightPanel = React.createClass({
                     key={this.state.category.id} />);
         }
 
-        return (<Col id="right-panel" xsOffset={2} smOffset={2}
+        return (<Col id="right-panel" xsOffset={4} smOffset={4}
                                       mdOffset={7} lgOffset={6}
-                                      xs={10} sm={10} md={5} lg={6}>
+                                      xs={8} sm={8} md={5} lg={6}>
                     {breadcrum}
                     {cntnt}
                 </Col>

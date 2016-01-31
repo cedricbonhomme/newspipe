@@ -24,7 +24,7 @@
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
     "react": "^0.14.6",
-    "react-bootstrap": "^0.14.1",
+    "react-bootstrap": "^0.28.0",
     "react-dom": "^0.14.6",
     "react-intl": "^1.2.2"
   },

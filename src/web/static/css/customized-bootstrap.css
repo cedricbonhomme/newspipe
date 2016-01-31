@@ -8,10 +8,19 @@ div.top {
     height: 0;
 }
 
-.navbar-custom {
+nav.navbar-custom {
     background-color: #205081;
     border: #205081;
     border-radius: 0;
+}
+nav.navbar-custom>div.container {
+  width: 100%;
+}
+nav.navbar-custom span.glyphicon {
+  margin-right: 5px;
+}
+nav.navbar-custom button {
+  margin-left: 5px;
 }
 
 .navbar-custom .navbar-nav > li > a {

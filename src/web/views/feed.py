@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
+import logging
 import requests.exceptions
 from datetime import datetime, timedelta
 from sqlalchemy import desc
@@ -18,6 +19,7 @@ from web.forms import AddFeedForm
 from web.controllers import (CategoryController, FeedController,
                                       ArticleController)
 
+logger = logging.getLogger(__name__)
 feeds_bp = Blueprint('feeds', __name__, url_prefix='/feeds')
 feed_bp = Blueprint('feed', __name__, url_prefix='/feed')
 
@@ -113,6 +115,9 @@ def bookmarklet():
     except requests.exceptions.ConnectionError:
         flash(gettext("Impossible to connect to the address: {}.".format(url)),
               "danger")
+        return redirect(url_for('home'))
+    except Exception:
+        logger.exception('something bad happened when fetching %r', url)
         return redirect(url_for('home'))
     if not feed.get('link'):
         feed['enabled'] = False

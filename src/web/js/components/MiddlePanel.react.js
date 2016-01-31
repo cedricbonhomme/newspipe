@@ -1,9 +1,9 @@
 var React = require('react');
 
-var Row = require('react-bootstrap/Row');
-var Button = require('react-bootstrap/Button');
-var ButtonGroup = require('react-bootstrap/ButtonGroup');
-var Glyphicon = require('react-bootstrap/Glyphicon');
+var Row = require('react-bootstrap/lib/Row');
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 
 var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
