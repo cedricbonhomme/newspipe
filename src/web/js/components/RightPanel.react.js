@@ -6,6 +6,7 @@ var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 
 var RightPanelActions = require('../actions/RightPanelActions');
 var RightPanelStore = require('../stores/RightPanelStore');
+var MenuStore = require('../stores/MenuStore');
 var JarrTime = require('./time.react');
 
 var PanelMixin = {
@@ -162,6 +163,7 @@ var Feed = React.createClass({
              {'title': 'Site link', 'type': 'link', 'key': 'site_link'},
              {'title': 'Enabled', 'type': 'bool', 'key': 'enabled'},
              {'title': 'Filters', 'type': 'ignore', 'key': 'filters'},
+             {'title': 'Category', 'type': 'ignore', 'key': 'category_id'},
     ],
     getTitle: function() {return this.props.obj.title;},
     getFilterRow: function(i, filter) {
@@ -222,6 +224,30 @@ var Feed = React.createClass({
         }
         return <dl className="dl-horizontal">{rows}</dl>;
     },
+    getCategorySelect: function() {
+        var content = null;
+        if(this.state.edit_mode) {
+            var categ_options = [];
+            for(var cat_id in MenuStore._datas.categories) {
+                categ_options.push(
+                        <option value={cat_id}
+                                key={MenuStore._datas.categories[cat_id].id}>
+                            {MenuStore._datas.categories[cat_id].name}
+                        </option>);
+            }
+            content = (<select name="category_id" className="form-control"
+                               onChange={this.saveField}
+                               defaultValue={this.props.obj.category_id}>
+                            {categ_options}
+                       </select>);
+        } else {
+            content = MenuStore._datas.categories[this.props.obj.category_id].name;
+        }
+        return (<dl className="dl-horizontal">
+                  <dt>Category</dt><dd>{content}</dd>
+                </dl>);
+    },
+
     getBody: function() {
         return (<div className="panel-body">
                     <dl className="dl-horizontal">
@@ -234,6 +260,7 @@ var Feed = React.createClass({
                                       text={this.props.obj.last_retrieved} />
                         </dd>
                     </dl>
+                    {this.getCategorySelect()}
                     {this.getCore()}
                     {this.getFilterRows()}
                 </div>
