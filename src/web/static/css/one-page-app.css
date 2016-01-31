@@ -121,8 +121,18 @@
   top: 2px;
   right: 4px;
 }
-#right-panel>ol{
+#right-panel {
+  top: 50px;
+}
+#rp-breadcrum{
   margin-top: 10px;
+  max-height: 34px;
+  overflow: hidden;
+  padding-top: 2px;
+}
+#rp-breadcrum>li{
+  display: inline;
+  line-height: 30px;
 }
 #right-panel .panel-body img {
   max-width: 100%;
@@ -152,6 +162,4 @@
 }
 .filter-row>input.form-control {
   width: auto;
-}
-#filter-button-row>*{
 }

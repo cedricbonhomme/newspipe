@@ -299,20 +299,24 @@ var RightPanel = React.createClass({
         var brd_article = null;
         var breadcrum = null;
         if(this.state.category) {
-            brd_category = (<li><a onClick={this.selectCategory} href="#">
-                                {this.state.category.name}
-                            </a></li>);
+            brd_category = (<li className="rp-crum">
+                                <a onClick={this.selectCategory} href="#">
+                                    {this.state.category.name}
+                                </a>
+                            </li>);
         }
         if(this.state.feed) {
-            brd_feed = (<li><a onClick={this.selectFeed} href="#">
-                            {this.state.feed.title}
-                        </a></li>);
+            brd_feed = (<li className="rp-crum">
+                            <a onClick={this.selectFeed} href="#">
+                                {this.state.feed.title}
+                            </a>
+                        </li>);
         }
         if(this.state.article) {
-            brd_article = <li>{this.state.article.title}</li>;
+            brd_article = <li className="rp-crum">{this.state.article.title}</li>;
         }
         if(brd_category || brd_feed || brd_article) {
-            breadcrum = (<ol className="breadcrumb">
+            breadcrum = (<ol className="breadcrumb" id="rp-breadcrum">
                             {brd_category}
                             {brd_feed}
                             {brd_article}
