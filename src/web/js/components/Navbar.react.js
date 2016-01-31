@@ -5,6 +5,7 @@ var NavItem = require('react-bootstrap/lib/NavItem');
 var Navbar = require('react-bootstrap/lib/Navbar');
 var NavDropdown = require('react-bootstrap/lib/NavDropdown');
 var MenuItem = require('react-bootstrap/lib/MenuItem');
+var Modal = require('react-bootstrap/lib/Modal');
 var Button = require('react-bootstrap/lib/Button');
 var Input = require('react-bootstrap/lib/Input');
 
@@ -13,11 +14,14 @@ var MenuStore = require('../stores/MenuStore');
 JarrNavBar = React.createClass({
     getInitialState: function() {
         return {is_admin: MenuStore._datas.is_admin,
-                crawling_method: MenuStore._datas.crawling_method};
+                crawling_method: MenuStore._datas.crawling_method,
+                showModal: false, modalType: null};
     },
     buttonFetch: function() {
         if(this.state.is_admin && this.state.crawling_method != 'http') {
-            return <NavItem eventKey={2} href="/fetch"><Glyphicon glyph="import" />Fetch</NavItem>;
+            return (<NavItem eventKey={2} href="/fetch">
+                        <Glyphicon glyph="import" />Fetch
+                    </NavItem>);
         }
     },
     buttonAdmin: function() {
@@ -30,11 +34,50 @@ JarrNavBar = React.createClass({
                     </NavDropdown>);
         }
     },
+    getModel: function() {
+        var heading = null;
+        var action = null;
+        var body = null;
+        if(this.state.modalType == 'addFeed') {
+            heading = 'Add a new feed';
+            action = '/feed/bookmarklet';
+            placeholder = "Site or feed url, we'll sort it out later ;)";
+            body = <Input name="url" type="text" placeholder={placeholder} />;
+        } else {
+            heading = 'Add a new category';
+            action = '/category/create';
+            body = <Input name="name" type="text"
+                          placeholder="Name, there isn't much more to it" />;
+        }
+        return (<Modal show={this.state.showModal} onHide={this.close}>
+                  <form action={action} method="POST">
+                    <Modal.Header closeButton>
+                      <Modal.Title>{heading}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      {body}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button type="submit">Add</Button>
+                    </Modal.Footer>
+                  </form>
+                </Modal>);
+    },
+    close: function() {
+        this.setState({showModal: false, modalType: null});
+    },
+    openAddFeed: function() {
+        this.setState({showModal: true, modalType: 'addFeed'});
+    },
+    openAddCategory: function() {
+        this.setState({showModal: true, modalType: 'addCategory'});
+    },
     render: function() {
         var gl_title = (<span>
                             <Glyphicon glyph="plus-sign" />Add a new feed
                         </span>);
-        return (<Navbar fixedTop inverse className="navbar-custom">
+        return (<Navbar fixedTop inverse id="jarrnav">
+                    {this.getModel()}
                     <Navbar.Header>
                         <Navbar.Brand>
                             <a href="/">JARR</a>
@@ -42,19 +85,15 @@ JarrNavBar = React.createClass({
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Nav pullRight>
-                        <Navbar.Form pullLeft>
-                            <form action="/feed/bookmarklet" method="GET">
-                            <Input name="url" type="text"
-                                   placeholder="Add a new feed" />
-                            <Button type="submit">Submit</Button>
-                            </form>
-                        </Navbar.Form>
                         {this.buttonFetch()}
-                        <NavDropdown title="Feed" id="feed-mgmt-dropdown">
-                            <MenuItem href="/feeds/inactives">Inactive</MenuItem>
-                            <MenuItem href="/articles/history">History</MenuItem>
-                            <MenuItem href="/feeds/">All</MenuItem>
-                        </NavDropdown>
+                        <NavItem className="jarrnavitem"
+                                 onClick={this.openAddFeed} href="#">
+                            <Glyphicon glyph="plus-sign" />Add a new feed
+                        </NavItem>
+                        <NavItem className="jarrnavitem"
+                                 onClick={this.openAddCategory} href="#">
+                            <Glyphicon glyph="plus-sign" />Add a new category
+                        </NavItem>
                         {this.buttonAdmin()}
                         <NavDropdown title={<Glyphicon glyph='user' />}
                                 id="user-dropdown">

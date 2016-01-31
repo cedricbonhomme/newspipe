@@ -95,11 +95,12 @@ def reset_errors(feed_id):
     return redirect(request.referrer or url_for('home'))
 
 
-@feed_bp.route('/bookmarklet', methods=['GET'])
+@feed_bp.route('/bookmarklet', methods=['GET', 'POST'])
 @login_required
 def bookmarklet():
     feed_contr = FeedController(g.user.id)
-    url = request.args.get('url', None)
+    url = (request.args if request.method == 'GET' else request.form)\
+            .get('url', None)
     if not url:
         flash(gettext("Couldn't add feed: url missing."), "error")
         raise BadRequest("url is missing")

@@ -8,43 +8,29 @@ div.top {
     height: 0;
 }
 
-nav.navbar-custom {
+#jarrnav {
     background-color: #205081;
     border: #205081;
     border-radius: 0;
 }
-nav.navbar-custom>div.container {
+#jarrnav>div.container {
   width: 100%;
 }
-nav.navbar-custom span.glyphicon {
+#jarrnav span.glyphicon {
   margin-right: 5px;
 }
-nav.navbar-custom button {
+#jarrnav button {
   margin-left: 5px;
 }
 
-.navbar-custom .navbar-nav > li > a {
-    color: #FFFFFF;
+#jarrnav a.navbar-brand,
+#jarrnav .jarrnavitem a,
+#jarrnav a.dropdown-toggle{
+    color: white;
 }
-
-.navbar-custom .navbar-nav > li > a:hover {
-    background-color: #3572B0;
-}
-
-.navbar-custom .navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-nav > .active > a:focus {
-    color: #FFFFFF;
-    background-color: #3572B0;
-}
-.navbar-custom .navbar-brand {
-    color: #FFFFFF;
-}
-
-.navbar-custom .navbar-nav > .open > a,
-.navbar-custom .navbar-nav > .open > a:hover,
-.navbar-custom .navbar-nav > .open > a:focus {
-    color: #FFFFFF;
+#jarrnav .navbar-nav > .open > a,
+#jarrnav .navbar-nav > .open > a:hover,
+#jarrnav .navbar-nav > li > a:hover {
     background-color: #3572B0;
 }
 a {
