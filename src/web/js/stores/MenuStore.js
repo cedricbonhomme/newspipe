@@ -56,12 +56,34 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             break;
         case ActionTypes.PARENT_FILTER:
             MenuStore.setActive(action.filter_type, action.filter_id);
-            break;
-        case ActionTypes.MENU_FILTER:
-            MenuStore.setFilter(action.filter);
-            break;
-        case ActionTypes.MENU_FILTER:
-            MenuStore.setFilter(action.filter);
+            if(action.filters && action.articles && !action.filters.query
+                    && action.filters.filter == 'unread') {
+                var new_unread = {};
+                action.articles.map(function(article) {
+                    if(!(article.feed_id in new_unread)) {
+                        new_unread[article.feed_id] = 0;
+                    }
+                    if(!article.read) {
+                        new_unread[article.feed_id] += 1;
+                    }
+                });
+                var changed = false;
+                for(var feed_id in new_unread) {
+                    var old_unread = MenuStore._datas.feeds[feed_id].unread;
+                    if(old_unread == new_unread[feed_id]) {
+                        continue;
+                    }
+                    changed = true;
+                    MenuStore._datas.feeds[feed_id].unread = new_unread[feed_id];
+                    var cat_id = MenuStore._datas.feeds[feed_id].category_id;
+                    MenuStore._datas.categories[cat_id].unread -= old_unread;
+                    MenuStore._datas.categories[cat_id].unread += new_unread[feed_id];
+                }
+                if(changed) {
+                    MenuStore.emitChange();
+                }
+            }
+
             break;
         case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);

@@ -39,7 +39,7 @@ var PanelMixin = {
                        </ButtonGroup>);
         }
         return (<div id="right-panel-heading" className="panel-heading">
-                    <h4>{icon}<strong>Title:</strong> {this.getTitle()}</h4>
+                    <h4>{icon}{this.getTitle()}</h4>
                     {btn_grp}
                </div>);
     },

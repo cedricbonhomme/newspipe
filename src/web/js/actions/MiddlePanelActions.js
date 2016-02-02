@@ -39,6 +39,7 @@ var reloadIfNecessaryAndDispatch = function(dispath_payload) {
         jquery.getJSON('/middle_panel', filters,
                 function(payload) {
                     dispath_payload.articles = payload.articles;
+                    dispath_payload.filters = filters;
                     JarrDispatcher.dispatch(dispath_payload);
                     _last_fetched_with = MiddlePanelStore.getRequestFilter();
         });
