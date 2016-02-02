@@ -164,12 +164,17 @@ var Article = React.createClass({
     mixins: [PanelMixin],
     isEditable: function() {return false;},
     isRemovable: function() {return true;},
-    fields: [],
+    fields: [{'title': 'Date', 'type': 'string', 'key': 'date'},
+             {'title': 'Original link', 'type': 'link', 'key': 'link'},
+    ],
     obj_type: 'article',
     getTitle: function() {return this.props.obj.title;},
     getBody: function() {
-        return (<div className="panel-body" dangerouslySetInnerHTML={
-                        {__html: this.props.obj.content}} />);
+        return (<div className="panel-body">
+                    {this.getCore()}
+                    <div dangerouslySetInnerHTML={
+                        {__html: this.props.obj.content}} />
+                </div>);
     },
 });
 
