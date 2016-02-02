@@ -86,12 +86,6 @@ var PanelMixin = {
             }
         }.bind(this));
         } else {
-        items.push(<dd key={this.getKey('dd', 'submit')}>
-                        <button className="btn btn-default"
-                                onClick={this.saveObj}>
-                            Submit
-                        </button>
-                    </dd>);
         this.fields.filter(function(field) {
             return field.type != 'ignore';
         }).map(function(field) {
@@ -112,6 +106,13 @@ var PanelMixin = {
         }.bind(this));
         }
         return (<dl className="dl-horizontal">{items}</dl>);
+    },
+    getSubmit: function() {
+        return (<dd key={this.getKey('dd', 'submit')}>
+                    <button className="btn btn-default" onClick={this.saveObj}>
+                        Submit
+                    </button>
+                </dd>);
     },
     render: function() {
         return (<div className="panel panel-default">
@@ -316,6 +317,7 @@ var Feed = React.createClass({
                     {this.getCategorySelect()}
                     {this.getCore()}
                     {this.getFilterRows()}
+                    {this.state.edit_mode?this.getSubmit():null}
                 </div>
         );
     },
@@ -351,6 +353,7 @@ var Category = React.createClass({
     getBody: function() {
         return (<div className="panel-body">
                     {this.getCore()}
+                    {this.state.edit_mode?this.getSubmit():null}
                 </div>);
     },
 });
