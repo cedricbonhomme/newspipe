@@ -158,31 +158,31 @@ var MiddlePanelFilter = React.createClass({
                     <ButtonGroup>
                         <Button active={this.state.filter == "all"}
                                 title="Display all articles"
-                                onMouseDown={this.setAllFilter} bsSize="small">
+                                onClick={this.setAllFilter} bsSize="small">
                             <Glyphicon glyph="menu-hamburger" />
                         </Button>
                         <Button active={this.state.filter == "unread"}
                                 title="Display only unread article"
-                                onMouseDown={this.setUnreadFilter}
+                                onClick={this.setUnreadFilter}
                                 bsSize="small">
                             <Glyphicon glyph="unchecked" />
                         </Button>
                         <Button active={this.state.filter == "liked"}
                                 title="Filter only liked articles"
-                                onMouseDown={this.setLikedFilter}
+                                onClick={this.setLikedFilter}
                                 bsSize="small">
                             <Glyphicon glyph="star" />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button onMouseDown={this.toogleSearch}
+                        <Button onClick={this.toogleSearch}
                                 title="Search through displayed articles"
                                 bsSize="small">
                             <Glyphicon glyph="search" />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button onMouseDown={MiddlePanelActions.markAllAsRead}
+                        <Button onClick={MiddlePanelActions.markAllAsRead}
                                 title="Mark all displayed article as read"
                                 bsSize="small">
                             <Glyphicon glyph="trash" />

@@ -26,6 +26,12 @@ var MenuActions = {
             filter: filter,
         });
     },
+    toggleAllFolding: function(all_folded) {
+        JarrDispatcher.dispatch({
+            type: ActionTypes.TOGGLE_MENU_FOLD,
+            all_folded: all_folded,
+        });
+    },
 };
 
 module.exports = MenuActions;

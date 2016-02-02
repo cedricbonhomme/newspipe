@@ -12,6 +12,7 @@
 var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
+        TOGGLE_MENU_FOLD: null,
         RELOAD_MENU: null,
         PARENT_FILTER: null,
         MENU_FILTER: null,

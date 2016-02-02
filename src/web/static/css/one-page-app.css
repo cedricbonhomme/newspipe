@@ -80,11 +80,13 @@
   background-color: #F5F5F5;
   border-right: 1px solid #EEE;
 }
-#middle-panel .btn-group {
+#middle-panel .btn-group,
+#menu .btn-group {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-#middle-panel .btn-group:last-child {
+#middle-panel .btn-group:last-child,
+#menu .btn-group:last-child {
   margin-right: 0px;
   float: right;
 }

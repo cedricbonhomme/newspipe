@@ -84,9 +84,13 @@ var CategoryGroup = React.createClass({
                 name: React.PropTypes.string.isRequired,
                 feeds: React.PropTypes.array.isRequired,
                 unread: React.PropTypes.number.isRequired,
+                folded: React.PropTypes.bool.isRequired,
     },
     getInitialState: function() {
-        return {unfolded: true};
+        return {folded: this.props.folded};
+    },
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({folded: nextProps.folded});
     },
     render: function() {
         // hidden the no category if empty
@@ -96,7 +100,7 @@ var CategoryGroup = React.createClass({
         var filter = this.props.filter;
         var a_type = this.props.active_type;
         var a_id = this.props.active_id;
-        if(this.state.unfolded) {
+        if(!this.state.folded) {
             // filtering according to this.props.filter
             var feeds = this.props.feeds.filter(function(feed) {
                 if (filter == 'unread' && feed.unread <= 0) {
@@ -119,11 +123,11 @@ var CategoryGroup = React.createClass({
             var feeds = [];
         }
         var unread = null;
-        if(this.props.unread){
+        if(this.props.unread) {
             unread = <Badge pullRight>{this.props.unread}</Badge>;
         }
-        var ctrl = (<Glyphicon onMouseDown={this.toggleFolding} pullLeft
-                        glyph={this.state.unfolded?"menu-down":"menu-right"} />
+        var ctrl = (<Glyphicon onClick={this.toggleFolding} pullLeft
+                        glyph={this.state.folded?"menu-right":"menu-down"} />
                     );
 
         return (<ul className="nav nav-sidebar">
@@ -137,7 +141,7 @@ var CategoryGroup = React.createClass({
         );
     },
     toggleFolding: function(evnt) {
-        this.setState({unfolded: !this.state.unfolded});
+        this.setState({folded: !this.state.folded});
         evnt.stopPropagation();
     },
 });
@@ -145,32 +149,56 @@ var CategoryGroup = React.createClass({
 var MenuFilter = React.createClass({
     propTypes: {feed_in_error: React.PropTypes.bool,
                 filter: React.PropTypes.string.isRequired},
+    getInitialState: function() {
+        return {allFolded: false};
+    },
     render: function() {
         var error_button = null;
         if (this.props.feed_in_error) {
             error_button = (
                     <Button active={this.props.filter == "error"}
                             title="Some of your feeds are in error, click here to list them"
-                            onMouseDown={this.setErrorFilter}
+                            onClick={this.setErrorFilter}
                             bsSize="small" bsStyle="warning">
                         <Glyphicon glyph="exclamation-sign" />
                     </Button>
             );
         }
-        return (<ButtonGroup className="nav nav-sidebar">
+        if(this.state.allFolded) {
+            var foldBtnTitle = "Unfold all categories";
+            var foldBtnGlyph = "option-horizontal";
+        } else {
+            var foldBtnTitle = "Fold all categories";
+            var foldBtnGlyph = "option-vertical";
+        }
+        return (<div>
+                <ButtonGroup className="nav nav-sidebar">
                     <Button active={this.props.filter == "all"}
                             title="Display all feeds"
-                            onMouseDown={this.setAllFilter} bsSize="small">
+                            onClick={this.setAllFilter} bsSize="small">
                         <Glyphicon glyph="menu-hamburger" />
                     </Button>
                     <Button active={this.props.filter == "unread"}
                             title="Display only feed with unread article"
-                            onMouseDown={this.setUnreadFilter}
+                            onClick={this.setUnreadFilter}
                             bsSize="small">
                         <Glyphicon glyph="unchecked" />
                     </Button>
                     {error_button}
                 </ButtonGroup>
+                <ButtonGroup className="nav nav-sidebar">
+                    <Button onClick={MenuActions.reload}
+                            title="Refresh all feeds" bsSize="small">
+                        <Glyphicon glyph="refresh" />
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup className="nav nav-sidebar">
+                    <Button title={foldBtnTitle} bsSize="small"
+                            onClick={this.toggleFold}>
+                        <Glyphicon glyph={foldBtnGlyph} />
+                    </Button>
+                </ButtonGroup>
+                </div>
         );
     },
     setAllFilter: function() {
@@ -182,12 +210,17 @@ var MenuFilter = React.createClass({
     setErrorFilter: function() {
         MenuActions.setFilter("error");
     },
+    toggleFold: function() {
+        this.setState({allFolded: !this.state.allFolded}, function() {
+            MenuActions.toggleAllFolding(this.state.allFolded);
+        }.bind(this));
+    },
 });
 
 var Menu = React.createClass({
     getInitialState: function() {
         return {filter: 'all', categories: {}, feeds: {},
-                active_type: null, active_id: null};
+                all_folded: false, active_type: null, active_id: null};
     },
     render: function() {
         var feed_in_error = false;
@@ -218,6 +251,7 @@ var Menu = React.createClass({
                                     active_id={this.state.active_id}
                                     name={this.state.categories[cat_id].name}
                                     cat_id={this.state.categories[cat_id].id}
+                                    folded={this.state.all_folded}
                                     unread={unread} />);
         }
 
@@ -244,7 +278,8 @@ var Menu = React.createClass({
                        categories: datas.categories,
                        categories_order: datas.categories_order,
                        active_type: datas.active_type,
-                       active_id: datas.active_id});
+                       active_id: datas.active_id,
+                       all_folded: datas.all_folded});
     },
 });
 
