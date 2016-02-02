@@ -29,12 +29,8 @@ var RightPanelActions = {
         this._apiReq('DELETE', id, obj_type, null, MenuActions.reload);
     },
     resetErrors: function(feed_id) {
-        jquery.ajax({type: 'GET',
-                    url: "feed/reset_errors/" + feed_id,
-                    success: function() {
-                        MenuActions.reload();
-                    },
-        });
+        this._apiReq('PUT', feed_id, 'feed', {error_count: 0, last_error: ''},
+                     MenuActions.reload);
 
     },
 };
