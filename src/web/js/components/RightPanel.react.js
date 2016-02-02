@@ -3,6 +3,7 @@ var Col = require('react-bootstrap/lib/Col');
 var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+var Modal = require('react-bootstrap/lib/Modal');
 
 var RightPanelActions = require('../actions/RightPanelActions');
 var RightPanelStore = require('../stores/RightPanelStore');
@@ -12,7 +13,7 @@ var JarrTime = require('./time.react');
 var PanelMixin = {
     propTypes: {obj: React.PropTypes.object.isRequired},
     getInitialState: function() {
-        return {edit_mode: false, obj: this.props.obj};
+        return {edit_mode: false, obj: this.props.obj, showModal: false};
     },
     getHeader: function() {
         var icon = null;
@@ -39,9 +40,20 @@ var PanelMixin = {
                        </ButtonGroup>);
         }
         return (<div id="right-panel-heading" className="panel-heading">
+                    <Modal show={this.state.showModal} onHide={this.closeModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Are you sure ?</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button onClick={this.confirmDelete}>
+                                Confirm
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
                     <h4>{icon}{this.getTitle()}</h4>
                     {btn_grp}
-               </div>);
+                </div>);
     },
     getKey: function(prefix, suffix) {
         return ((this.state.edit_mode?'edit':'fix') + prefix
@@ -112,7 +124,15 @@ var PanelMixin = {
         this.setState({edit_mode: !this.state.edit_mode});
     },
     onClickRemove: function() {
-        RightPanelActions.delObj(this.props.obj.id, this.obj_type);
+        this.setState({showModal: true});
+    },
+    closeModal: function() {
+        this.setState({showModal: false});
+    },
+    confirmDelete: function() {
+        this.setState({showModal: false}, function() {
+            RightPanelActions.delObj(this.props.obj.id, this.obj_type);
+        }.bind(this));
     },
     saveField: function(evnt) {
         var obj = this.state.obj;

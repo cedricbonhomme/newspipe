@@ -34,7 +34,7 @@ JarrNavBar = React.createClass({
                     </NavDropdown>);
         }
     },
-    getModel: function() {
+    getModal: function() {
         var heading = null;
         var action = null;
         var body = null;
@@ -74,7 +74,7 @@ JarrNavBar = React.createClass({
     },
     render: function() {
         return (<Navbar fixedTop inverse id="jarrnav">
-                    {this.getModel()}
+                    {this.getModal()}
                     <Navbar.Header>
                         <Navbar.Brand>
                             <a href="/">JARR</a>
