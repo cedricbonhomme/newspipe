@@ -952,13 +952,6 @@ msgstr "désactivé avec succès."
 #~ msgid "You can easily install JARR on your server."
 #~ msgstr "Vous pouvez facilement installer JARR sur votre serveur."
 
-#~ msgid ""
-#~ "pyAggr3g470r is a news aggregator platform and can be shared between "
-#~ "several users."
-#~ msgstr ""
-#~ "pyAggr3g470r est un agrégateur de nouvelles et peut être partagé entre "
-#~ "plusieurs utilisateurs."
-
 #~ msgid "This user is not subscribed to any feed."
 #~ msgstr "Cet utilisateur n'est pas encore abonné à des flux."
 

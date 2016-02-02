@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>{{ _("You have %(categories)d categories &middot; Add a %(start_link)scategory%(end_link)s", categories=categories|count, start_link=("<a href='%s'>" % url_for("category.form"))|safe, end_link="</a>"|safe) }}</h1>
+    {% if categories|count == 0 %}
+        <h1>{{_("No category")}}</h1>
+    {% else %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{ _('Name') }}</th>
+                    <th>{{ _('Feeds') }}</th>
+                    <th>{{ _('Articles') }}</th>
+                    <th>{{ _('Actions') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories|sort(attribute="name") %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ feeds_count.get(category.id, 0) }}</td>
+                    <td>( {{ unread_article_count.get(category.id, 0) }} ) {{ article_count.get(category.id, 0) }}</td>
+                    <td>
+                        <a href="{{ url_for("category.form", category_id=category.id) }}"><i class="glyphicon glyphicon-edit" title='{{ _("Edit this category") }}'></i></a>
+                        <a href="{{ url_for("category.delete", category_id=category.id) }}"><i class="glyphicon glyphicon-remove" title='{{ _("Delete this category") }}' onclick="return confirm('{{ _('You are going to delete this category.') }}');"></i></a>
+                    </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endblock %}

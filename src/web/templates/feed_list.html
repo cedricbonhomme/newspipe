@@ -1,4 +1,4 @@
-{% if feeds.all()| count == 0 %}
+{% if feeds.count() == 0 %}
   <h1>{{_("No feed")}}</h1>
 {% else %}
 <div class="table-responsive">
@@ -36,7 +36,7 @@
                 <td>
                     <a href="{{ url_for("home", feed_id=feed.id, filter_="all") }}"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
                     <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                    <a href="/duplicates/{{ feed.id }}"><i class="glyphicon glyphicon-book" title="{{ _('Duplicate articles') }}"></i></a>
+                    <a href="{{ url_for("feed.duplicates", feed_id=feed.id) }}"><i class="glyphicon glyphicon-book" title="{{ _('Duplicate articles') }}"></i></a>
                     <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
                 </td>
         </tr>

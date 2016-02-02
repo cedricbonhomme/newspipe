@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="well">
+        <h3>{{ action }}</h3>
+        <form action="" method="post" name="save" class="form-horizontal">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="{{ form.name.id }}" class="col-sm-3 control-label">{{ form.name.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.name(class_="form-control", size="100%") }}
+                </div>
+                {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{ form.submit(class_="btn btn-default") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

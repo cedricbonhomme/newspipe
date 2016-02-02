@@ -20,29 +20,31 @@
         <tr {% if user.activation_key != ""  %}class="warning"{% endif %}>
             <td>{{ loop.index }}</td>
             {% if user.id == current_user.id %}
-                <td><a href="/management">{{ user.nickname }}</a> (It's you!)</td>
+                <td><a href="{{ url_for("user.management") }}">{{ user.nickname }}</a> (It's you!)</td>
             {% else %}
-                <td><a href="/admin/user/{{ user.id }}">{{ user.nickname }}</a></td>
+                <td><a href="{{ url_for("admin.user", user_id=user.id) }}">{{ user.nickname }}</a></td>
             {% endif %}
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
             <td class="date">{{ user.last_seen }}</td>
             <td>
-                <a href="/admin/user/{{ user.id }}"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}"></i></a>
-                <a href="/admin/edit_user/{{ user.id }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
+                <a href="{{ url_for("admin.user", user_id=user.id) }}"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}"></i></a>
+                <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}
+                    <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}">
                     {% if user.activation_key == "" %}
-                        <a href="/admin/disable_user/{{ user.id }}"><i class="glyphicon glyphicon-ban-circle" title="Disable this account"></i></a>
+                        <i class="glyphicon glyphicon-ban-circle" title="{{ _("Disable this account") }}"></i>
                     {% else %}
-                        <a href="/admin/enable_user/{{ user.id }}"><i class="glyphicon glyphicon-ok-circle" title="Enable this account"></i></a>
+                        <i class="glyphicon glyphicon-ok-circle" title="{{ _("Enable this account") }}"></i>
                     {% endif %}
-                    <a href="/admin/delete_user/{{ user.id }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
+                    </a>
+                    <a href="{{ url_for("admin.delete_user", user_id=user.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
                 {% endif %}
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-<a href="/admin/create_user" class="btn btn-default">{{ _('Add a new user') }}</a>
+<a href="{{ url_for("admin.user_form") }}" class="btn btn-default">{{ _('Add a new user') }}</a>
 <h1>{{ _('Send notification messages') }}</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}

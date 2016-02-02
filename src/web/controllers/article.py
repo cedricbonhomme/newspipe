@@ -1,6 +1,8 @@
 import re
 import logging
+import sqlalchemy
 from sqlalchemy import func
+from collections import Counter
 
 from bootstrap import db
 from .abstract import AbstractController
@@ -13,12 +15,6 @@ logger = logging.getLogger(__name__)
 class ArticleController(AbstractController):
     _db_cls = Article
 
-    def get(self, **filters):
-        article = super(ArticleController, self).get(**filters)
-        if not article.readed:
-            self.update({'id': article.id}, {'readed': True})
-        return article
-
     def challenge(self, ids):
         """Will return each id that wasn't found in the database."""
         for id_ in ids:
@@ -26,16 +22,14 @@ class ArticleController(AbstractController):
                 continue
             yield id_
 
+    def count_by_category(self, **filters):
+        return self._count_by(Article.category_id, filters)
+
     def count_by_feed(self, **filters):
-        if self.user_id:
-            filters['user_id'] = self.user_id
-        return dict(db.session.query(Article.feed_id, func.count(Article.id))
-                              .filter(*self._to_filters(**filters))
-                              .group_by(Article.feed_id).all())
+        return self._count_by(Article.feed_id, filters)
 
     def count_by_user_id(self, **filters):
-        return dict(db.session.query(Article.user_id,
-                                            func.count(Article.id))
+        return dict(db.session.query(Article.user_id, func.count(Article.id))
                               .filter(*self._to_filters(**filters))
                               .group_by(Article.user_id).all())
 
@@ -46,7 +40,7 @@ class ArticleController(AbstractController):
                 attrs.get('user_id', self.user_id)).get(id=attrs['feed_id'])
         if 'user_id' in attrs:
             assert feed.user_id == attrs['user_id'] or self.user_id is None
-        attrs['user_id'] = feed.user_id
+        attrs['user_id'], attrs['category_id'] = feed.user_id, feed.category_id
 
         # handling feed's filters
         for filter_ in feed.filters or []:
@@ -71,3 +65,22 @@ class ArticleController(AbstractController):
                             attrs['link'])
 
         return super().create(**attrs)
+
+    def get_history(self, year=None, month=None):
+        """
+        Sort articles by year and month.
+        """
+        articles_counter = Counter()
+        articles = self.read()
+        if year is not None:
+            articles = articles.filter(
+                    sqlalchemy.extract('year', Article.date) == year)
+            if month is not None:
+                articles = articles.filter(
+                        sqlalchemy.extract('month', Article.date) == month)
+        for article in articles.all():
+            if year is not None:
+                articles_counter[article.date.month] += 1
+            else:
+                articles_counter[article.date.year] += 1
+        return articles_counter, articles

@@ -10,6 +10,9 @@
     <div class="well">
         <p>
         {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href= "{{ url_for("home", feed_id=feed.id, filter_="all")  }}">{{ _('articles') }}</a>.<br />
+        {% if category %}
+            {{ _('This feed is part of category %(category_name)s', category_name=category.name) }}<br />
+        {% endif %}
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}" target="_blank">{{ feed.link }}</a><br />
         {% if feed.site_link != "" %}
             {{ _('Address of the site') }}: <a href="{{ feed.site_link }}" target="_blank">{{ feed.site_link }}</a><br />
@@ -34,7 +37,7 @@
 
         {% if feed.articles.all()|count != 0 %}
             {{ _('The last article was posted') }} {{ elapsed.days }} {{ _('day(s) ago.') }}<br />
-            {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} <i>{{ first_post_date | datetime }}</i> {{ _('and the') }} <i>{{ end_post_date | datetime }}</i>.
+            {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} {{ first_post_date | datetime }} {{ _('and the') }} {{ end_post_date | datetime }}.
         {% endif %}
         </p>
     </div>

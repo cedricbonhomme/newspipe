@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="well">
-        <form method=get action="/inactives">
+        <form method=get action="{{ url_for("feeds.inactives") }}">
             <p>{{ _('Days of inactivity') }}:</p>
             <input type="number" name="nb_days" class="form-control" value="{{ nb_days }}" min="0" max="1000000" step="1" size="4" style="text-align: center" />
         </form>

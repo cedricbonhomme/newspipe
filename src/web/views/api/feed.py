@@ -4,23 +4,25 @@
 from flask import g
 
 from web.controllers.feed import (FeedController,
-                                           DEFAULT_MAX_ERROR,
-                                           DEFAULT_LIMIT,
-                                           DEFAULT_REFRESH_RATE)
+                                  DEFAULT_MAX_ERROR,
+                                  DEFAULT_LIMIT,
+                                  DEFAULT_REFRESH_RATE)
 
 from web.views.api.common import PyAggAbstractResource, \
-                                          PyAggResourceNew, \
-                                          PyAggResourceExisting, \
-                                          PyAggResourceMulti
+                                 PyAggResourceNew, \
+                                 PyAggResourceExisting, \
+                                 PyAggResourceMulti
 
 FEED_ATTRS = {'title': {'type': str},
               'description': {'type': str},
               'link': {'type': str},
               'user_id': {'type': int},
+              'category_id': {'type': int},
               'site_link': {'type': str},
               'enabled': {'type': bool, 'default': True},
               'etag': {'type': str, 'default': ''},
               'icon_url': {'type': str, 'default': ''},
+              'filters': {'type': list},
               'last_modified': {'type': str},
               'last_retrieved': {'type': str},
               'last_error': {'type': str},

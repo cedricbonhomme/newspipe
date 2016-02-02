@@ -1,7 +1,7 @@
 import logging
 from flask import g
 from bootstrap import db
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from werkzeug.exceptions import Forbidden, NotFound
 
 logger = logging.getLogger(__name__)
@@ -83,12 +83,12 @@ class AbstractController(object):
         return obj
 
     def create(self, **attrs):
-        assert self._user_id_key is None or self._user_id_key in attrs \
-                or self.user_id is not None, \
-                "You must provide user_id one way or another"
-
         if self._user_id_key is not None and self._user_id_key not in attrs:
             attrs[self._user_id_key] = self.user_id
+        assert self._user_id_key is None or self._user_id_key in attrs \
+                or self.user_id is None, \
+                "You must provide user_id one way or another"
+
         obj = self._db_cls(**attrs)
         db.session.add(obj)
         db.session.commit()
@@ -114,3 +114,10 @@ class AbstractController(object):
             return True
         return self.user_id is None \
                 or getattr(obj, self._user_id_key, None) == self.user_id
+
+    def _count_by(self, elem_to_group_by, filters):
+        if self.user_id:
+            filters['user_id'] = self.user_id
+        return dict(db.session.query(elem_to_group_by, func.count('id'))
+                              .filter(*self._to_filters(**filters))
+                              .group_by(elem_to_group_by).all())

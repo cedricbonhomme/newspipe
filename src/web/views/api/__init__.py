@@ -26,6 +26,6 @@ __revision__ = "$Date: 2014/07/05 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
-from web.views.api import article, feed
+from web.views.api import article, feed, category
 
-__all__ = ['article', 'feed']
+__all__ = ['article', 'feed', 'category']

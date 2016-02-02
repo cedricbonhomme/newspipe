@@ -5,6 +5,7 @@ from web.lib.view_utils import etag_match
 
 icon_bp = Blueprint('icon', __name__, url_prefix='/icon')
 
+
 @icon_bp.route('/', methods=['GET'])
 @etag_match
 def icon():

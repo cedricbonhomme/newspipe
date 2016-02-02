@@ -1,8 +1,10 @@
+import re
 import types
 import urllib
 import logging
 import requests
 from hashlib import md5
+from flask import request, url_for
 
 logger = logging.getLogger(__name__)
 
@@ -55,3 +57,17 @@ def try_get_icon_url(url, *splits):
 def to_hash(text):
     return md5(text.encode('utf8') if hasattr(text, 'encode') else text)\
             .hexdigest()
+
+
+def clear_string(data):
+    """
+    Clear a string by removing HTML tags, HTML special caracters
+    and consecutive white spaces (more that one).
+    """
+    p = re.compile('<[^>]+>')  # HTML tags
+    q = re.compile('\s')  # consecutive white spaces
+    return p.sub('', q.sub(' ', data))
+
+
+def redirect_url(default='home'):
+    return request.args.get('next') or request.referrer or url_for(default)
