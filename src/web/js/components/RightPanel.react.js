@@ -228,7 +228,8 @@ var Feed = React.createClass({
         var content = null;
         if(this.state.edit_mode) {
             var categ_options = [];
-            for(var cat_id in MenuStore._datas.categories) {
+            for(var index in MenuStore._datas.categories_order) {
+                var cat_id = MenuStore._datas.categories_order[index];
                 categ_options.push(
                         <option value={cat_id}
                                 key={MenuStore._datas.categories[cat_id].id}>
