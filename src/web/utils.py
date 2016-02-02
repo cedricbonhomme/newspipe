@@ -109,8 +109,8 @@ def fetch(id, feed_id=None):
     Fetch the feeds in a new processus.
     The "asyncio" crawler is launched with the manager.
     """
-    cmd = [sys.executable, conf.BASE_DIR+'/manager.py', 'fetch_asyncio', str(id),
-            str(feed_id)]
+    cmd = [sys.executable, conf.BASE_DIR + '/manager.py', 'fetch_asyncio',
+           str(id), str(feed_id)]
     return subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def history(user_id, year=None, month=None):
