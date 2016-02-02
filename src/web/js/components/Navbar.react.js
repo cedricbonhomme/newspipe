@@ -73,9 +73,6 @@ JarrNavBar = React.createClass({
         this.setState({showModal: true, modalType: 'addCategory'});
     },
     render: function() {
-        var gl_title = (<span>
-                            <Glyphicon glyph="plus-sign" />Add a new feed
-                        </span>);
         return (<Navbar fixedTop inverse id="jarrnav">
                     {this.getModel()}
                     <Navbar.Header>
@@ -94,6 +91,17 @@ JarrNavBar = React.createClass({
                                  onClick={this.openAddCategory} href="#">
                             <Glyphicon glyph="plus-sign" />Add a new category
                         </NavItem>
+                        <NavDropdown title="Feed" id="feed-dropdown">
+                            <MenuItem href="/feeds/inactives">
+                                Inactives
+                            </MenuItem>
+                            <MenuItem href="/articles/history">
+                                History
+                            </MenuItem>
+                            <MenuItem href="/feeds/">
+                                All
+                            </MenuItem>
+                        </NavDropdown>
                         {this.buttonAdmin()}
                         <NavDropdown title={<Glyphicon glyph='user' />}
                                 id="user-dropdown">
