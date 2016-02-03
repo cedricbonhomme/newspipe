@@ -35,7 +35,7 @@ var TableLine = React.createClass({
             icon = <Glyphicon glyph="ban-circle" />;
         }
         var title = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.openRedirectLink}>
+                        onClick={this.openRedirectLink} target="_blank">
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
