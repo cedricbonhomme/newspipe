@@ -36,6 +36,7 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
+    "postinstall": "npm install;npm run",
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > src/web/static/js/bundle.min.js"
   },
