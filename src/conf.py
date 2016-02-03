@@ -23,6 +23,7 @@ TIME_ZONE = {
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"platform_url": "https://JARR.herokuapp.com/",
+            "cdn_address": "",
             "admin_email": "root@jarr.localhost",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
@@ -107,7 +108,7 @@ WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
 WEBSERVER_SECRET = config.get('webserver', 'secret')
 
-CDN_ADDRESS = config.get('cdn', 'address')
+CDN_ADDRESS = config.get('cdn', 'cdn_address')
 
 NOTIFICATION_EMAIL = config.get('notification', 'notification_email')
 NOTIFICATION_HOST = config.get('notification', 'host')
