@@ -2,6 +2,14 @@
 Release History
 =================
 
+current
+-------
+    New:
+     * Redoing entierly the home page with react, JARR is going on toward a one page app.
+     * Implementing categories
+    Improvements:
+     * Code re-arangement: move all code to /src/
+
 6.7 (2015-07-21)
 ----------------
     New:
@@ -17,8 +25,7 @@ Release History
 6.6 (2015-06-02)
 ----------------
     New:
-     * it is now possible to sort the list of articles by feed title or
-     article title;
+     * it is now possible to sort the list of articles by feed title or article title;
      * added base unittests.
     Improvements:
      * fixed some minor bugs;
@@ -56,8 +63,7 @@ Release History
     Improvements:
      * new CSS;
      * improved installation script;
-     * it is now possible to delete all duplicate articles with one HTTP
-     delete request.
+     * it is now possible to delete all duplicate articles with one HTTP delete request.
 
 6.4 (2015-03-17)
 ----------------

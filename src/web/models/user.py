@@ -30,7 +30,7 @@ import re
 import random
 import hashlib
 from datetime import datetime
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug import check_password_hash
 from flask.ext.login import UserMixin
 
 from bootstrap import db
@@ -63,12 +63,6 @@ class User(db.Model, UserMixin):
         """
         return self.id
 
-    def set_password(self, password):
-        """
-        Hash the password of the user.
-        """
-        self.pwdhash = generate_password_hash(password)
-
     def check_password(self, password):
         """
         Check the password of the user.
@@ -79,7 +73,7 @@ class User(db.Model, UserMixin):
         """
         Return True if the user has administrator rights.
         """
-        return len([role for role in self.roles if role.name == "admin"]) != 0
+        return "admin" in [role.name for role in self.roles]
 
     def __eq__(self, other):
         return self.id == other.id

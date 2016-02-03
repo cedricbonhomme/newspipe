@@ -24,3 +24,7 @@ build
 
 src/conf/conf.cfg
 .coverage
+
+# node files
+node_modules
+src/web/static/js/bundle.min.js

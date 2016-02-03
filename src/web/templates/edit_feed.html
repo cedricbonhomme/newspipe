@@ -30,6 +30,14 @@
             </div>
 
             <div class="form-group">
+                <label for="{{ form.category_id.id }}" class="col-sm-3 control-label">{{ form.category_id.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.category_id(class_="form-control", placeholder=_('Optional')) }}
+                </div>
+                {% for error in form.category_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+
+            <div class="form-group">
                 <label for="{{ form.enabled.id }}" class="col-sm-3 control-label">{{ form.enabled.label }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">

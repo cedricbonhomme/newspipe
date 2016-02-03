@@ -32,22 +32,20 @@ from sqlalchemy import asc, desc
 
 
 class Article(db.Model):
-    """
-    Represent an article from a feed.
-    """
-    id = db.Column(db.Integer, primary_key=True)
+    "Represent an article from a feed."
+    id = db.Column(db.Integer(), primary_key=True)
     entry_id = db.Column(db.String())
     link = db.Column(db.String())
     title = db.Column(db.String())
     content = db.Column(db.String())
     readed = db.Column(db.Boolean(), default=False)
     like = db.Column(db.Boolean(), default=False)
-    #notes = db.Column(db.String(), default="")
     date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    feed_id = db.Column(db.Integer, db.ForeignKey('feed.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
+    category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
 
     def previous_article(self):
         """
@@ -55,7 +53,7 @@ class Article(db.Model):
         """
         return Article.query.filter(Article.date < self.date,
                                     Article.feed_id == self.feed_id)\
-                            .order_by(desc("Article.date")).first()
+                            .order_by(desc("date")).first()
 
     def next_article(self):
         """
@@ -63,7 +61,7 @@ class Article(db.Model):
         """
         return Article.query.filter(Article.date > self.date,
                                     Article.feed_id == self.feed_id)\
-                            .order_by(asc("Article.date")).first()
+                            .order_by(asc("date")).first()
 
     def __repr__(self):
         return "<Article(id=%d, entry_id=%s, title=%r, " \
@@ -81,5 +79,5 @@ class Article(db.Model):
                 "like": self.like,
                 "date": self.date,
                 "retrieved_date": self.retrieved_date,
-                "feed_id": getattr(self.source, 'id', None),
-                "feed_name": getattr(self.source, 'title', None)}
+                "feed_id": self.feed_id,
+                "category_id": self.category_id}

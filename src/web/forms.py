@@ -27,16 +27,17 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 
-from flask import flash, request, url_for, redirect
+from flask import flash, url_for, redirect
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
-        SubmitField, IntegerField, validators, HiddenField
+        SubmitField, IntegerField, SelectField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
 from flask_wtf import RecaptchaField
 
 from web import utils
 from web.models import User
+
 
 class SignupForm(Form):
     """
@@ -57,9 +58,12 @@ class SignupForm(Form):
     def validate(self):
         validated = super(SignupForm, self).validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(lazy_gettext(
+                    'This nickname has invalid characters. '
+                    'Please use letters, numbers, dots and underscores only.'))
             validated = False
         return validated
+
 
 class RedirectForm(Form):
     """
@@ -77,6 +81,7 @@ class RedirectForm(Form):
             return redirect(self.next.data)
         target = utils.get_redirect_target()
         return redirect(target or url_for(endpoint, **values))
+
 
 class SigninForm(RedirectForm):
     """
@@ -102,7 +107,6 @@ class SigninForm(RedirectForm):
             return False
         else:
             flash(lazy_gettext('Invalid email or password'), 'danger')
-            #self.email.errors.append("Invalid email or password")
             return False
 
 
@@ -124,7 +128,9 @@ class UserForm(Form):
     def validate(self):
         validated = super(UserForm, self).validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext('This nickname has invalid characters. Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(lazy_gettext(
+                    'This nickname has invalid characters. '
+                    'Please use letters, numbers, dots and underscores only.'))
             validated = False
         return validated
 
@@ -167,11 +173,18 @@ class AddFeedForm(Form):
     site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
+    category_id = SelectField(lazy_gettext("Category of the feed"),
+                              [validators.Optional()])
 
-    def validate(self):
-        if not super(AddFeedForm, self).validate():
-            return False
-        return True
+    def set_category_choices(self, categories):
+        self.category_id.choices = [('0', 'No Category')]
+        self.category_id.choices += [(str(cat.id), cat.name)
+                                      for cat in categories]
+
+
+class CategoryForm(Form):
+    name = TextField(lazy_gettext("Name"))
+    submit = SubmitField(lazy_gettext("Submit"))
 
 
 class InformationMessageForm(Form):
@@ -201,5 +214,4 @@ class RecoverPasswordForm(Form):
             return False
         else:
             flash(lazy_gettext('Invalid email.'), 'danger')
-            #self.email.errors.append("Invalid email")
             return False

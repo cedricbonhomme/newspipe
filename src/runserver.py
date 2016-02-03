@@ -18,7 +18,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import logging
 import calendar
 from bootstrap import conf, application, populate_g
 from flask.ext.babel import Babel
@@ -51,7 +50,12 @@ with application.app_context():
     application.register_blueprint(views.article_bp)
     application.register_blueprint(views.feeds_bp)
     application.register_blueprint(views.feed_bp)
+    application.register_blueprint(views.categories_bp)
+    application.register_blueprint(views.category_bp)
     application.register_blueprint(views.icon_bp)
+    application.register_blueprint(views.admin_bp)
+    application.register_blueprint(views.users_bp)
+    application.register_blueprint(views.user_bp)
 
 
 if __name__ == '__main__':

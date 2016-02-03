@@ -58,9 +58,6 @@ else:
 async def get(*args, **kwargs):
     #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
     try:
-        #logger.info("Fetching the feed: " + args[0])
-        #response = yield from aiohttp.request('GET', *args, **kwargs)
-        #return (yield from response.read_and_close(decode=False))
         data = feedparser.parse(args[0])
         return data
     except Exception as e:
@@ -131,7 +128,7 @@ async def insert_database(user, feed):
             new_articles.append(art_contr.create(**article))
             logger.info("New article % (%r) added.",
                         article['title'], article['link'])
-        except Exception as e:
+        except Exception:
             logger.exception("Error when inserting article in database:")
             continue
     return new_articles

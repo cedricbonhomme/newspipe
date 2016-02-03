@@ -56,9 +56,10 @@ class Feed(db.Model):
     # relationship
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
     articles = db.relationship('Article', backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
-                               order_by=desc("Article.date"))
+                               order_by=desc("date"))
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)
@@ -66,12 +67,17 @@ class Feed(db.Model):
     def dump(self):
         return {"id": self.id,
                 "user_id": self.user_id,
+                "category_id": self.category_id,
                 "title": self.title,
                 "description": self.description,
                 "link": self.link,
                 "site_link": self.site_link,
                 "etag": self.etag,
+                "enabled": self.enabled,
+                "filters": self.filters,
                 "icon_url": self.icon_url,
                 "error_count": self.error_count,
+                "last_error": self.last_error,
+                "created_date": self.created_date,
                 "last_modified": self.last_modified,
                 "last_retrieved": self.last_retrieved}

@@ -57,10 +57,10 @@ from contextlib import contextmanager
 from flask import request
 
 import conf
-from flask import g
-from bootstrap import application as app, db
+from bootstrap import db
 from web import controllers
 from web.models import User, Feed, Article
+from web.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 
@@ -109,9 +109,9 @@ def fetch(id, feed_id=None):
     Fetch the feeds in a new processus.
     The "asyncio" crawler is launched with the manager.
     """
-    cmd = [sys.executable, conf.BASE_DIR+'/manager.py', 'fetch_asyncio', str(id),
-            str(feed_id)]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    cmd = [sys.executable, conf.BASE_DIR + '/manager.py', 'fetch_asyncio',
+           str(id), str(feed_id)]
+    return subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def history(user_id, year=None, month=None):
     """
@@ -267,16 +267,6 @@ def open_url(url):
         else:
             error = (url, e.reason.errno, e.reason.strerror)
         return (False, error)
-
-
-def clear_string(data):
-    """
-    Clear a string by removing HTML tags, HTML special caracters
-    and consecutive white spaces (more that one).
-    """
-    p = re.compile('<[^>]+>')  # HTML tags
-    q = re.compile('\s')  # consecutive white spaces
-    return p.sub('', q.sub(' ', data))
 
 
 def load_stop_words():

@@ -18,7 +18,6 @@ import json
 import logging
 import feedparser
 from datetime import datetime, timedelta
-from functools import wraps
 from time import strftime, gmtime
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
@@ -132,7 +131,7 @@ class PyAggUpdater(AbstractCrawler):
                 {key: "%s -> %s" % (up_feed[key], self.feed.get(key))
                  for key in up_feed if up_feed[key] != self.feed.get(key)})
 
-        future = self.query_pyagg('put', 'feed/%d' % self.feed['id'], up_feed)
+        self.query_pyagg('put', 'feed/%d' % self.feed['id'], up_feed)
 
 
 class FeedCrawler(AbstractCrawler):
@@ -144,8 +143,8 @@ class FeedCrawler(AbstractCrawler):
     def clean_feed(self):
         """Will reset the errors counters on a feed that have known errors"""
         if self.feed.get('error_count') or self.feed.get('last_error'):
-            future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
-                                      {'error_count': 0, 'last_error': ''})
+            self.query_pyagg('put', 'feed/%d' % self.feed['id'],
+                             {'error_count': 0, 'last_error': ''})
 
     def callback(self, response):
         """will fetch the feed and interprete results (304, etag) or will
@@ -155,9 +154,9 @@ class FeedCrawler(AbstractCrawler):
             response.raise_for_status()
         except Exception as error:
             error_count = self.feed['error_count'] + 1
-            logger.error('%r %r - an error occured while fetching '
-                         'feed; bumping  error count to %r', self.feed['id'],
-                         self.feed['title'], error_count)
+            logger.exception('%r %r - an error occured while fetching '
+                    'feed; bumping  error count to %r',
+                    self.feed['id'], self.feed['title'], error_count)
             future = self.query_pyagg('put', 'feed/%d' % self.feed['id'],
                                       {'error_count': error_count,
                                        'last_error': str(error),

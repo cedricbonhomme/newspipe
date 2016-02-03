@@ -1,15 +1,14 @@
-++++
+====
 JARR
-++++
+====
 
 Presentation
-============
+------------
 
-`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_ is a
-web-based news aggregator.
+`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_ is a web-based news aggregator and reader.
 
 Main features
-=============
+-------------
 
 * can be easily deployed on Heroku or on a traditional server;
 * multiple users can use a JARR instance;
@@ -21,37 +20,33 @@ Main features
 * detection of inactive feeds;
 * share articles with Google +, Pinboard and reddit.
 
-The core technologies are `Flask <http://flask.pocoo.org>`_,
-`asyncio <https://www.python.org/dev/peps/pep-3156/>`_ and
-`SQLAlchemy <http://www.sqlalchemy.org>`_.
+The core technologies are `Flask <http://flask.pocoo.org>`_, `asyncio <https://www.python.org/dev/peps/pep-3156/>`_ and `SQLAlchemy <http://www.sqlalchemy.org>`_.
 
 Python 3.5 is recommended.
 
 Documentation
-=============
+-------------
 
 A documentation is available `here <https://jarr.readthedocs.org>`_ and provides
 different ways to install JARR.
 
 Internationalization
-====================
+--------------------
 
 JARR is translated into English and French.
 
 Donation
-========
+--------
 
-If you wish and if you like *JARR*, you can donate via bitcoin
-`1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
+If you wish and if you like *JARR*, you can donate via bitcoin `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
 Thank you!
 
 License
-=======
+-------
 
-`JARR <https://github.com/JARR-aggregator/JARR>`_
-is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
+`JARR <https://github.com/JARR-aggregator/JARR>`_ is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact
-=======
+-------
 
 `My home page <https://www.cedricbonhomme.org>`_.

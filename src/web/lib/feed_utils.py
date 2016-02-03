@@ -9,6 +9,8 @@ from web.lib.utils import try_keys, try_get_icon_url, rebuild_url
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)
+ACCEPTED_MIMETYPES = ('application/rss+xml', 'application/rdf+xml',
+                      'application/atom+xml', 'application/xml', 'text/xml')
 
 
 def is_parsing_ok(parsed_feed):
@@ -96,8 +98,11 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             del feed['icon_url']
 
     if not feed.get('link'):
-        alternates = bs_parsed.find_all(check_keys(rel=['alternate'],
-                type=['application/rss+xml']))
-        if len(alternates) >= 1:
-            feed['link'] = rebuild_url(alternates[0].attrs['href'], feed_split)
+        for type_ in ACCEPTED_MIMETYPES:
+            alternates = bs_parsed.find_all(check_keys(
+                    rel=['alternate'], type=[type_]))
+            if len(alternates) >= 1:
+                feed['link'] = rebuild_url(alternates[0].attrs['href'],
+                                           feed_split)
+                break
     return feed
