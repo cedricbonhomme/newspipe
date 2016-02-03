@@ -9,7 +9,7 @@ config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-fileConfig("./alembic.ini")
+#fileConfig("./alembic.ini")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
