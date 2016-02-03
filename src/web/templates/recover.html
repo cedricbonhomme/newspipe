@@ -6,7 +6,7 @@
         {% for message in form.email.errors %}
             <div class="flash">{{ message }}</div>
         {% endfor %}
-        <form action="{{ url_for('recover') }}" method=post>
+        <form action="{{ url_for('user.recover') }}" method=post>
             {{ form.hidden_tag() }}
             <div class="form-group">
             {{ form.email(class_="form-control", placeholder=_('Your email')) }}

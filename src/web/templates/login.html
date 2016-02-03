@@ -25,6 +25,6 @@
     </div>
     <a href="/signup" class="btn btn-default">{{ _('Sign up') }}</a>
     &nbsp;
-    <a href="/recover" class="btn btn-default">{{ _('Forgot password') }}</a>
+    <a href="{{ url_for('user.recover') }}" class="btn btn-default">{{ _('Forgot password') }}</a>
 </div><!-- /.container -->
 {% endblock %}
