@@ -107,6 +107,8 @@ WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
 WEBSERVER_SECRET = config.get('webserver', 'secret')
 
+CDN_ADDRESS = config.get('cdn', 'address')
+
 NOTIFICATION_EMAIL = config.get('notification', 'notification_email')
 NOTIFICATION_HOST = config.get('notification', 'host')
 NOTIFICATION_PORT = config.getint('notification', 'port')

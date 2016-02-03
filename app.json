@@ -13,6 +13,7 @@
   },
   "env": {
     "HEROKU": "1",
+    "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
     "ADMIN_EMAIL": "root@jarr.localhost",
     "ADMIN_PASSWORD": "password",
     "NOTIFICATION_EMAIL": "JARR@no-reply.com",

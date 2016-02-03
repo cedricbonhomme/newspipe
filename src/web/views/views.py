@@ -237,7 +237,7 @@ from flask import jsonify
 @login_required
 @etag_match
 def home():
-    return render_template('home.html')
+    return render_template('home.html', cdn=conf.CDN_ADDRESS)
 
 
 @app.route('/menu')

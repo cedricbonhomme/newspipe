@@ -18,5 +18,5 @@
   <body>
     <section id="jarrapp" />
   </body>
-  <script type="text/javascript" src="{{ url_for('static', filename = 'js/bundle.min.js') }}"></script>
+  <script type="text/javascript" src="{% if cdn != '' %}{{ cdn }}bundle.min.js{% else %}{{ url_for('static', filename = 'js/bundle.min.js') }}{% endif %}"></script>
 </html>
