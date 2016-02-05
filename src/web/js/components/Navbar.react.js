@@ -24,14 +24,11 @@ JarrNavBar = React.createClass({
                     </NavItem>);
         }
     },
-    buttonAdmin: function() {
+    sectionAdmin: function() {
         if(this.state.is_admin) {
-            return (<NavDropdown title={<Glyphicon glyph='cog' />}
-                            id='admin-dropdown'>
-                        <MenuItem href="/admin/dashboard">
-                            <Glyphicon glyph="dashboard" />Dashboard
-                        </MenuItem>
-                    </NavDropdown>);
+            return (<MenuItem href="/admin/dashboard">
+                        <Glyphicon glyph="dashboard" />Dashboard
+                    </MenuItem>);
         }
     },
     getModal: function() {
@@ -102,7 +99,6 @@ JarrNavBar = React.createClass({
                                 All
                             </MenuItem>
                         </NavDropdown>
-                        {this.buttonAdmin()}
                         <NavDropdown title={<Glyphicon glyph='user' />}
                                 id="user-dropdown">
                             <MenuItem href="/user/profile">
@@ -114,6 +110,7 @@ JarrNavBar = React.createClass({
                             <MenuItem href="/about">
                                 <Glyphicon glyph="question-sign" />About
                             </MenuItem>
+                            {this.sectionAdmin()}
                             <MenuItem href="/logout">
                                 <Glyphicon glyph="log-out" />Logout
                             </MenuItem>
