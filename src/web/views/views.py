@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # jarr - A Web based news aggregator.
-# Copyright (C) 2010-2015  Cédric Bonhomme - https://www.JARR-aggregator.org
+# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.JARR-aggregator.org
 #
 # For more information : https://github.com/JARR-aggregator/JARR
 #
