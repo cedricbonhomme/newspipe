@@ -5,7 +5,8 @@ JARR
 Presentation
 ------------
 
-`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_ is a web-based news aggregator and reader.
+`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_
+is a web-based news aggregator and reader.
 
 Main features
 -------------
@@ -20,7 +21,10 @@ Main features
 * detection of inactive feeds;
 * share articles with Google +, Pinboard and reddit.
 
-The core technologies are `Flask <http://flask.pocoo.org>`_, `asyncio <https://www.python.org/dev/peps/pep-3156/>`_ and `SQLAlchemy <http://www.sqlalchemy.org>`_.
+The core technologies are `Flask <http://flask.pocoo.org>`_,
+`asyncio <https://www.python.org/dev/peps/pep-3156/>`_ ,
+`SQLAlchemy <http://www.sqlalchemy.org>`_
+and `React <https://facebook.github.io/react/>`_.
 
 Python 3.5 is recommended.
 
