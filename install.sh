@@ -42,3 +42,7 @@ fi
 
 python$PYTHON_VERSION src/manager.py db_empty
 python$PYTHON_VERSION src/manager.py db_create
+
+# Bootstrap
+git submodule init
+git submodule update
