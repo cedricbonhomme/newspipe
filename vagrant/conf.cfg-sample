@@ -2,6 +2,8 @@
 host = 0.0.0.0
 port = 5000
 secret = a secret only you know
+[cdn]
+cdn_address = https://cdn.cedricbonhomme.org/
 [misc]
 platform_url = http://127.0.0.1:5000/
 admin_email =
