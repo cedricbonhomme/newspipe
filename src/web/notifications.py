@@ -42,7 +42,7 @@ def new_account_notification(user):
     Account creation notification.
     """
     plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL + 'confirm_account/' + user.activation_key)
+                        (conf.PLATFORM_URL + 'user/confirm_account/' + user.activation_key)
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
                 subject="[jarr] Account creation", plaintext=plaintext)
 
