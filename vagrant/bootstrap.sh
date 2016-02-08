@@ -11,11 +11,15 @@ if [ $? -ne 0 ]; then
     exit 1;
 fi
 
+cd JARR
+# Bootstrap
+git submodule init
+git submodule update
+
 # Installation of PostgreSQL
 apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
 
 # Install all Python requierements
-cd JARR
 # For lxml
 apt-get install -y libxml2-dev libxslt1-dev
 # installation with pip
