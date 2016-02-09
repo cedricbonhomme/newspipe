@@ -38,7 +38,8 @@ from bootstrap import db
 from web.models import User
 from web.controllers import FeedController, ArticleController
 from web.lib.feed_utils import construct_feed_from, is_parsing_ok
-from web.lib.article_utils import construct_article, extract_id
+from web.lib.article_utils import construct_article, extract_id, \
+                                    get_article_content
 
 logger = logging.getLogger(__name__)
 
@@ -117,11 +118,24 @@ async def insert_database(user, feed):
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
-        exist = art_contr.read(feed_id=feed.id,
-                        **extract_id(article)).count() != 0
+        existing_article_req = art_contr.read(feed_id=feed.id,
+                        **extract_id(article))
+        exist = existing_article_req.count() != 0
         if exist:
+            existing_article = existing_article_req.first()
+            is_updated = False
             logger.debug("Article %r (%r) already in the database.",
                          article['title'], article['link'])
+            content = get_article_content(article)
+            if existing_article.title != article['title']:
+                existing_article.title = article['title']
+                is_updated = True
+            if existing_article.content != content:
+                existing_article.content = content
+                existing_article.readed = False
+                is_updated = True
+            if is_updated:
+                art_contr.update({'entry_id': existing_article.entry_id}, existing_article.dump())
             continue
         article = construct_article(article, feed)
         try:

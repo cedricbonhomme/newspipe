@@ -46,11 +46,7 @@ def construct_article(entry, feed):
                 pass
             else:
                 break
-    content = ''
-    if entry.get('content'):
-        content = entry['content'][0]['value']
-    elif entry.get('summary'):
-        content = entry['summary']
+    content = get_article_content(entry)
 
     article_link = entry.get('link')
     if conf.RESOLVE_ARTICLE_URL and article_link:
@@ -72,3 +68,11 @@ def construct_article(entry, feed):
             'content': content,
             'retrieved_date': now.isoformat(),
             'date': (date or now).isoformat()}
+
+def get_article_content(entry):
+    content = ''
+    if entry.get('content'):
+        content = entry['content'][0]['value']
+    elif entry.get('summary'):
+        content = entry['summary']
+    return content
