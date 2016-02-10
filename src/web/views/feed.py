@@ -245,5 +245,5 @@ def duplicates(feed_id):
     if len(duplicates) == 0:
         flash(gettext('No duplicates in the feed "{}".').format(feed.title),
                 'info')
-        return redirect('home')
+        return redirect(url_for('home'))
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
