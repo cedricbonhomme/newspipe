@@ -412,8 +412,11 @@ def export_opml():
     Export all feeds to OPML.
     """
     user = UserController(g.user.id).get(id=g.user.id)
+    categories = {cat.id: cat.dump()
+            for cat in CategoryController(g.user.id).read()}
     response = make_response(render_template('opml.xml', user=user,
-                                             now=datetime.datetime.now()))
+                                            categories=categories,
+                                            now=datetime.datetime.now()))
     response.headers['Content-Type'] = 'application/xml'
     response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
     return response
