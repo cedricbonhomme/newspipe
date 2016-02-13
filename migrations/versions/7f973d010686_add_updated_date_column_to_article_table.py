@@ -1,13 +1,13 @@
 """add updated_date column to article table
 
-Revision ID: 7f973d010686
+Revision ID: 3f83bfe93fc
 Revises: 25ca960a207
 Create Date: 2016-02-12 21:51:40.868539
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '7f973d010686'
+revision = '3f83bfe93fc'
 down_revision = '25ca960a207'
 
 from alembic import op
