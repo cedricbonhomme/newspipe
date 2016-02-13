@@ -122,20 +122,28 @@ async def insert_database(user, feed):
                         **extract_id(article))
         exist = existing_article_req.count() != 0
         if exist:
-            existing_article = existing_article_req.first()
-            is_updated = False
+            # if the article has been already retrieved, we only update
+            # the content or the title
             logger.debug("Article %r (%r) already in the database.",
                          article['title'], article['link'])
-            content = get_article_content(article)
-            if existing_article.title != article['title']:
-                existing_article.title = article['title']
-                is_updated = True
-            if existing_article.content != content:
-                existing_article.content = content
-                existing_article.readed = False
-                is_updated = True
-            if is_updated:
-                art_contr.update({'entry_id': existing_article.entry_id}, existing_article.dump())
+            existing_article = existing_article_req.first()
+            new_updated_date = None
+            try:
+                new_updated_date = dateutil.parser.parse(article['updated'])
+            except Exception as e:
+                print(e)#new_updated_date = existing_article.date
+            if existing_article.updated_date.strftime('%Y-%m-%dT%H:%M:%S') != \
+                                new_updated_date.strftime('%Y-%m-%dT%H:%M:%S'):
+                existing_article.updated_date = \
+                                        new_updated_date.replace(tzinfo=None)
+                if existing_article.title != article['title']:
+                    existing_article.title = article['title']
+                content = get_article_content(article)
+                if existing_article.content != content:
+                    existing_article.content = content
+                    existing_article.readed = False
+                art_contr.update({'entry_id': existing_article.entry_id},
+                                                        existing_article.dump())
             continue
         article = construct_article(article, feed)
         try:

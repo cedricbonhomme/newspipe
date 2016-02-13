@@ -41,6 +41,7 @@ class Article(db.Model):
     readed = db.Column(db.Boolean(), default=False)
     like = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime(), default=datetime.now)
+    updated_date = db.Column(db.DateTime(), default=datetime.now)
     retrieved_date = db.Column(db.DateTime(), default=datetime.now)
 
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
@@ -78,6 +79,7 @@ class Article(db.Model):
                 "readed": self.readed,
                 "like": self.like,
                 "date": self.date,
+                "updated_date": self.updated_date,
                 "retrieved_date": self.retrieved_date,
                 "feed_id": self.feed_id,
                 "category_id": self.category_id}
