@@ -39,10 +39,8 @@ application.config['PREFERRED_URL_SCHEME'] = scheme
 
 set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
 
-# Create dummy secrey key so we can use sessions
-application.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)
-if not application.config['SECRET_KEY']:
-    application.config['SECRET_KEY'] = os.urandom(12)
+# Create secrey key so we can use sessions
+application.config['SECRET_KEY'] = os.urandom(12)
 
 application.config['RECAPTCHA_USE_SSL'] = True
 application.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY

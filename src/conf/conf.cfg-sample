@@ -1,7 +1,6 @@
 [webserver]
 host = 127.0.0.1
 port = 5000
-secret = a secret only you know
 [cdn]
 cdn_address = https://cdn.cedricbonhomme.org/
 [misc]
