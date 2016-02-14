@@ -36,7 +36,6 @@ DEFAULTS = {"platform_url": "https://JARR.herokuapp.com/",
             "log_level": "info",
             "user_agent": "JARR (https://github.com/JARR-aggregator)",
             "resolve_article_url": "false",
-            "http_proxy": "",
             "secret": "",
             "enabled": "false",
             "notification_email": "jarr@no-reply.com",
@@ -84,11 +83,8 @@ NB_WORKER = config.getint('misc', 'nb_worker')
 API_LOGIN = config.get('crawler', 'api_login')
 API_PASSWD = config.get('crawler', 'api_passwd')
 
-WHOOSH_ENABLED = True
-
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
-HTTP_PROXY = config.get('crawler', 'http_proxy')
 USER_AGENT = config.get('crawler', 'user_agent')
 RESOLVE_ARTICLE_URL = config.getboolean('crawler',
                                         'resolve_article_url')

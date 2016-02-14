@@ -241,34 +241,6 @@ def clean_url(url):
         parsed_url.fragment
     ]).rstrip('=')
 
-def open_url(url):
-    """
-    Open an URL with the proxy and the user-agent
-    specified in the configuration file.
-    """
-    if conf.HTTP_PROXY == "":
-        proxy = {}
-    else:
-        proxy = {"http": conf.HTTP_PROXY}
-    opener = urllib.request.FancyURLopener(proxy)
-    try:
-        opener = urllib.request.build_opener()
-        opener.addheaders = [('User-agent', conf.USER_AGENT)]
-        return (True, opener.open(url))
-    except urllib.error.HTTPError as e:
-        # server couldn't fulfill the request
-        error = (url, e.code,
-                 http.server.BaseHTTPRequestHandler.responses[e.code][1])
-        return (False, error)
-    except urllib.error.URLError as e:
-        # failed to reach the server
-        if type(e.reason) == str:
-            error = (url, e.reason, e.reason)
-        else:
-            error = (url, e.reason.errno, e.reason.strerror)
-        return (False, error)
-
-
 def load_stop_words():
     """
     Load the stop words and return them in a list.
