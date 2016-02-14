@@ -1,5 +1,4 @@
 import logging
-import requests
 import dateutil.parser
 from datetime import datetime
 
@@ -53,15 +52,6 @@ def construct_article(entry, feed):
     content = get_article_content(entry)
 
     article_link = entry.get('link')
-    if conf.RESOLVE_ARTICLE_URL and article_link:
-        try:
-            # resolves URL behind proxies
-            # (like feedproxy.google.com)
-            response = requests.get(article_link, verify=False, timeout=5.0)
-            article_link = response.url
-        except Exception as error:
-            logger.warning("Unable to get the real URL of %s. Error: %s",
-                           article_link, error)
 
     return {'feed_id': feed['id'],
             'user_id': feed['user_id'],

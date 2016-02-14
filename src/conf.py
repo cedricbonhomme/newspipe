@@ -35,7 +35,6 @@ DEFAULTS = {"platform_url": "https://JARR.herokuapp.com/",
             "log_path": "jarr.log",
             "log_level": "info",
             "user_agent": "JARR (https://github.com/JARR-aggregator)",
-            "resolve_article_url": "false",
             "secret": "",
             "enabled": "false",
             "notification_email": "jarr@no-reply.com",
@@ -86,8 +85,6 @@ API_PASSWD = config.get('crawler', 'api_passwd')
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
 USER_AGENT = config.get('crawler', 'user_agent')
-RESOLVE_ARTICLE_URL = config.getboolean('crawler',
-                                        'resolve_article_url')
 DEFAULT_MAX_ERROR = config.getint('crawler',
                                   'default_max_error')
 ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)

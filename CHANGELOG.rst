@@ -8,7 +8,8 @@ current
      * Redoing entierly the home page with react, JARR is going on toward a one page app;
      * Implementing categorie;
      * The classic crawler is now taking into account updated articles from feeds;
-     * Support of HTTP proxy has been removed.
+     * Support of HTTP proxy has been removed;
+     * article URL resolving has been removed (wasn't used).
     Improvements:
      * Code re-arangement: move all code to /src/
 
