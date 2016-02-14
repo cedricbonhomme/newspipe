@@ -317,6 +317,8 @@ var Feed = React.createClass({
                         <dd><JarrTime stamp={this.props.obj.last_stamp}
                                       text={this.props.obj.last_retrieved} />
                         </dd>
+                        <dt>Number of articles</dt>
+                        <dd>{this.props.obj.nb_articles}</dd>
                     </dl>
                     {this.getErrorFields()}
                     {this.getCategorySelect()}

@@ -80,4 +80,5 @@ class Feed(db.Model):
                 "last_error": self.last_error,
                 "created_date": self.created_date,
                 "last_modified": self.last_modified,
-                "last_retrieved": self.last_retrieved}
+                "last_retrieved": self.last_retrieved,
+                "nb_articles": self.articles.count()}
