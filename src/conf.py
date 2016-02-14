@@ -22,7 +22,7 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
-DEFAULTS = {"platform_url": "https://JARR.herokuapp.com/",
+DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "cdn_address": "",
             "admin_email": "root@jarr.localhost",
             "postmark_api_key": "",
