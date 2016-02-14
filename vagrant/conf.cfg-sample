@@ -1,7 +1,6 @@
 [webserver]
 host = 0.0.0.0
 port = 5000
-secret = a secret only you know
 [cdn]
 cdn_address = https://cdn.cedricbonhomme.org/
 [misc]
@@ -17,9 +16,7 @@ database_url = postgres://vagrant:xxYzToW42@127.0.0.1:5432/aggregator
 [crawler]
 crawling_method = classic
 default_max_error = 6
-http_proxy =
 user_agent = JARR (https://github.com/JARR-aggregator/JARR)
-resolve_article_url = false
 api_login =
 api_passwd =
 [notification]
