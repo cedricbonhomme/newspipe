@@ -194,7 +194,7 @@ def process_form(feed_id=None):
     feed_attr = {'title': form.title.data, 'enabled': form.enabled.data,
                  'link': form.link.data, 'site_link': form.site_link.data,
                  'filters': [], 'category_id': form.category_id.data}
-    if not feed_attr['category_id']:
+    if not feed_attr['category_id'] or feed_attr['category_id'] == '0':
         del feed_attr['category_id']
 
     for filter_attr in ('type', 'pattern', 'action on', 'action'):
