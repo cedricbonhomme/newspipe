@@ -16,6 +16,7 @@
     "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
     "ADMIN_EMAIL": "root@jarr.localhost",
     "ADMIN_PASSWORD": "password",
+    "SECRET_KEY": "a secret only you know in order to use sessions",
     "NOTIFICATION_EMAIL": "JARR@no-reply.com",
     "RECAPTCHA_PRIVATE_KEY": "REDACTED",
     "RECAPTCHA_PUBLIC_KEY": "REDACTED",

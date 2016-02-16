@@ -35,6 +35,7 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "log_path": "jarr.log",
             "log_level": "info",
             "user_agent": "JARR (https://github.com/JARR-aggregator)",
+            "secret_key": "",
             "enabled": "false",
             "notification_email": "jarr@no-reply.com",
             "tls": "false",
@@ -98,6 +99,7 @@ LOG_LEVEL = {'debug': logging.DEBUG,
 
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
+WEBSERVER_SECRET = config.get('webserver', 'secret_key')
 
 CDN_ADDRESS = config.get('cdn', 'cdn_address')
 
