@@ -7,7 +7,7 @@ from flask.ext.principal import Permission, RoleNeed
 
 from web.lib.utils import redirect_url
 from web.models import Role
-from web.controllers import UserController, ArticleController, FeedController
+from web.controllers import UserController, ArticleController
 
 from web.forms import InformationMessageForm, UserForm
 from web import notifications
@@ -129,19 +129,6 @@ def delete_user(user_id=None):
         flash(gettext('An error occured while trying to delete a user: '
                       '%(error)', error=error), 'danger')
     return redirect(redirect_url())
-
-@admin_bp.route('/delete/<feed_id>', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def delete(feed_id=None):
-    "Deletes the feed of a user."
-    try:
-        feed = FeedController().delete(feed_id)
-        flash(gettext("Feed successfully deleted."), 'success')
-    except Exception as error:
-        flash('An error occured while trying to delete a feed: '
-                      + str(error), 'danger')
-    return redirect(url_for('home'))
 
 @admin_bp.route('/toggle_user/<int:user_id>', methods=['GET'])
 @login_required

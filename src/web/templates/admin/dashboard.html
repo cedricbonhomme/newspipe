@@ -11,6 +11,7 @@
             <th>#</th>
             <th>{{ _('Nickname') }}</th>
             <th>{{ _('Email') }}</th>
+            <th>{{ _('Member since') }}</th>
             <th>{{ _('Last seen') }}</th>
             <th>{{ _('Actions') }}</th>
         </tr>
@@ -19,15 +20,11 @@
     {% for user in users|sort(attribute="last_seen")|reverse %}
         <tr {% if user.activation_key != ""  %}class="warning"{% endif %}>
             <td>{{ loop.index }}</td>
-            {% if user.id == current_user.id %}
-                <td><a href="{{ url_for("user.management") }}">{{ user.nickname }}</a> (It's you!)</td>
-            {% else %}
-                <td><a href="{{ url_for("admin.user", user_id=user.id) }}">{{ user.nickname }}</a></td>
-            {% endif %}
+            <td>{{ user.nickname }}{% if user.id == current_user.id %} (It's you!){% endif %}</td>
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
-            <td class="date">{{ user.last_seen }}</td>
+            <td class="date">{{ user.date_created | datetime }}</td>
+            <td class="date">{{ user.last_seen | datetime }}</td>
             <td>
-                <a href="{{ url_for("admin.user", user_id=user.id) }}"><i class="glyphicon glyphicon-user" title="{{ _('View this user') }}"></i></a>
                 <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}
                     <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}">
