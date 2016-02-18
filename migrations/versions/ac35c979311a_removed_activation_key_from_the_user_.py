@@ -18,8 +18,7 @@ import sqlalchemy as sa
 
 def upgrade():
     op.drop_column('user', 'activation_key')
-    op.add_column('user', sa.Column('enabled', sa.Boolean(), nullable=False,
-                                        default=False))
+    op.add_column('user', sa.Column('enabled', sa.Boolean(), default=False))
 
 
 def downgrade():
