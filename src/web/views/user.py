@@ -109,14 +109,16 @@ def confirm_account(token=None):
     Confirm the account of a user.
     """
     user_contr = UserController()
+    user, email = None, None
     if token != "":
         email = confirm_token(token, expiration=3600)
+    if email:
         user = user_contr.read(email=email).first()
-        if user is not None:
-            user_contr.update({'id': user.id}, {'enabled': True})
-            flash(gettext('Your account has been confirmed.'), 'success')
-        else:
-            flash(gettext('Impossible to confirm this account.'), 'danger')
+    if user is not None:
+        user_contr.update({'id': user.id}, {'enabled': True})
+        flash(gettext('Your account has been confirmed.'), 'success')
+    else:
+        flash(gettext('Impossible to confirm this account.'), 'danger')
     return redirect(url_for('login'))
 
 
