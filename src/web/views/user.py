@@ -7,6 +7,7 @@ from flask.ext.login import login_required
 
 import conf
 from web import utils, notifications
+from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController)
 
 from web.forms import ProfileForm, RecoverPasswordForm
@@ -102,16 +103,17 @@ def delete_account():
     return redirect(url_for('login'))
 
 
-@user_bp.route('/confirm_account/<string:activation_key>', methods=['GET'])
-def confirm_account(activation_key=None):
+@user_bp.route('/confirm_account/<string:token>', methods=['GET'])
+def confirm_account(token=None):
     """
     Confirm the account of a user.
     """
     user_contr = UserController()
-    if activation_key != "":
-        user = user_contr.read(activation_key=activation_key).first()
+    if token != "":
+        email = confirm_token(token, expiration=3600)
+        user = user_contr.read(email=email).first()
         if user is not None:
-            user_contr.update({'id': user.id}, {'activation_key': ''})
+            user_contr.update({'id': user.id}, {'enabled': True})
             flash(gettext('Your account has been confirmed.'), 'success')
         else:
             flash(gettext('Impossible to confirm this account.'), 'danger')

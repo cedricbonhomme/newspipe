@@ -83,13 +83,13 @@ def process_user_form(user_id=None):
         flash(gettext('User %(nick)s successfully updated',
                       nick=user.nickname), 'success')
     else:
-        # Create a new user
+        # Create a new user (by the admin)
         user = user_contr.create(nickname=form.nickname.data,
                                  email=form.email.data,
                                  password=form.password.data,
                                  roles=[role_user],
                                  refresh_rate=form.refresh_rate.data,
-                                 activation_key="")
+                                 enabled=True)
         flash(gettext('User %(nick)s successfully created',
                       nick=user.nickname), 'success')
     return redirect(url_for('admin.user_form', user_id=user.id))
@@ -144,12 +144,11 @@ def toggle_user(user_id=None):
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(url_for('admin.dashboard'))
 
-    if user.activation_key != "":
-
+    if not user.enabled:
         # Send the confirmation email
         try:
             notifications.new_account_activation(user)
-            user_contr.unset_activation_key(user.id)
+            user_contr.update({'id': user.id}, {'enabled': True})
             message = gettext('Account of the user %(nick)s successfully '
                               'activated.', nick=user.nickname)
         except Exception as error:
@@ -158,7 +157,7 @@ def toggle_user(user_id=None):
             return redirect(url_for('admin.dashboard'))
 
     else:
-        user_contr.set_activation_key(user.id)
+        user_contr.update({'id': user.id}, {'enabled': False})
         message = gettext('Account of the user %(nick)s successfully disabled',
                           nick=user.nickname)
     flash(message, 'success')

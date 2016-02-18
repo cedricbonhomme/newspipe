@@ -54,8 +54,7 @@ def authenticate(func):
             if auth is not None:
                 user = User.query.filter(
                         User.nickname == auth.username).first()
-                if user and user.check_password(auth.password) \
-                        and user.activation_key == "":
+                if user and user.check_password(auth.password) and user.enabled:
                     g.user = user
                     logged_in = True
         if logged_in:

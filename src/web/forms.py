@@ -99,10 +99,9 @@ class SigninForm(RedirectForm):
             return False
 
         user = User.query.filter(User.email == self.email.data).first()
-        if user and user.check_password(self.password.data) \
-                and user.activation_key == "":
+        if user and user.check_password(self.password.data) and user.enabled:
             return True
-        elif user and user.activation_key != "":
+        elif user and not user.enabled:
             flash(lazy_gettext('Account not confirmed'), 'danger')
             return False
         else:
@@ -207,9 +206,9 @@ class RecoverPasswordForm(Form):
             return False
 
         user = User.query.filter(User.email == self.email.data).first()
-        if user and user.activation_key == "":
+        if user and user.enabled:
             return True
-        elif user and user.activation_key != "":
+        elif user and not user.enabled:
             flash(lazy_gettext('Account not confirmed.'), 'danger')
             return False
         else:

@@ -4,7 +4,7 @@ from web.models import db_create, db_empty, User, Article, Feed
 def populate_db(db):
     role_admin, role_user = db_create(db)
     user1, user2 = [User(nickname=name, email="%s@test.te" % name,
-                         pwdhash=name, roles=[role_user], activation_key="")
+                         pwdhash=name, roles=[role_user], enabled=True)
                     for name in ["user1", "user2"]]
     db.session.add(user1)
     db.session.add(user2)

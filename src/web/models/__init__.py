@@ -96,7 +96,7 @@ def db_create(db):
                                     "root@jarr.localhost"),
                 pwdhash=generate_password_hash(
                         os.environ.get("ADMIN_PASSWORD", "password")),
-                activation_key="")
+                enabled=True)
     user1.roles.extend([role_admin, role_user])
 
     db.session.add(user1)

@@ -21,6 +21,7 @@
 
 import conf
 from web import emails
+from web.lib.user_utils import generate_confirmation_token
 
 
 def information_message(subject, plaintext):
@@ -30,7 +31,7 @@ def information_message(subject, plaintext):
     from web.models import User
     users = User.query.all()
     # Only send email for activated accounts.
-    user_emails = [user.email for user in users if user.activation_key == ""]
+    user_emails = [user.email for user in users if user.enabled]
     # Postmark has a limit of twenty recipients per message in total.
     for i in xrange(0, len(user_emails), 19):
         emails.send(to=conf.NOTIFICATION_EMAIL,
@@ -41,8 +42,9 @@ def new_account_notification(user):
     """
     Account creation notification.
     """
+    token = generate_confirmation_token(user.email)
     plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL + 'user/confirm_account/' + user.activation_key)
+                        (conf.PLATFORM_URL + 'user/confirm_account/' + token)
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
                 subject="[jarr] Account creation", plaintext=plaintext)
 

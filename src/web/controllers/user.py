@@ -9,14 +9,6 @@ class UserController(AbstractController):
     _db_cls = User
     _user_id_key = 'id'
 
-    def unset_activation_key(self, obj_id):
-        self.update({'id': obj_id}, {'activation_key': ""})
-
-    def set_activation_key(self, obj_id):
-        key = str(random.getrandbits(256)).encode("utf-8")
-        key = hashlib.sha512(key).hexdigest()[:86]
-        self.update({'id': obj_id}, {'activation_key': key})
-
     def _handle_password(self, attrs):
         if attrs.get('password'):
             attrs['pwdhash'] = generate_password_hash(attrs.pop('password'))

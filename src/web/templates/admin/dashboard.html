@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     {% for user in users|sort(attribute="last_seen")|reverse %}
-        <tr {% if user.activation_key != ""  %}class="warning"{% endif %}>
+        <tr {% if not user.enabled  %}class="warning"{% endif %}>
             <td>{{ loop.index }}</td>
             <td>{{ user.nickname }}{% if user.id == current_user.id %} (It's you!){% endif %}</td>
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
@@ -28,7 +28,7 @@
                 <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}
                     <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}">
-                    {% if user.activation_key == "" %}
+                    {% if user.enabled %}
                         <i class="glyphicon glyphicon-ban-circle" title="{{ _("Disable this account") }}"></i>
                     {% else %}
                         <i class="glyphicon glyphicon-ok-circle" title="{{ _("Enable this account") }}"></i>
