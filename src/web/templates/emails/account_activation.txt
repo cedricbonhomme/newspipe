@@ -1,0 +1,9 @@
+Hello {{ user.nickname }},
+
+Your account has been created.
+Click on the following link to confirm it:
+{{ platform_url }}user/confirm_account/{{ token }}
+
+The link expires at {{ expire_time.strftime('%Y-%m-%d %H:%M') }}.
+
+See you,

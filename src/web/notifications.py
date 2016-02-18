@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from flask import render_template
 import conf
 from web import emails
 from web.lib.user_utils import generate_confirmation_token
@@ -43,10 +44,16 @@ def new_account_notification(user):
     Account creation notification.
     """
     token = generate_confirmation_token(user.email)
-    plaintext = """Hello,\n\nYour account has been created. Click on the following link to confirm it:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL + 'user/confirm_account/' + token)
+    expire_time = datetime.datetime.now() + \
+                    datetime.timedelta(seconds=conf.TOKEN_VALIDITY_PERIOD)
+
+    plaintext = render_template('emails/account_activation.txt',
+                                    user=user, platform_url=conf.PLATFORM_URL,
+                                    token=token,
+                                    expire_time=expire_time)
+
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
-                subject="[jarr] Account creation", plaintext=plaintext)
+                subject="[JARR] Account creation", plaintext=plaintext)
 
 def new_account_activation(user):
     """
@@ -55,7 +62,7 @@ def new_account_activation(user):
     plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
                         (conf.PLATFORM_URL)
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
-                subject="[jarr] Account activated", plaintext=plaintext)
+                subject="[JARR] Account activated", plaintext=plaintext)
 
 def new_password_notification(user, password):
     """
@@ -66,4 +73,4 @@ def new_password_notification(user, password):
     plaintext += "\n\nIt is advised to replace it as soon as connected to jarr.\n\nSee you,"
     emails.send(to=user.email,
                 bcc=conf.NOTIFICATION_EMAIL,
-                subject="[jarr]  New password", plaintext=plaintext)
+                subject="[JARR] New password", plaintext=plaintext)

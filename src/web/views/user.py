@@ -111,7 +111,7 @@ def confirm_account(token=None):
     user_contr = UserController()
     user, email = None, None
     if token != "":
-        email = confirm_token(token, expiration=3600)
+        email = confirm_token(token)
     if email:
         user = user_contr.read(email=email).first()
     if user is not None:

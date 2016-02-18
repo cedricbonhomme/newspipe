@@ -28,6 +28,7 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "postmark_api_key": "",
             "recaptcha_public_key": "",
             "recaptcha_private_key": "",
+            "token_validity_period": "3600",
             "nb_worker": "100",
             "api_login": "",
             "api_passwd": "",
@@ -79,6 +80,7 @@ RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('misc',
                                     'recaptcha_private_key')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
+TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
 LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 NB_WORKER = config.getint('misc', 'nb_worker')
 API_LOGIN = config.get('crawler', 'api_login')

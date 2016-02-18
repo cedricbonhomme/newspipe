@@ -10,6 +10,7 @@ admin_email =
 recaptcha_public_key =
 recaptcha_private_key =
 security_password_salt = a secret to confirm user account
+token_validity_period = 3600
 log_path = ./src/web/var/jarr.log
 nb_worker = 5
 log_level = info
