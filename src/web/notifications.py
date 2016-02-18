@@ -56,22 +56,12 @@ def new_account_notification(user):
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
                 subject="[JARR] Account creation", plaintext=plaintext)
 
-def new_account_activation(user):
-    """
-    Account activation notification.
-    """
-    plaintext = """Hello,\n\nYour account has been activated. You can now connect to the platform:\n%s\n\nSee you,""" % \
-                        (conf.PLATFORM_URL)
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
-                subject="[JARR] Account activated", plaintext=plaintext)
-
 def new_password_notification(user, password):
     """
     New password notification.
     """
-    plaintext = """Hello,\n\nA new password has been generated at your request:\n\n%s""" % \
-                        (password, )
-    plaintext += "\n\nIt is advised to replace it as soon as connected to jarr.\n\nSee you,"
+    plaintext = render_template('emails/new_password.txt',
+                                    user=user, password=password)
     emails.send(to=user.email,
                 bcc=conf.NOTIFICATION_EMAIL,
                 subject="[JARR] New password", plaintext=plaintext)

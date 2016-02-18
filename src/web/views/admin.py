@@ -144,21 +144,7 @@ def toggle_user(user_id=None):
         flash(gettext('This user does not exist.'), 'danger')
         return redirect(url_for('admin.dashboard'))
 
-    if not user.enabled:
-        # Send the confirmation email
-        try:
-            notifications.new_account_activation(user)
-            user_contr.update({'id': user.id}, {'enabled': True})
-            message = gettext('Account of the user %(nick)s successfully '
-                              'activated.', nick=user.nickname)
-        except Exception as error:
-            flash(gettext('Problem while sending activation email %(error)s:',
-                          error=error), 'danger')
-            return redirect(url_for('admin.dashboard'))
-
-    else:
-        user_contr.update({'id': user.id}, {'enabled': False})
-        message = gettext('Account of the user %(nick)s successfully disabled',
-                          nick=user.nickname)
-    flash(message, 'success')
+    user_contr.update({'id': user.id}, {'enabled': not user.enabled})
+    flash(gettext('Account of the user %(nick)s successfully '
+                         'updated.', nick=user.nickname), 'success')
     return redirect(url_for('admin.dashboard'))
