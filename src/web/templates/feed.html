@@ -9,7 +9,7 @@
     </div>
     <div class="well">
         <p>
-        {{ _('This feed contains') }} {{ feed.articles.all()|count }} <a href= "{{ url_for("home", feed_id=feed.id, filter_="all")  }}">{{ _('articles') }}</a>.<br />
+        {{ _('This feed contains') }} {{ feed.articles.all()|count }} {{ _('articles') }}.<br />
         {% if category %}
             {{ _('This feed is part of category %(category_name)s', category_name=category.name) }}<br />
         {% endif %}
