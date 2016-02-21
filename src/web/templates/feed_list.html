@@ -1,6 +1,4 @@
-{% if feeds.count() == 0 %}
-  <h1>{{_("No feed")}}</h1>
-{% else %}
+{% if feeds.count() != 0 %}
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -27,7 +25,7 @@
                         <i class="glyphicon glyphicon-exclamation-sign" title="{{ _('Feed encountered too much errors.') }}"></i>
                     {% endif %}
                 </td>
-                <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />{% endif %}{{ feed.title }}</td>
+                <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />&nbsp;{% endif %}{{ feed.title }}</td>
                 <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
                 <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
                 <td>
