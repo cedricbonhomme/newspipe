@@ -29,6 +29,7 @@ from functools import wraps
 from werkzeug.exceptions import Unauthorized, BadRequest
 from flask import request, g, session, Response
 from flask.ext.restful import Resource, reqparse
+from flask.ext.login import current_user
 
 from web.lib.utils import default_handler
 from web.models import User
@@ -46,7 +47,7 @@ def authenticate(func):
         if not getattr(func, 'authenticated', True):
             logged_in = True
         # authentication based on the session (already logged on the site)
-        elif 'email' in session or g.user.is_authenticated:
+        elif 'email' in session or current_user.is_authenticated:
             logged_in = True
         else:
             # authentication via HTTP only
@@ -54,8 +55,7 @@ def authenticate(func):
             if auth is not None:
                 user = User.query.filter(
                         User.nickname == auth.username).first()
-                if user and user.check_password(auth.password) and user.enabled:
-                    g.user = user
+                if user and user.check_password(auth.password) and user.is_active:
                     logged_in = True
         if logged_in:
             return func(*args, **kwargs)
@@ -88,13 +88,13 @@ class PyAggAbstractResource(Resource):
 
     @property
     def controller(self):
-        return self.controller_cls(getattr(g.user, 'id', None))
+        return self.controller_cls(getattr(current_user, 'id', None))
 
     @property
     def wider_controller(self):
-        if g.user.is_admin():
+        if current_user.is_admin:
             return self.controller_cls()
-        return self.controller_cls(getattr(g.user, 'id', None))
+        return self.controller_cls(getattr(current_user, 'id', None))
 
     def reqparse_args(self, req=None, strict=False, default=True, args=None):
         """
@@ -143,7 +143,7 @@ class PyAggResourceExisting(PyAggAbstractResource):
         args = self.reqparse_args(default=False)
         new_values = {key: args[key] for key in
                       set(args).intersection(self.attrs)}
-        if 'user_id' in new_values and g.user.is_admin():
+        if 'user_id' in new_values and current_user.is_admin:
             controller = self.wider_controller
         else:
             controller = self.controller
