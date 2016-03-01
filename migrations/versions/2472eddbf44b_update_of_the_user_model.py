@@ -17,7 +17,6 @@ import sqlalchemy as sa
 
 
 def upgrade():
-    op.drop_column('user', 'roles')
     op.drop_column('user', 'enabled')
     op.add_column('user', sa.Column('is_active', sa.Boolean(), default=False))
     op.add_column('user', sa.Column('is_admin', sa.Boolean(), default=False))
