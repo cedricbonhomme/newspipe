@@ -1,24 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# jarr - A Web based news aggregator.
-# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
-#
-# For more information : https://github.com/JARR-aggregator/JARR/
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import logging
 import itertools
 from datetime import datetime, timedelta
@@ -26,7 +5,7 @@ from datetime import datetime, timedelta
 import conf
 from .abstract import AbstractController
 from .icon import IconController
-from web.models import Feed
+from web.models import User, Feed
 from web.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
@@ -43,11 +22,12 @@ class FeedController(AbstractController):
         return [feed for feed in self.read(
                             error_count__lt=max_error, enabled=True,
                             last_retrieved__lt=max_last)
+                                .join(User).filter(User.is_active == True)
                                 .order_by('last_retrieved')
                                 .limit(limit)]
 
-    def list_fetchable(self, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT,
-                       refresh_rate=DEFAULT_REFRESH_RATE):
+    def list_fetchable(self, max_error=DEFAULT_MAX_ERROR,
+            limit=DEFAULT_LIMIT, refresh_rate=DEFAULT_REFRESH_RATE):
         now = datetime.now()
         max_last = now - timedelta(minutes=refresh_rate)
         feeds = self.list_late(max_last, max_error, limit)

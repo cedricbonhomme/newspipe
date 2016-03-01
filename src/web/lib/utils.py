@@ -9,12 +9,12 @@ from flask import request, url_for
 logger = logging.getLogger(__name__)
 
 
-def default_handler(obj):
+def default_handler(obj, role='admin'):
     """JSON handler for default query formatting"""
     if hasattr(obj, 'isoformat'):
         return obj.isoformat()
     if hasattr(obj, 'dump'):
-        return obj.dump()
+        return obj.dump(role=role)
     if isinstance(obj, (set, frozenset, types.GeneratorType)):
         return list(obj)
     if isinstance(obj, BaseException):

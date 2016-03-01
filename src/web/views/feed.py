@@ -9,7 +9,7 @@ from werkzeug.exceptions import BadRequest
 from flask import Blueprint, g, render_template, flash, \
                   redirect, request, url_for
 from flask.ext.babel import gettext
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 
 import conf
 from web import utils
@@ -29,9 +29,9 @@ feed_bp = Blueprint('feed', __name__, url_prefix='/feed')
 @etag_match
 def feeds():
     "Lists the subscribed  feeds in a table."
-    art_contr = ArticleController(g.user.id)
+    art_contr = ArticleController(current_user.id)
     return render_template('feeds.html',
-            feeds=FeedController(g.user.id).read(),
+            feeds=FeedController(current_user.id).read(),
             unread_article_count=art_contr.count_by_feed(readed=False),
             article_count=art_contr.count_by_feed())
 
@@ -41,12 +41,12 @@ def feeds():
 @etag_match
 def feed(feed_id=None):
     "Presents detailed information about a feed."
-    feed = FeedController(g.user.id).get(id=feed_id)
+    feed = FeedController(current_user.id).get(id=feed_id)
     word_size = 6
     category = None
     if feed.category_id:
-        category = CategoryController(g.user.id).get(id=feed.category_id)
-    articles = ArticleController(g.user.id) \
+        category = CategoryController(current_user.id).get(id=feed.category_id)
+    articles = ArticleController(current_user.id) \
             .read(feed_id=feed_id) \
             .order_by(desc("date")).all()
     top_words = utils.top_words(articles, n=50, size=int(word_size))
@@ -76,7 +76,7 @@ def feed(feed_id=None):
 @feed_bp.route('/delete/<feed_id>', methods=['GET'])
 @login_required
 def delete(feed_id=None):
-    feed_contr = FeedController(g.user.id)
+    feed_contr = FeedController(current_user.id)
     feed = feed_contr.get(id=feed_id)
     feed_contr.delete(feed_id)
     flash(gettext("Feed %(feed_title)s successfully deleted.",
@@ -87,7 +87,7 @@ def delete(feed_id=None):
 @feed_bp.route('/reset_errors/<int:feed_id>', methods=['GET', 'POST'])
 @login_required
 def reset_errors(feed_id):
-    feed_contr = FeedController(g.user.id)
+    feed_contr = FeedController(current_user.id)
     feed = feed_contr.get(id=feed_id)
     feed_contr.update({'id': feed_id}, {'error_count': 0, 'last_error': ''})
     flash(gettext('Feed %(feed_title)r successfully updated.',
@@ -98,7 +98,7 @@ def reset_errors(feed_id):
 @feed_bp.route('/bookmarklet', methods=['GET', 'POST'])
 @login_required
 def bookmarklet():
-    feed_contr = FeedController(g.user.id)
+    feed_contr = FeedController(current_user.id)
     url = (request.args if request.method == 'GET' else request.form)\
             .get('url', None)
     if not url:
@@ -128,7 +128,7 @@ def bookmarklet():
     feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
     if feed.enabled and conf.CRAWLING_METHOD == "classic":
-        utils.fetch(g.user.id, feed.id)
+        utils.fetch(current_user.id, feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
     return redirect(url_for('feed.form', feed_id=feed.id))
 
@@ -146,7 +146,7 @@ def update(action, feed_id=None):
 
     if feed_id:
         filters['feed_id'] = feed_id
-    ArticleController(g.user.id).update(filters, {'readed': readed})
+    ArticleController(current_user.id).update(filters, {'readed': readed})
     flash(gettext('Feed successfully updated.'), 'success')
     return redirect(request.referrer or url_for('home'))
 
@@ -157,14 +157,14 @@ def update(action, feed_id=None):
 @etag_match
 def form(feed_id=None):
     action = gettext("Add a feed")
-    categories = CategoryController(g.user.id).read()
+    categories = CategoryController(current_user.id).read()
     head_titles = [action]
     if feed_id is None:
         form = AddFeedForm()
         form.set_category_choices(categories)
         return render_template('edit_feed.html', action=action,
                                head_titles=head_titles, form=form)
-    feed = FeedController(g.user.id).get(id=feed_id)
+    feed = FeedController(current_user.id).get(id=feed_id)
     form = AddFeedForm(obj=feed)
     form.set_category_choices(categories)
     action = gettext('Edit feed')
@@ -181,8 +181,8 @@ def form(feed_id=None):
 @login_required
 def process_form(feed_id=None):
     form = AddFeedForm()
-    feed_contr = FeedController(g.user.id)
-    form.set_category_choices(CategoryController(g.user.id).read())
+    feed_contr = FeedController(current_user.id)
+    form.set_category_choices(CategoryController(current_user.id).read())
 
     if not form.validate():
         return render_template('edit_feed.html', form=form)
@@ -217,7 +217,7 @@ def process_form(feed_id=None):
                   feed_title=new_feed.title), 'success')
 
     if conf.CRAWLING_METHOD == "classic":
-        utils.fetch(g.user.id, new_feed.id)
+        utils.fetch(current_user.id, new_feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
@@ -230,7 +230,7 @@ def inactives():
     List of inactive feeds.
     """
     nb_days = int(request.args.get('nb_days', 365))
-    inactives = FeedController(g.user.id).get_inactives(nb_days)
+    inactives = FeedController(current_user.id).get_inactives(nb_days)
     return render_template('inactives.html',
                            inactives=inactives, nb_days=nb_days)
 
@@ -241,7 +241,7 @@ def duplicates(feed_id):
     """
     Return duplicates article for a feed.
     """
-    feed, duplicates = FeedController(g.user.id).get_duplicates(feed_id)
+    feed, duplicates = FeedController(current_user.id).get_duplicates(feed_id)
     if len(duplicates) == 0:
         flash(gettext('No duplicates in the feed "{}".').format(feed.title),
                 'info')

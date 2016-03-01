@@ -9,6 +9,7 @@ import logging
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 PATH = os.path.abspath(".")
+API_ROOT = '/api/v2.0'
 
 # available languages
 LANGUAGES = {
@@ -23,6 +24,7 @@ TIME_ZONE = {
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
+            "self_registration": "false",
             "cdn_address": "",
             "admin_email": "root@jarr.localhost",
             "postmark_api_key": "",
@@ -76,6 +78,7 @@ else:
 
 PLATFORM_URL = config.get('misc', 'platform_url')
 ADMIN_EMAIL = config.get('misc', 'admin_email')
+SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
 RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
 RECAPTCHA_PRIVATE_KEY = config.get('misc',
                                     'recaptcha_private_key')

@@ -1,7 +1,35 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# JARR - A Web based news aggregator.
+# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
+#
+# For more information : https://github.com/JARR-aggregator/JARR
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+__author__ = "Cedric Bonhomme"
+__version__ = "$Revision: 0.1 $"
+__date__ = "$Date: 2010/02/28 $"
+__revision__ = "$Date: 2014/02/28 $"
+__copyright__ = "Copyright (c) Cedric Bonhomme"
+__license__ = "AGPLv3"
+
 from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, request)
 from flask.ext.babel import gettext
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 
 from flask.ext.principal import Permission, RoleNeed
 
@@ -37,7 +65,7 @@ def dashboard():
 
     users = UserController().read()
     return render_template('admin/dashboard.html',
-                           users=users, current_user=g.user, form=form)
+                           users=users, current_user=current_user, form=form)
 
 
 @admin_bp.route('/user/create', methods=['GET'])

@@ -1,6 +1,6 @@
 from flask import g, Blueprint, render_template, flash, redirect, url_for
 from flask.ext.babel import gettext
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 
 from web.forms import CategoryForm
 from web.lib.utils import redirect_url
@@ -17,10 +17,10 @@ category_bp = Blueprint('category', __name__, url_prefix='/category')
 @etag_match
 def list_():
     "Lists the subscribed  feeds in a table."
-    art_contr = ArticleController(g.user.id)
+    art_contr = ArticleController(current_user.id)
     return render_template('categories.html',
-            categories=list(CategoryController(g.user.id).read()),
-            feeds_count=FeedController(g.user.id).count_by_category(),
+            categories=list(CategoryController(current_user.id).read()),
+            feeds_count=FeedController(current_user.id).count_by_category(),
             unread_article_count=art_contr.count_by_category(readed=False),
             article_count=art_contr.count_by_category())
 
@@ -35,7 +35,7 @@ def form(category_id=None):
     if category_id is None:
         return render_template('edit_category.html', action=action,
                                head_titles=head_titles, form=CategoryForm())
-    category = CategoryController(g.user.id).get(id=category_id)
+    category = CategoryController(current_user.id).get(id=category_id)
     action = gettext('Edit category')
     head_titles = [action]
     if category.name:
@@ -48,7 +48,7 @@ def form(category_id=None):
 @category_bp.route('/delete/<int:category_id>', methods=['GET'])
 @login_required
 def delete(category_id=None):
-    category = CategoryController(g.user.id).delete(category_id)
+    category = CategoryController(current_user.id).delete(category_id)
     flash(gettext("Category %(category_name)s successfully deleted.",
                   category_name=category.name), 'success')
     return redirect(redirect_url())
@@ -59,7 +59,7 @@ def delete(category_id=None):
 @login_required
 def process_form(category_id=None):
     form = CategoryForm()
-    cat_contr = CategoryController(g.user.id)
+    cat_contr = CategoryController(current_user.id)
 
     if not form.validate():
         return render_template('edit_category.html', form=form)
