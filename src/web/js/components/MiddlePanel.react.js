@@ -35,7 +35,7 @@ var TableLine = React.createClass({
             icon = <Glyphicon glyph="ban-circle" />;
         }
         var title = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.openRedirectLink}>
+                        onClick={this.openRedirectLink} target="_blank">
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
@@ -43,10 +43,6 @@ var TableLine = React.createClass({
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
         icon = <Glyphicon glyph={"new-window"} />;
-        var newTab = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.openRedirectLink} target="_blank">
-                        {icon}
-                     </a>);
         var clsses = "list-group-item";
         if(this.props.selected) {
             clsses += " active";
@@ -57,7 +53,7 @@ var TableLine = React.createClass({
                     <h5><strong>{title}</strong></h5>
                     <JarrTime text={this.props.date}
                               stamp={this.props.timestamp} />
-                    <div>{read} {liked} {newTab} {this.props.title}</div>
+                    <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
     },

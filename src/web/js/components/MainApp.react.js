@@ -15,7 +15,7 @@ var MainApp = React.createClass({
                     <Grid fluid id="jarr-container">
                         <Menu />
                         <Col id="middle-panel" mdOffset={3} lgOffset={2}
-                                            xs={4} sm={4} md={4} lg={4}>
+                                            xs={12} sm={4} md={4} lg={4}>
                             <MiddlePanel.MiddlePanelFilter />
                             <MiddlePanel.MiddlePanel />
                         </Col>

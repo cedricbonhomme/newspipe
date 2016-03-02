@@ -84,13 +84,15 @@ var CategoryGroup = React.createClass({
                 name: React.PropTypes.string.isRequired,
                 feeds: React.PropTypes.array.isRequired,
                 unread: React.PropTypes.number.isRequired,
-                folded: React.PropTypes.bool.isRequired,
+                folded: React.PropTypes.bool,
     },
     getInitialState: function() {
-        return {folded: this.props.folded};
+        return {folded: false};
     },
     componentWillReceiveProps: function(nextProps) {
-        this.setState({folded: nextProps.folded});
+        if(nextProps.folded != null) {
+            this.setState({folded: nextProps.folded});
+        }
     },
     render: function() {
         // hidden the no category if empty
