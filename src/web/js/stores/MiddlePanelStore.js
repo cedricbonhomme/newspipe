@@ -82,20 +82,18 @@ var MiddlePanelStore = assign({}, EventEmitter.prototype, {
 
 MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
     var changed = false;
-    switch(action.type) {
-        case ActionTypes.RELOAD_MIDDLE_PANEL:
-            changed = MiddlePanelStore.registerFilter(action);
-            changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            break;
-        case ActionTypes.PARENT_FILTER:
-            changed = MiddlePanelStore.registerFilter(action);
-            changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            break;
-        case ActionTypes.MIDDLE_PANEL_FILTER:
-            changed = MiddlePanelStore.registerFilter(action);
-            changed = MiddlePanelStore.setArticles(action.articles) || changed;
-            break;
-        case ActionTypes.CHANGE_ATTR:
+    if (action.type == ActionTypes.RELOAD_MIDDLE_PANEL
+            || action.type == ActionTypes.PARENT_FILTER
+            || action.type == ActionTypes.MIDDLE_PANEL_FILTER) {
+        changed = MiddlePanelStore.registerFilter(action);
+        changed = MiddlePanelStore.setArticles(action.articles) || changed;
+    } else if (action.type == ActionTypes.MARK_ALL_AS_READ) {
+        changed = MiddlePanelStore.registerFilter(action);
+        for(var i in action.articles) {
+            action.articles[i].read = true;
+        }
+        changed = MiddlePanelStore.setArticles(action.articles) || changed;
+    } else if (action.type == ActionTypes.CHANGE_ATTR) {
             var attr = action.attribute;
             var val = action.value_bool;
             action.articles.map(function(article) {
@@ -112,19 +110,15 @@ MiddlePanelStore.dispatchToken = JarrDispatcher.register(function(action) {
                     }
                 }
             });
-            break;
-        case ActionTypes.LOAD_ARTICLE:
-            changed = true;
-            MiddlePanelStore._datas.selected_article = action.article.id;
-            for (var i in MiddlePanelStore._datas.articles) {
-                if(MiddlePanelStore._datas.articles[i].article_id == action.article.id) {
-                    MiddlePanelStore._datas.articles[i].read = true;
-                    break;
-                }
+    } else if (action.type == ActionTypes.LOAD_ARTICLE) {
+        changed = true;
+        MiddlePanelStore._datas.selected_article = action.article.id;
+        for (var i in MiddlePanelStore._datas.articles) {
+            if(MiddlePanelStore._datas.articles[i].article_id == action.article.id) {
+                MiddlePanelStore._datas.articles[i].read = true;
+                break;
             }
-            break;
-        default:
-            // pass
+        }
     }
     if(changed) {MiddlePanelStore.emitChange();}
 });

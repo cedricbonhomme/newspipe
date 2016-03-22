@@ -35,6 +35,7 @@ var PanelMixin = {
                               </Button>);
             }
             btn_grp = (<ButtonGroup bsSize="small">
+                           {this.getExtraButton()}
                            {edit_button}
                            {rem_button}
                        </ButtonGroup>);
@@ -175,13 +176,7 @@ var Article = React.createClass({
                     <div id="article-content" dangerouslySetInnerHTML={
                         {__html: this.props.obj.content}} />
                 </div>);
-    },
-    reloadParsed: function() {
-        if(this.props.obj.readability_available
-                && !this.props.obj.readability_parsed) {
-            RightPanelActions.loadArticle(this.props.obj.id, true, true);
-        }
-    },
+    }
 });
 
 var Feed = React.createClass({
@@ -198,6 +193,7 @@ var Feed = React.createClass({
              {'title': 'Category', 'type': 'ignore', 'key': 'category_id'},
     ],
     getTitle: function() {return this.props.obj.title;},
+    getExtraButton: function() {return null;},
     getFilterRow: function(i, filter) {
         return (<dd key={'d' + i + '-' + this.props.obj.id}
                         className="input-group filter-row">
@@ -357,6 +353,7 @@ var Category = React.createClass({
         if(this.props.obj.id != 0) {return true;}
         else {return false;}
     },
+    getExtraButton: function () {return null;},
     isRemovable: function() {return this.isEditable();},
     obj_type: 'category',
     fields: [{'title': 'Category name', 'type': 'string', 'key': 'name'}],

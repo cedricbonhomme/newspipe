@@ -29,9 +29,6 @@ var MenuStore = assign({}, EventEmitter.prototype, {
             this.emitChange();
         }
     },
-    readFeedArticle: function(feed_id) {
-        // TODO
-    },
     emitChange: function() {
         this.emit(CHANGE_EVENT);
     },
@@ -88,7 +85,6 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
                     MenuStore.emitChange();
                 }
             }
-
             break;
         case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);
@@ -116,6 +112,21 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
         case ActionTypes.TOGGLE_MENU_FOLD:
             MenuStore._datas.all_folded = action.all_folded;
             MenuStore.emitChange();
+            break;
+        case ActionTypes.MARK_ALL_AS_READ:
+            action.articles.map(function(art) {
+                if(!art.read) {
+                    MenuStore._datas.feeds[art.feed_id].unread -= 1;
+                    if(art.category_id) {
+                        MenuStore._datas.categories[art.category_id].unread -= 1;
+
+                    }
+                }
+            });
+
+            MenuStore._datas.all_folded = null;
+            MenuStore.emitChange();
+            break;
         default:
             // do nothing
     }

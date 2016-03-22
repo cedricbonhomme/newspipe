@@ -267,7 +267,22 @@ var Menu = React.createClass({
         );
     },
     componentDidMount: function() {
-        MenuActions.reload();
+        var setFilterFunc = null;
+        var id = null;
+        if(window.location.search.substring(1)) {
+            var args = window.location.search.substring(1).split('&');
+            args.map(function(arg) {
+                if (arg.split('=')[0] == 'at' && arg.split('=')[1] == 'c') {
+                    setFilterFunc = MiddlePanelActions.setCategoryFilter;
+                } else if (arg.split('=')[0] == 'at' && arg.split('=')[1] == 'f') {
+                    setFilterFunc = MiddlePanelActions.setFeedFilter;
+
+                } else if (arg.split('=')[0] == 'ai') {
+                    id = parseInt(arg.split('=')[1]);
+                }
+            });
+        }
+        MenuActions.reload(setFilterFunc, id);
         MenuStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {

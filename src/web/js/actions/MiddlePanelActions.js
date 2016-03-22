@@ -141,10 +141,7 @@ var MiddlePanelActions = {
                 url: "/mark_all_as_read",
                 success: function (payload) {
                     JarrDispatcher.dispatch({
-                        type: ActionTypes.CHANGE_ATTR,
-                        attribute: 'read',
-                        value_num: -1,
-                        value_bool: true,
+                        type: ActionTypes.MARK_ALL_AS_READ,
                         articles: payload.articles,
                     });
                 },

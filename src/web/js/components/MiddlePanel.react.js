@@ -77,7 +77,7 @@ var TableLine = React.createClass({
         evnt.stopPropagation();
     },
     loadArticle: function() {
-        this.setState({active: true, read: true}, function() {
+        this.setState({selected: true, read: true}, function() {
             RightPanelActions.loadArticle(
                     this.props.article_id, this.props.read);
         }.bind(this));
@@ -228,7 +228,11 @@ var MiddlePanel = React.createClass({
         return (<Row className="show-grid">
                     <div className="list-group">
                     {this.state.articles.map(function(article){
-                        return (<TableLine key={"a" + article.article_id}
+                        var key = "a" + article.article_id;
+                        if(article.read) {key+="r";}
+                        if(article.liked) {key+="l";}
+                        if(article.selected) {key+="s";}
+                        return (<TableLine key={key}
                                         title={article.title}
                                         icon_url={article.icon_url}
                                         read={article.read}
