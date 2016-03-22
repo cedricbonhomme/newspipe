@@ -84,7 +84,9 @@ class FeedController(AbstractController):
     def update(self, filters, attrs):
         from .article import ArticleController
         self._ensure_icon(attrs)
-        if 'category_id' in attrs:
+        if not attrs['category_id'] or attrs['category_id'] == 0:
+            del attrs['category_id']
+        else:
             art_contr = ArticleController(self.user_id)
             for feed in self.read(**filters):
                 art_contr.update({'feed_id': feed.id},
