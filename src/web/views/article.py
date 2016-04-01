@@ -6,6 +6,7 @@ from flask import (Blueprint, g, render_template, redirect,
 from flask.ext.babel import gettext
 from flask.ext.login import login_required
 
+from bootstrap import db
 from web.lib.utils import clear_string, redirect_url
 from web.controllers import ArticleController
 from web.lib.view_utils import etag_match
@@ -122,5 +123,6 @@ def expire():
                                    'retrieved_date__lt': weeks_ago})
     count = query.count()
     query.delete()
+    db.session.commit()
     flash(gettext('%(count)d articles deleted', count=count), 'info')
     return redirect(redirect_url())
