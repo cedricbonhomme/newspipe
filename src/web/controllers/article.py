@@ -96,3 +96,8 @@ class ArticleController(AbstractController):
             else:
                 articles_counter[article.date.year] += 1
         return articles_counter, articles
+
+    def read_light(self, **filters):
+        return super().read(**filters).with_entities(Article.id, Article.title,
+                Article.readed, Article.like, Article.feed_id, Article.date,
+                Article.category_id).order_by(Article.date.desc())

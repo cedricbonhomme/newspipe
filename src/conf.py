@@ -47,7 +47,7 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "host": "0.0.0.0",
             "port": "5000",
             "crawling_method": "classic",
-            "webzine_root": "/tmp",
+            "webzine_root": "~/tmp",
             }
 
 if not ON_HEROKU:

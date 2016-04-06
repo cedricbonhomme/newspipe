@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -
 from datetime import datetime, timedelta
 from flask import (Blueprint, g, render_template, redirect,
-                   flash, url_for, request)
+                   flash, url_for, make_response, request)
 from flask.ext.babel import gettext
 from flask.ext.login import login_required, current_user
 
+from web.export import export_json, export_html
 from web.lib.utils import clear_string, redirect_url
-from web.controllers import ArticleController
+from web.controllers import (ArticleController, UserController,
+                            CategoryController)
 from web.lib.view_utils import etag_match
 
 articles_bp = Blueprint('articles', __name__, url_prefix='/articles')
@@ -124,3 +126,47 @@ def expire():
     query.delete()
     flash(gettext('%(count)d articles deleted', count=count), 'info')
     return redirect(redirect_url())
+
+
+@articles_bp.route('/export', methods=['GET'])
+@login_required
+def export():
+    """
+    Export all articles to HTML or JSON.
+    """
+    user = UserController(current_user.id).get(id=current_user.id)
+    if request.args.get('format') == "HTML":
+        # Export to HTML
+        try:
+            archive_file, archive_file_name = export_html(user)
+        except Exception as e:
+            print(e)
+            flash(gettext("Error when exporting articles."), 'danger')
+            return redirect(redirect_url())
+        response = make_response(archive_file)
+        response.headers['Content-Type'] = 'application/x-compressed'
+        response.headers['Content-Disposition'] = 'attachment; filename=%s' \
+                % archive_file_name
+    elif request.args.get('format') == "JSON":
+        # Export to JSON
+        try:
+            json_result = export_json(user)
+        except Exception as e:
+            flash(gettext("Error when exporting articles."), 'danger')
+            return redirect(redirect_url())
+        response = make_response(json_result)
+        response.mimetype = 'application/json'
+        response.headers["Content-Disposition"] \
+                = 'attachment; filename=account.json'
+    elif request.args.get('format') == "OPML":
+        categories = {cat.id: cat.dump()
+                for cat in CategoryController(user.id).read()}
+        response = make_response(render_template('opml.xml', user=user,
+                                                categories=categories,
+                                                now=datetime.now()))
+        response.headers['Content-Type'] = 'application/xml'
+        response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
+    else:
+        flash(gettext('Export format not supported.'), 'warning')
+        return redirect(redirect_url())
+    return response

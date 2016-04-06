@@ -35,7 +35,8 @@ var TableLine = React.createClass({
             icon = <Glyphicon glyph="ban-circle" />;
         }
         var title = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.openRedirectLink}>
+                        onClick={this.openRedirectLink} target="_blank"
+                        title={this.props.feed_title}>
                         {icon} {this.props.feed_title}
                      </a>);
         var read = (<Glyphicon glyph={this.state.read?"check":"unchecked"}
@@ -43,21 +44,17 @@ var TableLine = React.createClass({
         var liked = (<Glyphicon glyph={this.state.liked?"star":"star-empty"}
                                 onClick={this.toogleLike} />);
         icon = <Glyphicon glyph={"new-window"} />;
-        var newTab = (<a href={'/article/redirect/' + this.props.article_id}
-                        onClick={this.openRedirectLink} target="_blank">
-                        {icon}
-                     </a>);
         var clsses = "list-group-item";
         if(this.props.selected) {
             clsses += " active";
         }
         // FIXME https://github.com/yahoo/react-intl/issues/189
         // use FormattedRelative when fixed, will have to upgrade to ReactIntlv2
-        return (<div className={clsses} onClick={this.loadArticle}>
+        return (<div className={clsses} onClick={this.loadArticle} title={this.props.title}>
                     <h5><strong>{title}</strong></h5>
                     <JarrTime text={this.props.date}
                               stamp={this.props.timestamp} />
-                    <div>{read} {liked} {newTab} {this.props.title}</div>
+                    <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
     },
@@ -81,7 +78,7 @@ var TableLine = React.createClass({
         evnt.stopPropagation();
     },
     loadArticle: function() {
-        this.setState({active: true, read: true}, function() {
+        this.setState({selected: true, read: true}, function() {
             RightPanelActions.loadArticle(
                     this.props.article_id, this.props.read);
         }.bind(this));
@@ -232,7 +229,11 @@ var MiddlePanel = React.createClass({
         return (<Row className="show-grid">
                     <div className="list-group">
                     {this.state.articles.map(function(article){
-                        return (<TableLine key={"a" + article.article_id}
+                        var key = "a" + article.article_id;
+                        if(article.read) {key+="r";}
+                        if(article.liked) {key+="l";}
+                        if(article.selected) {key+="s";}
+                        return (<TableLine key={key}
                                         title={article.title}
                                         icon_url={article.icon_url}
                                         read={article.read}

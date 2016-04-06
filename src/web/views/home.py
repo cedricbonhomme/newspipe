@@ -133,8 +133,9 @@ def get_article(article_id, parse=False):
 def mark_all_as_read():
     filters = _get_filters(request.json)
     acontr = ArticleController(current_user.id)
+    processed_articles = _articles_to_json(acontr.read_light(**filters))
     acontr.update(filters, {'readed': True})
-    return _articles_to_json(acontr.read(**filters))
+    return processed_articles
 
 
 @current_app.route('/fetch', methods=['GET'])
