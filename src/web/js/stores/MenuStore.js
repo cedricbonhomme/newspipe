@@ -17,6 +17,7 @@ var MenuStore = assign({}, EventEmitter.prototype, {
     setFilter: function(value) {
         if(this._datas.filter != value) {
             this._datas.filter = value;
+            this._datas.all_folded = null;
             this.emitChange();
         }
     },
@@ -24,11 +25,9 @@ var MenuStore = assign({}, EventEmitter.prototype, {
         if(this._datas.active_id != value || this._datas.active_type != type) {
             this._datas.active_type = type;
             this._datas.active_id = value;
+            this._datas.all_folded = null;
             this.emitChange();
         }
-    },
-    readFeedArticle: function(feed_id) {
-        // TODO
     },
     emitChange: function() {
         this.emit(CHANGE_EVENT);
@@ -53,6 +52,7 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
             MenuStore._datas['error_threshold'] = action.error_threshold;
             MenuStore._datas['crawling_method'] = action.crawling_method;
             MenuStore._datas['all_unread_count'] = action.all_unread_count;
+            MenuStore._datas.all_folded = null;
             MenuStore.emitChange();
             break;
         case ActionTypes.PARENT_FILTER:
@@ -81,10 +81,10 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
                     MenuStore._datas.categories[cat_id].unread += new_unread[feed_id];
                 }
                 if(changed) {
+                    MenuStore._datas.all_folded = null;
                     MenuStore.emitChange();
                 }
             }
-
             break;
         case ActionTypes.MENU_FILTER:
             MenuStore.setFilter(action.filter);
@@ -98,18 +98,35 @@ MenuStore.dispatchToken = JarrDispatcher.register(function(action) {
                 MenuStore._datas.categories[article.category_id].unread += val;
                 MenuStore._datas.feeds[article.feed_id].unread += val;
             });
+            MenuStore._datas.all_folded = null;
             MenuStore.emitChange();
             break;
         case ActionTypes.LOAD_ARTICLE:
             if(!action.was_read_before) {
                 MenuStore._datas.categories[action.article.category_id].unread -= 1;
                 MenuStore._datas.feeds[action.article.feed_id].unread -= 1;
+                MenuStore._datas.all_folded = null;
                 MenuStore.emitChange();
             }
             break;
         case ActionTypes.TOGGLE_MENU_FOLD:
             MenuStore._datas.all_folded = action.all_folded;
             MenuStore.emitChange();
+            break;
+        case ActionTypes.MARK_ALL_AS_READ:
+            action.articles.map(function(art) {
+                if(!art.read) {
+                    MenuStore._datas.feeds[art.feed_id].unread -= 1;
+                    if(art.category_id) {
+                        MenuStore._datas.categories[art.category_id].unread -= 1;
+
+                    }
+                }
+            });
+
+            MenuStore._datas.all_folded = null;
+            MenuStore.emitChange();
+            break;
         default:
             // do nothing
     }

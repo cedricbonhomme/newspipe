@@ -1,6 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -
-
 """For a given resources, classes in the module intend to create the following
 routes :
     GET resource/<id>
@@ -21,82 +18,53 @@ routes :
     DELETE resources
         -> to delete several
 """
-import ast
-import json
 import logging
-import dateutil.parser
 from functools import wraps
-from werkzeug.exceptions import Unauthorized, BadRequest
-from flask import request, g, session, Response
+from werkzeug.exceptions import Unauthorized, BadRequest, Forbidden, NotFound
+from flask import request
 from flask.ext.restful import Resource, reqparse
+from flask.ext.login import current_user
 
-from web.lib.utils import default_handler
-from web.models import User
+from web.views.common import admin_permission, api_permission, \
+                             login_user_bundle, jsonify
+from web.controllers import UserController
 
 logger = logging.getLogger(__name__)
 
 
 def authenticate(func):
-    """
-    Decorator for the authentication to the web services.
-    """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        logged_in = False
-        if not getattr(func, 'authenticated', True):
-            logged_in = True
-        # authentication based on the session (already logged on the site)
-        elif 'email' in session or g.user.is_authenticated:
-            logged_in = True
-        else:
-            # authentication via HTTP only
-            auth = request.authorization
-            if auth is not None:
-                user = User.query.filter(
-                        User.nickname == auth.username).first()
-                if user and user.check_password(auth.password) and user.enabled:
-                    g.user = user
-                    logged_in = True
-        if logged_in:
+        if request.authorization:
+            ucontr = UserController()
+            try:
+                user = ucontr.get(login=request.authorization.username)
+            except NotFound:
+                raise Forbidden("Couldn't authenticate your user")
+            if not ucontr.check_password(user, request.authorization.password):
+                raise Forbidden("Couldn't authenticate your user")
+            if not user.is_active:
+                raise Forbidden("User is desactivated")
+            login_user_bundle(user)
+        if current_user.is_authenticated:
             return func(*args, **kwargs)
-        raise Unauthorized({'WWWAuthenticate': 'Basic realm="Login Required"'})
-    return wrapper
-
-
-def to_response(func):
-    """Will cast results of func as a result, and try to extract
-    a status_code for the Response object"""
-    def wrapper(*args, **kwargs):
-        status_code = 200
-        result = func(*args, **kwargs)
-        if isinstance(result, Response):
-            return result
-        elif isinstance(result, tuple):
-            result, status_code = result
-        return Response(json.dumps(result, default=default_handler),
-                        status=status_code)
+        raise Unauthorized()
     return wrapper
 
 
 class PyAggAbstractResource(Resource):
-    method_decorators = [authenticate, to_response]
-    attrs = {}
-    to_date = []  # list of fields to cast to datetime
-
-    def __init__(self, *args, **kwargs):
-        super(PyAggAbstractResource, self).__init__(*args, **kwargs)
+    method_decorators = [authenticate, jsonify]
+    controller_cls = None
+    attrs = None
 
     @property
     def controller(self):
-        return self.controller_cls(getattr(g.user, 'id', None))
-
-    @property
-    def wider_controller(self):
-        if g.user.is_admin():
+        if admin_permission.can():
             return self.controller_cls()
-        return self.controller_cls(getattr(g.user, 'id', None))
+        return self.controller_cls(current_user.id)
 
-    def reqparse_args(self, req=None, strict=False, default=True, args=None):
+    def reqparse_args(self, right, req=None, strict=False, default=True,
+                      allow_empty=False):
         """
         strict: bool
             if True will throw 400 error if args are defined and not in request
@@ -105,31 +73,39 @@ class PyAggAbstractResource(Resource):
         args: dict
             the args to parse, if None, self.attrs will be used
         """
+        try:
+            in_values = req.json if req else (request.json or {})
+            if not in_values and allow_empty:
+                return {}
+        except BadRequest:
+            if allow_empty:
+                return {}
+            raise
         parser = reqparse.RequestParser()
-        for attr_name, attrs in (args or self.attrs).items():
-            if attrs.pop('force_default', False):
-                parser.add_argument(attr_name, location='json', **attrs)
-            elif not default and (not request.json
-                    or request.json and attr_name not in request.json):
+        if self.attrs is not None:
+            attrs = self.attrs
+        elif admin_permission.can():
+            attrs = self.controller_cls._get_attrs_desc('admin')
+        elif api_permission.can():
+            attrs = self.controller_cls._get_attrs_desc('api', right)
+        else:
+            attrs = self.controller_cls._get_attrs_desc('base', right)
+        assert attrs, "No defined attrs for %s" % self.__class__.__name__
+
+        for attr_name, attr in attrs.items():
+            if not default and attr_name not in in_values:
                 continue
             else:
-                parser.add_argument(attr_name, location='json', **attrs)
-        parsed = parser.parse_args(strict=strict) if req is None \
-                else parser.parse_args(req, strict=strict)
-        for field in self.to_date:
-            if parsed.get(field):
-                try:
-                    parsed[field] = dateutil.parser.parse(parsed[field])
-                except Exception:
-                    logger.exception('failed to parse %r', parsed[field])
-        return parsed
+                parser.add_argument(attr_name, location='json', **attr)
+        return parser.parse_args(req=req, strict=strict)
 
 
 class PyAggResourceNew(PyAggAbstractResource):
 
+    @api_permission.require(http_exception=403)
     def post(self):
         """Create a single new object"""
-        return self.controller.create(**self.reqparse_args()), 201
+        return self.controller.create(**self.reqparse_args(right='write')), 201
 
 
 class PyAggResourceExisting(PyAggAbstractResource):
@@ -140,14 +116,10 @@ class PyAggResourceExisting(PyAggAbstractResource):
 
     def put(self, obj_id=None):
         """update an object, new attrs should be passed in the payload"""
-        args = self.reqparse_args(default=False)
-        new_values = {key: args[key] for key in
-                      set(args).intersection(self.attrs)}
-        if 'user_id' in new_values and g.user.is_admin():
-            controller = self.wider_controller
-        else:
-            controller = self.controller
-        return controller.update({'id': obj_id}, new_values), 200
+        args = self.reqparse_args(right='write', default=False)
+        if not args:
+            raise BadRequest()
+        return self.controller.update({'id': obj_id}, args), 200
 
     def delete(self, obj_id=None):
         """delete a object"""
@@ -164,73 +136,75 @@ class PyAggResourceMulti(PyAggAbstractResource):
         try:
             limit = request.json.pop('limit', 10)
             order_by = request.json.pop('order_by', None)
-            query = self.controller.read(**request.json)
-        except:
-            args = {}
-            for k, v in request.args.items():
-                if k in self.attrs.keys():
-                    if self.attrs[k]['type'] in [bool, int]:
-                        args[k] = ast.literal_eval(v)
-                    else:
-                        args[k] = v
-            limit = request.args.get('limit', 10)
-            order_by = request.args.get('order_by', None)
-            query = self.controller.read(**args)
+            args = self.reqparse_args(right='read', default=False)
+        except BadRequest:
+            limit, order_by, args = 10, None, {}
+        query = self.controller.read(**args)
         if order_by:
             query = query.order_by(order_by)
         if limit:
             query = query.limit(limit)
         return [res for res in query]
 
+    @api_permission.require(http_exception=403)
     def post(self):
-        """creating several objects. payload should be a list of dict.
+        """creating several objects. payload should be:
+        >>> payload
+        [{attr1: val1, attr2: val2}, {attr1: val1, attr2: val2}]
         """
-        if 'application/json' not in request.headers.get('Content-Type'):
-            raise BadRequest("Content-Type must be application/json")
-        status = 201
-        results = []
+        assert 'application/json' in request.headers.get('Content-Type')
+        status, fail_count, results = 200, 0, []
+
+        class Proxy:
+            pass
         for attrs in request.json:
             try:
-                results.append(self.controller.create(**attrs).id)
+                Proxy.json = attrs
+                args = self.reqparse_args('write', req=Proxy, default=False)
+                obj = self.controller.create(**args)
+                results.append(obj)
             except Exception as error:
-                status = 206
+                fail_count += 1
                 results.append(str(error))
-        # if no operation succeded, it's not partial anymore, returning err 500
-        if status == 206 and results.count('ok') == 0:
+        if fail_count == len(results):  # all failed => 500
             status = 500
+        elif fail_count:  # some failed => 206
+            status = 206
         return results, status
 
     def put(self):
-        """creating several objects. payload should be:
+        """updating several objects. payload should be:
         >>> payload
         [[obj_id1, {attr1: val1, attr2: val2}]
          [obj_id2, {attr1: val1, attr2: val2}]]
         """
-        if 'application/json' not in request.headers.get('Content-Type'):
-            raise BadRequest("Content-Type must be application/json")
-        status = 200
-        results = []
+        assert 'application/json' in request.headers.get('Content-Type')
+        status, results = 200, []
+
+        class Proxy:
+            pass
         for obj_id, attrs in request.json:
             try:
-                new_values = {key: attrs[key] for key in
-                              set(attrs).intersection(self.attrs)}
-                self.controller.update({'id': obj_id}, new_values)
-                results.append('ok')
+                Proxy.json = attrs
+                args = self.reqparse_args('write', req=Proxy, default=False)
+                result = self.controller.update({'id': obj_id}, args)
+                if result:
+                    results.append('ok')
+                else:
+                    results.append('nok')
             except Exception as error:
-                status = 206
                 results.append(str(error))
-        # if no operation succeded, it's not partial anymore, returning err 500
-        if status == 206 and results.count('ok') == 0:
+        if results.count('ok') == 0:  # all failed => 500
             status = 500
+        elif results.count('ok') != len(results):  # some failed => 206
+            status = 206
         return results, status
 
     def delete(self):
         """will delete several objects,
         a list of their ids should be in the payload"""
-        if 'application/json' not in request.headers.get('Content-Type'):
-            raise BadRequest("Content-Type must be application/json")
-        status = 204
-        results = []
+        assert 'application/json' in request.headers.get('Content-Type')
+        status, results = 204, []
         for obj_id in request.json:
             try:
                 self.controller.delete(obj_id)

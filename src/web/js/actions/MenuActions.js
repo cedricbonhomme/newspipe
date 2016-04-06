@@ -5,7 +5,7 @@ var jquery = require('jquery');
 
 var MenuActions = {
     // PARENT FILTERS
-    reload: function() {
+    reload: function(setFilterFunc, id) {
         jquery.getJSON('/menu', function(payload) {
             JarrDispatcher.dispatch({
                 type: ActionTypes.RELOAD_MENU,
@@ -18,6 +18,9 @@ var MenuActions = {
                 crawling_method: payload.crawling_method,
                 all_unread_count: payload.all_unread_count,
             });
+            if(setFilterFunc && id) {
+                setFilterFunc(id);
+            }
         });
     },
     setFilter: function(filter) {

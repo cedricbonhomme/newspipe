@@ -29,9 +29,10 @@ __license__ = "GPLv3"
 from bootstrap import db
 from datetime import datetime
 from sqlalchemy import asc, desc
+from web.models.right_mixin import RightMixin
 
 
-class Article(db.Model):
+class Article(db.Model, RightMixin):
     "Represent an article from a feed."
     id = db.Column(db.Integer(), primary_key=True)
     entry_id = db.Column(db.String())
@@ -68,18 +69,3 @@ class Article(db.Model):
         return "<Article(id=%d, entry_id=%s, title=%r, " \
                "date=%r, retrieved_date=%r)>" % (self.id, self.entry_id,
                        self.title, self.date, self.retrieved_date)
-
-    def dump(self):
-        return {"id": self.id,
-                "user_id": self.user_id,
-                "entry_id": self.entry_id,
-                "title": self.title,
-                "link": self.link,
-                "content": self.content,
-                "readed": self.readed,
-                "like": self.like,
-                "date": self.date,
-                "updated_date": self.updated_date,
-                "retrieved_date": self.retrieved_date,
-                "feed_id": self.feed_id,
-                "category_id": self.category_id}

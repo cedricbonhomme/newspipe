@@ -172,10 +172,10 @@ var Article = React.createClass({
     getBody: function() {
         return (<div className="panel-body">
                     {this.getCore()}
-                    <div dangerouslySetInnerHTML={
+                    <div id="article-content" dangerouslySetInnerHTML={
                         {__html: this.props.obj.content}} />
                 </div>);
-    },
+    }
 });
 
 var Feed = React.createClass({
@@ -317,8 +317,6 @@ var Feed = React.createClass({
                         <dd><JarrTime stamp={this.props.obj.last_stamp}
                                       text={this.props.obj.last_retrieved} />
                         </dd>
-                        <dt>Number of articles</dt>
-                        <dd>{this.props.obj.nb_articles}</dd>
                     </dl>
                     {this.getErrorFields()}
                     {this.getCategorySelect()}
@@ -423,9 +421,9 @@ var RightPanel = React.createClass({
                     key={this.state.category.id} />);
         }
 
-        return (<Col id="right-panel" xsOffset={4} smOffset={4}
-                                      mdOffset={7} lgOffset={6}
-                                      xs={8} sm={8} md={5} lg={6}>
+        return (<Col id="right-panel" xsHidden
+                        smOffset={4} mdOffset={7} lgOffset={6}
+                        sm={8} md={5} lg={6}>
                     {breadcrum}
                     {cntnt}
                 </Col>

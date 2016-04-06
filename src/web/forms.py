@@ -30,12 +30,14 @@ __license__ = "GPLv3"
 from flask import flash, url_for, redirect
 from flask.ext.wtf import Form
 from flask.ext.babel import lazy_gettext
+from werkzeug.exceptions import NotFound
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
 from flask_wtf import RecaptchaField
 
 from web import utils
+from web.controllers import UserController
 from web.models import User
 
 
@@ -52,15 +54,16 @@ class SignupForm(Form):
     password = PasswordField(lazy_gettext("Password"),
             [validators.Required(lazy_gettext("Please enter a password.")),
              validators.Length(min=6, max=100)])
-    recaptcha = RecaptchaField()
     submit = SubmitField(lazy_gettext("Sign up"))
 
     def validate(self):
-        validated = super(SignupForm, self).validate()
-        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext(
-                    'This nickname has invalid characters. '
-                    'Please use letters, numbers, dots and underscores only.'))
+        ucontr = UserController()
+        validated = super().validate()
+        if ucontr.read(login=self.login.data).count():
+            self.login.errors.append('Login already taken')
+            validated = False
+        if self.password.data != self.password_conf.data:
+            self.password_conf.errors.append("Passwords don't match")
             validated = False
         return validated
 
@@ -94,19 +97,27 @@ class SigninForm(RedirectForm):
              validators.Length(min=6, max=100)])
     submit = SubmitField(lazy_gettext("Log In"))
 
-    def validate(self):
-        if not super(SigninForm, self).validate():
-            return False
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
 
-        user = User.query.filter(User.email == self.email.data).first()
-        if user and user.check_password(self.password.data) and user.enabled:
-            return True
-        elif user and not user.enabled:
-            flash(lazy_gettext('Account not confirmed'), 'danger')
-            return False
+    def validate(self):
+        validated = super().validate()
+        ucontr = UserController()
+        try:
+            user = ucontr.get(email=self.email.data)
+        except NotFound:
+            self.email.errors.append('Wrong login')
+            validated = False
         else:
-            flash(lazy_gettext('Invalid email or password'), 'danger')
-            return False
+            if not user.is_active:
+                self.email.errors.append('User is desactivated')
+                validated = False
+            if not ucontr.check_password(user, self.password.data):
+                self.password.errors.append('Wrong password')
+                validated = False
+            self.user = user
+        return validated
 
 
 class UserForm(Form):

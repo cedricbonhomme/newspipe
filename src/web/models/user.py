@@ -34,9 +34,10 @@ from werkzeug import check_password_hash
 from flask.ext.login import UserMixin
 
 from bootstrap import db
+from web.models.right_mixin import RightMixin
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, UserMixin, RightMixin):
     """
     Represent a user.
     """
@@ -44,13 +45,16 @@ class User(db.Model, UserMixin):
     nickname = db.Column(db.String(), unique=True)
     email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
-    roles = db.relationship('Role', backref='user', lazy='dynamic')
-    enabled = db.Column(db.Boolean(), default=False)
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
                             cascade='all,delete-orphan')
     refresh_rate = db.Column(db.Integer, default=60)  # in minutes
+
+    # user rights
+    is_active = db.Column(db.Boolean(), default=True)
+    is_admin = db.Column(db.Boolean(), default=False)
+    is_api = db.Column(db.Boolean(), default=False)
 
     @staticmethod
     def make_valid_nickname(nickname):
@@ -67,12 +71,6 @@ class User(db.Model, UserMixin):
         Check the password of the user.
         """
         return check_password_hash(self.pwdhash, password)
-
-    def is_admin(self):
-        """
-        Return True if the user has administrator rights.
-        """
-        return "admin" in [role.name for role in self.roles]
 
     def __eq__(self, other):
         return self.id == other.id

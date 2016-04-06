@@ -3,7 +3,7 @@ import random
 from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, request)
 from flask.ext.babel import gettext
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 
 import conf
 from web import utils, notifications
@@ -30,9 +30,9 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = utils.import_opml(g.user.email, data.read())
+                    nb = utils.import_opml(current_user.email, data.read())
                     if conf.CRAWLING_METHOD == "classic":
-                        utils.fetch(g.user.email, None)
+                        utils.fetch(current_user.email, None)
                         flash(str(nb) + '  ' + gettext('feeds imported.'),
                                 "success")
                         flash(gettext("Downloading articles..."), 'info')
@@ -46,7 +46,7 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = utils.import_json(g.user.email, data.read())
+                    nb = utils.import_json(current_user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."),
@@ -54,11 +54,11 @@ def management():
         else:
             flash(gettext('File not allowed.'), 'danger')
 
-    nb_feeds = FeedController(g.user.id).read().count()
-    art_contr = ArticleController(g.user.id)
+    nb_feeds = FeedController(current_user.id).read().count()
+    art_contr = ArticleController(current_user.id)
     nb_articles = art_contr.read().count()
     nb_unread_articles = art_contr.read(readed=False).count()
-    return render_template('management.html', user=g.user,
+    return render_template('management.html', user=current_user,
                             nb_feeds=nb_feeds, nb_articles=nb_articles,
                             nb_unread_articles=nb_unread_articles)
 
@@ -69,13 +69,13 @@ def profile():
     """
     Edit the profile of the currently logged user.
     """
-    user_contr = UserController(g.user.id)
-    user = user_contr.get(id=g.user.id)
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
     form = ProfileForm()
 
     if request.method == 'POST':
         if form.validate():
-            user_contr.update({'id': g.user.id},
+            user_contr.update({'id': current_user.id},
                               {'nickname': form.nickname.data,
                                'email': form.email.data,
                                'password': form.password.data,
@@ -98,7 +98,7 @@ def delete_account():
     """
     Delete the account of the user (with all its data).
     """
-    UserController(g.user.id).delete(g.user.id)
+    UserController(current_user.id).delete(current_user.id)
     flash(gettext('Your account has been deleted.'), 'success')
     return redirect(url_for('login'))
 

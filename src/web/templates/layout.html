@@ -7,12 +7,12 @@
     <meta name="description" content="JARR is a web-based news aggregator." />
     <meta name="author" content="" />
     <title>JARR{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
-    <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.png") }}" />
+    <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet" media="screen" />
     <!-- Add custom CSS here -->
     <link href="{{ url_for("static", filename="css/customized-bootstrap.css") }}" rel="stylesheet" media="screen" />
-  {% endblock %}
+    {% endblock %}
   </head>
   <body>
     <nav id="jarrnav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -35,7 +35,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
-            {% if g.user.is_authenticated %}
+            {% if current_user.is_authenticated %}
                 <!-- <li><a href="{{ url_for("feed.form") }}"><span class="glyphicon glyphicon-plus-sign"></span> {{ _('Add a feed') }}</a></li> -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -54,17 +54,12 @@
                         </li>
                     </ul>
                 </li>
-                {% if conf.CRAWLING_METHOD == "classic" and (not conf.ON_HEROKU or g.user.is_admin()) %}
+                {% if conf.CRAWLING_METHOD == "classic" and (not conf.ON_HEROKU or current_user.is_admin) %}
                 <li><a href="/fetch"><span class="glyphicon glyphicon-import"></span> {{ _('Fetch') }}</a></li>
                 {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Feed') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url_for("feeds.update", action="read") }}">{{ _('Mark all as read') }}</a></li>
-                        <li><a href="{{ url_for("feeds.update", action="read", nb_days="1") }}">{{ _('Mark all as read older than yesterday') }}</a></li>
-                        <li><a href="{{ url_for("feeds.update", action="read", nb_days="5") }}">{{ gettext('Mark all as read older than %(days)s days', days=5) }}</a></li>
-                        <li><a href="{{ url_for("feeds.update", action="read", nb_days="10") }}">{{ gettext('Mark all as read older than %(days)s days', days=10) }}</a></li>
-                        <li role="presentation" class="divider"></li>
                         <li><a href="{{ url_for("feeds.inactives") }}">{{ _('Inactive') }}</a></li>
                         <li><a href="{{ url_for("articles.history") }}">{{ _('History') }}</a></li>
                         <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All') }}</a></li>
@@ -76,9 +71,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for("user.profile") }}"><span class="glyphicon glyphicon-user"></span> {{ _('Profile') }}</a></li>
-                        <li><a href="{{ url_for("user.management") }}"><span class="glyphicon glyphicon-cog"></span> {{ _('Your data') }}</a></li>
                         <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span> {{ _('About') }}</a></li>
-                        {% if g.user.is_admin() %}
+                        {% if current_user.is_admin %}
                         <li role="presentation" class="divider"></li>
                         <li><a href="{{ url_for("admin.dashboard") }}"><span class="glyphicon glyphicon-dashboard"></span> {{ _('Dashboard') }}</a></li>
                         <li role="presentation" class="divider"></li>

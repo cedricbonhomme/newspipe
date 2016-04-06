@@ -1,30 +1,29 @@
 import logging
-from flask import g
+import dateutil.parser
 from bootstrap import db
+from datetime import datetime
+from collections import defaultdict
 from sqlalchemy import or_, func
 from werkzeug.exceptions import Forbidden, NotFound
 
 logger = logging.getLogger(__name__)
 
 
-class AbstractController(object):
+class AbstractController:
     _db_cls = None  # reference to the database class
     _user_id_key = 'user_id'
 
-    def __init__(self, user_id=None):
+    def __init__(self, user_id=None, ignore_context=False):
         """User id is a right management mechanism that should be used to
         filter objects in database on their denormalized "user_id" field
         (or "id" field for users).
         Should no user_id be provided, the Controller won't apply any filter
         allowing for a kind of "super user" mode.
         """
-        self.user_id = user_id
         try:
-            if self.user_id is not None \
-                    and self.user_id != g.user.id and not g.user.is_admin():
-                self.user_id = g.user.id
-        except RuntimeError:  # passing on out of context errors
-            pass
+            self.user_id = int(user_id)
+        except TypeError:
+            self.user_id = user_id
 
     def _to_filters(self, **filters):
         """
@@ -83,6 +82,7 @@ class AbstractController(object):
         return obj
 
     def create(self, **attrs):
+        assert attrs, "attributes to update must not be empty"
         if self._user_id_key is not None and self._user_id_key not in attrs:
             attrs[self._user_id_key] = self.user_id
         assert self._user_id_key is None or self._user_id_key in attrs \
@@ -98,6 +98,7 @@ class AbstractController(object):
         return self._get(**filters)
 
     def update(self, filters, attrs):
+        assert attrs, "attributes to update must not be empty"
         result = self._get(**filters).update(attrs, synchronize_session=False)
         db.session.commit()
         return result
@@ -121,3 +122,30 @@ class AbstractController(object):
         return dict(db.session.query(elem_to_group_by, func.count('id'))
                               .filter(*self._to_filters(**filters))
                               .group_by(elem_to_group_by).all())
+
+    @classmethod
+    def _get_attrs_desc(cls, role, right=None):
+        result = defaultdict(dict)
+        if role == 'admin':
+            columns = cls._db_cls.__table__.columns.keys()
+        else:
+            assert role in {'base', 'api'}, 'unknown role %r' % role
+            assert right in {'read', 'write'}, \
+                    "right must be 'read' or 'write' with role %r" % role
+            columns = getattr(cls._db_cls, 'fields_%s_%s' % (role, right))()
+        for column in columns:
+            result[column] = {}
+            db_col = getattr(cls._db_cls, column).property.columns[0]
+            try:
+                result[column]['type'] = db_col.type.python_type
+            except NotImplementedError:
+                if db_col.default:
+                    result[column]['type'] = db_col.default.arg.__class__
+            if column not in result:
+                continue
+            if issubclass(result[column]['type'], datetime):
+                result[column]['default'] = datetime.utcnow()
+                result[column]['type'] = lambda x: dateutil.parser.parse(x)
+            elif db_col.default:
+                result[column]['default'] = db_col.default.arg
+        return result

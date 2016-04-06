@@ -88,17 +88,13 @@ def db_create(db):
     "Will create the database from conf parameters."
     db.create_all()
 
-    role_admin = Role(name="admin")
-    role_user = Role(name="user")
-
     user1 = User(nickname="admin",
                 email=os.environ.get("ADMIN_EMAIL",
                                     "root@jarr.localhost"),
                 pwdhash=generate_password_hash(
                         os.environ.get("ADMIN_PASSWORD", "password")),
-                enabled=True)
-    user1.roles.extend([role_admin, role_user])
+                is_admin=True)
 
     db.session.add(user1)
     db.session.commit()
-    return role_admin, role_user
+    return user1

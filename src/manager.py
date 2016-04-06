@@ -64,7 +64,7 @@ def fetch_asyncio(user_id, feed_id):
 
         loop = asyncio.get_event_loop()
         for user in users:
-            if user.enabled:
+            if user.is_active:
                 print("Fetching articles for " + user.nickname)
                 g.user = user
                 classic_crawler.retrieve_feed(loop, g.user, feed_id)

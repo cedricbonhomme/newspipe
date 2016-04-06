@@ -29,9 +29,10 @@ __license__ = "GPLv3"
 from bootstrap import db
 from datetime import datetime
 from sqlalchemy import desc
+from web.models.right_mixin import RightMixin
 
 
-class Feed(db.Model):
+class Feed(db.Model, RightMixin):
     """
     Represent a feed.
     """
@@ -63,22 +64,3 @@ class Feed(db.Model):
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)
-
-    def dump(self):
-        return {"id": self.id,
-                "user_id": self.user_id,
-                "category_id": self.category_id,
-                "title": self.title,
-                "description": self.description,
-                "link": self.link,
-                "site_link": self.site_link,
-                "etag": self.etag,
-                "enabled": self.enabled,
-                "filters": self.filters,
-                "icon_url": self.icon_url,
-                "error_count": self.error_count,
-                "last_error": self.last_error,
-                "created_date": self.created_date,
-                "last_modified": self.last_modified,
-                "last_retrieved": self.last_retrieved,
-                "nb_articles": self.articles.count()}

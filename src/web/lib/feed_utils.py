@@ -1,3 +1,4 @@
+import html
 import urllib
 import logging
 import requests
@@ -17,6 +18,19 @@ def is_parsing_ok(parsed_feed):
     return parsed_feed['entries'] or not parsed_feed['bozo']
 
 
+def escape_keys(*keys):
+    def wrapper(func):
+        def metawrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            for key in keys:
+                if key in result:
+                    result[key] = html.unescape(result[key])
+            return result
+        return metawrapper
+    return wrapper
+
+
+@escape_keys('title', 'description')
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     requests_kwargs = {'headers': {'User-Agent': USER_AGENT}, 'verify': False}
     if url is None and fp_parsed is not None:
