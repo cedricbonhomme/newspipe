@@ -38,13 +38,13 @@ JarrNavBar = React.createClass({
         if(this.state.modalType == 'addFeed') {
             heading = 'Add a new feed';
             action = '/feed/bookmarklet';
-            placeholder = "Site or feed url, we'll sort it out later ;)";
+            placeholder = "Site or feed url";
             body = <Input name="url" type="text" placeholder={placeholder} />;
         } else {
             heading = 'Add a new category';
             action = '/category/create';
             body = <Input name="name" type="text"
-                          placeholder="Name, there isn't much more to it" />;
+                          placeholder="Name" />;
         }
         return (<Modal show={this.state.showModal} onHide={this.close}>
                   <form action={action} method="POST">
@@ -70,7 +70,7 @@ JarrNavBar = React.createClass({
         this.setState({showModal: true, modalType: 'addCategory'});
     },
     render: function() {
-        return (<Navbar fixedTop inverse id="jarrnav">
+        return (<Navbar fixedTop inverse id="jarrnav" fluid staticTop={true}>
                     {this.getModal()}
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -78,6 +78,7 @@ JarrNavBar = React.createClass({
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
+                    <Navbar.Collapse>
                     <Nav pullRight>
                         {this.buttonFetch()}
                         <NavItem className="jarrnavitem"
@@ -116,6 +117,7 @@ JarrNavBar = React.createClass({
                             </MenuItem>
                         </NavDropdown>
                     </Nav>
+                    </Navbar.Collapse>
                 </Navbar>
         );
     },

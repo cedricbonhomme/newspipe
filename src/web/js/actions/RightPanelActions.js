@@ -4,8 +4,12 @@ var ActionTypes = require('../constants/JarrConstants');
 var MenuActions = require('../actions/MenuActions');
 
 var RightPanelActions = {
-    loadArticle: function(article_id, was_read_before) {
-        jquery.getJSON('/getart/' + article_id,
+    loadArticle: function(article_id, was_read_before, to_parse) {
+        var suffix = '';
+        if(to_parse) {
+            suffix = '/parse';
+        }
+        jquery.getJSON('/getart/' + article_id + suffix,
             function(payload) {
                 JarrDispatcher.dispatch({
                     type: ActionTypes.LOAD_ARTICLE,

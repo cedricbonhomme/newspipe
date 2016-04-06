@@ -1,8 +1,7 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -
 from datetime import datetime, timedelta
 from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, make_response, request)
+
 from flask.ext.babel import gettext
 from flask.ext.login import login_required, current_user
 
@@ -78,9 +77,9 @@ def delete(article_id=None):
 @articles_bp.route('/history/<int:year>/<int:month>', methods=['GET'])
 @login_required
 def history(year=None, month=None):
-    counter, articles = ArticleController(current_user.id).get_history(year, month)
-    return render_template('history.html', articles_counter=counter,
-                           articles=articles, year=year, month=month)
+    cntr, artcles = ArticleController(current_user.id).get_history(year, month)
+    return render_template('history.html', articles_counter=cntr,
+                           articles=artcles, year=year, month=month)
 
 
 @article_bp.route('/mark_as/<string:new_value>', methods=['GET'])

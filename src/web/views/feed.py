@@ -1,12 +1,10 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -
 import logging
 import requests.exceptions
 from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
-from flask import Blueprint, g, render_template, flash, \
+from flask import Blueprint, render_template, flash, \
                   redirect, request, url_for
 from flask.ext.babel import gettext
 from flask.ext.login import login_required, current_user
