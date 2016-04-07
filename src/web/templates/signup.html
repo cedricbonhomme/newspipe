@@ -16,8 +16,6 @@
                 {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <p class="help-block">{{ _('Minimum 6 characters.') }}</p>
             </div>
-            {{ form.recaptcha.label }}
-            {{ form.recaptcha }} {% for error in form.recaptcha.errors %} <span style="color: red;">{{ error }}<br /></span> {% endfor %}
             <br />
             {{ form.submit(class_="btn btn-default") }}
         </form>

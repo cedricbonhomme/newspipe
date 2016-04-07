@@ -34,7 +34,6 @@ from werkzeug.exceptions import NotFound
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
-from flask_wtf import RecaptchaField
 
 from web import utils
 from web.controllers import UserController

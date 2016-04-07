@@ -28,8 +28,6 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             "cdn_address": "",
             "admin_email": "root@jarr.localhost",
             "postmark_api_key": "",
-            "recaptcha_public_key": "",
-            "recaptcha_private_key": "",
             "token_validity_period": "3600",
             "nb_worker": "100",
             "api_login": "",
@@ -79,9 +77,6 @@ else:
 PLATFORM_URL = config.get('misc', 'platform_url')
 ADMIN_EMAIL = config.get('misc', 'admin_email')
 SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
-RECAPTCHA_PUBLIC_KEY = config.get('misc', 'recaptcha_public_key')
-RECAPTCHA_PRIVATE_KEY = config.get('misc',
-                                    'recaptcha_private_key')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
 TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
 LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
