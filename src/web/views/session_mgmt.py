@@ -84,7 +84,7 @@ def signup():
 
     form = SignupForm()
     if form.validate_on_submit():
-        user = UserController().create(login=form.login.data,
+        user = UserController().create(nickname=form.nickname.data,
                 email=form.email.data, password=form.password.data)
         login_user_bundle(user)
         return redirect(url_for('home'))
