@@ -20,8 +20,6 @@
     "TOKEN_VALIDITY_PERIOD": 3600,
     "SECURITY_PASSWORD_SALT": "a secret to confirm user account",
     "NOTIFICATION_EMAIL": "JARR@no-reply.com",
-    "RECAPTCHA_PRIVATE_KEY": "REDACTED",
-    "RECAPTCHA_PUBLIC_KEY": "REDACTED",
     "POSTMARK_API_KEY": "REDACTED"
   },
   "addons": [

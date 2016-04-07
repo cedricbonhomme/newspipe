@@ -49,10 +49,6 @@ application.config['SECURITY_PASSWORD_SALT'] = getattr(conf,
 if not application.config['SECURITY_PASSWORD_SALT']:
     application.config['SECURITY_PASSWORD_SALT'] = os.urandom(12)
 
-application.config['RECAPTCHA_USE_SSL'] = True
-application.config['RECAPTCHA_PUBLIC_KEY'] = conf.RECAPTCHA_PUBLIC_KEY
-application.config['RECAPTCHA_PRIVATE_KEY'] = conf.RECAPTCHA_PRIVATE_KEY
-
 db = SQLAlchemy(application)
 
 def populate_g():
