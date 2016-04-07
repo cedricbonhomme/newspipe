@@ -61,8 +61,8 @@ class SignupForm(Form):
         if ucontr.read(nickname=self.nickname.data).count():
             self.nickname.errors.append('Nickname already taken')
             validated = False
-        if self.password.data != self.password_conf.data:
-            self.password_conf.errors.append("Passwords don't match")
+        if ucontr.read(email=self.email.data).count():
+            self.email.errors.append('Email already taken')
             validated = False
         return validated
 
