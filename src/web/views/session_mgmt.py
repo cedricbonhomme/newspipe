@@ -1,6 +1,7 @@
 import json
 import logging
 
+from werkzeug import generate_password_hash
 from werkzeug.exceptions import NotFound
 from flask import (render_template, flash, session, request,
                    url_for, redirect, current_app)
@@ -85,7 +86,8 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         user = UserController().create(nickname=form.nickname.data,
-                email=form.email.data, password=form.password.data)
+                            email=form.email.data,
+                            pwdhash=generate_password_hash(form.password.data))
         login_user_bundle(user)
         return redirect(url_for('home'))
 
