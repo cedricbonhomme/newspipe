@@ -115,7 +115,7 @@ def confirm_account(token=None):
     if email:
         user = user_contr.read(email=email).first()
     if user is not None:
-        user_contr.update({'id': user.id}, {'enabled': True})
+        user_contr.update({'id': user.id}, {'is_active': True})
         flash(gettext('Your account has been confirmed.'), 'success')
     else:
         flash(gettext('Impossible to confirm this account.'), 'danger')
