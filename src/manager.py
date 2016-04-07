@@ -70,9 +70,6 @@ def fetch_asyncio(user_id, feed_id):
                 classic_crawler.retrieve_feed(loop, g.user, feed_id)
         loop.close()
 
-from scripts.probes import ArticleProbe, FeedProbe
-manager.add_command('probe_articles', ArticleProbe())
-manager.add_command('probe_feeds', FeedProbe())
 
 if __name__ == '__main__':
     manager.run()
