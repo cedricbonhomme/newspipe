@@ -29,7 +29,7 @@ def feeds():
     "Lists the subscribed  feeds in a table."
     art_contr = ArticleController(current_user.id)
     return render_template('feeds.html',
-            feeds=FeedController(current_user.id).read(),
+            feeds=FeedController(current_user.id).read().order_by('title'),
             unread_article_count=art_contr.count_by_feed(readed=False),
             article_count=art_contr.count_by_feed())
 

@@ -2,13 +2,13 @@
 Release History
 =================
 
-current
--------
+7.0 (2016-04-07)
+----------------
     New:
-     * Redoing entierly the home page with react, JARR is going on toward a one page app;
-     * Implementing categorie;
-     * The classic crawler is now taking into account updated articles from feeds;
-     * Support of HTTP proxy has been removed;
+     * redoing entierly the home page with react;
+     * implementing category;
+     * the classic crawler is now taking into account updated articles from feeds;
+     * support of HTTP proxy has been removed;
      * article URL resolving has been removed (wasn't used).
     Improvements:
      * Code re-arangement: move all code to /src/

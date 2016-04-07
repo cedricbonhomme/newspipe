@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for feed in feeds|sort(attribute="title") %}
+        {% for feed in feeds %}
             <tr {% if not feed.enabled  %}class="warning"{% endif %}>
                 <td>{{ loop.index }}</td>
                 <td>
