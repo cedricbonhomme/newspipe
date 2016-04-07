@@ -9,7 +9,10 @@ Release History
      * implementing category;
      * the classic crawler is now taking into account updated articles from feeds;
      * support of HTTP proxy has been removed;
-     * article URL resolving has been removed (wasn't used).
+     * article URL resolving has been removed (wasn't used);
+     * improvement of the management of users in the dashboard;
+     * account confirmation is now achieved with a token that expires in a
+     specified time.
     Improvements:
      * Code re-arangement: move all code to /src/
 
