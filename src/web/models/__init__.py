@@ -83,18 +83,3 @@ def db_empty(db):
         conn.execute(DropTable(table))
 
     trans.commit()
-
-def db_create(db):
-    "Will create the database from conf parameters."
-    db.create_all()
-
-    user1 = User(nickname="admin",
-                email=os.environ.get("ADMIN_EMAIL",
-                                    "root@jarr.localhost"),
-                pwdhash=generate_password_hash(
-                        os.environ.get("ADMIN_PASSWORD", "password")),
-                is_admin=True)
-
-    db.session.add(user1)
-    db.session.commit()
-    return user1
