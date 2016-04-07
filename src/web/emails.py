@@ -49,16 +49,9 @@ def send(*args, **kwargs):
     or a SMTP server.
     """
     if conf.ON_HEROKU:
-        send_postmark(to=kwargs.get("to"),
-                      bcc=kwargs.get("bcc"),
-                      subject=kwargs.get("subject"),
-                      plaintext=kwargs.get("plaintext"))
+        send_postmark(**kwargs)
     else:
-        send_smtp(to=kwargs.get("to"),
-                   bcc=kwargs.get("bcc"),
-                   subject=kwargs.get("subject"),
-                   plaintext=kwargs.get("plaintext"),
-                   html=kwargs.get("html"))
+        send_smtp(**kwargs)
 
 def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     """
