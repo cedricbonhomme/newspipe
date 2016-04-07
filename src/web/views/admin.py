@@ -98,6 +98,23 @@ def process_user_form(user_id=None):
     return redirect(url_for('admin.user_form', user_id=user.id))
 
 
+@admin_bp.route('/delete_user/<int:user_id>', methods=['GET'])
+@login_required
+@admin_permission.require(http_exception=403)
+def delete_user(user_id=None):
+    """
+    Delete a user (with all its data).
+    """
+    try:
+        user = UserController().delete(user_id)
+        flash(gettext('User %(nick)s successfully deleted',
+                      nick=user.nickname), 'success')
+    except Exception as error:
+        flash(gettext('An error occured while trying to delete a user: '
+                      '%(error)', error=error), 'danger')
+    return redirect(redirect_url())
+
+
 @admin_bp.route('/toggle_user/<int:user_id>', methods=['GET'])
 @login_required
 @admin_permission.require()
@@ -116,7 +133,7 @@ def toggle_user(user_id=None):
 
     else:
         act_txt = 'activated' if user.is_active else 'desactivated'
-        message = gettext('User %(login)s successfully %(is_active)s',
-                          login=user.login, is_active=act_txt)
+        message = gettext('User %(nickname)s successfully %(is_active)s',
+                          login=user.nickname, is_active=act_txt)
     flash(message, 'success')
     return redirect(url_for('admin.dashboard'))

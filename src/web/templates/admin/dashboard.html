@@ -34,7 +34,7 @@
                         <i class="glyphicon glyphicon-ok-circle" title="{{ _("Enable this account") }}"></i>
                     {% endif %}
                     </a>
-                    <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
+                    <a href="{{ url_for("admin.delete_user", user_id=user.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
                 {% endif %}
             </td>
         </tr>
