@@ -134,6 +134,6 @@ def toggle_user(user_id=None):
     else:
         act_txt = 'activated' if user.is_active else 'desactivated'
         message = gettext('User %(nickname)s successfully %(is_active)s',
-                          login=user.nickname, is_active=act_txt)
+                          nickname=user.nickname, is_active=act_txt)
     flash(message, 'success')
     return redirect(url_for('admin.dashboard'))
