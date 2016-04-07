@@ -52,7 +52,7 @@ class User(db.Model, UserMixin, RightMixin):
     refresh_rate = db.Column(db.Integer, default=60)  # in minutes
 
     # user rights
-    is_active = db.Column(db.Boolean(), default=True)
+    is_active = db.Column(db.Boolean(), default=False)
     is_admin = db.Column(db.Boolean(), default=False)
     is_api = db.Column(db.Boolean(), default=False)
 

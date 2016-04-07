@@ -16,6 +16,7 @@ import conf
 from web.views.common import admin_role, api_role, login_user_bundle
 from web.controllers import UserController
 from web.forms import SignupForm, SigninForm
+from web import notifications
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -88,7 +89,18 @@ def signup():
         user = UserController().create(nickname=form.nickname.data,
                             email=form.email.data,
                             pwdhash=generate_password_hash(form.password.data))
-        login_user_bundle(user)
+
+        # Send the confirmation email
+        try:
+            notifications.new_account_notification(user)
+        except Exception as error:
+            flash(gettext('Problem while sending activation email: %(error)s',
+                          error=error), 'danger')
+            return redirect(url_for('home'))
+
+        flash(gettext('Your account has been created. '
+                      'Check your mail to confirm it.'), 'success')
+
         return redirect(url_for('home'))
 
     return render_template('signup.html', form=form)
