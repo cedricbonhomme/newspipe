@@ -26,25 +26,6 @@ def dashboard():
             form=form)
 
 
-@admin_bp.route('/user/<int:user_id>', methods=['GET'])
-@login_required
-@admin_permission.require(http_exception=403)
-def user(user_id=None):
-    """
-    See information about a user (stations, etc.).
-    """
-    user = UserController().get(id=user_id)
-    if user is not None:
-        article_contr = ArticleController(user_id)
-        return render_template('/admin/user.html', user=user, feeds=user.feeds,
-                article_count=article_contr.count_by_feed(),
-                unread_article_count=article_contr.count_by_feed(readed=False))
-
-    else:
-        flash(gettext('This user does not exist.'), 'danger')
-        return redirect(redirect_url())
-
-
 @admin_bp.route('/user/create', methods=['GET'])
 @admin_bp.route('/user/edit/<int:user_id>', methods=['GET'])
 @login_required
