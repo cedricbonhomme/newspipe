@@ -62,5 +62,15 @@ class Feed(db.Model, RightMixin):
                                cascade='all,delete-orphan',
                                order_by=desc("date"))
 
+     # api whitelists
+    @staticmethod
+    def _fields_base_write():
+        return {'title', 'description', 'link', 'site_link', 'enabled',
+                'filters', 'last_error', 'error_count', 'category_id'}
+
+    @staticmethod
+    def _fields_base_read():
+        return {'id', 'user_id', 'icon_url', 'last_retrieved'}
+
     def __repr__(self):
         return '<Feed %r>' % (self.title)

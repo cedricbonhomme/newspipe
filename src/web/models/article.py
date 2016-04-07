@@ -49,6 +49,16 @@ class Article(db.Model, RightMixin):
     feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
 
+    # api whitelists
+    @staticmethod
+    def _fields_base_write():
+        return {'readed', 'like', 'feed_id', 'category_id'}
+
+    @staticmethod
+    def _fields_base_read():
+        return {'id', 'entry_id', 'link', 'title', 'content', 'date',
+                'retrieved_date', 'user_id'}
+
     def previous_article(self):
         """
         Returns the previous article (older).

@@ -57,6 +57,14 @@ class User(db.Model, UserMixin, RightMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     @staticmethod
+    def _fields_base_write():
+        return {'login', 'password', 'email'}
+
+    @staticmethod
+    def _fields_base_read():
+        return {'date_created', 'last_connection'}
+
+    @staticmethod
     def make_valid_nickname(nickname):
         return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
