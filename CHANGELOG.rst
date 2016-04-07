@@ -12,7 +12,7 @@ Release History
      * article URL resolving has been removed (wasn't used);
      * improvement of the management of users in the dashboard;
      * account confirmation is now achieved with a token that expires in a
-     specified time.
+       specified time.
     Improvements:
      * Code re-arangement: move all code to /src/
 
