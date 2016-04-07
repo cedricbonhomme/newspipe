@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # jarr - A Web based news aggregator.
-# Copyright (C) 2010-2013  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : http://github.com/JARR-aggregator/JARR/
 #
@@ -58,8 +58,8 @@ class SignupForm(Form):
     def validate(self):
         ucontr = UserController()
         validated = super().validate()
-        if ucontr.read(login=self.login.data).count():
-            self.login.errors.append('Login already taken')
+        if ucontr.read(nickname=self.nickname.data).count():
+            self.nickname.errors.append('Nickname already taken')
             validated = False
         if self.password.data != self.password_conf.data:
             self.password_conf.errors.append("Passwords don't match")
