@@ -7,9 +7,9 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-            {{ form.email(class_="form-control", placeholder=_('Your email')) }}
+            {{ form.email_or_nickmane(class_="form-control", placeholder=_('Your email or nickname')) }}
             </div>
-            {% for message in form.email.errors %}
+            {% for message in form.email_or_nickmane.errors %}
                 <div class="alert alert-warning" role="alert">{{ message }}</div>
             {% endfor %}
 

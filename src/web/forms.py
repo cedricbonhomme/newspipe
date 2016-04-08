@@ -89,8 +89,10 @@ class SigninForm(RedirectForm):
     """
     Sign in form (connection to jarr).
     """
-    email = EmailField("Email", [validators.Length(min=6, max=35),
-        validators.Required(lazy_gettext("Please enter your email address."))])
+    email_or_nickmane = TextField("Email or nickname",
+            [validators.Length(min=3, max=35),
+            validators.Required(
+                lazy_gettext("Please enter your email address or nickname."))])
     password = PasswordField(lazy_gettext('Password'),
             [validators.Required(lazy_gettext("Please enter a password.")),
              validators.Length(min=6, max=100)])
@@ -104,13 +106,16 @@ class SigninForm(RedirectForm):
         validated = super().validate()
         ucontr = UserController()
         try:
-            user = ucontr.get(email=self.email.data)
+            user = ucontr.get(**{'__or__':
+                                {'email': self.email_or_nickmane.data,
+                                'nickname': self.email_or_nickmane.data}})
         except NotFound:
-            self.email.errors.append('Wrong login')
+            self.email_or_nickmane.errors.append(
+                'Wrong email address or nickname')
             validated = False
         else:
             if not user.is_active:
-                self.email.errors.append('User is desactivated')
+                self.email_or_nickmane.errors.append('User is desactivated')
                 validated = False
             if not ucontr.check_password(user, self.password.data):
                 self.password.errors.append('Wrong password')
