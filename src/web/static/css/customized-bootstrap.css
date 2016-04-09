@@ -42,3 +42,9 @@ a {
     width: 200px;
     display: inline;
 }
+
+.alert-message {
+    position: relative;
+    display: block;
+    z-index: 1001;
+}

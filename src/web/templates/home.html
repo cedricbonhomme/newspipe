@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    {% block head %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="JARR is a web-based news aggregator." />
-    <meta name="author" content="" />
-    <title>JARR{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
-    <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
-    <!-- Add custom CSS here -->
-    <link href="{{ url_for("static", filename="css/customized-bootstrap.css") }}" rel="stylesheet" media="screen" />
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
     <link href="{{ url_for("static", filename="css/one-page-app.css") }}" rel="stylesheet" media="screen" />
-    <!-- Bootstrap core CSS -->
-    <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet" media="screen" />
-  {% endblock %}
-  </head>
-  <body>
+{% endblock %}
+{% block content %}
     <section id="jarrapp" />
-  </body>
-  <script type="text/javascript" src="{% if cdn != '' %}{{ cdn }}bundle.min.js{% else %}{{ url_for('static', filename = 'js/bundle.min.js') }}{% endif %}"></script>
-</html>
+    <script type="text/javascript" src="{% if cdn != '' %}{{ cdn }}bundle.min.js{% else %}{{ url_for('static', filename = 'js/bundle.min.js') }}{% endif %}"></script>
+{% endblock %}
