@@ -5,6 +5,7 @@
         <h1>{{ _('Your subscriptions') }}</h1>
         <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. <a href="{{ url_for("feed.form") }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
         <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} {{ _('unread articles') }}.</p>
+        <p>You have {{ nb_categories }} <a href="{{ url_for("categories.list_")}}">categories</a>.</p>
         <a href="{{ url_for("articles.expire", weeks=10) }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
     </div>
     <div class="well">
