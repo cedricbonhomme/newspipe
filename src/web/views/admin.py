@@ -73,6 +73,7 @@ def process_user_form(user_id=None):
                                  email=form.email.data,
                                  pwdhash=generate_password_hash(form.password.data),
                                  is_admin=False,
+                                 is_active=True,
                                  refresh_rate=form.refresh_rate.data)
         flash(gettext('User %(nick)s successfully created',
                       nick=user.nickname), 'success')
