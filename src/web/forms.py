@@ -197,8 +197,8 @@ class AddFeedForm(Form):
 
 
 class CategoryForm(Form):
-    name = TextField(lazy_gettext("Name"))
-    submit = SubmitField(lazy_gettext("Submit"))
+    name = TextField(lazy_gettext("Category name"))
+    submit = SubmitField(lazy_gettext("Save"))
 
 
 class InformationMessageForm(Form):

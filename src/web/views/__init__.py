@@ -10,3 +10,11 @@ __all__ = ['views', 'home', 'session_mgmt', 'api',
            'article_bp', 'articles_bp', 'feed_bp', 'feeds_bp',
            'category_bp', 'categories_bp', 'icon_bp',
            'admin_bp', 'user_bp', 'users_bp']
+
+import conf
+from flask import request
+from flask import g
+
+@g.babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(conf.LANGUAGES.keys())
