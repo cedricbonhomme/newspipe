@@ -19,7 +19,7 @@ def list_():
     "Lists the subscribed  feeds in a table."
     art_contr = ArticleController(current_user.id)
     return render_template('categories.html',
-            categories=list(CategoryController(current_user.id).read()),
+            categories=list(CategoryController(current_user.id).read().order_by('name')),
             feeds_count=FeedController(current_user.id).count_by_category(),
             unread_article_count=art_contr.count_by_category(readed=False),
             article_count=art_contr.count_by_category())

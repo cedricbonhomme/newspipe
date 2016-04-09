@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for category in categories|sort(attribute="name") %}
+            {% for category in categories %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ category.name }}</td>
