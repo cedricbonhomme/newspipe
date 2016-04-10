@@ -8,7 +8,7 @@ from flask.ext.babel import gettext
 
 import conf
 from web.lib.utils import redirect_url
-from web import utils
+from web.lib import misc_utils
 from web.lib.view_utils import etag_match
 from web.models import Article
 from web.views.common import jsonify
@@ -148,7 +148,7 @@ def fetch(feed_id=None):
     """
     if conf.CRAWLING_METHOD == "classic" \
             and (not conf.ON_HEROKU or current_user.is_admin):
-        utils.fetch(current_user.id, feed_id)
+        misc_utils.fetch(current_user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")
     else:
         flash(gettext("The manual retrieving of news is only available " +

@@ -35,7 +35,7 @@ from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
 from flask.ext.wtf.html5 import EmailField
 
-from web import utils
+from web.lib import misc_utils
 from web.controllers import UserController
 from web.models import User
 
@@ -76,12 +76,12 @@ class RedirectForm(Form):
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
         if not self.next.data:
-            self.next.data = utils.get_redirect_target() or ''
+            self.next.data = misc_utils.get_redirect_target() or ''
 
     def redirect(self, endpoint='home', **values):
-        if utils.is_safe_url(self.next.data):
+        if misc_utils.is_safe_url(self.next.data):
             return redirect(self.next.data)
-        target = utils.get_redirect_target()
+        target = misc_utils.get_redirect_target()
         return redirect(target or url_for(endpoint, **values))
 
 

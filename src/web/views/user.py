@@ -7,7 +7,7 @@ from flask.ext.login import login_required, current_user
 
 import conf
 from notifications import notifications
-from web import utils
+from web.lib import misc_utils
 from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController,
                             CategoryController)
@@ -28,13 +28,13 @@ def management():
         if None != request.files.get('opmlfile', None):
             # Import an OPML file
             data = request.files.get('opmlfile', None)
-            if not utils.allowed_file(data.filename):
+            if not misc_utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = utils.import_opml(current_user.email, data.read())
+                    nb = misc_utils.import_opml(current_user.email, data.read())
                     if conf.CRAWLING_METHOD == "classic":
-                        utils.fetch(current_user.email, None)
+                        misc_utils.fetch(current_user.email, None)
                         flash(str(nb) + '  ' + gettext('feeds imported.'),
                                 "success")
                         flash(gettext("Downloading articles..."), 'info')
@@ -44,11 +44,11 @@ def management():
         elif None != request.files.get('jsonfile', None):
             # Import an account
             data = request.files.get('jsonfile', None)
-            if not utils.allowed_file(data.filename):
+            if not misc_utils.allowed_file(data.filename):
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = utils.import_json(current_user.email, data.read())
+                    nb = misc_utils.import_json(current_user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."),

@@ -10,7 +10,7 @@ from flask.ext.babel import gettext
 from flask.ext.login import login_required, current_user
 
 import conf
-from web import utils
+from web.lib import misc_utils, utils
 from web.lib.view_utils import etag_match
 from web.lib.feed_utils import construct_feed_from
 from web.forms import AddFeedForm
@@ -47,8 +47,8 @@ def feed(feed_id=None):
     articles = ArticleController(current_user.id) \
             .read(feed_id=feed_id) \
             .order_by(desc("date")).all()
-    top_words = utils.top_words(articles, n=50, size=int(word_size))
-    tag_cloud = utils.tag_cloud(top_words)
+    top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
+    tag_cloud = misc_utils.tag_cloud(top_words)
 
     today = datetime.now()
     try:
@@ -126,7 +126,7 @@ def bookmarklet():
     feed = feed_contr.create(**feed)
     flash(gettext('Feed was successfully created.'), 'success')
     if feed.enabled and conf.CRAWLING_METHOD == "classic":
-        utils.fetch(current_user.id, feed.id)
+        misc_utils.fetch(current_user.id, feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
     return redirect(url_for('feed.form', feed_id=feed.id))
 
@@ -215,7 +215,7 @@ def process_form(feed_id=None):
                   feed_title=new_feed.title), 'success')
 
     if conf.CRAWLING_METHOD == "classic":
-        utils.fetch(current_user.id, new_feed.id)
+        misc_utils.fetch(current_user.id, new_feed.id)
         flash(gettext("Downloading articles for the new feed..."), 'info')
 
     return redirect(url_for('feed.form', feed_id=new_feed.id))
