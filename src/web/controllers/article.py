@@ -75,7 +75,8 @@ class ArticleController(AbstractController):
             attrs['category_id'] = feed.category_id
         if attrs.get('category_id'):
             cat = CategoryController().get(id=attrs['category_id'])
-            assert cat.user_id == user_id, "no right on cat %r" % cat.id
+            assert self.user_id is None or cat.user_id == user_id, \
+                    "no right on cat %r" % cat.id
         return super().update(filters, attrs)
 
     def get_history(self, year=None, month=None):
