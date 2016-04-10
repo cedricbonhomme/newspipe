@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.7 $"
+__version__ = "$Revision: 1.8 $"
 __date__ = "$Date: 2010/12/07 $"
-__revision__ = "$Date: 2015/03/28 $"
+__revision__ = "$Date: 2016/04/10 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -42,7 +42,6 @@ import logging
 import datetime
 import operator
 import urllib
-import itertools
 import subprocess
 import sqlalchemy
 try:
@@ -50,7 +49,6 @@ try:
 except:
     from urllib.parse import urlparse, parse_qs, urlunparse, urljoin
 from bs4 import BeautifulSoup
-from datetime import timedelta
 from collections import Counter
 from contextlib import contextmanager
 from flask import request
@@ -277,28 +275,6 @@ def tag_cloud(tags):
     return '\n'.join([('<font size=%d><a href="/search?query=%s" title="Count: %s">%s</a></font>' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
-
-def search_feed(url):
-    """
-    Search a feed in a HTML page.
-    """
-    soup, page = None, None
-    try:
-        result = open_url(url)
-        if result[0] == True:
-            page = open_url(url)[1]
-        else:
-            return None
-        soup = BeautifulSoup(page)
-    except:
-        return None
-    feed_links = soup('link', type='application/atom+xml')
-    feed_links.extend(soup('link', type='application/rss+xml'))
-    for feed_link in feed_links:
-        #if url not in feed_link['href']:
-            #return urllib.parse.urljoin(url, feed_link['href'])
-        return feed_link['href']
-    return None
 
 if __name__ == "__main__":
     import_opml("root@jarr.localhost", "./var/feeds_test.opml")
