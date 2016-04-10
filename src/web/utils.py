@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# jarr - A Web based news aggregator.
+# JARR - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://github.com/JARR-aggregator/JARR
@@ -28,7 +28,6 @@ __license__ = "AGPLv3"
 
 #
 # This file provides functions used for:
-# - detection of duplicate articles;
 # - import from a JSON file;
 # - generation of tags cloud;
 # - HTML processing.
@@ -278,22 +277,6 @@ def tag_cloud(tags):
     return '\n'.join([('<font size=%d><a href="/search?query=%s" title="Count: %s">%s</a></font>' % \
                     (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word, format(count, ',d'), word)) \
                         for (word, count) in tags])
-
-def compare_documents(feed):
-    """
-    Compare a list of documents by pair.
-    Pairs of duplicates are sorted by "retrieved date".
-    """
-    duplicates = []
-    for pair in itertools.combinations(feed.articles, 2):
-        date1, date2 = pair[0].date, pair[1].date
-        if clear_string(pair[0].title) == clear_string(pair[1].title) and \
-                                        (date1 - date2) < timedelta(days = 1):
-            if pair[0].retrieved_date < pair[1].retrieved_date:
-                duplicates.append((pair[0], pair[1]))
-            else:
-                duplicates.append((pair[1], pair[0]))
-    return duplicates
 
 def search_feed(url):
     """
