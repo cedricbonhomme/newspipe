@@ -6,7 +6,8 @@ from flask.ext.babel import gettext
 from flask.ext.login import login_required, current_user
 
 import conf
-from web import utils, notifications
+from notifications import notifications
+from web import utils
 from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController,
                             CategoryController)

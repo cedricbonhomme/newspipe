@@ -16,7 +16,7 @@ import conf
 from web.views.common import admin_role, api_role, login_user_bundle
 from web.controllers import UserController
 from web.forms import SignupForm, SigninForm
-from web import notifications
+from notifications import notifications
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.

@@ -22,7 +22,7 @@
 import datetime
 from flask import render_template
 import conf
-from web import emails
+from notifications import emails
 from web.lib.user_utils import generate_confirmation_token
 
 
