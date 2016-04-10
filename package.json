@@ -22,18 +22,18 @@
     "flux": "^2.0.1",
     "jquery": "^2.2.0",
     "keymirror": "~0.1.0",
-    "object-assign": "^1.0.0",
-    "react": "^0.14.6",
+    "object-assign": "^4.0.1",
+    "react": "^15.0.1",
     "react-bootstrap": "^0.28.0",
-    "react-dom": "^0.14.6",
+    "react-dom": "^15.0.1",
     "react-intl": "^1.2.2"
   },
   "devDependencies": {
-    "browserify": "^6.2.0",
+    "browserify": "^13.0.0",
     "envify": "^3.0.0",
     "reactify": "^0.15.2",
-    "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "uglify-js": "~2.6.2",
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
