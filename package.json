@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/JARR-aggregator/JARR"
   },
-  "license": "GNU Affero General Public License version 3",
+  "license": "AGPL-3.0",
   "engines": {
     "npm": "^3.3.12"
   },
