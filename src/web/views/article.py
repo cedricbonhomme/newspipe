@@ -35,18 +35,9 @@ def article(article_id=None):
     Presents the content of an article.
     """
     article = ArticleController(current_user.id).get(id=article_id)
-    previous_article = article.previous_article()
-    if previous_article is None:
-        previous_article = article.source.articles[0]
-    next_article = article.next_article()
-    if next_article is None:
-        next_article = article.source.articles[-1]
-
     return render_template('article.html',
                            head_titles=[clear_string(article.title)],
-                           article=article,
-                           previous_article=previous_article,
-                           next_article=next_article)
+                           article=article)
 
 
 @article_bp.route('/like/<int:article_id>', methods=['GET'])
