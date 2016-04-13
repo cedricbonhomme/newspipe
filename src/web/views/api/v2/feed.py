@@ -8,7 +8,7 @@ from web.controllers.feed import (FeedController,
                                   DEFAULT_LIMIT,
                                   DEFAULT_REFRESH_RATE)
 
-from web.views.api.common import PyAggAbstractResource, \
+from web.views.api.v2.common import PyAggAbstractResource, \
                                  PyAggResourceNew, \
                                  PyAggResourceExisting, \
                                  PyAggResourceMulti

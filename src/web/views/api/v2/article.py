@@ -6,7 +6,7 @@ from flask.ext.restful import Api
 
 from web.views.common import api_permission
 from web.controllers import ArticleController
-from web.views.api.common import (PyAggAbstractResource,
+from web.views.api.v2.common import (PyAggAbstractResource,
         PyAggResourceNew, PyAggResourceExisting, PyAggResourceMulti)
 
 
