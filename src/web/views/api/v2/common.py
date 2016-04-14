@@ -18,6 +18,7 @@ routes :
     DELETE resources
         -> to delete several
 """
+import ast
 import logging
 from functools import wraps
 from werkzeug.exceptions import Unauthorized, BadRequest, Forbidden, NotFound
@@ -97,7 +98,8 @@ class PyAggAbstractResource(Resource):
                 continue
             else:
                 parser.add_argument(attr_name, location='json', **attr)
-        return parser.parse_args(req=req, strict=strict)
+        #return parser.parse_args(req=req, strict=strict)
+        return attrs
 
 
 class PyAggResourceNew(PyAggAbstractResource):
@@ -133,12 +135,20 @@ class PyAggResourceMulti(PyAggAbstractResource):
         """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
+        args = {}
         try:
             limit = request.json.pop('limit', 10)
             order_by = request.json.pop('order_by', None)
-            args = self.reqparse_args(right='read', default=False)
-        except BadRequest:
-            limit, order_by, args = 10, None, {}
+        except Exception:
+            attrs = self.reqparse_args(right='read', default=False)
+            for k, v in request.args.items():
+                if k in attrs.keys():
+                    if attrs[k]['type'] in [bool, int]:
+                        args[k] = ast.literal_eval(v)
+                    else:
+                        args[k] = v
+            limit = request.args.get('limit', 10)
+            order_by = request.args.get('order_by', None)
         query = self.controller.read(**args)
         if order_by:
             query = query.order_by(order_by)
@@ -152,7 +162,6 @@ class PyAggResourceMulti(PyAggAbstractResource):
         >>> payload
         [{attr1: val1, attr2: val2}, {attr1: val1, attr2: val2}]
         """
-        assert 'application/json' in request.headers.get('Content-Type')
         status, fail_count, results = 200, 0, []
 
         class Proxy:
@@ -178,7 +187,6 @@ class PyAggResourceMulti(PyAggAbstractResource):
         [[obj_id1, {attr1: val1, attr2: val2}]
          [obj_id2, {attr1: val1, attr2: val2}]]
         """
-        assert 'application/json' in request.headers.get('Content-Type')
         status, results = 200, []
 
         class Proxy:
@@ -203,7 +211,6 @@ class PyAggResourceMulti(PyAggAbstractResource):
     def delete(self):
         """will delete several objects,
         a list of their ids should be in the payload"""
-        assert 'application/json' in request.headers.get('Content-Type')
         status, results = 204, []
         for obj_id in request.json:
             try:
