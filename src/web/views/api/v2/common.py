@@ -98,7 +98,7 @@ class PyAggAbstractResource(Resource):
                 continue
             else:
                 parser.add_argument(attr_name, location='json', **attr)
-        return parser.parse_args(req=in_values, strict=strict)
+        return parser.parse_args(req=req, strict=strict)
 
 
 class PyAggResourceNew(PyAggAbstractResource):
