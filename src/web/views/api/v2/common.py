@@ -39,7 +39,7 @@ def authenticate(func):
         if request.authorization:
             ucontr = UserController()
             try:
-                user = ucontr.get(login=request.authorization.username)
+                user = ucontr.get(nickname=request.authorization.username)
             except NotFound:
                 raise Forbidden("Couldn't authenticate your user")
             if not ucontr.check_password(user, request.authorization.password):
@@ -75,7 +75,7 @@ class PyAggAbstractResource(Resource):
             the args to parse, if None, self.attrs will be used
         """
         try:
-            in_values = req.json if req else (request.json or {})
+            in_values = req.json if req else (request.args or {})
             if not in_values and allow_empty:
                 return {}
         except BadRequest:
@@ -98,8 +98,7 @@ class PyAggAbstractResource(Resource):
                 continue
             else:
                 parser.add_argument(attr_name, location='json', **attr)
-        #return parser.parse_args(req=req, strict=strict)
-        return attrs
+        return parser.parse_args(req=in_values, strict=strict)
 
 
 class PyAggResourceNew(PyAggAbstractResource):
@@ -140,13 +139,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
             limit = request.json.pop('limit', 10)
             order_by = request.json.pop('order_by', None)
         except Exception:
-            attrs = self.reqparse_args(right='read', default=False)
-            for k, v in request.args.items():
-                if k in attrs.keys():
-                    if attrs[k]['type'] in [bool, int]:
-                        args[k] = ast.literal_eval(v)
-                    else:
-                        args[k] = v
+            args = self.reqparse_args(right='read', default=False)
             limit = request.args.get('limit', 10)
             order_by = request.args.get('order_by', None)
         query = self.controller.read(**args)
