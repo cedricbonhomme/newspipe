@@ -100,8 +100,9 @@ class PyAggAbstractResource(Resource):
             if not default and attr_name not in in_values:
                 continue
             else:
-                parser.add_argument(attr_name, location='json', **attr)
-        return parser.parse_args(req=req, strict=strict)
+                parser.add_argument(attr_name, location='json',
+                                        default=in_values[attr_name])
+        return parser.parse_args(req=request.args, strict=strict)
 
 
 class PyAggResourceNew(PyAggAbstractResource):
