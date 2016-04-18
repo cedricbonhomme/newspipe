@@ -5,14 +5,13 @@ from datetime import datetime
 from flask import current_app, render_template, \
         request, flash, url_for, redirect
 from flask.ext.login import login_required, current_user
-from flask.ext.babel import gettext
+from flask.ext.babel import gettext, get_locale
 from babel.dates import format_datetime, format_timedelta
 
 import conf
 from web.lib.utils import redirect_url
 from web.lib import misc_utils
 from web.lib.view_utils import etag_match
-from web.models import Article
 from web.views.common import jsonify
 
 from web.controllers import FeedController, \
@@ -34,7 +33,7 @@ def home():
 @etag_match
 @jsonify
 def get_menu():
-    now = datetime.utcnow()
+    now, locale = datetime.now(), get_locale()
     categories_order = [0]
     categories = {0: {'name': 'No category', 'id': 0}}
     for cat in CategoryController(current_user.id).read().order_by('name'):
@@ -46,10 +45,14 @@ def get_menu():
         categories[cat_id]['feeds'] = []
     feeds = {feed.id: feed for feed in FeedController(current_user.id).read()}
     for feed_id, feed in feeds.items():
-        feed['created_rel'] = format_timedelta(now - feed.created_date)
-        feed['last_rel'] = format_timedelta(now - feed.last_retrieved)
-        feed['created_date'] = format_datetime(localize(feed.created_date))
-        feed['last_retrieved'] = format_datetime(localize(feed.last_retrieved))
+        feed['created_rel'] = format_timedelta(feed.created_date - now,
+                add_direction=True, locale=locale)
+        feed['last_rel'] = format_timedelta(feed.last_retrieved - now,
+                add_direction=True, locale=locale)
+        feed['created_date'] = format_datetime(localize(feed.created_date),
+                                                locale=locale)
+        feed['last_retrieved'] = format_datetime(localize(feed.last_retrieved),
+                                                locale=locale)
         feed['category_id'] = feed.category_id or 0
         feed['unread'] = unread.get(feed.id, 0)
         if not feed.filters:
@@ -93,14 +96,16 @@ def _get_filters(in_dict):
 
 @jsonify
 def _articles_to_json(articles, fd_hash=None):
-    now = datetime.utcnow()
+    now, locale = datetime.now(), get_locale()
     return {'articles': [{'title': art.title, 'liked': art.like,
             'read': art.readed, 'article_id': art.id, 'selected': False,
             'feed_id': art.feed_id, 'category_id': art.category_id or 0,
             'feed_title': fd_hash[art.feed_id]['title'] if fd_hash else None,
             'icon_url': fd_hash[art.feed_id]['icon_url'] if fd_hash else None,
-            'date': format_datetime(localize(art.date)),
-            'rel_date': format_timedelta(now - art.date)}
+            'date': format_datetime(localize(art.date), locale=locale),
+            'rel_date': format_timedelta(art.date - now,
+                    threshold=1.1, add_direction=True,
+                    locale=locale)}
             for art in articles.limit(1000)]}
 
 
@@ -124,6 +129,7 @@ def get_middle_panel():
 @etag_match
 @jsonify
 def get_article(article_id, parse=False):
+    locale = get_locale()
     contr = ArticleController(current_user.id)
     article = contr.get(id=article_id)
     if not article.readed:
@@ -133,7 +139,7 @@ def get_article(article_id, parse=False):
     feed = FeedController(current_user.id).get(id=article.feed_id)
     article['icon_url'] = url_for('icon.icon', url=feed.icon_url) \
             if feed.icon_url else None
-    article['date'] = format_datetime(localize(article.date))
+    article['date'] = format_datetime(localize(article.date), locale=locale)
     return article
 
 
