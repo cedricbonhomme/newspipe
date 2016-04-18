@@ -21,7 +21,6 @@ var reloadAndDispatch = function(dispath_payload) {
     }
     jquery.getJSON('/middle_panel', filters,
             function(payload) {
-                console.log(payload);
                 dispath_payload.articles = payload.articles;
                 dispath_payload.filters = filters;
                 JarrDispatcher.dispatch(dispath_payload);
@@ -121,7 +120,6 @@ var MiddlePanelActions = {
                 data: JSON.stringify(filters),
                 url: "/mark_all_as_read",
                 success: function (payload) {
-                    console.log(payload);
                     JarrDispatcher.dispatch({
                         type: ActionTypes.MARK_ALL_AS_READ,
                         articles: payload.articles,
