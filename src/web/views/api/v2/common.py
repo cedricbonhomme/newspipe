@@ -75,7 +75,10 @@ class PyAggAbstractResource(Resource):
             the args to parse, if None, self.attrs will be used
         """
         try:
-            in_values = req.json if req else (request.args or {})
+            if req:
+                in_values = req.json
+            else:
+                in_values = request.args or request.json or {}
             if not in_values and allow_empty:
                 return {}
         except BadRequest:
