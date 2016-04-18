@@ -5,7 +5,7 @@ JARR
 Presentation
 ------------
 
-`JARR (Just Another RSS Reader) <https://github.com/JARR-aggregator/JARR>`_
+`JARR (Just Another RSS Reader) <https://github.com/JARR/JARR>`_
 is a web-based news aggregator and reader.
 
 Main features
@@ -48,7 +48,7 @@ Thank you!
 License
 -------
 
-`JARR <https://github.com/JARR-aggregator/JARR>`_ is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
+`JARR <https://github.com/JARR/JARR>`_ is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact
 -------

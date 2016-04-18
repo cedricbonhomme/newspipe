@@ -6,10 +6,10 @@
     "email": "francois.schmidts@gmail.com",
     "url": "1pxsolidblack.pl"
   },
-  "description": "jarr (Just Another RSS Reader) is a web-based news aggregator.",
+  "description": "JARR (Just Another RSS Reader) is a web-based news aggregator.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JARR-aggregator/JARR"
+    "url": "https://github.com/JARR/JARR"
   },
   "license": "AGPL-3.0",
   "engines": {

@@ -6,8 +6,8 @@
     "news",
     "RSS"
   ],
-  "repository": "https://github.com/JARR-aggregator/JARR.git",
-  "logo": "https://raw.githubusercontent.com/JARR-aggregator/JARR/master/web/static/img/logo.png",
+  "repository": "https://github.com/JARR/JARR.git",
+  "logo": "https://raw.githubusercontent.com/JARR/JARR/master/web/static/img/logo.png",
   "scripts": {
     "postdeploy": "python src/manager.py db_create"
   },

@@ -4,7 +4,7 @@
 # jarr - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR-aggregator/JARR/
+# For more information : https://github.com/JARR/JARR
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as

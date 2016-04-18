@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# jarr - A Web based news aggregator.
+# JARR - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR-aggregator/JARR/
+# For more information : https://github.com/JARR/JARR
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -57,7 +57,7 @@ def HTML_HEADER(title="jarr", css="./style.css"):
 
 HTML_FOOTER = """<hr />
 <p>This archive has been generated with
-<a href="https://github.com/JARR-aggregator/JARR">jarr</a>.
+<a href="https://github.com/JARR/JARR">jarr</a>.
 A software under AGPLv3 license.
 You are welcome to copy, modify or redistribute the source code according to the
 <a href="https://www.gnu.org/licenses/agpl-3.0.txt">AGPLv3</a> license.</p>
