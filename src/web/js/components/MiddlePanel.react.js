@@ -16,7 +16,7 @@ var TableLine = React.createClass({
                 feed_title: React.PropTypes.string.isRequired,
                 icon_url: React.PropTypes.string,
                 title: React.PropTypes.string.isRequired,
-                timestamp: React.PropTypes.number.isRequired,
+                rel_date: React.PropTypes.string.isRequired,
                 date: React.PropTypes.string.isRequired,
                 read: React.PropTypes.bool.isRequired,
                 selected: React.PropTypes.bool.isRequired,
@@ -48,12 +48,10 @@ var TableLine = React.createClass({
         if(this.props.selected) {
             clsses += " active";
         }
-        // FIXME https://github.com/yahoo/react-intl/issues/189
-        // use FormattedRelative when fixed, will have to upgrade to ReactIntlv2
         return (<div className={clsses} onClick={this.loadArticle} title={this.props.title}>
                     <h5><strong>{title}</strong></h5>
                     <JarrTime text={this.props.date}
-                              stamp={this.props.timestamp} />
+                              stamp={this.props.rel_date} />
                     <div>{read} {liked} {this.props.title}</div>
                 </div>
         );
@@ -238,7 +236,7 @@ var MiddlePanel = React.createClass({
                                         icon_url={article.icon_url}
                                         read={article.read}
                                         liked={article.liked}
-                                        timestamp={article.timestamp}
+                                        rel_date={article.rel_date}
                                         date={article.date}
                                         selected={article.selected}
                                         article_id={article.article_id}

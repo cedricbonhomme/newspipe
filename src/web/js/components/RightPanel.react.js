@@ -310,11 +310,11 @@ var Feed = React.createClass({
         return (<div className="panel-body">
                     <dl className="dl-horizontal">
                         <dt>Created on</dt>
-                        <dd><JarrTime stamp={this.props.obj.created_stamp}
+                        <dd><JarrTime stamp={this.props.obj.created_rel}
                                       text={this.props.obj.created_date} />
                         </dd>
                         <dt>Last fetched</dt>
-                        <dd><JarrTime stamp={this.props.obj.last_stamp}
+                        <dd><JarrTime stamp={this.props.obj.last_rel}
                                       text={this.props.obj.last_retrieved} />
                         </dd>
                     </dl>
