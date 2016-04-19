@@ -3,6 +3,9 @@ from flask.ext.restless import ProcessingException
 from web.controllers import ArticleController
 
 
+url_prefix = '/api/v3'
+
+
 def is_authorized_to_modify(user, obj):
     return user.id == obj.user_id
 
