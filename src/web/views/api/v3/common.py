@@ -13,7 +13,7 @@ def auth_func(*args, **kw):
     if not current_user.is_authenticated:
         raise ProcessingException(description='Not authenticated!', code=401)
 
-def check_auth(instance_id=None, **kw):
+def get_single_preprocessor(instance_id=None, **kw):
     # Check if the user is authorized to modify the specified
     # instance of the model.
     contr = ArticleController(current_user.id)
@@ -21,3 +21,18 @@ def check_auth(instance_id=None, **kw):
     if not is_authorized_to_modify(current_user, article):
         raise ProcessingException(description='Not Authorized',
                                   code=401)
+
+def get_many_preprocessor(search_params=None, **kw):
+    """Accepts a single argument, `search_params`, which is a dictionary
+    containing the search parameters for the request.
+
+    """
+    filt = dict(name="user_id",
+                op="eq",
+                val=current_user.id)
+
+    # Check if there are any filters there already.
+    if "filters" not in search_params:
+      search_params["filters"] = []
+
+    search_params["filters"].append(filt)
