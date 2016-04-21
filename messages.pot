@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-09 14:06+0200\n"
+"POT-Creation-Date: 2016-04-21 22:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,8 +167,8 @@ msgstr ""
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
-"        redistribute the <a href=\"https://github.com/JARR-"
-"aggregator/JARR\">source code</a>\n"
+"        redistribute the <a href=\"https://github.com/JARR/JARR\">source "
+"code</a>\n"
 "        according to the <a "
 "href=\"https://www.gnu.org/licenses/agpl-3.0.html\">Affero GPL</a> "
 "license."
@@ -176,8 +176,8 @@ msgstr ""
 
 #: src/web/templates/about.html:14
 msgid ""
-"Found a bug? Report it <a href=\"https://github.com/JARR-"
-"aggregator/JARR/issues\">here</a>."
+"Found a bug? Report it <a "
+"href=\"https://github.com/JARR/JARRissues\">here</a>."
 msgstr ""
 
 #: src/web/templates/about.html:17
@@ -247,16 +247,8 @@ msgstr ""
 msgid "Mark this article as read"
 msgstr ""
 
-#: src/web/templates/article.html:26
-msgid "Next post:"
-msgstr ""
-
-#: src/web/templates/article.html:29
-msgid "Previous post:"
-msgstr ""
-
-#: src/web/templates/article.html:35 src/web/templates/article.html:38
-#: src/web/templates/article.html:41
+#: src/web/templates/article.html:25 src/web/templates/article.html:28
+#: src/web/templates/article.html:31
 msgid "Share on"
 msgstr ""
 
@@ -687,7 +679,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: src/web/views/admin.py:68 src/web/views/user.py:87
+#: src/web/views/admin.py:68 src/web/views/user.py:88
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -715,21 +707,21 @@ msgstr ""
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr ""
 
-#: src/web/views/article.py:72
+#: src/web/views/article.py:63
 #, python-format
 msgid "Article %(article_title)s deleted"
 msgstr ""
 
-#: src/web/views/article.py:129
+#: src/web/views/article.py:120
 #, python-format
 msgid "%(count)d articles deleted"
 msgstr ""
 
-#: src/web/views/article.py:146 src/web/views/article.py:157
+#: src/web/views/article.py:137 src/web/views/article.py:148
 msgid "Error when exporting articles."
 msgstr ""
 
-#: src/web/views/article.py:172
+#: src/web/views/article.py:163
 msgid "Export format not supported."
 msgstr ""
 
@@ -817,11 +809,11 @@ msgstr ""
 msgid "No duplicates in the feed \"{}\"."
 msgstr ""
 
-#: src/web/views/home.py:152 src/web/views/user.py:39
+#: src/web/views/home.py:168 src/web/views/user.py:40
 msgid "Downloading articles..."
 msgstr ""
 
-#: src/web/views/home.py:154
+#: src/web/views/home.py:170
 msgid ""
 "The manual retrieving of news is only available for administrator, on the"
 " Heroku platform."
@@ -840,43 +832,43 @@ msgstr ""
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: src/web/views/user.py:31 src/web/views/user.py:47 src/web/views/user.py:56
+#: src/web/views/user.py:32 src/web/views/user.py:48 src/web/views/user.py:57
 msgid "File not allowed."
 msgstr ""
 
-#: src/web/views/user.py:37
+#: src/web/views/user.py:38
 msgid "feeds imported."
 msgstr ""
 
-#: src/web/views/user.py:41
+#: src/web/views/user.py:42
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: src/web/views/user.py:51
+#: src/web/views/user.py:52
 msgid "Account imported."
 msgstr ""
 
-#: src/web/views/user.py:53
+#: src/web/views/user.py:54
 msgid "Impossible to import the account."
 msgstr ""
 
-#: src/web/views/user.py:105
+#: src/web/views/user.py:106
 msgid "Your account has been deleted."
 msgstr ""
 
-#: src/web/views/user.py:122
+#: src/web/views/user.py:123
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: src/web/views/user.py:124
+#: src/web/views/user.py:125
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: src/web/views/user.py:149
+#: src/web/views/user.py:150
 msgid "New password sent to your address."
 msgstr ""
 
-#: src/web/views/user.py:151
+#: src/web/views/user.py:152
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr ""
