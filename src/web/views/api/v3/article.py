@@ -8,34 +8,30 @@ from web.views.api.v3.common import AbstractProcessor
 from web.views.api.v3.common import url_prefix, auth_func
 
 class ArticleProcessor(AbstractProcessor):
-    def get_single_preprocessor(self, instance_id=None, **kw):
-        # Check if the user is authorized to modify the specified
-        # instance of the model.
-        contr = ArticleController(current_user.id)
-        article = contr.get(id=instance_id)
-        if not self.is_authorized(current_user, article):
-            raise ProcessingException(description='Not Authorized', code=401)
+    """Concrete processors for the Article Web service.
+    """
 
-    def post_put_preprocessor(self, data=None, **kw):
+    def get_single_preprocessor(self, instance_id=None, **kw):
+        article = ArticleController(current_user.id).get(id=instance_id)
+        self.is_authorized(current_user, article)
+
+    def post_preprocessor(self, data=None, **kw):
         data["user_id"] = current_user.id
 
-        fcontr = FeedController()
         try:
-            feed = fcontr.get(id=data["feed_id"])
+            feed = FeedController(current_user.id).get(id=data["feed_id"])
         except NotFound:
             raise ProcessingException(description='No such feed.', code=404)
+        self.is_authorized(current_user, feed)
 
         data["category_id"] = feed.category_id
 
     def delete_preprocessor(self, instance_id=None, **kw):
-        contr = ArticleController()
         try:
-            article = contr.get(id=instance_id)
+            article = ArticleController(current_user.id).get(id=instance_id)
         except NotFound:
             raise ProcessingException(description='No such article.', code=404)
-        if article.user_id != current_user.id:
-            raise ProcessingException(description='Not Authorized', code=401)
-
+        self.is_authorized(current_user, article)
 
 article_processor = ArticleProcessor()
 
@@ -47,9 +43,9 @@ blueprint_article = manager.create_api_blueprint(models.Article,
                             GET_MANY=[auth_func,
                                     article_processor.get_many_preprocessor],
                             POST=[auth_func,
-                                    article_processor.post_put_preprocessor],
+                                    article_processor.post_preprocessor],
                             PUT_SINGLE=[auth_func,
-                                    article_processor.post_put_preprocessor],
+                                    article_processor.put_single_preprocessor],
                             DELETE=[auth_func,
                                     article_processor.delete_preprocessor]))
 application.register_blueprint(blueprint_article)

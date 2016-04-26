@@ -6,14 +6,14 @@ from web.views.api.v3.common import AbstractProcessor
 from web.views.api.v3.common import url_prefix, auth_func
 
 class FeedProcessor(AbstractProcessor):
+    """Concrete processors for the Feed Web service.
+    """
+
     def get_single_preprocessor(self, instance_id=None, **kw):
         # Check if the user is authorized to modify the specified
         # instance of the model.
-        contr = FeedController(current_user.id)
-        feed = contr.get(id=instance_id)
-        if not self.is_authorized(current_user, feed):
-            raise ProcessingException(description='Not Authorized', code=401)
-
+        feed = FeedController(current_user.id).get(id=instance_id)
+        self.is_authorized(current_user, feed)
 
 feed_processor = FeedProcessor()
 

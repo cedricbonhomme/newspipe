@@ -25,9 +25,12 @@ def auth_func(*args, **kw):
         raise ProcessingException(description='Not authenticated!', code=401)
 
 class AbstractProcessor():
+    """Abstract processors for the Web services.
+    """
 
     def is_authorized(self, user, obj):
-        return user.id == obj.user_id
+        if user.id != obj.user_id:
+            raise ProcessingException(description='Not Authorized', code=401)
 
     def get_single_preprocessor(self, instance_id=None, **kw):
         # Check if the user is authorized to modify the specified
@@ -48,7 +51,14 @@ class AbstractProcessor():
 
         search_params["filters"].append(filt)
 
-    def post_put_preprocessor(self, data=None, **kw):
+    def post_preprocessor(self, data=None, **kw):
+        pass
+
+    def put_single_preprocessor(instance_id=None, data=None, **kw):
+        """Accepts two arguments, `instance_id`, the primary key of the
+        instance of the model to patch, and `data`, the dictionary of fields
+        to change on the instance.
+        """
         pass
 
     def delete_preprocessor(self, instance_id=None, **kw):
