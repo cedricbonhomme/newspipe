@@ -47,3 +47,9 @@ class AbstractProcessor():
           search_params["filters"] = []
 
         search_params["filters"].append(filt)
+
+    def post_put_preprocessor(self, data=None, **kw):
+        pass
+
+    def delete_preprocessor(self, instance_id=None, **kw):
+        pass
