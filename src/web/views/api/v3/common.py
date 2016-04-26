@@ -26,7 +26,7 @@ def auth_func(*args, **kw):
 
 class AbstractProcessor():
 
-    def is_authorized_to_modify(self, user, obj):
+    def is_authorized(self, user, obj):
         return user.id == obj.user_id
 
     def get_single_preprocessor(self, instance_id=None, **kw):

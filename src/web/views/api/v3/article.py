@@ -11,7 +11,7 @@ class ArticleProcessor(AbstractProcessor):
         # instance of the model.
         contr = ArticleController(current_user.id)
         article = contr.get(id=instance_id)
-        if not self.is_authorized_to_modify(current_user, article):
+        if not self.is_authorized(current_user, article):
             raise ProcessingException(description='Not Authorized', code=401)
 
 

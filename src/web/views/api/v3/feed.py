@@ -11,7 +11,7 @@ class FeedProcessor(AbstractProcessor):
         # instance of the model.
         contr = FeedController(current_user.id)
         feed = contr.get(id=instance_id)
-        if not self.is_authorized_to_modify(current_user, feed):
+        if not self.is_authorized(current_user, feed):
             raise ProcessingException(description='Not Authorized', code=401)
 
 
