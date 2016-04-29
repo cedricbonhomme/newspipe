@@ -1,3 +1,3 @@
-from web.views.api.v3 import article, feed
+from web.views.api.v3 import article
 
-__all__ = ['article', 'feed']
+__all__ = ['article']

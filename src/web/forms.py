@@ -4,7 +4,7 @@
 # JARR - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : http://github.com/JARR-aggregator/JARR/
+# For more information : http://github.com/JARR/JARR
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ __date__ = "$Date: 2013/11/05 $"
 __revision__ = "$Date: 2015/05/06 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
-
 
 from flask import flash, url_for, redirect
 from flask.ext.wtf import Form
