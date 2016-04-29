@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-21 22:02+0200\n"
-"PO-Revision-Date: 2016-04-21 22:02+0200\n"
-"Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
+"POT-Creation-Date: 2016-04-29 07:42+0200\n"
+"PO-Revision-Date: 2016-04-29 07:43+0100\n"
+"Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -17,61 +17,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.6.10\n"
 
-#: src/web/forms.py:47 src/web/forms.py:131 src/web/forms.py:156
+#: src/web/forms.py:46 src/web/forms.py:130 src/web/forms.py:155
 #: src/web/templates/admin/dashboard.html:12
 msgid "Nickname"
 msgstr "Pseudonyme"
 
-#: src/web/forms.py:48 src/web/forms.py:132 src/web/forms.py:157
+#: src/web/forms.py:47 src/web/forms.py:131 src/web/forms.py:156
 msgid "Please enter your nickname."
 msgstr "S'il vous plaît, entrez votre pseudonyme."
 
-#: src/web/forms.py:49 src/web/forms.py:133 src/web/forms.py:158
-#: src/web/forms.py:213 src/web/templates/admin/dashboard.html:13
+#: src/web/forms.py:48 src/web/forms.py:132 src/web/forms.py:157
+#: src/web/forms.py:212 src/web/templates/admin/dashboard.html:13
 msgid "Email"
 msgstr "Email"
 
-#: src/web/forms.py:52 src/web/forms.py:216
+#: src/web/forms.py:51 src/web/forms.py:215
 msgid "Please enter your email address."
 msgstr "S'il vous plaît, entrez votre adresse email."
 
-#: src/web/forms.py:53 src/web/forms.py:96 src/web/forms.py:136
-#: src/web/forms.py:161
+#: src/web/forms.py:52 src/web/forms.py:95 src/web/forms.py:135
+#: src/web/forms.py:160
 msgid "Password"
 msgstr "Mot de passe"
 
-#: src/web/forms.py:54 src/web/forms.py:97
+#: src/web/forms.py:53 src/web/forms.py:96
 msgid "Please enter a password."
 msgstr "S'il vous plaît entrer un mot de passe."
 
-#: src/web/forms.py:56 src/web/templates/login.html:26
+#: src/web/forms.py:55 src/web/templates/login.html:26
 msgid "Sign up"
 msgstr "S'inscrire"
 
-#: src/web/forms.py:95
+#: src/web/forms.py:94
 msgid "Please enter your email address or nickname."
 msgstr "S'il vous plaît, entrez votre adresse email ou pseudo."
 
-#: src/web/forms.py:99 src/web/templates/login.html:5
+#: src/web/forms.py:98 src/web/templates/login.html:5
 msgid "Log In"
 msgstr "Connexion"
 
-#: src/web/forms.py:135 src/web/forms.py:160
+#: src/web/forms.py:134 src/web/forms.py:159
 msgid "Please enter your email."
 msgstr "S'il vous plaît, entrez votre email."
 
-#: src/web/forms.py:137 src/web/forms.py:163
+#: src/web/forms.py:136 src/web/forms.py:162
 msgid "Feeds refresh frequency (in minutes)"
 msgstr "Fréquence de rafraîchissement du flux (en minutes)"
 
-#: src/web/forms.py:140 src/web/forms.py:166 src/web/forms.py:189
-#: src/web/forms.py:201
+#: src/web/forms.py:139 src/web/forms.py:165 src/web/forms.py:188
+#: src/web/forms.py:200
 msgid "Save"
 msgstr "Sauver"
 
-#: src/web/forms.py:145 src/web/forms.py:176
+#: src/web/forms.py:144 src/web/forms.py:175
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots and "
 "underscores only."
@@ -79,71 +79,71 @@ msgstr ""
 "Ce pseudonyme a des caractères non valides. Utilisez seulement des lettres, "
 "des chiffres, des points et '_'."
 
-#: src/web/forms.py:162
+#: src/web/forms.py:161
 msgid "Password Confirmation"
 msgstr "Confirmation du mot de passe"
 
-#: src/web/forms.py:171
+#: src/web/forms.py:170
 msgid "Passwords aren't the same."
 msgstr "Les mots de passe ne sont pas identiques."
 
-#: src/web/forms.py:184 src/web/templates/feed_list.html:8
+#: src/web/forms.py:183 src/web/templates/feed_list.html:8
 msgid "Title"
 msgstr "Titre"
 
-#: src/web/forms.py:185
+#: src/web/forms.py:184
 msgid "Feed link"
 msgstr "Lien du flux"
 
-#: src/web/forms.py:186
+#: src/web/forms.py:185
 msgid "Please enter the URL."
 msgstr "S'il vous plaît, entrez une adresse."
 
-#: src/web/forms.py:187
+#: src/web/forms.py:186
 msgid "Site link"
 msgstr "Lien du site"
 
-#: src/web/forms.py:188
+#: src/web/forms.py:187
 msgid "Check for updates"
 msgstr "Vérifier les mises à jour"
 
-#: src/web/forms.py:190
+#: src/web/forms.py:189
 msgid "Category of the feed"
 msgstr "Catégorie du flux"
 
-#: src/web/forms.py:200 src/web/templates/layout.html:71
+#: src/web/forms.py:199 src/web/templates/layout.html:71
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
-#: src/web/forms.py:205
+#: src/web/forms.py:204
 msgid "Subject"
 msgstr "Objet"
 
-#: src/web/forms.py:206
+#: src/web/forms.py:205
 msgid "Please enter a subject."
 msgstr "S'il vous plaît entrer un objet."
 
-#: src/web/forms.py:207
+#: src/web/forms.py:206
 msgid "Message"
 msgstr "Message"
 
-#: src/web/forms.py:208
+#: src/web/forms.py:207
 msgid "Please enter a content."
 msgstr "S'il vous plaît entrer un contenu."
 
-#: src/web/forms.py:209
+#: src/web/forms.py:208
 msgid "Send"
 msgstr "Envoyer"
 
-#: src/web/forms.py:217
+#: src/web/forms.py:216
 msgid "Recover"
 msgstr "Récupérer"
 
-#: src/web/forms.py:227
+#: src/web/forms.py:226
 msgid "Account not confirmed."
 msgstr "Compte non confirmé."
 
-#: src/web/forms.py:230
+#: src/web/forms.py:229
 msgid "Invalid email."
 msgstr "Email invalide."
 
@@ -158,10 +158,10 @@ msgstr "JARR est un agrégateur de nouvelles Web."
 
 #: src/web/templates/about.html:8
 msgid ""
-"You can easily <a href=\"https://jarr.readthedocs.org/en/latest/deployment."
+"You can easily <a href=\"https://jarr.readthedocs.io/en/latest/deployment."
 "html\">install JARR on your server</a>."
 msgstr ""
-"Vous pouvez facilement <a href=\"https://jarr.readthedocs.org/en/latest/"
+"Vous pouvez facilement <a href=\"https://jarr.readthedocs.io/en/latest/"
 "deployment.html\">installer JARR sur votre serveur</a>."
 
 #: src/web/templates/about.html:9
@@ -184,8 +184,9 @@ msgstr ""
 "\">Affero GPL</a>."
 
 #: src/web/templates/about.html:14
+#, fuzzy
 msgid ""
-"Found a bug? Report it <a href=\"https://github.com/JARR/JARRissues\">here</"
+"Found a bug? Report it <a href=\"https://github.com/JARR/JARR/issues\">here</"
 "a>."
 msgstr ""
 "Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/JARR-"
@@ -206,10 +207,10 @@ msgstr ""
 #: src/web/templates/about.html:19
 msgid ""
 "The documentation of the RESTful API is <a href=\"https://jarr.readthedocs."
-"org/en/latest/web-services.html\">here</a>."
+"io/en/latest/web-services-v3.html\">here</a>."
 msgstr ""
-"La documentation de l'API RESTful est <a href=\"https://jarr.readthedocs.org/"
-"en/latest/web-services.html\">ici</a>."
+"La documentation de l'API RESTful est <a href=\"https://pyaggr3g470r."
+"readthedocs.io/en/latest/web-services.html\">ici</a>."
 
 #: src/web/templates/about.html:20
 msgid ""
@@ -298,8 +299,8 @@ msgstr "Flux"
 msgid "Articles"
 msgstr "Articles"
 
-#: src/web/templates/categories.html:16 src/web/templates/feed_list.html:11
 #: src/web/templates/admin/dashboard.html:16
+#: src/web/templates/categories.html:16 src/web/templates/feed_list.html:11
 msgid "Actions"
 msgstr "Actions"
 
@@ -631,7 +632,7 @@ msgstr "Exporter les articles"
 msgid "Your Profile"
 msgstr "Votre profil"
 
-#: src/web/templates/profile.html:8 src/web/templates/admin/dashboard.html:14
+#: src/web/templates/admin/dashboard.html:14 src/web/templates/profile.html:8
 msgid "Member since"
 msgstr "Membre depuis le"
 
