@@ -47,14 +47,17 @@ class User(db.Model, UserMixin, RightMixin):
     pwdhash = db.Column(db.String())
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
-    feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
-                            cascade='all,delete-orphan')
     refresh_rate = db.Column(db.Integer, default=60)  # in minutes
 
     # user rights
     is_active = db.Column(db.Boolean(), default=False)
     is_admin = db.Column(db.Boolean(), default=False)
     is_api = db.Column(db.Boolean(), default=False)
+
+    # relationship
+    feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
+                            cascade='all,delete-orphan')
+    categories = db.relationship('Category', cascade='all, delete-orphan')
 
     @staticmethod
     def _fields_base_write():
