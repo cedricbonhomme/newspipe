@@ -70,11 +70,11 @@ def process_user_form(user_id=None):
     else:
         # Create a new user (by the admin)
         user = user_contr.create(nickname=form.nickname.data,
-                                 email=form.email.data,
-                                 pwdhash=generate_password_hash(form.password.data),
-                                 is_admin=False,
-                                 is_active=True,
-                                 refresh_rate=form.refresh_rate.data)
+                            email=form.email.data,
+                            pwdhash=generate_password_hash(form.password.data),
+                            is_admin=False,
+                            is_active=True,
+                            refresh_rate=form.refresh_rate.data)
         flash(gettext('User %(nick)s successfully created',
                       nick=user.nickname), 'success')
     return redirect(url_for('admin.user_form', user_id=user.id))
@@ -92,8 +92,9 @@ def delete_user(user_id=None):
         flash(gettext('User %(nick)s successfully deleted',
                       nick=user.nickname), 'success')
     except Exception as error:
-        flash(gettext('An error occured while trying to delete a user: '
-                      '%(error)', error=error), 'danger')
+        flash(
+            gettext('An error occured while trying to delete a user: %(error)s',
+                        error=error), 'danger')
     return redirect(redirect_url())
 
 
