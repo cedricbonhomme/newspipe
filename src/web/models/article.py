@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# jarr - A Web based news aggregator.
+# JARR - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://github.com/JARR/JARR
@@ -22,7 +22,7 @@
 __author__ = "Cedric Bonhomme"
 __version__ = "$Revision: 0.4 $"
 __date__ = "$Date: 2013/11/05 $"
-__revision__ = "$Date: 2014/04/12 $"
+__revision__ = "$Date: 2016/05/02 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -58,22 +58,6 @@ class Article(db.Model, RightMixin):
     def _fields_base_read():
         return {'id', 'entry_id', 'link', 'title', 'content', 'date',
                 'retrieved_date', 'user_id'}
-
-    def previous_article(self):
-        """
-        Returns the previous article (older).
-        """
-        return Article.query.filter(Article.date < self.date,
-                                    Article.feed_id == self.feed_id)\
-                            .order_by(desc("date")).first()
-
-    def next_article(self):
-        """
-        Returns the next article (newer).
-        """
-        return Article.query.filter(Article.date > self.date,
-                                    Article.feed_id == self.feed_id)\
-                            .order_by(asc("date")).first()
 
     def __repr__(self):
         return "<Article(id=%d, entry_id=%s, title=%r, " \
