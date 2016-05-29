@@ -31,7 +31,7 @@ import random
 import hashlib
 from datetime import datetime
 from werkzeug import check_password_hash
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 
 from bootstrap import db
 from web.models.right_mixin import RightMixin

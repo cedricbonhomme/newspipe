@@ -1,7 +1,7 @@
 import logging
 from flask import (request, render_template, flash,
                    url_for, redirect, current_app)
-from flask.ext.babel import gettext
+from flask_babel import gettext
 
 from conf import API_ROOT
 from web.lib.view_utils import etag_match

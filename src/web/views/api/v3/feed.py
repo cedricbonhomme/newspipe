@@ -26,7 +26,7 @@ __revision__ = "$Date: 2016/04/29 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from flask.ext.login import current_user
+from flask_login import current_user
 from web import models
 from bootstrap import application, manager
 from web.controllers import FeedController

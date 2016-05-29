@@ -27,8 +27,8 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 from flask import request
-from flask.ext.login import current_user
-from flask.ext.restless import ProcessingException
+from flask_login import current_user
+from flask_restless import ProcessingException
 from werkzeug.exceptions import NotFound
 from web.controllers import ArticleController, UserController
 from web.views.common import login_user_bundle

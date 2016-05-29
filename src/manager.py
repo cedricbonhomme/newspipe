@@ -5,8 +5,8 @@ import os
 import logging
 from werkzeug import generate_password_hash
 from bootstrap import application, db, conf
-from flask.ext.script import Manager
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 
 import web.models
 from web.controllers import FeedController, UserController
@@ -54,7 +54,7 @@ def fetch_asyncio(user_id, feed_id):
     import asyncio
 
     with application.app_context():
-        from flask.ext.login import current_user
+        from flask_login import current_user
         from crawler import classic_crawler
         ucontr = UserController()
         users = []

@@ -20,8 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import calendar
 from bootstrap import conf, application, populate_g
-from flask.ext.babel import Babel
-from flask.ext.babel import format_datetime
+from flask_babel import Babel, format_datetime
 
 if conf.ON_HEROKU:
     from flask_sslify import SSLify
@@ -37,7 +36,7 @@ application.jinja_env.filters['datetime'] = format_datetime
 application.jinja_env.globals['conf'] = conf
 
 # Views
-from flask.ext.restful import Api
+from flask_restful import Api
 from flask import g
 
 with application.app_context():

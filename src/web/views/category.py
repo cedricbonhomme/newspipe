@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
-from flask.ext.babel import gettext
-from flask.ext.login import login_required, current_user
+from flask_babel import gettext
+from flask_login import login_required, current_user
 
 from web.forms import CategoryForm
 from web.lib.utils import redirect_url

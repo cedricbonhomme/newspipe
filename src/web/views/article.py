@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, make_response, request)
 
-from flask.ext.babel import gettext
-from flask.ext.login import login_required, current_user
+from flask_babel import gettext
+from flask_login import login_required, current_user
 
 
 from bootstrap import db

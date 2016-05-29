@@ -4,7 +4,7 @@
 from threading import Thread
 from functools import wraps
 
-from flask.ext.login import login_required
+from flask_login import login_required
 
 
 def async(f):

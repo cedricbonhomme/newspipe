@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import (Blueprint, render_template, redirect, flash, url_for)
-from flask.ext.babel import gettext, format_timedelta
-from flask.ext.login import login_required, current_user
+from flask_babel import gettext, format_timedelta
+from flask_login import login_required, current_user
 from werkzeug import generate_password_hash
 
 from web.views.common import admin_permission

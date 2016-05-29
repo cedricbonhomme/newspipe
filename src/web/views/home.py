@@ -4,8 +4,8 @@ from datetime import datetime
 
 from flask import current_app, render_template, \
         request, flash, url_for, redirect
-from flask.ext.login import login_required, current_user
-from flask.ext.babel import gettext, get_locale
+from flask_login import login_required, current_user
+from flask_babel import gettext, get_locale
 from babel.dates import format_datetime, format_timedelta
 
 import conf

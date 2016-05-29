@@ -6,7 +6,7 @@
 import os
 import conf
 import logging
-import flask.ext.restless
+import flask_restless
 from urllib.parse import urlsplit
 
 def set_logging(log_path, log_level=logging.INFO,
@@ -20,7 +20,7 @@ def set_logging(log_path, log_level=logging.INFO,
         logger.setLevel(log_level)
 
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('web')
@@ -53,7 +53,7 @@ if not application.config['SECURITY_PASSWORD_SALT']:
 db = SQLAlchemy(application)
 
 # Create the Flask-Restless API manager.
-manager = flask.ext.restless.APIManager(application, flask_sqlalchemy_db=db)
+manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)
 
 def populate_g():
     from flask import g

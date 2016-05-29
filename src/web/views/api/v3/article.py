@@ -26,9 +26,9 @@ __revision__ = "$Date: 2016/04/29 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from flask.ext.login import current_user
+from flask_login import current_user
 from werkzeug.exceptions import NotFound
-from flask.ext.restless import ProcessingException
+from flask_restless import ProcessingException
 from web import models
 from bootstrap import application, manager
 from web.controllers import ArticleController, FeedController

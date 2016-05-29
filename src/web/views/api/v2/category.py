@@ -1,6 +1,6 @@
 from conf import API_ROOT
 from flask import current_app
-from flask.ext.restful import Api
+from flask_restful import Api
 
 from web.controllers.category import CategoryController
 from web.views.api.v2.common import (PyAggResourceNew,
