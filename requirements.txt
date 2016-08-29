@@ -5,7 +5,6 @@ feedparser==5.2.1
 beautifulsoup4==4.4.1
 lxml==3.6.0
 opml==0.5
-psycopg2==2.6.1
 SQLAlchemy==1.0.13
 alembic==0.8.6
 Flask==0.11

@@ -245,7 +245,10 @@ var Feed = React.createClass({
         rows.push(<dt key={'d-title'}>Filters</dt>);
         for(var i in this.state.obj.filters) {
             rows.push(<dd key={'d' + i}>
-                    When {this.state.obj.filters[i]['action on']} on "{this.state.obj.filters[i].pattern}" ({this.state.obj.filters[i].type}) => {this.state.obj.filters[i].action}
+                        When {this.state.obj.filters[i]['action on']}
+                        on "{this.state.obj.filters[i].pattern}"
+                        ({this.state.obj.filters[i].type})
+                        "=" {this.state.obj.filters[i].action}
                     </dd>);
         }
         return <dl className="dl-horizontal">{rows}</dl>;
