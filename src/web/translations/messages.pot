@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-29 07:50+0200\n"
+"POT-Creation-Date: 2016-08-29 10:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,17 +207,6 @@ msgstr ""
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" "
 "rel=\"bookmark\">Subscribe to this feed using JARR</a>"
-msgstr ""
-
-#: ../templates/about.html:24
-msgid "Donation"
-msgstr ""
-
-#: ../templates/about.html:25
-msgid ""
-"If you wish and if you like JARR, you can donate via bitcoin <a "
-"href=\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>."
-" Thank you!"
 msgstr ""
 
 #: ../templates/article.html:6
@@ -692,15 +681,16 @@ msgstr ""
 msgid "User %(nick)s successfully deleted"
 msgstr ""
 
-#: ../views/admin.py:95
-msgid "An error occured while trying to delete a user: %(error)"
+#: ../views/admin.py:96
+#, python-format
+msgid "An error occured while trying to delete a user: %(error)s"
 msgstr ""
 
-#: ../views/admin.py:113
+#: ../views/admin.py:114
 msgid "This user does not exist."
 msgstr ""
 
-#: ../views/admin.py:118
+#: ../views/admin.py:119
 #, python-format
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr ""

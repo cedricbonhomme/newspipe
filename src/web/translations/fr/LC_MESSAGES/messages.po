@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-29 07:48+0200\n"
-"PO-Revision-Date: 2016-04-29 07:51+0100\n"
+"POT-Creation-Date: 2016-08-29 10:26+0200\n"
+"PO-Revision-Date: 2016-08-29 10:27+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -225,21 +225,6 @@ msgid ""
 msgstr ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
 "\">Abonnez-vous à ce flux en utilisant JARR</a>"
-
-#: ../templates/about.html:24
-msgid "Donation"
-msgstr "Don"
-
-#: ../templates/about.html:25
-msgid ""
-"If you wish and if you like JARR, you can donate via bitcoin <a href="
-"\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
-"\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!"
-msgstr ""
-"Si vous le souhaitez et si vous aimez JARR, vous pouvez faire un don via "
-"bitcoin <a href=\"https://blockexplorer.com/"
-"address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
-"\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Merci!"
 
 #: ../templates/article.html:6
 msgid "from"
@@ -721,16 +706,17 @@ msgstr "Utilisateur %(nick)s  créé avec succès."
 msgid "User %(nick)s successfully deleted"
 msgstr "Utilisateur %(nick)s supprimé avec succès."
 
-#: ../views/admin.py:95
-msgid "An error occured while trying to delete a user: %(error)"
+#: ../views/admin.py:96
+#, python-format
+msgid "An error occured while trying to delete a user: %(error)s"
 msgstr ""
-"Une erreur est apparue lors de la suppression de l'utilisateur: %(error)"
+"Une erreur est apparue lors de la suppression de l'utilisateur: %(error)s"
 
-#: ../views/admin.py:113
+#: ../views/admin.py:114
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
 
-#: ../views/admin.py:118
+#: ../views/admin.py:119
 #, python-format
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr "Utilisateur %(nickname)s %(is_active)s avec succès."
@@ -912,6 +898,19 @@ msgstr "Authentification requise."
 #: ../views/views.py:24
 msgid "Forbidden."
 msgstr "Interdit."
+
+#~ msgid "Donation"
+#~ msgstr "Don"
+
+#~ msgid ""
+#~ "If you wish and if you like JARR, you can donate via bitcoin <a href="
+#~ "\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
+#~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!"
+#~ msgstr ""
+#~ "Si vous le souhaitez et si vous aimez JARR, vous pouvez faire un don via "
+#~ "bitcoin <a href=\"https://blockexplorer.com/"
+#~ "address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
+#~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Merci!"
 
 #~ msgid "Next post:"
 #~ msgstr "Billet suivant:"
