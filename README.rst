@@ -34,17 +34,6 @@ Documentation
 A documentation is available `here <https://jarr.readthedocs.org>`_ and provides
 different ways to install JARR.
 
-Internationalization
---------------------
-
-JARR is translated into English and French.
-
-Donation
---------
-
-If you wish and if you like *JARR*, you can donate via bitcoin `1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ <https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ>`_.
-Thank you!
-
 License
 -------
 
@@ -53,4 +42,4 @@ License
 Contact
 -------
 
-`My home page <https://www.cedricbonhomme.org>`_.
+`Cédric Bonhomme <https://www.cedricbonhomme.org>`_
