@@ -20,9 +20,5 @@
         <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
         {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using JARR</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
     </div>
-    <div class="well">
-        <h1>{{ _('Donation') }}</h1>
-        <p>{{ _('If you wish and if you like JARR, you can donate via bitcoin <a href="https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!') }}</p>
-    </div>
 </div><!-- /.container -->
 {% endblock %}
