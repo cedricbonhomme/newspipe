@@ -1,6 +1,7 @@
 import json
 import logging
 
+from datetime import datetime
 from werkzeug import generate_password_hash
 from werkzeug.exceptions import NotFound
 from flask import (render_template, flash, session, request,
@@ -47,6 +48,11 @@ def load_user(user_id):
     return UserController(user_id, ignore_context=True).get(
             id=user_id, is_active=True)
 
+@current_app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        UserController(current_user.id).update(
+                    {'id': current_user.id}, {'last_seen': datetime.utcnow()})
 
 @current_app.route('/login', methods=['GET', 'POST'])
 def login():
