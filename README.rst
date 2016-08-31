@@ -31,13 +31,14 @@ Python 3.5 is recommended.
 Documentation
 -------------
 
-A documentation is available `here <https://jarr.readthedocs.org>`_ and provides
+A documentation is available `here <https://jarr.readthedocs.io>`_ and provides
 different ways to install JARR.
 
 License
 -------
 
-`JARR <https://github.com/JARR/JARR>`_ is under the `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
+`JARR <https://github.com/JARR/JARR>`_ is under the
+`GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact
 -------
