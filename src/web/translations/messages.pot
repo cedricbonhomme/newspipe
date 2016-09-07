@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-08-29 10:26+0200\n"
+"POT-Creation-Date: 2016-09-07 07:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -807,16 +807,20 @@ msgid ""
 " Heroku platform."
 msgstr ""
 
-#: ../views/session_mgmt.py:82
+#: ../views/session_mgmt.py:28
+msgid "Please log in to access this page."
+msgstr ""
+
+#: ../views/session_mgmt.py:90
 msgid "Self-registration is disabled."
 msgstr ""
 
-#: ../views/session_mgmt.py:97
+#: ../views/session_mgmt.py:105
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr ""
 
-#: ../views/session_mgmt.py:101
+#: ../views/session_mgmt.py:109
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 

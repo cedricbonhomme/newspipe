@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-08-29 10:26+0200\n"
-"PO-Revision-Date: 2016-08-29 10:27+0100\n"
+"POT-Creation-Date: 2016-09-07 07:34+0200\n"
+"PO-Revision-Date: 2016-09-07 07:35+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -837,16 +837,20 @@ msgstr ""
 "La récupération manuelle de nouvelles est disponible uniquement pour "
 "l'administrateur, sur la plate-forme Heroku."
 
-#: ../views/session_mgmt.py:82
+#: ../views/session_mgmt.py:28
+msgid "Please log in to access this page."
+msgstr "S'il vous plaît connectez vous pour accéder à cette page."
+
+#: ../views/session_mgmt.py:90
 msgid "Self-registration is disabled."
 msgstr "L'auto-enregistrement est désactivé."
 
-#: ../views/session_mgmt.py:97
+#: ../views/session_mgmt.py:105
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr "Problème lors de l'envoi d'email d'activation: %(error)s"
 
-#: ../views/session_mgmt.py:101
+#: ../views/session_mgmt.py:109
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer."
 
