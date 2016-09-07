@@ -25,6 +25,8 @@ Principal(current_app)
 login_manager = LoginManager()
 login_manager.init_app(current_app)
 login_manager.login_view = 'login'
+login_manager.login_message = gettext("Please log in to access this page.")
+login_manager.login_message_category = "info"
 
 logger = logging.getLogger(__name__)
 
