@@ -6,7 +6,7 @@ from werkzeug import generate_password_hash
 from werkzeug.exceptions import NotFound
 from flask import (render_template, flash, session, request,
                    url_for, redirect, current_app)
-from flask_babel import gettext
+from flask_babel import gettext, lazy_gettext
 from flask_login import LoginManager, logout_user, \
                             login_required, current_user
 from flask_principal import (Principal, AnonymousIdentity, UserNeed,
@@ -25,8 +25,8 @@ Principal(current_app)
 login_manager = LoginManager()
 login_manager.init_app(current_app)
 login_manager.login_view = 'login'
-login_manager.login_message = gettext("Please log in to access this page.")
-login_manager.login_message_category = "info"
+login_manager.login_message = lazy_gettext('Please log in to access this page.')
+login_manager.login_message_category = 'info'
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +87,7 @@ def logout():
 @current_app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if not conf.SELF_REGISTRATION:
-        flash(gettext("Self-registration is disabled."), 'warning')
+        flash(gettext('Self-registration is disabled.'), 'warning')
         return redirect(url_for('home'))
     if current_user.is_authenticated:
         return redirect(url_for('home'))
