@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>Popular feeds</h1>
+    <ul class="list-group">
+    {% for feed in popular %}
+        <li class="list-group-item">
+            <a href="{{ feed[0] }}">{{ feed[0] }}</a> <span class="badge">{{ feed[1] }}</span>
+        </li>
+    {% endfor %}
+</ul>
+</div><!-- /.container -->
+{% endblock %}
