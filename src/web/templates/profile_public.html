@@ -3,16 +3,23 @@
 <div class="container">
     <h1>{{ user.nickname }}</h1>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
             <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
         </div>
     </div>
 
-    <div>{{ tag_cloud|safe }}</div>
+    <div class="row">
+        <div class="col-md-6 pull-right">
+            <div>{{ tag_cloud|safe }}</div>
+        </div>
+    </div>
 
     <h2>Feeds</h2>
-    {% include "feed_list_simple.html" %}
-
+    <div class="row">
+        <div class="col-md-12">
+            {% include "feed_list_simple.html" %}
+        </div>
+    </div>
 </div><!-- /.container -->
 {% endblock %}
