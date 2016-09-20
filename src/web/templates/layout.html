@@ -80,6 +80,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Feed') }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ url_for("popular") }}">{{ _('Popular') }}</li>
                         <li><a href="{{ url_for("feeds.inactives") }}">{{ _('Inactive') }}</a></li>
                         <li><a href="{{ url_for("articles.history") }}">{{ _('History') }}</a></li>
                         <li><a href="{{ url_for("feeds.feeds") }}">{{ _('All') }}</a></li>
@@ -102,6 +103,7 @@
                     </ul>
                 </li>
             {% else %}
+                <li><a href="{{ url_for("popular") }}"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;{{ _('Popular') }}</a></li>
                 <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
           </ul>
