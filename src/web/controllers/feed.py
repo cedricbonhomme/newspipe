@@ -70,6 +70,9 @@ class FeedController(AbstractController):
     def count_by_category(self, **filters):
         return self._count_by(Feed.category_id, filters)
 
+    def count_by_link(self, **filters):
+        return self._count_by(Feed.link, filters)
+
     def _ensure_icon(self, attrs):
         if not attrs.get('icon_url'):
             return
