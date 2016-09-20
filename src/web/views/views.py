@@ -1,8 +1,10 @@
 import logging
 import operator
+from datetime import datetime, timedelta
 from flask import (request, render_template, flash,
                    url_for, redirect, current_app)
 from flask_babel import gettext
+from sqlalchemy import desc
 
 from conf import API_ROOT
 from web.controllers import FeedController
@@ -45,7 +47,20 @@ def handle_sqlalchemy_assertion_error(error):
 @current_app.route('/popular', methods=['GET'])
 @etag_match
 def popular():
-    feeds = FeedController().count_by_link()
+    """
+    Return the most popular feeds for the last 30 days.
+    """
+    last_added_feed = FeedController().read().\
+                        order_by(desc('created_date')).limit(1)
+    if last_added_feed:
+        last_added_feed_date = last_added_feed.all()[0].created_date
+    else:
+        last_added_feed_date = datetime.now()
+    not_before = last_added_feed_date - timedelta(days=30)
+    filters = {}
+    filters['created_date__gt'] = not_before
+
+    feeds = FeedController().count_by_link(**filters)
     sorted_feeds = sorted(feeds.items(), key=operator.itemgetter(1),
                             reverse=True)
     return render_template('popular.html', popular=sorted_feeds[:100])
