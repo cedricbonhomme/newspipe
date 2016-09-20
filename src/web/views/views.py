@@ -48,7 +48,7 @@ def popular():
     feeds = FeedController().count_by_link()
     sorted_feeds = sorted(feeds.items(), key=operator.itemgetter(1),
                             reverse=True)
-    return render_template('popular.html', popular=sorted_feeds)
+    return render_template('popular.html', popular=sorted_feeds[:100])
 
 
 @current_app.route('/about', methods=['GET'])
