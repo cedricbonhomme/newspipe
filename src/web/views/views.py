@@ -48,15 +48,16 @@ def handle_sqlalchemy_assertion_error(error):
 @etag_match
 def popular():
     """
-    Return the most popular feeds for the last 30 days.
+    Return the most popular feeds for the last nb_days days.
     """
+    nb_days = int(request.args.get('nb_days', 365))
     last_added_feed = FeedController().read().\
                         order_by(desc('created_date')).limit(1)
     if last_added_feed:
         last_added_feed_date = last_added_feed.all()[0].created_date
     else:
         last_added_feed_date = datetime.now()
-    not_before = last_added_feed_date - timedelta(days=30)
+    not_before = last_added_feed_date - timedelta(days=nb_days)
     filters = {}
     filters['created_date__gt'] = not_before
 
