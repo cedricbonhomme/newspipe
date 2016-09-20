@@ -162,6 +162,7 @@ class ProfileForm(Form):
     refresh_rate = IntegerField(lazy_gettext("Feeds refresh frequency "
                                              "(in minutes)"),
                                 default=60)
+    is_public_profile = BooleanField(lazy_gettext("Public profile"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):

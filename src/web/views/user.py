@@ -18,6 +18,22 @@ users_bp = Blueprint('users', __name__, url_prefix='/users')
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
 
+@user_bp.route('/<string:nickname>', methods=['GET'])
+def profile_public(nickname=None):
+    """
+    Display the public profile of the user.
+    """
+    user_contr = UserController()
+    user = user_contr.get(nickname=nickname)
+    if not user.is_public_profile:
+        return redirect(url_for('home'))
+    art_contr = ArticleController(user.id)
+    return render_template('profile_public.html',
+                user=user,
+                feeds=user.feeds,
+                unread_article_count=art_contr.count_by_category(readed=False),
+                article_count=art_contr.count_by_category())
+
 @user_bp.route('/management', methods=['GET', 'POST'])
 @login_required
 def management():
@@ -80,10 +96,11 @@ def profile():
     if request.method == 'POST':
         if form.validate():
             user_contr.update({'id': current_user.id},
-                              {'nickname': form.nickname.data,
-                               'email': form.email.data,
-                               'password': form.password.data,
-                               'refresh_rate': form.refresh_rate.data})
+                        {'nickname': form.nickname.data,
+                        'email': form.email.data,
+                        'password': form.password.data,
+                        'refresh_rate': form.refresh_rate.data,
+                        'is_public_profile': form.is_public_profile.data})
 
             flash(gettext('User %(nick)s successfully updated',
                           nick=user.nickname), 'success')

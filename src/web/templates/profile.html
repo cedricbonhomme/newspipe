@@ -34,6 +34,9 @@
 
             {{ form.refresh_rate.label }}
             {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.is_public_profile.label }}
+            {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             <br />
             {{ form.submit(class_="btn") }}
         </form>

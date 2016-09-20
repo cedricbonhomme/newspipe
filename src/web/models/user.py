@@ -45,6 +45,7 @@ class User(db.Model, UserMixin, RightMixin):
     nickname = db.Column(db.String(), unique=True)
     email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
+    is_public_profile = db.Column(db.Boolean(), default=False)
     date_created = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
     refresh_rate = db.Column(db.Integer, default=60)  # in minutes
