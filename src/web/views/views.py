@@ -50,7 +50,7 @@ def popular():
     """
     Return the most popular feeds for the last nb_days days.
     """
-    nb_days = int(request.args.get('nb_days', 365))
+    nb_days = int(request.args.get('nb_days', 1000))
     last_added_feed = FeedController().read().\
                         order_by(desc('created_date')).limit(1)
     if last_added_feed:
