@@ -27,12 +27,16 @@ def profile_public(nickname=None):
     user = user_contr.get(nickname=nickname)
     if not user.is_public_profile:
         return redirect(url_for('home'))
-    art_contr = ArticleController(user.id)
+
+    word_size = 6
+    articles = ArticleController(user.id).read().all()
+    top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
+    tag_cloud = misc_utils.tag_cloud(top_words)
+
     return render_template('profile_public.html',
                 user=user,
                 feeds=user.feeds,
-                unread_article_count=art_contr.count_by_category(readed=False),
-                article_count=art_contr.count_by_category())
+                tag_cloud=tag_cloud)
 
 @user_bp.route('/management', methods=['GET', 'POST'])
 @login_required

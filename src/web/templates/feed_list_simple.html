@@ -1,0 +1,22 @@
+{% if feeds.count() != 0 %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ _('Title') }}</th>
+                <th>{{ _('Site') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feed in feeds %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />&nbsp;{% endif %}{{ feed.title }}</td>
+                <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

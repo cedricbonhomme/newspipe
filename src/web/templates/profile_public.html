@@ -9,8 +9,10 @@
         </div>
     </div>
 
+    <div>{{ tag_cloud|safe }}</div>
+
     <h2>Feeds</h2>
-    {% include "feed_list.html" %}
+    {% include "feed_list_simple.html" %}
 
 </div><!-- /.container -->
 {% endblock %}
