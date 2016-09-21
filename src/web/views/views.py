@@ -50,21 +50,24 @@ def popular():
     """
     Return the most popular feeds for the last nb_days days.
     """
+    # try to get the 'recent' popular websites, created after
+    # 'not_created_before'
+    # ie: not_added_before = date_last_added_feed - nb_days
     nb_days = int(request.args.get('nb_days', 1000))
     last_added_feed = FeedController().read().\
                         order_by(desc('created_date')).limit(1)
     if last_added_feed:
-        last_added_feed_date = last_added_feed.all()[0].created_date
+        date_last_added_feed = last_added_feed.all()[0].created_date
     else:
-        last_added_feed_date = datetime.now()
-    not_before = last_added_feed_date - timedelta(days=nb_days)
-    filters = {}
-    filters['created_date__gt'] = not_before
+        date_last_added_feed = datetime.now()
+    not_added_before = date_last_added_feed - timedelta(days=nb_days)
 
+    filters = {}
+    filters['created_date__gt'] = not_added_before
     feeds = FeedController().count_by_link(**filters)
     sorted_feeds = sorted(feeds.items(), key=operator.itemgetter(1),
                             reverse=True)
-    return render_template('popular.html', popular=sorted_feeds[:100])
+    return render_template('popular.html', popular=sorted_feeds)
 
 
 @current_app.route('/about', methods=['GET'])
