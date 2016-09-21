@@ -2,6 +2,19 @@
 Release History
 =================
 
+7.1 (not yet released)
+---------------------
+
+    New:
+     * public profile page for users (private by default);
+     * popular page: displays the most popular feeds recentlty added by the users.
+    Improvements:
+     * the profile edition page has been improved;
+     * the generation of the tag cloud has been improved (faster).
+    Fixes:
+     * fixed a bug when loading the list of stop words.
+
+
 7.0 (2016-04-07)
 ----------------
     New:
