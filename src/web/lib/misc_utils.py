@@ -34,6 +34,7 @@ __license__ = "AGPLv3"
 #
 
 import re
+import os
 import sys
 import glob
 import opml
@@ -242,7 +243,8 @@ def load_stop_words():
     """
     Load the stop words and return them in a list.
     """
-    stop_words_lists = glob.glob('./JARR/var/stop_words/*.txt')
+    stop_words_lists = glob.glob(os.path.join(conf.BASE_DIR,
+                                                'web/var/stop_words/*.txt'))
     stop_words = []
 
     for stop_wods_list in stop_words_lists:

@@ -1,5 +1,6 @@
 import string
 import random
+from datetime import datetime, timedelta
 from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, request)
 from flask_babel import gettext
@@ -29,7 +30,9 @@ def profile_public(nickname=None):
         return redirect(url_for('home'))
 
     word_size = 6
-    articles = ArticleController(user.id).read().all()
+    filters = {}
+    filters['retrieved_date__gt'] = datetime.now() - timedelta(weeks=24)
+    articles = ArticleController(user.id).read(**filters).all()
     top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = misc_utils.tag_cloud(top_words)
 

@@ -174,3 +174,19 @@ quelle         |  which
 quelles        |  which
 sans           |  without
 soi            |  oneself
+
+
+| Later additions (from Cédric Bonhomme)
+quelques
+beaucoup
+encore
+toujours
+maintenant
+toutes
+tous
+chaque
+plusieurs
+eacute
+egrave
+vraiment
+permet
