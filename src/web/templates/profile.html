@@ -37,6 +37,9 @@
 
             {{ form.is_public_profile.label }}
             {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.webpage.label }}
+            {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             <br />
             {{ form.submit(class_="btn") }}
         </form>

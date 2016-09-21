@@ -32,7 +32,7 @@ from flask_babel import lazy_gettext
 from werkzeug.exceptions import NotFound
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
-from flask_wtf.html5 import EmailField
+from flask_wtf.html5 import EmailField, URLField
 
 from web.lib import misc_utils
 from web.controllers import UserController
@@ -159,6 +159,7 @@ class ProfileForm(Form):
                 validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
+    webpage = URLField(lazy_gettext("Webpage"))
     refresh_rate = IntegerField(lazy_gettext("Feeds refresh frequency "
                                              "(in minutes)"),
                                 default=60)

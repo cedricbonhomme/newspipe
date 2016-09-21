@@ -4,8 +4,11 @@
     <h1>{{ user.nickname }}</h1>
     <div class="row">
         <div class="col-md-12">
-            <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
-            <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
+            <p>{{ _('Member since:') }} {{ user.date_created | datetime }}</p>
+            <p>{{ _('Last seen:') }} {{ user.last_seen | datetime }}</p>
+            {% if user.webpage %}
+                <p>{{ _('Webpage:') }} <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a></p>
+            {% endif %}
         </div>
     </div>
 
