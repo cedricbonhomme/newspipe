@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-21 08:45+0200\n"
+"POT-Creation-Date: 2016-09-21 22:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -596,6 +596,14 @@ msgstr ""
 
 #: ../templates/management.html:28
 msgid "Export articles"
+msgstr ""
+
+#: ../templates/popular.html:4
+msgid "Popular feeds"
+msgstr ""
+
+#: ../templates/popular.html:11
+msgid "add this feed"
 msgstr ""
 
 #: ../templates/profile.html:4

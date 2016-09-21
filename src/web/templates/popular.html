@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>Popular feeds</h1>
+    <h1>{{ _('Popular feeds') }}</h1>
     <ul class="list-group">
     {% for feed in popular %}
         <li class="list-group-item">
-            <a href="{{ feed[0] }}">{{ feed[0] }}</a>&nbsp
+            <a href="{{ feed[0] }}">{{ feed[0] }}</a>&nbsp;
             <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}" >
                 <span class="glyphicon glyphicon-plus text-muted" title="follow this feed"></span>
-                <span class="text-muted">add this feed</a>
+                <span class="text-muted">{{ _('add this feed') }}</a>
             </a>
             <span class="badge">{{ feed[1] }}</span>
         </li>
