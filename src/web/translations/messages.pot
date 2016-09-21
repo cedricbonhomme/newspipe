@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-11 16:48+0200\n"
+"POT-Creation-Date: 2016-09-21 08:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr ""
 msgid "Please enter your nickname."
 msgstr ""
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:157 ../forms.py:212
+#: ../forms.py:48 ../forms.py:132 ../forms.py:157 ../forms.py:214
 #: ../templates/admin/dashboard.html:13
 msgid "Email"
 msgstr ""
 
-#: ../forms.py:51 ../forms.py:215
+#: ../forms.py:51 ../forms.py:217
 msgid "Please enter your email address."
 msgstr ""
 
@@ -59,15 +59,15 @@ msgstr ""
 msgid "Please enter your email."
 msgstr ""
 
-#: ../forms.py:136 ../forms.py:162
+#: ../forms.py:136 ../forms.py:163
 msgid "Feeds refresh frequency (in minutes)"
 msgstr ""
 
-#: ../forms.py:139 ../forms.py:165 ../forms.py:188 ../forms.py:200
+#: ../forms.py:139 ../forms.py:167 ../forms.py:190 ../forms.py:202
 msgid "Save"
 msgstr ""
 
-#: ../forms.py:144 ../forms.py:175
+#: ../forms.py:144 ../forms.py:177
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
@@ -77,72 +77,81 @@ msgstr ""
 msgid "Password Confirmation"
 msgstr ""
 
-#: ../forms.py:170
+#: ../forms.py:162 ../templates/profile_public.html:10
+msgid "Webpage"
+msgstr ""
+
+#: ../forms.py:166
+msgid "Public profile"
+msgstr ""
+
+#: ../forms.py:172
 msgid "Passwords aren't the same."
 msgstr ""
 
-#: ../forms.py:183 ../templates/feed_list.html:8
+#: ../forms.py:185 ../templates/feed_list.html:8
+#: ../templates/feed_list_simple.html:7
 msgid "Title"
 msgstr ""
 
-#: ../forms.py:184
+#: ../forms.py:186
 msgid "Feed link"
 msgstr ""
 
-#: ../forms.py:185
+#: ../forms.py:187
 msgid "Please enter the URL."
 msgstr ""
 
-#: ../forms.py:186
+#: ../forms.py:188
 msgid "Site link"
 msgstr ""
 
-#: ../forms.py:187
+#: ../forms.py:189
 msgid "Check for updates"
 msgstr ""
 
-#: ../forms.py:189
+#: ../forms.py:191
 msgid "Category of the feed"
 msgstr ""
 
-#: ../forms.py:199 ../templates/layout.html:71
+#: ../forms.py:201 ../templates/layout.html:71
 msgid "Category name"
 msgstr ""
 
-#: ../forms.py:204
+#: ../forms.py:206
 msgid "Subject"
 msgstr ""
 
-#: ../forms.py:205
+#: ../forms.py:207
 msgid "Please enter a subject."
 msgstr ""
 
-#: ../forms.py:206
+#: ../forms.py:208
 msgid "Message"
 msgstr ""
 
-#: ../forms.py:207
+#: ../forms.py:209
 msgid "Please enter a content."
 msgstr ""
 
-#: ../forms.py:208
+#: ../forms.py:210
 msgid "Send"
 msgstr ""
 
-#: ../forms.py:216
+#: ../forms.py:218
 msgid "Recover"
 msgstr ""
 
-#: ../forms.py:226
+#: ../forms.py:228
 msgid "Account not confirmed."
 msgstr ""
 
-#: ../forms.py:229
+#: ../forms.py:231
 msgid "Invalid email."
 msgstr ""
 
-#: ../templates/about.html:5 ../templates/layout.html:95
-#: ../templates/layout.html:105
+#: ../templates/about.html:5 ../templates/layout.html:96
+#: ../templates/layout.html:107
 msgid "About"
 msgstr ""
 
@@ -404,7 +413,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: ../templates/feed_list.html:9
+#: ../templates/feed_list.html:9 ../templates/feed_list_simple.html:8
 msgid "Site"
 msgstr ""
 
@@ -441,7 +450,7 @@ msgstr ""
 msgid "a feed"
 msgstr ""
 
-#: ../templates/history.html:4 ../templates/layout.html:84
+#: ../templates/history.html:4 ../templates/layout.html:85
 msgid "History"
 msgstr ""
 
@@ -481,27 +490,31 @@ msgstr ""
 msgid "Feed"
 msgstr ""
 
-#: ../templates/layout.html:83
+#: ../templates/layout.html:83 ../templates/layout.html:106
+msgid "Popular"
+msgstr ""
+
+#: ../templates/layout.html:84
 msgid "Inactive"
 msgstr ""
 
-#: ../templates/layout.html:85
+#: ../templates/layout.html:86
 msgid "All"
 msgstr ""
 
-#: ../templates/layout.html:93
+#: ../templates/layout.html:94
 msgid "Profile"
 msgstr ""
 
-#: ../templates/layout.html:94
+#: ../templates/layout.html:95
 msgid "Your data"
 msgstr ""
 
-#: ../templates/layout.html:98
+#: ../templates/layout.html:99
 msgid "Dashboard"
 msgstr ""
 
-#: ../templates/layout.html:101
+#: ../templates/layout.html:102
 msgid "Logout"
 msgstr ""
 
@@ -585,23 +598,30 @@ msgstr ""
 msgid "Export articles"
 msgstr ""
 
-#: ../templates/profile.html:5
+#: ../templates/profile.html:4
 msgid "Your Profile"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:14 ../templates/profile.html:8
+#: ../templates/admin/dashboard.html:14 ../templates/profile.html:7
+#: ../templates/profile_public.html:7
 msgid "Member since"
 msgstr ""
 
-#: ../templates/profile.html:9
-msgid "Last seen:"
+#: ../templates/admin/dashboard.html:15 ../templates/profile.html:8
+#: ../templates/profile_public.html:8
+msgid "Last seen"
 msgstr ""
 
-#: ../templates/profile.html:14
+#: ../templates/profile.html:35
+#, python-format
+msgid "Your profile will be available <a href=\"%(url)s\">here</a>."
+msgstr ""
+
+#: ../templates/profile.html:47
 msgid "You are going to delete your account."
 msgstr ""
 
-#: ../templates/profile.html:14
+#: ../templates/profile.html:47
 msgid "Delete your account"
 msgstr ""
 
@@ -623,10 +643,6 @@ msgstr ""
 
 #: ../templates/admin/dashboard.html:7
 msgid "Registered users"
-msgstr ""
-
-#: ../templates/admin/dashboard.html:15
-msgid "Last seen"
 msgstr ""
 
 #: ../templates/admin/dashboard.html:28
@@ -666,7 +682,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: ../views/admin.py:68 ../views/user.py:88
+#: ../views/admin.py:68 ../views/user.py:113
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -797,7 +813,7 @@ msgstr ""
 msgid "No duplicates in the feed \"{}\"."
 msgstr ""
 
-#: ../views/home.py:168 ../views/user.py:40
+#: ../views/home.py:168 ../views/user.py:63
 msgid "Downloading articles..."
 msgstr ""
 
@@ -824,52 +840,52 @@ msgstr ""
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: ../views/user.py:32 ../views/user.py:48 ../views/user.py:57
+#: ../views/user.py:55 ../views/user.py:71 ../views/user.py:80
 msgid "File not allowed."
 msgstr ""
 
-#: ../views/user.py:38
+#: ../views/user.py:61
 msgid "feeds imported."
 msgstr ""
 
-#: ../views/user.py:42
+#: ../views/user.py:65
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: ../views/user.py:52
+#: ../views/user.py:75
 msgid "Account imported."
 msgstr ""
 
-#: ../views/user.py:54
+#: ../views/user.py:77
 msgid "Impossible to import the account."
 msgstr ""
 
-#: ../views/user.py:106
+#: ../views/user.py:131
 msgid "Your account has been deleted."
 msgstr ""
 
-#: ../views/user.py:123
+#: ../views/user.py:148
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: ../views/user.py:125
+#: ../views/user.py:150
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: ../views/user.py:150
+#: ../views/user.py:175
 msgid "New password sent to your address."
 msgstr ""
 
-#: ../views/user.py:152
+#: ../views/user.py:177
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr ""
 
-#: ../views/views.py:16
+#: ../views/views.py:20
 msgid "Authentication required."
 msgstr ""
 
-#: ../views/views.py:24
+#: ../views/views.py:28
 msgid "Forbidden."
 msgstr ""
 

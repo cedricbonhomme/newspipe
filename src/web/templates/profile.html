@@ -4,8 +4,8 @@
     <h1>{{ _('Your Profile') }}</h1>
     <div class="row">
         <div class="col-md-6">
-            <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
-            <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
+            <p>{{ _('Member since') }}: {{ user.date_created  | datetime }}.</p>
+            <p>{{ _('Last seen') }}: {{ user.last_seen  | datetime }}.</p>
         </div>
     </div>
     <div class="well">
