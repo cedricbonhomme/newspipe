@@ -1,48 +1,51 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="well">
-        <h1>{{ _('Your Profile') }}</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
-                <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
-            </div>
+    <h1>{{ _('Your Profile') }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <p>{{ _('Member since') }} {{ user.date_created  | datetime }}.</p>
+            <p>{{ _('Last seen:') }} {{ user.last_seen  | datetime }}.</p>
         </div>
+    </div>
+    <div class="well">
         <div class="row">
             <div class="col-md-12">
-                <a href="/delete_account" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+                <h2>Edit your profile</h2>
+                <form action="" method="post" name="save">
+                    {{ form.hidden_tag() }}
+
+                    {{ form.nickname.label }}
+                    {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                    {{ form.email.label }}
+                    {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                    {{ form.password.label }}
+                    {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                    {{ form.password_conf.label }}
+                    {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                    {{ form.refresh_rate.label }}
+                    {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                    {{ form.is_public_profile.label }}
+                    {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
+
+                    {{ form.webpage.label }}
+                    {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    <br />
+                    {{ form.submit(class_="btn btn-default") }}
+                </form>
             </div>
-       </div>
+        </div>
     </div>
-    <div class="well">
-        <h2>Edit your profile</h2>
-        <form action="" method="post" name="save">
-            {{ form.hidden_tag() }}
-
-            {{ form.nickname.label }}
-            {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.email.label }}
-            {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.password.label }}
-            {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.password_conf.label }}
-            {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.refresh_rate.label }}
-            {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.is_public_profile.label }}
-            {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-            {{ form.webpage.label }}
-            {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            <br />
-            {{ form.submit(class_="btn") }}
-        </form>
-    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/delete_account" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+        </div>
+   </div>
 </div><!-- /.container -->
 {% endblock %}
