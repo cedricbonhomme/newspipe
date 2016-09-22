@@ -7,7 +7,8 @@ Release History
 
     New:
      * public profile page for users (private by default);
-     * popular page: displays the most popular feeds recentlty added by the users.
+     * popular page: displays the most popular feeds recentlty added by the users;
+     * new logo.
     Improvements:
      * the profile edition page has been improved;
      * the generation of the tag cloud has been improved (faster).
