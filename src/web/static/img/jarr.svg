@@ -18,7 +18,7 @@
    sodipodi:docname="jarr.svg"><metadata
      id="metadata1831"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><cc:license
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /><cc:license
            rdf:resource="http://creativecommons.org/licenses/by-nc-sa/3.0/" /></cc:Work><cc:License
          rdf:about="http://creativecommons.org/licenses/by-nc-sa/3.0/"><cc:permits
            rdf:resource="http://creativecommons.org/ns#Reproduction" /><cc:permits
@@ -58,7 +58,7 @@
        id="path7" /><path
        d="M72,50h112c2.2,0,4-1.8,4-4V28c0-6.6-5.4-12-12-12H80c-6.6,0-12,5.4-12,12v18C68,48.2,69.8,50,72,50z"
        id="path9"
-       style="fill:#000080" /><circle
+       style="fill:#000000" /><circle
        cx="84"
        cy="198"
        r="2"
