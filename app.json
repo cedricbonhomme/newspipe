@@ -7,7 +7,7 @@
     "RSS"
   ],
   "repository": "https://github.com/JARR/JARR.git",
-  "logo": "https://raw.githubusercontent.com/JARR/JARR/master/src/web/static/img/logo.png",
+  "logo": "https://raw.githubusercontent.com/JARR/JARR/master/src/web/static/img/jarr.png",
   "scripts": {
     "postdeploy": "python src/manager.py db_create"
   },
