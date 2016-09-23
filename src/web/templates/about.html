@@ -15,7 +15,6 @@
     </div>
     <div class="well">
         <h1>{{ _('Help') }}</h1>
-        <p>{{ _('If you have any problem, <a href="https://wiki.cedricbonhomme.org/contact">contact</a> the administrator.') }}</p>
         <p>{{ _('The documentation of the API is <a href="https://jarr.readthedocs.io/en/latest/web-services-v3.html">here</a>.') }}</p>
         <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
         {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using JARR</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}

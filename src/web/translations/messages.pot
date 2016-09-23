@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-21 22:52+0200\n"
+"POT-Creation-Date: 2016-09-23 08:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,25 +193,18 @@ msgstr ""
 
 #: ../templates/about.html:18
 msgid ""
-"If you have any problem, <a "
-"href=\"https://wiki.cedricbonhomme.org/contact\">contact</a> the "
-"administrator."
-msgstr ""
-
-#: ../templates/about.html:19
-msgid ""
 "The documentation of the API is <a "
 "href=\"https://jarr.readthedocs.io/en/latest/web-"
 "services-v3.html\">here</a>."
 msgstr ""
 
-#: ../templates/about.html:20
+#: ../templates/about.html:19
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following "
 "button to your browser bookmarks."
 msgstr ""
 
-#: ../templates/about.html:21
+#: ../templates/about.html:20
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" "
