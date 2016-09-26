@@ -49,10 +49,7 @@ DEFAULTS = {"platform_url": "https://jarr.herokuapp.com/",
             }
 
 if not ON_HEROKU:
-    try:
-        import configparser as confparser
-    except:
-        import ConfigParser as confparser
+    import configparser as confparser
     # load the configuration
     config = confparser.SafeConfigParser(defaults=DEFAULTS)
     config.read(os.path.join(BASE_DIR, "conf/conf.cfg"))

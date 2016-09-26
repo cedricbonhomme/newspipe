@@ -28,6 +28,7 @@ if conf.ON_HEROKU:
 
 babel = Babel(application)
 
+
 # Jinja filters
 def month_name(month_number):
     return calendar.month_name[month_number]

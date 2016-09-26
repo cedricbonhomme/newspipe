@@ -41,6 +41,7 @@ def profile_public(nickname=None):
                 feeds=user.feeds,
                 tag_cloud=tag_cloud)
 
+
 @user_bp.route('/management', methods=['GET', 'POST'])
 @login_required
 def management():

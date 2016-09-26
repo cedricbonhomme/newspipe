@@ -9,6 +9,7 @@ import logging
 import flask_restless
 from urllib.parse import urlsplit
 
+
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
     formater = logging.Formatter(log_format)
@@ -54,6 +55,7 @@ db = SQLAlchemy(application)
 
 # Create the Flask-Restless API manager.
 manager = flask_restless.APIManager(application, flask_sqlalchemy_db=db)
+
 
 def populate_g():
     from flask import g

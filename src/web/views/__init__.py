@@ -16,6 +16,7 @@ import conf
 from flask import request
 from flask import g
 
+
 @g.babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(conf.LANGUAGES.keys())

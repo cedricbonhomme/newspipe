@@ -6,7 +6,7 @@ from werkzeug import generate_password_hash
 
 from web.views.common import admin_permission
 from web.lib.utils import redirect_url
-from web.controllers import UserController, ArticleController
+from web.controllers import UserController
 from web.forms import InformationMessageForm, UserForm
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')

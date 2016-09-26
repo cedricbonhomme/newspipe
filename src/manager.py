@@ -9,7 +9,7 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
 import web.models
-from web.controllers import FeedController, UserController
+from web.controllers import UserController
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,6 @@ def fetch_asyncio(user_id, feed_id):
     import asyncio
 
     with application.app_context():
-        from flask_login import current_user
         from crawler import classic_crawler
         ucontr = UserController()
         users = []
