@@ -26,7 +26,7 @@ The core technologies are `Flask <http://flask.pocoo.org>`_,
 `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `React <https://facebook.github.io/react/>`_.
 
-Python 3.5 is recommended.
+Python 3.5 is required.
 
 Documentation
 -------------

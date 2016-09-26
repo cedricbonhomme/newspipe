@@ -2,8 +2,8 @@
 Release History
 =================
 
-7.1 (not yet released)
----------------------
+7.1 (2016-09-26)
+----------------
 
     New:
      * public profile page for users (private by default);
