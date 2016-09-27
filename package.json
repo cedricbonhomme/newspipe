@@ -13,26 +13,26 @@
   },
   "license": "AGPL-3.0",
   "engines": {
-    "npm": "^3.3.12"
+    "npm": "^3.8.1"
   },
   "main": "src/web/js/app.js",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
-    "flux": "^2.0.1",
-    "jquery": "^3.1.0",
-    "keymirror": "~0.1.0",
-    "object-assign": "^4.0.1",
-    "react": "^15.3.1",
+    "flux": "^2.1.1",
+    "jquery": "^3.1.1",
+    "keymirror": "^0.1.1",
+    "object-assign": "^4.1.0",
+    "react": "^15.3.2",
     "react-bootstrap": "^0.30.3",
-    "react-dom": "^15.3.1"
+    "react-dom": "^15.3.2"
   },
   "devDependencies": {
-      "browserify": "^13.1.0",
-      "envify": "^3.4.1",
-      "reactify": "^1.1.1",
-      "uglify-js": "~2.7.3",
-      "watchify": "^3.7.0"
+    "browserify": "^13.1.0",
+    "envify": "^3.4.1",
+    "reactify": "^1.1.1",
+    "uglify-js": "^2.7.3",
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
