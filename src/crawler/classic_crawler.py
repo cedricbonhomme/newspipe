@@ -148,8 +148,6 @@ async def insert_database(user, feed):
                                                         existing_article.dump())
             continue
         article = construct_article(article, feed)
-        print("test.............................................")
-        print(article)
         try:
             new_articles.append(art_contr.create(**article))
             logger.info("New article % (%r) added.",
