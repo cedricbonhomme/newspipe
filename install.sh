@@ -1,17 +1,17 @@
 #! /usr/bin/env bash
 
 #
-# This script install all dependencies and configure JARR
-# for Python 3.
+# This script install all dependencies and configure JARR for Python 3.
 #
 
 PYTHON_VERSION="3.5"
 
-sudo apt-get install -y python$PYTHON_VERSION libpq-dev python$PYTHON_VERSION-dev build-essential git
-sudo apt-get install -y libxml2-dev libxslt1-dev # for lxml
+#sudo apt-get install -y python$PYTHON_VERSION libpq-dev python$PYTHON_VERSION-dev build-essential git > /dev/null
+sudo apt-get install -y libxml2-dev libxslt1-dev > /dev/null # for lxml
 
-sed -i '/psycopg2/d' requirements.txt
-sudo pip$PYTHON_VERSION install --upgrade -r requirements.txt
+echo "Installing required Python libraries..."
+sed -i '/psycopg2/d' requirements.txt > /dev/null
+sudo pip$PYTHON_VERSION install --upgrade -r requirements.txt > /dev/null
 
 # Initializes the configuration file
 cp src/conf/conf.cfg-sample src/conf/conf.cfg
@@ -21,8 +21,10 @@ sed -i '/database/d' src/conf/conf.cfg
 sed -i '/database_url/d' src/conf/conf.cfg
 
 if [ "$1" == postgres ]; then
-    sudo apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client
-    sudo pip$PYTHON_VERSION install psycopg2
+    echo "Installing requirements for PostgreSQL..."
+    sudo apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client > /dev/null
+    sudo pip$PYTHON_VERSION install psycopg2 > /dev/null
+    echo "Configuring the database..."
     echo "127.0.0.1:5433:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
     chmod 0600 ~/.pgpass
     sudo -u postgres createuser pgsqluser --no-superuser --createdb --no-createrole
@@ -34,15 +36,22 @@ if [ "$1" == postgres ]; then
     echo '[database]' >> src/conf/conf.cfg
     echo 'database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator' >> src/conf/conf.cfg
 elif [ "$1" == sqlite ]; then
-    sudo pip$PYTHON_VERSION install pysqlite # not working with Python 3!
     # Add configuration lines for SQLite
+    echo "Configuring the SQLite database..."
     echo '[database]' >> src/conf/conf.cfg
-    echo 'database_url = sqlite+pysqlite:///jarr.db' >> src/conf/conf.cfg
+    echo 'database_url = sqlite:///jarr.db' >> src/conf/conf.cfg
 fi
 
+echo "Initialization of the database..."
 python$PYTHON_VERSION src/manager.py db_empty
 python$PYTHON_VERSION src/manager.py db_create
 
 # Bootstrap
-git submodule init
-git submodule update
+echo "Retrieving bootstrap..."
+git submodule init > /dev/null
+git submodule update > /dev/null
+
+
+echo "Installation terminated."
+echo "Launch JARR with the command:"
+echo -e "\tpython$PYTHON_VERSION src/runserver.py"

@@ -36,21 +36,23 @@ def construct_article(entry, feed):
         feed = feed.dump()
     "Safe method to transorm a feedparser entry into an article"
     now = datetime.now()
-    date, updated_date = None, None
-    for date_key in ('published', 'updated'):
+    date = None
+    for date_key in ('published', 'created', 'date'):
         if entry.get(date_key):
             try:
-                date = dateutil.parser.parse(entry[date_key])
+                date = dateutil.parser.parse(entry[date_key])\
+                        .astimezone(timezone.utc)
             except Exception:
                 pass
             else:
                 break
+
+    updated_date = None
     try:
         updated_date = dateutil.parser.parse(entry['updated'])
     except Exception:
         pass
     content = get_article_content(entry)
-
     article_link = entry.get('link')
 
     return {'feed_id': feed['id'],
@@ -60,9 +62,9 @@ def construct_article(entry, feed):
             'title': entry.get('title', 'No title'),
             'readed': False, 'like': False,
             'content': content,
-            'retrieved_date': now.isoformat(),
-            'date': (date or now).isoformat(),
-            'updated_date': (updated_date or date or now).isoformat()}
+            'retrieved_date': now,
+            'date': date or now,
+            'updated_date': updated_date or date or now}
 
 def get_article_content(entry):
     content = ''
