@@ -55,9 +55,9 @@ def popular():
     # ie: not_added_before = date_last_added_feed - nb_days
     nb_days = int(request.args.get('nb_days', 1000))
     last_added_feed = FeedController().read().\
-                        order_by(desc('created_date')).limit(1)
+                        order_by(desc('created_date')).limit(1).all()
     if last_added_feed:
-        date_last_added_feed = last_added_feed.all()[0].created_date
+        date_last_added_feed = last_added_feed[0].created_date
     else:
         date_last_added_feed = datetime.now()
     not_added_before = date_last_added_feed - timedelta(days=nb_days)
