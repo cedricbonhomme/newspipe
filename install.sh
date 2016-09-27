@@ -24,10 +24,8 @@ wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz -o /dev/null  >
 tar -xf Python-3.5.2.tar.xz  > /dev/null
 rm Python-3.5.2.tar.xz  > /dev/null
 cd Python-3.5.2/
-export PYTHONHOME=/usr/local
+export PYTHONHOME=/usr/local/
 export LD_RUN_PATH=/usr/local/lib/
-echo "test:"
-echo $PYTHONHOME
 ./configure --enable-loadable-sqlite-extensions --enable-shared  > /dev/null
 make  > /dev/null
 sudo make install  > /dev/null
@@ -37,7 +35,7 @@ sudo rm -Rf Python-3.5.2/
 
 echo "Installing required Python libraries..."
 sed -i '/psycopg2/d' requirements.txt > /dev/null
-sudo pip$PYTHON_VERSION install --upgrade pip
+sudo pip$PYTHON_VERSION install --upgrade pip  > /dev/null
 sudo pip$PYTHON_VERSION install --upgrade -r requirements.txt > /dev/null
 
 
