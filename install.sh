@@ -18,12 +18,13 @@ wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz -o /dev/null  >
 tar -xf Python-3.5.2.tar.xz  > /dev/null
 rm Python-3.5.2.tar.xz  > /dev/null
 cd Python-3.5.2/
+export PYTHONHOME=/usr/local
 export LD_RUN_PATH=/usr/local/lib/
 ./configure --enable-loadable-sqlite-extensions --enable-shared  > /dev/null
 make  > /dev/null
 sudo make install  > /dev/null
 cd ..
-rm -Rf Python-3.5.2/
+sudo rm -Rf Python-3.5.2/
 
 
 echo "Installing required Python libraries..."
