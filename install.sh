@@ -26,6 +26,8 @@ rm Python-3.5.2.tar.xz  > /dev/null
 cd Python-3.5.2/
 export PYTHONHOME=/usr/local
 export LD_RUN_PATH=/usr/local/lib/
+echo "test:"
+echo $PYTHONHOME
 ./configure --enable-loadable-sqlite-extensions --enable-shared  > /dev/null
 make  > /dev/null
 sudo make install  > /dev/null
