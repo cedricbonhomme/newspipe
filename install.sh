@@ -1,13 +1,30 @@
 #! /usr/bin/env bash
 
 #
-# This script install all dependencies and configure JARR for Python 3.
+# This script install all dependencies and configure JARR.
+# Usage:
+# ./install.sh (sqlite|postgres)
 #
 
 PYTHON_VERSION="3.5"
 
-#sudo apt-get install -y python$PYTHON_VERSION libpq-dev python$PYTHON_VERSION-dev build-essential git > /dev/null
+
+sudo apt-get install -y build-essential git wget > /dev/null
 sudo apt-get install -y libxml2-dev libxslt1-dev > /dev/null # for lxml
+
+
+echo "Installation of Python..."
+wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz -o /dev/null  > /dev/null
+tar -xf Python-3.5.2.tar.xz  > /dev/null
+rm Python-3.5.2.tar.xz  > /dev/null
+cd Python-3.5.2/
+export LD_RUN_PATH=/usr/local/lib/
+./configure --enable-loadable-sqlite-extensions --enable-shared  > /dev/null
+make  > /dev/null
+sudo make install  > /dev/null
+cd ..
+rm -Rf Python-3.5.2/
+
 
 echo "Installing required Python libraries..."
 sed -i '/psycopg2/d' requirements.txt > /dev/null
@@ -23,6 +40,7 @@ sed -i '/database_url/d' src/conf/conf.cfg
 if [ "$1" == postgres ]; then
     echo "Installing requirements for PostgreSQL..."
     sudo apt-get install -y postgresql postgresql-server-dev-9.4 postgresql-client > /dev/null
+    sudo apt-get install -y libpq-dev  > /dev/null
     sudo pip$PYTHON_VERSION install psycopg2 > /dev/null
     echo "Configuring the database..."
     echo "127.0.0.1:5433:aggregator:pgsqluser:pgsqlpwd" > ~/.pgpass
@@ -42,9 +60,11 @@ elif [ "$1" == sqlite ]; then
     echo 'database_url = sqlite:///jarr.db' >> src/conf/conf.cfg
 fi
 
+
 echo "Initialization of the database..."
 python$PYTHON_VERSION src/manager.py db_empty
 python$PYTHON_VERSION src/manager.py db_create
+
 
 # Bootstrap
 echo "Retrieving bootstrap..."
