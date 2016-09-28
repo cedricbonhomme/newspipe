@@ -138,11 +138,13 @@ async def insert_database(user, feed):
             try:
                 new_updated_date = dateutil.parser.parse(article['updated'])
             except Exception as e:
-                print(e)#new_updated_date = existing_article.date
+                new_updated_date = existing_article.date
+                print(e)
             if None is existing_article.updated_date:
                 existing_article.updated_date = new_updated_date.replace(tzinfo=None)
             if existing_article.updated_date.strftime('%Y-%m-%dT%H:%M:%S') != \
                                 new_updated_date.strftime('%Y-%m-%dT%H:%M:%S'):
+                logger.info('article updated')
                 existing_article.updated_date = \
                                         new_updated_date.replace(tzinfo=None)
                 if existing_article.title != article['title']:
