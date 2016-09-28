@@ -16,8 +16,8 @@ def extract_id(entry, keys=[('link', 'link'), ('published', 'date'),
     """
     entry_id = entry.get('entry_id') or entry.get('id')
     if entry_id:
+        return {'entry_id': entry_id}
     if not entry_id and force_id:
-        logger.info('no entry id!!!')
         return to_hash("".join(entry[entry_key] for _, entry_key in keys
                                    if entry_key in entry).encode('utf8'))
     else:
