@@ -156,7 +156,6 @@ async def insert_database(user, feed):
                 art_contr.update({'entry_id': existing_article.entry_id},
                                                         existing_article.dump())
             continue
-        print('new article!')
         article = construct_article(article, feed)
         try:
             new_articles.append(art_contr.create(**article))
