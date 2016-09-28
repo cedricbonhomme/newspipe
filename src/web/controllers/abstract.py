@@ -91,7 +91,10 @@ class AbstractController:
 
         obj = self._db_cls(**attrs)
         db.session.add(obj)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except Exception as e:
+            logger.exception(str(e))
         return obj
 
     def read(self, **filters):

@@ -15,7 +15,7 @@ def set_logging(log_path, log_level=logging.INFO,
     formater = logging.Formatter(log_format)
     handler = logging.FileHandler(log_path)
     handler.setFormatter(formater)
-    for logger_name in ('bootstrap', 'web', 'manager', 'runserver'):
+    for logger_name in ('bootstrap', 'web', 'manager', 'runserver', 'classic_crawler'):
         logger = logging.getLogger(logger_name)
         logger.addHandler(handler)
         logger.setLevel(log_level)

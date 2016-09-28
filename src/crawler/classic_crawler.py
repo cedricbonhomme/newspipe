@@ -112,7 +112,7 @@ async def insert_database(user, feed):
     if None is articles:
         return []
 
-    logger.debug('inserting articles for {}'.format(feed.title))
+    logger.info('inserting articles for {}'.format(feed.title))
 
     logger.info("Database insertion...")
     new_articles = []
@@ -130,6 +130,8 @@ async def insert_database(user, feed):
             # if the article has been already retrieved, we only update
             # the content or the title
             logger.debug("Article %r (%r) already in the database.",
+                         article['title'], article['link'])
+            print("Article %r (%r) already in the database.",
                          article['title'], article['link'])
             existing_article = existing_article_req.first()
             new_updated_date = None
