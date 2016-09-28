@@ -118,8 +118,13 @@ async def insert_database(user, feed):
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
-        existing_article_req = art_contr.read(feed_id=feed.id,
-                        **extract_id(article))
+        try:
+            existing_article_req = art_contr.read(feed_id=feed.id,
+                            **extract_id(article))
+        except Exception as e:
+            print("existing_article_req: " + e)
+            continue
+
         exist = existing_article_req.count() != 0
         if exist:
             # if the article has been already retrieved, we only update
