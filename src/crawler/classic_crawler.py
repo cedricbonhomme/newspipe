@@ -122,7 +122,7 @@ async def insert_database(user, feed):
             existing_article_req = art_contr.read(feed_id=feed.id,
                             **extract_id(article))
         except Exception as e:
-            print("existing_article_req: " + e)
+            print("existing_article_req: " + str(e))
             continue
 
         exist = existing_article_req.count() != 0

@@ -26,8 +26,12 @@ def extract_id(entry, keys=[('link', 'link'), ('published', 'date'),
             if entry_key in entry and pyagg_key not in ids:
                 ids[pyagg_key] = entry[entry_key]
                 if 'date' in pyagg_key:
-                    ids[pyagg_key] = dateutil.parser.parse(ids[pyagg_key])\
+                    try:
+                        ids[pyagg_key] = dateutil.parser.parse(ids[pyagg_key])\
                                                     .isoformat()
+                    except ValueError as e:
+                        print("extract_id: " + str(e))
+                        ids[pyagg_key] =  datetime.now().isoformat()
         return ids
 
 
