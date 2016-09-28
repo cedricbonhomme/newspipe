@@ -58,12 +58,12 @@ def fetch_asyncio(user_id, feed_id):
         ucontr = UserController()
         users = []
         try:
-            users = [ucontr.get(user_id)]
-        except:
-            users = ucontr.read()
+            users = ucontr.read(id=int(user_id)).all()
+        except Exception as e:
+            users = ucontr.read().all()
         finally:
             if users == []:
-                users = ucontr.read()
+                users = ucontr.read().all()
 
         try:
             feed_id = int(feed_id)
