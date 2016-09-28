@@ -1,6 +1,6 @@
 import logging
 import dateutil.parser
-from datetime import datetime
+from datetime import datetime, timezone
 
 import conf
 from web.lib.utils import to_hash
@@ -16,8 +16,8 @@ def extract_id(entry, keys=[('link', 'link'), ('published', 'date'),
     """
     entry_id = entry.get('entry_id') or entry.get('id')
     if entry_id:
-        return {'entry_id': entry_id}
     if not entry_id and force_id:
+        logger.info('no entry id!!!')
         return to_hash("".join(entry[entry_key] for _, entry_key in keys
                                    if entry_key in entry).encode('utf8'))
     else:
@@ -30,7 +30,7 @@ def extract_id(entry, keys=[('link', 'link'), ('published', 'date'),
                         ids[pyagg_key] = dateutil.parser.parse(ids[pyagg_key])\
                                                     .isoformat()
                     except ValueError as e:
-                        print("extract_id: " + str(e))
+                        logger.exception("extract_id: " + str(e))
                         ids[pyagg_key] =  datetime.now().isoformat()
         return ids
 
@@ -46,8 +46,8 @@ def construct_article(entry, feed):
             try:
                 date = dateutil.parser.parse(entry[date_key])\
                         .astimezone(timezone.utc)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.exception(str(e))
             else:
                 break
 
