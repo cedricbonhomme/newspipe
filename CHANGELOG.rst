@@ -2,9 +2,19 @@
 Release History
 =================
 
+7.1.1 (2016-10-04)
+------------------
+
+    Improvements:
+     * improved the installation script;
+     * improved the deployment process with Vagrant.
+    Fixes:
+     * fixed a bug that occurred when deleting a user who has categories with
+       feeds in it;
+     * fixed a bug that occured when the user wants to use SQLite.
+
 7.1 (2016-09-26)
 ----------------
-
     New:
      * public profile page for users (private by default);
      * popular page: displays the most popular feeds recentlty added by the users;
