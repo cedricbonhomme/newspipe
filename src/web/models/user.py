@@ -35,6 +35,8 @@ from flask_login import UserMixin
 
 from bootstrap import db
 from web.models.right_mixin import RightMixin
+from web.models.category import Category
+from web.models.feed import Feed
 
 
 class User(db.Model, UserMixin, RightMixin):
@@ -49,8 +51,8 @@ class User(db.Model, UserMixin, RightMixin):
     is_public_profile = db.Column(db.Boolean(), default=False)
     webpage = db.Column(db.String(), default="")
 
-    date_created = db.Column(db.DateTime(), default=datetime.now)
-    last_seen = db.Column(db.DateTime(), default=datetime.now)
+    date_created = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     refresh_rate = db.Column(db.Integer, default=60)  # in minutes
 
     # user rights
@@ -59,9 +61,12 @@ class User(db.Model, UserMixin, RightMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     # relationship
-    feeds = db.relationship('Feed', backref='subscriber', lazy='dynamic',
-                            cascade='all,delete-orphan')
-    categories = db.relationship('Category', cascade='all, delete-orphan')
+    categories = db.relationship('Category', backref='user',
+                              cascade='all, delete-orphan',
+                            foreign_keys=[Category.user_id])
+    feeds = db.relationship('Feed', backref='user',
+                         cascade='all, delete-orphan',
+                            foreign_keys=[Feed.user_id])
 
     @staticmethod
     def _fields_base_write():

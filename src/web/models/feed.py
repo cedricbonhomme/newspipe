@@ -28,7 +28,8 @@ __license__ = "GPLv3"
 
 from bootstrap import db
 from datetime import datetime
-from sqlalchemy import desc
+from sqlalchemy import desc, Index
+from sqlalchemy.orm import validates
 from web.models.right_mixin import RightMixin
 
 
@@ -42,7 +43,7 @@ class Feed(db.Model, RightMixin):
     link = db.Column(db.String())
     site_link = db.Column(db.String(), default="")
     enabled = db.Column(db.Boolean(), default=True)
-    created_date = db.Column(db.DateTime(), default=datetime.now)
+    created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     filters = db.Column(db.PickleType, default=[])
 
     # cache handling
@@ -62,6 +63,10 @@ class Feed(db.Model, RightMixin):
                                cascade='all,delete-orphan',
                                order_by=desc("date"))
 
+    # index
+    idx_feed_uid_cid = Index('user_id', 'category_id')
+    idx_feed_uid = Index('user_id')
+
      # api whitelists
     @staticmethod
     def _fields_base_write():
@@ -71,6 +76,14 @@ class Feed(db.Model, RightMixin):
     @staticmethod
     def _fields_base_read():
         return {'id', 'user_id', 'icon_url', 'last_retrieved'}
+
+    @validates('title')
+    def validates_title(self, key, value):
+        return str(value).strip()
+
+    @validates('description')
+    def validates_description(self, key, value):
+        return str(value).strip()
 
     def __repr__(self):
         return '<Feed %r>' % (self.title)

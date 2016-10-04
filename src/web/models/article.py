@@ -20,15 +20,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.4 $"
+__version__ = "$Revision: 0.5 $"
 __date__ = "$Date: 2013/11/05 $"
-__revision__ = "$Date: 2016/05/02 $"
+__revision__ = "$Date: 2016/10/04 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 from bootstrap import db
 from datetime import datetime
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, Index
 from web.models.right_mixin import RightMixin
 
 
@@ -41,13 +41,18 @@ class Article(db.Model, RightMixin):
     content = db.Column(db.String())
     readed = db.Column(db.Boolean(), default=False)
     like = db.Column(db.Boolean(), default=False)
-    date = db.Column(db.DateTime(), default=datetime.now)
-    updated_date = db.Column(db.DateTime(), default=datetime.now)
-    retrieved_date = db.Column(db.DateTime(), default=datetime.now)
+    date = db.Column(db.DateTime(), default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
+
+    # index
+    idx_article_uid = Index('user_id')
+    idx_article_uid_cid = Index('user_id', 'category_id')
+    idx_article_uid_fid = Index('user_id', 'feed_id')
 
     # api whitelists
     @staticmethod
