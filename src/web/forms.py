@@ -133,9 +133,6 @@ class UserForm(Form):
                [validators.Length(min=6, max=35),
                 validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
-    refresh_rate = IntegerField(lazy_gettext("Feeds refresh frequency "
-                                             "(in minutes)"),
-                                default=60)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
@@ -160,9 +157,6 @@ class ProfileForm(Form):
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
     webpage = URLField(lazy_gettext("Webpage"))
-    refresh_rate = IntegerField(lazy_gettext("Feeds refresh frequency "
-                                             "(in minutes)"),
-                                default=60)
     is_public_profile = BooleanField(lazy_gettext("Public profile"),
                                 default=True)
     submit = SubmitField(lazy_gettext("Save"))

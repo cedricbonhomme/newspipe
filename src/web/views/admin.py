@@ -62,8 +62,7 @@ def process_user_form(user_id=None):
         user_contr.update({'id': user_id},
                           {'nickname': form.nickname.data,
                            'email': form.email.data,
-                           'password': form.password.data,
-                           'refresh_rate': form.refresh_rate.data})
+                           'password': form.password.data})
         user = user_contr.get(id=user_id)
         flash(gettext('User %(nick)s successfully updated',
                       nick=user.nickname), 'success')
@@ -73,8 +72,7 @@ def process_user_form(user_id=None):
                             email=form.email.data,
                             pwdhash=generate_password_hash(form.password.data),
                             is_admin=False,
-                            is_active=True,
-                            refresh_rate=form.refresh_rate.data)
+                            is_active=True)
         flash(gettext('User %(nick)s successfully created',
                       nick=user.nickname), 'success')
     return redirect(url_for('admin.user_form', user_id=user.id))

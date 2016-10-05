@@ -5,8 +5,7 @@ from flask_restful import Api
 from web.views.common import api_permission
 from web.controllers.feed import (FeedController,
                                   DEFAULT_MAX_ERROR,
-                                  DEFAULT_LIMIT,
-                                  DEFAULT_REFRESH_RATE)
+                                  DEFAULT_LIMIT)
 
 from web.views.api.v2.common import PyAggAbstractResource, \
                                  PyAggResourceNew, \
@@ -29,8 +28,7 @@ class FeedsAPI(PyAggResourceMulti):
 class FetchableFeedAPI(PyAggAbstractResource):
     controller_cls = FeedController
     attrs = {'max_error': {'type': int, 'default': DEFAULT_MAX_ERROR},
-             'limit': {'type': int, 'default': DEFAULT_LIMIT},
-             'refresh_rate': {'type': int, 'default': DEFAULT_REFRESH_RATE}}
+             'limit': {'type': int, 'default': DEFAULT_LIMIT}}
 
     @api_permission.require(http_exception=403)
     def get(self):

@@ -25,7 +25,3 @@ class FeedControllerTest(BasePyaggTest):
         self.assertEquals(0, len(FeedController(3).list_fetchable()))
         self.assertEquals(3, len(FeedController().list_fetchable()))
         self.assertEquals(0, len(FeedController().list_fetchable()))
-        self.assertEquals(3,
-                len(FeedController(3).list_fetchable(refresh_rate=0)))
-        self.assertEquals(5,
-                len(FeedController().list_fetchable(refresh_rate=0)))

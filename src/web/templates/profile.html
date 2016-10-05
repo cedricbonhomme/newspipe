@@ -27,9 +27,6 @@
                     {{ form.password_conf.label }}
                     {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                    {{ form.refresh_rate.label }}
-                    {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
                     {{ form.is_public_profile.label }}
                     {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                     <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>

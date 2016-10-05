@@ -18,9 +18,6 @@
             {{ form.password.label }}
             {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            {{ form.refresh_rate.label }}
-            {{ form.refresh_rate(class_="form-control") }} {% for error in form.refresh_rate.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
             <br />
             {{ form.submit(class_="btn btn-default") }}
         </form>

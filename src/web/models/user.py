@@ -53,7 +53,6 @@ class User(db.Model, UserMixin, RightMixin):
 
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
-    refresh_rate = db.Column(db.Integer, default=60)  # in minutes
 
     # user rights
     is_active = db.Column(db.Boolean(), default=False)
