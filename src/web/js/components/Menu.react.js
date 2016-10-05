@@ -221,7 +221,7 @@ var MenuFilter = React.createClass({
 
 var Menu = React.createClass({
     getInitialState: function() {
-        return {filter: 'all', categories: {}, feeds: {},
+        return {filter: 'unread', categories: {}, feeds: {},
                 all_folded: false, active_type: null, active_id: null};
     },
     render: function() {
