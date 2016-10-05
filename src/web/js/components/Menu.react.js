@@ -128,7 +128,7 @@ var CategoryGroup = React.createClass({
         if(this.props.unread) {
             unread = <Badge pullRight>{this.props.unread}</Badge>;
         }
-        var ctrl = (<Glyphicon onClick={this.toggleFolding} pullLeft
+        var ctrl = (<Glyphicon onClick={this.toggleFolding}
                         glyph={this.state.folded?"menu-right":"menu-down"} />
                     );
 
@@ -221,7 +221,7 @@ var MenuFilter = React.createClass({
 
 var Menu = React.createClass({
     getInitialState: function() {
-        return {filter: 'unread', categories: {}, feeds: {},
+        return {filter: 'all', categories: {}, feeds: {},
                 all_folded: false, active_type: null, active_id: null};
     },
     render: function() {
