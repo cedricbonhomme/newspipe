@@ -2,9 +2,20 @@
 Release History
 =================
 
+7.1.2 (not yet released)
+------------------------
+    New:
+     * the user can now add its twitter link through the profile page.
+    Improvements:
+     * improved the layout of the profile page;
+     * the React.js page now only lists the feeds with unread articles by
+       default.
+    Removal:
+     * removed the 'refresh_rate' column from the user table;
+     * removed the export to HTML webzine functionality.
+
 7.1.1 (2016-10-04)
 ------------------
-
     Improvements:
      * improved the installation script;
      * improved the deployment process with Vagrant.
