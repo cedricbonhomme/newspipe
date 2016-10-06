@@ -12,9 +12,13 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Edit your profile</h2>
-                <form action="" method="post" name="save">
-                    {{ form.hidden_tag() }}
+            </div>
+        </div>
+        <form action="" method="post" name="save">
+            <div class="row">
+                {{ form.hidden_tag() }}
 
+                <div class="col-md-6">
                     {{ form.nickname.label }}
                     {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
@@ -26,18 +30,24 @@
 
                     {{ form.password_conf.label }}
                     {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    {{ form.webpage.label }}
+                    {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
                     {{ form.is_public_profile.label }}
                     {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                     <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
-
-                    {{ form.webpage.label }}
-                    {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <br />
                     {{ form.submit(class_="btn btn-default") }}
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="row">
         <div class="col-md-12">
