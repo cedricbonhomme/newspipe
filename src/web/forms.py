@@ -156,6 +156,8 @@ class ProfileForm(Form):
                 validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
+    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),
+                                default=True)
     webpage = URLField(lazy_gettext("Webpage"))
     twitter = URLField(lazy_gettext("Twitter"))
     is_public_profile = BooleanField(lazy_gettext("Public profile"),

@@ -49,21 +49,18 @@ def fetch(limit=100, retreive_all=False):
 
 
 @manager.command
-def fetch_asyncio(user_id, feed_id):
+def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
     import asyncio
 
     with application.app_context():
         from crawler import classic_crawler
-        ucontr = UserController()
-        users = []
-        try:
-            users = ucontr.read(id=int(user_id)).all()
-        except Exception as e:
-            users = ucontr.read().all()
-        finally:
-            if users == []:
-                users = ucontr.read().all()
+        filters = {}
+        filters['is_active'] = True
+        filters['automatic_crawling'] = True
+        if None is not user_id:
+            filters['id'] = user_id
+        users = UserController().read(**filters).all()
 
         try:
             feed_id = int(feed_id)
@@ -72,9 +69,8 @@ def fetch_asyncio(user_id, feed_id):
 
         loop = asyncio.get_event_loop()
         for user in users:
-            if user.is_active:
-                logger.info("Fetching articles for " + user.nickname)
-                classic_crawler.retrieve_feed(loop, user, feed_id)
+            logger.info("Fetching articles for " + user.nickname)
+            classic_crawler.retrieve_feed(loop, user, feed_id)
         loop.close()
 
 

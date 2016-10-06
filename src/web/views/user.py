@@ -107,6 +107,7 @@ def profile():
                         {'nickname': form.nickname.data,
                         'email': form.email.data,
                         'password': form.password.data,
+                        'automatic_crawling': form.automatic_crawling.data,
                         'is_public_profile': form.is_public_profile.data,
                         'webpage': form.webpage.data,
                         'twitter': form.twitter.data})

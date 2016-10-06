@@ -48,6 +48,8 @@ class User(db.Model, UserMixin, RightMixin):
     email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
 
+    automatic_crawling = db.Column(db.Boolean(), default=True)
+
     is_public_profile = db.Column(db.Boolean(), default=False)
     webpage = db.Column(db.String(), default="")
     twitter = db.Column(db.String(), default="")

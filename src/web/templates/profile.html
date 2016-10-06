@@ -42,6 +42,10 @@
                     {{ form.is_public_profile.label }}
                     {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                     <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
+
+                    {{ form.automatic_crawling.label }}
+                    {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    <p>{{ _('Uncheck if you are using your own crawler.') }}</p>
                 </div>
             </div>
             <div class="row">

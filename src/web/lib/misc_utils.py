@@ -108,7 +108,7 @@ def fetch(id, feed_id=None):
     The "asyncio" crawler is launched with the manager.
     """
     cmd = [sys.executable, conf.BASE_DIR + '/manager.py', 'fetch_asyncio',
-           str(id), str(feed_id)]
+           '--user_id='+str(id)]
     return subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 def history(user_id, year=None, month=None):
