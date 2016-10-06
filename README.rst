@@ -16,7 +16,6 @@ Main features
 * a RESTful API to manage your articles (or connect your own crawler);
 * data liberation: export and import all your account with a JSON file;
 * export and import feeds with OPML files;
-* export articles to HTML;
 * favorite articles;
 * detection of inactive feeds;
 * share articles with Google +, Pinboard and reddit.

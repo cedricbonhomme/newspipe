@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 
 
 from bootstrap import db
-from web.export import export_json, export_html
+from web.export import export_json
 from web.lib.utils import clear_string, redirect_url
 from web.controllers import (ArticleController, UserController,
                             CategoryController)
@@ -125,23 +125,11 @@ def expire():
 @login_required
 def export():
     """
-    Export all articles to HTML or JSON.
+    Export to OPML or JSON.
     """
     user = UserController(current_user.id).get(id=current_user.id)
-    if request.args.get('format') == "HTML":
-        # Export to HTML
-        try:
-            archive_file, archive_file_name = export_html(user)
-        except Exception as e:
-            print(e)
-            flash(gettext("Error when exporting articles."), 'danger')
-            return redirect(redirect_url())
-        response = make_response(archive_file)
-        response.headers['Content-Type'] = 'application/x-compressed'
-        response.headers['Content-Disposition'] = 'attachment; filename=%s' \
-                % archive_file_name
-    elif request.args.get('format') == "JSON":
-        # Export to JSON
+    if request.args.get('format') == "JSON":
+        # Export to JSON for the export of account.
         try:
             json_result = export_json(user)
         except Exception as e:
@@ -152,6 +140,7 @@ def export():
         response.headers["Content-Disposition"] \
                 = 'attachment; filename=account.json'
     elif request.args.get('format') == "OPML":
+        # Export to the OPML format.
         categories = {cat.id: cat.dump()
                 for cat in CategoryController(user.id).read()}
         response = make_response(render_template('opml.xml', user=user,

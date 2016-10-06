@@ -24,9 +24,5 @@
         <br />
         <a href="{{ url_for('articles.export', format='JSON') }}" class="btn btn-default">{{ _('Export account to JSON') }}</a>
     </div>
-    <div class="well">
-        <h1>{{ _('Export articles') }}</h1>
-        <a href="{{ url_for('articles.export', format='HTML') }}" class="btn btn-default">HTML</a>
-    </div>
 </div><!-- /.container -->
 {% endblock %}
