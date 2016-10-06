@@ -36,6 +36,9 @@
                     {{ form.webpage.label }}
                     {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
+                    {{ form.twitter.label }}
+                    {{ form.twitter(class_="form-control") }} {% for error in form.twitter.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
                     {{ form.is_public_profile.label }}
                     {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                     <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>

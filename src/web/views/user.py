@@ -108,7 +108,8 @@ def profile():
                         'email': form.email.data,
                         'password': form.password.data,
                         'is_public_profile': form.is_public_profile.data,
-                        'webpage': form.webpage.data})
+                        'webpage': form.webpage.data,
+                        'twitter': form.twitter.data})
 
             flash(gettext('User %(nick)s successfully updated',
                           nick=user.nickname), 'success')

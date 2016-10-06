@@ -9,6 +9,9 @@
             {% if user.webpage %}
                 <p>{{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a></p>
             {% endif %}
+            {% if user.twitter %}
+                <p>{{ _('Twitter') }}: <a href="{{ user.twitter | safe }}">{{ user.twitter | safe }}</a></p>
+            {% endif %}
         </div>
     </div>
 

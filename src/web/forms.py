@@ -157,6 +157,7 @@ class ProfileForm(Form):
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
     webpage = URLField(lazy_gettext("Webpage"))
+    twitter = URLField(lazy_gettext("Twitter"))
     is_public_profile = BooleanField(lazy_gettext("Public profile"),
                                 default=True)
     submit = SubmitField(lazy_gettext("Save"))

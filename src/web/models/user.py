@@ -50,6 +50,7 @@ class User(db.Model, UserMixin, RightMixin):
 
     is_public_profile = db.Column(db.Boolean(), default=False)
     webpage = db.Column(db.String(), default="")
+    twitter = db.Column(db.String(), default="")
 
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
