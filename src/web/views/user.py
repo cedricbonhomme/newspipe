@@ -31,7 +31,7 @@ def profile_public(nickname=None):
 
     word_size = 6
     filters = {}
-    filters['retrieved_date__gt'] = datetime.now() - timedelta(weeks=24)
+    filters['retrieved_date__gt'] = datetime.now() - timedelta(weeks=10)
     articles = ArticleController(user.id).read(**filters).all()
     top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = misc_utils.tag_cloud(top_words)
