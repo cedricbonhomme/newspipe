@@ -95,7 +95,7 @@ def delete_user(user_id=None):
         flash(
             gettext('An error occured while trying to delete a user: %(error)s',
                         error=error), 'danger')
-    return redirect(redirect_url())
+    return redirect(url_for('admin.dashboard'))
 
 
 @admin_bp.route('/toggle_user/<int:user_id>', methods=['GET'])
