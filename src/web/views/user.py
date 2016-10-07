@@ -103,16 +103,21 @@ def profile():
 
     if request.method == 'POST':
         if form.validate():
-            user_contr.update({'id': current_user.id},
+            try:
+                user_contr.update({'id': current_user.id},
                         {'nickname': form.nickname.data,
                         'email': form.email.data,
                         'password': form.password.data,
                         'automatic_crawling': form.automatic_crawling.data,
                         'is_public_profile': form.is_public_profile.data,
+                        'bio': form.bio.data,
                         'webpage': form.webpage.data,
                         'twitter': form.twitter.data})
-
-            flash(gettext('User %(nick)s successfully updated',
+            except Exception as error:
+                flash(gettext('Problem while updating your profile: '
+                              '%(error)s', error=error), 'danger')
+            else:
+                flash(gettext('User %(nick)s successfully updated',
                           nick=user.nickname), 'success')
             return redirect(url_for('user.profile'))
         else:

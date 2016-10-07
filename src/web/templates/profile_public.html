@@ -4,18 +4,34 @@
     <h1>{{ user.nickname }}</h1>
     <div class="row">
         <div class="col-md-12">
-            <p>{{ _('Member since') }}: {{ user.date_created | datetime }}</p>
-            <p>{{ _('Last seen') }}: {{ user.last_seen | datetime }}</p>
+            <p>
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+                {{ _('Member since') }}: {{ user.date_created | datetime }}
+            </p>
+            <p>
+                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+                {{ _('Last seen') }}: {{ user.last_seen | datetime }}
+            </p>
             {% if user.webpage %}
-                <p>{{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a></p>
+            <p>
+                <span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp;
+                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a>
+            </p>
             {% endif %}
             {% if user.twitter %}
-                <p>{{ _('Twitter') }}: <a href="{{ user.twitter | safe }}">{{ user.twitter | safe }}</a></p>
+                <p>
+                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp;
+                    {{ _('Twitter') }}: <a href="{{ user.twitter | safe }}">{{ user.twitter | safe }}</a>
+                </p>
             {% endif %}
         </div>
     </div>
-
     <div class="row">
+        <div class="col-md-5">
+            {% if user.bio %}
+                <p align="justify">{{ user.bio }}</p>
+            {% endif %}
+        </div>
         <div class="col-md-6 pull-right">
             <div>{{ tag_cloud|safe }}</div>
         </div>

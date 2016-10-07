@@ -32,6 +32,7 @@ import hashlib
 from datetime import datetime
 from werkzeug import check_password_hash
 from flask_login import UserMixin
+from sqlalchemy.orm import validates
 
 from bootstrap import db
 from web.models.right_mixin import RightMixin
@@ -51,6 +52,7 @@ class User(db.Model, UserMixin, RightMixin):
     automatic_crawling = db.Column(db.Boolean(), default=True)
 
     is_public_profile = db.Column(db.Boolean(), default=False)
+    bio = db.Column(db.String(5000), default="")
     webpage = db.Column(db.String(), default="")
     twitter = db.Column(db.String(), default="")
 
@@ -81,6 +83,12 @@ class User(db.Model, UserMixin, RightMixin):
     @staticmethod
     def make_valid_nickname(nickname):
         return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
+
+    @validates('bio')
+    def validates_bio(self, key, value):
+        assert len(value) <= 5000, \
+                AssertionError("maximum length for bio: 5000")
+        return value.strip()
 
     def get_id(self):
         """

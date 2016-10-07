@@ -33,6 +33,9 @@
                 </div>
 
                 <div class="col-md-6">
+                    {{ form.bio.label }}
+                    {{ form.bio(class_="form-control") }} {% for error in form.bio.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
                     {{ form.webpage.label }}
                     {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
