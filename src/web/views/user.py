@@ -29,17 +29,16 @@ def profile_public(nickname=None):
     if not user.is_public_profile:
         return redirect(url_for('home'))
 
-    word_size = 6
+    """word_size = 6
     filters = {}
     filters['retrieved_date__gt'] = datetime.now() - timedelta(weeks=10)
     articles = ArticleController(user.id).read(**filters).all()
     top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
-    tag_cloud = misc_utils.tag_cloud(top_words)
+    tag_cloud = misc_utils.tag_cloud(top_words)"""
 
     return render_template('profile_public.html',
                 user=user,
-                feeds=user.feeds,
-                tag_cloud=tag_cloud)
+                feeds=user.feeds)
 
 
 @user_bp.route('/management', methods=['GET', 'POST'])
