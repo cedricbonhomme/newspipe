@@ -18,6 +18,9 @@
             {{ form.password.label }}
             {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
+            {{ form.automatic_crawling.label }}
+            {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
             <br />
             {{ form.submit(class_="btn btn-default") }}
         </form>

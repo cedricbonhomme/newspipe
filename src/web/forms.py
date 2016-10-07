@@ -133,6 +133,8 @@ class UserForm(Form):
                [validators.Length(min=6, max=35),
                 validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
+    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),
+                                default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):

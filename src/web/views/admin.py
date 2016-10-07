@@ -62,7 +62,8 @@ def process_user_form(user_id=None):
         user_contr.update({'id': user_id},
                           {'nickname': form.nickname.data,
                            'email': form.email.data,
-                           'password': form.password.data})
+                           'password': form.password.data,
+                           'automatic_crawling': form.automatic_crawling.data})
         user = user_contr.get(id=user_id)
         flash(gettext('User %(nick)s successfully updated',
                       nick=user.nickname), 'success')
@@ -71,6 +72,7 @@ def process_user_form(user_id=None):
         user = user_contr.create(nickname=form.nickname.data,
                             email=form.email.data,
                             pwdhash=generate_password_hash(form.password.data),
+                            automatic_crawling=form.automatic_crawling.data,
                             is_admin=False,
                             is_active=True)
         flash(gettext('User %(nick)s successfully created',
