@@ -1,15 +1,15 @@
 {
-  "name": "jarr",
+  "name": "newspipe",
   "version": "0.0.1",
   "author": {
     "name": "François Schmidts",
     "email": "francois.schmidts@gmail.com",
     "url": "1pxsolidblack.pl"
   },
-  "description": "JARR (Just Another RSS Reader) is a web-based news aggregator.",
+  "description": "Newspipe is a web-based news aggregator.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JARR/JARR"
+    "url": "https://github.com/newspipe/newspipe"
   },
   "license": "AGPL-3.0",
   "engines": {

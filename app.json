@@ -1,25 +1,25 @@
 {
-  "name": "JARR (Just Another RSS Reader)",
+  "name": "Newspipe",
   "description": "A news aggregator that can be deployed on Heroku.",
   "keywords": [
     "aggregator",
     "news",
     "RSS"
   ],
-  "repository": "https://github.com/JARR/JARR.git",
-  "logo": "https://raw.githubusercontent.com/JARR/JARR/master/src/web/static/img/jarr.png",
+  "repository": "https://github.com/newspipe/newspipe.git",
+  "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
   "scripts": {
     "postdeploy": "python src/manager.py db_create"
   },
   "env": {
     "HEROKU": "1",
     "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
-    "ADMIN_EMAIL": "root@jarr.localhost",
+    "ADMIN_EMAIL": "root@newspipe.localhost",
     "ADMIN_PASSWORD": "password",
     "SECRET_KEY": "a secret token only you know in order to use sessions",
     "TOKEN_VALIDITY_PERIOD": 3600,
     "SECURITY_PASSWORD_SALT": "a secret to confirm user account",
-    "NOTIFICATION_EMAIL": "JARR@no-reply.com",
+    "NOTIFICATION_EMAIL": "newspipe@no-reply.com",
     "POSTMARK_API_KEY": "REDACTED"
   },
   "addons": [
