@@ -5,8 +5,8 @@ Newspipe
 Presentation
 ------------
 
-`Newspipe (Just Another RSS Reader) <https://github.com/Newspipe/Newspipe>`_
-is a web-based news aggregator and reader.
+`Newspipe <https://github.com/Newspipe/Newspipe>`_ is a web-based news
+aggregator and reader.
 
 Main features
 -------------
