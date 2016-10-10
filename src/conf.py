@@ -26,7 +26,7 @@ ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"platform_url": "https://www.newspipe.org",
             "self_registration": "false",
             "cdn_address": "",
-            "admin_email": "root@newspipe.localhost",
+            "admin_email": "info@newspipe.org",
             "postmark_api_key": "",
             "token_validity_period": "3600",
             "nb_worker": "100",
@@ -35,17 +35,16 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org",
             "default_max_error": "3",
             "log_path": "newspipe.log",
             "log_level": "info",
-            "user_agent": "Newspipe (https://github.com/Newspipe)",
+            "user_agent": "Newspipe (https://github.com/newspipe)",
             "secret_key": "",
             "security_password_salt": "",
             "enabled": "false",
-            "notification_email": "newspipe@no-reply.com",
+            "notification_email": "info@newspipe.org",
             "tls": "false",
             "ssl": "true",
             "host": "0.0.0.0",
             "port": "5000",
-            "crawling_method": "classic",
-            "webzine_root": "~/tmp",
+            "crawling_method": "classic"
             }
 
 if not ON_HEROKU:
@@ -110,8 +109,6 @@ NOTIFICATION_SSL = config.getboolean('notification', 'ssl')
 NOTIFICATION_USERNAME = config.get('notification', 'username')
 NOTIFICATION_PASSWORD = config.get('notification', 'password')
 POSTMARK_API_KEY = config.get('notification', 'postmark_api_key')
-
-WEBZINE_ROOT = config.get('webserver', 'webzine_root')
 
 CSRF_ENABLED = True
 # slow database query threshold (in seconds)
