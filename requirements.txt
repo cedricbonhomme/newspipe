@@ -1,4 +1,4 @@
-aiohttp==1.0.2
+aiohttp==1.0.3
 requests==2.11.1
 requests-futures==0.9.7
 feedparser==5.2.1
@@ -6,13 +6,13 @@ beautifulsoup4==4.5.1
 lxml==3.6.4
 opml==0.5
 psycopg2==2.6.2
-SQLAlchemy==1.0.15
+SQLAlchemy==1.1.1
 alembic==0.8.8
 Flask==0.11.1
 Flask-SQLAlchemy==2.1
 Flask-Login==0.3.2
 Flask-Principal==0.4.0
-Flask-WTF==0.12
+Flask-WTF==0.13.1
 Flask-RESTful==0.3.5
 Flask-Restless==0.17.0
 Flask-Babel==0.11.1
@@ -20,5 +20,5 @@ Flask-SSLify==0.1.5
 Flask-Migrate==2.0.0
 Flask-Script==2.0.5
 WTForms==2.1
-python-postmark==0.4.9
+python-postmark==0.4.10
 python-dateutil==2.5.3
