@@ -41,6 +41,10 @@ application.config['PREFERRED_URL_SCHEME'] = scheme
 
 set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
 
+if conf.ON_HEROKU:
+    from flask_sslify import SSLify
+    SSLify(application)
+
 # Create secrey key so we can use sessions
 application.config['SECRET_KEY'] = getattr(conf, 'WEBSERVER_SECRET', None)
 if not application.config['SECRET_KEY']:
