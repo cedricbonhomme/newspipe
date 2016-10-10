@@ -25,6 +25,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('web')
+if conf.ON_HEROKU:
+    from flask_sslify import SSLify
+    SSLify(application)
 if os.environ.get('Newspipe_TESTING', False) == 'true':
     application.debug = logging.DEBUG
     application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
