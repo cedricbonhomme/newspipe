@@ -10,7 +10,7 @@ var RightPanel = require('./RightPanel.react');
 var MainApp = React.createClass({
     render: function() {
         return (<div>
-                    <Grid fluid id="jarr-container">
+                    <Grid fluid id="newspipe-container">
                         <Menu />
                         <Col id="middle-panel" mdOffset={3} lgOffset={2}
                                             xs={12} sm={4} md={4} lg={4}>

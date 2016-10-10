@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# jarr - A Web based news aggregator.
+# newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR/JARR
+# For more information : https://github.com/Newspipe/Newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as

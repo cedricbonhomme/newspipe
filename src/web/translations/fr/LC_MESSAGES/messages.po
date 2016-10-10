@@ -160,16 +160,16 @@ msgid "About"
 msgstr "À propos"
 
 #: ../templates/about.html:7
-msgid "JARR is a news aggregator platform."
-msgstr "JARR est un agrégateur de nouvelles Web."
+msgid "Newspipe is a news aggregator platform."
+msgstr "Newspipe est un agrégateur de nouvelles Web."
 
 #: ../templates/about.html:8
 msgid ""
-"You can easily <a href=\"https://jarr.readthedocs.io/en/latest/deployment."
-"html\">install JARR on your server</a>."
+"You can easily <a href=\"https://newspipe.readthedocs.io/en/latest/deployment."
+"html\">install Newspipe on your server</a>."
 msgstr ""
-"Vous pouvez facilement <a href=\"https://jarr.readthedocs.io/en/latest/"
-"deployment.html\">installer JARR sur votre serveur</a>."
+"Vous pouvez facilement <a href=\"https://newspipe.readthedocs.io/en/latest/"
+"deployment.html\">installer Newspipe sur votre serveur</a>."
 
 #: ../templates/about.html:9
 msgid "Alternatively, you can deploy your own copy using this button:"
@@ -180,22 +180,22 @@ msgstr ""
 #: ../templates/about.html:11
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or\n"
-"        redistribute the <a href=\"https://github.com/JARR/JARR\">source "
+"        redistribute the <a href=\"https://github.com/Newspipe/Newspipe\">source "
 "code</a>\n"
 "        according to the <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
 "\">Affero GPL</a> license."
 msgstr ""
 "Ce logiciel est sous licence AGPLv3. Vous êtes invité à copier, modifier ou "
-"redistribuer le <a href=\"https://github.com/JARR/JARR\">code source</a> "
+"redistribuer le <a href=\"https://github.com/Newspipe/Newspipe\">code source</a> "
 "selon la licence <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
 "\">Affero GPL</a>."
 
 #: ../templates/about.html:14
 msgid ""
-"Found a bug? Report it <a href=\"https://github.com/JARR/JARR/issues\">here</"
+"Found a bug? Report it <a href=\"https://github.com/Newspipe/Newspipe/issues\">here</"
 "a>."
 msgstr ""
-"Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/JARR/JARR/"
+"Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/Newspipe/Newspipe/"
 "issues\">ici</a>."
 
 #: ../templates/about.html:17
@@ -204,10 +204,10 @@ msgstr "Aide"
 
 #: ../templates/about.html:18
 msgid ""
-"The documentation of the API is <a href=\"https://jarr.readthedocs.io/en/"
+"The documentation of the API is <a href=\"https://newspipe.readthedocs.io/en/"
 "latest/web-services-v3.html\">here</a>."
 msgstr ""
-"La documentation de l'API est <a href=\"https://jarr.readthedocs.io/en/"
+"La documentation de l'API est <a href=\"https://newspipe.readthedocs.io/en/"
 "latest/web-services-v3.html\">ici</a>."
 
 #: ../templates/about.html:19
@@ -222,10 +222,10 @@ msgstr ""
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Subscribe to this feed using JARR</a>"
+"\">Subscribe to this feed using Newspipe</a>"
 msgstr ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Abonnez-vous à ce flux en utilisant JARR</a>"
+"\">Abonnez-vous à ce flux en utilisant Newspipe</a>"
 
 #: ../templates/article.html:6
 msgid "from"
@@ -939,11 +939,11 @@ msgstr "Interdit."
 #~ msgstr "Don"
 
 #~ msgid ""
-#~ "If you wish and if you like JARR, you can donate via bitcoin <a href="
+#~ "If you wish and if you like Newspipe, you can donate via bitcoin <a href="
 #~ "\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
 #~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!"
 #~ msgstr ""
-#~ "Si vous le souhaitez et si vous aimez JARR, vous pouvez faire un don via "
+#~ "Si vous le souhaitez et si vous aimez Newspipe, vous pouvez faire un don via "
 #~ "bitcoin <a href=\"https://blockexplorer.com/"
 #~ "address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
 #~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Merci!"
@@ -1083,8 +1083,8 @@ msgstr "Interdit."
 #~ msgid "successfully disabled."
 #~ msgstr "désactivé avec succès."
 
-#~ msgid "You can easily install JARR on your server."
-#~ msgstr "Vous pouvez facilement installer JARR sur votre serveur."
+#~ msgid "You can easily install Newspipe on your server."
+#~ msgstr "Vous pouvez facilement installer Newspipe sur votre serveur."
 
 #~ msgid "This user is not subscribed to any feed."
 #~ msgstr "Cet utilisateur n'est pas encore abonné à des flux."

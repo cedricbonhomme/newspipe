@@ -4,9 +4,9 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="JARR is a web-based news aggregator." />
+    <meta name="description" content="Newspipe is a web-based news aggregator." />
     <meta name="author" content="" />
-    <title>JARR{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
+    <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
     <!-- Bootstrap core CSS -->
 
@@ -19,7 +19,7 @@
   </head>
   <body>
     {% block menu %}
-    <nav id="jarrnav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav id="newspipenav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -28,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url_for("home") }}">JARR</a>
+          <a class="navbar-brand" href="{{ url_for("home") }}">Newspipe</a>
           {% if head_titles %}
             <p class="navbar-text" style="max-height: 20px; overflow: hidden">
             {{ " - ".join(head_titles) }}

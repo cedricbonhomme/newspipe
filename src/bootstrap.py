@@ -25,7 +25,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask('web')
-if os.environ.get('JARR_TESTING', False) == 'true':
+if os.environ.get('Newspipe_TESTING', False) == 'true':
     application.debug = logging.DEBUG
     application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     application.config['TESTING'] = True

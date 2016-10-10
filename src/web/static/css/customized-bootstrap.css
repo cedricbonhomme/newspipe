@@ -8,29 +8,29 @@ div.top {
     height: 0;
 }
 
-#jarrnav {
+#newspipenav {
     background-color: #205081;
     border: #205081;
     border-radius: 0;
 }
-#jarrnav>div.container {
+#newspipenav>div.container {
   width: 100%;
 }
-#jarrnav span.glyphicon {
+#newspipenav span.glyphicon {
   margin-right: 5px;
 }
-#jarrnav button {
+#newspipenav button {
   margin-left: 5px;
 }
 
-#jarrnav a.navbar-brand,
-#jarrnav .jarrnavitem a,
-#jarrnav a.dropdown-toggle{
+#newspipenav a.navbar-brand,
+#newspipenav .newspipenavitem a,
+#newspipenav a.dropdown-toggle{
     color: white;
 }
-#jarrnav .navbar-nav > .open > a,
-#jarrnav .navbar-nav > .open > a:hover,
-#jarrnav .navbar-nav > li > a:hover {
+#newspipenav .navbar-nav > .open > a,
+#newspipenav .navbar-nav > .open > a:hover,
+#newspipenav .navbar-nav > li > a:hover {
     background-color: #3572B0;
 }
 a {

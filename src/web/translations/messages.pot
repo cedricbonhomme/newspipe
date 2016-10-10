@@ -156,14 +156,14 @@ msgid "About"
 msgstr ""
 
 #: ../templates/about.html:7
-msgid "JARR is a news aggregator platform."
+msgid "Newspipe is a news aggregator platform."
 msgstr ""
 
 #: ../templates/about.html:8
 msgid ""
 "You can easily <a "
-"href=\"https://jarr.readthedocs.io/en/latest/deployment.html\">install "
-"JARR on your server</a>."
+"href=\"https://newspipe.readthedocs.io/en/latest/deployment.html\">install "
+"Newspipe on your server</a>."
 msgstr ""
 
 #: ../templates/about.html:9
@@ -174,7 +174,7 @@ msgstr ""
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
-"        redistribute the <a href=\"https://github.com/JARR/JARR\">source "
+"        redistribute the <a href=\"https://github.com/Newspipe/Newspipe\">source "
 "code</a>\n"
 "        according to the <a "
 "href=\"https://www.gnu.org/licenses/agpl-3.0.html\">Affero GPL</a> "
@@ -184,7 +184,7 @@ msgstr ""
 #: ../templates/about.html:14
 msgid ""
 "Found a bug? Report it <a "
-"href=\"https://github.com/JARR/JARR/issues\">here</a>."
+"href=\"https://github.com/Newspipe/Newspipe/issues\">here</a>."
 msgstr ""
 
 #: ../templates/about.html:17
@@ -194,7 +194,7 @@ msgstr ""
 #: ../templates/about.html:18
 msgid ""
 "The documentation of the API is <a "
-"href=\"https://jarr.readthedocs.io/en/latest/web-"
+"href=\"https://newspipe.readthedocs.io/en/latest/web-"
 "services-v3.html\">here</a>."
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" "
-"rel=\"bookmark\">Subscribe to this feed using JARR</a>"
+"rel=\"bookmark\">Subscribe to this feed using Newspipe</a>"
 msgstr ""
 
 #: ../templates/article.html:6

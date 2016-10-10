@@ -33,7 +33,7 @@ def db_create():
              'nickname': 'admin',
              'pwdhash': generate_password_hash(
                             os.environ.get("ADMIN_PASSWORD", "password")),
-             'email': os.environ.get("ADMIN_EMAIL", "root@jarr.localhost")}
+             'email': os.environ.get("ADMIN_EMAIL", "root@newspipe.localhost")}
     with application.app_context():
         db.create_all()
         UserController(ignore_context=True).create(**admin)

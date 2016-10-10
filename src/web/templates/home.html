@@ -4,6 +4,6 @@
     <link href="{{ url_for("static", filename="css/one-page-app.css") }}" rel="stylesheet" media="screen" />
 {% endblock %}
 {% block content %}
-    <section id="jarrapp" />
+    <section id="newspipeapp" />
     <script type="text/javascript" src="{% if cdn != '' %}{{ cdn }}bundle.min.js{% else %}{{ url_for('static', filename = 'js/bundle.min.js') }}{% endif %}"></script>
 {% endblock %}

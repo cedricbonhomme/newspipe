@@ -70,22 +70,22 @@ JarrNavBar = React.createClass({
         this.setState({showModal: true, modalType: 'addCategory'});
     },
     render: function() {
-        return (<Navbar fixedTop inverse id="jarrnav" fluid staticTop={true}>
+        return (<Navbar fixedTop inverse id="newspipenav" fluid staticTop={true}>
                     {this.getModal()}
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">JARR</a>
+                            <a href="/">Newspipe</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                     <Nav pullRight>
                         {this.buttonFetch()}
-                        <NavItem className="jarrnavitem"
+                        <NavItem className="newspipenavitem"
                                  onClick={this.openAddFeed} href="#">
                             <Glyphicon glyph="plus-sign" />Add a new feed
                         </NavItem>
-                        <NavItem className="jarrnavitem"
+                        <NavItem className="newspipenavitem"
                                  onClick={this.openAddCategory} href="#">
                             <Glyphicon glyph="plus-sign" />Add a new category
                         </NavItem>

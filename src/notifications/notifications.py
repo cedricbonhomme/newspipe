@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# JARR - A Web based news aggregator.
+# Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR/JARR
+# For more information : https://github.com/Newspipe/Newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -54,7 +54,7 @@ def new_account_notification(user):
                                     expire_time=expire_time)
 
     emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
-                subject="[JARR] Account creation", plaintext=plaintext)
+                subject="[Newspipe] Account creation", plaintext=plaintext)
 
 def new_password_notification(user, password):
     """
@@ -64,4 +64,4 @@ def new_password_notification(user, password):
                                     user=user, password=password)
     emails.send(to=user.email,
                 bcc=conf.NOTIFICATION_EMAIL,
-                subject="[JARR] New password", plaintext=plaintext)
+                subject="[Newspipe] New password", plaintext=plaintext)

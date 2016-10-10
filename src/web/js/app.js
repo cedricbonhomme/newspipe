@@ -14,5 +14,5 @@ var MainApp = require('./components/MainApp.react');
 
 ReactDOM.render(
     <MainApp />,
-    document.getElementById('jarrapp')
+    document.getElementById('newspipeapp')
 );

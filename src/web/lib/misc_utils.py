@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# JARR - A Web based news aggregator.
+# Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR/JARR
+# For more information : https://github.com/Newspipe/Newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -279,5 +279,5 @@ def tag_cloud(tags):
                         for (word, count) in tags])
 
 if __name__ == "__main__":
-    import_opml("root@jarr.localhost", "./var/feeds_test.opml")
-    #import_opml("root@jarr.localhost", "./var/JARR.opml")
+    import_opml("root@newspipe.localhost", "./var/feeds_test.opml")
+    #import_opml("root@newspipe.localhost", "./var/Newspipe.opml")

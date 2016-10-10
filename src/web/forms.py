@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# JARR - A Web based news aggregator.
+# Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : http://github.com/JARR/JARR
+# For more information : http://github.com/Newspipe/Newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ from web.models import User
 
 class SignupForm(Form):
     """
-    Sign up form (registration to jarr).
+    Sign up form (registration to newspipe).
     """
     nickname = TextField(lazy_gettext("Nickname"),
             [validators.Required(lazy_gettext("Please enter your nickname."))])
@@ -86,7 +86,7 @@ class RedirectForm(Form):
 
 class SigninForm(RedirectForm):
     """
-    Sign in form (connection to jarr).
+    Sign in form (connection to newspipe).
     """
     email_or_nickmane = TextField("Email or nickname",
             [validators.Length(min=3, max=35),

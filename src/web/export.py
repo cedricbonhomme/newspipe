@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# JARR - A Web based news aggregator.
+# Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/JARR/JARR
+# For more information : https://github.com/Newspipe/Newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 #
-# This file contains the export functions of jarr.
+# This file contains the export functions of newspipe.
 #
 
 from flask import jsonify
