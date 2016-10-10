@@ -24,7 +24,7 @@ from flask_babel import Babel, format_datetime
 
 if conf.ON_HEROKU:
     from flask_sslify import SSLify
-    SSLify(application)
+    SSLify(application, subdomains=True)
 
 babel = Babel(application)
 
