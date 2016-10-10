@@ -22,6 +22,10 @@ import calendar
 from bootstrap import conf, application, populate_g
 from flask_babel import Babel, format_datetime
 
+if conf.ON_HEROKU:
+    from flask_sslify import SSLify
+    SSLify(application)
+
 babel = Babel(application)
 
 
