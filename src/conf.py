@@ -23,7 +23,7 @@ TIME_ZONE = {
 }
 
 ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
-DEFAULTS = {"platform_url": "http://www.newspipe.org",
+DEFAULTS = {"platform_url": "https://www.newspipe.org",
             "self_registration": "false",
             "cdn_address": "",
             "admin_email": "root@newspipe.localhost",
