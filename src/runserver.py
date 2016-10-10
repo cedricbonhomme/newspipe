@@ -61,4 +61,4 @@ with application.app_context():
 if __name__ == '__main__':
     application.run(host=conf.WEBSERVER_HOST,
                     port=conf.WEBSERVER_PORT,
-                    debug=True)
+                    debug=False)
