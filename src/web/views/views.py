@@ -6,7 +6,7 @@ from flask import (request, render_template, flash,
 from flask_babel import gettext
 from sqlalchemy import desc
 
-from conf import API_ROOT
+from conf import API_ROOT, ADMIN_EMAIL
 from web.controllers import FeedController
 from web.lib.view_utils import etag_match
 
@@ -73,7 +73,8 @@ def popular():
 @current_app.route('/about', methods=['GET'])
 @etag_match
 def about():
-    return render_template('about.html')
+    print(ADMIN_EMAIL)
+    return render_template('about.html', contact=ADMIN_EMAIL)
 
 
 @current_app.route('/.well-known/acme-challenge/EZyud_oLrReeFMTW3rQiSi-RaZlXCDpwMBrRJ6-vGfU')

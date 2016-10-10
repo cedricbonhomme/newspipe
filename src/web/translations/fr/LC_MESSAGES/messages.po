@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-10-10 11:17+0200\n"
-"PO-Revision-Date: 2016-10-10 11:18+0100\n"
+"POT-Creation-Date: 2016-10-10 14:06+0200\n"
+"PO-Revision-Date: 2016-10-10 14:07+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -219,6 +219,10 @@ msgstr ""
 "latest/web-services-v3.html\">ici</a>."
 
 #: ../templates/about.html:19
+msgid "Contact"
+msgstr "Contact"
+
+#: ../templates/about.html:20
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following button "
 "to your browser bookmarks."
@@ -226,7 +230,7 @@ msgstr ""
 "Vous pouvez vous abonner à de nouveaux flux avec un bookmarklet. Faites "
 "glisser le bouton suivant dans vos favoris."
 
-#: ../templates/about.html:20
+#: ../templates/about.html:21
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
@@ -1044,9 +1048,6 @@ msgstr "Interdit."
 
 #~ msgid "Mark all as read older than %(days)s days"
 #~ msgstr "Marquer tout comme lu plus ancien que %(days)s jours"
-
-#~ msgid "Content"
-#~ msgstr "Contenu"
 
 #~ msgid "Search"
 #~ msgstr "Recherche"
