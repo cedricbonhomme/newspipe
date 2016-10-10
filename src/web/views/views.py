@@ -74,3 +74,11 @@ def popular():
 @etag_match
 def about():
     return render_template('about.html')
+
+
+@current_app.route('/.well-known/acme-challenge/EZyud_oLrReeFMTW3rQiSi-RaZlXCDpwMBrRJ6-vGfU')
+def letsencrypt():
+    """
+    To validate the TLS certificate.
+    """
+    return 'EZyud_oLrReeFMTW3rQiSi-RaZlXCDpwMBrRJ6-vGfU.5YrZcJ4uGL2bWUwO6LFWFpwFxIcIL1z8W6hSjdjdLok'
