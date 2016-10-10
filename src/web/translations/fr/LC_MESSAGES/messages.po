@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-23 08:04+0200\n"
-"PO-Revision-Date: 2016-09-23 08:04+0100\n"
+"POT-Creation-Date: 2016-10-10 11:17+0200\n"
+"PO-Revision-Date: 2016-10-10 11:18+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -19,25 +19,25 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 "X-Generator: Poedit 1.6.10\n"
 
-#: ../forms.py:46 ../forms.py:130 ../forms.py:155
+#: ../forms.py:46 ../forms.py:130 ../forms.py:154
 #: ../templates/admin/dashboard.html:12
 msgid "Nickname"
 msgstr "Pseudonyme"
 
-#: ../forms.py:47 ../forms.py:131 ../forms.py:156
+#: ../forms.py:47 ../forms.py:131 ../forms.py:155
 msgid "Please enter your nickname."
 msgstr "S'il vous plaît, entrez votre pseudonyme."
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:157 ../forms.py:214
+#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:215
 #: ../templates/admin/dashboard.html:13
 msgid "Email"
 msgstr "Email"
 
-#: ../forms.py:51 ../forms.py:217
+#: ../forms.py:51 ../forms.py:218
 msgid "Please enter your email address."
 msgstr "S'il vous plaît, entrez votre adresse email."
 
-#: ../forms.py:52 ../forms.py:95 ../forms.py:135 ../forms.py:160
+#: ../forms.py:52 ../forms.py:95 ../forms.py:135 ../forms.py:159
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -57,19 +57,19 @@ msgstr "S'il vous plaît, entrez votre adresse email ou pseudo."
 msgid "Log In"
 msgstr "Connexion"
 
-#: ../forms.py:134 ../forms.py:159
+#: ../forms.py:134 ../forms.py:158
 msgid "Please enter your email."
 msgstr "S'il vous plaît, entrez votre email."
 
-#: ../forms.py:136 ../forms.py:163
-msgid "Feeds refresh frequency (in minutes)"
-msgstr "Fréquence de rafraîchissement du flux (en minutes)"
+#: ../forms.py:136 ../forms.py:161
+msgid "Automatic crawling"
+msgstr "Récupération automatique"
 
-#: ../forms.py:139 ../forms.py:167 ../forms.py:190 ../forms.py:202
+#: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:203
 msgid "Save"
 msgstr "Sauver"
 
-#: ../forms.py:144 ../forms.py:177
+#: ../forms.py:143 ../forms.py:178
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots and "
 "underscores only."
@@ -77,80 +77,88 @@ msgstr ""
 "Ce pseudonyme a des caractères non valides. Utilisez seulement des lettres, "
 "des chiffres, des points et '_'."
 
-#: ../forms.py:161
+#: ../forms.py:160
 msgid "Password Confirmation"
 msgstr "Confirmation du mot de passe"
 
-#: ../forms.py:162 ../templates/profile_public.html:10
+#: ../forms.py:163
+msgid "Bio"
+msgstr "Bio"
+
+#: ../forms.py:164 ../templates/profile_public.html:18
 msgid "Webpage"
 msgstr "Page web"
+
+#: ../forms.py:165 ../templates/profile_public.html:24
+msgid "Twitter"
+msgstr "Twitter"
 
 #: ../forms.py:166
 msgid "Public profile"
 msgstr "Profil public"
 
-#: ../forms.py:172
+#: ../forms.py:173
 msgid "Passwords aren't the same."
 msgstr "Les mots de passe ne sont pas identiques."
 
-#: ../forms.py:185 ../templates/feed_list.html:8
+#: ../forms.py:186 ../templates/feed_list.html:8
 #: ../templates/feed_list_simple.html:7
 msgid "Title"
 msgstr "Titre"
 
-#: ../forms.py:186
+#: ../forms.py:187
 msgid "Feed link"
 msgstr "Lien du flux"
 
-#: ../forms.py:187
+#: ../forms.py:188
 msgid "Please enter the URL."
 msgstr "S'il vous plaît, entrez une adresse."
 
-#: ../forms.py:188
+#: ../forms.py:189
 msgid "Site link"
 msgstr "Lien du site"
 
-#: ../forms.py:189
+#: ../forms.py:190
 msgid "Check for updates"
 msgstr "Vérifier les mises à jour"
 
-#: ../forms.py:191
+#: ../forms.py:192
 msgid "Category of the feed"
 msgstr "Catégorie du flux"
 
-#: ../forms.py:201 ../templates/layout.html:71
+#: ../forms.py:202 ../templates/layout.html:71
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
-#: ../forms.py:206
+#: ../forms.py:207
 msgid "Subject"
 msgstr "Objet"
 
-#: ../forms.py:207
+#: ../forms.py:208
 msgid "Please enter a subject."
 msgstr "S'il vous plaît entrer un objet."
 
-#: ../forms.py:208
+#: ../forms.py:209
 msgid "Message"
 msgstr "Message"
 
-#: ../forms.py:209
+#: ../forms.py:210
 msgid "Please enter a content."
 msgstr "S'il vous plaît entrer un contenu."
 
-#: ../forms.py:210
+#: ../forms.py:211
 msgid "Send"
 msgstr "Envoyer"
 
-#: ../forms.py:218
+#: ../forms.py:219
 msgid "Recover"
 msgstr "Récupérer"
 
-#: ../forms.py:228
+#: ../forms.py:229
 msgid "Account not confirmed."
 msgstr "Compte non confirmé."
 
-#: ../forms.py:231
+#: ../forms.py:232
 msgid "Invalid email."
 msgstr "Email invalide."
 
@@ -165,8 +173,8 @@ msgstr "Newspipe est un agrégateur de nouvelles Web."
 
 #: ../templates/about.html:8
 msgid ""
-"You can easily <a href=\"https://newspipe.readthedocs.io/en/latest/deployment."
-"html\">install Newspipe on your server</a>."
+"You can easily <a href=\"https://newspipe.readthedocs.io/en/latest/"
+"deployment.html\">install Newspipe on your server</a>."
 msgstr ""
 "Vous pouvez facilement <a href=\"https://newspipe.readthedocs.io/en/latest/"
 "deployment.html\">installer Newspipe sur votre serveur</a>."
@@ -180,23 +188,23 @@ msgstr ""
 #: ../templates/about.html:11
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or\n"
-"        redistribute the <a href=\"https://github.com/Newspipe/Newspipe\">source "
-"code</a>\n"
+"        redistribute the <a href=\"https://github.com/Newspipe/Newspipe"
+"\">source code</a>\n"
 "        according to the <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
 "\">Affero GPL</a> license."
 msgstr ""
 "Ce logiciel est sous licence AGPLv3. Vous êtes invité à copier, modifier ou "
-"redistribuer le <a href=\"https://github.com/Newspipe/Newspipe\">code source</a> "
-"selon la licence <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
-"\">Affero GPL</a>."
+"redistribuer le <a href=\"https://github.com/Newspipe/Newspipe\">code "
+"source</a> selon la licence <a href=\"https://www.gnu.org/licenses/agpl-3.0."
+"html\">Affero GPL</a>."
 
 #: ../templates/about.html:14
 msgid ""
-"Found a bug? Report it <a href=\"https://github.com/Newspipe/Newspipe/issues\">here</"
-"a>."
+"Found a bug? Report it <a href=\"https://github.com/Newspipe/Newspipe/issues"
+"\">here</a>."
 msgstr ""
-"Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/Newspipe/Newspipe/"
-"issues\">ici</a>."
+"Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/Newspipe/"
+"Newspipe/issues\">ici</a>."
 
 #: ../templates/about.html:17
 msgid "Help"
@@ -611,10 +619,6 @@ msgstr "Importer un compte"
 msgid "Export account to JSON"
 msgstr "Exporter le compte au format JSON"
 
-#: ../templates/management.html:28
-msgid "Export articles"
-msgstr "Exporter les articles"
-
 #: ../templates/popular.html:4
 msgid "Popular feeds"
 msgstr "Flux populaires"
@@ -628,25 +632,29 @@ msgid "Your Profile"
 msgstr "Votre profil"
 
 #: ../templates/admin/dashboard.html:14 ../templates/profile.html:7
-#: ../templates/profile_public.html:7
+#: ../templates/profile_public.html:9
 msgid "Member since"
 msgstr "Membre depuis le"
 
 #: ../templates/admin/dashboard.html:15 ../templates/profile.html:8
-#: ../templates/profile_public.html:8
+#: ../templates/profile_public.html:13
 msgid "Last seen"
 msgstr "Vue la dernière fois le"
 
-#: ../templates/profile.html:35
+#: ../templates/profile.html:47
 #, python-format
 msgid "Your profile will be available <a href=\"%(url)s\">here</a>."
 msgstr "Votre profil sera accessible <a href=\"%(url)s\">ici</a>."
 
-#: ../templates/profile.html:47
+#: ../templates/profile.html:51
+msgid "Uncheck if you are using your own crawler."
+msgstr "Décochez si vous utilisez votre propre crawler."
+
+#: ../templates/profile.html:64
 msgid "You are going to delete your account."
 msgstr "Vous allez supprimer votre compte."
 
-#: ../templates/profile.html:47
+#: ../templates/profile.html:64
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
@@ -707,7 +715,7 @@ msgstr "Éditer l'utilisateur <i>%(nick)s</i>"
 msgid "Some errors were found"
 msgstr "Des erreurs ont été trouvées"
 
-#: ../views/admin.py:68 ../views/user.py:113
+#: ../views/admin.py:68 ../views/user.py:119
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "Utilisateur %(nick)s  mis à jour avec succès."
@@ -747,11 +755,11 @@ msgstr "Article %(article_title)s supprimé."
 msgid "%(count)d articles deleted"
 msgstr "%(count)d  articles supprimés."
 
-#: ../views/article.py:137 ../views/article.py:148
+#: ../views/article.py:136
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'export des articles."
 
-#: ../views/article.py:163
+#: ../views/article.py:152
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
@@ -890,23 +898,28 @@ msgstr "Compte importé."
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: ../views/user.py:131
+#: ../views/user.py:116
+#, python-format
+msgid "Problem while updating your profile: %(error)s"
+msgstr "Problème lors de la mise à jour de votre profil: %(error)s"
+
+#: ../views/user.py:137
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: ../views/user.py:148
+#: ../views/user.py:154
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: ../views/user.py:150
+#: ../views/user.py:156
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: ../views/user.py:175
+#: ../views/user.py:181
 msgid "New password sent to your address."
 msgstr "Nouveau mot de passe envoyé à votre adresse."
 
-#: ../views/user.py:177
+#: ../views/user.py:183
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr "Problème lors de l'envoi de votre nouveau mot de passe: %(error)s"
@@ -918,6 +931,12 @@ msgstr "Authentification requise."
 #: ../views/views.py:28
 msgid "Forbidden."
 msgstr "Interdit."
+
+#~ msgid "Feeds refresh frequency (in minutes)"
+#~ msgstr "Fréquence de rafraîchissement du flux (en minutes)"
+
+#~ msgid "Export articles"
+#~ msgstr "Exporter les articles"
 
 #~ msgid ""
 #~ "If you have any problem, <a href=\"https://wiki.cedricbonhomme.org/contact"
@@ -943,8 +962,8 @@ msgstr "Interdit."
 #~ "\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
 #~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!"
 #~ msgstr ""
-#~ "Si vous le souhaitez et si vous aimez Newspipe, vous pouvez faire un don via "
-#~ "bitcoin <a href=\"https://blockexplorer.com/"
+#~ "Si vous le souhaitez et si vous aimez Newspipe, vous pouvez faire un don "
+#~ "via bitcoin <a href=\"https://blockexplorer.com/"
 #~ "address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
 #~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Merci!"
 

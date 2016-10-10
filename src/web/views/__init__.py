@@ -19,7 +19,4 @@ from flask import g
 
 @g.babel.localeselector
 def get_locale():
-    try:
-        return request.accept_languages.best_match(conf.LANGUAGES.keys())
-    except:
-        return 'en'
+    return request.accept_languages.best_match(conf.LANGUAGES.keys())
