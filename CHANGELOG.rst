@@ -5,6 +5,7 @@ Release History
 7.1.2 (not yet released)
 ------------------------
     New:
+     * the new name of JARR is now Newspipe;
      * the user can now add its twitter link through the profile page.
     Improvements:
      * improved the layout of the profile page;

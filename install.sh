@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 #
-# This script install all dependencies and configure JARR.
+# This script install all dependencies and configure Newspipe.
 # Usage:
 # ./install.sh (sqlite|postgres)
 #
@@ -67,7 +67,7 @@ elif [ "$1" == sqlite ]; then
     echo "Configuring the SQLite database..."
 
     echo '[database]' >> src/conf/conf.cfg
-    echo 'database_url = sqlite:///jarr.db' >> src/conf/conf.cfg
+    echo 'database_url = sqlite:///newspipe.db' >> src/conf/conf.cfg
 fi
 
 
@@ -83,5 +83,5 @@ git submodule update > /dev/null
 
 
 echo "Installation terminated."
-echo "Launch JARR with the command:"
+echo "Launch Newspipe with the command:"
 echo -e "\tpython$PYTHON_VERSION src/runserver.py"
