@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
 <h1>{{ _('Registered users') }}</h1>
-<table class="table table-striped">
+<table id="table-users" class="table table-striped ">
     <thead>
         <tr>
             <th>#</th>
@@ -56,4 +56,17 @@
     {{ form.submit(class_="btn btn-default") }}
 </form>
 </div>
+<script>
+$(document).ready(function() {
+    $('#table-users').DataTable( {
+        responsive: true,
+        columnDefs: [
+            {
+                bSortable: false,
+                targets: [0, 5]
+            } 
+        ]
+    });
+});
+</script>
 {% endblock %}

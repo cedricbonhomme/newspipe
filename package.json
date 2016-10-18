@@ -18,6 +18,7 @@
   "main": "src/web/js/app.js",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bower": "^1.7.9",
     "classnames": "^2.2.5",
     "flux": "^2.1.1",
     "jquery": "^3.1.1",
@@ -36,7 +37,8 @@
   },
   "scripts": {
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > src/web/static/js/bundle.min.js"
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > src/web/static/js/bundle.min.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "browserify": {
     "transform": [
