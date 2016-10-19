@@ -25,6 +25,7 @@ build
 src/conf/conf.cfg
 .coverage
 
-# node files
+# js and node files
 node_modules
+src/web/static/bower_components/
 src/web/static/js/bundle.min.js
