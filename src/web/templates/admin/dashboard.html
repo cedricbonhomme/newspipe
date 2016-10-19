@@ -20,7 +20,14 @@
     {% for user in users %}
         <tr {% if not user.is_active  %}class="warning"{% endif %}>
             <td>{{ loop.index }}</td>
-            <td>{{ user.nickname }}{% if user.id == current_user.id %} (It's you!){% endif %}</td>
+            <td>
+              {% if user.is_public_profile %}
+                  <a href="{{ url_for("user.profile_public", nickname=user.nickname) }}">{{ user.nickname }}</a>
+              {% else %}
+                  {{ user.nickname }}
+              {% endif %}
+              {% if user.id == current_user.id %}&nbsp;(It's you!){% endif %}
+            </td>
             <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
             <td class="date">{{ user.date_created | datetime }}</td>
             <td class="date">{{ user.last_seen | datetime }}</td>
