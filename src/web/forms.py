@@ -32,7 +32,7 @@ from flask_babel import lazy_gettext
 from werkzeug.exceptions import NotFound
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
-from flask_wtf.html5 import EmailField, URLField
+from wtforms.fields.html5 import EmailField, URLField
 
 from web.lib import misc_utils
 from web.controllers import UserController
