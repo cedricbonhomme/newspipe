@@ -45,6 +45,7 @@ class Feed(db.Model, RightMixin):
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
     filters = db.Column(db.PickleType, default=[])
+    private = db.Column(db.Boolean(), default=False)
 
     # cache handling
     etag = db.Column(db.String(), default="")

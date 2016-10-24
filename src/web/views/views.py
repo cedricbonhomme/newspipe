@@ -64,6 +64,7 @@ def popular():
 
     filters = {}
     filters['created_date__gt'] = not_added_before
+    filters['private__eq'] = False
     feeds = FeedController().count_by_link(**filters)
     sorted_feeds = sorted(list(feeds.items()), key=operator.itemgetter(1),
                             reverse=True)

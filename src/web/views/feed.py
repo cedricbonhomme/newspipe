@@ -191,7 +191,8 @@ def process_form(feed_id=None):
     # Edit an existing feed
     feed_attr = {'title': form.title.data, 'enabled': form.enabled.data,
                  'link': form.link.data, 'site_link': form.site_link.data,
-                 'filters': [], 'category_id': form.category_id.data}
+                 'filters': [], 'category_id': form.category_id.data,
+                 'private': form.private.data}
     if not feed_attr['category_id'] or feed_attr['category_id'] == '0':
         del feed_attr['category_id']
 

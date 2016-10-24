@@ -191,6 +191,7 @@ class AddFeedForm(Form):
     submit = SubmitField(lazy_gettext("Save"))
     category_id = SelectField(lazy_gettext("Category of the feed"),
                               [validators.Optional()])
+    private = BooleanField(lazy_gettext("Private"), default=False)
 
     def set_category_choices(self, categories):
         self.category_id.choices = [('0', 'No Category')]
