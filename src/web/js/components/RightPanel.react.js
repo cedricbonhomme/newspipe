@@ -188,6 +188,7 @@ var Feed = React.createClass({
              {'title': 'Feed link', 'type': 'link', 'key': 'link'},
              {'title': 'Site link', 'type': 'link', 'key': 'site_link'},
              {'title': 'Enabled', 'type': 'bool', 'key': 'enabled'},
+             {'title': 'Private', 'type': 'bool', 'key': 'private'},
              {'title': 'Filters', 'type': 'ignore', 'key': 'filters'},
              {'title': 'Category', 'type': 'ignore', 'key': 'category_id'},
     ],
