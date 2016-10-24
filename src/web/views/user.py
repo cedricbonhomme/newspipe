@@ -30,7 +30,7 @@ def profile_public(nickname=None):
         return redirect(url_for('home'))
 
     filters = {}
-    filters['private__eq'] = False
+    filters['private'] = False
     feeds = FeedController(user.id).read(**filters).all()
 
     """word_size = 6
