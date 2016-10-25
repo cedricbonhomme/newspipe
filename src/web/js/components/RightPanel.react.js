@@ -73,9 +73,9 @@ var PanelMixin = {
                 items.push(<dd key={key}>{this.props.obj[field.key]}</dd>);
             } else if(field.type == 'bool') {
                 if(this.props.obj[field.key]) {
-                    items.push(<dd key={key}><Glyphicon glyph="ok" /></dd>);
+                    items.push(<dd key={key}><Glyphicon glyph="check" /></dd>);
                 } else {
-                    items.push(<dd key={key}><Glyphicon glyph="pause" /></dd>);
+                    items.push(<dd key={key}><Glyphicon glyph="unchecked" /></dd>);
                 }
             } else if (field.type == 'link') {
                 items.push(<dd key={key}>
