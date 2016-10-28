@@ -79,6 +79,7 @@ async def parse_feed(user, feed):
         except Exception as e:
             up_feed['last_error'] = str(e)
             up_feed['error_count'] = feed.error_count + 1
+            print(up_feed['error_count'])
         finally:
             up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
             if parsed_feed is None:
