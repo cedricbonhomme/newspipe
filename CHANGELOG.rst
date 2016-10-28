@@ -6,11 +6,14 @@ Release History
 ------------------------
     New:
      * the new name of JARR is now Newspipe;
-     * the user can now add its twitter link through the profile page.
+     * the user can now add its twitter link through the profile page;
+     * it is now possible to edit the visibility of a feed (if it should be
+       listed in the list of the user's public profile).
     Improvements:
      * improved the layout of the profile page;
      * the React.js page now only lists the feeds with unread articles by
-       default.
+       default;
+     * improvements for the crawler.
     Removal:
      * removed the 'refresh_rate' column from the user table;
      * removed the export to HTML webzine functionality.
