@@ -94,6 +94,7 @@ class AbstractController:
         try:
             db.session.commit()
         except Exception as e:
+            db.session.rollback()
             logger.exception(str(e))
         return obj
 
@@ -103,13 +104,19 @@ class AbstractController:
     def update(self, filters, attrs):
         assert attrs, "attributes to update must not be empty"
         result = self._get(**filters).update(attrs, synchronize_session=False)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
         return result
 
     def delete(self, obj_id):
         obj = self.get(id=obj_id)
         db.session.delete(obj)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
         return obj
 
     def _has_right_on(self, obj):
