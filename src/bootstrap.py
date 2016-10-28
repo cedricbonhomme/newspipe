@@ -34,6 +34,8 @@ else:
     application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     application.config['SQLALCHEMY_DATABASE_URI'] \
             = conf.SQLALCHEMY_DATABASE_URI
+    application.config['SQLALCHEMY_POOL_SIZE'] = 20
+    application.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
 
 scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
 application.config['SERVER_NAME'] = domain
