@@ -79,7 +79,6 @@ async def parse_feed(user, feed):
         except Exception as e:
             up_feed['last_error'] = str(e)
             up_feed['error_count'] = feed.error_count + 1
-            print(up_feed['error_count'])
         finally:
             up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
             if parsed_feed is None:
@@ -123,7 +122,7 @@ async def insert_database(user, feed):
             existing_article_req = art_contr.read(feed_id=feed.id,
                             **extract_id(article))
         except Exception as e:
-            print("existing_article_req: " + str(e))
+            logger.exception("existing_article_req: " + str(e))
             continue
 
         exist = existing_article_req.count() != 0
@@ -132,15 +131,14 @@ async def insert_database(user, feed):
             # the content or the title
             logger.debug("Article %r (%r) already in the database.",
                          article['title'], article['link'])
-            print("Article %r (%r) already in the database.",
-                         article['title'], article['link'])
             existing_article = existing_article_req.first()
             new_updated_date = None
             try:
                 new_updated_date = dateutil.parser.parse(article['updated'])
             except Exception as e:
                 new_updated_date = existing_article.date
-                print(e)
+                logger.exception("new_updated_date failed: " + str(e))
+
             if None is existing_article.updated_date:
                 existing_article.updated_date = new_updated_date.replace(tzinfo=None)
             if existing_article.updated_date.strftime('%Y-%m-%dT%H:%M:%S') != \
@@ -157,6 +155,7 @@ async def insert_database(user, feed):
                 art_contr.update({'entry_id': existing_article.entry_id},
                                                         existing_article.dump())
             continue
+        # insertion of the new article
         article = construct_article(article, feed)
         try:
             new_articles.append(art_contr.create(**article))
