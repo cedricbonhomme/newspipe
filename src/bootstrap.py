@@ -13,9 +13,13 @@ from urllib.parse import urlsplit
 def set_logging(log_path, log_level=logging.INFO,
                 log_format='%(asctime)s %(levelname)s %(message)s'):
     formater = logging.Formatter(log_format)
-    handler = logging.FileHandler(log_path)
+    if conf.ON_HEROKU:
+        handler = logging.StreamHandler()
+    else:
+        handler = logging.FileHandler(log_path)
     handler.setFormatter(formater)
-    for logger_name in ('bootstrap', 'web', 'manager', 'runserver', 'classic_crawler'):
+    for logger_name in ('bootstrap', 'web', 'manager', 'runserver',
+                            'classic_crawler'):
         logger = logging.getLogger(logger_name)
         logger.addHandler(handler)
         logger.setLevel(log_level)
