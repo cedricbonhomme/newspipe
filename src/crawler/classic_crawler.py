@@ -175,7 +175,10 @@ async def insert_database(user, feed):
 async def init_process(user, feed):
     # Fetch the feed and insert new articles in the database
     articles = await insert_database(user, feed)
-    logger.debug('inserted articles for %s', feed.title)
+    try:
+        logger.debug('inserted articles for %s', feed.title)
+    except Exception as e:
+        print('init_process: ' + str(e))
     return articles
 
 
