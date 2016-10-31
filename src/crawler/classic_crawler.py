@@ -83,7 +83,10 @@ async def parse_feed(user, feed):
         finally:
             up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
             if parsed_feed is None:
-                FeedController().update({'id': feed.id}, up_feed)
+                try:
+                    FeedController().update({'id': feed.id}, up_feed)
+                except Exception as e:
+                    print('something bad here: ' + str(e))
                 return
 
     if not is_parsing_ok(parsed_feed):
