@@ -135,7 +135,7 @@ async def insert_database(user, feed):
             existing_article = existing_article_req.first()
             new_updated_date = None
             try:
-                new_updated_date = dateutil.parser.parse(article['updated'])
+                new_updated_date = dateutil.parser.parse(article['updated_date'])
             except Exception as e:
                 new_updated_date = existing_article.date
                 logger.exception("new_updated_date failed: " + str(e))
