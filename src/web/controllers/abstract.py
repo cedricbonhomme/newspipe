@@ -103,6 +103,7 @@ class AbstractController:
 
     def update(self, filters, attrs):
         assert attrs, "attributes to update must not be empty"
+        result = None
         try:
             result = self._get(**filters).update(attrs, synchronize_session=False)
             db.session.commit()

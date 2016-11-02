@@ -141,8 +141,9 @@ async def insert_database(user, feed):
                 new_updated_date = dateutil.parser.parse(article['updated'])
             except Exception as e:
                 new_updated_date = existing_article.date
-                logger.exception("new_updated_date failed: " + str(e))
-                print("new_updated_date failed: " + str(e))
+                print(new_updated_date)
+                logger.exception("new_updated_date failed: ")
+                print("new_updated_date failed: ")
 
             if None is existing_article.updated_date:
                 existing_article.updated_date = new_updated_date.replace(tzinfo=None)
@@ -174,8 +175,8 @@ async def insert_database(user, feed):
 
 async def init_process(user, feed):
     # Fetch the feed and insert new articles in the database
-    articles = await insert_database(user, feed)
     try:
+        articles = await insert_database(user, feed)
         logger.debug('inserted articles for %s', feed.title)
     except Exception as e:
         print('init_process: ' + str(e))
