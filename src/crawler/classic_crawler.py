@@ -178,9 +178,9 @@ async def init_process(user, feed):
     try:
         articles = await insert_database(user, feed)
         logger.debug('inserted articles for %s', feed.title)
+        return articles
     except Exception as e:
         print('init_process: ' + str(e))
-    return articles
 
 
 def retrieve_feed(loop, user, feed_id=None):
