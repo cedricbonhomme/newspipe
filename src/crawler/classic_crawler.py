@@ -118,7 +118,6 @@ async def insert_database(user, feed):
 
     logger.info('Inserting articles for {}'.format(feed.title))
 
-    logger.info('Database insertion for {}'.format(feed.title))
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
@@ -133,8 +132,8 @@ async def insert_database(user, feed):
         if exist:
             # if the article has been already retrieved, we only update
             # the content or the title
-            logger.debug("Article %r (%r) already in the database.",
-                         article['title'], article['link'])
+            logger.debug('Article already in the database: '. \
+                            format(article['title']))
             existing_article = existing_article_req.first()
             new_updated_date = None
             try:
@@ -187,11 +186,13 @@ def retrieve_feed(loop, user, feed_id=None):
     logger.info('Starting to retrieve feeds for {}'.format(user.nickname))
 
     # Get the list of feeds to fetch
-    user = User.query.filter(User.email == user.email).first()
-    feeds = [feed for feed in user.feeds if
-             feed.error_count <= conf.DEFAULT_MAX_ERROR and feed.enabled]
+    filters = {}
+    filters['user_id'] = user.id
     if feed_id is not None:
-        feeds = [feed for feed in feeds if feed.id == feed_id]
+        filters['id'] = feed_id
+    filters['enabled'] = True
+    filters['error_count__lt'] = conf.DEFAULT_MAX_ERROR
+    feeds = FeedController().read(**filters).all()
 
     if feeds == []:
         return
@@ -203,5 +204,5 @@ def retrieve_feed(loop, user, feed_id=None):
         loop.run_until_complete(asyncio.wait(tasks))
     except Exception:
         logger.exception('an error occured')
-
-    logger.info("All articles retrieved. End of the processus.")
+    finally:
+        logger.info('Articles retrieved for {}'.format(user.nickname))

@@ -3,6 +3,7 @@
 
 import os
 import logging
+from datetime import datetime
 from werkzeug import generate_password_hash
 from bootstrap import application, db, conf, set_logging
 from flask_script import Manager
@@ -67,11 +68,17 @@ def fetch_asyncio(user_id=None, feed_id=None):
         except:
             feed_id = None
 
+        logger.info('Starting crawler.')
+
+        start = datetime.now()
         loop = asyncio.get_event_loop()
         for user in users:
-            logger.info("Fetching articles for " + user.nickname)
             classic_crawler.retrieve_feed(loop, user, feed_id)
         loop.close()
+        end = datetime.now()
+
+        logger.info('Crawler finished in {} seconds.' \
+                        .format((end - start).seconds))
 
 
 if __name__ == '__main__':
