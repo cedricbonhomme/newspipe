@@ -163,10 +163,9 @@ async def insert_database(user, feed):
         article = construct_article(article, feed)
         try:
             new_articles.append(art_contr.create(**article))
-            logger.info("New article % (%r) added.",
-                        article['title'], article['link'])
+            logger.info('New article added: {}'.format(article['link']))
         except Exception:
-            logger.exception("Error when inserting article in database:")
+            logger.exception('Error when inserting article in database:')
             continue
     return new_articles
 
