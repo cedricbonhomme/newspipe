@@ -4,14 +4,14 @@
 import os
 import logging
 from werkzeug import generate_password_hash
-from bootstrap import application, db, conf
+from bootstrap import application, db, conf, set_logging
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
 import web.models
 from web.controllers import UserController
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('manager')
 
 Migrate(application, db)
 

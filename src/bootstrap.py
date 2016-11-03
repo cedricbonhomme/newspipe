@@ -10,18 +10,22 @@ import flask_restless
 from urllib.parse import urlsplit
 
 
-def set_logging(log_path, log_level=logging.INFO,
+def set_logging(log_path=None, log_level=logging.INFO, modules=(),
                 log_format='%(asctime)s %(levelname)s %(message)s'):
-    formater = logging.Formatter(log_format)
-    if conf.ON_HEROKU:
-        handler = logging.StreamHandler()
-    else:
+    if not modules:
+        modules = ('root', 'bootstrap', 'runserver',
+                   'web', 'crawler.classic_crawler', 'manager', 'plugins')
+    if log_path:
         handler = logging.FileHandler(log_path)
+    else:
+        handler = logging.StreamHandler()
+    formater = logging.Formatter(log_format)
     handler.setFormatter(formater)
-    for logger_name in ('bootstrap', 'web', 'manager', 'runserver',
-                            'classic_crawler'):
+    for logger_name in modules:
         logger = logging.getLogger(logger_name)
         logger.addHandler(handler)
+        for handler in logger.handlers:
+            handler.setLevel(log_level)
         logger.setLevel(log_level)
 
 from flask import Flask

@@ -75,13 +75,21 @@ ADMIN_EMAIL = config.get('misc', 'admin_email')
 SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
 TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
-LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 NB_WORKER = config.getint('misc', 'nb_worker')
-API_LOGIN = config.get('crawler', 'api_login')
-API_PASSWD = config.get('crawler', 'api_passwd')
+if not ON_HEROKU:
+    LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
+else:
+    LOG_PATH = ''
+LOG_LEVEL = {'debug': logging.DEBUG,
+             'info': logging.INFO,
+             'warn': logging.WARN,
+             'error': logging.ERROR,
+             'fatal': logging.FATAL}[config.get('misc', 'log_level')]
 
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
+API_LOGIN = config.get('crawler', 'api_login')
+API_PASSWD = config.get('crawler', 'api_passwd')
 USER_AGENT = config.get('crawler', 'user_agent')
 DEFAULT_MAX_ERROR = config.getint('crawler',
                                   'default_max_error')
@@ -89,11 +97,7 @@ ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
 
 CRAWLING_METHOD = config.get('crawler', 'crawling_method')
 
-LOG_LEVEL = {'debug': logging.DEBUG,
-             'info': logging.INFO,
-             'warn': logging.WARN,
-             'error': logging.ERROR,
-             'fatal': logging.FATAL}[config.get('misc', 'log_level')]
+
 
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')

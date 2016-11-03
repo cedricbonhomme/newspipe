@@ -86,7 +86,7 @@ async def parse_feed(user, feed):
                 try:
                     FeedController().update({'id': feed.id}, up_feed)
                 except Exception as e:
-                    print('something bad here: ' + str(e))
+                    logger.exception('something bad here: ' + str(e))
                 return
 
     if not is_parsing_ok(parsed_feed):
@@ -116,9 +116,9 @@ async def insert_database(user, feed):
     if None is articles:
         return []
 
-    logger.info('inserting articles for {}'.format(feed.title))
+    logger.info('Inserting articles for {}'.format(feed.title))
 
-    logger.info("Database insertion...")
+    logger.info('Database insertion for {}'.format(feed.title))
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
@@ -141,9 +141,7 @@ async def insert_database(user, feed):
                 new_updated_date = dateutil.parser.parse(article['updated'])
             except Exception as e:
                 new_updated_date = existing_article.date
-                print(new_updated_date)
-                logger.exception("new_updated_date failed: ")
-                print("new_updated_date failed: ")
+                logger.exception('new_updated_date failed: {}'.format(e))
 
             if None is existing_article.updated_date:
                 existing_article.updated_date = new_updated_date.replace(tzinfo=None)
@@ -180,14 +178,14 @@ async def init_process(user, feed):
         logger.debug('inserted articles for %s', feed.title)
         return articles
     except Exception as e:
-        print('init_process: ' + str(e))
+        logger.exception('init_process: ' + str(e))
 
 
 def retrieve_feed(loop, user, feed_id=None):
     """
     Launch the processus.
     """
-    logger.info("Starting to retrieve feeds.")
+    logger.info('Starting to retrieve feeds for {}'.format(user.nickname))
 
     # Get the list of feeds to fetch
     user = User.query.filter(User.email == user.email).first()
