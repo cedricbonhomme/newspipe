@@ -71,7 +71,11 @@ class Article(db.Model, RightMixin):
     @staticmethod
     def _fields_base_read():
         return {'id', 'entry_id', 'link', 'title', 'content', 'date',
-                'retrieved_date', 'user_id'}
+                'retrieved_date', 'user_id', 'tags'}
+
+    @staticmethod
+    def _fields_api_write():
+        return {'tags'}
 
     def __repr__(self):
         return "<Article(id=%d, entry_id=%s, title=%r, " \
