@@ -35,7 +35,6 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "default_max_error": "3",
             "log_path": "newspipe.log",
             "log_level": "info",
-            "user_agent": "Newspipe (https://github.com/newspipe)",
             "secret_key": "",
             "security_password_salt": "",
             "enabled": "false",
@@ -44,7 +43,10 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "ssl": "true",
             "host": "0.0.0.0",
             "port": "5000",
-            "crawling_method": "classic"
+            "crawling_method": "classic",
+            "crawler_user_agent": "Newspipe (https://github.com/newspipe)",
+            "crawler_timeout": "30",
+            "crawler_resolv": "false"
             }
 
 if not ON_HEROKU:
@@ -88,16 +90,14 @@ LOG_LEVEL = {'debug': logging.DEBUG,
 
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
+CRAWLING_METHOD = config.get('crawler', 'crawling_method')
 API_LOGIN = config.get('crawler', 'api_login')
 API_PASSWD = config.get('crawler', 'api_passwd')
-USER_AGENT = config.get('crawler', 'user_agent')
-DEFAULT_MAX_ERROR = config.getint('crawler',
-                                  'default_max_error')
+CRAWLER_USER_AGENT = config.get('crawler', 'user_agent')
+DEFAULT_MAX_ERROR = config.getint('crawler', 'default_max_error')
 ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
-
-CRAWLING_METHOD = config.get('crawler', 'crawling_method')
-
-
+CRAWLER_TIMEOUT = config.get('crawler', 'timeout')
+CRAWLER_RESOLV = config.getboolean('crawler', 'resolv')
 
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')

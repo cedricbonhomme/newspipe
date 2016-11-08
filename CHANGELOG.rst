@@ -8,7 +8,11 @@ Release History
      * the new name of JARR is now Newspipe;
      * the user can now add its twitter link through the profile page;
      * it is now possible to edit the visibility of a feed (if it should be
-       listed in the list of the user's public profile).
+       listed in the list of the user's public profile);
+     * tags of articles are now retrieved in order to use k-means clustering
+       on tags (will be faster than on the article's content);
+     * various improvements to the crawler (test if an article should be
+       updated and better use of coroutines).
     Improvements:
      * improved the layout of the profile page;
      * the React.js page now only lists the feeds with unread articles by

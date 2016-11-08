@@ -3,7 +3,7 @@ import urllib
 import logging
 import requests
 import feedparser
-from conf import USER_AGENT
+from conf import CRAWLER_USER_AGENT
 from bs4 import BeautifulSoup, SoupStrainer
 
 from web.lib.utils import try_keys, try_get_icon_url, rebuild_url
@@ -32,7 +32,8 @@ def escape_keys(*keys):
 
 @escape_keys('title', 'description')
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
-    requests_kwargs = {'headers': {'User-Agent': USER_AGENT}, 'verify': False}
+    requests_kwargs = {'headers': {'User-Agent': CRAWLER_USER_AGENT},
+                        'verify': False}
     if url is None and fp_parsed is not None:
         url = fp_parsed.get('url')
     if url is not None and fp_parsed is None:

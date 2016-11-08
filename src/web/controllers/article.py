@@ -6,6 +6,7 @@ from collections import Counter
 
 from bootstrap import db
 from .abstract import AbstractController
+from web.lib.article_utils import process_filters
 from web.controllers import CategoryController, FeedController
 from web.models import Article
 
@@ -43,29 +44,11 @@ class ArticleController(AbstractController):
                     "no right on feed %r" % feed.id
         attrs['user_id'], attrs['category_id'] = feed.user_id, feed.category_id
 
-        # handling feed's filters
-        for filter_ in feed.filters or []:
-            match = False
-            if filter_.get('type') == 'regex':
-                match = re.match(filter_['pattern'], attrs.get('title', ''))
-            elif filter_.get('type') == 'simple match':
-                match = filter_['pattern'] in attrs.get('title', '')
-            take_action = match and filter_.get('action on') == 'match' \
-                    or not match and filter_.get('action on') == 'no match'
-
-            if not take_action:
-                continue
-
-            if filter_.get('action') == 'mark as read':
-                attrs['readed'] = True
-                logger.warn("article %s will be created as read",
-                            attrs['link'])
-            elif filter_.get('action') == 'mark as favorite':
-                attrs['like'] = True
-                logger.warn("article %s will be created as liked",
-                            attrs['link'])
-
-        return super().create(**attrs)
+        skipped, read, liked = process_filters(feed.filters, attrs)
+        if skipped:
+            return None
+        article = super().create(**attrs)
+        return article
 
     def update(self, filters, attrs):
         user_id = attrs.get('user_id', self.user_id)

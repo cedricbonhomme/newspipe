@@ -29,6 +29,8 @@ __license__ = "GPLv3"
 from bootstrap import db
 from datetime import datetime
 from sqlalchemy import asc, desc, Index
+from sqlalchemy.ext.associationproxy import association_proxy
+
 from web.models.right_mixin import RightMixin
 
 
@@ -48,6 +50,13 @@ class Article(db.Model, RightMixin):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
+
+    # relationships
+    tag_objs = db.relationship('Tag', back_populates='article',
+                            cascade='all,delete-orphan',
+                            lazy=False,
+                            foreign_keys='[Tag.article_id]')
+    tags = association_proxy('tag_objs', 'text')
 
     # index
     idx_article_uid = Index('user_id')

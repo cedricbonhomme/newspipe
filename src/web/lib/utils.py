@@ -6,6 +6,8 @@ import requests
 from hashlib import md5
 from flask import request, url_for
 
+import conf
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,11 +48,17 @@ def try_get_icon_url(url, *splits):
         if split is None:
             continue
         rb_url = rebuild_url(url, split)
-        response = requests.get(rb_url, verify=False, timeout=10)
+        response = None
         # if html in content-type, we assume it's a fancy 404 page
-        content_type = response.headers.get('content-type', '')
-        if response.ok and 'html' not in content_type and response.content:
-            return response.url
+        try:
+            response = jarr_get(rb_url)
+            content_type = response.headers.get('content-type', '')
+        except Exception:
+            pass
+        else:
+            if response is not None and response.ok \
+                    and 'html' not in content_type and response.content:
+                return response.url
     return None
 
 
@@ -71,3 +79,11 @@ def clear_string(data):
 
 def redirect_url(default='home'):
     return request.args.get('next') or request.referrer or url_for(default)
+
+
+async def jarr_get(url, **kwargs):
+    request_kwargs = {'verify': False, 'allow_redirects': True,
+                      'timeout': conf.CRAWLER_TIMEOUT,
+                      'headers': {'User-Agent': conf.CRAWLER_USER_AGENT}}
+    request_kwargs.update(kwargs)
+    return requests.get(url, **request_kwargs)

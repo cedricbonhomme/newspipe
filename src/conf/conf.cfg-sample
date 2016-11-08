@@ -20,6 +20,8 @@ default_max_error = 6
 user_agent = Newspipe (https://github.com/Newspipe/Newspipe)
 api_login =
 api_passwd =
+timeout = 30
+resolv = true
 [notification]
 notification_email = Newspipe@no-reply.com
 host = smtp.googlemail.com

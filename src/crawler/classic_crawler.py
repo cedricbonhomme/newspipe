@@ -30,7 +30,7 @@ import asyncio
 import logging
 import feedparser
 import dateutil.parser
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import or_
 
 import conf
@@ -111,7 +111,6 @@ async def parse_feed(user, feed):
 
 
 async def insert_database(user, feed):
-
     articles = await parse_feed(user, feed)
     if None is articles:
         return []
@@ -121,48 +120,41 @@ async def insert_database(user, feed):
     new_articles = []
     art_contr = ArticleController(user.id)
     for article in articles:
+        new_article = await construct_article(article, feed)
+
         try:
             existing_article_req = art_contr.read(feed_id=feed.id,
-                            **extract_id(article))
+                            entry_id=extract_id(article))
         except Exception as e:
             logger.exception("existing_article_req: " + str(e))
             continue
-
         exist = existing_article_req.count() != 0
         if exist:
             # if the article has been already retrieved, we only update
             # the content or the title
-            logger.debug('Article already in the database: '. \
-                            format(article['title']))
+            logger.info('Article already in the database: {}'. \
+                            format(article['link']))
             existing_article = existing_article_req.first()
-            new_updated_date = None
-            try:
-                new_updated_date = dateutil.parser.parse(article['updated'])
-            except Exception as e:
-                new_updated_date = existing_article.date
-                logger.exception('new_updated_date failed: {}'.format(e))
 
-            if None is existing_article.updated_date:
-                existing_article.updated_date = new_updated_date.replace(tzinfo=None)
-            if existing_article.updated_date.strftime('%Y-%m-%dT%H:%M:%S') != \
-                                new_updated_date.strftime('%Y-%m-%dT%H:%M:%S'):
-                logger.info('article updated')
-                existing_article.updated_date = \
-                                        new_updated_date.replace(tzinfo=None)
-                if existing_article.title != article['title']:
-                    existing_article.title = article['title']
+            if new_article['date'].replace(tzinfo=None) != \
+                                                        existing_article.date:
+                existing_article.date = new_article['date']
+                existing_article.updated_date = new_article['date']
+                if existing_article.title != new_article['title']:
+                    existing_article.title = new_article['title']
                 content = get_article_content(article)
                 if existing_article.content != content:
                     existing_article.content = content
                     existing_article.readed = False
                 art_contr.update({'entry_id': existing_article.entry_id},
                                                         existing_article.dump())
+                logger.info('Article updated: {}'.format(article['link']))
             continue
+
         # insertion of the new article
-        article = construct_article(article, feed)
         try:
-            new_articles.append(art_contr.create(**article))
-            logger.info('New article added: {}'.format(article['link']))
+            new_articles.append(art_contr.create(**new_article))
+            logger.info('New article added: {}'.format(new_article['link']))
         except Exception:
             logger.exception('Error when inserting article in database:')
             continue

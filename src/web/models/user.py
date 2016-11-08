@@ -64,7 +64,7 @@ class User(db.Model, UserMixin, RightMixin):
     is_admin = db.Column(db.Boolean(), default=False)
     is_api = db.Column(db.Boolean(), default=False)
 
-    # relationship
+    # relationships
     categories = db.relationship('Category', backref='user',
                               cascade='all, delete-orphan',
                             foreign_keys=[Category.user_id])
