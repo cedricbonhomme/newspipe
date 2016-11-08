@@ -77,6 +77,8 @@ var PanelMixin = {
                 } else {
                     items.push(<dd key={key}><Glyphicon glyph="unchecked" /></dd>);
                 }
+            } else if (field.type == 'list') {
+                this.props.obj[field.key].map(function(tag) {items.push(<dd key={tag}>{tag}</dd>)});
             } else if (field.type == 'link') {
                 items.push(<dd key={key}>
                               <a href={this.props.obj[field.key]}>
@@ -166,6 +168,7 @@ var Article = React.createClass({
     isRemovable: function() {return true;},
     fields: [{'title': 'Date', 'type': 'string', 'key': 'date'},
              {'title': 'Original link', 'type': 'link', 'key': 'link'},
+             {'title': 'Tags', 'type': 'list', 'key': 'tags'}
     ],
     obj_type: 'article',
     getTitle: function() {return this.props.obj.title;},
