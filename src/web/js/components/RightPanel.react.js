@@ -78,8 +78,8 @@ var PanelMixin = {
                     items.push(<dd key={key}><Glyphicon glyph="unchecked" /></dd>);
                 }
             } else if (field.type == 'list') {
-                items.push(<dd key={key}>{this.props.obj[field.key].reduce(function(tag, concatenatedTag) {
-                    return tag.concat(", ", concatenatedTag)
+                items.push(<dd key={key}>{this.props.obj[field.key].reduce(function(concatenatedTag, currentTag) {
+                    return currentTag.concat(", ", concatenatedTag)
                 })}</dd>)
             } else if (field.type == 'link') {
                 items.push(<dd key={key}>
