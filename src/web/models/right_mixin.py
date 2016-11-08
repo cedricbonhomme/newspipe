@@ -1,3 +1,6 @@
+from sqlalchemy.ext.associationproxy import _AssociationList
+
+
 class RightMixin:
 
     @staticmethod
@@ -44,11 +47,17 @@ class RightMixin:
 
     def dump(self, role='admin'):
         if role == 'admin':
-            dico = {k: getattr(self, k) for k in self.__table__.columns.keys()}
+            dico = {k: getattr(self, k)
+                    for k in set(self.__table__.columns.keys())
+                        .union(self.fields_api_read())
+                        .union(self.fields_base_read())}
         elif role == 'api':
             dico = {k: getattr(self, k) for k in self.fields_api_read()}
         else:
             dico = {k: getattr(self, k) for k in self.fields_base_read()}
         if hasattr(self, '__dump__'):
             dico.update(self.__dump__)
+        for key, value in dico.items():  # preventing association proxy to die
+            if isinstance(value, _AssociationList):
+                dico[key] = list(value)
         return dico
