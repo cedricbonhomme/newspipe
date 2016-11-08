@@ -2,8 +2,13 @@
 Release History
 =================
 
-7.1.2 (not yet released)
+7.1.3 (not yet released)
 ------------------------
+    Improvements:
+     * feeds are not retrieved to often by the crawler (even if used with cron)
+
+7.1.2 (2016-11-08)
+------------------
     New:
      * the new name of JARR is now Newspipe;
      * the user can now add its twitter link through the profile page;
