@@ -30,7 +30,7 @@ import asyncio
 import logging
 import feedparser
 import dateutil.parser
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy import or_
 
 import conf
@@ -184,9 +184,12 @@ def retrieve_feed(loop, user, feed_id=None):
         filters['id'] = feed_id
     filters['enabled'] = True
     filters['error_count__lt'] = conf.DEFAULT_MAX_ERROR
+    filters['last_retrieved__lt'] = datetime.now() - \
+                                timedelta(minutes=conf.FEED_REFRESH_INTERVAL)
     feeds = FeedController().read(**filters).all()
 
     if feeds == []:
+        logger.info('No feed to retrieve for {}'.format(user.nickname))
         return
 
     # Launch the process for all the feeds

@@ -22,6 +22,7 @@ api_login =
 api_passwd =
 timeout = 30
 resolv = true
+feed_refresh_interval = 120
 [notification]
 notification_email = Newspipe@no-reply.com
 host = smtp.googlemail.com

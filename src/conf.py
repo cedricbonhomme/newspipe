@@ -46,7 +46,8 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "crawling_method": "classic",
             "crawler_user_agent": "Newspipe (https://github.com/newspipe)",
             "crawler_timeout": "30",
-            "crawler_resolv": "false"
+            "crawler_resolv": "false",
+            "feed_refresh_interval": "120"
             }
 
 if not ON_HEROKU:
@@ -98,6 +99,7 @@ DEFAULT_MAX_ERROR = config.getint('crawler', 'default_max_error')
 ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
 CRAWLER_TIMEOUT = config.get('crawler', 'timeout')
 CRAWLER_RESOLV = config.getboolean('crawler', 'resolv')
+FEED_REFRESH_INTERVAL = config.getint('crawler', 'feed_refresh_interval')
 
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
