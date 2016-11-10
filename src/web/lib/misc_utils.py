@@ -182,7 +182,7 @@ def import_json(email, json_content):
     Import an account from a JSON file.
     """
     user = User.query.filter(User.email == email).first()
-    json_account = json.loads(json_content)
+    json_account = json.loads(json_content.decode("utf-8"))
     nb_feeds, nb_articles = 0, 0
     # Create feeds:
     for feed in json_account["result"]:
@@ -208,7 +208,8 @@ def import_json(email, json_content):
                 if None == Article.query.filter(Article.user_id == user.id,
                                     Article.feed_id == user_feed.id,
                                     Article.link == article["link"]).first():
-                    new_article = Article(link=article["link"],
+                    new_article = Article(entry_id=article["link"],
+                                link=article["link"],
                                 title=article["title"],
                                 content=article["content"],
                                 readed=article["readed"],
