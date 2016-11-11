@@ -4,8 +4,11 @@ Release History
 
 7.1.3 (not yet released)
 ------------------------
+    New:
+     * a template for the articles of public feeds has been added.
     Improvements:
-     * feeds are not retrieved to often by the crawler (even if used with cron)
+     * it is now possible to set the feeds refresh interval for the crawler
+       (even if the crawler is used with cron).
 
 7.1.2 (2016-11-08)
 ------------------
