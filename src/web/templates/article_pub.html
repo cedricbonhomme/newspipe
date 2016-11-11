@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container" data-article="{{ article.id }}">
+    <div class="well">
+        <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
+        <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
+        <h6>{{ article.date | datetime }}</h6>
+    </div>
+    <div class="well">
+        {{ article.content | safe }}
+    </div>
+    <div class="well">
+        <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
+            <img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" />
+        </a>
+        <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noreferrer" target="_blank">
+            <img src="{{ url_for('static', filename='img/reddit.png') }}" title="{{ _('Share on') }} reddit" />
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ article.link }}&text={{ article.title }}"  rel="noreferrer" target="_blank">
+            <img src="{{ url_for('static', filename='img/twitter.png') }}" title="{{ _('Share on') }} twitter" >
+        </a>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

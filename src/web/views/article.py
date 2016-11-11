@@ -39,6 +39,19 @@ def article(article_id=None):
                            head_titles=[clear_string(article.title)],
                            article=article)
 
+@article_bp.route('/public/<int:article_id>', methods=['GET'])
+@etag_match
+def article_pub(article_id=None):
+    """
+    Presents the content of an article of a public feed.
+    """
+    article = ArticleController().get(id=article_id)
+    if article.source.private:
+        return render_template('errors/404.html'), 404
+    return render_template('article_pub.html',
+                           head_titles=[clear_string(article.title)],
+                           article=article)
+
 
 @article_bp.route('/like/<int:article_id>', methods=['GET'])
 @login_required
