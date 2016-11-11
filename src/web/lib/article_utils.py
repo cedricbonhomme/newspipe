@@ -52,7 +52,8 @@ async def construct_article(entry, feed, fields=None, fetch=True):
             #push_in_article('content', clean_urls(article['content'], link))
             push_in_article('content', article['content'])
     push_in_article('tags', {tag.get('term').strip()
-                             for tag in entry.get('tags', [])})
+                             for tag in entry.get('tags', []) \
+                                    if tag and tag.get('term', False)})
     return article
 
 
