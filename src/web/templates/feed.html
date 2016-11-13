@@ -4,8 +4,10 @@
     <div class="well">
         <h2>{{ feed.title }}</h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
-        <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-        <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+            <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+        {% endif %}
     </div>
     <div class="well">
         <p>
@@ -49,20 +51,20 @@
                   <thead>
                       <tr>
                           <th>{{ _('Article') }}</th>
+                          <th>{{ _('Date') }}</th>
                       </tr>
                   </thead>
                   <tbody>
                   {% for article in articles %}
                       <tr>
                           <td><a href="{{ url_for("article.article_pub", article_id=article.id) }}">{{ article.title }}</a></td>
+                          <td>{{ article.date }}</td>
                       </tr>
                   {% endfor %}
                   </tbody>
               </table>
           </div>
         </div>
-
-
         <div class="col-md-4">
             {% if articles | count != 0 %}
                 <div>{{ tag_cloud | safe }}</div>
