@@ -82,6 +82,9 @@ def feed_pub(feed_id=None):
     """
     Presents details of a pubic feed.
     """
+    feed = FeedController(None).get(id=feed_id)
+    if feed.private:
+        return render_template('errors/404.html'), 404
     return feed_view(feed_id, None)
 
 
