@@ -66,8 +66,9 @@
           </div>
         </div>
         <div class="col-md-4">
+            <p><h3>{{ _('Most recurrent words') }}</h3></p>
             {% if articles | count != 0 %}
-                <div>{{ tag_cloud | safe }}</div>
+                <div class="well">{{ tag_cloud | safe }}</div>
             {% endif %}
         </div>
     </div>
@@ -76,7 +77,8 @@
 <script>
 $(document).ready(function() {
     $('#table-articles').DataTable( {
-        responsive: true
+        responsive: true,
+        order: [[1, "desc"]]
     });
 });
 </script>
