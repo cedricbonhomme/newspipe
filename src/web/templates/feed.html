@@ -41,10 +41,41 @@
         {% endif %}
         </p>
     </div>
-    <div class="well">
-        {% if feed.articles.all()|count != 0 %}
-            <div>{{ tag_cloud|safe }}</div>
-        {% endif %}
+
+    <div class="row">
+        <div class="col-md-8">
+          <div class="table-responsive">
+              <table id="table-articles" class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>{{ _('Article') }}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for article in articles %}
+                      <tr>
+                          <td><a href="{{ url_for("article.article_pub", article_id=article.id) }}">{{ article.title }}</a></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+        </div>
+
+
+        <div class="col-md-4">
+            {% if articles | count != 0 %}
+                <div>{{ tag_cloud | safe }}</div>
+            {% endif %}
+        </div>
     </div>
+
 </div><!-- /.container -->
+<script>
+$(document).ready(function() {
+    $('#table-articles').DataTable( {
+        responsive: true
+    });
+});
+</script>
 {% endblock %}

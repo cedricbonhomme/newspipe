@@ -34,17 +34,13 @@ def feeds():
             article_count=art_contr.count_by_feed())
 
 
-@feed_bp.route('/<int:feed_id>', methods=['GET'])
-@login_required
-@etag_match
-def feed(feed_id=None):
-    "Presents detailed information about a feed."
-    feed = FeedController(current_user.id).get(id=feed_id)
+def feed_view(feed_id=None, user_id=None):
+    feed = FeedController(user_id).get(id=feed_id)
     word_size = 6
     category = None
     if feed.category_id:
-        category = CategoryController(current_user.id).get(id=feed.category_id)
-    articles = ArticleController(current_user.id) \
+        category = CategoryController(user_id).get(id=feed.category_id)
+    articles = ArticleController(user_id) \
             .read(feed_id=feed_id) \
             .order_by(desc("date")).all()
     top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
@@ -65,10 +61,28 @@ def feed(feed_id=None):
 
     return render_template('feed.html',
                            head_titles=[utils.clear_string(feed.title)],
-                           feed=feed, tag_cloud=tag_cloud,
+                           feed=feed, articles=articles,
+                           tag_cloud=tag_cloud,
                            first_post_date=first_article,
                            end_post_date=last_article, category=category,
                            average=average, delta=delta, elapsed=elapsed)
+
+
+@feed_bp.route('/<int:feed_id>', methods=['GET'])
+@login_required
+@etag_match
+def feed(feed_id=None):
+    "Presents detailed information about a feed."
+    return feed_view(feed_id, current_user.id)
+
+
+@feed_bp.route('/public/<int:feed_id>', methods=['GET'])
+@etag_match
+def feed_pub(feed_id=None):
+    """
+    Presents details of a pubic feed.
+    """
+    return feed_view(feed_id, None)
 
 
 @feed_bp.route('/delete/<feed_id>', methods=['GET'])

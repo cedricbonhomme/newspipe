@@ -3,7 +3,7 @@
 <div class="container" data-article="{{ article.id }}">
     <div class="well">
         <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
-        <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
+        <h3>{{ _('from') }} <a href="{{ url_for('feed.feed_pub', feed_id=article.source.id) }}">{{ article.source.title }}</a></h3>
         <h6>{{ article.date | datetime }}</h6>
     </div>
     <div class="well">
