@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-10-10 14:06+0200\n"
-"PO-Revision-Date: 2016-10-10 14:07+0100\n"
+"POT-Creation-Date: 2016-11-14 07:46+0100\n"
+"PO-Revision-Date: 2016-11-14 07:50+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../forms.py:46 ../forms.py:130 ../forms.py:154
 #: ../templates/admin/dashboard.html:12
@@ -28,12 +28,12 @@ msgstr "Pseudonyme"
 msgid "Please enter your nickname."
 msgstr "S'il vous plaît, entrez votre pseudonyme."
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:215
+#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:216
 #: ../templates/admin/dashboard.html:13
 msgid "Email"
 msgstr "Email"
 
-#: ../forms.py:51 ../forms.py:218
+#: ../forms.py:51 ../forms.py:219
 msgid "Please enter your email address."
 msgstr "S'il vous plaît, entrez votre adresse email."
 
@@ -65,7 +65,7 @@ msgstr "S'il vous plaît, entrez votre email."
 msgid "Automatic crawling"
 msgstr "Récupération automatique"
 
-#: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:203
+#: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:204
 msgid "Save"
 msgstr "Sauver"
 
@@ -126,44 +126,48 @@ msgstr "Vérifier les mises à jour"
 msgid "Category of the feed"
 msgstr "Catégorie du flux"
 
-#: ../forms.py:202 ../templates/layout.html:71
+#: ../forms.py:194
+msgid "Private"
+msgstr "Privé"
+
+#: ../forms.py:203 ../templates/layout.html:73
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
-#: ../forms.py:207
+#: ../forms.py:208
 msgid "Subject"
 msgstr "Objet"
 
-#: ../forms.py:208
+#: ../forms.py:209
 msgid "Please enter a subject."
 msgstr "S'il vous plaît entrer un objet."
 
-#: ../forms.py:209
+#: ../forms.py:210
 msgid "Message"
 msgstr "Message"
 
-#: ../forms.py:210
+#: ../forms.py:211
 msgid "Please enter a content."
 msgstr "S'il vous plaît entrer un contenu."
 
-#: ../forms.py:211
+#: ../forms.py:212
 msgid "Send"
 msgstr "Envoyer"
 
-#: ../forms.py:219
+#: ../forms.py:220
 msgid "Recover"
 msgstr "Récupérer"
 
-#: ../forms.py:229
+#: ../forms.py:230
 msgid "Account not confirmed."
 msgstr "Compte non confirmé."
 
-#: ../forms.py:232
+#: ../forms.py:233
 msgid "Invalid email."
 msgstr "Email invalide."
 
-#: ../templates/about.html:5 ../templates/layout.html:96
-#: ../templates/layout.html:107
+#: ../templates/about.html:5 ../templates/layout.html:98
+#: ../templates/layout.html:109
 msgid "About"
 msgstr "À propos"
 
@@ -239,7 +243,7 @@ msgstr ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
 "\">Abonnez-vous à ce flux en utilisant Newspipe</a>"
 
-#: ../templates/article.html:6
+#: ../templates/article.html:6 ../templates/article_pub.html:6
 msgid "from"
 msgstr "de"
 
@@ -265,7 +269,8 @@ msgid "Mark this article as read"
 msgstr "Marquer cet article comme lu"
 
 #: ../templates/article.html:25 ../templates/article.html:28
-#: ../templates/article.html:31
+#: ../templates/article.html:31 ../templates/article_pub.html:14
+#: ../templates/article_pub.html:17 ../templates/article_pub.html:20
 msgid "Share on"
 msgstr "Partager sur"
 
@@ -324,79 +329,93 @@ msgstr "Supprimer tout dans cette colonne"
 msgid "Optional"
 msgstr "Facultatif"
 
-#: ../templates/edit_feed.html:49
+#: ../templates/edit_feed.html:55
+#, python-format
+msgid ""
+"If checked, articles of this feed won't be available to others and the feed "
+"won't be listed on <a href='%(url)s'>your profile page</a>."
+msgstr ""
+"Si cette option est cochée, les articles de ce flux ne seront pas visibles "
+"aux autres et ne seront pas répertoriés sur <a href='%(url)s'>votre profil "
+"public</a>."
+
+#: ../templates/edit_feed.html:56
+msgid "Check this box if there is a private token in the link of the feed."
+msgstr "Cochez cette case si il ya un token privé dans le lien du flux."
+
+#: ../templates/edit_feed.html:62
 msgid "Filters"
 msgstr "Filtres"
 
-#: ../templates/edit_feed.html:60
+#: ../templates/edit_feed.html:73
 msgid "simple match"
 msgstr "correspondance exact"
 
-#: ../templates/edit_feed.html:61
+#: ../templates/edit_feed.html:74
 msgid "regex"
 msgstr "expression régulière"
 
-#: ../templates/edit_feed.html:65
+#: ../templates/edit_feed.html:78
 msgid "match"
 msgstr "correspond"
 
-#: ../templates/edit_feed.html:66
+#: ../templates/edit_feed.html:79
 msgid "no match"
 msgstr "ne correspond pas"
 
-#: ../templates/edit_feed.html:69
+#: ../templates/edit_feed.html:82
 msgid "mark as read"
 msgstr "Marquer cet article comme lu"
 
-#: ../templates/edit_feed.html:70
+#: ../templates/edit_feed.html:83
 msgid "mark as favorite"
 msgstr "Marquer comme favori"
 
-#: ../templates/feed.html:7 ../templates/feed_list.html:35
+#: ../templates/feed.html:8 ../templates/feed_list.html:35
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
-#: ../templates/feed.html:7 ../templates/feed_list.html:35
+#: ../templates/feed.html:8 ../templates/feed_list.html:35
 msgid "You are going to delete this feed."
 msgstr "Vous allez supprimer ce flux."
 
-#: ../templates/feed.html:8 ../templates/feed_list.html:33
+#: ../templates/feed.html:9 ../templates/feed_list.html:33
 msgid "Edit this feed"
 msgstr "Éditer ce flux"
 
-#: ../templates/feed.html:12
+#: ../templates/feed.html:14
 msgid "This feed contains"
 msgstr "Ce flux contient"
 
-#: ../templates/feed.html:12
+#: ../templates/feed.html:14
 msgid "articles"
 msgstr "articles"
 
-#: ../templates/feed.html:14
+#: ../templates/feed.html:16
 #, python-format
 msgid "This feed is part of category %(category_name)s"
 msgstr "Ce flux fait partie de la catégorie %(category_name)s"
 
-#: ../templates/feed.html:16
+#: ../templates/feed.html:18
 msgid "Address of the feed"
 msgstr "Adresse du flux"
 
-#: ../templates/feed.html:18
+#: ../templates/feed.html:20
 msgid "Address of the site"
 msgstr "Adresse du site"
 
-#: ../templates/feed.html:24
+#: ../templates/feed.html:26
 msgid "Last download:"
 msgstr "Dernier téléchargement:"
 
-#: ../templates/feed.html:28
+#: ../templates/feed.html:30
 msgid ""
 "That feed has encountered too much consecutive errors and won't be retrieved "
 "anymore."
 msgstr ""
 "Ce flux a rencontré trop d'erreurs consécutives et ne sera plus récupéré."
 
-#: ../templates/feed.html:29
+#: ../templates/feed.html:31
 #, python-format
 msgid ""
 "You can click <a href='%(reset_error_url)s'>here</a> to reset the error "
@@ -405,7 +424,7 @@ msgstr ""
 "Vous pouvez cliquer <a href='%(reset_error_url)s'>ici</a> pour réinitialiser "
 "le nombre d'erreurs et réactiver le flux."
 
-#: ../templates/feed.html:31
+#: ../templates/feed.html:33
 msgid ""
 "The download of this feed has encountered some problems. However its error "
 "counter will be reinitialized at the next successful retrieving."
@@ -414,29 +433,41 @@ msgstr ""
 "compteur d'erreurs sera réinitialisé lors de la prochaine récupération "
 "réussie."
 
-#: ../templates/feed.html:35
+#: ../templates/feed.html:37
 msgid "Here's the last error encountered while retrieving this feed:"
 msgstr "Voici la dernière erreur survenue lors de la récupération ce flux:"
 
-#: ../templates/feed.html:39
+#: ../templates/feed.html:41
 msgid "The last article was posted"
 msgstr "Le dernier article a été posté il y a"
 
-#: ../templates/feed.html:39
+#: ../templates/feed.html:41
 msgid "day(s) ago."
 msgstr "jours."
 
-#: ../templates/feed.html:40
+#: ../templates/feed.html:42
 msgid "Daily average"
 msgstr "Moyenne journalière"
 
-#: ../templates/feed.html:40
+#: ../templates/feed.html:42
 msgid "between the"
 msgstr "entre le"
 
-#: ../templates/feed.html:40
+#: ../templates/feed.html:42
 msgid "and the"
 msgstr "et le"
+
+#: ../templates/feed.html:53
+msgid "Article"
+msgstr "Article"
+
+#: ../templates/feed.html:54
+msgid "Date"
+msgstr "Date"
+
+#: ../templates/feed.html:69
+msgid "Most recurrent words"
+msgstr "Mots les plus récurrents"
 
 #: ../templates/feed_list.html:7
 msgid "Status"
@@ -479,7 +510,7 @@ msgstr "Ajouter"
 msgid "a feed"
 msgstr "un flux"
 
-#: ../templates/history.html:4 ../templates/layout.html:85
+#: ../templates/history.html:4 ../templates/layout.html:87
 msgid "History"
 msgstr "Historique"
 
@@ -499,51 +530,51 @@ msgstr "jours"
 msgid "No inactive feeds."
 msgstr "Aucun flux inactifs."
 
-#: ../templates/layout.html:44
+#: ../templates/layout.html:46
 msgid "Fetch"
 msgstr "Télécharger"
 
-#: ../templates/layout.html:48
+#: ../templates/layout.html:50
 msgid "Add a new feed"
 msgstr "Ajouter un nouveau flux"
 
-#: ../templates/layout.html:54
+#: ../templates/layout.html:56
 msgid "Site or feed url"
 msgstr "Site ou adresse de flux"
 
-#: ../templates/layout.html:65
+#: ../templates/layout.html:67
 msgid "Add a new category"
 msgstr "Ajouter une nouvelle catégorie"
 
-#: ../templates/layout.html:81
+#: ../templates/layout.html:83
 msgid "Feed"
 msgstr "Flux"
 
-#: ../templates/layout.html:83 ../templates/layout.html:106
+#: ../templates/layout.html:85 ../templates/layout.html:108
 msgid "Popular"
 msgstr "Populaire"
 
-#: ../templates/layout.html:84
+#: ../templates/layout.html:86
 msgid "Inactive"
 msgstr "Flux inactifs"
 
-#: ../templates/layout.html:86
+#: ../templates/layout.html:88
 msgid "All"
 msgstr "Tout"
 
-#: ../templates/layout.html:94
+#: ../templates/layout.html:96
 msgid "Profile"
 msgstr "Profil"
 
-#: ../templates/layout.html:95
+#: ../templates/layout.html:97
 msgid "Your data"
 msgstr "Vos données"
 
-#: ../templates/layout.html:99
+#: ../templates/layout.html:101
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: ../templates/layout.html:102
+#: ../templates/layout.html:104
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -682,31 +713,31 @@ msgstr "Minimum 6 caractères."
 msgid "Registered users"
 msgstr "Utilisateurs enregistrés"
 
-#: ../templates/admin/dashboard.html:28
+#: ../templates/admin/dashboard.html:35
 msgid "Edit this user"
 msgstr "Éditer cet utilisateur"
 
-#: ../templates/admin/dashboard.html:32
+#: ../templates/admin/dashboard.html:39
 msgid "Disable this account"
 msgstr "Désactiver ce comptes"
 
-#: ../templates/admin/dashboard.html:34
+#: ../templates/admin/dashboard.html:41
 msgid "Enable this account"
 msgstr "Activer ce compte"
 
-#: ../templates/admin/dashboard.html:37
+#: ../templates/admin/dashboard.html:44
 msgid "Delete this user"
 msgstr "Supprimer cet utilisateur"
 
-#: ../templates/admin/dashboard.html:37
+#: ../templates/admin/dashboard.html:44
 msgid "You are going to delete this account."
 msgstr "Vous allez supprimer ce compte."
 
-#: ../templates/admin/dashboard.html:44 ../views/admin.py:40
+#: ../templates/admin/dashboard.html:51 ../views/admin.py:40
 msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
 
-#: ../templates/admin/dashboard.html:45
+#: ../templates/admin/dashboard.html:52
 msgid "Send notification messages"
 msgstr "Envoyer des messages de notification"
 
@@ -719,7 +750,7 @@ msgstr "Éditer l'utilisateur <i>%(nick)s</i>"
 msgid "Some errors were found"
 msgstr "Des erreurs ont été trouvées"
 
-#: ../views/admin.py:68 ../views/user.py:119
+#: ../views/admin.py:68 ../views/user.py:123
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "Utilisateur %(nick)s  mis à jour avec succès."
@@ -749,21 +780,21 @@ msgstr "Cet utilisateur n'existe pas."
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr "Utilisateur %(nickname)s %(is_active)s avec succès."
 
-#: ../views/article.py:63
+#: ../views/article.py:77
 #, python-format
 msgid "Article %(article_title)s deleted"
 msgstr "Article %(article_title)s supprimé."
 
-#: ../views/article.py:120
+#: ../views/article.py:134
 #, python-format
 msgid "%(count)d articles deleted"
 msgstr "%(count)d  articles supprimés."
 
-#: ../views/article.py:136
+#: ../views/article.py:150
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'export des articles."
 
-#: ../views/article.py:152
+#: ../views/article.py:166
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
@@ -794,29 +825,29 @@ msgstr "Catégorie %(cat_name)r mise à jour avec succès."
 msgid "Category %(category_name)r successfully created."
 msgstr "Catégorie %(category_name)r créée avec succès."
 
-#: ../views/feed.py:80
+#: ../views/feed.py:98
 #, python-format
 msgid "Feed %(feed_title)s successfully deleted."
 msgstr "Flux %(feed_title)s supprimé avec succès."
 
-#: ../views/feed.py:91 ../views/feed.py:207
+#: ../views/feed.py:109 ../views/feed.py:226
 #, python-format
 msgid "Feed %(feed_title)r successfully updated."
 msgstr "Flux %(feed_title)r mis à jour avec succès."
 
-#: ../views/feed.py:103
+#: ../views/feed.py:121
 msgid "Couldn't add feed: url missing."
 msgstr "Impossible d'ajouter le flux: URL manquante."
 
-#: ../views/feed.py:108 ../views/feed.py:189
+#: ../views/feed.py:126 ../views/feed.py:207
 msgid "Couldn't add feed: feed already exists."
 msgstr "Impossible d'ajouter le flux: le flux existe déjà."
 
-#: ../views/feed.py:115
+#: ../views/feed.py:133
 msgid "Impossible to connect to the address: {}."
 msgstr "Impossible de se connecter à l'adresse: {}."
 
-#: ../views/feed.py:123
+#: ../views/feed.py:141
 msgid ""
 "Couldn't find a feed url, you'll need to find a Atom or RSS link manually "
 "and reactivate this feed"
@@ -824,36 +855,36 @@ msgstr ""
 "Impossible de trouver une URL de flux, vous devez trouver un lien RSS ou "
 "Atom manuellement et réactiver ce flux"
 
-#: ../views/feed.py:127
+#: ../views/feed.py:145
 msgid "Feed was successfully created."
 msgstr "Flux créé avec succès."
 
-#: ../views/feed.py:130 ../views/feed.py:219
+#: ../views/feed.py:148 ../views/feed.py:238
 msgid "Downloading articles for the new feed..."
 msgstr "Téléchargement des articles du nouveau flux..."
 
-#: ../views/feed.py:148
+#: ../views/feed.py:166
 msgid "Feed successfully updated."
 msgstr "Flux mis à jour avec succès."
 
-#: ../views/feed.py:157
+#: ../views/feed.py:175
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
-#: ../views/feed.py:168
+#: ../views/feed.py:186
 msgid "Edit feed"
 msgstr "Éditez ce flux"
 
-#: ../views/feed.py:214
+#: ../views/feed.py:233
 #, python-format
 msgid "Feed %(feed_title)r successfully created."
 msgstr "Flux %(feed_title)r créé avec succès."
 
-#: ../views/feed.py:244
+#: ../views/feed.py:263
 msgid "No duplicates in the feed \"{}\"."
 msgstr "Pas de doublon dans le flux \"{}\"."
 
-#: ../views/home.py:168 ../views/user.py:63
+#: ../views/home.py:168 ../views/user.py:67
 msgid "Downloading articles..."
 msgstr "Téléchargement des articles."
 
@@ -882,48 +913,48 @@ msgstr "Problème lors de l'envoi d'email d'activation: %(error)s"
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer."
 
-#: ../views/user.py:55 ../views/user.py:71 ../views/user.py:80
+#: ../views/user.py:59 ../views/user.py:75 ../views/user.py:84
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: ../views/user.py:61
+#: ../views/user.py:65
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: ../views/user.py:65
+#: ../views/user.py:69
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: ../views/user.py:75
+#: ../views/user.py:79
 msgid "Account imported."
 msgstr "Compte importé."
 
-#: ../views/user.py:77
+#: ../views/user.py:81
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: ../views/user.py:116
+#: ../views/user.py:120
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr "Problème lors de la mise à jour de votre profil: %(error)s"
 
-#: ../views/user.py:137
+#: ../views/user.py:141
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: ../views/user.py:154
+#: ../views/user.py:158
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: ../views/user.py:156
+#: ../views/user.py:160
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: ../views/user.py:181
+#: ../views/user.py:185
 msgid "New password sent to your address."
 msgstr "Nouveau mot de passe envoyé à votre adresse."
 
-#: ../views/user.py:183
+#: ../views/user.py:187
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr "Problème lors de l'envoi de votre nouveau mot de passe: %(error)s"
@@ -1024,12 +1055,6 @@ msgstr "Interdit."
 
 #~ msgid "Unread"
 #~ msgstr "Non lus"
-
-#~ msgid "Article"
-#~ msgstr "Article"
-
-#~ msgid "Date"
-#~ msgstr "Date"
 
 #~ msgid "No icon found for this feed"
 #~ msgstr "Aucune icône trouvé pour ce flux."
