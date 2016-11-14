@@ -53,6 +53,7 @@
                         {{ form.private(class_="checkbox",  style="margin-left: 0px;") }}
                     </div>
                     <span class="text-muted">{{ _("If checked, articles of this feed won't be available to others and the feed won't be listed on <a href='%(url)s'>your profile page</a>.", url=url_for('user.profile_public', nickname=current_user.nickname) ) }}</span>
+                    <span class="text-muted">{{ _("Check this box if there is a private token in the link of the feed.") }}</span>
                 </div>
 
             </div>
