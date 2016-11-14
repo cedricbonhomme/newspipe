@@ -80,10 +80,11 @@ def feed(feed_id=None):
 @etag_match
 def feed_pub(feed_id=None):
     """
-    Presents details of a pubic feed.
+    Presents details of a pubic feed if the profile of the owner is also
+    public.
     """
     feed = FeedController(None).get(id=feed_id)
-    if feed.private:
+    if feed.private or not feed.user.is_public_profile:
         return render_template('errors/404.html'), 404
     return feed_view(feed_id, None)
 

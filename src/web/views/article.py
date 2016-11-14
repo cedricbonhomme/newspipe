@@ -32,7 +32,7 @@ def redirect_to_article(article_id):
 @etag_match
 def article(article_id=None):
     """
-    Presents the content of an article.
+    Presents an article.
     """
     article = ArticleController(current_user.id).get(id=article_id)
     return render_template('article.html',
@@ -43,10 +43,11 @@ def article(article_id=None):
 @etag_match
 def article_pub(article_id=None):
     """
-    Presents the content of an article of a public feed.
+    Presents an article of a public feed if the profile of the owner is also
+    public.
     """
     article = ArticleController().get(id=article_id)
-    if article.source.private:
+    if article.source.private or not article.source.user.is_public_profile:
         return render_template('errors/404.html'), 404
     return render_template('article_pub.html',
                            head_titles=[clear_string(article.title)],
