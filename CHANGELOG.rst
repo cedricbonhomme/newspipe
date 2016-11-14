@@ -2,13 +2,18 @@
 Release History
 =================
 
-7.1.3 (not yet released)
-------------------------
+7.1.3 (2016-11-14)
+------------------
     New:
-     * a template for the articles of public feeds has been added.
+     * a template for the articles of public feeds has been added;
+     * the template of the feeds is now also used for users who are not
+       authenticated (if the feed is not private);
+     * tags of articles are now displayed in the UI.
     Improvements:
-     * it is now possible to set the feeds refresh interval for the crawler
-       (even if the crawler is used with cron).
+     * it is now possible to configure the feeds refresh interval (in minutes)
+       for the crawler (even if the crawler is used with cron);
+     * various improvements to the UI of the public profile page;
+     * simpler format for the logs when the application is running on Heroku.
 
 7.1.2 (2016-11-08)
 ------------------
