@@ -59,6 +59,9 @@ class FeedController(AbstractController):
                 last_post = feed.articles[0].date
             except IndexError:
                 continue
+            except Exception as e:
+                logger.exception(e)
+                continue
             elapsed = today - last_post
             if elapsed > timedelta(days=nb_days):
                 inactives.append((feed, elapsed))

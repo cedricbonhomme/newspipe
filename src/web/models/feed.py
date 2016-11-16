@@ -31,6 +31,7 @@ from datetime import datetime
 from sqlalchemy import desc, Index
 from sqlalchemy.orm import validates
 from web.models.right_mixin import RightMixin
+from web.models.article import Article
 
 
 class Feed(db.Model, RightMixin):
@@ -60,9 +61,9 @@ class Feed(db.Model, RightMixin):
     icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
-    articles = db.relationship('Article', backref='source', lazy='dynamic',
+    articles = db.relationship(Article, backref='source', lazy='dynamic',
                                cascade='all,delete-orphan',
-                               order_by=desc("date"))
+                               order_by=desc(Article.date))
 
     # index
     idx_feed_uid_cid = Index('user_id', 'category_id')
