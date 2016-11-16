@@ -24,7 +24,7 @@ def escape_keys(*keys):
             result = func(*args, **kwargs)
             for key in keys:
                 if key in result:
-                    result[key] = html.unescape(result[key])
+                    result[key] = html.unescape(result[key] or '')
             return result
         return metawrapper
     return wrapper
