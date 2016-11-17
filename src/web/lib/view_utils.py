@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import request, Response, make_response
-from web.lib.utils import to_hash
+from lib.utils import to_hash
 
 
 def etag_match(func):

@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from requests.exceptions import MissingSchema
 
 import conf
-from web.lib.utils import jarr_get
+from lib.utils import jarr_get
 
 logger = logging.getLogger(__name__)
 PROCESSED_DATE_KEYS = {'published', 'created', 'updated'}

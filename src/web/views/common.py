@@ -6,7 +6,7 @@ from flask_login import login_user
 from flask_principal import (Identity, Permission, RoleNeed,
                                  session_identity_loader, identity_changed)
 from web.controllers import UserController
-from web.lib.utils import default_handler
+from lib.utils import default_handler
 
 admin_role = RoleNeed('admin')
 api_role = RoleNeed('api')

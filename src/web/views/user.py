@@ -8,7 +8,8 @@ from flask_login import login_required, current_user
 
 import conf
 from notifications import notifications
-from web.lib import misc_utils
+from lib import misc_utils
+from lib.data import import_opml, import_json
 from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController,
                             CategoryController)
@@ -59,7 +60,7 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = misc_utils.import_opml(current_user.email, data.read())
+                    nb = import_opml(current_user.email, data.read())
                     if conf.CRAWLING_METHOD == "classic":
                         misc_utils.fetch(current_user.email, None)
                         flash(str(nb) + '  ' + gettext('feeds imported.'),
@@ -75,7 +76,7 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = misc_utils.import_json(current_user.email, data.read())
+                    nb = import_json(current_user.email, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."),

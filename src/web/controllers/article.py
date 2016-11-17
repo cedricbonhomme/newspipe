@@ -6,7 +6,7 @@ from collections import Counter
 
 from bootstrap import db
 from .abstract import AbstractController
-from web.lib.article_utils import process_filters
+from lib.article_utils import process_filters
 from web.controllers import CategoryController, FeedController
 from web.models import Article
 

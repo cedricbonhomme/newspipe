@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from bootstrap import db
 from sqlalchemy import Index
 from web.models.right_mixin import RightMixin
@@ -10,7 +13,7 @@ class Category(db.Model, RightMixin):
     # relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     feeds = db.relationship('Feed', cascade='all,delete-orphan')
-    articles = db.relationship('Article', 
+    articles = db.relationship('Article',
                             cascade='all,delete-orphan')
 
     # index

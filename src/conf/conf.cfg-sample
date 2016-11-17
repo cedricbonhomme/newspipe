@@ -9,7 +9,7 @@ platform_url = http://127.0.0.1:5000/
 admin_email =
 security_password_salt = a secret to confirm user account
 token_validity_period = 3600
-log_path = ./src/web/var/newspipe.log
+log_path = ./var/newspipe.log
 nb_worker = 5
 log_level = info
 [database]
@@ -17,9 +17,7 @@ database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [crawler]
 crawling_method = classic
 default_max_error = 6
-user_agent = Newspipe (https://github.com/Newspipe/Newspipe)
-api_login =
-api_passwd =
+user_agent = Newspipe (https://github.com/newspipe/newspipe)
 timeout = 30
 resolv = true
 feed_refresh_interval = 120

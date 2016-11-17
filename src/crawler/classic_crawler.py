@@ -37,8 +37,8 @@ import conf
 from bootstrap import db
 from web.models import User
 from web.controllers import FeedController, ArticleController
-from web.lib.feed_utils import construct_feed_from, is_parsing_ok
-from web.lib.article_utils import construct_article, extract_id, \
+from lib.feed_utils import construct_feed_from, is_parsing_ok
+from lib.article_utils import construct_article, extract_id, \
                                     get_article_content
 
 logger = logging.getLogger(__name__)

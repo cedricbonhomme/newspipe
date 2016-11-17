@@ -4,8 +4,8 @@ from flask_babel import gettext, format_timedelta
 from flask_login import login_required, current_user
 from werkzeug import generate_password_hash
 
+from lib.utils import redirect_url
 from web.views.common import admin_permission
-from web.lib.utils import redirect_url
 from web.controllers import UserController
 from web.forms import InformationMessageForm, UserForm
 

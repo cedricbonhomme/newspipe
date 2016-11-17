@@ -9,8 +9,8 @@ from flask_babel import gettext, get_locale
 from babel.dates import format_datetime, format_timedelta
 
 import conf
-from web.lib.utils import redirect_url
-from web.lib import misc_utils
+from lib.utils import redirect_url
+from lib import misc_utils
 from web.lib.view_utils import etag_match
 from web.views.common import jsonify
 

@@ -5,7 +5,7 @@ Newspipe
 Presentation
 ------------
 
-`Newspipe <https://github.com/Newspipe/Newspipe>`_ is a web-based news
+`Newspipe <https://github.com/newspipe/newspipe>`_ is a web-based news
 aggregator and reader.
 
 Main features
@@ -36,7 +36,7 @@ provides different ways to install Newspipe.
 License
 -------
 
-`Newspipe <https://github.com/Newspipe/Newspipe>`_ is under the
+`Newspipe <https://github.com/newspipe/newspipe>`_ is under the
 `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 Contact

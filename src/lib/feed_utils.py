@@ -6,7 +6,7 @@ import feedparser
 from conf import CRAWLER_USER_AGENT
 from bs4 import BeautifulSoup, SoupStrainer
 
-from web.lib.utils import try_keys, try_get_icon_url, rebuild_url
+from lib.utils import try_keys, try_get_icon_url, rebuild_url
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)

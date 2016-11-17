@@ -3,7 +3,7 @@ from flask_babel import gettext
 from flask_login import login_required, current_user
 
 from web.forms import CategoryForm
-from web.lib.utils import redirect_url
+from lib.utils import redirect_url
 from web.lib.view_utils import etag_match
 from web.controllers import ArticleController, FeedController, \
                             CategoryController

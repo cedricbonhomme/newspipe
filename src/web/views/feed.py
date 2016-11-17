@@ -10,9 +10,9 @@ from flask_babel import gettext
 from flask_login import login_required, current_user
 
 import conf
-from web.lib import misc_utils, utils
+from lib import misc_utils, utils
+from lib.feed_utils import construct_feed_from
 from web.lib.view_utils import etag_match
-from web.lib.feed_utils import construct_feed_from
 from web.forms import AddFeedForm
 from web.controllers import (CategoryController, FeedController,
                                       ArticleController)

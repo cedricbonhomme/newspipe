@@ -7,8 +7,8 @@ from flask_login import login_required, current_user
 
 
 from bootstrap import db
-from web.export import export_json
-from web.lib.utils import clear_string, redirect_url
+from lib.utils import clear_string, redirect_url
+from lib.data import export_json
 from web.controllers import (ArticleController, UserController,
                             CategoryController)
 from web.lib.view_utils import etag_match

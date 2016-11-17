@@ -34,7 +34,7 @@ from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
         SubmitField, IntegerField, SelectField, validators, HiddenField
 from wtforms.fields.html5 import EmailField, URLField
 
-from web.lib import misc_utils
+from lib import misc_utils
 from web.controllers import UserController
 from web.models import User
 
