@@ -29,9 +29,6 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "admin_email": "info@newspipe.org",
             "postmark_api_key": "",
             "token_validity_period": "3600",
-            "nb_worker": "100",
-            "api_login": "",
-            "api_passwd": "",
             "default_max_error": "3",
             "log_path": "newspipe.log",
             "log_level": "info",
@@ -73,12 +70,17 @@ else:
     config = Config()
 
 
+WEBSERVER_HOST = config.get('webserver', 'host')
+WEBSERVER_PORT = config.getint('webserver', 'port')
+WEBSERVER_SECRET = config.get('webserver', 'secret_key')
+
+CDN_ADDRESS = config.get('cdn', 'cdn_address')
+
 PLATFORM_URL = config.get('misc', 'platform_url')
 ADMIN_EMAIL = config.get('misc', 'admin_email')
 SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
 TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
-NB_WORKER = config.getint('misc', 'nb_worker')
 if not ON_HEROKU:
     LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 else:
@@ -92,20 +94,12 @@ LOG_LEVEL = {'debug': logging.DEBUG,
 SQLALCHEMY_DATABASE_URI = config.get('database', 'database_url')
 
 CRAWLING_METHOD = config.get('crawler', 'crawling_method')
-API_LOGIN = config.get('crawler', 'api_login')
-API_PASSWD = config.get('crawler', 'api_passwd')
 CRAWLER_USER_AGENT = config.get('crawler', 'user_agent')
 DEFAULT_MAX_ERROR = config.getint('crawler', 'default_max_error')
 ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
 CRAWLER_TIMEOUT = config.get('crawler', 'timeout')
 CRAWLER_RESOLV = config.getboolean('crawler', 'resolv')
 FEED_REFRESH_INTERVAL = config.getint('crawler', 'feed_refresh_interval')
-
-WEBSERVER_HOST = config.get('webserver', 'host')
-WEBSERVER_PORT = config.getint('webserver', 'port')
-WEBSERVER_SECRET = config.get('webserver', 'secret_key')
-
-CDN_ADDRESS = config.get('cdn', 'cdn_address')
 
 NOTIFICATION_EMAIL = config.get('notification', 'notification_email')
 NOTIFICATION_HOST = config.get('notification', 'host')

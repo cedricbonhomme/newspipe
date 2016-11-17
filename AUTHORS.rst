@@ -1,6 +1,6 @@
 Original author
 ---------------
-JARR is a free software written and maintained
+Newspipe is a free software written and maintained
 by Cédric Bonhomme https://www.cedricbonhomme.org
 
 Contributors

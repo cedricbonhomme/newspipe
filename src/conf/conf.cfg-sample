@@ -9,8 +9,7 @@ platform_url = http://127.0.0.1:5000/
 admin_email =
 security_password_salt = a secret to confirm user account
 token_validity_period = 3600
-log_path = ./var/newspipe.log
-nb_worker = 5
+log_path = ./var/log/newspipe.log
 log_level = info
 [database]
 database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
