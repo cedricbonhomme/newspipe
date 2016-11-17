@@ -2,6 +2,12 @@
 Release History
 =================
 
+7.1.4 (not yet released)
+------------------------
+    Improvements:
+     * Bugfix: argument of type 'NoneType' is not iterable in html.unescape();
+     * refactoring and code cleaning.
+
 7.1.3 (2016-11-14)
 ------------------
     New:
