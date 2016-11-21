@@ -57,14 +57,7 @@
   },
   "addons": [
     "heroku-postgresql:hobby-dev",
-    {
-      "plan": "scheduler:standard",
-      "options": {
-        "frequency": "hourly",
-        "task": "python src/manager.py fetch_asyncio"
-      },
-      "as": "SCHEDULER"
-    }
+    "scheduler:standard"
   ],
   "buildpacks": [
     {
