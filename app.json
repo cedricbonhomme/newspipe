@@ -12,17 +12,69 @@
     "postdeploy": "python src/manager.py db_create"
   },
   "env": {
+    "ADMIN_EMAIL": {
+      "description": "Your email address for the authentication to the platform.",
+      "required": true,
+      "value": ""
+    },
+    "ADMIN_PASSWORD": {
+      "description": "Your password.",
+      "required": true,
+      "value": ""
+    },
+    "SECRET_KEY": {
+      "description": "A secret token only you know in order to use sessions.",
+      "required": true,
+      "value": "iYtWRvAl!S7+Gz8kabK3@CBvr"
+    },
+    "SELF_REGISTRATION": {
+      "description": "Users are able to create new account.",
+      "required": true,
+      "value": false
+    },
+    "SECURITY_PASSWORD_SALT": {
+      "description": "A secret to confirm user account with a link in an email.",
+      "required": true,
+      "value": "^HEpK@L&cP5dMR^kiz8IIZj8q"
+    },
+    "TOKEN_VALIDITY_PERIOD": {
+      "description": "Validity period (in seconds) of the account confirmation link sent by email",
+      "required": true,
+      "value": 3600
+    },
     "HEROKU": "1",
     "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
-    "ADMIN_EMAIL": "root@newspipe.localhost",
-    "ADMIN_PASSWORD": "password",
-    "SECRET_KEY": "a secret token only you know in order to use sessions",
-    "TOKEN_VALIDITY_PERIOD": 3600,
-    "SECURITY_PASSWORD_SALT": "a secret to confirm user account",
     "NOTIFICATION_EMAIL": "newspipe@no-reply.com",
-    "POSTMARK_API_KEY": "REDACTED"
+    "POSTMARK_API_KEY": "REDACTED",
+    "CRAWLER_RESOLV": {
+      "description": "Specify if the crawler should try to resolve link of articles behind proxies.",
+      "value": false
+    },
+    "FEED_REFRESH_INTERVAL": {
+      "description": "Feeds refresh interval (in minutes) for the crawler.",
+      "value": 120
+    }
   },
   "addons": [
-    "heroku-postgresql:hobby-dev"
+    "heroku-postgresql:hobby-dev",
+    {
+      "plan": "scheduler:standard",
+      "options": {
+        "frequency": "hourly",
+        "command": "python src/manager.py fetch_asyncio"
+      },
+      "as": "SCHEDULER"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    },
+    {
+      "url": "https://github.com/ejholmes/heroku-buildpack-bower"
+    }
   ]
 }
