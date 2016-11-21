@@ -30,7 +30,7 @@
     "SELF_REGISTRATION": {
       "description": "Users are able to create new account.",
       "required": true,
-      "value": false
+      "value": "false"
     },
     "SECURITY_PASSWORD_SALT": {
       "description": "A secret to confirm user account with a link in an email.",
@@ -38,7 +38,7 @@
       "value": "^HEpK@L&cP5dMR^kiz8IIZj8q"
     },
     "TOKEN_VALIDITY_PERIOD": {
-      "description": "Validity period (in seconds) of the account confirmation link sent by email",
+      "description": "Validity period (in seconds) of the account confirmation link sent by email.",
       "required": true,
       "value": 3600
     },
@@ -48,7 +48,7 @@
     "POSTMARK_API_KEY": "REDACTED",
     "CRAWLER_RESOLV": {
       "description": "Specify if the crawler should try to resolve link of articles behind proxies.",
-      "value": false
+      "value": "false"
     },
     "FEED_REFRESH_INTERVAL": {
       "description": "Feeds refresh interval (in minutes) for the crawler.",
