@@ -12,6 +12,11 @@
     "postdeploy": "python src/manager.py db_create"
   },
   "env": {
+    "PLATFORM_URL": {
+      "description": "Address of your instance (for example: https://your-application-name.herokuapp.com/)",
+      "required": true,
+      "value": ""
+    },
     "ADMIN_EMAIL": {
       "description": "Your email address for the authentication to the platform.",
       "required": true,
