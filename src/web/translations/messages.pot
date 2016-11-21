@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-11-14 07:45+0100\n"
+"POT-Creation-Date: 2016-11-21 13:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,7 +187,7 @@ msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
 "        redistribute the <a "
-"href=\"https://github.com/Newspipe/Newspipe\">source code</a>\n"
+"href=\"https://github.com/newspipe/newspipe\">source code</a>\n"
 "        according to the <a "
 "href=\"https://www.gnu.org/licenses/agpl-3.0.html\">Affero GPL</a> "
 "license."
@@ -196,7 +196,7 @@ msgstr ""
 #: ../templates/about.html:14
 msgid ""
 "Found a bug? Report it <a "
-"href=\"https://github.com/Newspipe/Newspipe/issues\">here</a>."
+"href=\"https://github.com/newspipe/newspipe/issues\">here</a>."
 msgstr ""
 
 #: ../templates/about.html:17
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../templates/categories.html:14
+#: ../templates/categories.html:14 ../templates/profile_public.html:38
 msgid "Feeds"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: ../views/admin.py:68 ../views/user.py:123
+#: ../views/admin.py:68 ../views/user.py:124
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -854,7 +854,7 @@ msgstr ""
 msgid "No duplicates in the feed \"{}\"."
 msgstr ""
 
-#: ../views/home.py:168 ../views/user.py:67
+#: ../views/home.py:168 ../views/user.py:68
 msgid "Downloading articles..."
 msgstr ""
 
@@ -881,48 +881,48 @@ msgstr ""
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: ../views/user.py:59 ../views/user.py:75 ../views/user.py:84
+#: ../views/user.py:60 ../views/user.py:76 ../views/user.py:85
 msgid "File not allowed."
 msgstr ""
 
-#: ../views/user.py:65
+#: ../views/user.py:66
 msgid "feeds imported."
 msgstr ""
 
-#: ../views/user.py:69
+#: ../views/user.py:70
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: ../views/user.py:79
+#: ../views/user.py:80
 msgid "Account imported."
 msgstr ""
 
-#: ../views/user.py:81
+#: ../views/user.py:82
 msgid "Impossible to import the account."
 msgstr ""
 
-#: ../views/user.py:120
+#: ../views/user.py:121
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr ""
 
-#: ../views/user.py:141
+#: ../views/user.py:142
 msgid "Your account has been deleted."
 msgstr ""
 
-#: ../views/user.py:158
+#: ../views/user.py:159
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: ../views/user.py:160
+#: ../views/user.py:161
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: ../views/user.py:185
+#: ../views/user.py:186
 msgid "New password sent to your address."
 msgstr ""
 
-#: ../views/user.py:187
+#: ../views/user.py:188
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr ""
