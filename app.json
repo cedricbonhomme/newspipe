@@ -1,12 +1,9 @@
 {
   "name": "Newspipe",
   "description": "A news aggregator that can be deployed on Heroku.",
-  "keywords": [
-    "aggregator",
-    "news",
-    "RSS"
-  ],
-  "repository": "https://github.com/newspipe/newspipe.git",
+  "keywords": ["aggregator", "news", "RSS"],
+  "website": "https://github.com/newspipe/",
+  "repository": "https://github.com/newspipe/newspipe",
   "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
   "scripts": {
     "postdeploy": "python src/manager.py db_create"
