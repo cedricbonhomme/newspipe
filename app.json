@@ -61,7 +61,7 @@
       "plan": "scheduler:standard",
       "options": {
         "frequency": "hourly",
-        "command": "python src/manager.py fetch_asyncio"
+        "task": "python src/manager.py fetch_asyncio"
       },
       "as": "SCHEDULER"
     }
