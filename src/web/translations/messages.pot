@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-11-21 13:33+0100\n"
+"POT-Creation-Date: 2016-11-22 08:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -879,6 +879,10 @@ msgstr ""
 
 #: ../views/session_mgmt.py:109
 msgid "Your account has been created. Check your mail to confirm it."
+msgstr ""
+
+#: ../views/user.py:32
+msgid "You must set your profile to public."
 msgstr ""
 
 #: ../views/user.py:60 ../views/user.py:76 ../views/user.py:85

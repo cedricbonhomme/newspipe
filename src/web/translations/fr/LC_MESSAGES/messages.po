@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-11-21 13:33+0100\n"
-"PO-Revision-Date: 2016-11-21 13:33+0100\n"
+"POT-Creation-Date: 2016-11-22 08:18+0100\n"
+"PO-Revision-Date: 2016-11-22 08:18+0100\n"
 "Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -912,6 +912,10 @@ msgstr "Problème lors de l'envoi d'email d'activation: %(error)s"
 #: ../views/session_mgmt.py:109
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courrier pour le confirmer."
+
+#: ../views/user.py:32
+msgid "You must set your profile to public."
+msgstr "Vous devez mettre votre profil en public."
 
 #: ../views/user.py:60 ../views/user.py:76 ../views/user.py:85
 msgid "File not allowed."

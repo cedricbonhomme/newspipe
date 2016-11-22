@@ -29,7 +29,7 @@ def profile_public(nickname=None):
     user = user_contr.get(nickname=nickname)
     if not user.is_public_profile:
         if current_user.is_authenticated and current_user.id == user.id:
-            flash('You must set your profile to public.', 'info')
+            flash(gettext('You must set your profile to public.'), 'info')
         return redirect(url_for('user.profile'))
 
     filters = {}
