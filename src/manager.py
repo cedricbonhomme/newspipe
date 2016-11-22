@@ -41,21 +41,12 @@ def db_create():
 
 
 @manager.command
-def fetch(limit=100, retreive_all=False):
-    "Crawl the feeds with the client crawler."
-    from crawler.http_crawler import CrawlerScheduler
-    scheduler = CrawlerScheduler(conf.API_LOGIN, conf.API_PASSWD)
-    scheduler.run(limit=limit, retreive_all=retreive_all)
-    scheduler.wait()
-
-
-@manager.command
 def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
     import asyncio
 
     with application.app_context():
-        from crawler import classic_crawler
+        from crawler import default_crawler
         filters = {}
         filters['is_active'] = True
         filters['automatic_crawling'] = True
@@ -73,7 +64,7 @@ def fetch_asyncio(user_id=None, feed_id=None):
         start = datetime.now()
         loop = asyncio.get_event_loop()
         for user in users:
-            classic_crawler.retrieve_feed(loop, user, feed_id)
+            default_crawler.retrieve_feed(loop, user, feed_id)
         loop.close()
         end = datetime.now()
 

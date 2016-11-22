@@ -8,7 +8,7 @@ var assign = require('object-assign');
 var MenuStore = assign({}, EventEmitter.prototype, {
     _datas: {filter: 'unread', feeds: {}, categories: {}, categories_order: [],
              active_type: null, active_id: null,
-             is_admin: false, crawling_method: 'classic',
+             is_admin: false, crawling_method: 'default',
              all_unread_count: 0, max_error: 0, error_threshold: 0,
              all_folded: false},
     getAll: function() {

@@ -160,9 +160,9 @@ def mark_all_as_read():
 def fetch(feed_id=None):
     """
     Triggers the download of news.
-    News are downloaded in a separated process, mandatory for Heroku.
+    News are downloaded in a separated process.
     """
-    if conf.CRAWLING_METHOD == "classic" \
+    if conf.CRAWLING_METHOD == "default" \
             and (not conf.ON_HEROKU or current_user.is_admin):
         misc_utils.fetch(current_user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")

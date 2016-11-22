@@ -14,7 +14,7 @@ log_level = info
 [database]
 database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
 [crawler]
-crawling_method = classic
+crawling_method = default
 default_max_error = 6
 user_agent = Newspipe (https://github.com/newspipe/newspipe)
 timeout = 30

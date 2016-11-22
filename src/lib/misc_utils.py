@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 1.9 $"
+__version__ = "$Revision: 1.10 $"
 __date__ = "$Date: 2010/12/07 $"
-__revision__ = "$Date: 2016/01/17 $"
+__revision__ = "$Date: 2016/11/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -98,7 +98,7 @@ def opened_w_error(filename, mode="r"):
 def fetch(id, feed_id=None):
     """
     Fetch the feeds in a new processus.
-    The "asyncio" crawler is launched with the manager.
+    The default crawler ("asyncio") is launched with the manager.
     """
     cmd = [sys.executable, conf.BASE_DIR + '/manager.py', 'fetch_asyncio',
            '--user_id='+str(id)]
