@@ -78,9 +78,9 @@ def about():
     return render_template('about.html', contact=ADMIN_EMAIL)
 
 
-@current_app.route('/.well-known/acme-challenge/EZyud_oLrReeFMTW3rQiSi-RaZlXCDpwMBrRJ6-vGfU')
+@current_app.route('/.well-known/acme-challenge/MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4')
 def letsencrypt():
     """
     To validate the TLS certificate.
     """
-    return 'EZyud_oLrReeFMTW3rQiSi-RaZlXCDpwMBrRJ6-vGfU.5YrZcJ4uGL2bWUwO6LFWFpwFxIcIL1z8W6hSjdjdLok'
+    return 'MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
