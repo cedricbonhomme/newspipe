@@ -16,7 +16,7 @@ category_bp = Blueprint('category', __name__, url_prefix='/category')
 @login_required
 @etag_match
 def list_():
-    "Lists the subscribed  feeds in a table."
+    "Lists the subscribed feeds in a table."
     art_contr = ArticleController(current_user.id)
     return render_template('categories.html',
             categories=list(CategoryController(current_user.id).read().order_by('name')),

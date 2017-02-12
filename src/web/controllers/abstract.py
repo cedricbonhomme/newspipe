@@ -98,14 +98,14 @@ class AbstractController:
     def read(self, **filters):
         return self._get(**filters)
 
-    def update(self, filters, attrs):
+    def update(self, filters, attrs, return_objs=False, commit=True):
         assert attrs, "attributes to update must not be empty"
-        result = None
-        try:
-            result = self._get(**filters).update(attrs, synchronize_session=False)
+        result = self._get(**filters).update(attrs, synchronize_session=False)
+        if commit:
+            db.session.flush()
             db.session.commit()
-        except Exception as e:
-            db.session.rollback()
+        if return_objs:
+            return self._get(**filters)
         return result
 
     def delete(self, obj_id):

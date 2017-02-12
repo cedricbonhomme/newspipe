@@ -204,6 +204,16 @@ class CategoryForm(Form):
     submit = SubmitField(lazy_gettext("Save"))
 
 
+class BookmarkForm(Form):
+    href = TextField(lazy_gettext("URL"))
+    description = TextField(lazy_gettext("Description"))
+    extended = TextField(lazy_gettext("Description long"))
+    tags = TextField(lazy_gettext("Tags"))
+    to_read = BooleanField(lazy_gettext("To read"), default=False)
+    shared = BooleanField(lazy_gettext("Shared"), default=False)
+    submit = SubmitField(lazy_gettext("Save"))
+
+
 class InformationMessageForm(Form):
     subject = TextField(lazy_gettext("Subject"),
             [validators.Required(lazy_gettext("Please enter a subject."))])

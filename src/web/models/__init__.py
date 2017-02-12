@@ -33,8 +33,12 @@ from .article import Article
 from .icon import Icon
 from .category import Category
 from .tag import Tag
+from .tag import BookmarkTag
+from .tag import ArticleTag
+from .bookmark import Bookmark
 
-__all__ = ['Feed', 'Role', 'User', 'Article', 'Icon', 'Category', 'Tag']
+__all__ = ['Feed', 'Role', 'User', 'Article', 'Icon', 'Category', 'Tag',
+            'Bookmark', 'ArticleTag', 'BookmarkTag']
 
 import os
 

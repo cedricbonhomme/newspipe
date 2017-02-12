@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>{{ _('Bookmarks') }}</h1>
+    <ul class="list-group">
+    {% for bookmark in bookmarks %}
+        <li class="list-group-item">
+            <a href="{{ bookmark.href }}">{{ bookmark.href }}</a>&nbsp;
+            <a href="{{ bookmark.href }}">{{ ", ".join(bookmark.tags) }}</a>&nbsp;
+            <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div><!-- /.container -->
+{% endblock %}
