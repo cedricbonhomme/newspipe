@@ -6,7 +6,7 @@
     {% for bookmark in bookmarks %}
         <li class="list-group-item">
             <a href="{{ bookmark.href }}">{{ bookmark.href }}</a>&nbsp;
-            <a href="{{ bookmark.href }}">{{ ", ".join(bookmark.tags) }}</a>&nbsp;
+            <a href="{{ bookmark.href }}">{{ bookmark.tags }}</a>&nbsp;
             <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
         </li>
     {% endfor %}

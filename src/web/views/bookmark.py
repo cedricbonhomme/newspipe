@@ -10,6 +10,7 @@ import conf
 from bootstrap import db
 from web.forms import BookmarkForm
 from web.controllers import BookmarkController
+from web.models.tag import BookmarkTag
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint('bookmarks', __name__, url_prefix='/bookmarks')
@@ -38,7 +39,7 @@ def form(bookmark_id=None):
     action = gettext('Edit bookmark')
     head_titles = [action]
     form = BookmarkForm(obj=bookmark)
-    form.tags.data = ", ".join(bookmark.tags)
+    form.tags.data = bookmark.tags
     return render_template('edit_bookmark.html', action=action,
                            head_titles=head_titles, bookmark=bookmark,
                            form=form)
@@ -57,18 +58,17 @@ def process_form(bookmark_id=None):
     # Edit an existing bookmark
     bookmark_attr = {'href': form.href.data,
                     'description': form.description.data,
-                    'extended': form.extended.data,
+                    'title': form.title.data,
                     'tags': [tag.strip() for tag in form.tags.data.split(',')],
                     'shared': form.shared.data,
                     'to_read': form.to_read.data}
 
     if bookmark_id is not None:
-        bookmark = BookmarkController(current_user.id).get(id=bookmark_id)
-        form.populate_obj(bookmark)
-        bookmark.tags = [tag.strip() for tag in form.tags.data.split(',')]
-        db.session.commit()
-
-        #bookmark_contr.update({'id': bookmark_id}, bookmark_attr)
+        # bookmark = BookmarkController(current_user.id).get(id=bookmark_id)
+        # form.populate_obj(bookmark)
+        # bookmark.tags = [tag.strip() for tag in form.tags.data.split(',')],
+        # db.session.commit()
+        bookmark_contr.update({'id': bookmark_id}, bookmark_attr)
         flash(gettext('Bookmark successfully updated.'), 'success')
         return redirect(url_for('bookmark.form', bookmark_id=bookmark_id))
 

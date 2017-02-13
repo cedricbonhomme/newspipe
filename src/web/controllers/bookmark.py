@@ -16,5 +16,5 @@ class BookmarkController(AbstractController):
         return self._count_by(Bookmark.href, filters)
 
     def update(self, filters, attrs, *args, **kwargs):
-        self.tags = attrs['tags']
+        #self.tag_objs = attrs['tags']
         return super().update(filters, attrs, *args, **kwargs)

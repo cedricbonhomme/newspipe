@@ -14,6 +14,14 @@
             </div>
 
             <div class="form-group">
+                <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
+                <div class="col-sm-9">
+                    {{ form.title(class_="form-control", size="100%") }}
+                </div>
+                {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            </div>
+
+            <div class="form-group">
                 <label for="{{ form.description.id }}" class="col-sm-3 control-label">{{ form.description.label }}</label>
                 <div class="col-sm-9">
                     {{ form.description(class_="form-control", size="100%") }}

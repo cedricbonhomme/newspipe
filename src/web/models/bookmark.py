@@ -34,14 +34,15 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from web.models.right_mixin import RightMixin
 
 
+
 class Bookmark(db.Model, RightMixin):
     """
     Represent a bookmark.
     """
     id = db.Column(db.Integer(), primary_key=True)
     href = db.Column(db.String(), default="")
+    title = db.Column(db.String(), default="")
     description = db.Column(db.String(), default="FR")
-    extended = db.Column(db.String())
     shared = db.Column(db.Boolean(), default=False)
     to_read = db.Column(db.Boolean(), default=False)
     time = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -49,9 +50,9 @@ class Bookmark(db.Model, RightMixin):
 
     # relationships
     tag_objs = db.relationship('BookmarkTag', back_populates='bookmark',
-                                cascade='all,delete-orphan',
-                                lazy=False,
-                                foreign_keys='[BookmarkTag.bookmark_id]')
+                            cascade='all,delete-orphan',
+                            lazy=False,
+                            foreign_keys='[BookmarkTag.bookmark_id]')
     tags = association_proxy('tag_objs', 'text')
 
 
