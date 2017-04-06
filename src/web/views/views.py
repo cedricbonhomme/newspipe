@@ -1,3 +1,4 @@
+import sys
 import logging
 import operator
 from datetime import datetime, timedelta
@@ -6,8 +7,10 @@ from flask import (request, render_template, flash,
 from flask_babel import gettext
 from sqlalchemy import desc
 
+import conf
+from web import __version__
 from conf import API_ROOT, ADMIN_EMAIL
-from web.controllers import FeedController
+from web.controllers import FeedController, UserController
 from web.lib.view_utils import etag_match
 
 logger = logging.getLogger(__name__)
@@ -74,13 +77,14 @@ def popular():
 @current_app.route('/about', methods=['GET'])
 @etag_match
 def about():
-    print(ADMIN_EMAIL)
     return render_template('about.html', contact=ADMIN_EMAIL)
 
-
-@current_app.route('/.well-known/acme-challenge/MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4')
-def letsencrypt():
-    """
-    To validate the TLS certificate.
-    """
-    return 'MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
+@current_app.route('/about/more', methods=['GET'])
+@etag_match
+def about_more():
+    return render_template('about_more.html',
+                newspipe_version=__version__.split()[1],
+                on_heroku=[conf.ON_HEROKU and 'Yes' or 'No'][0],
+                registration=[conf.SELF_REGISTRATION and 'Open' or 'Closed'][0],
+                python_version="{}.{}.{}".format(*sys.version_info[:3]),
+                nb_users=UserController().read().count())
