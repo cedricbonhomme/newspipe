@@ -6,11 +6,11 @@
   "repository": "https://github.com/newspipe/newspipe",
   "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
   "scripts": {
-    "postdeploy": "python src/manager.py db_create, git submodule ini; git submodule update"
+    "postdeploy": "python src/manager.py db_create, git submodule init; git submodule update"
   },
   "env": {
     "PLATFORM_URL": {
-      "description": "Address of your instance (for example: https://your-application-name.herokuapp.com/)",
+      "description": "Address of your instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
       "required": true,
       "value": ""
     },
