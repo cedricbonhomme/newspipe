@@ -42,7 +42,7 @@
     "TOKEN_VALIDITY_PERIOD": {
       "description": "Validity period (in seconds) of the account confirmation link sent by email.",
       "required": true,
-      "value": 3600
+      "value": "3600"
     },
     "HEROKU": "1",
     "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
@@ -54,7 +54,7 @@
     },
     "FEED_REFRESH_INTERVAL": {
       "description": "Feeds refresh interval (in minutes) for the crawler.",
-      "value": 120
+      "value": "120"
     }
   },
   "addons": [
