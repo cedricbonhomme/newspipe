@@ -34,6 +34,12 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from web.models.right_mixin import RightMixin
 
 
+bookmarktags_table = db.Table('bookmarktags', db.metadata,
+    db.Column('bookmark_id', db.Integer, db.ForeignKey("bookmark.id"),
+           primary_key=True),
+    db.Column('tag_text', db.String, db.ForeignKey("BookmarkTag.text"),
+           primary_key=True)
+)
 
 class Bookmark(db.Model, RightMixin):
     """
@@ -49,10 +55,11 @@ class Bookmark(db.Model, RightMixin):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     # relationships
-    tag_objs = db.relationship('BookmarkTag', back_populates='bookmark',
-                            cascade='all,delete-orphan',
-                            lazy=False,
-                            foreign_keys='[BookmarkTag.bookmark_id]')
+    tag_objs = db.relationship("BookmarkTag", secondary=lambda: bookmarktags_table)
+    # tag_objs = db.relationship('BookmarkTag', back_populates='bookmark',
+    #                         cascade='all,delete-orphan',
+    #                         lazy=False,
+    #                         foreign_keys='[BookmarkTag.bookmark_id]')
     tags = association_proxy('tag_objs', 'text')
 
 
