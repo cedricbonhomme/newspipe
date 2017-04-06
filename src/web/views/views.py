@@ -7,6 +7,7 @@ from flask import (request, render_template, flash,
 from flask_babel import gettext
 from sqlalchemy import desc
 
+import conf
 from web import __version__
 from conf import API_ROOT, ADMIN_EMAIL
 from web.controllers import FeedController, UserController
@@ -83,5 +84,6 @@ def about():
 def about_more():
     return render_template('about_more.html',
                         newspipe_version=__version__.split()[1],
+                        on_heroku=[conf.ON_HEROKU and 'Yes' or 'No'][0],
                         python_version="{}.{}.{}".format(*sys.version_info[:3]),
                         nb_users=UserController().read().count())
