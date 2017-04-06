@@ -80,10 +80,7 @@ PLATFORM_URL = config.get('misc', 'platform_url')
 ADMIN_EMAIL = config.get('misc', 'admin_email')
 SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
-try:
-    TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
-except:
-    TOKEN_VALIDITY_PERIOD = int(config.get('misc', 'token_validity_period'))
+TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
 if not ON_HEROKU:
     LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 else:
@@ -102,10 +99,7 @@ DEFAULT_MAX_ERROR = config.getint('crawler', 'default_max_error')
 ERROR_THRESHOLD = int(DEFAULT_MAX_ERROR / 2)
 CRAWLER_TIMEOUT = config.get('crawler', 'timeout')
 CRAWLER_RESOLV = config.getboolean('crawler', 'resolv')
-try:
-    FEED_REFRESH_INTERVAL = config.getint('crawler', 'feed_refresh_interval')
-except:
-    FEED_REFRESH_INTERVAL = int(config.get('crawler', 'feed_refresh_interval'))
+FEED_REFRESH_INTERVAL = config.getint('crawler', 'feed_refresh_interval')
 
 NOTIFICATION_EMAIL = config.get('notification', 'notification_email')
 NOTIFICATION_HOST = config.get('notification', 'host')
