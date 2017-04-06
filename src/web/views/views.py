@@ -85,10 +85,3 @@ def about_more():
                         newspipe_version=__version__.split()[1],
                         python_version="{}.{}.{}".format(*sys.version_info[:3]),
                         nb_users=UserController().read().count())
-
-@current_app.route('/.well-known/acme-challenge/MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4')
-def letsencrypt():
-    """
-    To validate the TLS certificate.
-    """
-    return 'MmwFRp_wOgBGHcIULSUGVFDjpryEw_uWz7UgD6rE4t4.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
