@@ -1,7 +1,11 @@
 {
   "name": "Newspipe",
   "description": "A news aggregator that can be deployed on Heroku.",
-  "keywords": ["aggregator", "news", "RSS"],
+  "keywords": [
+    "aggregator",
+    "news",
+    "RSS"
+  ],
   "website": "https://github.com/newspipe/",
   "repository": "https://github.com/newspipe/newspipe",
   "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
@@ -60,19 +64,5 @@
   "addons": [
     "heroku-postgresql:hobby-dev",
     "scheduler:standard"
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku/python",
-      "index": 1
-    },
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs",
-      "index": 2
-    },
-    {
-      "url": "https://github.com/ejholmes/heroku-buildpack-bower",
-      "index": 3
-    }
   ]
 }
