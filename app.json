@@ -1,16 +1,20 @@
 {
   "name": "Newspipe",
   "description": "A news aggregator that can be deployed on Heroku.",
-  "keywords": ["aggregator", "news", "RSS"],
+  "keywords": [
+    "aggregator",
+    "news",
+    "RSS"
+  ],
   "website": "https://github.com/newspipe/",
   "repository": "https://github.com/newspipe/newspipe",
   "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
   "scripts": {
-    "postdeploy": "python src/manager.py db_create"
+    "postdeploy": "python src/manager.py db_create, git submodule init; git submodule update"
   },
   "env": {
     "PLATFORM_URL": {
-      "description": "Address of your instance (for example: https://your-application-name.herokuapp.com/)",
+      "description": "Address of your instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
       "required": true,
       "value": ""
     },
@@ -42,7 +46,7 @@
     "TOKEN_VALIDITY_PERIOD": {
       "description": "Validity period (in seconds) of the account confirmation link sent by email.",
       "required": true,
-      "value": 3600
+      "value": "3600"
     },
     "HEROKU": "1",
     "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
@@ -54,25 +58,11 @@
     },
     "FEED_REFRESH_INTERVAL": {
       "description": "Feeds refresh interval (in minutes) for the crawler.",
-      "value": 120
+      "value": "120"
     }
   },
   "addons": [
     "heroku-postgresql:hobby-dev",
     "scheduler:standard"
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku/python",
-      "index": 1
-    },
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs",
-      "index": 2
-    },
-    {
-      "url": "https://github.com/ejholmes/heroku-buildpack-bower",
-      "index": 3
-    }
   ]
 }
