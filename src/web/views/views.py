@@ -83,7 +83,8 @@ def about():
 @etag_match
 def about_more():
     return render_template('about_more.html',
-                        newspipe_version=__version__.split()[1],
-                        on_heroku=[conf.ON_HEROKU and 'Yes' or 'No'][0],
-                        python_version="{}.{}.{}".format(*sys.version_info[:3]),
-                        nb_users=UserController().read().count())
+                newspipe_version=__version__.split()[1],
+                on_heroku=[conf.ON_HEROKU and 'Yes' or 'No'][0],
+                registration=[conf.SELF_REGISTRATION and 'Open' or 'Closed'][0],
+                python_version="{}.{}.{}".format(*sys.version_info[:3]),
+                nb_users=UserController().read().count())
