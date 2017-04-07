@@ -10,7 +10,7 @@
     "repository": "https://github.com/newspipe/newspipe",
     "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
     "scripts": {
-        "postdeploy": "python src/manager.py db_create; cd submodules/bootstrap/; git clone https://github.com/twbs/bootstrap.git ."
+        "postdeploy": "python src/manager.py db_create"
     },
     "addons": [
         "heroku-postgresql:hobby-dev",
