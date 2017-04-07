@@ -31,7 +31,13 @@ Documentation
 -------------
 
 A documentation is available `here <https://newspipe.readthedocs.io>`_ and
-provides different ways to install Newspipe.
+provides different ways to
+`install Newspipe <https://newspipe.readthedocs.io/en/latest/deployment.html>`_.
+
+Test Newspipe on Heroku:
+
+.. image:: https://www.herokucdn.com/deploy/button.png
+    :target: https://heroku.com/deploy?template=https://github.com/newspipe/newspipe.git
 
 License
 -------
