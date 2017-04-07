@@ -39,6 +39,9 @@ Test Newspipe on Heroku:
 .. image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/newspipe/newspipe.git
 
+It is important to specify an application name and the URL of your instance
+(*PLATFORM_URL*) through the Heroku form.
+
 License
 -------
 
