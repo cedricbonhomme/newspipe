@@ -12,6 +12,7 @@ sudo apt-get install -y libxml2-dev libxslt1-dev > /dev/null # for lxml
 sudo apt-get install -y libssl-dev openssl > /dev/null # for pip
 
 
+
 PYTHON_VERSION=3.6.1
 echo "Installation of Python..."
 if [ "$1" == postgres ]; then
@@ -33,7 +34,6 @@ sudo rm -Rf Python-$PYTHON_VERSION/
 
 
 
-
 PYTHON_VERSION=3.6
 echo "Installing required Python libraries..."
 sed -i '/psycopg2/d' requirements.txt > /dev/null
@@ -42,13 +42,11 @@ sudo pip$PYTHON_VERSION install --upgrade -r requirements.txt > /dev/null
 
 
 
-
 # Initializes the configuration file
 cp src/conf/conf.cfg-sample src/conf/conf.cfg
 # Delete default database configuration
 sed -i '/database/d' src/conf/conf.cfg
 sed -i '/database_url/d' src/conf/conf.cfg
-
 
 
 
@@ -78,19 +76,9 @@ fi
 
 
 
-
 echo "Initialization of the database..."
 python$PYTHON_VERSION src/manager.py db_empty
 python$PYTHON_VERSION src/manager.py db_create
-
-
-
-
-# Bootstrap
-echo "Retrieving bootstrap..."
-git submodule init > /dev/null
-git submodule update > /dev/null
-
 
 
 
