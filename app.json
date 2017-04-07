@@ -28,8 +28,13 @@
         }
     ],
     "env": {
+        "PLATFORM_URL": {
+            "description": "Address of your Newspipe instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
+            "required": true,
+            "value": ""
+        },
         "ADMIN_EMAIL": {
-            "description": "Your email address for the authentication to the platform.",
+            "description": "Your email address for the authentication to the platform as an administrator.",
             "required": true,
             "value": ""
         },
@@ -39,22 +44,17 @@
             "value": ""
         },
         "SECRET_KEY": {
-            "description": "A secret token only you know in order to use sessions.",
+            "description": "A secret token in order to use sessions.",
             "required": true,
             "value": "iYtWRvAl!S7+Gz8kabK3@CBvr"
         },
         "SELF_REGISTRATION": {
-            "description": "Users are able to create new account.",
+            "description": "If set to True, users will be able to create new accounts.",
             "required": true,
             "value": "false"
         },
-        "PLATFORM_URL": {
-            "description": "Address of your instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
-            "required": false,
-            "value": ""
-        },
         "SECURITY_PASSWORD_SALT": {
-            "description": "A secret to confirm user account with a link in an email.",
+            "description": "A secret to confirm account creation with a link in an email.",
             "required": true,
             "value": "^HEpK@L&cP5dMR^kiz8IIZj8q"
         },
