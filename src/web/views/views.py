@@ -88,3 +88,11 @@ def about_more():
                 registration=[conf.SELF_REGISTRATION and 'Open' or 'Closed'][0],
                 python_version="{}.{}.{}".format(*sys.version_info[:3]),
                 nb_users=UserController().read().count())
+
+
+@current_app.route('/.well-known/acme-challenge/L2Ul7hxmsOxte-ctKBWPZ_bCfP8V55Yt1O_nMvVXrYA')
+def letsencrypt():
+    """
+    To validate the TLS certificate.
+    """
+    return 'L2Ul7hxmsOxte-ctKBWPZ_bCfP8V55Yt1O_nMvVXrYA.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
