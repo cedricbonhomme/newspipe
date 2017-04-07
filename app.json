@@ -28,11 +28,6 @@
         }
     ],
     "env": {
-        "PLATFORM_URL": {
-            "description": "Address of your instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
-            "required": true,
-            "value": ""
-        },
         "ADMIN_EMAIL": {
             "description": "Your email address for the authentication to the platform.",
             "required": true,
@@ -52,6 +47,11 @@
             "description": "Users are able to create new account.",
             "required": true,
             "value": "false"
+        },
+        "PLATFORM_URL": {
+            "description": "Address of your instance (for example: https://YOUR-APPLICATION-NAME.herokuapp.com/)",
+            "required": false,
+            "value": ""
         },
         "SECURITY_PASSWORD_SALT": {
             "description": "A secret to confirm user account with a link in an email.",

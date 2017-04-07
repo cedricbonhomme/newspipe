@@ -76,7 +76,10 @@ WEBSERVER_SECRET = config.get('webserver', 'secret_key')
 
 CDN_ADDRESS = config.get('cdn', 'cdn_address')
 
-PLATFORM_URL = config.get('misc', 'platform_url')
+try:
+    PLATFORM_URL = config.get('misc', 'platform_url')
+except:
+    PLATFORM_URL = "https://www.newspipe.org/"
 ADMIN_EMAIL = config.get('misc', 'admin_email')
 SELF_REGISTRATION = config.getboolean('misc', 'self_registration')
 SECURITY_PASSWORD_SALT = config.get('misc', 'security_password_salt')
