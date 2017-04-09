@@ -38,7 +38,6 @@ from bootstrap import db
 from web.models.right_mixin import RightMixin
 from web.models.category import Category
 from web.models.feed import Feed
-from web.models.bookmark import Bookmark
 
 
 class User(db.Model, UserMixin, RightMixin):
@@ -72,9 +71,6 @@ class User(db.Model, UserMixin, RightMixin):
     feeds = db.relationship('Feed', backref='user',
                          cascade='all, delete-orphan',
                             foreign_keys=[Feed.user_id])
-    bookmarks = db.relationship('Bookmark', backref='user',
-                         cascade='all, delete-orphan',
-                            foreign_keys=[Bookmark.user_id])
 
     @staticmethod
     def _fields_base_write():

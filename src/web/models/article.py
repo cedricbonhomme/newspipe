@@ -34,8 +34,6 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from web.models.right_mixin import RightMixin
 
 
-
-
 class Article(db.Model, RightMixin):
     "Represent an article from a feed."
     id = db.Column(db.Integer(), primary_key=True)
@@ -54,10 +52,10 @@ class Article(db.Model, RightMixin):
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
 
     # relationships
-    tag_objs = db.relationship('ArticleTag', back_populates='article',
-                                 cascade='all,delete-orphan',
-                                 lazy=False,
-                                 foreign_keys='[ArticleTag.article_id]')
+    tag_objs = db.relationship('Tag', back_populates='article',
+                            cascade='all,delete-orphan',
+                            lazy=False,
+                            foreign_keys='[Tag.article_id]')
     tags = association_proxy('tag_objs', 'text')
 
     # index
