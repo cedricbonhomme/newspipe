@@ -34,8 +34,6 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from web.models.right_mixin import RightMixin
 
 
-
-
 class Article(db.Model, RightMixin):
     "Represent an article from a feed."
     id = db.Column(db.Integer(), primary_key=True)

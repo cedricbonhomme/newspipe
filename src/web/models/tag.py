@@ -6,6 +6,7 @@ from bootstrap import db
 
 class ArticleTag(db.Model):
     text = db.Column(db.String, primary_key=True, unique=False)
+    # user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     # foreign keys
     article_id = db.Column(db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'),
@@ -13,26 +14,23 @@ class ArticleTag(db.Model):
 
     # relationships
     article = db.relationship('Article', back_populates='tag_objs',
-                           foreign_keys=[article_id])
+                                                    foreign_keys=[article_id])
 
     def __init__(self, text):
         self.text = text
 
 
 class BookmarkTag(db.Model):
-    __tablename__ = 'BookmarkTag'
-    #id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String, primary_key=True)
+    text = db.Column(db.String, primary_key=True, unique=False)
+    # user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     # foreign keys
-    # bookmark_id = db.Column(db.Integer, db.ForeignKey('bookmark.id', ondelete='CASCADE'),
-    #                     primary_key=True)
+    bookmark_id = db.Column(db.Integer, db.ForeignKey('bookmark.id', ondelete='CASCADE'),
+                        primary_key=True)
 
     # relationships
-    # bookmark = db.relationship('Bookmark', back_populates='tag_objs',
-    #                             single_parent=True,
-    #                             cascade="all, delete-orphan",
-    #                             foreign_keys=[bookmark_id])
+    bookmark = db.relationship('Bookmark', back_populates='tag_objs',
+                                                    foreign_keys=[bookmark_id])
 
     def __init__(self, text):
         self.text = text
