@@ -18,7 +18,8 @@ Main features
 * export and import feeds with OPML files;
 * favorite articles;
 * detection of inactive feeds;
-* share articles with Google +, Pinboard and reddit.
+* share articles with Google +, Pinboard and reddit;
+* personal management of bookmarks.
 
 The core technologies are `Flask <http://flask.pocoo.org>`_,
 `asyncio <https://www.python.org/dev/peps/pep-3156/>`_ ,
