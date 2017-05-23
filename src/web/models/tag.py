@@ -6,7 +6,6 @@ from bootstrap import db
 
 class ArticleTag(db.Model):
     text = db.Column(db.String, primary_key=True, unique=False)
-    # user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     # foreign keys
     article_id = db.Column(db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'),
