@@ -55,25 +55,33 @@ def process_form(bookmark_id=None):
     if not form.validate():
         return render_template('edit_bookmark.html', form=form)
 
-    tags = []
-    for tag in form.tags.data.split(','):
-        new_tag = tag_contr.create(text= tag.strip(), user_id= current_user.id)
-        tags.append(new_tag)
-
     bookmark_attr = {'href': form.href.data,
                     'description': form.description.data,
                     'title': form.title.data,
-                    'tags': tags,
                     'shared': form.shared.data,
                     'to_read': form.to_read.data}
 
     if bookmark_id is not None:
+        tags = []
+        for tag in form.tags.data.split(','):
+            new_tag = tag_contr.create(text=tag.strip(), user_id=current_user.id,
+                                        bookmark_id=bookmark_id)
+            tags.append(new_tag)
+        bookmark_attr['tags'] = tags
         bookmark_contr.update({'id': bookmark_id}, bookmark_attr)
         flash(gettext('Bookmark successfully updated.'), 'success')
         return redirect(url_for('bookmark.form', bookmark_id=bookmark_id))
 
     # Create a new bookmark
     new_bookmark = bookmark_contr.create(**bookmark_attr)
+    tags = []
+    for tag in form.tags.data.split(','):
+        new_tag = tag_contr.create(text=tag.strip(), user_id=current_user.id,
+                                    bookmark_id=new_bookmark.id)
+        tags.append(new_tag)
+    bookmark_attr['tags'] = tags
+    bookmark_contr.update({'id': new_bookmark.id}, bookmark_attr)
+
 
     flash(gettext('Bookmark successfully created.'), 'success')
 

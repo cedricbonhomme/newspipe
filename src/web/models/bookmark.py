@@ -43,7 +43,7 @@ class Bookmark(db.Model, RightMixin):
     id = db.Column(db.Integer(), primary_key=True)
     href = db.Column(db.String(), default="")
     title = db.Column(db.String(), default="")
-    description = db.Column(db.String(), default="FR")
+    description = db.Column(db.String(), default="")
     shared = db.Column(db.Boolean(), default=False)
     to_read = db.Column(db.Boolean(), default=False)
     time = db.Column(db.DateTime(), default=datetime.utcnow)

@@ -22,8 +22,11 @@ class BookmarkController(AbstractController):
                                 .delete()
 
         for tag in attrs['tags']:
-            BookmarkTagController(self.user_id) \
-                        .update({'id': tag.id}, {'bookmark_id': filters["id"]})
+            BookmarkTagController(self.user_id).create(
+                                            **{'text': tag.text,
+                                                'id': tag.id,
+                                                'bookmark_id': tag.bookmark_id,
+                                                'user_id': tag.user_id})
 
         del attrs['tags']
         return super().update(filters, attrs)

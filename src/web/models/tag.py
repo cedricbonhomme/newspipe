@@ -24,7 +24,7 @@ class BookmarkTag(db.Model):
     text = db.Column(db.String, unique=False)
 
     # foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     bookmark_id = db.Column(db.Integer, db.ForeignKey('bookmark.id', ondelete='CASCADE'))
 
     # relationships
