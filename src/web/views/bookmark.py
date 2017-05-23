@@ -9,8 +9,7 @@ from flask_login import login_required, current_user
 import conf
 from bootstrap import db
 from web.forms import BookmarkForm
-from web.controllers import BookmarkController
-from web.models.tag import BookmarkTag
+from web.controllers import BookmarkController, BookmarkTagController
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint('bookmarks', __name__, url_prefix='/bookmarks')
@@ -39,7 +38,7 @@ def form(bookmark_id=None):
     action = gettext('Edit bookmark')
     head_titles = [action]
     form = BookmarkForm(obj=bookmark)
-    form.tags.data = bookmark.tags
+    form.tags.data = bookmark.tags_proxy
     return render_template('edit_bookmark.html', action=action,
                            head_titles=head_titles, bookmark=bookmark,
                            form=form)
@@ -51,23 +50,24 @@ def form(bookmark_id=None):
 def process_form(bookmark_id=None):
     form = BookmarkForm()
     bookmark_contr = BookmarkController(current_user.id)
+    tag_contr = BookmarkTagController(current_user.id)
 
     if not form.validate():
         return render_template('edit_bookmark.html', form=form)
 
-    # Edit an existing bookmark
+    tags = []
+    for tag in form.tags.data.split(','):
+        new_tag = tag_contr.create(text= tag.strip(), user_id= current_user.id)
+        tags.append(new_tag)
+
     bookmark_attr = {'href': form.href.data,
                     'description': form.description.data,
                     'title': form.title.data,
-                    'tags': [tag.strip() for tag in form.tags.data.split(',')],
+                    'tags': tags,
                     'shared': form.shared.data,
                     'to_read': form.to_read.data}
 
     if bookmark_id is not None:
-        # bookmark = BookmarkController(current_user.id).get(id=bookmark_id)
-        # form.populate_obj(bookmark)
-        # bookmark.tags = [tag.strip() for tag in form.tags.data.split(',')],
-        # db.session.commit()
         bookmark_contr.update({'id': bookmark_id}, bookmark_attr)
         flash(gettext('Bookmark successfully updated.'), 'success')
         return redirect(url_for('bookmark.form', bookmark_id=bookmark_id))

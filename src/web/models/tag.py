@@ -21,16 +21,17 @@ class ArticleTag(db.Model):
 
 
 class BookmarkTag(db.Model):
-    text = db.Column(db.String, primary_key=True, unique=False)
-    # user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String, unique=False)
 
     # foreign keys
-    bookmark_id = db.Column(db.Integer, db.ForeignKey('bookmark.id', ondelete='CASCADE'),
-                        primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    bookmark_id = db.Column(db.Integer, db.ForeignKey('bookmark.id', ondelete='CASCADE'))
 
     # relationships
-    bookmark = db.relationship('Bookmark', back_populates='tag_objs',
-                                                    foreign_keys=[bookmark_id])
+    bookmark = db.relationship('Bookmark', back_populates='tags',
+                            cascade="all,delete", foreign_keys=[bookmark_id])
 
-    def __init__(self, text):
-        self.text = text
+    # def __init__(self, text, user_id):
+    #     self.text = text
+    #     self.user_id = user_id

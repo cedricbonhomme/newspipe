@@ -28,9 +28,11 @@ __license__ = "GPLv3"
 
 from bootstrap import db
 from datetime import datetime
+from sqlalchemy import desc
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
+from web.models.tag import BookmarkTag
 from web.models.right_mixin import RightMixin
 
 
@@ -48,11 +50,10 @@ class Bookmark(db.Model, RightMixin):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     # relationships
-    tag_objs = db.relationship('BookmarkTag', back_populates='bookmark',
-                            cascade='all,delete-orphan',
-                            lazy=False,
-                            foreign_keys='[BookmarkTag.bookmark_id]')
-    tags = association_proxy('tag_objs', 'text')
+    tags = db.relationship(BookmarkTag, backref='of_bookmark', lazy='dynamic',
+                               cascade='all,delete-orphan',
+                               order_by=desc(BookmarkTag.text))
+    tags_proxy = association_proxy('tags', 'text')
 
 
     @validates('description')
