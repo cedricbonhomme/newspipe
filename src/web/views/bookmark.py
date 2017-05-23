@@ -7,6 +7,7 @@ from flask_babel import gettext
 from flask_login import login_required, current_user
 
 import conf
+from lib.utils import redirect_url
 from bootstrap import db
 from web.forms import BookmarkForm
 from web.controllers import BookmarkController, BookmarkTagController
@@ -29,6 +30,7 @@ def list():
 @bookmark_bp.route('/edit/<int:bookmark_id>', methods=['GET'])
 @login_required
 def form(bookmark_id=None):
+    "Form to create/edit bookmarks."
     action = gettext("Add a bookmark")
     head_titles = [action]
     if bookmark_id is None:
@@ -48,6 +50,7 @@ def form(bookmark_id=None):
 @bookmark_bp.route('/edit/<int:bookmark_id>', methods=['POST'])
 @login_required
 def process_form(bookmark_id=None):
+    "Process the creation/edition of bookmarks."
     form = BookmarkForm()
     bookmark_contr = BookmarkController(current_user.id)
     tag_contr = BookmarkTagController(current_user.id)
@@ -81,8 +84,15 @@ def process_form(bookmark_id=None):
         tags.append(new_tag)
     bookmark_attr['tags'] = tags
     bookmark_contr.update({'id': new_bookmark.id}, bookmark_attr)
-
-
     flash(gettext('Bookmark successfully created.'), 'success')
-
     return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
+
+
+@bookmark_bp.route('/delete/<int:bookmark_id>', methods=['GET'])
+@login_required
+def delete(bookmark_id=None):
+    "Delete a bookmark."
+    bookmark = BookmarkController(current_user.id).delete(bookmark_id)
+    flash(gettext("Bookmark %(bookmark_name)s successfully deleted.",
+                  bookmark_name=bookmark.title), 'success')
+    return redirect(redirect_url())

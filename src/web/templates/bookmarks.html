@@ -13,6 +13,7 @@
                     <div class="text-muted">{{ bookmark.description }}</div>
                     {{ " ".join(bookmark.tags_proxy) }}
                     <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+                    <a href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
                 </p>
             </a>
         </li>
