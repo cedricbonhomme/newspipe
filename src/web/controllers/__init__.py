@@ -3,7 +3,10 @@ from .category import CategoryController
 from .article import ArticleController
 from .user import UserController
 from .icon import IconController
+from .bookmark import BookmarkController
+from .tag import BookmarkTagController
 
 
 __all__ = ['FeedController', 'CategoryController', 'ArticleController',
-           'UserController', 'IconController']
+           'UserController', 'IconController', 'BookmarkController',
+           'BookmarkTagController']
