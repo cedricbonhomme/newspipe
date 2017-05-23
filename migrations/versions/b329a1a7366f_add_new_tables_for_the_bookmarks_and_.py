@@ -26,17 +26,6 @@ def upgrade():
                                     ondelete='CASCADE'),
             sa.PrimaryKeyConstraint('text', 'article_id')
     )
-    op.create_table('bookmark_tag',
-            sa.Column('id', sa.Integer(), nullable=False),
-            sa.Column('text', sa.String(), nullable=False),
-            sa.Column('user_id', sa.Integer(), nullable=False),
-            sa.Column('bookmark_id', sa.Integer(), nullable=False),
-            sa.ForeignKeyConstraint(['bookmark_id'], ['bookmark.id'],
-                                    ondelete='CASCADE'),
-            sa.ForeignKeyConstraint(['user_id'], ['user.id'],
-                                    ondelete='CASCADE'),
-            sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('bookmark',
             sa.Column('id', sa.Integer(), nullable=False),
             sa.Column('href', sa.String(), default=""),
@@ -46,6 +35,17 @@ def upgrade():
             sa.Column('to_read', sa.Boolean(), default=False),
             sa.Column('time', sa.DateTime(), default=datetime.utcnow),
             sa.Column('user_id', sa.Integer(), nullable=False),
+            sa.ForeignKeyConstraint(['user_id'], ['user.id'],
+                                    ondelete='CASCADE'),
+            sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('bookmark_tag',
+            sa.Column('id', sa.Integer(), nullable=False),
+            sa.Column('text', sa.String(), nullable=False),
+            sa.Column('user_id', sa.Integer(), nullable=False),
+            sa.Column('bookmark_id', sa.Integer(), nullable=False),
+            sa.ForeignKeyConstraint(['bookmark_id'], ['bookmark.id'],
+                                    ondelete='CASCADE'),
             sa.ForeignKeyConstraint(['user_id'], ['user.id'],
                                     ondelete='CASCADE'),
             sa.PrimaryKeyConstraint('id')
