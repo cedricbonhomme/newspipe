@@ -5,9 +5,16 @@
     <ul class="list-group">
     {% for bookmark in bookmarks %}
         <li class="list-group-item">
-            <a href="{{ bookmark.href }}">{{ bookmark.href }}</a>&nbsp;
-            <a href="{{ bookmark.href }}">{{ bookmark.tags_proxy }}</a>&nbsp;
-            <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+            <a href="#">
+                <h4 class="list-group-item-heading">
+                    <a href="{{ bookmark.href }}">{{ bookmark.title }}</a>
+                </h4>
+                <p class="list-group-item-text">
+                    {{ bookmark.description }}<br />
+                    {{ ", ".join(bookmark.tags_proxy) }}
+                    <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+                </p>
+            </a>
         </li>
     {% endfor %}
     </ul>

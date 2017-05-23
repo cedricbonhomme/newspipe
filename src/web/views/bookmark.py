@@ -38,7 +38,7 @@ def form(bookmark_id=None):
     action = gettext('Edit bookmark')
     head_titles = [action]
     form = BookmarkForm(obj=bookmark)
-    form.tags.data = bookmark.tags_proxy
+    form.tags.data = ", ".join(bookmark.tags_proxy)
     return render_template('edit_bookmark.html', action=action,
                            head_titles=head_titles, bookmark=bookmark,
                            form=form)
