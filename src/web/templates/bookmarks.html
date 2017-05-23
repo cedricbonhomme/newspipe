@@ -10,8 +10,8 @@
                     <a href="{{ bookmark.href }}">{{ bookmark.title }}</a>
                 </h4>
                 <p class="list-group-item-text">
-                    {{ bookmark.description }}<br />
-                    {{ ", ".join(bookmark.tags_proxy) }}
+                    <div class="text-muted">{{ bookmark.description }}</div>
+                    {{ " ".join(bookmark.tags_proxy) }}
                     <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
                 </p>
             </a>
