@@ -19,7 +19,7 @@ Main features
 * favorite articles;
 * detection of inactive feeds;
 * share articles with Google +, Pinboard and reddit;
-* personal management of bookmarks.
+* personal management of bookmarks (with import from Pinboard).
 
 The core technologies are `Flask <http://flask.pocoo.org>`_,
 `asyncio <https://www.python.org/dev/peps/pep-3156/>`_ ,

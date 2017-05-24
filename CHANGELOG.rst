@@ -2,11 +2,18 @@
 Release History
 =================
 
-7.1.4 (not yet released)
-------------------------
+8.0 (2017-05-24)
+----------------
+    New:
+     * you can now manage your bookmarks with Newspipe;
+     * a bookmarklet is available in order to quickly bookmark Web pages;
+     * import of bookmarks from Pinboard (JSON export);
+     * new logo;
     Improvements:
-     * Bugfix: argument of type 'NoneType' is not iterable in html.unescape();
-     * refactoring and code cleaning.
+     * refactoring and code cleaning;
+     * improved Heroku auto-deploy functionality.
+    Fixes:
+     * crawler: argument of type 'NoneType' is not iterable in html.unescape().
 
 7.1.3 (2016-11-14)
 ------------------
