@@ -12,7 +12,7 @@ token_validity_period = 3600
 log_path = ./var/log/newspipe.log
 log_level = info
 [database]
-database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5432/aggregator
+database_url = sqlite:///newspipe.db
 [crawler]
 crawling_method = default
 default_max_error = 6

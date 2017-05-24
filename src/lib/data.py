@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.1 $"
+__version__ = "$Revision: 0.2 $"
 __date__ = "$Date: 2016/11/17 $"
-__revision__ = "$Date: 2016/11/17 $"
+__revision__ = "$Date: 2017/05/14 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
@@ -37,6 +37,7 @@ from flask import jsonify
 
 from bootstrap import db
 from web.models import User, Feed, Article
+from web.controllers import BookmarkController, BookmarkTagController
 
 
 def import_opml(email, opml_content):
@@ -160,3 +161,29 @@ def export_json(user):
                         } for article in feed.articles ]
                     })
     return jsonify(result=result)
+
+
+def import_pinboard_json(user, json_content):
+    """
+    Import bookmarks from a pinboard JSON export.
+    """
+    bookmark_contr = BookmarkController(user.id)
+    tag_contr = BookmarkTagController(user.id)
+    bookmarks = json.loads(json_content.decode("utf-8"))
+    nb_bookmarks = 0
+    for bookmark in bookmarks[:20]:
+        tags = []
+        for tag in bookmark['tags'].split(' '):
+            new_tag = tag_contr.create(text=tag.strip(), user_id=user.id)
+            tags.append(new_tag)
+        bookmark_attr = {
+                    'href': bookmark['href'],
+                    'description': bookmark['extended'],
+                    'title': bookmark['description'],
+                    'shared': [bookmark['shared']=='yes' and True or False][0],
+                    'to_read': [bookmark['toread']=='yes' and True or False][0],
+                    'tags': tags
+                    }
+        new_bookmark = bookmark_contr.create(**bookmark_attr)
+        nb_bookmarks += 1
+    return nb_bookmarks

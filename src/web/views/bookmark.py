@@ -8,6 +8,7 @@ from flask_login import login_required, current_user
 
 import conf
 from lib.utils import redirect_url
+from lib.data import import_pinboard_json
 from bootstrap import db
 from web.forms import BookmarkForm
 from web.controllers import BookmarkController, BookmarkTagController
@@ -124,3 +125,17 @@ def bookmarklet():
     new_bookmark = bookmark_contr.create(**bookmark_attr)
     flash(gettext('Bookmark successfully created.'), 'success')
     return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
+
+@bookmark_bp.route('/import_pinboard', methods=['POST'])
+@login_required
+def import_pinboard():
+    bookmarks = request.files.get('jsonfile', None)
+    if bookmarks:
+        try:
+            nb_bookmarks = import_pinboard_json(current_user, bookmarks.read())
+            flash(gettext("%(nb_bookmarks)s bookmarks successfully imported.",
+                          nb_bookmarks=nb_bookmarks), 'success')
+        except:
+            flash(gettext('Error when importing bookmarks.'), 'error')
+    
+    return redirect(redirect_url())
