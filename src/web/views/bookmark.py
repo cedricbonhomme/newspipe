@@ -96,3 +96,31 @@ def delete(bookmark_id=None):
     flash(gettext("Bookmark %(bookmark_name)s successfully deleted.",
                   bookmark_name=bookmark.title), 'success')
     return redirect(redirect_url())
+
+
+@bookmark_bp.route('/bookmarklet', methods=['GET', 'POST'])
+@login_required
+def bookmarklet():
+    bookmark_contr = BookmarkController(current_user.id)
+    href = (request.args if request.method == 'GET' else request.form)\
+            .get('href', None)
+    if not href:
+        flash(gettext("Couldn't add bookmark: url missing."), "error")
+        raise BadRequest("url is missing")
+
+    bookmark_exists = bookmark_contr.read(**{'href': href}).all()
+    if bookmark_exists:
+        flash(gettext("Couldn't add bookmark: bookmark already exists."),
+                "warning")
+        return redirect(url_for('bookmark.form',
+                                            bookmark_id=bookmark_exists[0].id))
+
+    bookmark_attr = {'href': href,
+                    'description': '',
+                    'title': href,
+                    'shared': False,
+                    'to_read': True}
+
+    new_bookmark = bookmark_contr.create(**bookmark_attr)
+    flash(gettext('Bookmark successfully created.'), 'success')
+    return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
