@@ -28,7 +28,7 @@ __license__ = "GPLv3"
 
 from bootstrap import db
 from datetime import datetime
-from sqlalchemy import asc, desc, Index
+from sqlalchemy import Index
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from web.models.right_mixin import RightMixin

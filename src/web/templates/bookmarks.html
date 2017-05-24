@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ _('Bookmarks') }}</h1>
     <ul class="list-group">
     {% for bookmark in bookmarks %}
         <li class="list-group-item">
@@ -11,9 +10,10 @@
                 </h4>
                 <p class="list-group-item-text">
                     <div class="text-muted">{{ bookmark.description }}</div>
-                    {{ " ".join(bookmark.tags_proxy) }}
-                    <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
-                    <a href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
+                    <div>{{ " ".join(bookmark.tags_proxy) }}</div>
+                    {{ bookmark.time }}
+                    <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+                    <a class="text-muted" href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
                 </p>
             </a>
         </li>

@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, flash, \
                   redirect, request, url_for
 from flask_babel import gettext
 from flask_login import login_required, current_user
+from sqlalchemy import desc
 
 import conf
 from lib.utils import redirect_url
@@ -22,9 +23,12 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 @login_required
 def list():
     "Lists the bookmarks."
+    head_titles = ["Bookmarks"]
     bookmark_contr = BookmarkController(current_user.id)
     return render_template('bookmarks.html',
-        bookmarks=BookmarkController(current_user.id).read().order_by('time'))
+        head_titles=head_titles,
+        bookmarks=BookmarkController(current_user.id) \
+                    .read().order_by(desc('time')))
 
 
 @bookmark_bp.route('/create', methods=['GET'])
@@ -135,7 +139,7 @@ def import_pinboard():
             nb_bookmarks = import_pinboard_json(current_user, bookmarks.read())
             flash(gettext("%(nb_bookmarks)s bookmarks successfully imported.",
                           nb_bookmarks=nb_bookmarks), 'success')
-        except:
+        except Exception as e:
             flash(gettext('Error when importing bookmarks.'), 'error')
-    
+
     return redirect(redirect_url())

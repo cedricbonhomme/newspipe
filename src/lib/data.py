@@ -37,6 +37,7 @@ from flask import jsonify
 
 from bootstrap import db
 from web.models import User, Feed, Article
+from web.models.tag import BookmarkTag
 from web.controllers import BookmarkController, BookmarkTagController
 
 
@@ -171,10 +172,10 @@ def import_pinboard_json(user, json_content):
     tag_contr = BookmarkTagController(user.id)
     bookmarks = json.loads(json_content.decode("utf-8"))
     nb_bookmarks = 0
-    for bookmark in bookmarks[:20]:
+    for bookmark in bookmarks:
         tags = []
         for tag in bookmark['tags'].split(' '):
-            new_tag = tag_contr.create(text=tag.strip(), user_id=user.id)
+            new_tag = BookmarkTag(text=tag.strip(), user_id=user.id)
             tags.append(new_tag)
         bookmark_attr = {
                     'href': bookmark['href'],
@@ -182,6 +183,8 @@ def import_pinboard_json(user, json_content):
                     'title': bookmark['description'],
                     'shared': [bookmark['shared']=='yes' and True or False][0],
                     'to_read': [bookmark['toread']=='yes' and True or False][0],
+                    'time': datetime.datetime.strptime(bookmark['time'],
+                                                        '%Y-%m-%dT%H:%M:%SZ'),
                     'tags': tags
                     }
         new_bookmark = bookmark_contr.create(**bookmark_attr)
