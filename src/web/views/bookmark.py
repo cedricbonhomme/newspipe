@@ -49,7 +49,7 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 
 
 @bookmarks_bp.route('/', defaults={'per_page': '50'}, methods=['GET'])
-def list(per_page):
+def list_(per_page):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
 

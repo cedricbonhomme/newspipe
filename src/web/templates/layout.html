@@ -50,7 +50,7 @@
                         <div><span class="glyphicon glyphicon-bookmark"></span></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('bookmarks.list') }}">{{ _('Your bookmarks') }}</a></li>
+                        <li><a href="{{ url_for('bookmarks.list_') }}">{{ _('Your bookmarks') }}</a></li>
                         <li><a href="{{ url_for('bookmark.form') }}">{{ _('Add a new bookmark') }}</a></li>
                     </ul>
                 </li>
@@ -114,7 +114,8 @@
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ url_for("popular") }}"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;{{ _('Popular') }}</a></li>
+                <li><a href="{{ url_for("bookmarks.list_") }}"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;{{ _('Bookmarks') }}</a></li>
+                <li><a href="{{ url_for("popular") }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{ _('Popular') }}</a></li>
                 <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
           </ul>

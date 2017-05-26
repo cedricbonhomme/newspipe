@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-6">
                 <h1>{{ _('Your bookmarks') }}</h1>
-                <p>{{ _('You have') }} {{ nb_bookmarks }} <a href="{{ url_for("bookmarks.list")}}">{{ _('bookmarks') }}</a>.</p>
+                <p>{{ _('You have') }} {{ nb_bookmarks }} <a href="{{ url_for("bookmarks.list_")}}">{{ _('bookmarks') }}</a>.</p>
                 <a href="{{ url_for("bookmarks.delete_all") }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
             </div>
         </div>
