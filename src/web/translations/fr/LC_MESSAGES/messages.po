@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-11-22 08:18+0100\n"
-"PO-Revision-Date: 2016-11-22 08:18+0100\n"
-"Last-Translator: Cedric Bonhomme <cedric.bonhomme@list.lu>\n"
+"POT-Creation-Date: 2017-05-26 08:55+0200\n"
+"PO-Revision-Date: 2017-05-26 08:55+0200\n"
+"Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: ../forms.py:46 ../forms.py:130 ../forms.py:154
 #: ../templates/admin/dashboard.html:12
@@ -28,12 +28,12 @@ msgstr "Pseudonyme"
 msgid "Please enter your nickname."
 msgstr "S'il vous plaît, entrez votre pseudonyme."
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:216
+#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:226
 #: ../templates/admin/dashboard.html:13
 msgid "Email"
 msgstr "Email"
 
-#: ../forms.py:51 ../forms.py:219
+#: ../forms.py:51 ../forms.py:229
 msgid "Please enter your email address."
 msgstr "S'il vous plaît, entrez votre adresse email."
 
@@ -66,6 +66,7 @@ msgid "Automatic crawling"
 msgstr "Récupération automatique"
 
 #: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:204
+#: ../forms.py:214
 msgid "Save"
 msgstr "Sauver"
 
@@ -101,7 +102,7 @@ msgstr "Profil public"
 msgid "Passwords aren't the same."
 msgstr "Les mots de passe ne sont pas identiques."
 
-#: ../forms.py:186 ../templates/feed_list.html:8
+#: ../forms.py:186 ../forms.py:209 ../templates/feed_list.html:8
 #: ../templates/feed_list_simple.html:7
 msgid "Title"
 msgstr "Titre"
@@ -130,44 +131,64 @@ msgstr "Catégorie du flux"
 msgid "Private"
 msgstr "Privé"
 
-#: ../forms.py:203 ../templates/layout.html:73
+#: ../forms.py:203 ../templates/layout.html:82
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
 #: ../forms.py:208
+msgid "URL"
+msgstr "URL"
+
+#: ../forms.py:210
+msgid "Description"
+msgstr "Description"
+
+#: ../forms.py:211
+msgid "Tags"
+msgstr ""
+
+#: ../forms.py:212
+msgid "To read"
+msgstr "À lire"
+
+#: ../forms.py:213
+msgid "Shared"
+msgstr "Partagé"
+
+#: ../forms.py:218
 msgid "Subject"
 msgstr "Objet"
 
-#: ../forms.py:209
+#: ../forms.py:219
 msgid "Please enter a subject."
 msgstr "S'il vous plaît entrer un objet."
 
-#: ../forms.py:210
+#: ../forms.py:220
 msgid "Message"
 msgstr "Message"
 
-#: ../forms.py:211
+#: ../forms.py:221
 msgid "Please enter a content."
 msgstr "S'il vous plaît entrer un contenu."
 
-#: ../forms.py:212
+#: ../forms.py:222
 msgid "Send"
 msgstr "Envoyer"
 
-#: ../forms.py:220
+#: ../forms.py:230
 msgid "Recover"
 msgstr "Récupérer"
 
-#: ../forms.py:230
+#: ../forms.py:240
 msgid "Account not confirmed."
 msgstr "Compte non confirmé."
 
-#: ../forms.py:233
+#: ../forms.py:243
 msgid "Invalid email."
 msgstr "Email invalide."
 
-#: ../templates/about.html:5 ../templates/layout.html:98
-#: ../templates/layout.html:109
+#: ../templates/about.html:5 ../templates/layout.html:107
+#: ../templates/layout.html:118
 msgid "About"
 msgstr "À propos"
 
@@ -210,11 +231,11 @@ msgstr ""
 "Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/newspipe/"
 "newspipe/issues\">ici</a>."
 
-#: ../templates/about.html:17
+#: ../templates/about.html:18
 msgid "Help"
 msgstr "Aide"
 
-#: ../templates/about.html:18
+#: ../templates/about.html:19
 msgid ""
 "The documentation of the API is <a href=\"https://newspipe.readthedocs.io/en/"
 "latest/web-services-v3.html\">here</a>."
@@ -222,11 +243,11 @@ msgstr ""
 "La documentation de l'API est <a href=\"https://newspipe.readthedocs.io/en/"
 "latest/web-services-v3.html\">ici</a>."
 
-#: ../templates/about.html:19
+#: ../templates/about.html:20
 msgid "Contact"
 msgstr "Contact"
 
-#: ../templates/about.html:20
+#: ../templates/about.html:21
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following button "
 "to your browser bookmarks."
@@ -234,7 +255,7 @@ msgstr ""
 "Vous pouvez vous abonner à de nouveaux flux avec un bookmarklet. Faites "
 "glisser le bouton suivant dans vos favoris."
 
-#: ../templates/about.html:21
+#: ../templates/about.html:22
 #, python-format
 msgid ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
@@ -323,6 +344,32 @@ msgstr "Doublons dans le flux"
 #: ../templates/duplicates.html:11 ../templates/duplicates.html:14
 msgid "Delete all in this column"
 msgstr "Supprimer tout dans cette colonne"
+
+#: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
+#: ../views/bookmark.py:77
+msgid "Add a new bookmark"
+msgstr "Ajouter un nouveau marque-page"
+
+#: ../templates/edit_bookmark.html:68
+msgid ""
+"You can add a bookmark with a bookmarklet. Drag the following button to your "
+"browser bookmarks."
+msgstr ""
+"Vous pouvez ajouter un marque-page avec un bookmarklet. Faites glisser le "
+"bouton suivant dans vos favoris."
+
+#: ../templates/edit_bookmark.html:69
+#, python-format
+msgid ""
+"<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
+"\">Bookmark this page using Newspipe</a>"
+msgstr ""
+"<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
+"\">Marquez cette page en utilisant Newspipe</a>"
+
+#: ../templates/edit_bookmark.html:73
+msgid "Import bookmarks from Pinboard"
+msgstr ""
 
 #: ../templates/edit_feed.html:19 ../templates/edit_feed.html:27
 #: ../templates/edit_feed.html:35
@@ -510,7 +557,7 @@ msgstr "Ajouter"
 msgid "a feed"
 msgstr "un flux"
 
-#: ../templates/history.html:4 ../templates/layout.html:87
+#: ../templates/history.html:4 ../templates/layout.html:96
 msgid "History"
 msgstr "Historique"
 
@@ -534,47 +581,51 @@ msgstr "Aucun flux inactifs."
 msgid "Fetch"
 msgstr "Télécharger"
 
-#: ../templates/layout.html:50
+#: ../templates/layout.html:53
+msgid "Your bookmarks"
+msgstr ""
+
+#: ../templates/layout.html:59
 msgid "Add a new feed"
 msgstr "Ajouter un nouveau flux"
 
-#: ../templates/layout.html:56
+#: ../templates/layout.html:65
 msgid "Site or feed url"
 msgstr "Site ou adresse de flux"
 
-#: ../templates/layout.html:67
+#: ../templates/layout.html:76
 msgid "Add a new category"
 msgstr "Ajouter une nouvelle catégorie"
 
-#: ../templates/layout.html:83
+#: ../templates/layout.html:92
 msgid "Feed"
 msgstr "Flux"
 
-#: ../templates/layout.html:85 ../templates/layout.html:108
+#: ../templates/layout.html:94 ../templates/layout.html:117
 msgid "Popular"
 msgstr "Populaire"
 
-#: ../templates/layout.html:86
+#: ../templates/layout.html:95
 msgid "Inactive"
 msgstr "Flux inactifs"
 
-#: ../templates/layout.html:88
+#: ../templates/layout.html:97
 msgid "All"
 msgstr "Tout"
 
-#: ../templates/layout.html:96
+#: ../templates/layout.html:105
 msgid "Profile"
 msgstr "Profil"
 
-#: ../templates/layout.html:97
+#: ../templates/layout.html:106
 msgid "Your data"
 msgstr "Vos données"
 
-#: ../templates/layout.html:101
+#: ../templates/layout.html:110
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: ../templates/layout.html:104
+#: ../templates/layout.html:113
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -798,6 +849,44 @@ msgstr "Erreur lors de l'export des articles."
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
+#: ../views/bookmark.py:55
+msgid "Bookmarks"
+msgstr ""
+
+#: ../views/bookmark.py:83
+msgid "Edit bookmark"
+msgstr ""
+
+#: ../views/bookmark.py:118
+msgid "Bookmark successfully updated."
+msgstr "Marque-page mis à jour avec succès."
+
+#: ../views/bookmark.py:130 ../views/bookmark.py:168
+msgid "Bookmark successfully created."
+msgstr "Marque-page créé avec succès."
+
+#: ../views/bookmark.py:139
+#, python-format
+msgid "Bookmark %(bookmark_name)s successfully deleted."
+msgstr "Marque-page %(bookmark_name)s supprimé avec succès."
+
+#: ../views/bookmark.py:151
+msgid "Couldn't add bookmark: url missing."
+msgstr "Impossible d'ajouter le marque-page: URL manquante."
+
+#: ../views/bookmark.py:156
+msgid "Couldn't add bookmark: bookmark already exists."
+msgstr "Impossible d'ajouter le marque-page: l'URL existe déjà."
+
+#: ../views/bookmark.py:178
+#, python-format
+msgid "%(nb_bookmarks)s bookmarks successfully imported."
+msgstr ""
+
+#: ../views/bookmark.py:181
+msgid "Error when importing bookmarks."
+msgstr "Erreur lors de l'import des marque-pages."
+
 #: ../views/category.py:33
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
@@ -963,11 +1052,11 @@ msgstr "Nouveau mot de passe envoyé à votre adresse."
 msgid "Problem while sending your new password: %(error)s"
 msgstr "Problème lors de l'envoi de votre nouveau mot de passe: %(error)s"
 
-#: ../views/views.py:20
+#: ../views/views.py:23
 msgid "Authentication required."
 msgstr "Authentification requise."
 
-#: ../views/views.py:28
+#: ../views/views.py:31
 msgid "Forbidden."
 msgstr "Interdit."
 
@@ -1077,9 +1166,6 @@ msgstr "Interdit."
 #~ msgid "Read"
 #~ msgstr "Lus"
 
-#~ msgid "Unread"
-#~ msgstr "Non lus"
-
 #~ msgid "No icon found for this feed"
 #~ msgstr "Aucune icône trouvé pour ce flux."
 
@@ -1128,14 +1214,8 @@ msgstr "Interdit."
 #~ msgid "User"
 #~ msgstr "Utilisateur"
 
-#~ msgid "successfully updated."
-#~ msgstr "mis à jour avec succès."
-
 #~ msgid "Problem while sending email"
 #~ msgstr "Problème lors de l'envoi de l'email"
-
-#~ msgid "successfully created."
-#~ msgstr "créé avec succès."
 
 #~ msgid "successfully deleted."
 #~ msgstr "supprimé avec succès."

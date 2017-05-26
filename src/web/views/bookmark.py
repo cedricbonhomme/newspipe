@@ -52,7 +52,7 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 @login_required
 def list(per_page):
     "Lists the bookmarks."
-    head_titles = ["Bookmarks"]
+    head_titles = [gettext("Bookmarks")]
 
     page, per_page, offset = get_page_args()
     bookmark_contr = BookmarkController(current_user.id)
@@ -74,7 +74,7 @@ def list(per_page):
 @login_required
 def form(bookmark_id=None):
     "Form to create/edit bookmarks."
-    action = gettext("Add a bookmark")
+    action = gettext("Add a new bookmark")
     head_titles = [action]
     if bookmark_id is None:
         return render_template('edit_bookmark.html', action=action,

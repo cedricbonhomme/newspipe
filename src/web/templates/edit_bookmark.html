@@ -62,7 +62,7 @@
             </div>
         </form>
     </div>
-    {% if action == "Add a bookmark" %}
+    {% if action == _('Add a new bookmark') %}
         <div class="row">
             <div class="col-md-6 pull-right">
                 <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
@@ -70,7 +70,7 @@
             </div>
             <div class="col-md-6">
                 <form action="{{ url_for('bookmark.import_pinboard') }}" method="post" id="formImportPinboard" enctype="multipart/form-data">
-                    <p>{{ _('Import bookmarks from Pinboard') }} (<span class="text-info">*.json</span>)</p>
+                    <p>{{ _('Import bookmarks from Pinboard') }} (*.json)</p>
                     <span>
                         <input type="file" name="jsonfile" />
                         <br />
