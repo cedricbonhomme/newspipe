@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-26 08:55+0200\n"
+"POT-Creation-Date: 2017-05-26 09:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr ""
 msgid "Please enter your nickname."
 msgstr ""
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:226
+#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:230
 #: ../templates/admin/dashboard.html:13
 msgid "Email"
 msgstr ""
 
-#: ../forms.py:51 ../forms.py:229
+#: ../forms.py:51 ../forms.py:233
 msgid "Please enter your email address."
 msgstr ""
 
@@ -64,7 +64,7 @@ msgid "Automatic crawling"
 msgstr ""
 
 #: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:204
-#: ../forms.py:214
+#: ../forms.py:218
 msgid "Save"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Passwords aren't the same."
 msgstr ""
 
-#: ../forms.py:186 ../forms.py:209 ../templates/feed_list.html:8
+#: ../forms.py:186 ../forms.py:211 ../templates/feed_list.html:8
 #: ../templates/feed_list_simple.html:7
 msgid "Title"
 msgstr ""
@@ -136,50 +136,54 @@ msgid "URL"
 msgstr ""
 
 #: ../forms.py:210
-msgid "Description"
-msgstr ""
-
-#: ../forms.py:211
-msgid "Tags"
-msgstr ""
-
-#: ../forms.py:212
-msgid "To read"
+msgid "Please enter an URL."
 msgstr ""
 
 #: ../forms.py:213
+msgid "Description"
+msgstr ""
+
+#: ../forms.py:215
+msgid "Tags"
+msgstr ""
+
+#: ../forms.py:216
+msgid "To read"
+msgstr ""
+
+#: ../forms.py:217
 msgid "Shared"
 msgstr ""
 
-#: ../forms.py:218
+#: ../forms.py:222
 msgid "Subject"
 msgstr ""
 
-#: ../forms.py:219
+#: ../forms.py:223
 msgid "Please enter a subject."
 msgstr ""
 
-#: ../forms.py:220
+#: ../forms.py:224
 msgid "Message"
 msgstr ""
 
-#: ../forms.py:221
+#: ../forms.py:225
 msgid "Please enter a content."
 msgstr ""
 
-#: ../forms.py:222
+#: ../forms.py:226
 msgid "Send"
 msgstr ""
 
-#: ../forms.py:230
+#: ../forms.py:234
 msgid "Recover"
 msgstr ""
 
-#: ../forms.py:240
+#: ../forms.py:244
 msgid "Account not confirmed."
 msgstr ""
 
-#: ../forms.py:243
+#: ../forms.py:247
 msgid "Invalid email."
 msgstr ""
 
@@ -825,33 +829,33 @@ msgstr ""
 msgid "Edit bookmark"
 msgstr ""
 
-#: ../views/bookmark.py:118
+#: ../views/bookmark.py:123
 msgid "Bookmark successfully updated."
 msgstr ""
 
-#: ../views/bookmark.py:130 ../views/bookmark.py:168
+#: ../views/bookmark.py:135 ../views/bookmark.py:173
 msgid "Bookmark successfully created."
 msgstr ""
 
-#: ../views/bookmark.py:139
+#: ../views/bookmark.py:144
 #, python-format
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr ""
 
-#: ../views/bookmark.py:151
+#: ../views/bookmark.py:156
 msgid "Couldn't add bookmark: url missing."
 msgstr ""
 
-#: ../views/bookmark.py:156
+#: ../views/bookmark.py:161
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr ""
 
-#: ../views/bookmark.py:178
+#: ../views/bookmark.py:183
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr ""
 
-#: ../views/bookmark.py:181
+#: ../views/bookmark.py:186
 msgid "Error when importing bookmarks."
 msgstr ""
 
