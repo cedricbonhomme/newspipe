@@ -49,15 +49,19 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 
 
 @bookmarks_bp.route('/', defaults={'per_page': '50'}, methods=['GET'])
-@login_required
 def list(per_page):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
 
-    page, per_page, offset = get_page_args()
-    bookmark_contr = BookmarkController(current_user.id)
-    bookmarks = bookmark_contr.read().order_by(desc('time'))
+    if current_user.is_authenticated:
+        # query for the bookmarks of the authenticated user
+        bookmark_query = BookmarkController(current_user.id).read()
+    else:
+        # shared bookmarks of all users
+        bookmark_query = BookmarkController().read(**{'shared': True})
+    bookmarks = bookmark_query.order_by(desc('time'))
 
+    page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=bookmarks.count(),
                             css_framework='bootstrap3',
                             search=False, record_name='bookmarks',
