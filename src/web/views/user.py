@@ -12,7 +12,7 @@ from lib import misc_utils
 from lib.data import import_opml, import_json
 from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController,
-                            CategoryController)
+                            CategoryController, BookmarkController)
 
 from web.forms import ProfileForm, RecoverPasswordForm
 
@@ -89,10 +89,12 @@ def management():
     nb_articles = art_contr.read().count()
     nb_unread_articles = art_contr.read(readed=False).count()
     nb_categories = CategoryController(current_user.id).read().count()
+    nb_bookmarks = BookmarkController(current_user.id).read().count()
     return render_template('management.html', user=current_user,
                             nb_feeds=nb_feeds, nb_articles=nb_articles,
                             nb_unread_articles=nb_unread_articles,
-                            nb_categories=nb_categories)
+                            nb_categories=nb_categories,
+                            nb_bookmarks=nb_bookmarks)
 
 
 @user_bp.route('/profile', methods=['GET', 'POST'])

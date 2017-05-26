@@ -2,11 +2,21 @@
 {% block content %}
 <div class="container">
     <div class="well">
-        <h1>{{ _('Your subscriptions') }}</h1>
-        <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. <a href="{{ url_for("feed.form") }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
-        <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} {{ _('unread articles') }}.</p>
-        <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for("categories.list_")}}">{{ _('categories') }}</a>.</p>
-        <a href="{{ url_for("articles.expire", weeks=10) }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>{{ _('Your subscriptions') }}</h1>
+                <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. <a href="{{ url_for("feed.form") }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
+                <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} {{ _('unread articles') }}.</p>
+                <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for("categories.list_")}}">{{ _('categories') }}</a>.</p>
+                <a href="{{ url_for("articles.expire", weeks=10) }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
+            </div>
+            <div class="col-md-6">
+                <h1>{{ _('Your bookmarks') }}</h1>
+                <p>{{ _('You have') }} {{ nb_bookmarks }} <a href="{{ url_for("bookmarks.list")}}">{{ _('bookmarks') }}</a>.</p>
+                <a href="{{ url_for("bookmarks.delete_all") }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
+            </div>
+        </div>
+
     </div>
     <div class="well">
         <h1 id="import">{{ _('OPML import/export') }}</h1>

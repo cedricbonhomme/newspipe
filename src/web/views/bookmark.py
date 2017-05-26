@@ -146,6 +146,16 @@ def delete(bookmark_id=None):
     return redirect(redirect_url())
 
 
+@bookmarks_bp.route('/delete', methods=['GET'])
+@login_required
+def delete_all():
+    "Delete all bookmarks."
+    bookmark = BookmarkController(current_user.id).read().delete()
+    db.session.commit()
+    flash(gettext("Bookmarks successfully deleted."), 'success')
+    return redirect(redirect_url())
+
+
 @bookmark_bp.route('/bookmarklet', methods=['GET', 'POST'])
 @login_required
 def bookmarklet():
