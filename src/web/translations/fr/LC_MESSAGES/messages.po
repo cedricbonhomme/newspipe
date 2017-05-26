@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-26 09:07+0200\n"
-"PO-Revision-Date: 2017-05-26 09:07+0200\n"
+"POT-Creation-Date: 2017-05-26 09:32+0200\n"
+"PO-Revision-Date: 2017-05-26 09:36+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -151,7 +151,7 @@ msgstr "Description"
 
 #: ../forms.py:215
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 #: ../forms.py:216
 msgid "To read"
@@ -375,7 +375,7 @@ msgstr ""
 
 #: ../templates/edit_bookmark.html:73
 msgid "Import bookmarks from Pinboard"
-msgstr ""
+msgstr "Importez les marque-pages depuis Pinboard"
 
 #: ../templates/edit_feed.html:19 ../templates/edit_feed.html:27
 #: ../templates/edit_feed.html:35
@@ -555,11 +555,11 @@ msgstr "Articles doublon"
 msgid "You are subscribed to %(feed_count)d feeds."
 msgstr "Vous êtes abonné à %(feed_count)d flux."
 
-#: ../templates/feeds.html:4 ../templates/management.html:6
+#: ../templates/feeds.html:4 ../templates/management.html:8
 msgid "Add"
 msgstr "Ajouter"
 
-#: ../templates/feeds.html:4 ../templates/management.html:6
+#: ../templates/feeds.html:4 ../templates/management.html:8
 msgid "a feed"
 msgstr "un flux"
 
@@ -587,9 +587,9 @@ msgstr "Aucun flux inactifs."
 msgid "Fetch"
 msgstr "Télécharger"
 
-#: ../templates/layout.html:53
+#: ../templates/layout.html:53 ../templates/management.html:14
 msgid "Your bookmarks"
-msgstr ""
+msgstr "Vos marque-pages"
 
 #: ../templates/layout.html:59
 msgid "Add a new feed"
@@ -647,67 +647,79 @@ msgstr "Votre mot de passe"
 msgid "Forgot password"
 msgstr "Mot de passe oublié"
 
-#: ../templates/management.html:5
+#: ../templates/management.html:7
 msgid "Your subscriptions"
 msgstr "Vos abonnements"
 
-#: ../templates/management.html:6
+#: ../templates/management.html:8
 msgid "You are subscribed to"
 msgstr "Vous êtes abonné à"
 
-#: ../templates/management.html:6
+#: ../templates/management.html:8
 msgid "feeds"
 msgstr "flux"
 
-#: ../templates/management.html:7
+#: ../templates/management.html:9
 msgid "articles are stored in the database with"
 msgstr "articles sont stockés dans la base avec"
 
-#: ../templates/management.html:7
+#: ../templates/management.html:9
 msgid "unread articles"
 msgstr "articles non lus"
 
-#: ../templates/management.html:8
+#: ../templates/management.html:10 ../templates/management.html:15
 msgid "You have"
 msgstr "Vous avez"
 
-#: ../templates/management.html:8
+#: ../templates/management.html:10
 msgid "categories"
 msgstr "categories"
 
-#: ../templates/management.html:9
+#: ../templates/management.html:11
 msgid "You are going to delete old articles."
 msgstr "Vous allez supprimer les anciens articles."
 
-#: ../templates/management.html:9
+#: ../templates/management.html:11
 msgid "Delete articles older than 10 weeks"
 msgstr "Supprimer les articles de plus de 10 semaines"
 
-#: ../templates/management.html:12
+#: ../templates/management.html:15
+msgid "bookmarks"
+msgstr "marque-pages"
+
+#: ../templates/management.html:16
+msgid "You are going to delete all bookmarks."
+msgstr "Vous allez supprimer tous les marque-pages."
+
+#: ../templates/management.html:16
+msgid "Delete all bookmarks"
+msgstr "Supprimez tous les marque-pages"
+
+#: ../templates/management.html:22
 msgid "OPML import/export"
 msgstr "Import/export OPML"
 
-#: ../templates/management.html:14
+#: ../templates/management.html:24
 msgid "Batch import feeds from OPML"
 msgstr "Import en lot via un fichier OPML"
 
-#: ../templates/management.html:14
+#: ../templates/management.html:24
 msgid "or"
 msgstr "ou"
 
-#: ../templates/management.html:18
+#: ../templates/management.html:28
 msgid "Export feeds to OPML"
 msgstr "Exporter les flux au format OPML"
 
-#: ../templates/management.html:19
+#: ../templates/management.html:29
 msgid "Data liberation"
 msgstr "Libération des données"
 
-#: ../templates/management.html:21
+#: ../templates/management.html:31
 msgid "Import account"
 msgstr "Importer un compte"
 
-#: ../templates/management.html:25
+#: ../templates/management.html:35
 msgid "Export account to JSON"
 msgstr "Exporter le compte au format JSON"
 
@@ -807,7 +819,7 @@ msgstr "Éditer l'utilisateur <i>%(nick)s</i>"
 msgid "Some errors were found"
 msgstr "Des erreurs ont été trouvées"
 
-#: ../views/admin.py:68 ../views/user.py:124
+#: ../views/admin.py:68 ../views/user.py:126
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "Utilisateur %(nick)s  mis à jour avec succès."
@@ -857,17 +869,17 @@ msgstr "Ce format d'export n'est pas supporté."
 
 #: ../views/bookmark.py:55
 msgid "Bookmarks"
-msgstr ""
+msgstr "Marque-pages"
 
 #: ../views/bookmark.py:83
 msgid "Edit bookmark"
-msgstr ""
+msgstr "Modifiez le marque-page"
 
 #: ../views/bookmark.py:123
 msgid "Bookmark successfully updated."
 msgstr "Marque-page mis à jour avec succès."
 
-#: ../views/bookmark.py:135 ../views/bookmark.py:173
+#: ../views/bookmark.py:135 ../views/bookmark.py:183
 msgid "Bookmark successfully created."
 msgstr "Marque-page créé avec succès."
 
@@ -876,20 +888,24 @@ msgstr "Marque-page créé avec succès."
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr "Marque-page %(bookmark_name)s supprimé avec succès."
 
-#: ../views/bookmark.py:156
+#: ../views/bookmark.py:155
+msgid "Bookmarks successfully deleted."
+msgstr "Marque-pages supprimés avec succès."
+
+#: ../views/bookmark.py:166
 msgid "Couldn't add bookmark: url missing."
 msgstr "Impossible d'ajouter le marque-page: URL manquante."
 
-#: ../views/bookmark.py:161
+#: ../views/bookmark.py:171
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr "Impossible d'ajouter le marque-page: l'URL existe déjà."
 
-#: ../views/bookmark.py:183
+#: ../views/bookmark.py:193
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
-msgstr ""
+msgstr "%(nb_bookmarks)s marque-pages importés avec succès."
 
-#: ../views/bookmark.py:186
+#: ../views/bookmark.py:196
 msgid "Error when importing bookmarks."
 msgstr "Erreur lors de l'import des marque-pages."
 
@@ -1032,28 +1048,28 @@ msgstr "Compte importé."
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: ../views/user.py:121
+#: ../views/user.py:123
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr "Problème lors de la mise à jour de votre profil: %(error)s"
 
-#: ../views/user.py:142
+#: ../views/user.py:144
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: ../views/user.py:159
+#: ../views/user.py:161
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: ../views/user.py:161
+#: ../views/user.py:163
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
-#: ../views/user.py:186
+#: ../views/user.py:188
 msgid "New password sent to your address."
 msgstr "Nouveau mot de passe envoyé à votre adresse."
 
-#: ../views/user.py:188
+#: ../views/user.py:190
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr "Problème lors de l'envoi de votre nouveau mot de passe: %(error)s"

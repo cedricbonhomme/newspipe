@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-26 09:06+0200\n"
+"POT-Creation-Date: 2017-05-26 09:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -522,11 +522,11 @@ msgstr ""
 msgid "You are subscribed to %(feed_count)d feeds."
 msgstr ""
 
-#: ../templates/feeds.html:4 ../templates/management.html:6
+#: ../templates/feeds.html:4 ../templates/management.html:8
 msgid "Add"
 msgstr ""
 
-#: ../templates/feeds.html:4 ../templates/management.html:6
+#: ../templates/feeds.html:4 ../templates/management.html:8
 msgid "a feed"
 msgstr ""
 
@@ -554,7 +554,7 @@ msgstr ""
 msgid "Fetch"
 msgstr ""
 
-#: ../templates/layout.html:53
+#: ../templates/layout.html:53 ../templates/management.html:14
 msgid "Your bookmarks"
 msgstr ""
 
@@ -614,67 +614,79 @@ msgstr ""
 msgid "Forgot password"
 msgstr ""
 
-#: ../templates/management.html:5
+#: ../templates/management.html:7
 msgid "Your subscriptions"
 msgstr ""
 
-#: ../templates/management.html:6
+#: ../templates/management.html:8
 msgid "You are subscribed to"
 msgstr ""
 
-#: ../templates/management.html:6
+#: ../templates/management.html:8
 msgid "feeds"
 msgstr ""
 
-#: ../templates/management.html:7
+#: ../templates/management.html:9
 msgid "articles are stored in the database with"
 msgstr ""
 
-#: ../templates/management.html:7
+#: ../templates/management.html:9
 msgid "unread articles"
 msgstr ""
 
-#: ../templates/management.html:8
+#: ../templates/management.html:10 ../templates/management.html:15
 msgid "You have"
 msgstr ""
 
-#: ../templates/management.html:8
+#: ../templates/management.html:10
 msgid "categories"
 msgstr ""
 
-#: ../templates/management.html:9
+#: ../templates/management.html:11
 msgid "You are going to delete old articles."
 msgstr ""
 
-#: ../templates/management.html:9
+#: ../templates/management.html:11
 msgid "Delete articles older than 10 weeks"
 msgstr ""
 
-#: ../templates/management.html:12
+#: ../templates/management.html:15
+msgid "bookmarks"
+msgstr ""
+
+#: ../templates/management.html:16
+msgid "You are going to delete all bookmarks."
+msgstr ""
+
+#: ../templates/management.html:16
+msgid "Delete all bookmarks"
+msgstr ""
+
+#: ../templates/management.html:22
 msgid "OPML import/export"
 msgstr ""
 
-#: ../templates/management.html:14
+#: ../templates/management.html:24
 msgid "Batch import feeds from OPML"
 msgstr ""
 
-#: ../templates/management.html:14
+#: ../templates/management.html:24
 msgid "or"
 msgstr ""
 
-#: ../templates/management.html:18
+#: ../templates/management.html:28
 msgid "Export feeds to OPML"
 msgstr ""
 
-#: ../templates/management.html:19
+#: ../templates/management.html:29
 msgid "Data liberation"
 msgstr ""
 
-#: ../templates/management.html:21
+#: ../templates/management.html:31
 msgid "Import account"
 msgstr ""
 
-#: ../templates/management.html:25
+#: ../templates/management.html:35
 msgid "Export account to JSON"
 msgstr ""
 
@@ -774,7 +786,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: ../views/admin.py:68 ../views/user.py:124
+#: ../views/admin.py:68 ../views/user.py:126
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -833,7 +845,7 @@ msgstr ""
 msgid "Bookmark successfully updated."
 msgstr ""
 
-#: ../views/bookmark.py:135 ../views/bookmark.py:173
+#: ../views/bookmark.py:135 ../views/bookmark.py:183
 msgid "Bookmark successfully created."
 msgstr ""
 
@@ -842,20 +854,24 @@ msgstr ""
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr ""
 
-#: ../views/bookmark.py:156
+#: ../views/bookmark.py:155
+msgid "Bookmarks successfully deleted."
+msgstr ""
+
+#: ../views/bookmark.py:166
 msgid "Couldn't add bookmark: url missing."
 msgstr ""
 
-#: ../views/bookmark.py:161
+#: ../views/bookmark.py:171
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr ""
 
-#: ../views/bookmark.py:183
+#: ../views/bookmark.py:193
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr ""
 
-#: ../views/bookmark.py:186
+#: ../views/bookmark.py:196
 msgid "Error when importing bookmarks."
 msgstr ""
 
@@ -994,28 +1010,28 @@ msgstr ""
 msgid "Impossible to import the account."
 msgstr ""
 
-#: ../views/user.py:121
+#: ../views/user.py:123
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr ""
 
-#: ../views/user.py:142
+#: ../views/user.py:144
 msgid "Your account has been deleted."
 msgstr ""
 
-#: ../views/user.py:159
+#: ../views/user.py:161
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: ../views/user.py:161
+#: ../views/user.py:163
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: ../views/user.py:186
+#: ../views/user.py:188
 msgid "New password sent to your address."
 msgstr ""
 
-#: ../views/user.py:188
+#: ../views/user.py:190
 #, python-format
 msgid "Problem while sending your new password: %(error)s"
 msgstr ""
