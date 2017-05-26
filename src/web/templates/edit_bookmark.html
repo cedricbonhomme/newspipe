@@ -66,12 +66,16 @@
         <div class="row">
             <div class="col-md-6 pull-right">
                 <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
-                {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Manage your bookmarks using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)' % url_for('bookmark.bookmarklet', _external=True)) }}
+                {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Bookmark this page using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)' % url_for('bookmark.bookmarklet', _external=True)) }}
             </div>
             <div class="col-md-6">
                 <form action="{{ url_for('bookmark.import_pinboard') }}" method="post" id="formImportPinboard" enctype="multipart/form-data">
-                    <span class="btn btn-default btn-file">{{ _('Import bookmarks from pinboard.in') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
-                    <button class="btn btn-default" type="submit">OK</button>
+                    <p>{{ _('Import bookmarks from Pinboard') }} (<span class="text-info">*.json</span>)</p>
+                    <span>
+                        <input type="file" name="jsonfile" />
+                        <br />
+                        <button class="btn btn-default btn-default" type="submit">OK</button>
+                    </span>
                 </form>
             </div>
         </div>
