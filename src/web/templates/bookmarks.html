@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    {{ pagination.info }}
+    {{ pagination.links }}
     <ul class="list-group">
     {% for bookmark in bookmarks %}
         <li class="list-group-item">
@@ -19,5 +21,6 @@
         </li>
     {% endfor %}
     </ul>
+    {{ pagination.links }}
 </div><!-- /.container -->
 {% endblock %}

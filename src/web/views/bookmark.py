@@ -33,6 +33,7 @@ from flask import Blueprint, render_template, flash, \
                   redirect, request, url_for
 from flask_babel import gettext
 from flask_login import login_required, current_user
+from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
 
 import conf
@@ -47,16 +48,25 @@ bookmarks_bp = Blueprint('bookmarks', __name__, url_prefix='/bookmarks')
 bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 
 
-@bookmarks_bp.route('/', methods=['GET'])
+@bookmarks_bp.route('/', defaults={'per_page': '50'}, methods=['GET'])
 @login_required
-def list():
+def list(per_page):
     "Lists the bookmarks."
     head_titles = ["Bookmarks"]
+
+    page, per_page, offset = get_page_args()
     bookmark_contr = BookmarkController(current_user.id)
+    bookmarks = bookmark_contr.read().order_by(desc('time'))
+
+    pagination = Pagination(page=page, total=bookmarks.count(),
+                            css_framework='bootstrap3',
+                            search=False, record_name='bookmarks',
+                            per_page=per_page)
+
     return render_template('bookmarks.html',
-        head_titles=head_titles,
-        bookmarks=BookmarkController(current_user.id) \
-                    .read().order_by(desc('time')))
+                            head_titles=head_titles,
+                            bookmarks=bookmarks.offset(offset).limit(per_page),
+                            pagination=pagination)
 
 
 @bookmark_bp.route('/create', methods=['GET'])
