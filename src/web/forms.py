@@ -205,9 +205,13 @@ class CategoryForm(Form):
 
 
 class BookmarkForm(Form):
-    href = TextField(lazy_gettext("URL"))
-    title = TextField(lazy_gettext("Title"))
-    description = TextField(lazy_gettext("Description"))
+    href = TextField(lazy_gettext("URL"),
+                            [validators.Required(
+                                        lazy_gettext("Please enter an URL."))])
+    title = TextField(lazy_gettext("Title"),
+                            [validators.Length(min=0, max=100)])
+    description = TextField(lazy_gettext("Description"),
+                            [validators.Length(min=0, max=500)])
     tags = TextField(lazy_gettext("Tags"))
     to_read = BooleanField(lazy_gettext("To read"), default=False)
     shared = BooleanField(lazy_gettext("Shared"), default=False)

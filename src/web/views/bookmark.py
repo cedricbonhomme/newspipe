@@ -101,9 +101,14 @@ def process_form(bookmark_id=None):
     if not form.validate():
         return render_template('edit_bookmark.html', form=form)
 
+    if form.title.data == '':
+        title = form.href.data
+    else:
+        title = form.title.data
+
     bookmark_attr = {'href': form.href.data,
                     'description': form.description.data,
-                    'title': form.title.data,
+                    'title': title,
                     'shared': form.shared.data,
                     'to_read': form.to_read.data}
 
