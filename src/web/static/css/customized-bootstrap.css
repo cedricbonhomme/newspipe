@@ -48,3 +48,8 @@ a {
     display: block;
     z-index: 1001;
 }
+
+/*customization for Flask-Paginate*/
+.pagination-page-info {
+    display: inline;
+}

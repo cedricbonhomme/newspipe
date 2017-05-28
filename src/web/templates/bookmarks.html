@@ -1,7 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    {{ pagination.info }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ pagination.info }}
+        </div>
+        <div class="col-md-6 text-right">
+            <a class="text-muted" href="{{ url_for('bookmarks.list_') }}">all</a>&nbsp;⸱&nbsp;
+            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'private' }}">private</a>&nbsp;⸱&nbsp;
+            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'public' }}">public</a>&nbsp;⸱&nbsp;
+            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'unread' }}">unread</a>
+        </div>
+    </div>
     {{ pagination.links }}
     <ul class="list-group">
     {% for bookmark in bookmarks %}
