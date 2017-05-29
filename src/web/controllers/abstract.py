@@ -50,6 +50,8 @@ class AbstractController:
                 db_filters.add(getattr(self._db_cls, key[:-4]) != value)
             elif key.endswith('__in'):
                 db_filters.add(getattr(self._db_cls, key[:-4]).in_(value))
+            elif key.endswith('__contains'):
+                db_filters.add(getattr(self._db_cls, key[:-10]).contains(value))
             elif key.endswith('__like'):
                 db_filters.add(getattr(self._db_cls, key[:-6]).like(value))
             elif key.endswith('__ilike'):

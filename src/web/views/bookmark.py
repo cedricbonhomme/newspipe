@@ -54,10 +54,13 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 def list_(per_page, status='all'):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
+    filters = {}
+    tag = request.args.get('tag', None)
+    if tag:
+        filters['tags_proxy__contains'] = tag
 
     if current_user.is_authenticated:
         # query for the bookmarks of the authenticated user
-        filters = {}
         if status == 'public':
             filters['shared'] = True
         elif status == 'private':
@@ -72,7 +75,8 @@ def list_(per_page, status='all'):
         bookmark_query = BookmarkController(current_user.id).read(**filters)
     else:
         # query for the shared bookmarks (of all users)
-        bookmark_query = BookmarkController().read(**{'shared': True})
+        filters['shared'] = True
+        bookmark_query = BookmarkController().read(**filters)
     bookmarks = bookmark_query.order_by(desc('time'))
 
     page, per_page, offset = get_page_args()
