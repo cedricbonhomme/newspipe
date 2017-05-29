@@ -6,10 +6,12 @@
             {{ pagination.info }}
         </div>
         <div class="col-md-6 text-right">
-            <a class="text-muted" href="{{ url_for('bookmarks.list_') }}">all</a>&nbsp;⸱&nbsp;
-            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'private' }}">private</a>&nbsp;⸱&nbsp;
-            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'public' }}">public</a>&nbsp;⸱&nbsp;
-            <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'unread' }}">unread</a>
+            {% if current_user.is_authenticated %}
+                <a class="text-muted" href="{{ url_for('bookmarks.list_') }}">all</a>&nbsp;⸱&nbsp;
+                <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'private' }}">private</a>&nbsp;⸱&nbsp;
+                <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'public' }}">public</a>&nbsp;⸱&nbsp;
+                <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'unread' }}">unread</a>
+            {% endif %}
         </div>
     </div>
     {{ pagination.links }}
@@ -24,8 +26,10 @@
                     <div class="text-muted">{{ bookmark.description }}</div>
                     <div>{{ " ".join(bookmark.tags_proxy) }}</div>
                     {{ bookmark.time }}
-                    <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
-                    <a class="text-muted" href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
+                    {% if current_user.is_authenticated %}
+                        <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+                        <a class="text-muted" href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
+                    {% endif %}
                 </p>
             </a>
         </li>
