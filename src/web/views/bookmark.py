@@ -58,6 +58,11 @@ def list_(per_page, status='all'):
     tag = request.args.get('tag', None)
     if tag:
         filters['tags_proxy__contains'] = tag
+    query = request.args.get('query', None)
+    if query:
+        query = '%' + query + '%'
+        filters['__or__'] = {'title__ilike': query, 'description__ilike': query}
+
 
     if current_user.is_authenticated:
         # query for the bookmarks of the authenticated user

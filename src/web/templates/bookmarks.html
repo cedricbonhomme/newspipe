@@ -14,27 +14,53 @@
             {% endif %}
         </div>
     </div>
-    {{ pagination.links }}
-    <ul class="list-group">
-    {% for bookmark in bookmarks %}
-        <li class="list-group-item">
-            <a href="#">
-                <h4 class="list-group-item-heading">
-                    <a href="{{ bookmark.href }}">{{ bookmark.title }}</a>
-                </h4>
-                <p class="list-group-item-text">
-                    <div class="text-muted">{{ bookmark.description }}</div>
-                    <div>{% for tag in bookmark.tags %}<a href="{{ url_for('bookmarks.list_', tag=tag.text) }}">{{ tag.text }}&nbsp;</a>{% endfor %}</div>
-                    {{ bookmark.time | datetime }}
-                    {% if current_user.is_authenticated %}
-                        <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
-                        <a class="text-muted" href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
-                    {% endif %}
-                </p>
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-    {{ pagination.links }}
+    <br />
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <form method="GET">
+                <div class="form-inline">
+                    <input type="text" name="query" class="form-control" />
+                    <button type="submit" class="btn btn-default">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            {{ pagination.links }}
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="list-group">
+            {% for bookmark in bookmarks %}
+                <li class="list-group-item">
+                    <a href="#">
+                        <h4 class="list-group-item-heading">
+                            <a href="{{ bookmark.href }}">{{ bookmark.title }}</a>
+                        </h4>
+                        <p class="list-group-item-text">
+                            <div class="text-muted">{{ bookmark.description }}</div>
+                            <div>{% for tag in bookmark.tags %}<a href="{{ url_for('bookmarks.list_', tag=tag.text) }}">{{ tag.text }}&nbsp;</a>{% endfor %}</div>
+                            {{ bookmark.time | datetime }}
+                            {% if current_user.is_authenticated %}
+                                <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
+                                <a class="text-muted" href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}">delete</a>
+                            {% endif %}
+                        </p>
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            {{ pagination.links }}
+        </div>
+    </div>
 </div><!-- /.container -->
 {% endblock %}
