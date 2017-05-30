@@ -51,7 +51,12 @@ class AbstractController:
             elif key.endswith('__in'):
                 db_filters.add(getattr(self._db_cls, key[:-4]).in_(value))
             elif key.endswith('__contains'):
-                db_filters.add(getattr(self._db_cls, key[:-10]).contains(value))
+                db_filters.add(or_(
+                                    getattr(self._db_cls, key[:-10]) \
+                                                    .contains(value.lower()),
+                                    getattr(self._db_cls, key[:-10]) \
+                                                .contains(value.upper())
+                                                ))
             elif key.endswith('__like'):
                 db_filters.add(getattr(self._db_cls, key[:-6]).like(value))
             elif key.endswith('__ilike'):
