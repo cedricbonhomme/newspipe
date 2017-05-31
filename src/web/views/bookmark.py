@@ -69,11 +69,13 @@ def list_(per_page, status='all'):
         # query for the bookmarks of the authenticated user
         user_id = current_user.id
         if status == 'public':
+            # load public bookmarks only
             filters['shared'] = True
         elif status == 'private':
+            # load private bookmarks only
             filters['shared'] = False
         else:
-            # no filter
+            # no filter: load shared and public bookmarks
             pass
         if status == 'unread':
             filters['to_read'] = True
