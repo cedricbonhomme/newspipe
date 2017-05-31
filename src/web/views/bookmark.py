@@ -54,18 +54,20 @@ bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
 def list_(per_page, status='all'):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
+    user_id = None
     filters = {}
     tag = request.args.get('tag', None)
     if tag:
         filters['tags_proxy__contains'] = tag
     query = request.args.get('query', None)
     if query:
-        query = '%' + query + '%'
-        filters['__or__'] = {'title__ilike': query, 'description__ilike': query}
-
+        query_regex = '%' + query + '%'
+        filters['__or__'] = {'title__ilike': query_regex,
+                            'description__ilike': query_regex}
 
     if current_user.is_authenticated:
         # query for the bookmarks of the authenticated user
+        user_id = current_user.id
         if status == 'public':
             filters['shared'] = True
         elif status == 'private':
@@ -77,12 +79,13 @@ def list_(per_page, status='all'):
             filters['to_read'] = True
         else:
             pass
-        bookmark_query = BookmarkController(current_user.id).read(**filters)
     else:
         # query for the shared bookmarks (of all users)
         filters['shared'] = True
-        bookmark_query = BookmarkController().read(**filters)
-    bookmarks = bookmark_query.order_by(desc('time'))
+
+    bookmarks = BookmarkController(user_id) \
+                    .read(**filters) \
+                    .order_by(desc('time'))
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=bookmarks.count(),
@@ -93,7 +96,9 @@ def list_(per_page, status='all'):
     return render_template('bookmarks.html',
                             head_titles=head_titles,
                             bookmarks=bookmarks.offset(offset).limit(per_page),
-                            pagination=pagination)
+                            pagination=pagination,
+                            tag=tag,
+                            query=query)
 
 
 @bookmark_bp.route('/create', methods=['GET'])
