@@ -16,7 +16,15 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-md-12 text-right">
+        <div class="col-md-6">
+            {% if tag %}
+                <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;&nbsp;{{ tag }}
+            {% endif %}
+            {% if query %}
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;{{ query }}
+            {% endif %}
+        </div>
+        <div class="col-md-6 text-right">
             <form method="GET">
                 <div class="form-inline">
                     <input type="text" name="query" class="form-control" />
