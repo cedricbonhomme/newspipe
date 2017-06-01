@@ -2,11 +2,11 @@
 {% block content %}
 <div class="container">
     <ul class="list-group">
-        <li class="list-group-item">Newspipe version: <a href="https://github.com/newspipe/newspipe/releases/tag/{{newspipe_version}}">{{newspipe_version}}</a></li>
-        <li class="list-group-item">Running on Heroku: {{on_heroku}}</li>
-        <li class="list-group-item">Registration: {{registration}}</li>
-        <li class="list-group-item">Python version: {{python_version}}</li>
-        <li class="list-group-item">Number of users: {{nb_users}}</li>
+        <li class="list-group-item">{{ _('Newspipe version') }}: <a href="https://github.com/newspipe/newspipe/releases/tag/{{newspipe_version}}">{{newspipe_version}}</a></li>
+        <li class="list-group-item">{{ _('Running on Heroku') }}: {{on_heroku}}</li>
+        <li class="list-group-item">{{ _('Registration') }}: {{registration}}</li>
+        <li class="list-group-item">{{ _('Python version') }}: {{python_version}}</li>
+        <li class="list-group-item">{{ _('Number of users') }}: {{nb_users}}</li>
     </ul>
 </div><!-- /.container -->
 {% endblock %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-01 15:04+0200\n"
-"PO-Revision-Date: 2017-06-01 15:05+0200\n"
+"POT-Creation-Date: 2017-06-01 23:29+0200\n"
+"PO-Revision-Date: 2017-06-01 23:33+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -237,6 +237,14 @@ msgstr ""
 "Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/newspipe/"
 "newspipe/issues\">ici</a>."
 
+#: ../templates/about.html:15
+msgid "More information"
+msgstr "Plus d'informations"
+
+#: ../templates/about.html:15
+msgid "about this instance."
+msgstr "à propos de cette instance."
+
 #: ../templates/about.html:18
 msgid "Help"
 msgstr "Aide"
@@ -269,6 +277,26 @@ msgid ""
 msgstr ""
 "<a class=\"btn btn-default\" href=\"%(bookmarklet)s\" rel=\"bookmark"
 "\">Abonnez-vous à ce flux en utilisant Newspipe</a>"
+
+#: ../templates/about_more.html:5
+msgid "Newspipe version"
+msgstr "Version de Newspipe"
+
+#: ../templates/about_more.html:6
+msgid "Running on Heroku"
+msgstr "Fonctionne sur Heroku"
+
+#: ../templates/about_more.html:7
+msgid "Registration"
+msgstr "Inscription"
+
+#: ../templates/about_more.html:8
+msgid "Python version"
+msgstr "Version de Python"
+
+#: ../templates/about_more.html:9
+msgid "Number of users"
+msgstr "Nombre d'utilisateurs"
 
 #: ../templates/article.html:6 ../templates/article_pub.html:6
 msgid "from"
@@ -352,7 +380,7 @@ msgid "Delete all in this column"
 msgstr "Supprimer tout dans cette colonne"
 
 #: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
-#: ../views/bookmark.py:111
+#: ../views/bookmark.py:115
 msgid "Add a new bookmark"
 msgstr "Ajouter un nouveau marque-page"
 
@@ -635,7 +663,7 @@ msgstr "Tableau de bord"
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: ../templates/layout.html:117
+#: ../templates/layout.html:117 ../views/bookmark.py:86
 msgid "Recent bookmarks"
 msgstr "Marque-pages récents"
 
@@ -871,45 +899,45 @@ msgstr "Erreur lors de l'export des articles."
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
-#: ../views/bookmark.py:56
+#: ../views/bookmark.py:57
 msgid "Bookmarks"
 msgstr "Marque-pages"
 
-#: ../views/bookmark.py:117
+#: ../views/bookmark.py:121
 msgid "Edit bookmark"
 msgstr "Modifiez le marque-page"
 
-#: ../views/bookmark.py:157
+#: ../views/bookmark.py:161
 msgid "Bookmark successfully updated."
 msgstr "Marque-page mis à jour avec succès."
 
-#: ../views/bookmark.py:169 ../views/bookmark.py:217
+#: ../views/bookmark.py:173 ../views/bookmark.py:221
 msgid "Bookmark successfully created."
 msgstr "Marque-page créé avec succès."
 
-#: ../views/bookmark.py:178
+#: ../views/bookmark.py:182
 #, python-format
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr "Marque-page %(bookmark_name)s supprimé avec succès."
 
-#: ../views/bookmark.py:189
+#: ../views/bookmark.py:193
 msgid "Bookmarks successfully deleted."
 msgstr "Marque-pages supprimés avec succès."
 
-#: ../views/bookmark.py:200
+#: ../views/bookmark.py:204
 msgid "Couldn't add bookmark: url missing."
 msgstr "Impossible d'ajouter le marque-page: URL manquante."
 
-#: ../views/bookmark.py:205
+#: ../views/bookmark.py:209
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr "Impossible d'ajouter le marque-page: l'URL existe déjà."
 
-#: ../views/bookmark.py:227
+#: ../views/bookmark.py:231
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr "%(nb_bookmarks)s marque-pages importés avec succès."
 
-#: ../views/bookmark.py:230
+#: ../views/bookmark.py:234
 msgid "Error when importing bookmarks."
 msgstr "Erreur lors de l'import des marque-pages."
 
@@ -1266,9 +1294,6 @@ msgstr "Interdit."
 
 #~ msgid "(unread) articles"
 #~ msgstr "(non lus) articles"
-
-#~ msgid "Number of articles"
-#~ msgstr "Nombre d'articles"
 
 #~ msgid "Logged in successfully."
 #~ msgstr "Connecté avec succès."
