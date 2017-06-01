@@ -203,6 +203,10 @@ def bookmarklet():
     if not href:
         flash(gettext("Couldn't add bookmark: url missing."), "error")
         raise BadRequest("url is missing")
+    title = (request.args if request.method == 'GET' else request.form)\
+            .get('title', None)
+    if not title:
+        title = href
 
     bookmark_exists = bookmark_contr.read(**{'href': href}).all()
     if bookmark_exists:
@@ -213,7 +217,7 @@ def bookmarklet():
 
     bookmark_attr = {'href': href,
                     'description': '',
-                    'title': href,
+                    'title': title,
                     'shared': False,
                     'to_read': True}
 
