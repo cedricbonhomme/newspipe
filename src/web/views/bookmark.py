@@ -27,6 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import logging
+import datetime
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, render_template, flash, \
@@ -64,7 +65,6 @@ def list_(per_page, status='all'):
         query_regex = '%' + query + '%'
         filters['__or__'] = {'title__ilike': query_regex,
                             'description__ilike': query_regex}
-
     if current_user.is_authenticated:
         # query for the bookmarks of the authenticated user
         user_id = current_user.id
@@ -83,6 +83,10 @@ def list_(per_page, status='all'):
             pass
     else:
         # query for the shared bookmarks (of all users)
+        head_titles = [gettext("Recent bookmarks")]
+        not_created_before = datetime.datetime.today() - \
+                                                    datetime.timedelta(days=900)
+        filters['time__gt'] = not_created_before # only "recent" bookmarks
         filters['shared'] = True
 
     bookmarks = BookmarkController(user_id) \
