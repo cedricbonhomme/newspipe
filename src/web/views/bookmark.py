@@ -218,7 +218,7 @@ def bookmarklet():
     bookmark_attr = {'href': href,
                     'description': '',
                     'title': title,
-                    'shared': False,
+                    'shared': True,
                     'to_read': True}
 
     new_bookmark = bookmark_contr.create(**bookmark_attr)
