@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-26 09:32+0200\n"
-"PO-Revision-Date: 2017-05-26 09:36+0200\n"
+"POT-Creation-Date: 2017-06-01 15:04+0200\n"
+"PO-Revision-Date: 2017-06-01 15:05+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -194,7 +194,7 @@ msgid "Invalid email."
 msgstr "Email invalide."
 
 #: ../templates/about.html:5 ../templates/layout.html:107
-#: ../templates/layout.html:118
+#: ../templates/layout.html:119
 msgid "About"
 msgstr "À propos"
 
@@ -352,7 +352,7 @@ msgid "Delete all in this column"
 msgstr "Supprimer tout dans cette colonne"
 
 #: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
-#: ../views/bookmark.py:77
+#: ../views/bookmark.py:111
 msgid "Add a new bookmark"
 msgstr "Ajouter un nouveau marque-page"
 
@@ -607,7 +607,7 @@ msgstr "Ajouter une nouvelle catégorie"
 msgid "Feed"
 msgstr "Flux"
 
-#: ../templates/layout.html:94 ../templates/layout.html:117
+#: ../templates/layout.html:94
 msgid "Popular"
 msgstr "Populaire"
 
@@ -634,6 +634,14 @@ msgstr "Tableau de bord"
 #: ../templates/layout.html:113
 msgid "Logout"
 msgstr "Déconnexion"
+
+#: ../templates/layout.html:117
+msgid "Recent bookmarks"
+msgstr "Marque-pages récents"
+
+#: ../templates/layout.html:118 ../templates/popular.html:4
+msgid "Popular feeds"
+msgstr "Flux populaires"
 
 #: ../templates/login.html:10
 msgid "Your email or nickname"
@@ -722,10 +730,6 @@ msgstr "Importer un compte"
 #: ../templates/management.html:35
 msgid "Export account to JSON"
 msgstr "Exporter le compte au format JSON"
-
-#: ../templates/popular.html:4
-msgid "Popular feeds"
-msgstr "Flux populaires"
 
 #: ../templates/popular.html:11
 msgid "add this feed"
@@ -867,45 +871,45 @@ msgstr "Erreur lors de l'export des articles."
 msgid "Export format not supported."
 msgstr "Ce format d'export n'est pas supporté."
 
-#: ../views/bookmark.py:55
+#: ../views/bookmark.py:56
 msgid "Bookmarks"
 msgstr "Marque-pages"
 
-#: ../views/bookmark.py:83
+#: ../views/bookmark.py:117
 msgid "Edit bookmark"
 msgstr "Modifiez le marque-page"
 
-#: ../views/bookmark.py:123
+#: ../views/bookmark.py:157
 msgid "Bookmark successfully updated."
 msgstr "Marque-page mis à jour avec succès."
 
-#: ../views/bookmark.py:135 ../views/bookmark.py:183
+#: ../views/bookmark.py:169 ../views/bookmark.py:217
 msgid "Bookmark successfully created."
 msgstr "Marque-page créé avec succès."
 
-#: ../views/bookmark.py:144
+#: ../views/bookmark.py:178
 #, python-format
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr "Marque-page %(bookmark_name)s supprimé avec succès."
 
-#: ../views/bookmark.py:155
+#: ../views/bookmark.py:189
 msgid "Bookmarks successfully deleted."
 msgstr "Marque-pages supprimés avec succès."
 
-#: ../views/bookmark.py:166
+#: ../views/bookmark.py:200
 msgid "Couldn't add bookmark: url missing."
 msgstr "Impossible d'ajouter le marque-page: URL manquante."
 
-#: ../views/bookmark.py:171
+#: ../views/bookmark.py:205
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr "Impossible d'ajouter le marque-page: l'URL existe déjà."
 
-#: ../views/bookmark.py:193
+#: ../views/bookmark.py:227
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr "%(nb_bookmarks)s marque-pages importés avec succès."
 
-#: ../views/bookmark.py:196
+#: ../views/bookmark.py:230
 msgid "Error when importing bookmarks."
 msgstr "Erreur lors de l'import des marque-pages."
 

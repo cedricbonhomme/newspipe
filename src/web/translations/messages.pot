@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-26 09:31+0200\n"
+"POT-Creation-Date: 2017-06-01 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,7 +188,7 @@ msgid "Invalid email."
 msgstr ""
 
 #: ../templates/about.html:5 ../templates/layout.html:107
-#: ../templates/layout.html:118
+#: ../templates/layout.html:119
 msgid "About"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgid "Delete all in this column"
 msgstr ""
 
 #: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
-#: ../views/bookmark.py:77
+#: ../views/bookmark.py:111
 msgid "Add a new bookmark"
 msgstr ""
 
@@ -574,7 +574,7 @@ msgstr ""
 msgid "Feed"
 msgstr ""
 
-#: ../templates/layout.html:94 ../templates/layout.html:117
+#: ../templates/layout.html:94
 msgid "Popular"
 msgstr ""
 
@@ -600,6 +600,14 @@ msgstr ""
 
 #: ../templates/layout.html:113
 msgid "Logout"
+msgstr ""
+
+#: ../templates/layout.html:117
+msgid "Recent bookmarks"
+msgstr ""
+
+#: ../templates/layout.html:118 ../templates/popular.html:4
+msgid "Popular feeds"
 msgstr ""
 
 #: ../templates/login.html:10
@@ -688,10 +696,6 @@ msgstr ""
 
 #: ../templates/management.html:35
 msgid "Export account to JSON"
-msgstr ""
-
-#: ../templates/popular.html:4
-msgid "Popular feeds"
 msgstr ""
 
 #: ../templates/popular.html:11
@@ -833,45 +837,45 @@ msgstr ""
 msgid "Export format not supported."
 msgstr ""
 
-#: ../views/bookmark.py:55
+#: ../views/bookmark.py:56
 msgid "Bookmarks"
 msgstr ""
 
-#: ../views/bookmark.py:83
+#: ../views/bookmark.py:117
 msgid "Edit bookmark"
 msgstr ""
 
-#: ../views/bookmark.py:123
+#: ../views/bookmark.py:157
 msgid "Bookmark successfully updated."
 msgstr ""
 
-#: ../views/bookmark.py:135 ../views/bookmark.py:183
+#: ../views/bookmark.py:169 ../views/bookmark.py:217
 msgid "Bookmark successfully created."
 msgstr ""
 
-#: ../views/bookmark.py:144
+#: ../views/bookmark.py:178
 #, python-format
 msgid "Bookmark %(bookmark_name)s successfully deleted."
 msgstr ""
 
-#: ../views/bookmark.py:155
+#: ../views/bookmark.py:189
 msgid "Bookmarks successfully deleted."
 msgstr ""
 
-#: ../views/bookmark.py:166
+#: ../views/bookmark.py:200
 msgid "Couldn't add bookmark: url missing."
 msgstr ""
 
-#: ../views/bookmark.py:171
+#: ../views/bookmark.py:205
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr ""
 
-#: ../views/bookmark.py:193
+#: ../views/bookmark.py:227
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr ""
 
-#: ../views/bookmark.py:196
+#: ../views/bookmark.py:230
 msgid "Error when importing bookmarks."
 msgstr ""
 

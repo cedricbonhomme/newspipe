@@ -114,8 +114,8 @@
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ url_for("bookmarks.list_") }}"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;{{ _('Bookmarks') }}</a></li>
-                <li><a href="{{ url_for("popular") }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{ _('Popular') }}</a></li>
+                <li><a href="{{ url_for("bookmarks.list_") }}"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;{{ _('Recent bookmarks') }}</a></li>
+                <li><a href="{{ url_for("popular") }}"><span class="glyphicon glyphicon-list"></span>&nbsp;{{ _('Popular feeds') }}</a></li>
                 <li><a href="{{ url_for("about") }}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;{{ _('About') }}</a></li>
             {% endif %}
           </ul>
