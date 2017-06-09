@@ -1,5 +1,6 @@
 aiohttp==2.1.0
 requests==2.17.3
+chardet==3.0.4
 requests-futures==0.9.7
 feedparser==5.2.1
 beautifulsoup4==4.6.0
