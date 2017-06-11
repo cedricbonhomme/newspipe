@@ -43,6 +43,7 @@ from lib.data import import_pinboard_json
 from bootstrap import db
 from web.forms import BookmarkForm
 from web.controllers import BookmarkController, BookmarkTagController
+from web.models import BookmarkTag
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint('bookmarks', __name__, url_prefix='/bookmarks')
@@ -92,6 +93,9 @@ def list_(per_page, status='all'):
     bookmarks = BookmarkController(user_id) \
                     .read(**filters) \
                     .order_by(desc('time'))
+
+    #tag_contr = BookmarkTagController(user_id)
+    #tag_contr.read().join(bookmarks).all()
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(page=page, total=bookmarks.count(),
