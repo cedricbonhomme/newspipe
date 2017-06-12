@@ -190,3 +190,20 @@ def import_pinboard_json(user, json_content):
         new_bookmark = bookmark_contr.create(**bookmark_attr)
         nb_bookmarks += 1
     return nb_bookmarks
+
+
+def export_bookmarks(user):
+    bookmark_contr = BookmarkController(user.id)
+    bookmarks = bookmark_contr.read()
+    export = []
+    for bookmark in bookmarks:
+        export.append({
+            'href': bookmark.href,
+            'description': bookmark.description,
+            'title': bookmark.title,
+            'shared': 'yes' if bookmark.shared else 'false',
+            'toread': 'yes' if bookmark.to_read else 'false',
+            'time': bookmark.time,
+            'tags': ' '.join(bookmark.tags_proxy)
+        })
+    return jsonify(export)

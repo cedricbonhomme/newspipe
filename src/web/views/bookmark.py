@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2017  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://github.com/newspipe/newspipe
 #
@@ -31,7 +31,7 @@ import datetime
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, render_template, flash, \
-                  redirect, request, url_for
+                  redirect, request, url_for, make_response
 from flask_babel import gettext
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
@@ -39,7 +39,7 @@ from sqlalchemy import desc
 
 import conf
 from lib.utils import redirect_url
-from lib.data import import_pinboard_json
+from lib.data import import_pinboard_json, export_bookmarks
 from bootstrap import db
 from web.forms import BookmarkForm
 from web.controllers import BookmarkController, BookmarkTagController
@@ -229,6 +229,7 @@ def bookmarklet():
     flash(gettext('Bookmark successfully created.'), 'success')
     return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
 
+
 @bookmark_bp.route('/import_pinboard', methods=['POST'])
 @login_required
 def import_pinboard():
@@ -242,3 +243,14 @@ def import_pinboard():
             flash(gettext('Error when importing bookmarks.'), 'error')
 
     return redirect(redirect_url())
+
+
+@bookmarks_bp.route('/export', methods=['GET'])
+@login_required
+def export():
+    bookmarks = export_bookmarks(current_user)
+    response = make_response(bookmarks)
+    response.mimetype = 'application/json'
+    response.headers["Content-Disposition"] \
+            = 'attachment; filename=newspipe_bookmarks_export.json'
+    return response
