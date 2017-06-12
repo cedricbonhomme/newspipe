@@ -97,7 +97,7 @@ def import_json(email, json_content):
     json_account = json.loads(json_content.decode("utf-8"))
     nb_feeds, nb_articles = 0, 0
     # Create feeds:
-    for feed in json_account["result"]:
+    for feed in json_account:
         if None != Feed.query.filter(Feed.user_id == user.id,
                                     Feed.link == feed["link"]).first():
             continue
@@ -112,7 +112,7 @@ def import_json(email, json_content):
         nb_feeds += 1
     db.session.commit()
     # Create articles:
-    for feed in json_account["result"]:
+    for feed in json_account:
         user_feed = Feed.query.filter(Feed.user_id == user.id,
                                         Feed.link == feed["link"]).first()
         if None != user_feed:
@@ -142,26 +142,26 @@ def export_json(user):
     """
     Export all articles of user in JSON.
     """
-    result = []
+    articles = []
     for feed in user.feeds:
-        result.append({
-                        "title": feed.title,
-                        "description": feed.description,
-                        "link": feed.link,
-                        "site_link": feed.site_link,
-                        "enabled": feed.enabled,
-                        "created_date": feed.created_date.strftime('%s'),
-                        "articles": [ {
-                            "title": article.title,
-                            "link": article.link,
-                            "content": article.content,
-                            "readed": article.readed,
-                            "like": article.like,
-                            "date": article.date.strftime('%s'),
-                            "retrieved_date": article.retrieved_date.strftime('%s')
-                        } for article in feed.articles ]
-                    })
-    return jsonify(result=result)
+        articles.append({
+            "title": feed.title,
+            "description": feed.description,
+            "link": feed.link,
+            "site_link": feed.site_link,
+            "enabled": feed.enabled,
+            "created_date": feed.created_date.strftime('%s'),
+            "articles": [ {
+                "title": article.title,
+                "link": article.link,
+                "content": article.content,
+                "readed": article.readed,
+                "like": article.like,
+                "date": article.date.strftime('%s'),
+                "retrieved_date": article.retrieved_date.strftime('%s')
+                                                } for article in feed.articles]
+        })
+    return jsonify(articles)
 
 
 def import_pinboard_json(user, json_content):
