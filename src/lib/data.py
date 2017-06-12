@@ -165,8 +165,7 @@ def export_json(user):
 
 
 def import_pinboard_json(user, json_content):
-    """
-    Import bookmarks from a pinboard JSON export.
+    """Import bookmarks from a pinboard JSON export.
     """
     bookmark_contr = BookmarkController(user.id)
     tag_contr = BookmarkTagController(user.id)
@@ -193,6 +192,8 @@ def import_pinboard_json(user, json_content):
 
 
 def export_bookmarks(user):
+    """Export all bookmarks of a user (compatible with Pinboard).
+    """
     bookmark_contr = BookmarkController(user.id)
     bookmarks = bookmark_contr.read()
     export = []
