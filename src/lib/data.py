@@ -204,7 +204,7 @@ def export_bookmarks(user):
             'title': bookmark.title,
             'shared': 'yes' if bookmark.shared else 'false',
             'toread': 'yes' if bookmark.to_read else 'false',
-            'time': bookmark.time,
+            'time': bookmark.time.isoformat(),
             'tags': ' '.join(bookmark.tags_proxy)
         })
     return jsonify(export)
