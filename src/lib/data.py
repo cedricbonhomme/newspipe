@@ -202,8 +202,8 @@ def export_bookmarks(user):
             'href': bookmark.href,
             'description': bookmark.description,
             'title': bookmark.title,
-            'shared': 'yes' if bookmark.shared else 'false',
-            'toread': 'yes' if bookmark.to_read else 'false',
+            'shared': 'yes' if bookmark.shared else 'no',
+            'toread': 'yes' if bookmark.to_read else 'no',
             'time': bookmark.time.isoformat(),
             'tags': ' '.join(bookmark.tags_proxy)
         })
