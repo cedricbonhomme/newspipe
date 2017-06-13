@@ -16,23 +16,30 @@
                 <a href="{{ url_for("bookmarks.delete_all") }}" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
             </div>
         </div>
-
     </div>
     <div class="well">
-        <h1 id="import">{{ _('OPML import/export') }}</h1>
-        <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
-            <span class="btn btn-default btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
-            <button class="btn btn-default" type="submit">OK</button>
-        </form>
-        <br />
-        <a href="{{ url_for('articles.export', format='OPML') }}" class="btn btn-default">{{ _('Export feeds to OPML') }}</a>
-        <h1>{{ _('Data liberation') }}</h1>
-        <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
-            <span class="btn btn-default btn-file">{{ _('Import account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
-            <button class="btn btn-default" type="submit">OK</button>
-        </form>
-        <br />
-        <a href="{{ url_for('articles.export', format='JSON') }}" class="btn btn-default">{{ _('Export account to JSON') }}</a>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>{{ _('Data liberation') }}</h1>
+                <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
+                    <span class="btn btn-default btn-file">{{ _('Import a Newspipe account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
+                    <button class="btn btn-default" type="submit">OK</button>
+                </form>
+                <br />
+                <a href="{{ url_for('articles.export', format='JSON') }}" class="btn btn-default">{{ _('Export your Newspipe account to JSON') }}</a>
+                <br /><br />
+                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-default">{{ _('Export your bookmarks to JSON') }}</a>
+            </div>
+            <div class="col-md-6">
+                <h1 id="import">{{ _('OPML import/export') }}</h1>
+                <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
+                    <span class="btn btn-default btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
+                    <button class="btn btn-default" type="submit">OK</button>
+                </form>
+                <br />
+                <a href="{{ url_for('articles.export', format='OPML') }}" class="btn btn-default">{{ _('Export your feeds to OPML') }}</a>
+            </div>
+        </div>
     </div>
 </div><!-- /.container -->
 {% endblock %}
