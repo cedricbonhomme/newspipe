@@ -116,7 +116,7 @@ def send_sendgrid(to="", bcc="", subject="", plaintext=""):
     sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
 
     mail = Mail()
-    mail.from_email = Email('info@newspipe.org')
+    mail.from_email = Email(conf.NOTIFICATION_EMAIL)
     mail.subject = subject
     mail.add_content(Content('text/plain', plaintext))
 
