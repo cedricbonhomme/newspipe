@@ -89,7 +89,7 @@ def send_postmark(to="", bcc="", subject="", plaintext=""):
     """
     Send an email via Postmark. Used when the application is deployed on
     Heroku.
-    Note: The Postmark team has chosen not to continue development of this
+    Note: The Postmark team has chosen not to continue development of the
     Heroku add-on as of June 30, 2017. Newspipe is now using SendGrid when
     deployed on Heroku.
     """
@@ -114,15 +114,18 @@ def send_sendgrid(to="", bcc="", subject="", plaintext=""):
     Heroku.
     """
     sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
-    from_email = Email(conf.NOTIFICATION_EMAIL)
-    subject = subject
-    to_email = Email(to)
-    content = Content('text/plain', plaintext)
-    mail = Mail(from_email, subject, to_email, content)
+
+    mail = Mail()
+    mail.from_email = Email('info@newspipe.org')
+    mail.subject = subject
+    mail.add_content(Content('text/plain', plaintext))
+
+    personalization = Personalization()
+    personalization.add_to(Email(to))
     if bcc != "":
-        personalization = Personalization()
         personalization.add_bcc(Email(bcc))
-        mail.add_personalization(personalization)
+    mail.add_personalization(personalization)
+
     response = sg.client.mail.send.post(request_body=mail.get())
     # print(response.status_code)
     # print(response.body)
