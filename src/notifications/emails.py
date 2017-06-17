@@ -24,7 +24,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from postmark import PMMail
+import sendgrid
+from sendgrid.helpers.mail import *
 
 import conf
 from web.decorators import async
@@ -45,11 +46,11 @@ def send_async_email(mfrom, mto, msg):
 
 def send(*args, **kwargs):
     """
-    This functions enables to send email through Postmark
+    This functions enables to send email through SendGrid
     or a SMTP server.
     """
     if conf.ON_HEROKU:
-        send_postmark(**kwargs)
+        send_sendgrid(**kwargs)
     else:
         send_smtp(**kwargs)
 
@@ -83,11 +84,16 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
         s.sendmail(conf.NOTIFICATION_EMAIL, msg['To'] + ", " + msg['BCC'], msg.as_string())
         s.quit()
 
+
 def send_postmark(to="", bcc="", subject="", plaintext=""):
     """
     Send an email via Postmark. Used when the application is deployed on
     Heroku.
+    Note: The Postmark team has chosen not to continue development of this
+    Heroku add-on as of June 30, 2017. Newspipe is now using SendGrid when
+    deployed on Heroku.
     """
+    from postmark import PMMail
     try:
         message = PMMail(api_key = conf.POSTMARK_API_KEY,
                         subject = subject,
@@ -98,5 +104,26 @@ def send_postmark(to="", bcc="", subject="", plaintext=""):
             message.bcc = bcc
         message.send()
     except Exception as e:
-        logger.exception("send_postmark raised:")
+        logger.exception('send_postmark raised:')
         raise e
+
+
+def send_sendgrid(to="", bcc="", subject="", plaintext=""):
+    """
+    Send an email via SendGrid. Used when the application is deployed on
+    Heroku.
+    """
+    sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
+    from_email = Email(conf.NOTIFICATION_EMAIL)
+    subject = subject
+    to_email = Email(to)
+    content = Content('text/plain', plaintext)
+    mail = Mail(from_email, subject, to_email, content)
+    if bcc != "":
+        personalization = Personalization()
+        personalization.add_bcc(Email(bcc))
+        mail.add_personalization(personalization)
+    response = sg.client.mail.send.post(request_body=mail.get())
+    # print(response.status_code)
+    # print(response.body)
+    # print(response.headers)

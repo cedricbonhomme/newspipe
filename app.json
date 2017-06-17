@@ -66,7 +66,7 @@
         "HEROKU": "1",
         "CDN_ADDRESS": "https://cdn.cedricbonhomme.org/",
         "NOTIFICATION_EMAIL": "newspipe@no-reply.com",
-        "POSTMARK_API_KEY": "REDACTED",
+        "SENDGRID_API_KEY": "REDACTED",
         "CRAWLER_RESOLV": {
             "description": "Specify if the crawler should try to resolve link of articles behind proxies.",
             "value": "false"

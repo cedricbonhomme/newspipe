@@ -22,5 +22,5 @@ Flask-SSLify==0.1.5
 Flask-Migrate==2.0.4
 Flask-Script==2.0.5
 WTForms==2.1
-python-postmark==0.4.12
+sendgrid==4.2.0
 python-dateutil==2.6.0
