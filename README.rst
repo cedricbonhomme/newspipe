@@ -43,6 +43,25 @@ Test Newspipe on Heroku:
 It is important to specify an application name and the URL of your instance
 (*PLATFORM_URL*) through the Heroku form.
 
+Contributions
+-------------
+
+Contributions are welcome. If you want to contribute to Newspipe I highly
+recommend you to install it in a Python virtual environment. For example:
+
+
+.. code-block:: bash
+
+    git clone https://github.com/newspipe/newspipe.git
+    cd newspipe/
+    pew install 3.6.1 --type CPython
+    pew new --python=$(pew locate_python 3.6.1)  -a . -r requirements.txt newspipe-dev
+    cp src/conf/conf.cfg-sample src/conf/conf.cfg
+    python src/manager.py db_create
+    npm install
+    python src/runserver.py
+      * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+
 License
 -------
 
