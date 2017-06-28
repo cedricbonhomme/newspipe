@@ -185,7 +185,7 @@ def delete(bookmark_id=None):
     bookmark = BookmarkController(current_user.id).delete(bookmark_id)
     flash(gettext("Bookmark %(bookmark_name)s successfully deleted.",
                   bookmark_name=bookmark.title), 'success')
-    return redirect(redirect_url())
+    return redirect(url_for('bookmarks.list_'))
 
 
 @bookmarks_bp.route('/delete', methods=['GET'])
