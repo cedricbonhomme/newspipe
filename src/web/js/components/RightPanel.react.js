@@ -1,9 +1,11 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var Col = require('react-bootstrap/lib/Col');
 var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 var Modal = require('react-bootstrap/lib/Modal');
+var PropTypes = require('prop-types');
 
 var RightPanelActions = require('../actions/RightPanelActions');
 var RightPanelStore = require('../stores/RightPanelStore');
@@ -11,7 +13,7 @@ var MenuStore = require('../stores/MenuStore');
 var JarrTime = require('./time.react');
 
 var PanelMixin = {
-    propTypes: {obj: React.PropTypes.object.isRequired},
+    propTypes: {obj: PropTypes.object.isRequired},
     getInitialState: function() {
         return {edit_mode: false, obj: this.props.obj, showModal: false};
     },
@@ -164,7 +166,7 @@ var PanelMixin = {
     },
 };
 
-var Article = React.createClass({
+var Article = createReactClass({
     mixins: [PanelMixin],
     isEditable: function() {return false;},
     isRemovable: function() {return true;},
@@ -183,7 +185,7 @@ var Article = React.createClass({
     }
 });
 
-var Feed = React.createClass({
+var Feed = createReactClass({
     mixins: [PanelMixin],
     isEditable: function() {return true;},
     isRemovable: function() {return true;},
@@ -354,7 +356,7 @@ var Feed = React.createClass({
     },
 });
 
-var Category = React.createClass({
+var Category = createReactClass({
     mixins: [PanelMixin],
     isEditable: function() {
         if(this.props.obj.id != 0) {return true;}
@@ -372,7 +374,7 @@ var Category = React.createClass({
     },
 });
 
-var RightPanel = React.createClass({
+var RightPanel = createReactClass({
     getInitialState: function() {
         return {category: null, feed: null, article: null, current: null};
     },
