@@ -1,4 +1,5 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 var Nav = require('react-bootstrap/lib/Nav');
 var NavItem = require('react-bootstrap/lib/NavItem');
@@ -11,7 +12,7 @@ var Input = require('react-bootstrap/lib/Input');
 
 var MenuStore = require('../stores/MenuStore');
 
-JarrNavBar = React.createClass({
+JarrNavBar = createReactClass({
     getInitialState: function() {
         return {is_admin: MenuStore._datas.is_admin,
                 crawling_method: MenuStore._datas.crawling_method,

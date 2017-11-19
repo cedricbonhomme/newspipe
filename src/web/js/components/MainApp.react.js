@@ -1,13 +1,15 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var Col = require('react-bootstrap/lib/Col');
 var Grid = require('react-bootstrap/lib/Grid');
+var PropTypes = require('prop-types');
 
 var Menu = require('./Menu.react');
 var MiddlePanel = require('./MiddlePanel.react');
 var RightPanel = require('./RightPanel.react');
 
 
-var MainApp = React.createClass({
+var MainApp = createReactClass({
     render: function() {
         return (<div>
                     <Grid fluid id="newspipe-container">

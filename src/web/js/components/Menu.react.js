@@ -1,21 +1,23 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var Col = require('react-bootstrap/lib/Col');
 var Badge = require('react-bootstrap/lib/Badge');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var PropTypes = require('prop-types');
 
 var MenuStore = require('../stores/MenuStore');
 var MenuActions = require('../actions/MenuActions');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
 
-var FeedItem = React.createClass({
-    propTypes: {feed_id: React.PropTypes.number.isRequired,
-                title: React.PropTypes.string.isRequired,
-                unread: React.PropTypes.number.isRequired,
-                error_count: React.PropTypes.number.isRequired,
-                icon_url: React.PropTypes.string,
-                active: React.PropTypes.bool.isRequired,
+var FeedItem = createReactClass({
+    propTypes: {feed_id: PropTypes.number.isRequired,
+                title: PropTypes.string.isRequired,
+                unread: PropTypes.number.isRequired,
+                error_count: PropTypes.number.isRequired,
+                icon_url: PropTypes.string,
+                active: PropTypes.bool.isRequired,
     },
     render: function() {
         var icon = null;
@@ -48,10 +50,10 @@ var FeedItem = React.createClass({
     },
 });
 
-var Category = React.createClass({
-    propTypes: {category_id: React.PropTypes.number,
-                active_type: React.PropTypes.string,
-                active_id: React.PropTypes.number},
+var Category = createReactClass({
+    propTypes: {category_id: PropTypes.number,
+                active_type: PropTypes.string,
+                active_id: PropTypes.number},
     render: function() {
         var classes = "nav-cat";
         if((this.props.active_type == 'category_id'
@@ -76,15 +78,15 @@ var Category = React.createClass({
     },
 });
 
-var CategoryGroup = React.createClass({
-    propTypes: {cat_id: React.PropTypes.number.isRequired,
-                filter: React.PropTypes.string.isRequired,
-                active_type: React.PropTypes.string,
-                active_id: React.PropTypes.number,
-                name: React.PropTypes.string.isRequired,
-                feeds: React.PropTypes.array.isRequired,
-                unread: React.PropTypes.number.isRequired,
-                folded: React.PropTypes.bool,
+var CategoryGroup = createReactClass({
+    propTypes: {cat_id: PropTypes.number.isRequired,
+                filter: PropTypes.string.isRequired,
+                active_type: PropTypes.string,
+                active_id: PropTypes.number,
+                name: PropTypes.string.isRequired,
+                feeds: PropTypes.array.isRequired,
+                unread: PropTypes.number.isRequired,
+                folded: PropTypes.bool,
     },
     getInitialState: function() {
         return {folded: false};
@@ -148,9 +150,9 @@ var CategoryGroup = React.createClass({
     },
 });
 
-var MenuFilter = React.createClass({
-    propTypes: {feed_in_error: React.PropTypes.bool,
-                filter: React.PropTypes.string.isRequired},
+var MenuFilter = createReactClass({
+    propTypes: {feed_in_error: PropTypes.bool,
+                filter: PropTypes.string.isRequired},
     getInitialState: function() {
         return {allFolded: false};
     },
@@ -219,7 +221,7 @@ var MenuFilter = React.createClass({
     },
 });
 
-var Menu = React.createClass({
+var Menu = createReactClass({
     getInitialState: function() {
         return {filter: 'unread', categories: {}, feeds: {},
                 all_folded: false, active_type: null, active_id: null};

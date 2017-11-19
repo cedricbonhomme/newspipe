@@ -1,9 +1,11 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 
 var Row = require('react-bootstrap/lib/Row');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var PropTypes = require('prop-types');
 
 var MiddlePanelStore = require('../stores/MiddlePanelStore');
 var MiddlePanelActions = require('../actions/MiddlePanelActions');
@@ -11,16 +13,16 @@ var RightPanelActions = require('../actions/RightPanelActions');
 
 var JarrTime = require('./time.react');
 
-var TableLine = React.createClass({
-    propTypes: {article_id: React.PropTypes.number.isRequired,
-                feed_title: React.PropTypes.string.isRequired,
-                icon_url: React.PropTypes.string,
-                title: React.PropTypes.string.isRequired,
-                rel_date: React.PropTypes.string.isRequired,
-                date: React.PropTypes.string.isRequired,
-                read: React.PropTypes.bool.isRequired,
-                selected: React.PropTypes.bool.isRequired,
-                liked: React.PropTypes.bool.isRequired,
+var TableLine = createReactClass({
+    propTypes: {article_id: PropTypes.number.isRequired,
+                feed_title: PropTypes.string.isRequired,
+                icon_url: PropTypes.string,
+                title: PropTypes.string.isRequired,
+                rel_date: PropTypes.string.isRequired,
+                date: PropTypes.string.isRequired,
+                read: PropTypes.bool.isRequired,
+                selected: PropTypes.bool.isRequired,
+                liked: PropTypes.bool.isRequired,
     },
     getInitialState: function() {
         return {read: this.props.read, liked: this.props.liked,
@@ -86,7 +88,7 @@ var TableLine = React.createClass({
     },
 });
 
-var MiddlePanelSearchRow = React.createClass({
+var MiddlePanelSearchRow = createReactClass({
     getInitialState: function() {
         return {query: MiddlePanelStore._datas.query,
                 search_title: MiddlePanelStore._datas.search_title,
@@ -143,7 +145,7 @@ var MiddlePanelSearchRow = React.createClass({
     },
 });
 
-var MiddlePanelFilter = React.createClass({
+var MiddlePanelFilter = createReactClass({
     getInitialState: function() {
         return {filter: MiddlePanelStore._datas.filter,
                 display_search: MiddlePanelStore._datas.display_search};
@@ -219,7 +221,7 @@ var MiddlePanelFilter = React.createClass({
     },
 });
 
-var MiddlePanel = React.createClass({
+var MiddlePanel = createReactClass({
     getInitialState: function() {
         return {filter: MiddlePanelStore._datas.filter, articles: []};
     },

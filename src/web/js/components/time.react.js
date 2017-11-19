@@ -1,8 +1,10 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
+var PropTypes = require('prop-types');
 
-var JarrTime = React.createClass({
-    propTypes: {stamp: React.PropTypes.string.isRequired,
-                text: React.PropTypes.string.isRequired},
+var JarrTime = createReactClass({
+    propTypes: {stamp: PropTypes.string.isRequired,
+                text: PropTypes.string.isRequired},
     render: function() {
         return (<time dateTime={this.props.text} title={this.props.text}>
                     {this.props.stamp}

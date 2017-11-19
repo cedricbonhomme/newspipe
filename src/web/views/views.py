@@ -90,9 +90,9 @@ def about_more():
                 nb_users=UserController().read().count())
 
 
-@current_app.route('/.well-known/acme-challenge/L2Ul7hxmsOxte-ctKBWPZ_bCfP8V55Yt1O_nMvVXrYA')
+@current_app.route('/.well-known/acme-challenge/qqFThbYrxfr-dpbUNUnl7wwm7hD3p7dYA_xP6-u7qw8')
 def letsencrypt():
     """
     To validate the TLS certificate.
     """
-    return 'L2Ul7hxmsOxte-ctKBWPZ_bCfP8V55Yt1O_nMvVXrYA.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
+    return 'qqFThbYrxfr-dpbUNUnl7wwm7hD3p7dYA_xP6-u7qw8.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
