@@ -1,4 +1,4 @@
-aiohttp==2.3.3
+aiohttp==2.3.6
 requests==2.18.4
 chardet==3.0.4
 requests-futures==0.9.7
@@ -11,7 +11,7 @@ SQLAlchemy==1.1.15
 alembic==0.9.6
 Flask==0.12.2
 Flask-SQLAlchemy==2.3.2
-Flask-Login==0.4.0
+Flask-Login==0.4.1
 Flask-Principal==0.4.0
 Flask-WTF==0.14.2
 Flask-RESTful==0.3.6
