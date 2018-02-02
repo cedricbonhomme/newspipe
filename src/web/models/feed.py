@@ -41,7 +41,7 @@ class Feed(db.Model, RightMixin):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(), default="")
     description = db.Column(db.String(), default="FR")
-    link = db.Column(db.String())
+    link = db.Column(db.String(), nullable=False)
     site_link = db.Column(db.String(), default="")
     enabled = db.Column(db.Boolean(), default=True)
     created_date = db.Column(db.DateTime(), default=datetime.utcnow)
