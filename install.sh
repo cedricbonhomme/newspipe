@@ -13,7 +13,7 @@ sudo apt-get install -y libssl-dev openssl > /dev/null # for pip
 
 
 
-PYTHON_VERSION=3.6.1
+PYTHON_VERSION=3.6.4
 echo "Installation of Python..."
 if [ "$1" == postgres ]; then
     sudo apt-get install -y libpq-dev  > /dev/null
