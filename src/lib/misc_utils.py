@@ -180,6 +180,6 @@ def tag_cloud(tags):
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
+    max_tag = max([tag[1] for tag in tags])
     return '\n'.join([('<font size=%d>%s</font>' % \
-            (min(1 + count * 7 / max([tag[1] for tag in tags]), 7), word)) \
-            for (word, count) in tags])
+        (min(1 + count * 7 / max_tag, 7), word)) for (word, count) in tags])
