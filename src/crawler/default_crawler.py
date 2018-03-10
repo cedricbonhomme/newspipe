@@ -130,6 +130,7 @@ async def insert_database(user, feed):
             continue
         exist = existing_article_req.count() != 0
         if exist:
+            continue
             # if the article has been already retrieved, we only update
             # the content or the title
             logger.info('Article already in the database: {}'. \
