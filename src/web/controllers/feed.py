@@ -41,7 +41,7 @@ class FeedController(AbstractController):
         """
         feed = self.get(id=feed_id)
         duplicates = []
-        for pair in itertools.combinations(feed.articles, 2):
+        for pair in itertools.combinations(feed.articles[:1000], 2):
             date1, date2 = pair[0].date, pair[1].date
             if clear_string(pair[0].title) == clear_string(pair[1].title) \
                     and (date1 - date2) < timedelta(days=1):
