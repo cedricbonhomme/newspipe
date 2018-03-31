@@ -2,8 +2,10 @@
 🗞 Newspipe 🗞
 =============
 
+
 Presentation
 ------------
+
 
 `Newspipe <https://github.com/newspipe/newspipe>`_ is a web-based news
 aggregator and reader.
@@ -26,7 +28,8 @@ The core technologies are `Flask <http://flask.pocoo.org>`_,
 `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `React <https://facebook.github.io/react/>`_.
 
-Python >= 3.5 is required.
+Python >= 3.6 is required.
+
 
 Documentation
 -------------
@@ -43,6 +46,7 @@ Test Newspipe on Heroku:
 It is important to specify an application name and the URL of your instance
 (*PLATFORM_URL*) through the Heroku form.
 
+
 Contributions
 -------------
 
@@ -52,21 +56,35 @@ recommend you to install it in a Python virtual environment. For example:
 
 .. code-block:: bash
 
+    sudo apt-get install postgresql npm
+
+It seems that today a proof of good taste is to install first
+[pyenv](https://github.com/pyenv/pyenv),
+then [pipsi](https://github.com/mitsuhiko/pipsi), and finally
+[pew](https://github.com/berdario/pew) and
+[pipenv](https://github.com/pypa/pipenv) with pipsi.
+
+
+.. code-block:: bash
+
     git clone https://github.com/newspipe/newspipe.git
     cd newspipe/
-    pew install 3.6.1 --type CPython
-    pew new --python=$(pew locate_python 3.6.1)  -a . -r requirements.txt newspipe-dev
-    cp src/conf/conf.cfg-sample src/conf/conf.cfg
-    python src/manager.py db_create
+    pipenv install
+    ✨🍰✨
     npm install
+    cp src/conf/conf.cfg-sample src/conf/conf.cfg
+    pipenv shell
+    python src/manager.py db_create
     python src/runserver.py
       * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+
 
 License
 -------
 
 `Newspipe <https://github.com/newspipe/newspipe>`_ is under the
 `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
+
 
 Contact
 -------
