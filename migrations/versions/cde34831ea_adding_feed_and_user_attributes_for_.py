@@ -1,4 +1,4 @@
-"""adding feed and user attributes for better feed retreiving
+"""adding feed and user attributes for better feed retrieving
 
 Revision ID: cde34831ea
 Revises: 1b750a389c22

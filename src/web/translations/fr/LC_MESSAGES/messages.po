@@ -870,7 +870,7 @@ msgstr "Utilisateur %(nick)s supprimé avec succès."
 
 #: ../views/admin.py:96
 #, python-format
-msgid "An error occured while trying to delete a user: %(error)s"
+msgid "An error occurred while trying to delete a user: %(error)s"
 msgstr ""
 "Une erreur est apparue lors de la suppression de l'utilisateur: %(error)s"
 
@@ -1306,7 +1306,7 @@ msgstr "Interdit."
 #~ msgid "Indexing database..."
 #~ msgstr "Indexation la base de données..."
 
-#~ msgid "An error occured"
+#~ msgid "An error occurred"
 #~ msgstr "Une erreur est survenue."
 
 #~ msgid "Option not available on Heroku."

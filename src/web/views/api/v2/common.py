@@ -45,7 +45,7 @@ def authenticate(func):
             if not ucontr.check_password(user, request.authorization.password):
                 raise Forbidden("Couldn't authenticate your user")
             if not user.is_active:
-                raise Forbidden("User is desactivated")
+                raise Forbidden("User is deactivated")
             login_user_bundle(user)
         if current_user.is_authenticated:
             return func(*args, **kwargs)
@@ -116,7 +116,7 @@ class PyAggResourceNew(PyAggAbstractResource):
 class PyAggResourceExisting(PyAggAbstractResource):
 
     def get(self, obj_id=None):
-        """Retreive a single object"""
+        """Retrieve a single object"""
         return self.controller.get(id=obj_id)
 
     def put(self, obj_id=None):
@@ -216,7 +216,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
             except Exception as error:
                 status = 206
                 results.append(error)
-        # if no operation succeded, it's not partial anymore, returning err 500
+        # if no operation succeeded, it's not partial anymore, returning err 500
         if status == 206 and results.count('ok') == 0:
             status = 500
         return results, status

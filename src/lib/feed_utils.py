@@ -42,7 +42,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             fp_parsed = feedparser.parse(response.content,
                                          request_headers=response.headers)
         except Exception:
-            logger.exception('failed to retreive that url')
+            logger.exception('failed to retrieve that url')
             fp_parsed = {'bozo': True}
     assert url is not None and fp_parsed is not None
     feed = feed or {}
@@ -74,7 +74,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     try:
         response = requests.get(feed['site_link'], **requests_kwargs)
     except Exception:
-        logger.exception('failed to retreive %r', feed['site_link'])
+        logger.exception('failed to retrieve %r', feed['site_link'])
         return feed
     bs_parsed = BeautifulSoup(response.content, 'html.parser',
                               parse_only=SoupStrainer('head'))
