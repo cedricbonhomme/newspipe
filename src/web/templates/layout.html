@@ -32,10 +32,11 @@
             <span class="icon-bar"></span>
           </button>
           {% if current_user.is_authenticated %}
-              <a class="navbar-brand" href="{{ url_for("feeds.feeds") }}">🗞&nbsp;Newspipe</a>
+              <a class="navbar-brand" href="{{ url_for("feeds.feeds") }}">🗞&nbsp;</a>
           {% else %}
-              <a class="navbar-brand" href="{{ url_for("home") }}">🗞&nbsp;Newspipe</a>
+              <a class="navbar-brand" href="{{ url_for("home") }}">🗞&nbsp;</a>
           {% endif %}
+          <a class="navbar-brand" href="{{ url_for("home") }}">Newspipe</a>
           {% if head_titles %}
             <p class="navbar-text" style="max-height: 20px; overflow: hidden">
             {{ " - ".join(head_titles) }}
