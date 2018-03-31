@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-14 00:01+0200\n"
-"PO-Revision-Date: 2017-06-14 00:04+0200\n"
+"POT-Creation-Date: 2018-03-31 16:09+0200\n"
+"PO-Revision-Date: 2018-03-31 16:10+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #: ../forms.py:46 ../forms.py:130 ../forms.py:154
 #: ../templates/admin/dashboard.html:12
@@ -131,7 +131,7 @@ msgstr "Catégorie du flux"
 msgid "Private"
 msgstr "Privé"
 
-#: ../forms.py:203 ../templates/layout.html:82
+#: ../forms.py:203 ../templates/layout.html:87
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
@@ -191,8 +191,8 @@ msgstr "Compte non confirmé."
 msgid "Invalid email."
 msgstr "Email invalide."
 
-#: ../templates/about.html:5 ../templates/layout.html:108
-#: ../templates/layout.html:120
+#: ../templates/about.html:5 ../templates/layout.html:113
+#: ../templates/layout.html:125
 msgid "About"
 msgstr "À propos"
 
@@ -377,7 +377,7 @@ msgstr "Doublons dans le flux"
 msgid "Delete all in this column"
 msgstr "Supprimer tout dans cette colonne"
 
-#: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
+#: ../templates/edit_bookmark.html:65 ../templates/layout.html:59
 #: ../views/bookmark.py:119
 msgid "Add a new bookmark"
 msgstr "Ajouter un nouveau marque-page"
@@ -589,7 +589,7 @@ msgstr "Ajouter"
 msgid "a feed"
 msgstr "un flux"
 
-#: ../templates/history.html:4 ../templates/layout.html:95
+#: ../templates/history.html:4 ../templates/layout.html:100
 msgid "History"
 msgstr "Historique"
 
@@ -609,63 +609,63 @@ msgstr "jours"
 msgid "No inactive feeds."
 msgstr "Aucun flux inactifs."
 
-#: ../templates/layout.html:46
+#: ../templates/layout.html:51
 msgid "Fetch"
 msgstr "Télécharger"
 
-#: ../templates/layout.html:53 ../templates/management.html:14
+#: ../templates/layout.html:58 ../templates/management.html:14
 msgid "Your bookmarks"
 msgstr "Vos marque-pages"
 
-#: ../templates/layout.html:59
+#: ../templates/layout.html:64
 msgid "Add a new feed"
 msgstr "Ajouter un nouveau flux"
 
-#: ../templates/layout.html:65
+#: ../templates/layout.html:70
 msgid "Site or feed url"
 msgstr "Site ou adresse de flux"
 
-#: ../templates/layout.html:76
+#: ../templates/layout.html:81
 msgid "Add a new category"
 msgstr "Ajouter une nouvelle catégorie"
 
-#: ../templates/layout.html:92
+#: ../templates/layout.html:97
 msgid "Feed"
 msgstr "Flux"
 
-#: ../templates/layout.html:94
+#: ../templates/layout.html:99
 msgid "Inactive"
 msgstr "Flux inactifs"
 
-#: ../templates/layout.html:96
+#: ../templates/layout.html:101
 msgid "All"
 msgstr "Tout"
 
-#: ../templates/layout.html:98
+#: ../templates/layout.html:103
 msgid "Popular"
 msgstr "Populaire"
 
-#: ../templates/layout.html:106
+#: ../templates/layout.html:111
 msgid "Profile"
 msgstr "Profil"
 
-#: ../templates/layout.html:107
+#: ../templates/layout.html:112
 msgid "Your data"
 msgstr "Vos données"
 
-#: ../templates/layout.html:111
+#: ../templates/layout.html:116
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: ../templates/layout.html:114
+#: ../templates/layout.html:119
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: ../templates/layout.html:118 ../views/bookmark.py:87
+#: ../templates/layout.html:123 ../views/bookmark.py:87
 msgid "Recent bookmarks"
 msgstr "Marque-pages récents"
 
-#: ../templates/layout.html:119 ../templates/popular.html:4
+#: ../templates/layout.html:124 ../templates/popular.html:4
 msgid "Popular feeds"
 msgstr "Flux populaires"
 

@@ -1,21 +1,21 @@
 # Translations template for PROJECT.
-# Copyright (C) 2017 ORGANIZATION
+# Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-14 00:00+0200\n"
+"POT-Creation-Date: 2018-03-31 16:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.4.0\n"
+"Generated-By: Babel 2.5.3\n"
 
 #: ../forms.py:46 ../forms.py:130 ../forms.py:154
 #: ../templates/admin/dashboard.html:12
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: ../forms.py:203 ../templates/layout.html:82
+#: ../forms.py:203 ../templates/layout.html:87
 msgid "Category name"
 msgstr ""
 
@@ -187,8 +187,8 @@ msgstr ""
 msgid "Invalid email."
 msgstr ""
 
-#: ../templates/about.html:5 ../templates/layout.html:108
-#: ../templates/layout.html:120
+#: ../templates/about.html:5 ../templates/layout.html:113
+#: ../templates/layout.html:125
 msgid "About"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "Delete all in this column"
 msgstr ""
 
-#: ../templates/edit_bookmark.html:65 ../templates/layout.html:54
+#: ../templates/edit_bookmark.html:65 ../templates/layout.html:59
 #: ../views/bookmark.py:119
 msgid "Add a new bookmark"
 msgstr ""
@@ -558,7 +558,7 @@ msgstr ""
 msgid "a feed"
 msgstr ""
 
-#: ../templates/history.html:4 ../templates/layout.html:95
+#: ../templates/history.html:4 ../templates/layout.html:100
 msgid "History"
 msgstr ""
 
@@ -578,63 +578,63 @@ msgstr ""
 msgid "No inactive feeds."
 msgstr ""
 
-#: ../templates/layout.html:46
+#: ../templates/layout.html:51
 msgid "Fetch"
 msgstr ""
 
-#: ../templates/layout.html:53 ../templates/management.html:14
+#: ../templates/layout.html:58 ../templates/management.html:14
 msgid "Your bookmarks"
 msgstr ""
 
-#: ../templates/layout.html:59
+#: ../templates/layout.html:64
 msgid "Add a new feed"
 msgstr ""
 
-#: ../templates/layout.html:65
+#: ../templates/layout.html:70
 msgid "Site or feed url"
 msgstr ""
 
-#: ../templates/layout.html:76
+#: ../templates/layout.html:81
 msgid "Add a new category"
 msgstr ""
 
-#: ../templates/layout.html:92
+#: ../templates/layout.html:97
 msgid "Feed"
 msgstr ""
 
-#: ../templates/layout.html:94
+#: ../templates/layout.html:99
 msgid "Inactive"
 msgstr ""
 
-#: ../templates/layout.html:96
+#: ../templates/layout.html:101
 msgid "All"
 msgstr ""
 
-#: ../templates/layout.html:98
+#: ../templates/layout.html:103
 msgid "Popular"
 msgstr ""
 
-#: ../templates/layout.html:106
+#: ../templates/layout.html:111
 msgid "Profile"
 msgstr ""
 
-#: ../templates/layout.html:107
+#: ../templates/layout.html:112
 msgid "Your data"
 msgstr ""
 
-#: ../templates/layout.html:111
+#: ../templates/layout.html:116
 msgid "Dashboard"
 msgstr ""
 
-#: ../templates/layout.html:114
+#: ../templates/layout.html:119
 msgid "Logout"
 msgstr ""
 
-#: ../templates/layout.html:118 ../views/bookmark.py:87
+#: ../templates/layout.html:123 ../views/bookmark.py:87
 msgid "Recent bookmarks"
 msgstr ""
 
-#: ../templates/layout.html:119 ../templates/popular.html:4
+#: ../templates/layout.html:124 ../templates/popular.html:4
 msgid "Popular feeds"
 msgstr ""
 

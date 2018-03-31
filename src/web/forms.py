@@ -114,7 +114,7 @@ class SigninForm(RedirectForm):
             validated = False
         else:
             if not user.is_active:
-                self.email_or_nickmane.errors.append('User is desactivated')
+                self.email_or_nickmane.errors.append('Account not active')
                 validated = False
             if not ucontr.check_password(user, self.password.data):
                 self.password.errors.append('Wrong password')
