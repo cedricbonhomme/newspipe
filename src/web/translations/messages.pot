@@ -839,7 +839,7 @@ msgstr ""
 
 #: ../views/admin.py:96
 #, python-format
-msgid "An error occured while trying to delete a user: %(error)s"
+msgid "An error occurred while trying to delete a user: %(error)s"
 msgstr ""
 
 #: ../views/admin.py:114

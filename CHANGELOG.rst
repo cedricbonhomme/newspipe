@@ -56,7 +56,7 @@ Release History
     Fixes:
      * fixed a bug that occurred when deleting a user who has categories with
        feeds in it;
-     * fixed a bug that occured when the user wants to use SQLite.
+     * fixed a bug that occurred when the user wants to use SQLite.
 
 7.1 (2016-09-26)
 ----------------

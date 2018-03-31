@@ -23,7 +23,7 @@ def extract_id(entry):
 
 
 async def construct_article(entry, feed, fields=None, fetch=True):
-    "Safe method to transorm a feedparser entry into an article"
+    "Safe method to transform a feedparser entry into an article"
     now = datetime.utcnow()
     article = {}
     def push_in_article(key, value):

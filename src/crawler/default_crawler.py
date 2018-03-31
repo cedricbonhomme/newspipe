@@ -100,7 +100,7 @@ async def parse_feed(user, feed):
     up_feed['error_count'] = 0
     up_feed['last_error'] = ""
 
-    # Feed informations
+    # Feed information
     construct_feed_from(feed.link, parsed_feed).update(up_feed)
     if feed.title and 'title' in up_feed:
         # do not override the title set by the user

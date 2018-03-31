@@ -47,7 +47,7 @@ def auth_func(*args, **kw):
             raise ProcessingException("Couldn't authenticate your user",
                                         code=401)
         if not user.is_active:
-            raise ProcessingException("User is desactivated", code=401)
+            raise ProcessingException("User is deactivated", code=401)
         login_user_bundle(user)
     if not current_user.is_authenticated:
         raise ProcessingException(description='Not authenticated!', code=401)
