@@ -48,7 +48,7 @@ class SignupForm(Form):
     email = EmailField(lazy_gettext("Email"),
             [validators.Length(min=6, max=35),
              validators.Required(
-                 lazy_gettext("Please enter your email address (for account activation, won't be stored)."))])
+                 lazy_gettext("Please enter your email address (only for account activation, won't be stored)."))])
     password = PasswordField(lazy_gettext("Password"),
             [validators.Required(lazy_gettext("Please enter a password.")),
              validators.Length(min=6, max=100)])

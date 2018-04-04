@@ -5,15 +5,15 @@
         <form action="" method="post" name="save">
             {{ form.hidden_tag() }}
             <div class="form-group">
-                {{ form.nickname.label }}
-                {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <p class="help-block">{{ _('Letters, numbers, dots and underscores only.') }}</p>
             </div>
-            {{ form.email.label }}
-            {{ form.email(class_="form-control") }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             <div class="form-group">
-                {{ form.password.label }}
-                {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                {{ form.email(class_="form-control", placeholder=_('Your email')) }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                <p class="help-block">{{ _("Only for account activation. Your email won't be stored.") }}</p>
+            </div>
+            <div class="form-group">
+                {{ form.password(class_="form-control", placeholder=_('Your password')) }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <p class="help-block">{{ _('Minimum 6 characters.') }}</p>
             </div>
             <br />
