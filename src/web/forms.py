@@ -48,7 +48,7 @@ class SignupForm(Form):
     email = EmailField(lazy_gettext("Email"),
             [validators.Length(min=6, max=35),
              validators.Required(
-                 lazy_gettext("Please enter your email address."))])
+                 lazy_gettext("Please enter your email address (for account activation, won't be stored)."))])
     password = PasswordField(lazy_gettext("Password"),
             [validators.Required(lazy_gettext("Please enter a password.")),
              validators.Length(min=6, max=100)])
@@ -59,9 +59,6 @@ class SignupForm(Form):
         validated = super().validate()
         if ucontr.read(nickname=self.nickname.data).count():
             self.nickname.errors.append('Nickname already taken')
-            validated = False
-        if ucontr.read(email=self.email.data).count():
-            self.email.errors.append('Email already taken')
             validated = False
         return validated
 
@@ -88,10 +85,10 @@ class SigninForm(RedirectForm):
     """
     Sign in form (connection to newspipe).
     """
-    email_or_nickmane = TextField("Email or nickname",
-            [validators.Length(min=3, max=35),
-            validators.Required(
-                lazy_gettext("Please enter your email address or nickname."))])
+    nickmane = TextField("Nickname",
+                [validators.Length(min=3, max=35),
+                validators.Required(
+                lazy_gettext("Please enter your nickname."))])
     password = PasswordField(lazy_gettext('Password'),
             [validators.Required(lazy_gettext("Please enter a password.")),
              validators.Length(min=6, max=100)])
@@ -105,16 +102,14 @@ class SigninForm(RedirectForm):
         validated = super().validate()
         ucontr = UserController()
         try:
-            user = ucontr.get(**{'__or__':
-                                {'email': self.email_or_nickmane.data,
-                                'nickname': self.email_or_nickmane.data}})
+            user = ucontr.get(nickname=self.nickmane.data)
         except NotFound:
-            self.email_or_nickmane.errors.append(
-                'Wrong email address or nickname')
+            self.nickmane.errors.append(
+                'Wrong nickname')
             validated = False
         else:
             if not user.is_active:
-                self.email_or_nickmane.errors.append('Account not active')
+                self.nickmane.errors.append('Account not active')
                 validated = False
             if not ucontr.check_password(user, self.password.data):
                 self.password.errors.append('Wrong password')
@@ -129,9 +124,6 @@ class UserForm(Form):
     """
     nickname = TextField(lazy_gettext("Nickname"),
             [validators.Required(lazy_gettext("Please enter your nickname."))])
-    email = EmailField(lazy_gettext("Email"),
-               [validators.Length(min=6, max=35),
-                validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),
                                 default=True)
@@ -153,9 +145,6 @@ class ProfileForm(Form):
     """
     nickname = TextField(lazy_gettext("Nickname"),
             [validators.Required(lazy_gettext("Please enter your nickname."))])
-    email = EmailField(lazy_gettext("Email"),
-               [validators.Length(min=6, max=35),
-                validators.Required(lazy_gettext("Please enter your email."))])
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),

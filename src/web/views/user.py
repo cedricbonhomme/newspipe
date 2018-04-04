@@ -60,9 +60,9 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = import_opml(current_user.email, data.read())
+                    nb = import_opml(current_user.nickname, data.read())
                     if conf.CRAWLING_METHOD == "classic":
-                        misc_utils.fetch(current_user.email, None)
+                        misc_utils.fetch(current_user.id, None)
                         flash(str(nb) + '  ' + gettext('feeds imported.'),
                                 "success")
                         flash(gettext("Downloading articles..."), 'info')
@@ -76,7 +76,7 @@ def management():
                 flash(gettext('File not allowed.'), 'danger')
             else:
                 try:
-                    nb = import_json(current_user.email, data.read())
+                    nb = import_json(current_user.nickname, data.read())
                     flash(gettext('Account imported.'), "success")
                 except:
                     flash(gettext("Impossible to import the account."),
@@ -112,7 +112,6 @@ def profile():
             try:
                 user_contr.update({'id': current_user.id},
                         {'nickname': form.nickname.data,
-                        'email': form.email.data,
                         'password': form.password.data,
                         'automatic_crawling': form.automatic_crawling.data,
                         'is_public_profile': form.is_public_profile.data,
@@ -151,11 +150,11 @@ def confirm_account(token=None):
     Confirm the account of a user.
     """
     user_contr = UserController()
-    user, email = None, None
+    user, nickname = None, None
     if token != "":
-        email = confirm_token(token)
-    if email:
-        user = user_contr.read(email=email).first()
+        nickname = confirm_token(token)
+    if nickname:
+        user = user_contr.read(nickname=nickname).first()
     if user is not None:
         user_contr.update({'id': user.id}, {'is_active': True})
         flash(gettext('Your account has been confirmed.'), 'success')
@@ -164,34 +163,34 @@ def confirm_account(token=None):
     return redirect(url_for('login'))
 
 
-@user_bp.route('/recover', methods=['GET', 'POST'])
-def recover():
-    """
-    Enables the user to recover its account when he has forgotten
-    its password.
-    """
-    form = RecoverPasswordForm()
-    user_contr = UserController()
-
-    if request.method == 'POST':
-        if form.validate():
-            user = user_contr.get(email=form.email.data)
-            characters = string.ascii_letters + string.digits
-            password = "".join(random.choice(characters)
-                               for x in range(random.randint(8, 16)))
-            user.set_password(password)
-            user_contr.update({'id': user.id}, {'password': password})
-
-            # Send the confirmation email
-            try:
-                notifications.new_password_notification(user, password)
-                flash(gettext('New password sent to your address.'), 'success')
-            except Exception as error:
-                flash(gettext('Problem while sending your new password: '
-                              '%(error)s', error=error), 'danger')
-
-            return redirect(url_for('login'))
-        return render_template('recover.html', form=form)
-
-    if request.method == 'GET':
-        return render_template('recover.html', form=form)
+# @user_bp.route('/recover', methods=['GET', 'POST'])
+# def recover():
+#     """
+#     Enables the user to recover its account when he has forgotten
+#     its password.
+#     """
+#     form = RecoverPasswordForm()
+#     user_contr = UserController()
+#
+#     if request.method == 'POST':
+#         if form.validate():
+#             user = user_contr.get(email=form.email.data)
+#             characters = string.ascii_letters + string.digits
+#             password = "".join(random.choice(characters)
+#                                for x in range(random.randint(8, 16)))
+#             user.set_password(password)
+#             user_contr.update({'id': user.id}, {'password': password})
+#
+#             # Send the confirmation email
+#             try:
+#                 notifications.new_password_notification(user, password)
+#                 flash(gettext('New password sent to your address.'), 'success')
+#             except Exception as error:
+#                 flash(gettext('Problem while sending your new password: '
+#                               '%(error)s', error=error), 'danger')
+#
+#             return redirect(url_for('login'))
+#         return render_template('recover.html', form=form)
+#
+#     if request.method == 'GET':
+#         return render_template('recover.html', form=form)

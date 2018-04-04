@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://github.com/Newspipe/Newspipe
+# For more information : https://github.com/newspipe/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -46,7 +46,6 @@ class User(db.Model, UserMixin, RightMixin):
     """
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(), unique=True)
-    email = db.Column(db.String(254), index=True, unique=True)
     pwdhash = db.Column(db.String())
 
     automatic_crawling = db.Column(db.Boolean(), default=True)
@@ -74,7 +73,7 @@ class User(db.Model, UserMixin, RightMixin):
 
     @staticmethod
     def _fields_base_write():
-        return {'login', 'password', 'email'}
+        return {'login', 'password'}
 
     @staticmethod
     def _fields_base_read():

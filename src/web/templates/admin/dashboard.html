@@ -10,7 +10,6 @@
         <tr>
             <th>#</th>
             <th>{{ _('Nickname') }}</th>
-            <th>{{ _('Email') }}</th>
             <th>{{ _('Member since') }}</th>
             <th>{{ _('Last seen') }}</th>
             <th>{{ _('Actions') }}</th>
@@ -28,7 +27,6 @@
               {% endif %}
               {% if user.id == current_user.id %}&nbsp;(It's you!){% endif %}
             </td>
-            <td><a href="mailto:{{ user.email }}">{{ user.email  }}</a></td>
             <td class="date">{{ user.date_created | datetime }}</td>
             <td class="date">{{ user.last_seen | datetime }}</td>
             <td>

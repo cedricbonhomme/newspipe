@@ -6,7 +6,6 @@
         <dateCreated>{{ now | datetime }}</dateCreated>
         <dateModified>{{ now | datetime }}</dateModified>
         <ownerName>{{ user.nickname }}</ownerName>
-        <ownerEmail>{{ user.email }}</ownerEmail>
     </head>
     <body>
     {% for feed in user.feeds %}    <outline title="{{ feed.title|escape }}" text="{{ feed.title|escape }}" description="{{ feed.description|escape }}" {% if feed.category_id != None %}category="/{{ categories[feed.category_id].name }}"{% endif %} xmlUrl="{{ feed.link|escape }}" htmlUrl="{{ feed.site_link|escape }}" />

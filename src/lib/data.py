@@ -41,11 +41,11 @@ from web.models.tag import BookmarkTag
 from web.controllers import BookmarkController, BookmarkTagController
 
 
-def import_opml(email, opml_content):
+def import_opml(nickname, opml_content):
     """
     Import new feeds from an OPML file.
     """
-    user = User.query.filter(User.email == email).first()
+    user = User.query.filter(User.nickname == nickname).first()
     try:
         subscriptions = opml.from_string(opml_content)
     except:
@@ -89,11 +89,11 @@ def import_opml(email, opml_content):
     return nb
 
 
-def import_json(email, json_content):
+def import_json(nickname, json_content):
     """
     Import an account from a JSON file.
     """
-    user = User.query.filter(User.email == email).first()
+    user = User.query.filter(User.nickname == nickname).first()
     json_account = json.loads(json_content.decode("utf-8"))
     nb_feeds, nb_articles = 0, 0
     # Create feeds:

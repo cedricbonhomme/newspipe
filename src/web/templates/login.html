@@ -7,9 +7,9 @@
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-            {{ form.email_or_nickmane(class_="form-control", placeholder=_('Your email or nickname')) }}
+            {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
             </div>
-            {% for message in form.email_or_nickmane.errors %}
+            {% for message in form.nickmane.errors %}
                 <div class="alert alert-warning" role="alert">{{ message }}</div>
             {% endfor %}
 
@@ -24,7 +24,5 @@
         </form>
     </div>
     <a href="/signup" class="btn btn-default">{{ _('Sign up') }}</a>
-    &nbsp;
-    <a href="{{ url_for('user.recover') }}" class="btn btn-default">{{ _('Forgot password') }}</a>
 </div><!-- /.container -->
 {% endblock %}
