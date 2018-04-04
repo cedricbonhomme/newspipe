@@ -95,12 +95,11 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         user = UserController().create(nickname=form.nickname.data,
-                            email=form.email.data,
                             pwdhash=generate_password_hash(form.password.data))
 
         # Send the confirmation email
         try:
-            notifications.new_account_notification(user)
+            notifications.new_account_notification(user, form.email.data)
         except Exception as error:
             flash(gettext('Problem while sending activation email: %(error)s',
                           error=error), 'danger')

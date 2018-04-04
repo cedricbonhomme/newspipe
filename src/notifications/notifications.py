@@ -26,25 +26,11 @@ from notifications import emails
 from web.lib.user_utils import generate_confirmation_token
 
 
-def information_message(subject, plaintext):
-    """
-    Send an information message to the users of the platform.
-    """
-    from web.models import User
-    users = User.query.all()
-    # Only send email for activated accounts.
-    user_emails = [user.email for user in users if user.enabled]
-    # Postmark has a limit of twenty recipients per message in total.
-    for i in xrange(0, len(user_emails), 19):
-        emails.send(to=conf.NOTIFICATION_EMAIL,
-                    bcc=", ".join(user_emails[i:i+19]),
-                    subject=subject, plaintext=plaintext)
-
-def new_account_notification(user):
+def new_account_notification(user, email):
     """
     Account creation notification.
     """
-    token = generate_confirmation_token(user.email)
+    token = generate_confirmation_token(user.nickname)
     expire_time = datetime.datetime.now() + \
                     datetime.timedelta(seconds=conf.TOKEN_VALIDITY_PERIOD)
 
@@ -53,7 +39,7 @@ def new_account_notification(user):
                                     token=token,
                                     expire_time=expire_time)
 
-    emails.send(to=user.email, bcc=conf.NOTIFICATION_EMAIL,
+    emails.send(to=email, bcc=conf.NOTIFICATION_EMAIL,
                 subject="[Newspipe] Account creation", plaintext=plaintext)
 
 def new_password_notification(user, password):
