@@ -34,7 +34,7 @@
             "value": ""
         },
         "ADMIN_EMAIL": {
-            "description": "Your email address for the authentication to the platform as an administrator.",
+            "description": "Administrator email address.",
             "required": true,
             "value": ""
         },
