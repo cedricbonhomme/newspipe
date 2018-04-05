@@ -2,6 +2,13 @@
 Release History
 =================
 
+8.1 (not yet released)
+----------------
+    New:
+     * email address of users are no longer stored in the database. Only a
+       nickname and a password are required to create an account;
+     * deployment is now done with pipenv;
+
 8.0 (2017-05-24)
 ----------------
     New:
