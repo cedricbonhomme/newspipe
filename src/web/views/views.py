@@ -89,10 +89,3 @@ def about_more():
                 python_version="{}.{}.{}".format(*sys.version_info[:3]),
                 nb_users=UserController().read().count())
 
-
-@current_app.route('/.well-known/acme-challenge/S0n1FW3XDI4_umkKwPT_aQ80xAzeu9aroCd3z7_SFyM')
-def letsencrypt():
-    """
-    To validate the TLS certificate.
-    """
-    return 'S0n1FW3XDI4_umkKwPT_aQ80xAzeu9aroCd3z7_SFyM.bUlx3NWj4YZ59CkBunuvzS0GnW5Kh9i4yehDEP4AEdU'
