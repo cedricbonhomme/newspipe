@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2016  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://github.com/Newspipe/Newspipe
 #
