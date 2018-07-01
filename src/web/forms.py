@@ -218,25 +218,3 @@ class InformationMessageForm(Form):
     message = TextAreaField(lazy_gettext("Message"),
             [validators.Required(lazy_gettext("Please enter a content."))])
     submit = SubmitField(lazy_gettext("Send"))
-
-
-class RecoverPasswordForm(Form):
-    email = EmailField(lazy_gettext("Email"),
-            [validators.Length(min=6, max=35),
-             validators.Required(
-                 lazy_gettext("Please enter your email address."))])
-    submit = SubmitField(lazy_gettext("Recover"))
-
-    def validate(self):
-        if not super(RecoverPasswordForm, self).validate():
-            return False
-
-        user = User.query.filter(User.email == self.email.data).first()
-        if user and user.enabled:
-            return True
-        elif user and not user.enabled:
-            flash(lazy_gettext('Account not confirmed.'), 'danger')
-            return False
-        else:
-            flash(lazy_gettext('Invalid email.'), 'danger')
-            return False

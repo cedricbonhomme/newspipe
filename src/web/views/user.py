@@ -161,36 +161,3 @@ def confirm_account(token=None):
     else:
         flash(gettext('Impossible to confirm this account.'), 'danger')
     return redirect(url_for('login'))
-
-
-# @user_bp.route('/recover', methods=['GET', 'POST'])
-# def recover():
-#     """
-#     Enables the user to recover its account when he has forgotten
-#     its password.
-#     """
-#     form = RecoverPasswordForm()
-#     user_contr = UserController()
-#
-#     if request.method == 'POST':
-#         if form.validate():
-#             user = user_contr.get(email=form.email.data)
-#             characters = string.ascii_letters + string.digits
-#             password = "".join(random.choice(characters)
-#                                for x in range(random.randint(8, 16)))
-#             user.set_password(password)
-#             user_contr.update({'id': user.id}, {'password': password})
-#
-#             # Send the confirmation email
-#             try:
-#                 notifications.new_password_notification(user, password)
-#                 flash(gettext('New password sent to your address.'), 'success')
-#             except Exception as error:
-#                 flash(gettext('Problem while sending your new password: '
-#                               '%(error)s', error=error), 'danger')
-#
-#             return redirect(url_for('login'))
-#         return render_template('recover.html', form=form)
-#
-#     if request.method == 'GET':
-#         return render_template('recover.html', form=form)
