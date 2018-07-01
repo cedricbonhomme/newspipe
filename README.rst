@@ -2,10 +2,8 @@
 🗞 Newspipe 🗞
 =============
 
-
 Presentation
 ------------
-
 
 `Newspipe <https://github.com/newspipe/newspipe>`_ is a web-based news
 aggregator and reader.
@@ -28,7 +26,7 @@ The core technologies are `Flask <http://flask.pocoo.org>`_,
 `SQLAlchemy <http://www.sqlalchemy.org>`_
 and `React <https://facebook.github.io/react/>`_.
 
-Python >= 3.6 is required.
+Python >= 3.6.6 is recommended.
 
 
 Documentation
