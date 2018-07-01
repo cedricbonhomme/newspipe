@@ -14,7 +14,7 @@ from web.lib.user_utils import confirm_token
 from web.controllers import (UserController, FeedController, ArticleController,
                             CategoryController, BookmarkController)
 
-from web.forms import ProfileForm, RecoverPasswordForm
+from web.forms import ProfileForm
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 user_bp = Blueprint('user', __name__, url_prefix='/user')
