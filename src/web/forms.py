@@ -60,6 +60,11 @@ class SignupForm(Form):
         if ucontr.read(nickname=self.nickname.data).count():
             self.nickname.errors.append('Nickname already taken')
             validated = False
+        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+            self.nickname.errors.append(lazy_gettext(
+                    'This nickname has invalid characters. '
+                    'Please use letters, numbers, dots and underscores only.'))
+            validated = False
         return validated
 
 
