@@ -5,7 +5,7 @@
 Presentation
 ------------
 
-`Newspipe <https://github.com/newspipe/newspipe>`_ is a web-based news
+`Newspipe <https://gitlab.com/newspipe/newspipe>`_ is a web-based news
 aggregator and reader.
 
 Main features
@@ -64,7 +64,7 @@ then `pipsi <https://github.com/mitsuhiko/pipsi>`_, and finally
 
 .. code-block:: bash
 
-    git clone https://github.com/newspipe/newspipe.git
+    git clone https://gitlab.com/newspipe/newspipe.git
     cd newspipe/
     pipenv install
     ✨🍰✨
@@ -79,7 +79,7 @@ then `pipsi <https://github.com/mitsuhiko/pipsi>`_, and finally
 License
 -------
 
-`Newspipe <https://github.com/newspipe/newspipe>`_ is under the
+`Newspipe <https://gitlab.com/newspipe/newspipe>`_ is under the
 `GNU Affero General Public License version 3 <https://www.gnu.org/licenses/agpl-3.0.html>`_.
 
 
