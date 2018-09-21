@@ -28,12 +28,12 @@ import sendgrid
 from sendgrid.helpers.mail import *
 
 import conf
-from web.decorators import async
+from web.decorators import async_maker
 
 logger = logging.getLogger(__name__)
 
 
-@async
+@async_maker
 def send_async_email(mfrom, mto, msg):
     try:
         s = smtplib.SMTP(conf.NOTIFICATION_HOST)
