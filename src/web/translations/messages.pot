@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-31 16:09+0200\n"
+"POT-Creation-Date: 2018-10-15 10:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,29 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.3\n"
 
-#: ../forms.py:46 ../forms.py:130 ../forms.py:154
+#: ../forms.py:46 ../forms.py:130 ../forms.py:151
 #: ../templates/admin/dashboard.html:12
 msgid "Nickname"
 msgstr ""
 
-#: ../forms.py:47 ../forms.py:131 ../forms.py:155
+#: ../forms.py:47 ../forms.py:96 ../forms.py:131 ../forms.py:152
 msgid "Please enter your nickname."
 msgstr ""
 
-#: ../forms.py:48 ../forms.py:132 ../forms.py:156 ../forms.py:230
-#: ../templates/admin/dashboard.html:13
+#: ../forms.py:48
 msgid "Email"
 msgstr ""
 
-#: ../forms.py:51 ../forms.py:233
-msgid "Please enter your email address."
+#: ../forms.py:51
+msgid ""
+"Please enter your email address (only for account activation, won't be "
+"stored)."
 msgstr ""
 
-#: ../forms.py:52 ../forms.py:95 ../forms.py:135 ../forms.py:159
+#: ../forms.py:52 ../forms.py:97 ../forms.py:132 ../forms.py:153
 msgid "Password"
 msgstr ""
 
-#: ../forms.py:53 ../forms.py:96
+#: ../forms.py:53 ../forms.py:98
 msgid "Please enter a password."
 msgstr ""
 
@@ -47,144 +48,124 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: ../forms.py:94
-msgid "Please enter your email address or nickname."
-msgstr ""
-
-#: ../forms.py:98 ../templates/login.html:5
-msgid "Log In"
-msgstr ""
-
-#: ../forms.py:134 ../forms.py:158
-msgid "Please enter your email."
-msgstr ""
-
-#: ../forms.py:136 ../forms.py:161
-msgid "Automatic crawling"
-msgstr ""
-
-#: ../forms.py:138 ../forms.py:168 ../forms.py:191 ../forms.py:204
-#: ../forms.py:218
-msgid "Save"
-msgstr ""
-
-#: ../forms.py:143 ../forms.py:178
+#: ../forms.py:64 ../forms.py:140 ../forms.py:172
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
 msgstr ""
 
-#: ../forms.py:160
+#: ../forms.py:100 ../templates/login.html:5
+msgid "Log In"
+msgstr ""
+
+#: ../forms.py:133 ../forms.py:155
+msgid "Automatic crawling"
+msgstr ""
+
+#: ../forms.py:135 ../forms.py:162 ../forms.py:185 ../forms.py:198
+#: ../forms.py:212
+msgid "Save"
+msgstr ""
+
+#: ../forms.py:154
 msgid "Password Confirmation"
 msgstr ""
 
-#: ../forms.py:163
+#: ../forms.py:157
 msgid "Bio"
 msgstr ""
 
-#: ../forms.py:164 ../templates/profile_public.html:18
+#: ../forms.py:158 ../templates/profile_public.html:18
 msgid "Webpage"
 msgstr ""
 
-#: ../forms.py:165 ../templates/profile_public.html:24
+#: ../forms.py:159 ../templates/profile_public.html:24
 msgid "Twitter"
 msgstr ""
 
-#: ../forms.py:166
+#: ../forms.py:160
 msgid "Public profile"
 msgstr ""
 
-#: ../forms.py:173
+#: ../forms.py:167
 msgid "Passwords aren't the same."
 msgstr ""
 
-#: ../forms.py:186 ../forms.py:211 ../templates/feed_list.html:8
+#: ../forms.py:180 ../forms.py:205 ../templates/feed_list.html:8
 #: ../templates/feed_list_simple.html:7
 msgid "Title"
 msgstr ""
 
-#: ../forms.py:187
+#: ../forms.py:181
 msgid "Feed link"
 msgstr ""
 
-#: ../forms.py:188
+#: ../forms.py:182
 msgid "Please enter the URL."
 msgstr ""
 
-#: ../forms.py:189
+#: ../forms.py:183
 msgid "Site link"
 msgstr ""
 
-#: ../forms.py:190
+#: ../forms.py:184
 msgid "Check for updates"
 msgstr ""
 
-#: ../forms.py:192
+#: ../forms.py:186
 msgid "Category of the feed"
 msgstr ""
 
-#: ../forms.py:194
+#: ../forms.py:188
 msgid "Private"
 msgstr ""
 
-#: ../forms.py:203 ../templates/layout.html:87
+#: ../forms.py:197 ../templates/layout.html:87
 msgid "Category name"
 msgstr ""
 
-#: ../forms.py:208
+#: ../forms.py:202
 msgid "URL"
 msgstr ""
 
-#: ../forms.py:210
+#: ../forms.py:204
 msgid "Please enter an URL."
 msgstr ""
 
-#: ../forms.py:213
+#: ../forms.py:207
 msgid "Description"
 msgstr ""
 
-#: ../forms.py:215
+#: ../forms.py:209
 msgid "Tags"
 msgstr ""
 
-#: ../forms.py:216
+#: ../forms.py:210
 msgid "To read"
 msgstr ""
 
-#: ../forms.py:217
+#: ../forms.py:211
 msgid "Shared"
 msgstr ""
 
-#: ../forms.py:222
+#: ../forms.py:216
 msgid "Subject"
 msgstr ""
 
-#: ../forms.py:223
+#: ../forms.py:217
 msgid "Please enter a subject."
 msgstr ""
 
-#: ../forms.py:224
+#: ../forms.py:218
 msgid "Message"
 msgstr ""
 
-#: ../forms.py:225
+#: ../forms.py:219
 msgid "Please enter a content."
 msgstr ""
 
-#: ../forms.py:226
+#: ../forms.py:220
 msgid "Send"
-msgstr ""
-
-#: ../forms.py:234
-msgid "Recover"
-msgstr ""
-
-#: ../forms.py:244
-msgid "Account not confirmed."
-msgstr ""
-
-#: ../forms.py:247
-msgid "Invalid email."
 msgstr ""
 
 #: ../templates/about.html:5 ../templates/layout.html:113
@@ -212,7 +193,7 @@ msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or"
 "\n"
 "        redistribute the <a "
-"href=\"https://github.com/newspipe/newspipe\">source code</a>\n"
+"href=\"https://gitlab.com/newspipe/newspipe\">source code</a>\n"
 "        according to the <a "
 "href=\"https://www.gnu.org/licenses/agpl-3.0.html\">Affero GPL</a> "
 "license."
@@ -221,7 +202,7 @@ msgstr ""
 #: ../templates/about.html:14
 msgid ""
 "Found a bug? Report it <a "
-"href=\"https://github.com/newspipe/newspipe/issues\">here</a>."
+"href=\"https://gitlab.com/newspipe/newspipe/issues\">here</a>."
 msgstr ""
 
 #: ../templates/about.html:15
@@ -334,7 +315,7 @@ msgstr ""
 msgid "Articles"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:16 ../templates/categories.html:16
+#: ../templates/admin/dashboard.html:15 ../templates/categories.html:16
 #: ../templates/feed_list.html:11
 msgid "Actions"
 msgstr ""
@@ -638,16 +619,12 @@ msgstr ""
 msgid "Popular feeds"
 msgstr ""
 
-#: ../templates/login.html:10
-msgid "Your email or nickname"
+#: ../templates/login.html:10 ../templates/signup.html:8
+msgid "Your nickname"
 msgstr ""
 
 #: ../templates/login.html:17
 msgid "Your Password"
-msgstr ""
-
-#: ../templates/login.html:28
-msgid "Forgot password"
 msgstr ""
 
 #: ../templates/management.html:7
@@ -738,43 +715,47 @@ msgstr ""
 msgid "Your Profile"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:14 ../templates/profile.html:7
+#: ../templates/admin/dashboard.html:13 ../templates/profile.html:7
 #: ../templates/profile_public.html:9
 msgid "Member since"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:15 ../templates/profile.html:8
+#: ../templates/admin/dashboard.html:14 ../templates/profile.html:8
 #: ../templates/profile_public.html:13
 msgid "Last seen"
 msgstr ""
 
-#: ../templates/profile.html:47
+#: ../templates/profile.html:44
 #, python-format
 msgid "Your profile will be available <a href=\"%(url)s\">here</a>."
 msgstr ""
 
-#: ../templates/profile.html:51
+#: ../templates/profile.html:48
 msgid "Uncheck if you are using your own crawler."
 msgstr ""
 
-#: ../templates/profile.html:64
+#: ../templates/profile.html:61
 msgid "You are going to delete your account."
 msgstr ""
 
-#: ../templates/profile.html:64
+#: ../templates/profile.html:61
 msgid "Delete your account"
 msgstr ""
 
-#: ../templates/recover.html:5
-msgid "Recover your account"
+#: ../templates/signup.html:9
+msgid "Letters, numbers, dots and underscores only."
 msgstr ""
 
-#: ../templates/recover.html:12
+#: ../templates/signup.html:12
 msgid "Your email"
 msgstr ""
 
-#: ../templates/signup.html:10
-msgid "Letters, numbers, dots and underscores only."
+#: ../templates/signup.html:13
+msgid "Only for account activation. Your email won't be stored."
+msgstr ""
+
+#: ../templates/signup.html:16
+msgid "Your password"
 msgstr ""
 
 #: ../templates/signup.html:17
@@ -785,32 +766,28 @@ msgstr ""
 msgid "Registered users"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:35
+#: ../templates/admin/dashboard.html:33
 msgid "Edit this user"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:39
+#: ../templates/admin/dashboard.html:37
 msgid "Disable this account"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:41
+#: ../templates/admin/dashboard.html:39
 msgid "Enable this account"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:44
+#: ../templates/admin/dashboard.html:42
 msgid "Delete this user"
 msgstr ""
 
-#: ../templates/admin/dashboard.html:44
+#: ../templates/admin/dashboard.html:42
 msgid "You are going to delete this account."
 msgstr ""
 
-#: ../templates/admin/dashboard.html:51 ../views/admin.py:40
+#: ../templates/admin/dashboard.html:49 ../views/admin.py:40
 msgid "Add a new user"
-msgstr ""
-
-#: ../templates/admin/dashboard.html:52
-msgid "Send notification messages"
 msgstr ""
 
 #: ../views/admin.py:37
@@ -822,31 +799,31 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: ../views/admin.py:68 ../views/user.py:126
+#: ../views/admin.py:67 ../views/user.py:125
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
 
-#: ../views/admin.py:78
+#: ../views/admin.py:76
 #, python-format
 msgid "User %(nick)s successfully created"
 msgstr ""
 
-#: ../views/admin.py:92
+#: ../views/admin.py:90
 #, python-format
 msgid "User %(nick)s successfully deleted"
 msgstr ""
 
-#: ../views/admin.py:96
+#: ../views/admin.py:94
 #, python-format
 msgid "An error occurred while trying to delete a user: %(error)s"
 msgstr ""
 
-#: ../views/admin.py:114
+#: ../views/admin.py:112
 msgid "This user does not exist."
 msgstr ""
 
-#: ../views/admin.py:119
+#: ../views/admin.py:117
 #, python-format
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr ""
@@ -1013,12 +990,12 @@ msgstr ""
 msgid "Self-registration is disabled."
 msgstr ""
 
-#: ../views/session_mgmt.py:105
+#: ../views/session_mgmt.py:104
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr ""
 
-#: ../views/session_mgmt.py:109
+#: ../views/session_mgmt.py:108
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
@@ -1046,30 +1023,21 @@ msgstr ""
 msgid "Impossible to import the account."
 msgstr ""
 
-#: ../views/user.py:123
+#: ../views/user.py:122
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr ""
 
-#: ../views/user.py:144
+#: ../views/user.py:143
 msgid "Your account has been deleted."
 msgstr ""
 
-#: ../views/user.py:161
+#: ../views/user.py:160
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: ../views/user.py:163
+#: ../views/user.py:162
 msgid "Impossible to confirm this account."
-msgstr ""
-
-#: ../views/user.py:188
-msgid "New password sent to your address."
-msgstr ""
-
-#: ../views/user.py:190
-#, python-format
-msgid "Problem while sending your new password: %(error)s"
 msgstr ""
 
 #: ../views/views.py:23

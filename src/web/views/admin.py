@@ -61,7 +61,7 @@ def process_user_form(user_id=None):
         # Edit a user
         user_contr.update({'id': user_id},
                           {'nickname': form.nickname.data,
-                           'password': form.password.data,
+                           'pwdhash': generate_password_hash(form.password.data),
                            'automatic_crawling': form.automatic_crawling.data})
         user = user_contr.get(id=user_id)
         flash(gettext('User %(nick)s successfully updated',
