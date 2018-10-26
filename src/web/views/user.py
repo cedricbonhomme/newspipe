@@ -25,6 +25,7 @@ def profile_public(nickname=None):
     """
     Display the public profile of the user.
     """
+    category_id = int(request.args.get('category_id', 0))
     user_contr = UserController()
     user = user_contr.get(nickname=nickname)
     if not user.is_public_profile:
@@ -34,6 +35,8 @@ def profile_public(nickname=None):
 
     filters = {}
     filters['private'] = False
+    if category_id:
+        filters['category_id'] = category_id
     feeds = FeedController(user.id).read(**filters).all()
 
     """word_size = 6
@@ -43,7 +46,8 @@ def profile_public(nickname=None):
     top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
     tag_cloud = misc_utils.tag_cloud(top_words)"""
 
-    return render_template('profile_public.html', user=user, feeds=feeds)
+    return render_template('profile_public.html', user=user, feeds=feeds,
+                           selected_category_id=category_id)
 
 
 @user_bp.route('/management', methods=['GET', 'POST'])
