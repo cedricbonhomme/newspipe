@@ -13,7 +13,8 @@
   },
   "license": "AGPL-3.0",
   "engines": {
-    "npm": "^8.11.4"
+    "npm": "^8.11.4",
+    "node": "8.11.4"
   },
   "main": "src/web/js/app.js",
   "dependencies": {
