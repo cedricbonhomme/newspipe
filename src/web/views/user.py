@@ -51,7 +51,7 @@ def user_stream(per_page, nickname=None):
     """
     filters = {}
     category_id = int(request.args.get('category_id', 0))
-    category = CategoryController(current_user.id).read(id=category_id).first()
+    category = CategoryController().read(id=category_id).first()
     if category:
         filters['category_id'] = category_id
 
