@@ -26,7 +26,7 @@ feed_bp = Blueprint('feed', __name__, url_prefix='/feed')
 @login_required
 @etag_match
 def feeds():
-    "Lists the subscribed  feeds in a table."
+    "Lists the subscribed feeds in a table."
     art_contr = ArticleController(current_user.id)
     return render_template('feeds.html',
             feeds=FeedController(current_user.id).read().order_by('title'),

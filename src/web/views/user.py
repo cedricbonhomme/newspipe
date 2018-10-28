@@ -37,7 +37,7 @@ def profile_public(nickname=None):
     filters['private'] = False
     if category_id:
         filters['category_id'] = category_id
-    feeds = FeedController(user.id).read(**filters).all()
+    feeds = FeedController(user.id).read(**filters).order_by('title')
 
     """word_size = 6
     filters = {}
