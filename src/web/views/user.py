@@ -47,7 +47,7 @@ def profile_public(nickname=None):
 @user_bp.route('/<string:nickname>/stream', defaults={'per_page': '25'}, methods=['GET'])
 def user_stream(per_page, nickname=None):
     """
-    Display the public profile of the user.
+    Display the stream of a user (list of articles of public feed).
     """
     filters = {}
     category_id = int(request.args.get('category_id', 0))
