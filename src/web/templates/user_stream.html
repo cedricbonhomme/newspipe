@@ -1,10 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Filter per category</label>
+                    <select class="form-control" id="category-select" name="category_id">
+                    <option  value="0">All</option>
+                    {% for cur_category in user.categories %}
+                        <option value="{{cur_category.id}}" {% if cur_category.id==category.id %}selected{% endif %}>{{ cur_category.name }}</option>
+                    {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary mb-2">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br /><br />
+
     {% if category %}
     <div class="row">
         <div class="col-md-8 offset-md-1">
-            <p class="lead">Articles from the category <a href="{{ url_for('user.profile_public', nickname=nickname, category_id=category.id) }}">{{ category.name }}</a></p>
+            <p class="lead">Articles from the category <a href="{{ url_for('user.profile_public', nickname=user.nickname, category_id=category.id) }}">{{ category.name }}</a></p>
         </div>
     </div>
     {% endif %}

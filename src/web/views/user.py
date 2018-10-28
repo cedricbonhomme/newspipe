@@ -73,8 +73,7 @@ def user_stream(per_page, nickname=None):
     return render_template('user_stream.html', user=user,
                             articles=articles.offset(offset).limit(per_page),
                             category=category,
-                            pagination=pagination,
-                            nickname=nickname)
+                            pagination=pagination)
 
 
 @user_bp.route('/management', methods=['GET', 'POST'])
