@@ -39,13 +39,6 @@ def profile_public(nickname=None):
         filters['category_id'] = category_id
     feeds = FeedController(user.id).read(**filters).order_by('title')
 
-    """word_size = 6
-    filters = {}
-    filters['retrieved_date__gt'] = datetime.now() - timedelta(weeks=10)
-    articles = ArticleController(user.id).read(**filters).all()
-    top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
-    tag_cloud = misc_utils.tag_cloud(top_words)"""
-
     return render_template('profile_public.html', user=user, feeds=feeds,
                            selected_category_id=category_id)
 
