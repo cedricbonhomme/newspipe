@@ -49,12 +49,6 @@ def user_stream(per_page, nickname=None):
     """
     Display the stream of a user (list of articles of public feed).
     """
-    filters = {}
-    category_id = int(request.args.get('category_id', 0))
-    category = CategoryController().read(id=category_id).first()
-    if category:
-        filters['category_id'] = category_id
-
     user_contr = UserController()
     user = user_contr.get(nickname=nickname)
     if not user.is_public_profile:
@@ -62,8 +56,24 @@ def user_stream(per_page, nickname=None):
             flash(gettext('You must set your profile to public.'), 'info')
         return redirect(url_for('user.profile'))
 
+    category_id = int(request.args.get('category_id', 0))
+    category = CategoryController().read(id=category_id).first()
+
+    # Load the public feeds
+    filters = {}
+    filters['private'] = False
+    if category_id:
+        filters['category_id'] = category_id
+    feeds = FeedController().read(**filters).all()
+
+    # Re-initializes the filters to load the articles
+    filters = {}
+    filters['feed_id__in'] = [feed.id for feed in feeds]
+    if category:
+        filters['category_id'] = category_id
     articles = ArticleController(user.id).read_light(**filters)
 
+    # Server-side pagination
     page, per_page, offset = get_page_args(per_page_parameter='per_page')
     pagination = Pagination(page=page, total=articles.count(),
                             css_framework='bootstrap3',
