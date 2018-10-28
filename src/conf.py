@@ -73,6 +73,7 @@ else:
 WEBSERVER_HOST = config.get('webserver', 'host')
 WEBSERVER_PORT = config.getint('webserver', 'port')
 WEBSERVER_SECRET = config.get('webserver', 'secret_key')
+WEBSERVER_DEBUG = config.get('webserver', 'debug')
 
 CDN_ADDRESS = config.get('cdn', 'cdn_address')
 

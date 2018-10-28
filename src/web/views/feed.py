@@ -43,8 +43,6 @@ def feed_view(feed_id=None, user_id=None):
     articles = ArticleController(user_id) \
             .read(feed_id=feed_id) \
             .order_by(desc("date")).all()
-    top_words = misc_utils.top_words(articles, n=50, size=int(word_size))
-    tag_cloud = misc_utils.tag_cloud(top_words)
 
     today = datetime.now()
     try:
@@ -61,10 +59,9 @@ def feed_view(feed_id=None, user_id=None):
 
     return render_template('feed.html',
                            head_titles=[utils.clear_string(feed.title)],
-                           feed=feed, articles=articles,
-                           tag_cloud=tag_cloud,
+                           feed=feed, category=category,
                            first_post_date=first_article,
-                           end_post_date=last_article, category=category,
+                           end_post_date=last_article,
                            average=average, delta=delta, elapsed=elapsed)
 
 

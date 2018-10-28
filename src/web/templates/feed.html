@@ -45,7 +45,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
           <div class="table-responsive">
               <table id="table-articles" class="table table-striped">
                   <thead>
@@ -55,7 +55,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                  {% for article in articles %}
+                  {% for article in feed.articles %}
                       <tr>
                           <td><a href="{{ url_for("article.article_pub", article_id=article.id) }}">{{ article.title }}</a></td>
                           <td>{{ article.date | datetime }}</td>
@@ -64,12 +64,6 @@
                   </tbody>
               </table>
           </div>
-        </div>
-        <div class="col-md-4">
-            <p><h3>{{ _('Most recurrent words') }}</h3></p>
-            {% if articles | count != 0 %}
-                <div class="well">{{ tag_cloud | safe }}</div>
-            {% endif %}
         </div>
     </div>
 

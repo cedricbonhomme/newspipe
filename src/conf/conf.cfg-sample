@@ -2,6 +2,7 @@
 host = 0.0.0.0
 port = 5000
 secret_key = a secret only you know
+debug = true
 [cdn]
 cdn_address = https://cdn.cedricbonhomme.org/
 [misc]
