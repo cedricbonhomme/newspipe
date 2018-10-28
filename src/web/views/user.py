@@ -5,6 +5,7 @@ from flask import (Blueprint, g, render_template, redirect,
                    flash, url_for, request)
 from flask_babel import gettext
 from flask_login import login_required, current_user
+from flask_paginate import Pagination, get_page_args
 
 import conf
 from notifications import notifications
@@ -37,10 +38,43 @@ def profile_public(nickname=None):
     filters['private'] = False
     if category_id:
         filters['category_id'] = category_id
-    feeds = FeedController(user.id).read(**filters).order_by('title')
+    feeds = FeedController(user.id).read(**filters)
 
     return render_template('profile_public.html', user=user, feeds=feeds,
                            selected_category_id=category_id)
+
+
+@user_bp.route('/<string:nickname>/stream', defaults={'per_page': '25'}, methods=['GET'])
+def user_stream(per_page, nickname=None):
+    """
+    Display the public profile of the user.
+    """
+    filters = {}
+    category_id = int(request.args.get('category_id', 0))
+    category = CategoryController(current_user.id).read(id=category_id).first()
+    if category:
+        filters['category_id'] = category_id
+
+    user_contr = UserController()
+    user = user_contr.get(nickname=nickname)
+    if not user.is_public_profile:
+        if current_user.is_authenticated and current_user.id == user.id:
+            flash(gettext('You must set your profile to public.'), 'info')
+        return redirect(url_for('user.profile'))
+
+    articles = ArticleController(user.id).read_light(**filters)
+
+    page, per_page, offset = get_page_args(per_page_parameter='per_page')
+    pagination = Pagination(page=page, total=articles.count(),
+                            css_framework='bootstrap3',
+                            search=False, record_name='articles',
+                            per_page=per_page)
+
+    return render_template('user_stream.html', user=user,
+                            articles=articles.offset(offset).limit(per_page),
+                            category=category,
+                            pagination=pagination,
+                            nickname=nickname)
 
 
 @user_bp.route('/management', methods=['GET', 'POST'])
