@@ -8,6 +8,7 @@ from flask import Blueprint, render_template, flash, \
                   redirect, request, url_for
 from flask_babel import gettext
 from flask_login import login_required, current_user
+from flask_paginate import Pagination, get_page_args
 
 import conf
 from lib import misc_utils, utils
@@ -40,17 +41,25 @@ def feed_view(feed_id=None, user_id=None):
     category = None
     if feed.category_id:
         category = CategoryController(user_id).get(id=feed.category_id)
-    articles = ArticleController(user_id) \
-            .read(feed_id=feed_id) \
-            .order_by(desc("date")).all()
+    filters = {}
+    filters['feed_id'] = feed_id
+    articles = ArticleController(user_id).read_light(**filters)
+
+    # Server-side pagination
+    page, per_page, offset = get_page_args(per_page_parameter='per_page')
+    pagination = Pagination(page=page, total=articles.count(),
+                            css_framework='bootstrap3',
+                            search=False, record_name='articles',
+                            per_page=per_page)
 
     today = datetime.now()
     try:
         last_article = articles[0].date
         first_article = articles[-1].date
         delta = last_article - first_article
-        average = round(float(len(articles)) / abs(delta.days), 2)
-    except:
+        average = round(float(articles.count()) / abs(delta.days), 2)
+    except Exception as e:
+        print(e)
         last_article = datetime.fromtimestamp(0)
         first_article = datetime.fromtimestamp(0)
         delta = last_article - first_article
@@ -60,6 +69,8 @@ def feed_view(feed_id=None, user_id=None):
     return render_template('feed.html',
                            head_titles=[utils.clear_string(feed.title)],
                            feed=feed, category=category,
+                           articles=articles.offset(offset).limit(per_page),
+                           pagination=pagination,
                            first_post_date=first_article,
                            end_post_date=last_article,
                            average=average, delta=delta, elapsed=elapsed)
