@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ user.nickname }}</h1>
+    <h1>{{ user.nickname }} / <a href="{{ url_for('user.user_stream', nickname=user.nickname) }}">stream</a></h1>
     <div class="row">
         <div class="col-md-12">
             <p>
