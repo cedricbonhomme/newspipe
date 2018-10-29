@@ -59,7 +59,6 @@ def feed_view(feed_id=None, user_id=None):
         delta = last_article - first_article
         average = round(float(articles.count()) / abs(delta.days), 2)
     except Exception as e:
-        print(e)
         last_article = datetime.fromtimestamp(0)
         first_article = datetime.fromtimestamp(0)
         delta = last_article - first_article
