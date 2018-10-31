@@ -55,7 +55,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                  {% for article in feed.articles %}
+                  {% for article in articles %}
                       <tr>
                           <td><a href="{{ url_for("article.article_pub", article_id=article.id) }}">{{ article.title }}</a></td>
                           <td>{{ article.date | datetime }}</td>
@@ -67,13 +67,10 @@
         </div>
     </div>
 
+    <div class="row">
+       <div class="col-md-8 offset-md-1">
+           {{ pagination.links }}
+       </div>
+   </div>
 </div><!-- /.container -->
-<script>
-$(document).ready(function() {
-    $('#table-articles').DataTable( {
-        responsive: true,
-        order: [[1, "desc"]]
-    });
-});
-</script>
 {% endblock %}
