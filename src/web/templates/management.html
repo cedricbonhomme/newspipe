@@ -20,24 +20,47 @@
     <div class="well">
         <div class="row">
             <div class="col-md-6">
-                <h1>{{ _('Data liberation') }}</h1>
+                <h1>{{ _('Your data') }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>{{ _('Articles') }}</h2>
+                <h3>{{ _('Import') }}</h3>
                 <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
                     <span class="btn btn-default btn-file">{{ _('Import a Newspipe account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
                     <button class="btn btn-default" type="submit">OK</button>
                 </form>
-                <br />
-                <a href="{{ url_for('articles.export', format='JSON') }}" class="btn btn-default">{{ _('Export your Newspipe account to JSON') }}</a>
-                <br /><br />
-                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-default">{{ _('Export your bookmarks to JSON') }}</a>
+                <h3>{{ _('Export') }}</h3>
+                <a href="{{ url_for('articles.export') }}" class="btn btn-default">{{ _('Export your Newspipe account to JSON') }}</a>
             </div>
             <div class="col-md-6">
-                <h1 id="import">{{ _('OPML import/export') }}</h1>
+                <h2 id="import">{{ _('OPML') }}</h2>
+                <h3>{{ _('Import') }}</h3>
                 <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
                     <span class="btn btn-default btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
                     <button class="btn btn-default" type="submit">OK</button>
                 </form>
-                <br />
-                <a href="{{ url_for('articles.export', format='OPML') }}" class="btn btn-default">{{ _('Export your feeds to OPML') }}</a>
+                <h3>{{ _('Export') }}</h3>
+                <form class="form-inline" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label>Include disabled feeds</label>
+                            <input type="checkbox" class="form-control"name="includedisabled" checked />
+                        </div>
+                        <div class="input-group">
+                            <label>Include private feeds</label>
+                            <input type="checkbox" class="form-control" name="includeprivate" checked />
+                        </div>
+                    </div>
+                    <button class="btn btn-default" type="submit">{{ _('Export your feeds to OPML') }}</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ _('Bookmarks') }}</h1>
+                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-default">{{ _('Export your bookmarks to JSON') }}</a>
             </div>
         </div>
     </div>

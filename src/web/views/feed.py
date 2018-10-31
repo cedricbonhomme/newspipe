@@ -5,7 +5,7 @@ from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
 from flask import Blueprint, render_template, flash, \
-                  redirect, request, url_for
+                  redirect, request, url_for, make_response
 from flask_babel import gettext
 from flask_login import login_required, current_user
 
@@ -14,8 +14,8 @@ from lib import misc_utils, utils
 from lib.feed_utils import construct_feed_from
 from web.lib.view_utils import etag_match
 from web.forms import AddFeedForm
-from web.controllers import (CategoryController, FeedController,
-                                      ArticleController)
+from web.controllers import (UserController, CategoryController,
+                                FeedController, ArticleController)
 
 logger = logging.getLogger(__name__)
 feeds_bp = Blueprint('feeds', __name__, url_prefix='/feeds')
@@ -261,3 +261,32 @@ def duplicates(feed_id):
                 'info')
         return redirect(url_for('home'))
     return render_template('duplicates.html', duplicates=duplicates, feed=feed)
+
+
+@feeds_bp.route('/export', methods=['GET'])
+@login_required
+def export():
+    """
+    Export feeds to OPML.
+    """
+    include_disabled = request.args.get('includedisabled', '') == 'on'
+    include_private = request.args.get('includeprivate', '') == 'on'
+
+    filter = {}
+    if not include_disabled:
+        filter['enabled'] = True
+    if not include_private:
+        filter['private'] = False
+
+    user = UserController(current_user.id).get(id=current_user.id)
+    feeds = FeedController(current_user.id).read(**filter)
+    categories = {cat.id: cat.dump()
+            for cat in CategoryController(user.id).read()}
+
+    response = make_response(render_template('opml.xml',
+                                            user=user, feeds=feeds,
+                                            categories=categories,
+                                            now=datetime.now()))
+    response.headers['Content-Type'] = 'application/xml'
+    response.headers['Content-Disposition'] = 'attachment; filename=feeds.opml'
+    return response
