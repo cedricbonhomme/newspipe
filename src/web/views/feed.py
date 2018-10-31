@@ -281,12 +281,16 @@ def export():
     """
     include_disabled = request.args.get('includedisabled', '') == 'on'
     include_private = request.args.get('includeprivate', '') == 'on'
+    include_exceeded_error_count = request.args. \
+                        get('includeexceedederrorcount', '') == 'on'
 
     filter = {}
     if not include_disabled:
         filter['enabled'] = True
     if not include_private:
         filter['private'] = False
+    if not include_exceeded_error_count:
+        filter['error_count__lt'] = conf.DEFAULT_MAX_ERROR
 
     user = UserController(current_user.id).get(id=current_user.id)
     feeds = FeedController(current_user.id).read(**filter)
