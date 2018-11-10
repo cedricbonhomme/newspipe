@@ -56,7 +56,10 @@ def popular():
     # try to get the 'recent' popular websites, created after
     # 'not_created_before'
     # ie: not_added_before = date_last_added_feed - nb_days
-    nb_days = int(request.args.get('nb_days', 1000))
+    try:
+        nb_days = int(request.args.get('nb_days', 365))
+    except ValueError:
+        nb_days = 10000
     last_added_feed = FeedController().read().\
                         order_by(desc('created_date')).limit(1).all()
     if last_added_feed:
@@ -68,6 +71,7 @@ def popular():
     filters = {}
     filters['created_date__gt'] = not_added_before
     filters['private'] = False
+    filters['error_count__lt'] = conf.DEFAULT_MAX_ERROR
     feeds = FeedController().count_by_link(**filters)
     sorted_feeds = sorted(list(feeds.items()), key=operator.itemgetter(1),
                             reverse=True)
