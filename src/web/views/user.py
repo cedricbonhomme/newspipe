@@ -6,6 +6,7 @@ from flask import (Blueprint, g, render_template, redirect,
 from flask_babel import gettext
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
+from werkzeug import generate_password_hash
 
 import conf
 from notifications import notifications
@@ -152,7 +153,7 @@ def profile():
             try:
                 user_contr.update({'id': current_user.id},
                         {'nickname': form.nickname.data,
-                        'password': form.password.data,
+                        'pwdhash': generate_password_hash(form.password.data),
                         'automatic_crawling': form.automatic_crawling.data,
                         'is_public_profile': form.is_public_profile.data,
                         'bio': form.bio.data,
