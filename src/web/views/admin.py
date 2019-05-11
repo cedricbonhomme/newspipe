@@ -2,7 +2,6 @@ from datetime import datetime
 from flask import (Blueprint, render_template, redirect, flash, url_for)
 from flask_babel import gettext, format_timedelta
 from flask_login import login_required, current_user
-from werkzeug import generate_password_hash
 
 from lib.utils import redirect_url
 from web.views.common import admin_permission
@@ -61,7 +60,7 @@ def process_user_form(user_id=None):
         # Edit a user
         user_contr.update({'id': user_id},
                           {'nickname': form.nickname.data,
-                           'pwdhash': generate_password_hash(form.password.data),
+                           'password': form.password.data,
                            'automatic_crawling': form.automatic_crawling.data})
         user = user_contr.get(id=user_id)
         flash(gettext('User %(nick)s successfully updated',
@@ -69,7 +68,7 @@ def process_user_form(user_id=None):
     else:
         # Create a new user (by the admin)
         user = user_contr.create(nickname=form.nickname.data,
-                            pwdhash=generate_password_hash(form.password.data),
+                            password=form.password.data,
                             automatic_crawling=form.automatic_crawling.data,
                             is_admin=False,
                             is_active=True)

@@ -12,7 +12,7 @@ class UserController(AbstractController):
 
     def _handle_password(self, attrs):
         if attrs.get('password'):
-            attrs['password'] = generate_password_hash(attrs.pop('password'))
+            attrs['pwdhash'] = generate_password_hash(attrs.pop('password'))
         elif 'password' in attrs:
             del attrs['password']
 

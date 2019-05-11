@@ -38,6 +38,14 @@ def db_create():
         db.create_all()
         UserController(ignore_context=True).create(**admin)
 
+@manager.command
+def create_admin(nickname, password):
+    "Will create an admin user."
+    admin = {'is_admin': True, 'is_api': True, 'is_active': True,
+             'nickname': nickname,
+             'pwdhash': generate_password_hash(password)}
+    with application.app_context():
+        UserController(ignore_context=True).create(**admin)
 
 @manager.command
 def fetch_asyncio(user_id=None, feed_id=None):
