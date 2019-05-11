@@ -56,12 +56,6 @@ recommend you to install it in a Python virtual environment. For example:
 
     sudo apt-get install postgresql npm
 
-It seems that today a proof of good taste is to install first
-`pyenv <https://github.com/pyenv/pyenv>`_,
-then `pipsi <https://github.com/mitsuhiko/pipsi>`_, and finally
-`pew <https://github.com/berdario/pew>`_ and
-`pipenv <https://github.com/pypa/pipenv>`_ with pipsi.
-
 .. code-block:: bash
 
     git clone https://gitlab.com/newspipe/newspipe.git
