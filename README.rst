@@ -1,6 +1,6 @@
-=============
-🗞 Newspipe 🗞
-=============
+========
+Newspipe
+========
 
 Presentation
 ------------
@@ -18,7 +18,7 @@ Main features
 * export and import feeds with OPML files;
 * favorite articles;
 * detection of inactive feeds;
-* share articles with Google +, Pinboard and reddit;
+* Pinboard and reddit;
 * personal management of bookmarks (with import from Pinboard).
 
 The core technologies are `Flask <http://flask.pocoo.org>`_,
