@@ -101,7 +101,10 @@ async def parse_feed(user, feed):
     up_feed['last_error'] = ""
 
     # Feed information
-    construct_feed_from(feed.link, parsed_feed).update(up_feed)
+    try:
+        construct_feed_from(feed.link, parsed_feed).update(up_feed)
+    except:
+         logger.exception('error when constructing feed: {}'.format(feed.link))
     if feed.title and 'title' in up_feed:
         # do not override the title set by the user
         del up_feed['title']
@@ -198,7 +201,7 @@ def retrieve_feed(loop, user, feed_id=None):
 
     try:
         loop.run_until_complete(asyncio.wait(tasks))
-    except Exception:
+    except:
         logger.exception('an error occured')
     finally:
         logger.info('Articles retrieved for {}'.format(user.nickname))

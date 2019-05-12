@@ -73,7 +73,9 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
 
     try:
         response = requests.get(feed['site_link'], **requests_kwargs)
-    except Exception:
+    except requests.exceptions.InvalidSchema as e:
+        return feed
+    except:
         logger.exception('failed to retrieve %r', feed['site_link'])
         return feed
     bs_parsed = BeautifulSoup(response.content, 'html.parser',
