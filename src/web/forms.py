@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 from flask import flash, url_for, redirect
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_babel import lazy_gettext
 from werkzeug.exceptions import NotFound
 from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
@@ -39,7 +39,7 @@ from web.controllers import UserController
 from web.models import User
 
 
-class SignupForm(Form):
+class SignupForm(FlaskForm):
     """
     Sign up form (registration to newspipe).
     """
@@ -68,7 +68,7 @@ class SignupForm(Form):
         return validated
 
 
-class RedirectForm(Form):
+class RedirectForm(FlaskForm):
     """
     Secure back redirects with WTForms.
     """
@@ -123,7 +123,7 @@ class SigninForm(RedirectForm):
         return validated
 
 
-class UserForm(Form):
+class UserForm(FlaskForm):
     """
     Create or edit a user (for the administrator).
     """
@@ -144,7 +144,7 @@ class UserForm(Form):
         return validated
 
 
-class ProfileForm(Form):
+class ProfileForm(FlaskForm):
     """
     Edit user information.
     """
@@ -176,7 +176,7 @@ class ProfileForm(Form):
         return validated
 
 
-class AddFeedForm(Form):
+class AddFeedForm(FlaskForm):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
     link = TextField(lazy_gettext("Feed link"),
             [validators.Required(lazy_gettext("Please enter the URL."))])
@@ -193,12 +193,12 @@ class AddFeedForm(Form):
                                       for cat in categories]
 
 
-class CategoryForm(Form):
+class CategoryForm(FlaskForm):
     name = TextField(lazy_gettext("Category name"))
     submit = SubmitField(lazy_gettext("Save"))
 
 
-class BookmarkForm(Form):
+class BookmarkForm(FlaskForm):
     href = TextField(lazy_gettext("URL"),
                             [validators.Required(
                                         lazy_gettext("Please enter an URL."))])
@@ -212,7 +212,7 @@ class BookmarkForm(Form):
     submit = SubmitField(lazy_gettext("Save"))
 
 
-class InformationMessageForm(Form):
+class InformationMessageForm(FlaskForm):
     subject = TextField(lazy_gettext("Subject"),
             [validators.Required(lazy_gettext("Please enter a subject."))])
     message = TextAreaField(lazy_gettext("Message"),
