@@ -75,7 +75,7 @@ class RedirectForm(FlaskForm):
     next = HiddenField()
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
         if not self.next.data:
             self.next.data = misc_utils.get_redirect_target() or ''
 
