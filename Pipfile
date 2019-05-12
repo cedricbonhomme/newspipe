@@ -1,5 +1,4 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -8,7 +7,6 @@ name = "pypi"
 python_version = "3.7"
 
 [packages]
-
 aiohttp = "*"
 requests = "*"
 chardet = "*"
@@ -17,7 +15,6 @@ feedparser = "*"
 "beautifulsoup4" = "*"
 lxml = "*"
 opml = "*"
-"psycopg2" = "*"
 SQLAlchemy = "*"
 alembic = "*"
 Flask = "*"
@@ -35,7 +32,6 @@ Flask-Script = "*"
 WTForms = "*"
 sendgrid = "*"
 python-dateutil = "*"
-
+psycopg2-binary = "*"
 
 [dev-packages]
-
