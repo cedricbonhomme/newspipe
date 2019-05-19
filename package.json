@@ -19,24 +19,24 @@
   "main": "src/web/js/app.js",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "bower": "^1.8.4",
+    "bower": "^1.8.8",
     "classnames": "^2.2.6",
     "create-react-class": "^15.6.3",
     "flux": "^3.1.3",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "keymirror": "^0.1.1",
     "object-assign": "^4.1.1",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-bootstrap": "^0.32.1",
-    "react-dom": "^16.4.1"
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-bootstrap": "^0.32.4",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "envify": "^4.1.0",
     "reactify": "^1.1.1",
-    "uglify-js": "^3.4.2",
-    "watchify": "^3.11.0"
+    "uglify-js": "^3.5.12",
+    "watchify": "^3.11.1"
   },
   "scripts": {
     "start": "watchify -o src/web/static/js/bundle.min.js -v -d src/web/js/app.js",
