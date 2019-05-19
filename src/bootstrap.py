@@ -14,7 +14,7 @@ def set_logging(log_path=None, log_level=logging.INFO, modules=(),
                 log_format='%(asctime)s %(levelname)s %(message)s'):
     if not modules:
         modules = ('root', 'bootstrap', 'runserver',
-                   'web', 'crawler.classic_crawler', 'manager', 'plugins')
+                   'web', 'crawler.default_crawler', 'manager', 'plugins')
     if conf.ON_HEROKU:
         log_format = '%(levelname)s %(message)s'
     if log_path:

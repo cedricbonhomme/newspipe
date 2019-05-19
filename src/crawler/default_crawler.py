@@ -59,6 +59,8 @@ else:
 async def get(*args, **kwargs):
     #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
     try:
+        logger.info('Retrieving feed {}'.format(args[0]))
+        print('Retrieving feed {}'.format(args[0]))
         data = feedparser.parse(args[0])
         return data
     except Exception as e:
@@ -102,7 +104,9 @@ async def parse_feed(user, feed):
 
     # Feed information
     try:
+        print('contructing feed')
         construct_feed_from(feed.link, parsed_feed).update(up_feed)
+        print('constructing feed 1')
     except:
          logger.exception('error when constructing feed: {}'.format(feed.link))
     if feed.title and 'title' in up_feed:
