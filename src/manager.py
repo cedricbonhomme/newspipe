@@ -68,7 +68,7 @@ def fetch_asyncio(user_id=None, feed_id=None):
             
         
         loop = asyncio.get_event_loop()
-        queue = asyncio.Queue(maxsize=2, loop=loop)
+        queue = asyncio.Queue(maxsize=3, loop=loop)
         
         producer_coro = default_crawler.retrieve_feed(queue, users, feed_id)
         consumer_coro = default_crawler.insert_articles(queue, 1)
