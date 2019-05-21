@@ -141,26 +141,6 @@ async def insert_articles(queue, nḅ_producers=1):
             exist = existing_article_req.count() != 0
             if exist:
                 continue
-                # if the article has been already retrieved, we only update
-                # the content or the title
-                logger.info('Article already in the database: {}'. \
-                                format(article['link']))
-                existing_article = existing_article_req.first()
-
-                if new_article['date'].replace(tzinfo=None) != \
-                                                            existing_article.date:
-                    existing_article.date = new_article['date']
-                    existing_article.updated_date = new_article['date']
-                    if existing_article.title != new_article['title']:
-                        existing_article.title = new_article['title']
-                    content = get_article_content(article)
-                    if existing_article.content != content:
-                        existing_article.content = content
-                        existing_article.readed = False
-                    art_contr.update({'entry_id': existing_article.entry_id},
-                                                            existing_article.dump())
-                    logger.info('Article updated: {}'.format(article['link']))
-                continue
 
             # insertion of the new article
             try:
