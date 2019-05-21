@@ -65,16 +65,19 @@ def fetch_asyncio(user_id=None, feed_id=None):
             feed_id = int(feed_id)
         except:
             feed_id = None
+            
+        
+        loop = asyncio.get_event_loop()
+        queue = asyncio.Queue(maxsize=2, loop=loop)
+        
+        producer_coro = default_crawler.retrieve_feed(queue, users, feed_id)
+        consumer_coro = default_crawler.insert_articles(queue, 1)
 
         logger.info('Starting crawler.')
-
         start = datetime.now()
-        loop = asyncio.get_event_loop()
-        for user in users:
-            default_crawler.retrieve_feed(loop, user, feed_id)
-        loop.close()
+        loop.run_until_complete(asyncio.gather(producer_coro, consumer_coro))
         end = datetime.now()
-
+        loop.close()
         logger.info('Crawler finished in {} seconds.' \
                         .format((end - start).seconds))
 
