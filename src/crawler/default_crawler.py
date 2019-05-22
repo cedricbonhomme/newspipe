@@ -26,8 +26,10 @@ __revision__ = "$Date: 2010/05/21 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
+import io
 import asyncio
 import logging
+import requests
 import feedparser
 import dateutil.parser
 from datetime import datetime, timezone, timedelta
@@ -50,10 +52,17 @@ def get(*args, **kwargs):
     #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
     try:
         logger.info('Retrieving feed {}'.format(args[0]))
-        data = feedparser.parse(args[0])
-        return data
+        resp = requests.get(args[0], timeout=20.0)
+    except requests.ReadTimeout:
+        logger.info('Timeout when reading feed {}'.format(args[0]))
+        raise e
+    content = io.BytesIO(resp.content)
+    try:
+        data = feedparser.parse(content)
     except Exception as e:
         raise e
+    return data
+
 
 
 def parse_feed(user, feed):
@@ -119,8 +128,8 @@ async def insert_articles(queue, nḅ_producers=1):
             continue
 
         user, feed, articles = item
-    
-        
+
+
         if None is articles:
             logger.info('None')
             articles = []
@@ -166,15 +175,14 @@ async def retrieve_feed(queue, users, feed_id=None):
         filters['last_retrieved__lt'] = datetime.now() - \
                                     timedelta(minutes=conf.FEED_REFRESH_INTERVAL)
         feeds = FeedController().read(**filters).all()
-        
+
 
         if feeds == []:
             logger.info('No feed to retrieve for {}'.format(user.nickname))
-        
-        
+
+
         for feed in feeds:
             articles = parse_feed(user, feed)
             await queue.put((user, feed, articles))
 
     await queue.put(None)
-
