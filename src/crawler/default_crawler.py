@@ -63,8 +63,10 @@ async def parse_feed(user, feed):
         resp = await jarr_get(feed.link, timeout=5)
     except Exception as e:
         logger.info('Problem when reading feed {}'.format(feed.link))
-        raise e
+        return
     finally:
+        if None is resp:
+            return
         try:
             content = io.BytesIO(resp.content)
             parsed_feed = feedparser.parse(content)
