@@ -136,7 +136,6 @@ async def insert_articles(queue, nḅ_producers=1):
 
         logger.info('Inserting articles for {}'.format(feed.title))
 
-        new_articles = []
         art_contr = ArticleController(user.id)
         for article in articles:
             new_article = await construct_article(article, feed)
@@ -153,7 +152,7 @@ async def insert_articles(queue, nḅ_producers=1):
 
             # insertion of the new article
             try:
-                new_articles.append(art_contr.create(**new_article))
+                art_contr.create(**new_article)
                 logger.info('New article added: {}'.format(new_article['link']))
             except Exception:
                 logger.exception('Error when inserting article in database:')
