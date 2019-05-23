@@ -29,7 +29,6 @@ __license__ = "AGPLv3"
 import io
 import asyncio
 import logging
-import requests
 import feedparser
 import dateutil.parser
 from datetime import datetime, timezone, timedelta
@@ -39,6 +38,7 @@ import conf
 from bootstrap import db
 from web.models import User
 from web.controllers import FeedController, ArticleController
+from lib.utils import jarr_get
 from lib.feed_utils import construct_feed_from, is_parsing_ok
 from lib.article_utils import construct_article, extract_id, \
                                     get_article_content
@@ -48,24 +48,7 @@ logger = logging.getLogger(__name__)
 sem = asyncio.Semaphore(5)
 
 
-def get(*args, **kwargs):
-    #kwargs["connector"] = aiohttp.TCPConnector(verify_ssl=False)
-    try:
-        logger.info('Retrieving feed {}'.format(args[0]))
-        resp = requests.get(args[0], timeout=20.0)
-    except requests.ReadTimeout:
-        logger.info('Timeout when reading feed {}'.format(args[0]))
-        raise e
-    content = io.BytesIO(resp.content)
-    try:
-        data = feedparser.parse(content)
-    except Exception as e:
-        raise e
-    return data
-
-
-
-def parse_feed(user, feed):
+async def parse_feed(user, feed):
     """
     Fetch a feed.
     Update the feed and return the articles.
@@ -73,21 +56,30 @@ def parse_feed(user, feed):
     parsed_feed = None
     up_feed = {}
     articles = []
+    resp = None
     #with (await sem):
     try:
-        parsed_feed = get(feed.link)
+        logger.info('Retrieving feed {}'.format(feed.link))
+        resp = await jarr_get(feed.link, timeout=5)
     except Exception as e:
-        up_feed['last_error'] = str(e)
-        up_feed['error_count'] = feed.error_count + 1
-        logger.exception("error when parsing feed: " + str(e))
+        logger.info('Problem when reading feed {}'.format(feed.link))
+        raise e
     finally:
-        up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
-        if parsed_feed is None:
-            try:
-                FeedController().update({'id': feed.id}, up_feed)
-            except Exception as e:
-                logger.exception('something bad here: ' + str(e))
-            return
+        try:
+            content = io.BytesIO(resp.content)
+            parsed_feed = feedparser.parse(content)
+        except Exception as e:
+            up_feed['last_error'] = str(e)
+            up_feed['error_count'] = feed.error_count + 1
+            logger.exception("error when parsing feed: " + str(e))
+        finally:
+            up_feed['last_retrieved'] = datetime.now(dateutil.tz.tzlocal())
+            if parsed_feed is None:
+                try:
+                    FeedController().update({'id': feed.id}, up_feed)
+                except Exception as e:
+                    logger.exception('something bad here: ' + str(e))
+                return
 
     if not is_parsing_ok(parsed_feed):
         up_feed['last_error'] = str(parsed_feed['bozo_exception'])
@@ -134,7 +126,7 @@ async def insert_articles(queue, nḅ_producers=1):
             logger.info('None')
             articles = []
 
-        logger.info('Inserting articles for {}'.format(feed.title))
+        logger.info('Inserting articles for {}'.format(feed.link))
 
         art_contr = ArticleController(user.id)
         for article in articles:
@@ -155,7 +147,7 @@ async def insert_articles(queue, nḅ_producers=1):
                 art_contr.create(**new_article)
                 logger.info('New article added: {}'.format(new_article['link']))
             except Exception:
-                logger.exception('Error when inserting article in database:')
+                logger.exception('Error when inserting article in database.')
                 continue
 
 
@@ -175,13 +167,11 @@ async def retrieve_feed(queue, users, feed_id=None):
                                     timedelta(minutes=conf.FEED_REFRESH_INTERVAL)
         feeds = FeedController().read(**filters).all()
 
-
         if feeds == []:
             logger.info('No feed to retrieve for {}'.format(user.nickname))
 
-
         for feed in feeds:
-            articles = parse_feed(user, feed)
+            articles = await parse_feed(user, feed)
             await queue.put((user, feed, articles))
 
     await queue.put(None)
