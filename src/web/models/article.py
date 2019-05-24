@@ -47,6 +47,7 @@ class Article(db.Model, RightMixin):
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
+    # foreign keys
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
@@ -58,10 +59,13 @@ class Article(db.Model, RightMixin):
                                  foreign_keys='[ArticleTag.article_id]')
     tags = association_proxy('tag_objs', 'text')
 
-    # index
-    idx_article_uid = Index('user_id')
-    idx_article_uid_cid = Index('user_id', 'category_id')
-    idx_article_uid_fid = Index('user_id', 'feed_id')
+    # indexes
+    __table_args__ = (
+        Index('user_id'),
+        Index('user_id', 'category_id'),
+        Index('user_id', 'feed_id'),
+        Index('ix_article_uid_fid_eid', user_id, feed_id, entry_id)
+    )
 
     # api whitelists
     @staticmethod

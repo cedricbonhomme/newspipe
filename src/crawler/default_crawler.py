@@ -135,8 +135,10 @@ async def insert_articles(queue, nḅ_producers=1):
             new_article = await construct_article(article, feed)
 
             try:
-                existing_article_req = art_contr.read(feed_id=feed.id,
-                                entry_id=extract_id(article))
+                existing_article_req = art_contr.read(
+                                        user_id=user.id,
+                                        feed_id=feed.id,
+                                        entry_id=extract_id(article))
             except Exception as e:
                 logger.exception("existing_article_req: " + str(e))
                 continue
