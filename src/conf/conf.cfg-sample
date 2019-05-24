@@ -19,7 +19,7 @@ crawling_method = default
 default_max_error = 6
 user_agent = Newspipe (https://gitlab.com/newspipe/newspipe)
 timeout = 30
-resolv = true
+resolv = false
 feed_refresh_interval = 120
 [notification]
 notification_email = Newspipe@no-reply.com
