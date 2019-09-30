@@ -2,7 +2,7 @@ import json
 import logging
 
 from datetime import datetime
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 from werkzeug.exceptions import NotFound
 from flask import (render_template, flash, session, request,
                    url_for, redirect, current_app)

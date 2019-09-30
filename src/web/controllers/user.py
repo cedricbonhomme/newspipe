@@ -1,5 +1,5 @@
 import logging
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from .abstract import AbstractController
 from web.models import User
 

@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# newspipe - A Web based news aggregator.
+# Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information : https://gitlab.com/newspipe/newspipe
@@ -40,8 +40,6 @@ __all__ = ['Feed', 'Role', 'User', 'Article', 'Icon', 'Category',
             'Bookmark', 'ArticleTag', 'BookmarkTag']
 
 import os
-
-from werkzeug import generate_password_hash
 
 from sqlalchemy.engine import reflection
 from sqlalchemy.schema import (

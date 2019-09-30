@@ -4,7 +4,7 @@
 import os
 import logging
 from datetime import datetime
-from werkzeug import generate_password_hash
+from werkzeug.security import generate_password_hash
 from bootstrap import application, db, conf, set_logging
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
