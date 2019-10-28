@@ -2,7 +2,7 @@
 
 ## Presentation
 
-[Newspipe](https://gitlab.com/newspipe/newspipe) is a web-based news
+[Newspipe](https://git.sr.ht/~cedric/Newspipe) is a web-based news
 aggregator and reader.
 
 ## Main features
@@ -31,24 +31,24 @@ provides different ways to
 
 Test Newspipe on Heroku:
 
-[![Deploy Newspipe on Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://builds.sr.ht/~cedric/Stegano)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://builds.sr.ht/~cedric/Stegano)
 
 It is important to specify an application name and the URL of your instance
 (*PLATFORM_URL*) through the Heroku form.
 
 
-## Contributions
+## Deployment
 
-Contributions are welcome. If you want to contribute to Newspipe I highly
-recommend you to install it in a Python virtual environment. For example:
-
+### Requirements
 
 ```bash
 $ sudo apt-get install postgresql npm
 ```
 
+##  Configure and install the application
+
 ```bash
-$ git clone https://gitlab.com/newspipe/newspipe.git
+$ git clone https://git.sr.ht/~cedric/Newspipe
 $ cd newspipe/
 $ pipenv install
 ✨🍰✨
@@ -62,7 +62,7 @@ $ python src/runserver.py
 
 ## License
 
-[Newspipe](https://gitlab.com/newspipe/newspipe) is under the
+[Newspipe](https://git.sr.ht/~cedric/Newspipe) is under the
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 

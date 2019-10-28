@@ -6,9 +6,9 @@
         "news",
         "RSS"
     ],
-    "website": "https://github.com/newspipe/",
-    "repository": "https://github.com/newspipe/newspipe",
-    "logo": "https://raw.githubusercontent.com/newspipe/newspipe/master/src/web/static/img/newspipe.png",
+    "website": "https://git.sr.ht/~cedric/Newspipe",
+    "repository": "https://git.sr.ht/~cedric/Newspipe",
+    "logo": "https://git.sr.ht/~cedric/Newspipe/blob/master/src/web/static/img/newspipe.png",
     "scripts": {
         "postdeploy": "python src/manager.py db_create"
     },

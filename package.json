@@ -9,7 +9,7 @@
   "description": "Newspipe is a web-based news aggregator.",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/newspipe/newspipe"
+    "url": "https://git.sr.ht/~cedric/Newspipe"
   },
   "license": "AGPL-3.0",
   "engines": {
