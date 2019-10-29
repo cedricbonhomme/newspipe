@@ -5,6 +5,9 @@
 [Newspipe](https://git.sr.ht/~cedric/Newspipe) is a web-based news
 aggregator and reader.
 
+For reporting issues, visit the tracker here:
+https://todo.sr.ht/~cedric/newspipe
+
 ## Main features
 
 * can be easily deployed on Heroku or on your server;
