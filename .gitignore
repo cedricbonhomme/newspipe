@@ -22,10 +22,12 @@ eproject.cfg
 venv
 build
 
-src/conf/conf.cfg
+newspipe.egg-info/
+
+newspipe/conf/conf.cfg
 .coverage
 
 # js and node files
 node_modules
-src/web/static/bower_components/
-src/web/static/js/bundle.min.js
+newspipe/web/static/bower_components/
+newspipe/web/static/js/bundle.min.js

@@ -10,14 +10,14 @@ https://todo.sr.ht/~cedric/newspipe
 
 ## Main features
 
-* can be easily deployed on Heroku or on your server;
+* easy to deploy;
 * multiple users can use a Newspipe instance;
 * a RESTful API to manage your articles (or connect your own crawler);
 * data liberation: export and import all your account with a JSON file;
 * export and import feeds with OPML files;
 * favorite articles;
 * detection of inactive feeds;
-* Pinboard and reddit;
+* share on Pinboard and reddit;
 * personal management of bookmarks (with import from Pinboard).
 
 The core technologies are [Flask](http://flask.pocoo.org),
@@ -32,13 +32,6 @@ A documentation is available [here](https://newspipe.readthedocs.io) and
 provides different ways to
 [install Newspipe](https://newspipe.readthedocs.io/en/latest/deployment.html).
 
-Test Newspipe on Heroku:
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://builds.sr.ht/~cedric/Stegano)
-
-It is important to specify an application name and the URL of your instance
-(*PLATFORM_URL*) through the Heroku form.
-
 
 ## Deployment
 
@@ -51,15 +44,15 @@ $ sudo apt-get install postgresql npm
 ##  Configure and install the application
 
 ```bash
-$ git clone https://git.sr.ht/~cedric/Newspipe
+$ git clone https://git.sr.ht/~cedric/newspipe
 $ cd newspipe/
-$ pipenv install
+$ poetry install
 ✨🍰✨
 $ npm install
-$ cp src/conf/conf.cfg-sample src/conf/conf.cfg
-$ pipenv shell
-$ python src/manager.py db_create
-$ python src/runserver.py
+$ cp newspipe/conf/conf.cfg-sample newspipe/conf/conf.cfg
+$ poetry shell
+$ python newspipe/manager.py db_create
+$ python newspipe/runserver.py
   * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 

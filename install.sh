@@ -9,13 +9,13 @@
 
 sudo apt-get install npm
 
-pipenv install
+poetry install
 npm install
 
-cp src/conf/conf.cfg-sample src/conf/conf.cfg
+cp newspipe/conf/conf.cfg-sample newspipe/conf/conf.cfg
 # Delete default database configuration
-sed -i '/database/d' src/conf/conf.cfg
-sed -i '/database_url/d' src/conf/conf.cfg
+sed -i '/database/d' newspipe/conf/conf.cfg
+sed -i '/database_url/d' newspipe/conf/conf.cfg
 
 # Configuration of the database
 if [ "$1" == postgres ]; then
@@ -30,21 +30,21 @@ if [ "$1" == postgres ]; then
     echo "GRANT ALL PRIVILEGES ON DATABASE aggregator TO pgsqluser;" | sudo -u postgres psql
 
     # Add configuration lines for PostgreSQL
-    echo '[database]' >> src/conf/conf.cfg
-    echo 'database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator' >> src/conf/conf.cfg
+    echo '[database]' >> newspipe/conf/conf.cfg
+    echo 'database_url = postgres://pgsqluser:pgsqlpwd@127.0.0.1:5433/aggregator' >> newspipe/conf/conf.cfg
 elif [ "$1" == sqlite ]; then
     # Add configuration lines for SQLite
     echo "Configuring the SQLite database..."
 
-    echo '[database]' >> src/conf/conf.cfg
-    echo 'database_url = sqlite:///newspipe.db' >> src/conf/conf.cfg
+    echo '[database]' >> newspipe/conf/conf.cfg
+    echo 'database_url = sqlite:///newspipe.db' >> newspipe/conf/conf.cfg
 fi
 
-pipenv shell
+poetry shell
 
 echo "Initialization of the database..."
-python src/manager.py db_empty
-python src/manager.py db_create
+python newspipe/manager.py db_empty
+python newspipe/manager.py db_create
 
 echo "Launching Newspipe..."
-python src/runserver.py
+python newspipe/runserver.py
