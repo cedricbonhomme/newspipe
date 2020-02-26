@@ -1,13 +1,17 @@
 Newspipe Changelog
 ==================
 
-## 9.0 (not yet released)
+## 9.0 (2020-02-27)
 
     New:
      * email address of users are no longer stored in the database. Only a
        nickname and a password are required to create an account;
      * deployment is now done with poetry;
-     * removed a lot of bad JavaScript code.
+     * removed a lot bad JavaScript code.
+    Improvements:
+     * feeds are now retrieved with requests. feedparser is only used for the
+       parsing;
+     * improvements to the crawler.
 
 
 ## 8.0 (2017-05-24)

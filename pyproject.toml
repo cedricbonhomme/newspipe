@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "newspipe"
-version = "8.0.0"
+version = "9.0.0"
 description = "Newspipe is a web-based news aggregator and reader."
 authors = ["Cédric Bonhomme <cedric@cedricbonhomme.org>"]
 license = "AGPL-3.0-or-later"

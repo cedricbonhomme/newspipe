@@ -17,7 +17,7 @@ database_url = sqlite:///newspipe.db
 [crawler]
 crawling_method = default
 default_max_error = 6
-user_agent = Newspipe (https://gitlab.com/newspipe/newspipe)
+user_agent = Newspipe (https://git.sr.ht/~cedric/newspipe)
 timeout = 30
 resolv = false
 feed_refresh_interval = 120
