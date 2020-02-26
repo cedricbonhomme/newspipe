@@ -2,7 +2,7 @@
 
 ## Presentation
 
-[Newspipe](https://git.sr.ht/~cedric/Newspipe) is a web-based news
+[Newspipe](https://git.sr.ht/~cedric/newspipe) is a web-based news
 aggregator and reader.
 
 For reporting issues, visit the tracker here:
@@ -58,7 +58,7 @@ $ python newspipe/runserver.py
 
 ## License
 
-[Newspipe](https://git.sr.ht/~cedric/Newspipe) is under the
+[Newspipe](https://git.sr.ht/~cedric/newspipe) is under the
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 
