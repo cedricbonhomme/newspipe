@@ -29,5 +29,5 @@ newspipe/conf/conf.cfg
 
 # js and node files
 node_modules
-newspipe/web/static/bower_components/
+newspipe/web/static/npm_components
 newspipe/web/static/js/bundle.min.js

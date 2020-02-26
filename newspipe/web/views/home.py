@@ -21,9 +21,42 @@ logger = logging.getLogger(__name__)
 
 @current_app.route("/")
 @login_required
-@etag_match
 def home():
-    return render_template("home.html", cdn=conf.CDN_ADDRESS)
+
+    art_contr = ArticleController(current_user.id)
+
+    unread = art_contr.count_by_feed(readed=False)
+
+    feeds = {feed.id: feed.title for feed in current_user.feeds}
+    # articles = Article.query.filter(Article.feed_id.in_(feeds.keys()),
+    #                                 Article.user_id == current_user.id)
+    filter_ = request.args.get('filter_', 'unread')
+    feed_id = int(request.args.get('feed', 0))
+    limit = request.args.get('limit', 1000)
+
+    if filter_ != 'all':
+        articles = art_contr.read_light(readed=(filter_ == 'read'))
+    if feed_id:
+        articles = art_contr.read_light(readed=(filter_ == 'read'), feed_id=feed_id)
+
+    # articles = articles.order_by(Article.date.desc())
+    if limit != 'all':
+        limit = int(limit)
+        articles = articles.limit(limit)
+
+    # unread = db.session.query(Article.feed_id, func.count(Article.id))\
+    #                    .filter(Article.readed == False, Article.user_id == g.user.id)\
+    #                    .group_by(Article.feed_id).all()
+
+
+    in_error = {feed.id: feed.error_count for feed in
+                FeedController(current_user.id).read(error_count__gt=0).all()}
+    def gen_url(filter_=filter_, limit=limit, feed=feed_id):
+        return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
+    return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
+                           filter_=filter_, limit=limit, feeds=feeds,
+                           unread=dict(unread), articles=articles.all(),
+                           in_error=in_error)
 
 
 @current_app.route("/menu")
@@ -132,16 +165,6 @@ def _articles_to_json(articles, fd_hash=None):
             for art in articles.limit(1000)
         ]
     }
-
-
-@current_app.route("/middle_panel")
-@login_required
-@etag_match
-def get_middle_panel():
-    filters = _get_filters(request.args)
-    art_contr = ArticleController(current_user.id)
-    articles = art_contr.read_light(**filters)
-    return _articles_to_json(articles)
 
 
 @current_app.route("/getart/<int:article_id>")

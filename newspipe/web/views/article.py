@@ -41,7 +41,10 @@ def article(article_id=None):
     """
     Presents an article.
     """
-    article = ArticleController(current_user.id).get(id=article_id)
+    art_contr = ArticleController(current_user.id)
+    article = art_contr.get(id=article_id)
+    if not article.readed:
+        art_contr.update({"id": article.id}, {"readed": True})
     return render_template(
         "article.html", head_titles=[clear_string(article.title)], article=article
     )

@@ -26,13 +26,6 @@ The core technologies are [Flask](http://flask.pocoo.org),
 and [React](https://facebook.github.io/react/).
 
 
-## Documentation
-
-A documentation is available [here](https://newspipe.readthedocs.io) and
-provides different ways to
-[install Newspipe](https://newspipe.readthedocs.io/en/latest/deployment.html).
-
-
 ## Deployment
 
 ### Requirements
@@ -47,7 +40,6 @@ $ sudo apt-get install postgresql npm
 $ git clone https://git.sr.ht/~cedric/newspipe
 $ cd newspipe/
 $ poetry install
-✨🍰✨
 $ npm install
 $ cp newspipe/conf/conf.cfg-sample newspipe/conf/conf.cfg
 $ poetry shell
