@@ -27,7 +27,6 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "self_registration": "false",
             "cdn_address": "",
             "admin_email": "info@newspipe.org",
-            "sendgrid_api_key": "",
             "token_validity_period": "3600",
             "default_max_error": "3",
             "log_path": "newspipe.log",
@@ -98,8 +97,6 @@ NOTIFICATION_TLS = config.getboolean('notification', 'tls')
 NOTIFICATION_SSL = config.getboolean('notification', 'ssl')
 NOTIFICATION_USERNAME = config.get('notification', 'username')
 NOTIFICATION_PASSWORD = config.get('notification', 'password')
-SENDGRID_API_KEY = config.get('notification', 'sendgrid_api_key')
-POSTMARK_API_KEY = ''
 
 CSRF_ENABLED = True
 # slow database query threshold (in seconds)

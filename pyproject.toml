@@ -29,7 +29,6 @@ Flask-Babel = "^1.0.0"
 Flask-Migrate = "^2.5.2"
 Flask-Script = "^2.0.6"
 WTForms = "^2.2.1"
-sendgrid = "^6.1.2"
 python-dateutil = "^2.8.1"
 psycopg2-binary = "^2.8.4"
 

@@ -24,9 +24,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import sendgrid
-from sendgrid.helpers.mail import *
-
 import conf
 from web.decorators import async_maker
 
@@ -79,50 +76,3 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     else:
         s.sendmail(conf.NOTIFICATION_EMAIL, msg['To'] + ", " + msg['BCC'], msg.as_string())
         s.quit()
-
-
-def send_postmark(to="", bcc="", subject="", plaintext=""):
-    """
-    Send an email via Postmark. Used when the application is deployed on
-    Heroku.
-    Note: The Postmark team has chosen not to continue development of the
-    Heroku add-on as of June 30, 2017. Newspipe is now using SendGrid when
-    deployed on Heroku.
-    """
-    from postmark import PMMail
-    try:
-        message = PMMail(api_key = conf.POSTMARK_API_KEY,
-                        subject = subject,
-                        sender = conf.NOTIFICATION_EMAIL,
-                        text_body = plaintext)
-        message.to = to
-        if bcc != "":
-            message.bcc = bcc
-        message.send()
-    except Exception as e:
-        logger.exception('send_postmark raised:')
-        raise e
-
-
-def send_sendgrid(to="", bcc="", subject="", plaintext=""):
-    """
-    Send an email via SendGrid. Used when the application is deployed on
-    Heroku.
-    """
-    sg = sendgrid.SendGridAPIClient(apikey=conf.SENDGRID_API_KEY)
-
-    mail = Mail()
-    mail.from_email = Email(conf.NOTIFICATION_EMAIL)
-    mail.subject = subject
-    mail.add_content(Content('text/plain', plaintext))
-
-    personalization = Personalization()
-    personalization.add_to(Email(to))
-    if bcc != "":
-        personalization.add_bcc(Email(bcc))
-    mail.add_personalization(personalization)
-
-    response = sg.client.mail.send.post(request_body=mail.get())
-    # print(response.status_code)
-    # print(response.body)
-    # print(response.headers)
