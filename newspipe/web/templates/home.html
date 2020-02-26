@@ -31,10 +31,10 @@
             <li class="feed-commands"><span>
                 <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
-                <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-                <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
             </span></li>
         {% endfor %}
         {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
@@ -49,20 +49,20 @@
             <li class="feed-commands"><span>
                 <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
                 <a href="/articles/{{ fid }}/100"><i class="glyphicon glyphicon-th-list" title="{{ _('Articles') }}"></i></a>
-                <a href="/edit_feed/{{ fid }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="/delete_feed/{{ fid }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-                <a href="/mark_as/read/feed/{{ fid }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="/mark_as/unread/feed/{{ fid }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="glyphicon glyphicon-check" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="glyphicon glyphicon-unchecked" title="{{ _('Mark this feed as unread') }}"></i></a>
             </span></li>
         {% endfor %}
         </ul>
     </div>
     <div class="container col-md-9">
         <div id="filters" data-filter="{{ filter_ }}">
-            <ul id="myTab" class="nav nav-tabs" role="tablist">
-                <li id="tab-all"><a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a></li>
-                <li id="tab-read"><a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a></li>
-                <li id="tab-unread"><a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a></li>
+            <ul class="nav nav-tabs"">
+                <li id="tab-all nav-item" {% if filter_ == 'all' %}class="active"{% endif %}><a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a></li>
+                <li id="tab-read" {% if filter_ == 'read' %}class="active"{% endif %}><a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a></li>
+                <li id="tab-unread" {% if filter_ == 'unread' %}class="active"{% endif %}><a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a></li>
                 <li id="tab-nbdisplay" class="pull-right">
                     <div id="nbdisplay">
                         <a href="{{ gen_url(limit=10) }}" class="label {% if limit == 10 %}label-primary{% else %}label-info{% endif %}">{{ _(10) }}</a>

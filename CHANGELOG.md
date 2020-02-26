@@ -1,7 +1,7 @@
 Newspipe Changelog
 ==================
 
-## 8.1 (not yet released)
+## 9.0 (not yet released)
 
     New:
      * email address of users are no longer stored in the database. Only a

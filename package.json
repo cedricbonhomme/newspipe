@@ -1,6 +1,6 @@
 {
   "name": "newspipe",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "license": "AGPL-3.0",
   "private": true,
   "dependencies": {
