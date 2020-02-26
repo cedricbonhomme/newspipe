@@ -22,8 +22,7 @@ https://todo.sr.ht/~cedric/newspipe
 
 The core technologies are [Flask](http://flask.pocoo.org),
 [asyncio](https://www.python.org/dev/peps/pep-3156/),
-[SQLAlchemy](http://www.sqlalchemy.org)
-and [React](https://facebook.github.io/react/).
+[SQLAlchemy](http://www.sqlalchemy.org).
 
 
 ## Deployment
