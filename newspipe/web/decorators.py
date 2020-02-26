@@ -13,9 +13,11 @@ def async_maker(f):
     indexing the database) in background.
     This prevent the server to freeze.
     """
+
     def wrapper(*args, **kwargs):
         thr = Thread(target=f, args=args, kwargs=kwargs)
         thr.start()
+
     return wrapper
 
 
@@ -24,4 +26,5 @@ def pyagg_default_decorator(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         return func(*args, **kwargs)
+
     return wrapper

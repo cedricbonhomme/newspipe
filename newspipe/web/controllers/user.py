@@ -8,13 +8,13 @@ logger = logging.getLogger(__name__)
 
 class UserController(AbstractController):
     _db_cls = User
-    _user_id_key = 'id'
+    _user_id_key = "id"
 
     def _handle_password(self, attrs):
-        if attrs.get('password'):
-            attrs['pwdhash'] = generate_password_hash(attrs.pop('password'))
-        elif 'password' in attrs:
-            del attrs['password']
+        if attrs.get("password"):
+            attrs["pwdhash"] = generate_password_hash(attrs.pop("password"))
+        elif "password" in attrs:
+            del attrs["password"]
 
     def check_password(self, user, password):
         return check_password_hash(user.pwdhash, password)

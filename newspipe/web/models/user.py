@@ -44,6 +44,7 @@ class User(db.Model, UserMixin, RightMixin):
     """
     Represent a user.
     """
+
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(), unique=True)
     pwdhash = db.Column(db.String())
@@ -64,29 +65,34 @@ class User(db.Model, UserMixin, RightMixin):
     is_api = db.Column(db.Boolean(), default=False)
 
     # relationships
-    categories = db.relationship('Category', backref='user',
-                              cascade='all, delete-orphan',
-                            foreign_keys=[Category.user_id])
-    feeds = db.relationship('Feed', backref='user',
-                         cascade='all, delete-orphan',
-                            foreign_keys=[Feed.user_id])
+    categories = db.relationship(
+        "Category",
+        backref="user",
+        cascade="all, delete-orphan",
+        foreign_keys=[Category.user_id],
+    )
+    feeds = db.relationship(
+        "Feed",
+        backref="user",
+        cascade="all, delete-orphan",
+        foreign_keys=[Feed.user_id],
+    )
 
     @staticmethod
     def _fields_base_write():
-        return {'login', 'password'}
+        return {"login", "password"}
 
     @staticmethod
     def _fields_base_read():
-        return {'date_created', 'last_connection'}
+        return {"date_created", "last_connection"}
 
     @staticmethod
     def make_valid_nickname(nickname):
-        return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
+        return re.sub("[^a-zA-Z0-9_\.]", "", nickname)
 
-    @validates('bio')
+    @validates("bio")
     def validates_bio(self, key, value):
-        assert len(value) <= 5000, \
-                AssertionError("maximum length for bio: 5000")
+        assert len(value) <= 5000, AssertionError("maximum length for bio: 5000")
         return value.strip()
 
     def get_id(self):
@@ -105,4 +111,4 @@ class User(db.Model, UserMixin, RightMixin):
         return self.id == other.id
 
     def __repr__(self):
-        return '<User %r>' % (self.nickname)
+        return "<User %r>" % (self.nickname)

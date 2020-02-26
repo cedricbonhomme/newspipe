@@ -48,40 +48,54 @@ class Article(db.Model, RightMixin):
     retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
 
     # foreign keys
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    feed_id = db.Column(db.Integer(), db.ForeignKey('feed.id'))
-    category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
+    feed_id = db.Column(db.Integer(), db.ForeignKey("feed.id"))
+    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"))
 
     # relationships
-    tag_objs = db.relationship('ArticleTag', back_populates='article',
-                                 cascade='all,delete-orphan',
-                                 lazy=False,
-                                 foreign_keys='[ArticleTag.article_id]')
-    tags = association_proxy('tag_objs', 'text')
+    tag_objs = db.relationship(
+        "ArticleTag",
+        back_populates="article",
+        cascade="all,delete-orphan",
+        lazy=False,
+        foreign_keys="[ArticleTag.article_id]",
+    )
+    tags = association_proxy("tag_objs", "text")
 
     # indexes
-    #__table_args__ = (
+    # __table_args__ = (
     #    Index('user_id'),
     #    Index('user_id', 'category_id'),
     #    Index('user_id', 'feed_id'),
     #    Index('ix_article_uid_fid_eid', user_id, feed_id, entry_id)
-    #)
+    # )
 
     # api whitelists
     @staticmethod
     def _fields_base_write():
-        return {'readed', 'like', 'feed_id', 'category_id'}
+        return {"readed", "like", "feed_id", "category_id"}
 
     @staticmethod
     def _fields_base_read():
-        return {'id', 'entry_id', 'link', 'title', 'content', 'date',
-                'retrieved_date', 'user_id', 'tags'}
+        return {
+            "id",
+            "entry_id",
+            "link",
+            "title",
+            "content",
+            "date",
+            "retrieved_date",
+            "user_id",
+            "tags",
+        }
 
     @staticmethod
     def _fields_api_write():
-        return {'tags'}
+        return {"tags"}
 
     def __repr__(self):
-        return "<Article(id=%d, entry_id=%s, title=%r, " \
-               "date=%r, retrieved_date=%r)>" % (self.id, self.entry_id,
-                       self.title, self.date, self.retrieved_date)
+        return (
+            "<Article(id=%d, entry_id=%s, title=%r, "
+            "date=%r, retrieved_date=%r)>"
+            % (self.id, self.entry_id, self.title, self.date, self.retrieved_date)
+        )

@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2017  Cédric Bonhomme - https://www.cedricbonhomme.org
@@ -30,8 +30,15 @@ import logging
 import datetime
 from werkzeug.exceptions import BadRequest
 
-from flask import Blueprint, render_template, flash, \
-                  redirect, request, url_for, make_response
+from flask import (
+    Blueprint,
+    render_template,
+    flash,
+    redirect,
+    request,
+    url_for,
+    make_response,
+)
 from flask_babel import gettext
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
@@ -46,93 +53,105 @@ from web.controllers import BookmarkController, BookmarkTagController
 from web.models import BookmarkTag
 
 logger = logging.getLogger(__name__)
-bookmarks_bp = Blueprint('bookmarks', __name__, url_prefix='/bookmarks')
-bookmark_bp = Blueprint('bookmark', __name__, url_prefix='/bookmark')
+bookmarks_bp = Blueprint("bookmarks", __name__, url_prefix="/bookmarks")
+bookmark_bp = Blueprint("bookmark", __name__, url_prefix="/bookmark")
 
 
-@bookmarks_bp.route('/', defaults={'per_page': '50'}, methods=['GET'])
-@bookmarks_bp.route('/<string:status>', defaults={'per_page': '50'},
-                                                                methods=['GET'])
-def list_(per_page, status='all'):
+@bookmarks_bp.route("/", defaults={"per_page": "50"}, methods=["GET"])
+@bookmarks_bp.route("/<string:status>", defaults={"per_page": "50"}, methods=["GET"])
+def list_(per_page, status="all"):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
     user_id = None
     filters = {}
-    tag = request.args.get('tag', None)
+    tag = request.args.get("tag", None)
     if tag:
-        filters['tags_proxy__contains'] = tag
-    query = request.args.get('query', None)
+        filters["tags_proxy__contains"] = tag
+    query = request.args.get("query", None)
     if query:
-        query_regex = '%' + query + '%'
-        filters['__or__'] = {'title__ilike': query_regex,
-                            'description__ilike': query_regex}
+        query_regex = "%" + query + "%"
+        filters["__or__"] = {
+            "title__ilike": query_regex,
+            "description__ilike": query_regex,
+        }
     if current_user.is_authenticated:
         # query for the bookmarks of the authenticated user
         user_id = current_user.id
-        if status == 'public':
+        if status == "public":
             # load public bookmarks only
-            filters['shared'] = True
-        elif status == 'private':
+            filters["shared"] = True
+        elif status == "private":
             # load private bookmarks only
-            filters['shared'] = False
+            filters["shared"] = False
         else:
             # no filter: load shared and public bookmarks
             pass
-        if status == 'unread':
-            filters['to_read'] = True
+        if status == "unread":
+            filters["to_read"] = True
         else:
             pass
     else:
         # query for the shared bookmarks (of all users)
         head_titles = [gettext("Recent bookmarks")]
-        not_created_before = datetime.datetime.today() - \
-                                                    datetime.timedelta(days=900)
-        filters['time__gt'] = not_created_before # only "recent" bookmarks
-        filters['shared'] = True
+        not_created_before = datetime.datetime.today() - datetime.timedelta(days=900)
+        filters["time__gt"] = not_created_before  # only "recent" bookmarks
+        filters["shared"] = True
 
-    bookmarks = BookmarkController(user_id) \
-                    .read(**filters) \
-                    .order_by(desc('time'))
+    bookmarks = BookmarkController(user_id).read(**filters).order_by(desc("time"))
 
-    #tag_contr = BookmarkTagController(user_id)
-    #tag_contr.read().join(bookmarks).all()
+    # tag_contr = BookmarkTagController(user_id)
+    # tag_contr.read().join(bookmarks).all()
 
     page, per_page, offset = get_page_args()
-    pagination = Pagination(page=page, total=bookmarks.count(),
-                            css_framework='bootstrap3',
-                            search=False, record_name='bookmarks',
-                            per_page=per_page)
+    pagination = Pagination(
+        page=page,
+        total=bookmarks.count(),
+        css_framework="bootstrap3",
+        search=False,
+        record_name="bookmarks",
+        per_page=per_page,
+    )
 
-    return render_template('bookmarks.html',
-                            head_titles=head_titles,
-                            bookmarks=bookmarks.offset(offset).limit(per_page),
-                            pagination=pagination,
-                            tag=tag,
-                            query=query)
+    return render_template(
+        "bookmarks.html",
+        head_titles=head_titles,
+        bookmarks=bookmarks.offset(offset).limit(per_page),
+        pagination=pagination,
+        tag=tag,
+        query=query,
+    )
 
 
-@bookmark_bp.route('/create', methods=['GET'])
-@bookmark_bp.route('/edit/<int:bookmark_id>', methods=['GET'])
+@bookmark_bp.route("/create", methods=["GET"])
+@bookmark_bp.route("/edit/<int:bookmark_id>", methods=["GET"])
 @login_required
 def form(bookmark_id=None):
     "Form to create/edit bookmarks."
     action = gettext("Add a new bookmark")
     head_titles = [action]
     if bookmark_id is None:
-        return render_template('edit_bookmark.html', action=action,
-                               head_titles=head_titles, form=BookmarkForm())
+        return render_template(
+            "edit_bookmark.html",
+            action=action,
+            head_titles=head_titles,
+            form=BookmarkForm(),
+        )
     bookmark = BookmarkController(current_user.id).get(id=bookmark_id)
-    action = gettext('Edit bookmark')
+    action = gettext("Edit bookmark")
     head_titles = [action]
     form = BookmarkForm(obj=bookmark)
     form.tags.data = ", ".join(bookmark.tags_proxy)
-    return render_template('edit_bookmark.html', action=action,
-                           head_titles=head_titles, bookmark=bookmark,
-                           form=form)
+    return render_template(
+        "edit_bookmark.html",
+        action=action,
+        head_titles=head_titles,
+        bookmark=bookmark,
+        form=form,
+    )
 
 
-@bookmark_bp.route('/create', methods=['POST'])
-@bookmark_bp.route('/edit/<int:bookmark_id>', methods=['POST'])
+@bookmark_bp.route("/create", methods=["POST"])
+@bookmark_bp.route("/edit/<int:bookmark_id>", methods=["POST"])
 @login_required
 def process_form(bookmark_id=None):
     "Process the creation/edition of bookmarks."
@@ -141,116 +160,131 @@ def process_form(bookmark_id=None):
     tag_contr = BookmarkTagController(current_user.id)
 
     if not form.validate():
-        return render_template('edit_bookmark.html', form=form)
+        return render_template("edit_bookmark.html", form=form)
 
-    if form.title.data == '':
+    if form.title.data == "":
         title = form.href.data
     else:
         title = form.title.data
 
-    bookmark_attr = {'href': form.href.data,
-                    'description': form.description.data,
-                    'title': title,
-                    'shared': form.shared.data,
-                    'to_read': form.to_read.data}
+    bookmark_attr = {
+        "href": form.href.data,
+        "description": form.description.data,
+        "title": title,
+        "shared": form.shared.data,
+        "to_read": form.to_read.data,
+    }
 
     if bookmark_id is not None:
         tags = []
-        for tag in form.tags.data.split(','):
-            new_tag = tag_contr.create(text=tag.strip(), user_id=current_user.id,
-                                        bookmark_id=bookmark_id)
+        for tag in form.tags.data.split(","):
+            new_tag = tag_contr.create(
+                text=tag.strip(), user_id=current_user.id, bookmark_id=bookmark_id
+            )
             tags.append(new_tag)
-        bookmark_attr['tags'] = tags
-        bookmark_contr.update({'id': bookmark_id}, bookmark_attr)
-        flash(gettext('Bookmark successfully updated.'), 'success')
-        return redirect(url_for('bookmark.form', bookmark_id=bookmark_id))
+        bookmark_attr["tags"] = tags
+        bookmark_contr.update({"id": bookmark_id}, bookmark_attr)
+        flash(gettext("Bookmark successfully updated."), "success")
+        return redirect(url_for("bookmark.form", bookmark_id=bookmark_id))
 
     # Create a new bookmark
     new_bookmark = bookmark_contr.create(**bookmark_attr)
     tags = []
-    for tag in form.tags.data.split(','):
-        new_tag = tag_contr.create(text=tag.strip(), user_id=current_user.id,
-                                    bookmark_id=new_bookmark.id)
+    for tag in form.tags.data.split(","):
+        new_tag = tag_contr.create(
+            text=tag.strip(), user_id=current_user.id, bookmark_id=new_bookmark.id
+        )
         tags.append(new_tag)
-    bookmark_attr['tags'] = tags
-    bookmark_contr.update({'id': new_bookmark.id}, bookmark_attr)
-    flash(gettext('Bookmark successfully created.'), 'success')
-    return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
+    bookmark_attr["tags"] = tags
+    bookmark_contr.update({"id": new_bookmark.id}, bookmark_attr)
+    flash(gettext("Bookmark successfully created."), "success")
+    return redirect(url_for("bookmark.form", bookmark_id=new_bookmark.id))
 
 
-@bookmark_bp.route('/delete/<int:bookmark_id>', methods=['GET'])
+@bookmark_bp.route("/delete/<int:bookmark_id>", methods=["GET"])
 @login_required
 def delete(bookmark_id=None):
     "Delete a bookmark."
     bookmark = BookmarkController(current_user.id).delete(bookmark_id)
-    flash(gettext("Bookmark %(bookmark_name)s successfully deleted.",
-                  bookmark_name=bookmark.title), 'success')
-    return redirect(url_for('bookmarks.list_'))
+    flash(
+        gettext(
+            "Bookmark %(bookmark_name)s successfully deleted.",
+            bookmark_name=bookmark.title,
+        ),
+        "success",
+    )
+    return redirect(url_for("bookmarks.list_"))
 
 
-@bookmarks_bp.route('/delete', methods=['GET'])
+@bookmarks_bp.route("/delete", methods=["GET"])
 @login_required
 def delete_all():
     "Delete all bookmarks."
     bookmark = BookmarkController(current_user.id).read().delete()
     db.session.commit()
-    flash(gettext("Bookmarks successfully deleted."), 'success')
+    flash(gettext("Bookmarks successfully deleted."), "success")
     return redirect(redirect_url())
 
 
-@bookmark_bp.route('/bookmarklet', methods=['GET', 'POST'])
+@bookmark_bp.route("/bookmarklet", methods=["GET", "POST"])
 @login_required
 def bookmarklet():
     bookmark_contr = BookmarkController(current_user.id)
-    href = (request.args if request.method == 'GET' else request.form)\
-            .get('href', None)
+    href = (request.args if request.method == "GET" else request.form).get("href", None)
     if not href:
         flash(gettext("Couldn't add bookmark: url missing."), "error")
         raise BadRequest("url is missing")
-    title = (request.args if request.method == 'GET' else request.form)\
-            .get('title', None)
+    title = (request.args if request.method == "GET" else request.form).get(
+        "title", None
+    )
     if not title:
         title = href
 
-    bookmark_exists = bookmark_contr.read(**{'href': href}).all()
+    bookmark_exists = bookmark_contr.read(**{"href": href}).all()
     if bookmark_exists:
-        flash(gettext("Couldn't add bookmark: bookmark already exists."),
-                "warning")
-        return redirect(url_for('bookmark.form',
-                                            bookmark_id=bookmark_exists[0].id))
+        flash(gettext("Couldn't add bookmark: bookmark already exists."), "warning")
+        return redirect(url_for("bookmark.form", bookmark_id=bookmark_exists[0].id))
 
-    bookmark_attr = {'href': href,
-                    'description': '',
-                    'title': title,
-                    'shared': True,
-                    'to_read': True}
+    bookmark_attr = {
+        "href": href,
+        "description": "",
+        "title": title,
+        "shared": True,
+        "to_read": True,
+    }
 
     new_bookmark = bookmark_contr.create(**bookmark_attr)
-    flash(gettext('Bookmark successfully created.'), 'success')
-    return redirect(url_for('bookmark.form', bookmark_id=new_bookmark.id))
+    flash(gettext("Bookmark successfully created."), "success")
+    return redirect(url_for("bookmark.form", bookmark_id=new_bookmark.id))
 
 
-@bookmark_bp.route('/import_pinboard', methods=['POST'])
+@bookmark_bp.route("/import_pinboard", methods=["POST"])
 @login_required
 def import_pinboard():
-    bookmarks = request.files.get('jsonfile', None)
+    bookmarks = request.files.get("jsonfile", None)
     if bookmarks:
         try:
             nb_bookmarks = import_pinboard_json(current_user, bookmarks.read())
-            flash(gettext("%(nb_bookmarks)s bookmarks successfully imported.",
-                          nb_bookmarks=nb_bookmarks), 'success')
+            flash(
+                gettext(
+                    "%(nb_bookmarks)s bookmarks successfully imported.",
+                    nb_bookmarks=nb_bookmarks,
+                ),
+                "success",
+            )
         except Exception as e:
-            flash(gettext('Error when importing bookmarks.'), 'error')
+            flash(gettext("Error when importing bookmarks."), "error")
 
     return redirect(redirect_url())
 
 
-@bookmarks_bp.route('/export', methods=['GET'])
+@bookmarks_bp.route("/export", methods=["GET"])
 @login_required
 def export():
     bookmarks = export_bookmarks(current_user)
     response = make_response(bookmarks)
-    response.mimetype = 'application/json'
-    response.headers["Content-Disposition"] \
-            = 'attachment; filename=newspipe_bookmarks_export.json'
+    response.mimetype = "application/json"
+    response.headers[
+        "Content-Disposition"
+    ] = "attachment; filename=newspipe_bookmarks_export.json"
     return response

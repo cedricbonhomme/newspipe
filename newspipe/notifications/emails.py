@@ -36,10 +36,11 @@ def send_async_email(mfrom, mto, msg):
         s = smtplib.SMTP(conf.NOTIFICATION_HOST)
         s.login(conf.NOTIFICATION_USERNAME, conf.NOTIFICATION_PASSWORD)
     except Exception:
-        logger.exception('send_async_email raised:')
+        logger.exception("send_async_email raised:")
     else:
         s.sendmail(mfrom, mto, msg.as_string())
         s.quit()
+
 
 def send(*args, **kwargs):
     """
@@ -47,20 +48,21 @@ def send(*args, **kwargs):
     """
     send_smtp(**kwargs)
 
+
 def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     """
     Send an email.
     """
     # Create message container - the correct MIME type is multipart/alternative.
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = subject
-    msg['From'] = conf.NOTIFICATION_EMAIL
-    msg['To'] = to
-    msg['BCC'] = bcc
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = conf.NOTIFICATION_EMAIL
+    msg["To"] = to
+    msg["BCC"] = bcc
 
     # Record the MIME types of both parts - text/plain and text/html.
-    part1 = MIMEText(plaintext, 'plain', 'utf-8')
-    part2 = MIMEText(html, 'html', 'utf-8')
+    part1 = MIMEText(plaintext, "plain", "utf-8")
+    part2 = MIMEText(html, "html", "utf-8")
 
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
@@ -74,5 +76,7 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     except Exception:
         logger.exception("send_smtp raised:")
     else:
-        s.sendmail(conf.NOTIFICATION_EMAIL, msg['To'] + ", " + msg['BCC'], msg.as_string())
+        s.sendmail(
+            conf.NOTIFICATION_EMAIL, msg["To"] + ", " + msg["BCC"], msg.as_string()
+        )
         s.quit()

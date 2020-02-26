@@ -15,12 +15,14 @@ def etag_match(func):
             headers = {}
         else:
             return response
-        if request.headers.get('if-none-match') == etag:
+        if request.headers.get("if-none-match") == etag:
             response = Response(status=304)
-            response.headers['Cache-Control'] \
-                    = headers.get('Cache-Control', 'pragma: no-cache')
+            response.headers["Cache-Control"] = headers.get(
+                "Cache-Control", "pragma: no-cache"
+            )
         elif not isinstance(response, Response):
             response = make_response(response)
-        response.headers['etag'] = etag
+        response.headers["etag"] = etag
         return response
+
     return wrapper

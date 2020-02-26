@@ -40,6 +40,7 @@ class Bookmark(db.Model, RightMixin):
     """
     Represent a bookmark.
     """
+
     id = db.Column(db.Integer(), primary_key=True)
     href = db.Column(db.String(), default="")
     title = db.Column(db.String(), default="")
@@ -47,22 +48,25 @@ class Bookmark(db.Model, RightMixin):
     shared = db.Column(db.Boolean(), default=False)
     to_read = db.Column(db.Boolean(), default=False)
     time = db.Column(db.DateTime(), default=datetime.utcnow)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
 
     # relationships
-    tags = db.relationship(BookmarkTag, backref='of_bookmark', lazy='dynamic',
-                               cascade='all,delete-orphan',
-                               order_by=desc(BookmarkTag.text))
-    tags_proxy = association_proxy('tags', 'text')
+    tags = db.relationship(
+        BookmarkTag,
+        backref="of_bookmark",
+        lazy="dynamic",
+        cascade="all,delete-orphan",
+        order_by=desc(BookmarkTag.text),
+    )
+    tags_proxy = association_proxy("tags", "text")
 
-
-    @validates('description')
+    @validates("description")
     def validates_title(self, key, value):
         return str(value).strip()
 
-    @validates('extended')
+    @validates("extended")
     def validates_description(self, key, value):
         return str(value).strip()
 
     def __repr__(self):
-        return '<Bookmark %r>' % (self.href)
+        return "<Bookmark %r>" % (self.href)

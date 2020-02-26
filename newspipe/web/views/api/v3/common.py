@@ -33,7 +33,8 @@ from werkzeug.exceptions import NotFound
 from web.controllers import ArticleController, UserController
 from web.views.common import login_user_bundle
 
-url_prefix = '/api/v3'
+url_prefix = "/api/v3"
+
 
 def auth_func(*args, **kw):
     if request.authorization:
@@ -41,24 +42,23 @@ def auth_func(*args, **kw):
         try:
             user = ucontr.get(nickname=request.authorization.username)
         except NotFound:
-            raise ProcessingException("Couldn't authenticate your user",
-                                        code=401)
+            raise ProcessingException("Couldn't authenticate your user", code=401)
         if not ucontr.check_password(user, request.authorization.password):
-            raise ProcessingException("Couldn't authenticate your user",
-                                        code=401)
+            raise ProcessingException("Couldn't authenticate your user", code=401)
         if not user.is_active:
             raise ProcessingException("User is deactivated", code=401)
         login_user_bundle(user)
     if not current_user.is_authenticated:
-        raise ProcessingException(description='Not authenticated!', code=401)
+        raise ProcessingException(description="Not authenticated!", code=401)
 
-class AbstractProcessor():
+
+class AbstractProcessor:
     """Abstract processors for the Web services.
     """
 
     def is_authorized(self, user, obj):
         if user.id != obj.user_id:
-            raise ProcessingException(description='Not Authorized', code=401)
+            raise ProcessingException(description="Not Authorized", code=401)
 
     def get_single_preprocessor(self, instance_id=None, **kw):
         # Check if the user is authorized to modify the specified
@@ -69,13 +69,11 @@ class AbstractProcessor():
         """Accepts a single argument, `search_params`, which is a dictionary
         containing the search parameters for the request.
         """
-        filt = dict(name="user_id",
-                    op="eq",
-                    val=current_user.id)
+        filt = dict(name="user_id", op="eq", val=current_user.id)
 
         # Check if there are any filters there already.
         if "filters" not in search_params:
-          search_params["filters"] = []
+            search_params["filters"] = []
 
         search_params["filters"].append(filt)
 
@@ -95,13 +93,11 @@ class AbstractProcessor():
         is a dictionary representing the fields to change on the matching
         instances and the values to which they will be set.
         """
-        filt = dict(name="user_id",
-                    op="eq",
-                    val=current_user.id)
+        filt = dict(name="user_id", op="eq", val=current_user.id)
 
         # Check if there are any filters there already.
         if "filters" not in search_params:
-          search_params["filters"] = []
+            search_params["filters"] = []
 
         search_params["filters"].append(filt)
 

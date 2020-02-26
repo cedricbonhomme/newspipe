@@ -17,16 +17,19 @@ class BookmarkController(AbstractController):
         return self._count_by(Bookmark.href, filters)
 
     def update(self, filters, attrs):
-        BookmarkTagController(self.user_id) \
-                                .read(**{'bookmark_id': filters["id"]}) \
-                                .delete()
+        BookmarkTagController(self.user_id).read(
+            **{"bookmark_id": filters["id"]}
+        ).delete()
 
-        for tag in attrs['tags']:
+        for tag in attrs["tags"]:
             BookmarkTagController(self.user_id).create(
-                                            **{'text': tag.text,
-                                                'id': tag.id,
-                                                'bookmark_id': tag.bookmark_id,
-                                                'user_id': tag.user_id})
+                **{
+                    "text": tag.text,
+                    "id": tag.id,
+                    "bookmark_id": tag.bookmark_id,
+                    "user_id": tag.user_id,
+                }
+            )
 
-        del attrs['tags']
+        del attrs["tags"]
         return super().update(filters, attrs)

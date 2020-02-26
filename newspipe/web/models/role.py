@@ -33,7 +33,8 @@ class Role(db.Model):
     """
     Represent a role.
     """
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), unique=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))

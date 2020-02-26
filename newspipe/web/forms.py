@@ -30,8 +30,17 @@ from flask import flash, url_for, redirect
 from flask_wtf import FlaskForm
 from flask_babel import lazy_gettext
 from werkzeug.exceptions import NotFound
-from wtforms import TextField, TextAreaField, PasswordField, BooleanField, \
-        SubmitField, IntegerField, SelectField, validators, HiddenField
+from wtforms import (
+    TextField,
+    TextAreaField,
+    PasswordField,
+    BooleanField,
+    SubmitField,
+    IntegerField,
+    SelectField,
+    validators,
+    HiddenField,
+)
 from wtforms.fields.html5 import EmailField, URLField
 
 from lib import misc_utils
@@ -43,27 +52,44 @@ class SignupForm(FlaskForm):
     """
     Sign up form (registration to newspipe).
     """
-    nickname = TextField(lazy_gettext("Nickname"),
-            [validators.Required(lazy_gettext("Please enter your nickname."))])
-    email = EmailField(lazy_gettext("Email"),
-            [validators.Length(min=6, max=35),
-             validators.Required(
-                 lazy_gettext("Please enter your email address (only for account activation, won't be stored)."))])
-    password = PasswordField(lazy_gettext("Password"),
-            [validators.Required(lazy_gettext("Please enter a password.")),
-             validators.Length(min=6, max=100)])
+
+    nickname = TextField(
+        lazy_gettext("Nickname"),
+        [validators.Required(lazy_gettext("Please enter your nickname."))],
+    )
+    email = EmailField(
+        lazy_gettext("Email"),
+        [
+            validators.Length(min=6, max=35),
+            validators.Required(
+                lazy_gettext(
+                    "Please enter your email address (only for account activation, won't be stored)."
+                )
+            ),
+        ],
+    )
+    password = PasswordField(
+        lazy_gettext("Password"),
+        [
+            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.Length(min=6, max=100),
+        ],
+    )
     submit = SubmitField(lazy_gettext("Sign up"))
 
     def validate(self):
         ucontr = UserController()
         validated = super().validate()
         if ucontr.read(nickname=self.nickname.data).count():
-            self.nickname.errors.append('Nickname already taken')
+            self.nickname.errors.append("Nickname already taken")
             validated = False
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext(
-                    'This nickname has invalid characters. '
-                    'Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(
+                lazy_gettext(
+                    "This nickname has invalid characters. "
+                    "Please use letters, numbers, dots and underscores only."
+                )
+            )
             validated = False
         return validated
 
@@ -72,14 +98,15 @@ class RedirectForm(FlaskForm):
     """
     Secure back redirects with WTForms.
     """
+
     next = HiddenField()
 
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
         if not self.next.data:
-            self.next.data = misc_utils.get_redirect_target() or ''
+            self.next.data = misc_utils.get_redirect_target() or ""
 
-    def redirect(self, endpoint='home', **values):
+    def redirect(self, endpoint="home", **values):
         if misc_utils.is_safe_url(self.next.data):
             return redirect(self.next.data)
         target = misc_utils.get_redirect_target()
@@ -90,13 +117,21 @@ class SigninForm(RedirectForm):
     """
     Sign in form (connection to newspipe).
     """
-    nickmane = TextField("Nickname",
-                [validators.Length(min=3, max=35),
-                validators.Required(
-                lazy_gettext("Please enter your nickname."))])
-    password = PasswordField(lazy_gettext('Password'),
-            [validators.Required(lazy_gettext("Please enter a password.")),
-             validators.Length(min=6, max=100)])
+
+    nickmane = TextField(
+        "Nickname",
+        [
+            validators.Length(min=3, max=35),
+            validators.Required(lazy_gettext("Please enter your nickname.")),
+        ],
+    )
+    password = PasswordField(
+        lazy_gettext("Password"),
+        [
+            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.Length(min=6, max=100),
+        ],
+    )
     submit = SubmitField(lazy_gettext("Log In"))
 
     def __init__(self, *args, **kwargs):
@@ -109,15 +144,14 @@ class SigninForm(RedirectForm):
         try:
             user = ucontr.get(nickname=self.nickmane.data)
         except NotFound:
-            self.nickmane.errors.append(
-                'Wrong nickname')
+            self.nickmane.errors.append("Wrong nickname")
             validated = False
         else:
             if not user.is_active:
-                self.nickmane.errors.append('Account not active')
+                self.nickmane.errors.append("Account not active")
                 validated = False
             if not ucontr.check_password(user, self.password.data):
-                self.password.errors.append('Wrong password')
+                self.password.errors.append("Wrong password")
                 validated = False
             self.user = user
         return validated
@@ -127,19 +161,24 @@ class UserForm(FlaskForm):
     """
     Create or edit a user (for the administrator).
     """
-    nickname = TextField(lazy_gettext("Nickname"),
-            [validators.Required(lazy_gettext("Please enter your nickname."))])
+
+    nickname = TextField(
+        lazy_gettext("Nickname"),
+        [validators.Required(lazy_gettext("Please enter your nickname."))],
+    )
     password = PasswordField(lazy_gettext("Password"))
-    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),
-                                default=True)
+    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
         validated = super(UserForm, self).validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext(
-                    'This nickname has invalid characters. '
-                    'Please use letters, numbers, dots and underscores only.'))
+            self.nickname.errors.append(
+                lazy_gettext(
+                    "This nickname has invalid characters. "
+                    "Please use letters, numbers, dots and underscores only."
+                )
+            )
             validated = False
         return validated
 
@@ -148,17 +187,18 @@ class ProfileForm(FlaskForm):
     """
     Edit user information.
     """
-    nickname = TextField(lazy_gettext("Nickname"),
-            [validators.Required(lazy_gettext("Please enter your nickname."))])
+
+    nickname = TextField(
+        lazy_gettext("Nickname"),
+        [validators.Required(lazy_gettext("Please enter your nickname."))],
+    )
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password Confirmation"))
-    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"),
-                                default=True)
+    automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     bio = TextAreaField(lazy_gettext("Bio"))
     webpage = URLField(lazy_gettext("Webpage"))
     twitter = URLField(lazy_gettext("Twitter"))
-    is_public_profile = BooleanField(lazy_gettext("Public profile"),
-                                default=True)
+    is_public_profile = BooleanField(lazy_gettext("Public profile"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
@@ -169,28 +209,34 @@ class ProfileForm(FlaskForm):
             self.password_conf.errors.append(message)
             validated = False
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
-            self.nickname.errors.append(lazy_gettext('This nickname has '
-                    'invalid characters. Please use letters, numbers, dots and'
-                    ' underscores only.'))
+            self.nickname.errors.append(
+                lazy_gettext(
+                    "This nickname has "
+                    "invalid characters. Please use letters, numbers, dots and"
+                    " underscores only."
+                )
+            )
             validated = False
         return validated
 
 
 class AddFeedForm(FlaskForm):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(lazy_gettext("Feed link"),
-            [validators.Required(lazy_gettext("Please enter the URL."))])
+    link = TextField(
+        lazy_gettext("Feed link"),
+        [validators.Required(lazy_gettext("Please enter the URL."))],
+    )
     site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
-    category_id = SelectField(lazy_gettext("Category of the feed"),
-                              [validators.Optional()])
+    category_id = SelectField(
+        lazy_gettext("Category of the feed"), [validators.Optional()]
+    )
     private = BooleanField(lazy_gettext("Private"), default=False)
 
     def set_category_choices(self, categories):
-        self.category_id.choices = [('0', 'No Category')]
-        self.category_id.choices += [(str(cat.id), cat.name)
-                                      for cat in categories]
+        self.category_id.choices = [("0", "No Category")]
+        self.category_id.choices += [(str(cat.id), cat.name) for cat in categories]
 
 
 class CategoryForm(FlaskForm):
@@ -199,13 +245,13 @@ class CategoryForm(FlaskForm):
 
 
 class BookmarkForm(FlaskForm):
-    href = TextField(lazy_gettext("URL"),
-                            [validators.Required(
-                                        lazy_gettext("Please enter an URL."))])
-    title = TextField(lazy_gettext("Title"),
-                            [validators.Length(min=0, max=100)])
-    description = TextField(lazy_gettext("Description"),
-                            [validators.Length(min=0, max=500)])
+    href = TextField(
+        lazy_gettext("URL"), [validators.Required(lazy_gettext("Please enter an URL."))]
+    )
+    title = TextField(lazy_gettext("Title"), [validators.Length(min=0, max=100)])
+    description = TextField(
+        lazy_gettext("Description"), [validators.Length(min=0, max=500)]
+    )
     tags = TextField(lazy_gettext("Tags"))
     to_read = BooleanField(lazy_gettext("To read"), default=False)
     shared = BooleanField(lazy_gettext("Shared"), default=False)
@@ -213,8 +259,12 @@ class BookmarkForm(FlaskForm):
 
 
 class InformationMessageForm(FlaskForm):
-    subject = TextField(lazy_gettext("Subject"),
-            [validators.Required(lazy_gettext("Please enter a subject."))])
-    message = TextAreaField(lazy_gettext("Message"),
-            [validators.Required(lazy_gettext("Please enter a content."))])
+    subject = TextField(
+        lazy_gettext("Subject"),
+        [validators.Required(lazy_gettext("Please enter a subject."))],
+    )
+    message = TextAreaField(
+        lazy_gettext("Message"),
+        [validators.Required(lazy_gettext("Please enter a content."))],
+    )
     submit = SubmitField(lazy_gettext("Send"))

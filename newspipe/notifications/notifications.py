@@ -31,23 +31,34 @@ def new_account_notification(user, email):
     Account creation notification.
     """
     token = generate_confirmation_token(user.nickname)
-    expire_time = datetime.datetime.now() + \
-                    datetime.timedelta(seconds=conf.TOKEN_VALIDITY_PERIOD)
+    expire_time = datetime.datetime.now() + datetime.timedelta(
+        seconds=conf.TOKEN_VALIDITY_PERIOD
+    )
 
-    plaintext = render_template('emails/account_activation.txt',
-                                    user=user, platform_url=conf.PLATFORM_URL,
-                                    token=token,
-                                    expire_time=expire_time)
+    plaintext = render_template(
+        "emails/account_activation.txt",
+        user=user,
+        platform_url=conf.PLATFORM_URL,
+        token=token,
+        expire_time=expire_time,
+    )
 
-    emails.send(to=email, bcc=conf.NOTIFICATION_EMAIL,
-                subject="[Newspipe] Account creation", plaintext=plaintext)
+    emails.send(
+        to=email,
+        bcc=conf.NOTIFICATION_EMAIL,
+        subject="[Newspipe] Account creation",
+        plaintext=plaintext,
+    )
+
 
 def new_password_notification(user, password):
     """
     New password notification.
     """
-    plaintext = render_template('emails/new_password.txt',
-                                    user=user, password=password)
-    emails.send(to=user.email,
-                bcc=conf.NOTIFICATION_EMAIL,
-                subject="[Newspipe] New password", plaintext=plaintext)
+    plaintext = render_template("emails/new_password.txt", user=user, password=password)
+    emails.send(
+        to=user.email,
+        bcc=conf.NOTIFICATION_EMAIL,
+        subject="[Newspipe] New password",
+        plaintext=plaintext,
+    )

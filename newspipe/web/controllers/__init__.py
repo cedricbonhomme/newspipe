@@ -7,6 +7,12 @@ from .bookmark import BookmarkController
 from .tag import BookmarkTagController
 
 
-__all__ = ['FeedController', 'CategoryController', 'ArticleController',
-           'UserController', 'IconController', 'BookmarkController',
-           'BookmarkTagController']
+__all__ = [
+    "FeedController",
+    "CategoryController",
+    "ArticleController",
+    "UserController",
+    "IconController",
+    "BookmarkController",
+    "BookmarkTagController",
+]

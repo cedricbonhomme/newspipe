@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
@@ -72,18 +72,28 @@ def import_opml(nickname, opml_content):
                     link = subscription.xmlUrl
                 except:
                     continue
-                if None != Feed.query.filter(Feed.user_id == user.id, Feed.link == link).first():
+                if (
+                    None
+                    != Feed.query.filter(
+                        Feed.user_id == user.id, Feed.link == link
+                    ).first()
+                ):
                     continue
                 try:
                     site_link = subscription.htmlUrl
                 except:
                     site_link = ""
-                new_feed = Feed(title=title, description=description,
-                                link=link, site_link=site_link,
-                                enabled=True)
+                new_feed = Feed(
+                    title=title,
+                    description=description,
+                    link=link,
+                    site_link=site_link,
+                    enabled=True,
+                )
                 user.feeds.append(new_feed)
                 nb += 1
         return nb
+
     nb = read(subscriptions)
     db.session.commit()
     return nb
@@ -98,40 +108,53 @@ def import_json(nickname, json_content):
     nb_feeds, nb_articles = 0, 0
     # Create feeds:
     for feed in json_account:
-        if None != Feed.query.filter(Feed.user_id == user.id,
-                                    Feed.link == feed["link"]).first():
+        if (
+            None
+            != Feed.query.filter(
+                Feed.user_id == user.id, Feed.link == feed["link"]
+            ).first()
+        ):
             continue
-        new_feed = Feed(title=feed["title"],
-                        description="",
-                        link=feed["link"],
-                        site_link=feed["site_link"],
-                        created_date=datetime.datetime.
-                            fromtimestamp(int(feed["created_date"])),
-                        enabled=feed["enabled"])
+        new_feed = Feed(
+            title=feed["title"],
+            description="",
+            link=feed["link"],
+            site_link=feed["site_link"],
+            created_date=datetime.datetime.fromtimestamp(int(feed["created_date"])),
+            enabled=feed["enabled"],
+        )
         user.feeds.append(new_feed)
         nb_feeds += 1
     db.session.commit()
     # Create articles:
     for feed in json_account:
-        user_feed = Feed.query.filter(Feed.user_id == user.id,
-                                        Feed.link == feed["link"]).first()
+        user_feed = Feed.query.filter(
+            Feed.user_id == user.id, Feed.link == feed["link"]
+        ).first()
         if None != user_feed:
             for article in feed["articles"]:
-                if None == Article.query.filter(Article.user_id == user.id,
-                                    Article.feed_id == user_feed.id,
-                                    Article.link == article["link"]).first():
-                    new_article = Article(entry_id=article["link"],
-                                link=article["link"],
-                                title=article["title"],
-                                content=article["content"],
-                                readed=article["readed"],
-                                like=article["like"],
-                                retrieved_date=datetime.datetime.
-                                    fromtimestamp(int(article["retrieved_date"])),
-                                date=datetime.datetime.
-                                    fromtimestamp(int(article["date"])),
-                                user_id=user.id,
-                                feed_id=user_feed.id)
+                if (
+                    None
+                    == Article.query.filter(
+                        Article.user_id == user.id,
+                        Article.feed_id == user_feed.id,
+                        Article.link == article["link"],
+                    ).first()
+                ):
+                    new_article = Article(
+                        entry_id=article["link"],
+                        link=article["link"],
+                        title=article["title"],
+                        content=article["content"],
+                        readed=article["readed"],
+                        like=article["like"],
+                        retrieved_date=datetime.datetime.fromtimestamp(
+                            int(article["retrieved_date"])
+                        ),
+                        date=datetime.datetime.fromtimestamp(int(article["date"])),
+                        user_id=user.id,
+                        feed_id=user_feed.id,
+                    )
                     user_feed.articles.append(new_article)
                     nb_articles += 1
     db.session.commit()
@@ -144,23 +167,28 @@ def export_json(user):
     """
     articles = []
     for feed in user.feeds:
-        articles.append({
-            "title": feed.title,
-            "description": feed.description,
-            "link": feed.link,
-            "site_link": feed.site_link,
-            "enabled": feed.enabled,
-            "created_date": feed.created_date.strftime('%s'),
-            "articles": [ {
-                "title": article.title,
-                "link": article.link,
-                "content": article.content,
-                "readed": article.readed,
-                "like": article.like,
-                "date": article.date.strftime('%s'),
-                "retrieved_date": article.retrieved_date.strftime('%s')
-                                                } for article in feed.articles]
-        })
+        articles.append(
+            {
+                "title": feed.title,
+                "description": feed.description,
+                "link": feed.link,
+                "site_link": feed.site_link,
+                "enabled": feed.enabled,
+                "created_date": feed.created_date.strftime("%s"),
+                "articles": [
+                    {
+                        "title": article.title,
+                        "link": article.link,
+                        "content": article.content,
+                        "readed": article.readed,
+                        "like": article.like,
+                        "date": article.date.strftime("%s"),
+                        "retrieved_date": article.retrieved_date.strftime("%s"),
+                    }
+                    for article in feed.articles
+                ],
+            }
+        )
     return jsonify(articles)
 
 
@@ -173,19 +201,18 @@ def import_pinboard_json(user, json_content):
     nb_bookmarks = 0
     for bookmark in bookmarks:
         tags = []
-        for tag in bookmark['tags'].split(' '):
+        for tag in bookmark["tags"].split(" "):
             new_tag = BookmarkTag(text=tag.strip(), user_id=user.id)
             tags.append(new_tag)
         bookmark_attr = {
-                    'href': bookmark['href'],
-                    'description': bookmark['extended'],
-                    'title': bookmark['description'],
-                    'shared': [bookmark['shared']=='yes' and True or False][0],
-                    'to_read': [bookmark['toread']=='yes' and True or False][0],
-                    'time': datetime.datetime.strptime(bookmark['time'],
-                                                        '%Y-%m-%dT%H:%M:%SZ'),
-                    'tags': tags
-                    }
+            "href": bookmark["href"],
+            "description": bookmark["extended"],
+            "title": bookmark["description"],
+            "shared": [bookmark["shared"] == "yes" and True or False][0],
+            "to_read": [bookmark["toread"] == "yes" and True or False][0],
+            "time": datetime.datetime.strptime(bookmark["time"], "%Y-%m-%dT%H:%M:%SZ"),
+            "tags": tags,
+        }
         new_bookmark = bookmark_contr.create(**bookmark_attr)
         nb_bookmarks += 1
     return nb_bookmarks
@@ -198,13 +225,15 @@ def export_bookmarks(user):
     bookmarks = bookmark_contr.read()
     export = []
     for bookmark in bookmarks:
-        export.append({
-            'href': bookmark.href,
-            'description': bookmark.description,
-            'title': bookmark.title,
-            'shared': 'yes' if bookmark.shared else 'no',
-            'toread': 'yes' if bookmark.to_read else 'no',
-            'time': bookmark.time.isoformat(),
-            'tags': ' '.join(bookmark.tags_proxy)
-        })
+        export.append(
+            {
+                "href": bookmark.href,
+                "description": bookmark.description,
+                "title": bookmark.title,
+                "shared": "yes" if bookmark.shared else "no",
+                "toread": "yes" if bookmark.to_read else "no",
+                "time": bookmark.time.isoformat(),
+                "tags": " ".join(bookmark.tags_proxy),
+            }
+        )
     return jsonify(export)

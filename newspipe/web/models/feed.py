@@ -38,6 +38,7 @@ class Feed(db.Model, RightMixin):
     """
     Represent a feed.
     """
+
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(), default="")
     description = db.Column(db.String(), default="FR")
@@ -58,34 +59,47 @@ class Feed(db.Model, RightMixin):
     error_count = db.Column(db.Integer(), default=0)
 
     # relationship
-    icon_url = db.Column(db.String(), db.ForeignKey('icon.url'), default=None)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
-    articles = db.relationship(Article, backref='source', lazy='dynamic',
-                               cascade='all,delete-orphan',
-                               order_by=desc(Article.date))
+    icon_url = db.Column(db.String(), db.ForeignKey("icon.url"), default=None)
+    user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
+    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"))
+    articles = db.relationship(
+        Article,
+        backref="source",
+        lazy="dynamic",
+        cascade="all,delete-orphan",
+        order_by=desc(Article.date),
+    )
 
     # index
-    idx_feed_uid_cid = Index('user_id', 'category_id')
-    idx_feed_uid = Index('user_id')
+    idx_feed_uid_cid = Index("user_id", "category_id")
+    idx_feed_uid = Index("user_id")
 
-     # api whitelists
+    # api whitelists
     @staticmethod
     def _fields_base_write():
-        return {'title', 'description', 'link', 'site_link', 'enabled',
-                'filters', 'last_error', 'error_count', 'category_id'}
+        return {
+            "title",
+            "description",
+            "link",
+            "site_link",
+            "enabled",
+            "filters",
+            "last_error",
+            "error_count",
+            "category_id",
+        }
 
     @staticmethod
     def _fields_base_read():
-        return {'id', 'user_id', 'icon_url', 'last_retrieved'}
+        return {"id", "user_id", "icon_url", "last_retrieved"}
 
-    @validates('title')
+    @validates("title")
     def validates_title(self, key, value):
         return str(value).strip()
 
-    @validates('description')
+    @validates("description")
     def validates_description(self, key, value):
         return str(value).strip()
 
     def __repr__(self):
-        return '<Feed %r>' % (self.title)
+        return "<Feed %r>" % (self.title)

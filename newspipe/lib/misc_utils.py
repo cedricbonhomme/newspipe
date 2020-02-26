@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
 # Copyright (C) 2010-2018  Cédric Bonhomme - https://www.cedricbonhomme.org
@@ -36,6 +36,7 @@ import operator
 import urllib
 import subprocess
 import sqlalchemy
+
 try:
     from urlparse import urlparse, parse_qs, urlunparse
 except:
@@ -50,7 +51,7 @@ from lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 
-ALLOWED_EXTENSIONS = set(['xml', 'opml', 'json'])
+ALLOWED_EXTENSIONS = set(["xml", "opml", "json"])
 
 
 def is_safe_url(target):
@@ -59,15 +60,14 @@ def is_safe_url(target):
     """
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and \
-           ref_url.netloc == test_url.netloc
+    return test_url.scheme in ("http", "https") and ref_url.netloc == test_url.netloc
 
 
 def get_redirect_target():
     """
     Looks at various hints to find the redirect target.
     """
-    for target in request.args.get('next'), request.referrer:
+    for target in request.args.get("next"), request.referrer:
         if not target:
             continue
         if is_safe_url(target):
@@ -78,8 +78,7 @@ def allowed_file(filename):
     """
     Check if the uploaded file is allowed.
     """
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1] in ALLOWED_EXTENSIONS
 
 
 @contextmanager
@@ -100,10 +99,14 @@ def fetch(id, feed_id=None):
     Fetch the feeds in a new processus.
     The default crawler ("asyncio") is launched with the manager.
     """
-    cmd = [sys.executable, conf.BASE_DIR + '/manager.py', 'fetch_asyncio',
-           '--user_id='+str(id)]
+    cmd = [
+        sys.executable,
+        conf.BASE_DIR + "/manager.py",
+        "fetch_asyncio",
+        "--user_id=" + str(id),
+    ]
     if feed_id:
-        cmd.append('--feed_id='+str(feed_id))
+        cmd.append("--feed_id=" + str(feed_id))
     return subprocess.Popen(cmd, stdout=subprocess.PIPE)
 
 
@@ -114,9 +117,11 @@ def history(user_id, year=None, month=None):
     articles_counter = Counter()
     articles = ArticleController(user_id).read()
     if None != year:
-        articles = articles.filter(sqlalchemy.extract('year', 'Article.date') == year)
+        articles = articles.filter(sqlalchemy.extract("year", "Article.date") == year)
         if None != month:
-            articles = articles.filter(sqlalchemy.extract('month', 'Article.date') == month)
+            articles = articles.filter(
+                sqlalchemy.extract("month", "Article.date") == month
+            )
     for article in articles.all():
         if None != year:
             articles_counter[article.date.month] += 1
@@ -131,24 +136,26 @@ def clean_url(url):
     """
     parsed_url = urlparse(url)
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
-    filtered = dict((k, v) for k, v in qd.items()
-                                        if not k.startswith('utm_'))
-    return urlunparse([
-        parsed_url.scheme,
-        parsed_url.netloc,
-        urllib.parse.quote(urllib.parse.unquote(parsed_url.path)),
-        parsed_url.params,
-        urllib.parse.urlencode(filtered, doseq=True),
-        parsed_url.fragment
-    ]).rstrip('=')
+    filtered = dict((k, v) for k, v in qd.items() if not k.startswith("utm_"))
+    return urlunparse(
+        [
+            parsed_url.scheme,
+            parsed_url.netloc,
+            urllib.parse.quote(urllib.parse.unquote(parsed_url.path)),
+            parsed_url.params,
+            urllib.parse.urlencode(filtered, doseq=True),
+            parsed_url.fragment,
+        ]
+    ).rstrip("=")
 
 
 def load_stop_words():
     """
     Load the stop words and return them in a list.
     """
-    stop_words_lists = glob.glob(os.path.join(conf.BASE_DIR,
-                                                'web/var/stop_words/*.txt'))
+    stop_words_lists = glob.glob(
+        os.path.join(conf.BASE_DIR, "web/var/stop_words/*.txt")
+    )
     stop_words = []
 
     for stop_wods_list in stop_words_lists:
@@ -166,11 +173,13 @@ def top_words(articles, n=10, size=5):
     """
     stop_words = load_stop_words()
     words = Counter()
-    wordre = re.compile(r'\b\w{%s,}\b' % size, re.I)
+    wordre = re.compile(r"\b\w{%s,}\b" % size, re.I)
     for article in articles:
-        for word in [elem.lower() for elem in
-                wordre.findall(clear_string(article.content)) \
-                if elem.lower() not in stop_words]:
+        for word in [
+            elem.lower()
+            for elem in wordre.findall(clear_string(article.content))
+            if elem.lower() not in stop_words
+        ]:
             words[word] += 1
     return words.most_common(n)
 
@@ -181,5 +190,9 @@ def tag_cloud(tags):
     """
     tags.sort(key=operator.itemgetter(0))
     max_tag = max([tag[1] for tag in tags])
-    return '\n'.join([('<font size=%d>%s</font>' % \
-        (min(1 + count * 7 / max_tag, 7), word)) for (word, count) in tags])
+    return "\n".join(
+        [
+            ("<font size=%d>%s</font>" % (min(1 + count * 7 / max_tag, 7), word))
+            for (word, count) in tags
+        ]
+    )

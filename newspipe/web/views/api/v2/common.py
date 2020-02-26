@@ -26,8 +26,12 @@ from flask import request
 from flask_restful import Resource, reqparse
 from flask_login import current_user
 
-from web.views.common import admin_permission, api_permission, \
-                             login_user_bundle, jsonify
+from web.views.common import (
+    admin_permission,
+    api_permission,
+    login_user_bundle,
+    jsonify,
+)
 from web.controllers import UserController
 
 logger = logging.getLogger(__name__)
@@ -50,6 +54,7 @@ def authenticate(func):
         if current_user.is_authenticated:
             return func(*args, **kwargs)
         raise Unauthorized()
+
     return wrapper
 
 
@@ -64,8 +69,9 @@ class PyAggAbstractResource(Resource):
             return self.controller_cls()
         return self.controller_cls(current_user.id)
 
-    def reqparse_args(self, right, req=None, strict=False, default=True,
-                      allow_empty=False):
+    def reqparse_args(
+        self, right, req=None, strict=False, default=True, allow_empty=False
+    ):
         """
         strict: bool
             if True will throw 400 error if args are defined and not in request
@@ -89,42 +95,41 @@ class PyAggAbstractResource(Resource):
         if self.attrs is not None:
             attrs = self.attrs
         elif admin_permission.can():
-            attrs = self.controller_cls._get_attrs_desc('admin')
+            attrs = self.controller_cls._get_attrs_desc("admin")
         elif api_permission.can():
-            attrs = self.controller_cls._get_attrs_desc('api', right)
+            attrs = self.controller_cls._get_attrs_desc("api", right)
         else:
-            attrs = self.controller_cls._get_attrs_desc('base', right)
+            attrs = self.controller_cls._get_attrs_desc("base", right)
         assert attrs, "No defined attrs for %s" % self.__class__.__name__
 
         for attr_name, attr in attrs.items():
             if not default and attr_name not in in_values:
                 continue
             else:
-                parser.add_argument(attr_name, location='json',
-                                        default=in_values[attr_name])
+                parser.add_argument(
+                    attr_name, location="json", default=in_values[attr_name]
+                )
         return parser.parse_args(req=request.args, strict=strict)
 
 
 class PyAggResourceNew(PyAggAbstractResource):
-
     @api_permission.require(http_exception=403)
     def post(self):
         """Create a single new object"""
-        return self.controller.create(**self.reqparse_args(right='write')), 201
+        return self.controller.create(**self.reqparse_args(right="write")), 201
 
 
 class PyAggResourceExisting(PyAggAbstractResource):
-
     def get(self, obj_id=None):
         """Retrieve a single object"""
         return self.controller.get(id=obj_id)
 
     def put(self, obj_id=None):
         """update an object, new attrs should be passed in the payload"""
-        args = self.reqparse_args(right='write', default=False)
+        args = self.reqparse_args(right="write", default=False)
         if not args:
             raise BadRequest()
-        return self.controller.update({'id': obj_id}, args), 200
+        return self.controller.update({"id": obj_id}, args), 200
 
     def delete(self, obj_id=None):
         """delete a object"""
@@ -133,19 +138,18 @@ class PyAggResourceExisting(PyAggAbstractResource):
 
 
 class PyAggResourceMulti(PyAggAbstractResource):
-
     def get(self):
         """retrieve several objects. filters can be set in the payload on the
         different fields of the object, and a limit can be set in there as well
         """
         args = {}
         try:
-            limit = request.json.pop('limit', 10)
-            order_by = request.json.pop('order_by', None)
+            limit = request.json.pop("limit", 10)
+            order_by = request.json.pop("order_by", None)
         except Exception:
-            args = self.reqparse_args(right='read', default=False)
-            limit = request.args.get('limit', 10)
-            order_by = request.args.get('order_by', None)
+            args = self.reqparse_args(right="read", default=False)
+            limit = request.args.get("limit", 10)
+            order_by = request.args.get("order_by", None)
         query = self.controller.read(**args)
         if order_by:
             query = query.order_by(order_by)
@@ -163,10 +167,11 @@ class PyAggResourceMulti(PyAggAbstractResource):
 
         class Proxy:
             pass
+
         for attrs in request.json:
             try:
                 Proxy.json = attrs
-                args = self.reqparse_args('write', req=Proxy, default=False)
+                args = self.reqparse_args("write", req=Proxy, default=False)
                 obj = self.controller.create(**args)
                 results.append(obj)
             except Exception as error:
@@ -188,20 +193,21 @@ class PyAggResourceMulti(PyAggAbstractResource):
 
         class Proxy:
             pass
+
         for obj_id, attrs in request.json:
             try:
                 Proxy.json = attrs
-                args = self.reqparse_args('write', req=Proxy, default=False)
-                result = self.controller.update({'id': obj_id}, args)
+                args = self.reqparse_args("write", req=Proxy, default=False)
+                result = self.controller.update({"id": obj_id}, args)
                 if result:
-                    results.append('ok')
+                    results.append("ok")
                 else:
-                    results.append('nok')
+                    results.append("nok")
             except Exception as error:
                 results.append(str(error))
-        if results.count('ok') == 0:  # all failed => 500
+        if results.count("ok") == 0:  # all failed => 500
             status = 500
-        elif results.count('ok') != len(results):  # some failed => 206
+        elif results.count("ok") != len(results):  # some failed => 206
             status = 206
         return results, status
 
@@ -212,11 +218,11 @@ class PyAggResourceMulti(PyAggAbstractResource):
         for obj_id in request.json:
             try:
                 self.controller.delete(obj_id)
-                results.append('ok')
+                results.append("ok")
             except Exception as error:
                 status = 206
                 results.append(error)
         # if no operation succeeded, it's not partial anymore, returning err 500
-        if status == 206 and results.count('ok') == 0:
+        if status == 206 and results.count("ok") == 0:
             status = 500
         return results, status

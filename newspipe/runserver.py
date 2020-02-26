@@ -29,9 +29,11 @@ babel = Babel(application)
 # Jinja filters
 def month_name(month_number):
     return calendar.month_name[month_number]
-application.jinja_env.filters['month_name'] = month_name
-application.jinja_env.filters['datetime'] = format_datetime
-application.jinja_env.globals['conf'] = conf
+
+
+application.jinja_env.filters["month_name"] = month_name
+application.jinja_env.filters["datetime"] = format_datetime
+application.jinja_env.globals["conf"] = conf
 
 # Views
 from flask_restful import Api
@@ -39,10 +41,11 @@ from flask import g
 
 with application.app_context():
     populate_g()
-    g.api = Api(application, prefix='/api/v2.0')
+    g.api = Api(application, prefix="/api/v2.0")
     g.babel = babel
 
     from web import views
+
     application.register_blueprint(views.articles_bp)
     application.register_blueprint(views.article_bp)
     application.register_blueprint(views.feeds_bp)
@@ -57,7 +60,7 @@ with application.app_context():
     application.register_blueprint(views.bookmark_bp)
 
 
-if __name__ == '__main__':
-    application.run(host=conf.WEBSERVER_HOST,
-                    port=conf.WEBSERVER_PORT,
-                    debug=conf.WEBSERVER_DEBUG)
+if __name__ == "__main__":
+    application.run(
+        host=conf.WEBSERVER_HOST, port=conf.WEBSERVER_PORT, debug=conf.WEBSERVER_DEBUG
+    )

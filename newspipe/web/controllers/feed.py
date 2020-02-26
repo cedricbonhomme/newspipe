@@ -16,22 +16,26 @@ DEFAULT_MAX_ERROR = conf.DEFAULT_MAX_ERROR
 class FeedController(AbstractController):
     _db_cls = Feed
 
-    def list_late(self, max_last, max_error=DEFAULT_MAX_ERROR,
-                  limit=DEFAULT_LIMIT):
-        return [feed for feed in self.read(
-                            error_count__lt=max_error, enabled=True,
-                            last_retrieved__lt=max_last)
-                                .join(User).filter(User.is_active == True)
-                                .order_by('last_retrieved')
-                                .limit(limit)]
+    def list_late(self, max_last, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT):
+        return [
+            feed
+            for feed in self.read(
+                error_count__lt=max_error, enabled=True, last_retrieved__lt=max_last
+            )
+            .join(User)
+            .filter(User.is_active == True)
+            .order_by("last_retrieved")
+            .limit(limit)
+        ]
 
     def list_fetchable(self, max_error=DEFAULT_MAX_ERROR, limit=DEFAULT_LIMIT):
         now = datetime.now()
         max_last = now - timedelta(minutes=60)
         feeds = self.list_late(max_last, max_error, limit)
         if feeds:
-            self.update({'id__in': [feed.id for feed in feeds]},
-                        {'last_retrieved': now})
+            self.update(
+                {"id__in": [feed.id for feed in feeds]}, {"last_retrieved": now}
+            )
         return feeds
 
     def get_duplicates(self, feed_id):
@@ -43,8 +47,9 @@ class FeedController(AbstractController):
         duplicates = []
         for pair in itertools.combinations(feed.articles[:1000], 2):
             date1, date2 = pair[0].date, pair[1].date
-            if clear_string(pair[0].title) == clear_string(pair[1].title) \
-                    and (date1 - date2) < timedelta(days=1):
+            if clear_string(pair[0].title) == clear_string(pair[1].title) and (
+                date1 - date2
+            ) < timedelta(days=1):
                 if pair[0].retrieved_date < pair[1].retrieved_date:
                     duplicates.append((pair[0], pair[1]))
                 else:
@@ -75,11 +80,11 @@ class FeedController(AbstractController):
         return self._count_by(Feed.link, filters)
 
     def _ensure_icon(self, attrs):
-        if not attrs.get('icon_url'):
+        if not attrs.get("icon_url"):
             return
         icon_contr = IconController()
-        if not icon_contr.read(url=attrs['icon_url']).count():
-            icon_contr.create(**{'url': attrs['icon_url']})
+        if not icon_contr.read(url=attrs["icon_url"]).count():
+            icon_contr.create(**{"url": attrs["icon_url"]})
 
     def create(self, **attrs):
         self._ensure_icon(attrs)
@@ -87,12 +92,14 @@ class FeedController(AbstractController):
 
     def update(self, filters, attrs):
         from .article import ArticleController
+
         self._ensure_icon(attrs)
-        if 'category_id' in attrs and attrs['category_id'] == 0:
-            del attrs['category_id']
-        elif 'category_id' in attrs:
+        if "category_id" in attrs and attrs["category_id"] == 0:
+            del attrs["category_id"]
+        elif "category_id" in attrs:
             art_contr = ArticleController(self.user_id)
             for feed in self.read(**filters):
-                art_contr.update({'feed_id': feed.id},
-                                 {'category_id': attrs['category_id']})
+                art_contr.update(
+                    {"feed_id": feed.id}, {"category_id": attrs["category_id"]}
+                )
         return super().update(filters, attrs)

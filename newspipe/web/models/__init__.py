@@ -36,18 +36,29 @@ from .tag import BookmarkTag
 from .tag import ArticleTag
 from .bookmark import Bookmark
 
-__all__ = ['Feed', 'Role', 'User', 'Article', 'Icon', 'Category',
-            'Bookmark', 'ArticleTag', 'BookmarkTag']
+__all__ = [
+    "Feed",
+    "Role",
+    "User",
+    "Article",
+    "Icon",
+    "Category",
+    "Bookmark",
+    "ArticleTag",
+    "BookmarkTag",
+]
 
 import os
 
 from sqlalchemy.engine import reflection
 from sqlalchemy.schema import (
-        MetaData,
-        Table,
-        DropTable,
-        ForeignKeyConstraint,
-        DropConstraint)
+    MetaData,
+    Table,
+    DropTable,
+    ForeignKeyConstraint,
+    DropConstraint,
+)
+
 
 def db_empty(db):
     "Will drop every datas stocked in db."
@@ -71,9 +82,9 @@ def db_empty(db):
     for table_name in inspector.get_table_names():
         fks = []
         for fk in inspector.get_foreign_keys(table_name):
-            if not fk['name']:
+            if not fk["name"]:
                 continue
-            fks.append(ForeignKeyConstraint((), (), name=fk['name']))
+            fks.append(ForeignKeyConstraint((), (), name=fk["name"]))
         t = Table(table_name, metadata, *fks)
         tbs.append(t)
         all_fks.extend(fks)
