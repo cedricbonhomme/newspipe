@@ -15,8 +15,6 @@ def set_logging(log_path=None, log_level=logging.INFO, modules=(),
     if not modules:
         modules = ('root', 'bootstrap', 'runserver',
                    'web', 'crawler.default_crawler', 'manager', 'plugins')
-    if conf.ON_HEROKU:
-        log_format = '%(levelname)s %(message)s'
     if log_path:
         if not os.path.exists(os.path.dirname(log_path)):
             os.makedirs(os.path.dirname(log_path))

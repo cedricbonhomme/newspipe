@@ -4,6 +4,7 @@
 
 This file contain the variables used by the application.
 """
+import configparser as confparser
 import os
 import logging
 
@@ -22,7 +23,6 @@ TIME_ZONE = {
     "fr": "Europe/Paris"
 }
 
-ON_HEROKU = int(os.environ.get('HEROKU', 0)) == 1
 DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "self_registration": "false",
             "cdn_address": "",
@@ -47,27 +47,10 @@ DEFAULTS = {"platform_url": "https://www.newspipe.org/",
             "feed_refresh_interval": "120"
             }
 
-if not ON_HEROKU:
-    import configparser as confparser
-    # load the configuration
-    config = confparser.SafeConfigParser(defaults=DEFAULTS)
-    config.read(os.path.join(BASE_DIR, "conf/conf.cfg"))
-else:
-    class Config(object):
-        def get(self, _, name):
-            return os.environ.get(name.upper(), DEFAULTS.get(name))
 
-        def getint(self, _, name):
-            return int(self.get(_, name))
-
-        def getboolean(self, _, name):
-            value = self.get(_, name)
-            if value == 'true':
-                return True
-            elif value == 'false':
-                return False
-            return None
-    config = Config()
+# load the configuration
+config = confparser.SafeConfigParser(defaults=DEFAULTS)
+config.read(os.path.join(BASE_DIR, "conf/conf.cfg"))
 
 
 WEBSERVER_HOST = config.get('webserver', 'host')
@@ -88,10 +71,7 @@ try:
     TOKEN_VALIDITY_PERIOD = config.getint('misc', 'token_validity_period')
 except:
     TOKEN_VALIDITY_PERIOD = int(config.get('misc', 'token_validity_period'))
-if not ON_HEROKU:
-    LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
-else:
-    LOG_PATH = ''
+LOG_PATH = os.path.abspath(config.get('misc', 'log_path'))
 LOG_LEVEL = {'debug': logging.DEBUG,
              'info': logging.INFO,
              'warn': logging.WARN,

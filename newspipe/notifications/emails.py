@@ -46,13 +46,9 @@ def send_async_email(mfrom, mto, msg):
 
 def send(*args, **kwargs):
     """
-    This functions enables to send email through SendGrid
-    or a SMTP server.
+    This functions enables to send email via different method.
     """
-    if conf.ON_HEROKU:
-        send_sendgrid(**kwargs)
-    else:
-        send_smtp(**kwargs)
+    send_smtp(**kwargs)
 
 def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     """

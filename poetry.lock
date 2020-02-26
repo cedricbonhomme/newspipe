@@ -262,17 +262,6 @@ SQLAlchemy = ">=0.8.0"
 
 [[package]]
 category = "main"
-description = "Force SSL on your Flask app."
-name = "flask-sslify"
-optional = false
-python-versions = "*"
-version = "0.1.5"
-
-[package.dependencies]
-Flask = "*"
-
-[[package]]
-category = "main"
 description = "Simple integration of Flask and WTForms."
 name = "flask-wtf"
 optional = false
@@ -589,7 +578,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "6714462ca1b9ea98f6ec5d7ef69d7ddbed1ae0687cbff95accbcda74074714a2"
+content-hash = "55d68271b42d43858eb45a17f1de68d89ed73cd5b72a497af0d64185b1c9ca1b"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -686,9 +675,6 @@ flask-script = [
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.4.1.tar.gz", hash = "sha256:6974785d913666587949f7c2946f7001e4fa2cb2d19f4e69ead02e4b8f50b33d"},
     {file = "Flask_SQLAlchemy-2.4.1-py2.py3-none-any.whl", hash = "sha256:0078d8663330dc05a74bc72b3b6ddc441b9a744e2f56fe60af1a5bfc81334327"},
-]
-flask-sslify = [
-    {file = "Flask-SSLify-0.1.5.tar.gz", hash = "sha256:d33e1d3c09cd95154176aa8a7319418e52129fc482dd56d8a8ad7c24500d543e"},
 ]
 flask-wtf = [
     {file = "Flask-WTF-0.14.3.tar.gz", hash = "sha256:d417e3a0008b5ba583da1763e4db0f55a1269d9dd91dcc3eb3c026d3c5dbd720"},

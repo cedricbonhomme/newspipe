@@ -162,8 +162,7 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process.
     """
-    if conf.CRAWLING_METHOD == "default" \
-            and (not conf.ON_HEROKU or current_user.is_admin):
+    if conf.CRAWLING_METHOD == "default" and current_user.is_admin:
         misc_utils.fetch(current_user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")
     else:
