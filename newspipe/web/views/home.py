@@ -22,32 +22,27 @@ logger = logging.getLogger(__name__)
 @current_app.route("/")
 @login_required
 def home():
-
+    """Displays the home page of the connected user.
+    """
     art_contr = ArticleController(current_user.id)
 
     unread = art_contr.count_by_feed(readed=False)
 
     feeds = {feed.id: feed.title for feed in current_user.feeds}
-    # articles = Article.query.filter(Article.feed_id.in_(feeds.keys()),
-    #                                 Article.user_id == current_user.id)
+
     filter_ = request.args.get('filter_', 'unread')
     feed_id = int(request.args.get('feed', 0))
     limit = request.args.get('limit', 1000)
 
-    if filter_ != 'all':
-        articles = art_contr.read_light(readed=(filter_ == 'read'))
     if feed_id:
-        articles = art_contr.read_light(readed=(filter_ == 'read'), feed_id=feed_id)
+        articles = art_contr.read(readed=(filter_ == 'read'), feed_id=feed_id)
+    else:
+        articles = art_contr.read(readed=(filter_ == 'read'))
 
     # articles = articles.order_by(Article.date.desc())
     if limit != 'all':
         limit = int(limit)
         articles = articles.limit(limit)
-
-    # unread = db.session.query(Article.feed_id, func.count(Article.id))\
-    #                    .filter(Article.readed == False, Article.user_id == g.user.id)\
-    #                    .group_by(Article.feed_id).all()
-
 
     in_error = {feed.id: feed.error_count for feed in
                 FeedController(current_user.id).read(error_count__gt=0).all()}
@@ -57,56 +52,6 @@ def home():
                            filter_=filter_, limit=limit, feeds=feeds,
                            unread=dict(unread), articles=articles.all(),
                            in_error=in_error)
-
-
-@current_app.route("/menu")
-@login_required
-@etag_match
-@jsonify
-def get_menu():
-    now, locale = datetime.now(), get_locale()
-    categories_order = [0]
-    categories = {0: {"name": "No category", "id": 0}}
-    for cat in CategoryController(current_user.id).read().order_by("name"):
-        categories_order.append(cat.id)
-        categories[cat.id] = cat
-    unread = ArticleController(current_user.id).count_by_feed(readed=False)
-    for cat_id in categories:
-        categories[cat_id]["unread"] = 0
-        categories[cat_id]["feeds"] = []
-    feeds = {feed.id: feed for feed in FeedController(current_user.id).read()}
-    for feed_id, feed in feeds.items():
-        feed["created_rel"] = format_timedelta(
-            feed.created_date - now, add_direction=True, locale=locale
-        )
-        feed["last_rel"] = format_timedelta(
-            feed.last_retrieved - now, add_direction=True, locale=locale
-        )
-        feed["created_date"] = format_datetime(
-            localize(feed.created_date), locale=locale
-        )
-        feed["last_retrieved"] = format_datetime(
-            localize(feed.last_retrieved), locale=locale
-        )
-        feed["category_id"] = feed.category_id or 0
-        feed["unread"] = unread.get(feed.id, 0)
-        if not feed.filters:
-            feed["filters"] = []
-        if feed.icon_url:
-            feed["icon_url"] = url_for("icon.icon", url=feed.icon_url)
-        categories[feed["category_id"]]["unread"] += feed["unread"]
-        categories[feed["category_id"]]["feeds"].append(feed_id)
-    return {
-        "feeds": feeds,
-        "categories": categories,
-        "categories_order": categories_order,
-        "crawling_method": conf.CRAWLING_METHOD,
-        "max_error": conf.DEFAULT_MAX_ERROR,
-        "error_threshold": conf.ERROR_THRESHOLD,
-        "is_admin": current_user.is_admin,
-        "all_unread_count": sum(unread.values()),
-    }
-
 
 def _get_filters(in_dict):
     filters = {}

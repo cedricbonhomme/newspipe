@@ -86,7 +86,7 @@ class Article(db.Model, RightMixin):
             "date",
             "retrieved_date",
             "user_id",
-            "tags",
+            "tags"
         }
 
     @staticmethod
