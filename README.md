@@ -8,6 +8,9 @@ aggregator and reader.
 For reporting issues, visit the tracker here:
 https://todo.sr.ht/~cedric/newspipe
 
+For contributions the list is here:
+https://lists.sr.ht/~cedric/newspipe
+
 ## Main features
 
 * easy to deploy;
