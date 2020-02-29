@@ -5,12 +5,14 @@
     li.feed-commands > span > a {margin-right: 10px;}
     li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}
 </style>
+<div class="container-fluid">
 {% if feeds|count == 0 %}
     <div class="col-md-4 col-md-offset-4">
         <h1>{{ _("You don't have any feeds.") }}</h1>
         <h1><a href="{{ url_for('feed.form') }}">{{ _('Add some') }}</a>, {{ _('or') }} <a href="{{ url_for('user.management') }}">{{ _('upload an OPML file.') }}</a></h1>
     </div>
 {% else %}
+    <div class="row">
     <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
         <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li><a href="{{ gen_url(feed=0) }}">
@@ -55,20 +57,28 @@
         {% endfor %}
         </ul>
     </div>
-    <div class="container col-md-9">
+    <div class="col-md-9">
         <div id="filters" data-filter="{{ filter_ }}">
-            <ul class="nav nav-tabs"">
-                <li id="tab-all nav-item" {% if filter_ == 'all' %}class="active"{% endif %}><a href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a></li>
-                <li id="tab-read" {% if filter_ == 'read' %}class="active"{% endif %}><a href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a></li>
-                <li id="tab-unread" {% if filter_ == 'unread' %}class="active"{% endif %}><a href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a></li>
+            <ul class="nav nav-tabs mr-auto">
+                <li id="tab-all" class="nav-item">
+                    <a class="nav-link {% if filter_ == 'all' %}active{% endif %}" href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
+                </li>
+                <li id="tab-read" class="nav-item">
+                    <a class="nav-link {% if filter_ == 'read' %}active{% endif %}" href="{{ gen_url(filter_='read') }}">{{ _('Read') }}</a>
+                </li>
+                <li id="tab-unread" class="nav-item">
+                    <a class="nav-link {% if filter_ == 'unread' %}active{% endif %}" href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
+                </li>
+
                 <li id="tab-nbdisplay" class="pull-right">
                     <div id="nbdisplay">
-                        <a href="{{ gen_url(limit=10) }}" class="label {% if limit == 10 %}label-primary{% else %}label-info{% endif %}">{{ _(10) }}</a>
-                        <a href="{{ gen_url(limit=100) }}" class="label {% if limit == 100 %}label-primary{% else %}label-info{% endif %}">{{ _(100) }}</a>
-                        <a href="{{ gen_url(limit=1000) }}" class="label {% if limit == 1000 %}label-primary{% else %}label-info{% endif %}">{{ _(1000) }}</a>
-                        <a href="{{ gen_url(limit='all') }}" class="label {% if limit == 'all' %}label-primary{% else %}label-info{% endif %}">{{ _('All') }}</a>
+                        <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>
+                        <a href="{{ gen_url(limit=100) }}" class="badge {% if limit == 100 %}badge-primary{% else %}badge-info{% endif %}">{{ _(100) }}</a>
+                        <a href="{{ gen_url(limit=1000) }}" class="badge {% if limit == 1000 %}badge-primary{% else %}badge-info{% endif %}">{{ _(1000) }}</a>
+                        <a href="{{ gen_url(limit='all') }}" class="badge {% if limit == 'all' %}badge-primary{% else %}badge-info{% endif %}">{{ _('All') }}</a>
                     </div>
                 </li>
+            </ul>
         </div>
         {% if articles | count != 0%}
             <div class="table-responsive">
@@ -109,6 +119,8 @@
                 </table>
             </div>
         {% endif %}
-    </div><!-- /.container -->
+    </div>
+    </div>
 {% endif %}
+</div>
 {% endblock %}
