@@ -1,12 +1,37 @@
-body {
-    margin-top: 50px;
-}
-div.top {
+html {
     position: relative;
-    top: -50px;
-    display: block;
-    height: 0;
+    min-height: 100%;
 }
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: rgb(246, 248, 250);
+}
+img {
+    padding: 2px;
+}
+
+.bg-newspipe-blue {
+    background-color: #205081;
+}
+
+
+/* Sticky footer */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #006FBA;
+}
+.footer a{
+    color: #FFFFFF;
+}
+
+
+
 
 #newspipenav {
     background-color: #205081;

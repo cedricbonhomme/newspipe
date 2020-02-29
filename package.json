@@ -4,10 +4,10 @@
   "license": "AGPL-3.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.4.1",
     "datatables": "^1.10.18",
-    "datatables.net": "^1.10.12",
-    "datatables.net-bs": "^1.10.12",
+    "datatables.net": "^1.10.20",
+    "datatables.net-bs": "^1.10.20",
     "fork-awesome": "^1.1.7",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
