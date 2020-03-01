@@ -14,7 +14,7 @@
 {% else %}
     <div class="row">
     <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
-        <ul class="nav sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
+        <ul class="sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li><a href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
                     {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
