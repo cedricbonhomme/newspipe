@@ -14,14 +14,14 @@
 {% else %}
     <div class="row">
     <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
-        <ul class="sidenav navbar-collapse pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
-            <li><a href="{{ gen_url(feed=0) }}">
+        <ul class="nav flex-column pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
+            <li class="nav-item"><a class="nav-link" href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
                     {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
-            <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
@@ -39,7 +39,7 @@
             </span></li>
         {% endfor %}
         {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
-            <li class="feed-menu"><a href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
                     <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
