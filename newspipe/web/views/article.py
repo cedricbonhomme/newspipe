@@ -104,12 +104,12 @@ def history(year=None, month=None):
 
 @article_bp.route("/mark_as/<string:new_value>", methods=["GET"])
 @article_bp.route(
-    "/mark_as/<string:new_value>/feed/<int:article_id>", methods=["GET"]
+    "/mark_as/<string:new_value>/feed/<int:feed_id>", methods=["GET"]
 )
 @login_required
 def mark_as(new_value="read", feed_id=None, article_id=None):
     """
-    Mark all unreaded articles as read.
+    Mark a single article or all articles of a feed as read/unread.
     """
     readed = new_value == "read"
     art_contr = ArticleController(current_user.id)
@@ -125,9 +125,9 @@ def mark_as(new_value="read", feed_id=None, article_id=None):
     art_contr.update(filters, {"readed": readed})
     flash(gettext(message % new_value), "info")
 
-    if readed:
-        return redirect(redirect_url())
-    return redirect("home")
+    # if readed:
+    #     return redirect(redirect_url())
+    return redirect(url_for("home"))
 
 
 @articles_bp.route("/expire_articles", methods=["GET"])
