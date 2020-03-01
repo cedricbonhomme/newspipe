@@ -30,28 +30,51 @@ def home():
 
     feeds = {feed.id: feed.title for feed in current_user.feeds}
 
-    filter_ = request.args.get('filter_', 'unread')
-    feed_id = int(request.args.get('feed', 0))
-    limit = request.args.get('limit', 1000)
+    filter_ = request.args.get("filter_", "unread")
+    feed_id = int(request.args.get("feed", 0))
+    liked = int(request.args.get("liked", 0)) == 1
+    limit = request.args.get("limit", 1000)
 
+    filters = {}
+    if filter_ in ["read", "unread"]:
+        filters["readed"] = filter_ == "read"
     if feed_id:
-        articles = art_contr.read(readed=(filter_ == 'read'), feed_id=feed_id)
-    else:
-        articles = art_contr.read(readed=(filter_ == 'read'))
+        filters["feed_id"] = feed_id
+    if liked:
+        filters["like"] = int(liked) == 1
 
-    # articles = articles.order_by(Article.date.desc())
-    if limit != 'all':
+    articles = art_contr.read_ordered(**filters)
+
+    if limit != "all":
         limit = int(limit)
         articles = articles.limit(limit)
 
-    in_error = {feed.id: feed.error_count for feed in
-                FeedController(current_user.id).read(error_count__gt=0).all()}
-    def gen_url(filter_=filter_, limit=limit, feed=feed_id):
-        return '?filter_=%s&limit=%s&feed=%d' % (filter_, limit, feed)
-    return render_template('home.html', gen_url=gen_url, feed_id=feed_id,
-                           filter_=filter_, limit=limit, feeds=feeds,
-                           unread=dict(unread), articles=articles.all(),
-                           in_error=in_error)
+    in_error = {
+        feed.id: feed.error_count
+        for feed in FeedController(current_user.id).read(error_count__gt=0).all()
+    }
+
+    def gen_url(filter_=filter_, limit=limit, feed=feed_id, liked=liked):
+        return "?filter_=%s&limit=%s&feed=%d&liked=%s" % (
+            filter_,
+            limit,
+            feed,
+            1 if liked else 0,
+        )
+
+    return render_template(
+        "home.html",
+        gen_url=gen_url,
+        feed_id=feed_id,
+        filter_=filter_,
+        limit=limit,
+        feeds=feeds,
+        liked=liked,
+        unread=dict(unread),
+        articles=articles.all(),
+        in_error=in_error,
+    )
+
 
 def _get_filters(in_dict):
     filters = {}

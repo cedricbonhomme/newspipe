@@ -70,7 +70,9 @@
                 <li id="tab-unread" class="nav-item">
                     <a class="nav-link {% if filter_ == 'unread' %}active{% endif %}" href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
                 </li>
-
+                <li id="tab-unread" class="nav-item">
+                    <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}">{{ _('Liked') }}</a>
+                </li>
                 <li id="tab-nbdisplay" class="pull-right">
                     <div id="nbdisplay">
                         <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>

@@ -103,9 +103,7 @@ def history(year=None, month=None):
 
 
 @article_bp.route("/mark_as/<string:new_value>", methods=["GET"])
-@article_bp.route(
-    "/mark_as/<string:new_value>/feed/<int:feed_id>", methods=["GET"]
-)
+@article_bp.route("/mark_as/<string:new_value>/feed/<int:feed_id>", methods=["GET"])
 @login_required
 def mark_as(new_value="read", feed_id=None, article_id=None):
     """

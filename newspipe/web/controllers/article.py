@@ -102,3 +102,6 @@ class ArticleController(AbstractController):
             )
             .order_by(Article.date.desc())
         )
+
+    def read_ordered(self, **filters):
+        return super().read(**filters).order_by(Article.date.desc())
