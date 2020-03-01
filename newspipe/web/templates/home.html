@@ -61,7 +61,7 @@
     </div>
     <div class="col-md-12 col-lg-9">
         <div id="filters" data-filter="{{ filter_ }}">
-            <ul class="nav nav-tabs mr-auto">
+            <ul class="nav nav-tabs ml-auto">
                 <li id="tab-all" class="nav-item">
                     <a class="nav-link {% if filter_ == 'all' %}active{% endif %}" href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
                 </li>
@@ -71,10 +71,10 @@
                 <li id="tab-unread" class="nav-item">
                     <a class="nav-link {% if filter_ == 'unread' %}active{% endif %}" href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
                 </li>
-                <li id="tab-unread" class="nav-item">
-                    <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}">{{ _('Liked') }}</a>
+                <li id="tab-unread" class="px-5 nav-item">
+                    <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}"><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;{{ _('Liked') }}</a>
                 </li>
-                <li id="tab-nbdisplay" class="pull-right">
+                <li id="tab-nbdisplay" class="px-5 nav-item">
                     <div id="nbdisplay">
                         <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>
                         <a href="{{ gen_url(limit=100) }}" class="badge {% if limit == 100 %}badge-primary{% else %}badge-info{% endif %}">{{ _(100) }}</a>

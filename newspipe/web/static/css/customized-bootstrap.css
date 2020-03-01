@@ -10,11 +10,13 @@ body {
 img {
     padding: 2px;
 }
+a {
+    color: #3572B0;
+}
 
 .bg-newspipe-blue {
     background-color: #205081;
 }
-
 
 /* Sticky footer */
 .footer {
@@ -30,39 +32,9 @@ img {
     color: #FFFFFF;
 }
 
-
 #sidebar {
     overflow: auto;
     max-height: 700px;
-}
-
-#newspipenav {
-    background-color: #205081;
-    border: #205081;
-    border-radius: 0;
-}
-#newspipenav>div.container {
-  width: 100%;
-}
-#newspipenav span.glyphicon {
-  margin-right: 5px;
-}
-#newspipenav button {
-  margin-left: 5px;
-}
-
-#newspipenav a.navbar-brand,
-#newspipenav .newspipenavitem a,
-#newspipenav a.dropdown-toggle{
-    color: white;
-}
-#newspipenav .navbar-nav > .open > a,
-#newspipenav .navbar-nav > .open > a:hover,
-#newspipenav .navbar-nav > li > a:hover {
-    background-color: #3572B0;
-}
-a {
-    color: #3572B0;
 }
 
 .input-group-inline {
