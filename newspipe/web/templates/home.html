@@ -18,7 +18,8 @@
         <ul class="nav flex-column" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li class="nav-item"><a class="nav-link" href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
-                    {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
+                    {{ _('All feeds') }}
+                    <span id="total-unread" class="badge pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}

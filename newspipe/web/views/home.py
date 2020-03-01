@@ -27,6 +27,7 @@ def home():
     art_contr = ArticleController(current_user.id)
 
     unread = art_contr.count_by_feed(readed=False)
+    nb_unread =art_contr.read_light(readed=False).count()
 
     feeds = {feed.id: feed.title for feed in current_user.feeds}
 
@@ -64,6 +65,7 @@ def home():
 
     return render_template(
         "home.html",
+        nb_unread=nb_unread,
         gen_url=gen_url,
         feed_id=feed_id,
         filter_=filter_,
