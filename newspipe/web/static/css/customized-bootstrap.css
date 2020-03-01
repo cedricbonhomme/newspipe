@@ -31,7 +31,10 @@ img {
 }
 
 
-
+#sidebar {
+    overflow: auto;
+    max-height: 700px;
+}
 
 #newspipenav {
     background-color: #205081;

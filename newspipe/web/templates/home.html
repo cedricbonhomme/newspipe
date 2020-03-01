@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <style>
+
     li.feed-commands {display: none; text-align: right;}
     li.feed-commands > span > a {margin-right: 10px;}
     li.feed-menu:hover + li.feed-commands, li.feed-commands:hover {display: block;}
@@ -13,8 +14,8 @@
     </div>
 {% else %}
     <div class="row">
-    <div id="affix-nav" class="col-md-3 sidebar hidden-xs hidden-sm">
-        <ul class="nav flex-column pre-scrollable" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
+    <div id="sidebar" class="col-3 d-none d-lg-block">
+        <ul class="nav flex-column" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
             <li class="nav-item"><a class="nav-link" href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
                     {{ _('All feeds') }} <span id="total-unread" class="badge pull-right">{{ articles.__len__() }}</span>
@@ -57,7 +58,7 @@
         {% endfor %}
         </ul>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-12 col-lg-9">
         <div id="filters" data-filter="{{ filter_ }}">
             <ul class="nav nav-tabs mr-auto">
                 <li id="tab-all" class="nav-item">
