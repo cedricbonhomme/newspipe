@@ -214,7 +214,7 @@ def import_pinboard_json(user, json_content):
         bookmark_attr = {
             "href": bookmark["href"],
             "description": description,
-            "title": description,
+            "title": bookmark["title"],
             "shared": [bookmark["shared"] == "yes" and True or False][0],
             "to_read": [bookmark["toread"] == "yes" and True or False][0],
             "time": time,
