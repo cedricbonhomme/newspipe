@@ -1,64 +1,67 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ _('Your Profile') }}</h1>
+    <h2>{{ _('Your Profile') }}</h2>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col">
             <p>{{ _('Member since') }}: {{ user.date_created  | datetime }}.</p>
             <p>{{ _('Last seen') }}: {{ user.last_seen  | datetime }}.</p>
         </div>
     </div>
-    <div class="well">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Edit your profile</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h3>Edit your profile</h3>
+                </div>
             </div>
+            <form action="" method="post" name="save">
+                <div class="row">
+                    {{ form.hidden_tag() }}
+
+                    <div class="col">
+                        {{ form.nickname.label }}
+                        {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.password.label }}
+                        {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.password_conf.label }}
+                        {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    </div>
+
+                    <div class="col">
+                        {{ form.bio.label }}
+                        {{ form.bio(class_="form-control") }} {% for error in form.bio.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.webpage.label }}
+                        {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.twitter.label }}
+                        {{ form.twitter(class_="form-control") }} {% for error in form.twitter.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.is_public_profile.label }}
+                        {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
+
+                        {{ form.automatic_crawling.label }}
+                        {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <p>{{ _('Uncheck if you are using your own crawler.') }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <br />
+                        {{ form.submit(class_="btn btn-light") }}
+                    </div>
+                </div>
+            </form>
         </div>
-        <form action="" method="post" name="save">
-            <div class="row">
-                {{ form.hidden_tag() }}
-
-                <div class="col-md-6">
-                    {{ form.nickname.label }}
-                    {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                    {{ form.password.label }}
-                    {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                    {{ form.password_conf.label }}
-                    {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-
-                <div class="col-md-6">
-                    {{ form.bio.label }}
-                    {{ form.bio(class_="form-control") }} {% for error in form.bio.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                    {{ form.webpage.label }}
-                    {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                    {{ form.twitter.label }}
-                    {{ form.twitter(class_="form-control") }} {% for error in form.twitter.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                    {{ form.is_public_profile.label }}
-                    {{ form.is_public_profile(class_="form-control") }} {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                    <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
-
-                    {{ form.automatic_crawling.label }}
-                    {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                    <p>{{ _('Uncheck if you are using your own crawler.') }}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <br />
-                    {{ form.submit(class_="btn btn-default") }}
-                </div>
-            </div>
-        </form>
     </div>
+    <br />
     <div class="row">
-        <div class="col-md-12">
-            <a href="/delete_account" class="btn btn-default" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+        <div class="col">
+            <a href="/delete_account" class="btn btn-warning" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
         </div>
    </div>
 </div><!-- /.container -->
