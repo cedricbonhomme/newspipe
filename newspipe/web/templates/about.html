@@ -1,23 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="well">
-        <h1>{{ _('About') }}</h1>
-        <p>
-        {{ _('Newspipe is a news aggregator platform.') }}
-        {{ _('You can easily <a href="https://newspipe.readthedocs.io/en/latest/deployment.html">install Newspipe on your server</a>.') }}
-        <p>{{ _('This software is under AGPLv3 license. You are welcome to copy, modify or
-        redistribute the <a href="https://git.sr.ht/~cedric/newspipe">source code</a>
-        according to the <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero GPL</a> license.') }}</p>
-        <p>{{ _('Found a bug? Report it <a href="https://todo.sr.ht/~cedric/newspipe">here</a>.') }}</p>
-        <p><a href="{{ url_for('about_more') }}">{{ _('More information') }}</a> {{ _('about this instance.') }}</p>
+    <div class="card">
+        <div class="card-body">
+            <h2>{{ _('About') }}</h2>
+            <p>
+            {{ _('Newspipe is a news aggregator platform.') }}
+            <p>{{ _('This software is under AGPLv3 license. You are welcome to copy, modify or
+            redistribute the <a href="https://git.sr.ht/~cedric/newspipe">source code</a>
+            according to the <a href="https://www.gnu.org/licenses/agpl-3.0.html">Affero GPL</a> license.') }}</p>
+            <p>{{ _('Found a bug? Report it <a href="https://todo.sr.ht/~cedric/newspipe">here</a>.') }}</p>
+            <p><a href="{{ url_for('about_more') }}">{{ _('More information') }}</a> {{ _('about this instance.') }}</p>
+        </div>
     </div>
-    <div class="well">
-        <h1>{{ _('Help') }}</h1>
-        <p>{{ _('The documentation of the API is <a href="https://newspipe.readthedocs.io/en/latest/web-services-v3.html">here</a>.') }}</p>
-        <p>{{ _('Contact')}}: <a href="mailto:{{ contact }}">{{ contact }}</a></p>
-        <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
-        {{ _('<a class="btn btn-default" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <h2>{{ _('Help') }}</h2>
+            <p>{{ _('Contact')}}: <a href="mailto:{{ contact }}">{{ contact }}</a></p>
+            <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
+            {{ _('<a class="btn btn-light" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
+        </div>
     </div>
 </div><!-- /.container -->
 {% endblock %}
