@@ -1,4 +1,4 @@
-from web.views.api import v2, v3
+from web.views.api import v2
 from web.views import views, home, session_mgmt
 from web.views.article import article_bp, articles_bp
 from web.views.feed import feed_bp, feeds_bp
@@ -13,7 +13,6 @@ __all__ = [
     "home",
     "session_mgmt",
     "v2",
-    "v3",
     "article_bp",
     "articles_bp",
     "feed_bp",
