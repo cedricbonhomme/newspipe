@@ -263,6 +263,7 @@ def bookmarklet():
 def import_pinboard():
     bookmarks = request.files.get("jsonfile", None)
     if bookmarks:
+        nb_bookmarks = import_pinboard_json(current_user, bookmarks.read())
         try:
             nb_bookmarks = import_pinboard_json(current_user, bookmarks.read())
             flash(
@@ -272,7 +273,7 @@ def import_pinboard():
                 ),
                 "success",
             )
-        except Exception as e:
+        except Exception:
             flash(gettext("Error when importing bookmarks."), "error")
 
     return redirect(redirect_url())

@@ -204,13 +204,20 @@ def import_pinboard_json(user, json_content):
         for tag in bookmark["tags"].split(" "):
             new_tag = BookmarkTag(text=tag.strip(), user_id=user.id)
             tags.append(new_tag)
+        try:
+            # Pinboard format
+            description = bookmark["extended"]
+            time = datetime.datetime.strptime(bookmark["time"], "%Y-%m-%dT%H:%M:%SZ")
+        except Exception:
+            description = bookmark["description"]
+            time = datetime.datetime.strptime(bookmark["time"], "%Y-%m-%dT%H:%M:%S")
         bookmark_attr = {
             "href": bookmark["href"],
-            "description": bookmark["extended"],
-            "title": bookmark["description"],
+            "description": description,
+            "title": description,
             "shared": [bookmark["shared"] == "yes" and True or False][0],
             "to_read": [bookmark["toread"] == "yes" and True or False][0],
-            "time": datetime.datetime.strptime(bookmark["time"], "%Y-%m-%dT%H:%M:%SZ"),
+            "time": time,
             "tags": tags,
         }
         new_bookmark = bookmark_contr.create(**bookmark_attr)
