@@ -20,11 +20,12 @@
                         {% for message in form.password.errors %}
                             <div class="alert alert-warning" role="alert">{{ message }}</div>
                         {% endfor %}
-                        {{ form.submit(class_="btn btn-light") }}
+                        {{ form.submit(class_="btn btn-primary") }}
                     </form>
                 </div>
             </div>
-            <a href="/signup" class="btn btn-link">{{ _('Sign up') }}</a>
+            <br />
+            <a href="/signup" class="btn btn-primary">{{ _('Sign up') }}</a>
         </div>
     </div>
 </div><!-- /.container -->

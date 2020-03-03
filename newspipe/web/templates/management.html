@@ -9,12 +9,12 @@
                     <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="/feeds">{{ _('feeds') }}</a>. <a href="{{ url_for("feed.form") }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
                     <p>{{ nb_articles }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles }} {{ _('unread articles') }}.</p>
                     <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for("categories.list_")}}">{{ _('categories') }}</a>.</p>
-                    <a href="{{ url_for("articles.expire", weeks=10) }}" class="btn btn-light" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
+                    <a href="{{ url_for("articles.expire", weeks=10) }}" class="btn btn-primary" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
                 </div>
                 <div class="col">
                     <h2>{{ _('Your bookmarks') }}</h2>
                     <p>{{ _('You have') }} {{ nb_bookmarks }} <a href="{{ url_for("bookmarks.list_")}}">{{ _('bookmarks') }}</a>.</p>
-                    <a href="{{ url_for("bookmarks.delete_all") }}" class="btn btn-light" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
+                    <a href="{{ url_for("bookmarks.delete_all") }}" class="btn btn-primary" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
                 </div>
             </div>
         </div>
@@ -33,17 +33,17 @@
                     <h4>{{ _('Import') }}</h4>
                     <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
                         <span class="btn btn-file">{{ _('Import a Newspipe account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
-                        <button class="btn btn-light" type="submit">OK</button>
+                        <button class="btn btn-primary" type="submit">OK</button>
                     </form>
                     <h4>{{ _('Export') }}</h4>
-                    <a href="{{ url_for('articles.export') }}" class="btn btn-light">{{ _('Export your Newspipe account to JSON') }}</a>
+                    <a href="{{ url_for('articles.export') }}" class="btn btn-primary">{{ _('Export your Newspipe account to JSON') }}</a>
                 </div>
                 <div class="col">
                     <h3 id="import">{{ _('OPML') }}</h3>
                     <h4>{{ _('Import') }}</h4>
                     <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
                         <span class="btn btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
-                        <button class="btn btn-light" type="submit">OK</button>
+                        <button class="btn btn-primary" type="submit">OK</button>
                     </form>
                     <h4>{{ _('Export') }}</h4>
                     <form class="form-inline" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
@@ -61,14 +61,14 @@
                                 <input type="checkbox" class="form-control" name="includeprivate" checked />
                             </div>
                         </div>
-                        <button class="btn btn-light" type="submit">{{ _('Export your feeds to OPML') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ _('Export your feeds to OPML') }}</button>
                     </form>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <h2>{{ _('Bookmarks') }}</h2>
-                    <a href="{{ url_for('bookmarks.export') }}" class="btn btn-light">{{ _('Export your bookmarks to JSON') }}</a>
+                    <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary">{{ _('Export your bookmarks to JSON') }}</a>
                 </div>
             </div>
         </div>

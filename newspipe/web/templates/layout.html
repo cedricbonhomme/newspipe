@@ -8,23 +8,22 @@
     <meta name="author" content="" />
     <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
-    <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" media="screen" />
-    <!-- Add custom CSS here -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}">
-    <link href="{{ url_for("static", filename="css/customized-bootstrap.css") }}" rel="stylesheet" media="screen" />
-    <!-- jquery, bootstrap, datatables -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}" />
+    <!-- JavaScript -->
     <script type="text/javascript" src="{{ url_for('static', filename = 'npm_components/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     {% endblock %}
   </head>
   <body>
     {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-newspipe-blue">
-        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" width="120px" alt="Newspipe" title="Newspipe" /></a>
+        <a class="navbar-brand" href="/">🗞&nbsp;Newspipe</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -35,7 +34,7 @@
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/fetch" title="{{  _('Fetch') }}">{{  _('Fetch') }}</a>
+                            <a class="nav-link" href="{{ url_for('fetch') }}" title="{{  _('Fetch') }}"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{  _('Fetch') }}</a>
                         </li>
                     {% endif %}
                     <li class="nav-item dropdown">
@@ -117,9 +116,6 @@
         </div>
         {% endblock %}
     </nav>
-
-
-
     {% endblock %}
     <br />
 

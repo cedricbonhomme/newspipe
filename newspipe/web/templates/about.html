@@ -19,7 +19,7 @@
             <h2>{{ _('Help') }}</h2>
             <p>{{ _('Contact')}}: <a href="mailto:{{ contact }}">{{ contact }}</a></p>
             <p>{{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
-            {{ _('<a class="btn btn-light" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
+            {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>', bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)' % url_for('feed.bookmarklet', _external=True)) }}
         </div>
     </div>
 </div><!-- /.container -->

@@ -15,8 +15,23 @@ a {
     color: #3572B0;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+    color:
+    rgb(255, 255, 255, 1);
+}
+
 .bg-newspipe-blue {
-    background-color: #205081;
+    /* background-color: #0082c9; */
+    background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+}
+.btn-primary {
+    background-color: #0082c9;
+    color: white;
+}
+
+.btn-outline-primary {
+    border-color: #0082c9;
+    color: #0082c9;
 }
 
 /* Sticky footer */
