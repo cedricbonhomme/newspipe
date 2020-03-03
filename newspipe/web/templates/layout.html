@@ -91,15 +91,15 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUser">
-                            <a class="dropdown-item" href="{{ url_for('user.profile') }}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ _('Profile') }}</a>
-                            <a class="dropdown-item" href="{{ url_for('user.management') }}"><i class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;{{ _('Your data') }}</a>
-                            <a class="dropdown-item" href="{{ url_for('about') }}">{{ _('About') }}</a>
+                            <a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a>
+                            <a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a>
                             {% if current_user.is_admin %}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url_for('admin.dashboard') }}">{{ _('Dashboard') }}</a>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
-                            <a class="dropdown-item" href="{{ url_for('logout') }}" title="{{ _('Logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>
+                            <a class="dropdown-item" href="{{ url_for('about') }}">{{ _('About') }}</a>
+                            <a class="dropdown-item" href="{{ url_for('logout') }}" title="{{ _('Logout') }}">Logout</a>
                         </div>
                     </li>
                 {% else %}
