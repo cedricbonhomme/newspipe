@@ -1,6 +1,7 @@
 html {
     position: relative;
     min-height: 100%;
+    font-size: 14px;
 }
 body {
     /* Margin bottom by footer height */
@@ -36,6 +37,15 @@ a {
     overflow: auto;
     max-height: 700px;
 }
+
+#sidebar .nav li {
+  list-style-type: none;
+  padding: 0;
+  line-height: 1.0;
+  flex-direction: row;
+  flex-wrap: nowrap; /* assumes you only want one row */
+}
+
 
 .input-group-inline {
     min-width: 0;
