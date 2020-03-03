@@ -15,12 +15,15 @@
     <div class="row">
     <div id="sidebar" class="col-2 d-none d-lg-block">
         <ul class="nav flex-column" data-offset-top="0" data-offset-bottom="0" style="min-height: 650px;">
-            <li class="nav-item"><a class="nav-link" href="{{ gen_url(feed=0) }}">
+            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
                     {{ _('All feeds') }}
                     <span id="total-unread" class="badge pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
+            <li class="nav-item feed-commands"><span class="nav-link">
+                <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
+            </span></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
             <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
@@ -28,7 +31,8 @@
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                     {% endif %}
                     <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
-                    {{ feeds[fid] | safe | truncate(25, True) }}
+                    <!-- <img src="{{ url_for('icon.icon', url=feeds[fid].url) }}" width="16px"> -->
+                    {{ feeds[fid].title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands"><span class="nav-link">
@@ -39,13 +43,15 @@
                 <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
             </span></li>
         {% endfor %}
-        {% for fid, ftitle in feeds|dictsort(case_sensitive=False, by='value') if not fid in unread %}
+
+        {% for fid, feed in feeds.items() if not fid in unread %}
             <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
                     <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
-                    {{ ftitle | safe | truncate(25, True) }}
+                    <!-- <img src="{{ url_for('icon.icon', url=feeds[fid].url) }}" width="16px"> -->
+                    {{ feed.title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands"><span class="nav-link">

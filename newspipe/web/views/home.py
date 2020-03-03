@@ -27,9 +27,14 @@ def home():
     art_contr = ArticleController(current_user.id)
 
     unread = art_contr.count_by_feed(readed=False)
-    nb_unread =art_contr.read_light(readed=False).count()
+    nb_unread = art_contr.read_light(readed=False).count()
 
-    feeds = {feed.id: feed.title for feed in current_user.feeds}
+    feeds = {
+        feed.id: feed
+        for feed in sorted(
+            current_user.feeds, key=lambda x: x.title.lower(), reverse=False
+        )
+    }
 
     filter_ = request.args.get("filter_", "unread")
     feed_id = int(request.args.get("feed", 0))
