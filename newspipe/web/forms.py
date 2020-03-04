@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2020  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : http://gitlab.com/newspipe/newspipe
+# For more information: http://gitlab.com/newspipe/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
