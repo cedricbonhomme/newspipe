@@ -2,10 +2,10 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             {{ pagination.info }}
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-6 text-right">
             {% if current_user.is_authenticated %}
                 <a class="text-muted" href="{{ url_for('bookmarks.list_') }}">all</a>&nbsp;⸱&nbsp;
                 <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'private' }}">private</a>&nbsp;⸱&nbsp;
@@ -16,7 +16,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             {% if tag %}
                 <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;&nbsp;{{ tag }}
             {% endif %}
@@ -24,24 +24,30 @@
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;{{ query }}
             {% endif %}
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-6 text-right pull-right">
             <form method="GET">
-                <div class="form-inline">
-                    <input type="text" name="query" class="form-control" />
-                    <button type="submit" class="btn btn-default">Search</button>
+                <div class="form-row align-items-center pull-right">
+                    <div class="col-auto">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
     <br />
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-8">
             {{ pagination.links }}
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col">
             <ul class="list-group">
             {% for bookmark in bookmarks %}
                 <li class="list-group-item">
