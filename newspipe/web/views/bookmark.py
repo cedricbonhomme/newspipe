@@ -96,7 +96,7 @@ def list_(per_page, status="all"):
         filters["shared"] = True
 
     bookmarks = (
-        BookmarkController(user_id).read(**filters).order_by(desc("time")).limit(100)
+        BookmarkController(user_id).read(**filters).order_by(desc("time")).limit(1000)
     )
 
     # tag_contr = BookmarkTagController(user_id)
