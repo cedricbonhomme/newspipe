@@ -15,13 +15,13 @@ https://lists.sr.ht/~cedric/newspipe
 
 * easy to deploy;
 * multiple users can use a Newspipe instance;
-* a RESTful API to manage your articles (or connect your own crawler);
-* data liberation: export and import all your account with a JSON file;
+* an API to manage your feeds (you can connect your own crawler);
+* data liberation: export and import your account with a JSON file;
 * export and import feeds with OPML files;
-* favorite articles;
+* search and favorite articles;
 * detection of inactive feeds;
 * share on Pinboard and reddit;
-* personal management of bookmarks (with import from Pinboard).
+* management of bookmarks (with import from Pinboard).
 
 The core technologies are [Flask](http://flask.pocoo.org),
 [asyncio](https://www.python.org/dev/peps/pep-3156/),
