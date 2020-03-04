@@ -31,25 +31,42 @@
             <div class="row">
                 <div class="col">
                     <h3>{{ _('Articles') }}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <h5>{{ _('Import') }}</h5>
+                    <p>{{ _('Import a Newspipe account') }} (*.json)</p>
                     <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
-                        <span class="btn btn-file">{{ _('Import a Newspipe account') }} (<span class="text-info">*.json</span>)<input type="file" name="jsonfile" /></span>
+                        <input type="file" name="jsonfile" />
                         <button class="btn btn-primary" type="submit">OK</button>
                     </form>
-                    <br />
-                    <h5>{{ _('Export') }}</h5>
-                    <a href="{{ url_for('articles.export') }}" class="btn btn-primary">{{ _('Export your Newspipe account to JSON') }}</a>
                 </div>
                 <div class="col">
-                    <h3 id="import">{{ _('OPML') }}</h3>
+                    <h5>{{ _('Export') }}</h5>
+                    <p>{{ _('Export your newspipe account to JSON.') }}</p>
+                    <a href="{{ url_for('articles.export') }}" class="btn btn-primary">{{ _('Export') }}</a>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <h3 id="import">{{ _('Feeds') }}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <h5>{{ _('Import') }}</h5>
+                    <p>{{ _('Batch import feeds from OPML') }} (*.xml {{ _('or') }} *.opml).</p>
                     <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
-                        <span class="btn btn-file">{{ _('Batch import feeds from OPML') }} (<span class="text-info">*.xml {{ _('or') }} *.opml</span>)<input type="file" name="opmlfile" /></span>
+                        <input type="file" name="opmlfile" />
                         <button class="btn btn-primary" type="submit">OK</button>
                     </form>
-                    <br />
+                </div>
+                <div class="col">
                     <h5>{{ _('Export') }}</h5>
-                    <form class="form-inline" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
+                    <p>{{ _('Export your feeds to OPML.') }}</p>
+                    <form class="form" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
                         <div class="form-group">
                             <div class="input-group">
                                 <label>Include disabled feeds</label>
@@ -64,10 +81,11 @@
                                 <input type="checkbox" class="form-control" name="includeprivate" checked />
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">{{ _('Export your feeds to OPML') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ _('Export') }}</button>
                     </form>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <br />

@@ -39,6 +39,7 @@ a {
 }
 .btn-primary {
     background-color: #0082c9;
+    opacity: 1;
     color: white;
 }
 
