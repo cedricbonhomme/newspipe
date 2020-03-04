@@ -1,7 +1,7 @@
 html {
     position: relative;
     min-height: 100%;
-    font-size: 14px;
+    font-size: 16px;
 }
 body {
     /* Margin bottom by footer height */
@@ -13,6 +13,19 @@ img {
 }
 a {
     color: #3572B0;
+}
+
+#sidebar {
+    overflow: auto;
+    max-height: 700px;
+}
+
+#sidebar .nav li {
+  list-style-type: none;
+  padding: 0;
+  line-height: 1.0;
+  flex-direction: row;
+  flex-wrap: nowrap; /* assumes you only want one row */
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -47,20 +60,6 @@ a {
 .footer a{
     color: #FFFFFF;
 }
-
-#sidebar {
-    overflow: auto;
-    max-height: 700px;
-}
-
-#sidebar .nav li {
-  list-style-type: none;
-  padding: 0;
-  line-height: 1.0;
-  flex-direction: row;
-  flex-wrap: nowrap; /* assumes you only want one row */
-}
-
 
 .input-group-inline {
     min-width: 0;
