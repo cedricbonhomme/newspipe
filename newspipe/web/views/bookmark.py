@@ -93,11 +93,16 @@ def list_(per_page, status="all"):
     else:
         # query for the shared bookmarks (of all users)
         head_titles = [gettext("Recent bookmarks")]
-        not_created_before = datetime.datetime.today() - datetime.timedelta(days=900)
-        filters["time__gt"] = not_created_before  # only "recent" bookmarks
         filters["shared"] = True
-
-    bookmarks = BookmarkController(user_id).read(**filters).order_by(desc("time"))
+        last_bookmark = (
+            BookmarkController(user_id)
+            .read(**filters)
+            .order_by(desc("time"))
+            .limit(1)[0]
+        )
+        not_created_before = last_bookmark.time - datetime.timedelta(days=365)
+        filters["time__gt"] = not_created_before  # only "recent" bookmarks
+        bookmarks = BookmarkController(user_id).read(**filters).order_by(desc("time"))
 
     # tag_contr = BookmarkTagController(user_id)
     # tag_contr.read().join(bookmarks).all()
