@@ -30,16 +30,16 @@
             <td class="date">{{ user.date_created | datetime }}</td>
             <td class="date">{{ user.last_seen | datetime }}</td>
             <td>
-                <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this user') }}"></i></a>
+                <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}
                     <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}">
                     {% if user.is_active %}
-                        <i class="glyphicon glyphicon-ban-circle" title="{{ _("Disable this account") }}"></i>
+                        <i class="fa fa-ban" title="{{ _("Disable this account") }}"></i>
                     {% else %}
-                        <i class="glyphicon glyphicon-ok-circle" title="{{ _("Enable this account") }}"></i>
+                        <i class="fa fa-check-circle-o" aria-hidden="true" title="{{ _("Enable this account") }}"></i>
                     {% endif %}
                     </a>
-                    <a href="{{ url_for("admin.delete_user", user_id=user.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
+                    <a href="{{ url_for("admin.delete_user", user_id=user.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
                 {% endif %}
             </td>
         </tr>

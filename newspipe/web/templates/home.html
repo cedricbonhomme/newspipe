@@ -36,7 +36,7 @@
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands"><span class="nav-link">
-                <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
+                <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
@@ -55,7 +55,7 @@
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands"><span class="nav-link">
-                <a href="/feed/{{ fid }}"><i class="glyphicon glyphicon-info-sign" title="{{ _('Details') }}"></i></a>
+                <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
@@ -104,16 +104,16 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <td>
-                                <a href="#"><i class="glyphicon glyphicon-remove delete" title="{{ _('Delete this article') }}"></i></a>
+                                <a href="#"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
                                 {% if article.like %}
-                                    <a href="#"><i class="glyphicon glyphicon-star like" title="{{ _('One of your favorites') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
-                                    <a href="#"><i class="glyphicon glyphicon-star-empty like" title="{{ _('Click if you like this article') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
                                 {% endif %}
                                 {% if article.readed %}
-                                    <a href="#"><i class="glyphicon glyphicon-unchecked readed" title="{{ _('Mark this article as unread') }}"></i></a>
+                                    <a href="#"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></a>
                                 {% else %}
-                                    <a href="#"><i class="glyphicon glyphicon-check readed" title="{{ _('Mark this article as read') }}"></i></a>
+                                    <a href="#"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
                                     {% if filter_ == 'all' %}</b>{% endif %}
                                 {% endif %}
                             </td>
