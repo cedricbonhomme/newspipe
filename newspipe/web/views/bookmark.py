@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # Newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2017  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information : https://git.sr.ht/~cedric/newspipe
+# For more information: https://git.sr.ht/~cedric/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -94,15 +94,10 @@ def list_(per_page, status="all"):
         # query for the shared bookmarks (of all users)
         head_titles = [gettext("Recent bookmarks")]
         filters["shared"] = True
-        last_bookmark = (
-            BookmarkController(user_id)
-            .read(**filters)
-            .order_by(desc("time"))
-            .limit(1)[0]
-        )
-        not_created_before = last_bookmark.time - datetime.timedelta(days=365)
-        filters["time__gt"] = not_created_before  # only "recent" bookmarks
-        bookmarks = BookmarkController(user_id).read(**filters).order_by(desc("time"))
+
+    bookmarks = (
+        BookmarkController(user_id).read(**filters).order_by(desc("time")).limit(1000)
+    )
 
     # tag_contr = BookmarkTagController(user_id)
     # tag_contr.read().join(bookmarks).all()
