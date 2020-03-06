@@ -1,8 +1,8 @@
 /*!
-* pyAggr3g470r - A Web based news aggregator.
-* Copyright (C) 2010-2014  Cédric Bonhomme - http://cedricbonhomme.org/
+* Newspipe - A Web based news aggregator.
+* Copyright (C) 2010-2020 Cédric Bonhomme - https://cedricbonhomme.org
 *
-* For more information: https://bitbucket.org/cedricbonhomme/pyaggr3g470r/
+* For more information: https://git.sr.ht/~cedric/newspipe
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as
@@ -54,7 +54,7 @@ function change_unread_counter(feed_id, increment) {
         var filter = $('#filters').attr("data-filter");
 
         var data;
-        if ($(this).hasClass("glyphicon-unchecked")) {
+        if ($(this).hasClass('fa-square-o')) {
             data = JSON.stringify({
                 readed: false
                 })
@@ -64,7 +64,7 @@ function change_unread_counter(feed_id, increment) {
             else {
                 // here, filter == "all"
                 $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "bold" );
-                $(this).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+                $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
             }
             change_unread_counter(feed_id, 1);
         }
@@ -76,7 +76,7 @@ function change_unread_counter(feed_id, increment) {
             else {
                 // here, filter == "all"
                 $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "normal" );
-                $(this).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+                $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
             }
             change_unread_counter(feed_id, -1);
         }
