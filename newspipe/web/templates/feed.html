@@ -5,8 +5,8 @@
         <h2>{{ feed.title }}</h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
         {% if current_user.is_authenticated %}
-            <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="glyphicon glyphicon-remove" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
-            <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="glyphicon glyphicon-edit" title="{{ _('Edit this feed') }}"></i></a>
+            <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+            <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
         {% endif %}
     </div>
     <div class="well">
