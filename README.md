@@ -8,12 +8,17 @@ aggregator and reader.
 For reporting issues, visit the tracker here:
 https://todo.sr.ht/~cedric/newspipe
 
-For contributions the list is here:
+For contributions, use the mailing list to send your patches:
 https://lists.sr.ht/~cedric/newspipe
+
+Newspipe is written in Python. The core technologies are
+[Flask](http://flask.pocoo.org),
+[asyncio](https://www.python.org/dev/peps/pep-3156/) and
+[SQLAlchemy](http://www.sqlalchemy.org).
+
 
 ## Main features
 
-* easy to deploy;
 * multiple users can use a Newspipe instance;
 * an API to manage your feeds (you can connect your own crawler);
 * data liberation: export and import your account with a JSON file;
@@ -23,12 +28,10 @@ https://lists.sr.ht/~cedric/newspipe
 * share on Pinboard and reddit;
 * management of bookmarks (with import from Pinboard).
 
-The core technologies are [Flask](http://flask.pocoo.org),
-[asyncio](https://www.python.org/dev/peps/pep-3156/),
-[SQLAlchemy](http://www.sqlalchemy.org).
-
 
 ## Deployment
+
+Newspipe is really easy to deploy.
 
 ### Requirements
 
