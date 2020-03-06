@@ -5,4 +5,18 @@ __revision__ = "$Date: 2020/02/27 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-__all__ = [__version__]
+import os
+import subprocess
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+__version__ = (
+    os.environ.get("PKGVER")
+    or subprocess.run(["git",
+                       "-C",
+                       BASE_DIR,
+                       "describe",
+                       "--tags"], stdout=subprocess.PIPE)
+    .stdout.decode()
+    .strip()
+)

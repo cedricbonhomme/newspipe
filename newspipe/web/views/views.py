@@ -86,9 +86,22 @@ def about():
 @current_app.route("/about/more", methods=["GET"])
 @etag_match
 def about_more():
+    version = __version__.split("-")
+    if len(version) == 1:
+        newspipe_version = version[0]
+        version_url = "https://git.sr.ht/~cedric/newspipe/refs/{}".format(
+            version[0]
+        )
+    else:
+        newspipe_version = "{} - {}".format(version[0], version[2][1:])
+        version_url = "https://git.sr.ht/~cedric/newspipe/commit/{}".format(
+            version[2][1:]
+        )
+
     return render_template(
         "about_more.html",
-        newspipe_version=__version__.split()[1],
+        newspipe_version=newspipe_version,
+        version_url=version_url,
         registration=[conf.SELF_REGISTRATION and "Open" or "Closed"][0],
         python_version="{}.{}.{}".format(*sys.version_info[:3]),
         nb_users=UserController().read().count(),
