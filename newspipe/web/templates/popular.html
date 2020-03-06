@@ -11,13 +11,13 @@
         <div class="col-md-12">
             <ul class="list-group">
             {% for feed in popular %}
-                <li class="list-group-item">
-                    <a href="{{ feed[0] }}">{{ feed[0] }}</a>&nbsp;
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ feed[0] }}">{{ feed[0] }}</a>
                     <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}" >
-                        <span class="glyphicon glyphicon-plus text-muted" title="follow this feed"></span>
+                        <span class="fa fa-plus text-muted" aria-hidden="true" title="follow this feed"></span>
                         <span class="text-muted">{{ _('add this feed') }}</span>
                     </a>
-                    <span class="badge">{{ feed[1] }}</span>
+                    <span class="badge badge-primary badge-pill">{{ feed[1] }}</span>
                 </li>
             {% endfor %}
             </ul>
