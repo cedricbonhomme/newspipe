@@ -5,22 +5,22 @@
     <div class="row">
         <div class="col-md-12">
             <p>
-                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+                <span class="fa fa-clock-o" aria-hidden="true"></span>&nbsp;
                 {{ _('Member since') }}: {{ user.date_created | datetime }}
             </p>
             <p>
-                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+                <span class="fa fa-clock-o" aria-hidden="true"></span>&nbsp;
                 {{ _('Last seen') }}: {{ user.last_seen | datetime }}
             </p>
             {% if user.webpage %}
             <p>
-                <span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp;
+                <span class="fa fa-home" aria-hidden="true"></span>&nbsp;
                 {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a>
             </p>
             {% endif %}
             {% if user.twitter %}
                 <p>
-                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>&nbsp;
+                    <span class="fa fa-twitter" aria-hidden="true"></span>&nbsp;
                     {{ _('Twitter') }}: <a href="{{ user.twitter | safe }}">{{ user.twitter | safe }}</a>
                 </p>
             {% endif %}
