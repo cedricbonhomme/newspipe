@@ -43,9 +43,9 @@ from wtforms import (
 )
 from wtforms.fields.html5 import EmailField, URLField
 
-from lib import misc_utils
-from web.controllers import UserController
-from web.models import User
+from newspipe.lib import misc_utils
+from newspipe.controllers import UserController
+from newspipe.models import User
 
 
 class SignupForm(FlaskForm):

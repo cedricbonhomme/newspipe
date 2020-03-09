@@ -7,13 +7,13 @@ from flask_login import login_required, current_user
 from flask_babel import gettext, get_locale
 from babel.dates import format_datetime, format_timedelta
 
-import conf
-from lib.utils import redirect_url
-from lib import misc_utils
-from web.lib.view_utils import etag_match
-from web.views.common import jsonify
+from newspipe.bootstrap import application
+from newspipe.lib.utils import redirect_url
+from newspipe.lib import misc_utils
+from newspipe.web.lib.view_utils import etag_match
+from newspipe.web.views.common import jsonify
 
-from web.controllers import FeedController, ArticleController, CategoryController
+from newspipe.controllers import FeedController, ArticleController, CategoryController
 
 localize = pytz.utc.localize
 logger = logging.getLogger(__name__)
@@ -181,7 +181,7 @@ def fetch(feed_id=None):
     Triggers the download of news.
     News are downloaded in a separated process.
     """
-    if conf.CRAWLING_METHOD == "default" and current_user.is_admin:
+    if application.config['CRAWLING_METHOD'] == "default" and current_user.is_admin:
         misc_utils.fetch(current_user.id, feed_id)
         flash(gettext("Downloading articles..."), "info")
     else:

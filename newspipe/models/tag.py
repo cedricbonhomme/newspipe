@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bootstrap import db
+from newspipe.bootstrap import db
 
 
 class ArticleTag(db.Model):

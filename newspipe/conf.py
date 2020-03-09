@@ -10,7 +10,7 @@ import logging
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 PATH = os.path.abspath(".")
-API_ROOT = "/api/v2.0"
+
 
 # available languages
 LANGUAGES = {"en": "English", "fr": "French"}

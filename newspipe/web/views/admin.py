@@ -3,10 +3,10 @@ from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_babel import gettext, format_timedelta
 from flask_login import login_required, current_user
 
-from lib.utils import redirect_url
-from web.views.common import admin_permission
-from web.controllers import UserController
-from web.forms import InformationMessageForm, UserForm
+from newspipe.lib.utils import redirect_url
+from newspipe.controllers import UserController
+from newspipe.web.views.common import admin_permission
+from newspipe.web.forms import InformationMessageForm, UserForm
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 

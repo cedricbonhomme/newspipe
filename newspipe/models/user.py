@@ -34,10 +34,10 @@ from werkzeug.security import check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
 
-from bootstrap import db
-from web.models.right_mixin import RightMixin
-from web.models.category import Category
-from web.models.feed import Feed
+from newspipe.bootstrap import db
+from newspipe.models.right_mixin import RightMixin
+from newspipe.models.category import Category
+from newspipe.models.feed import Feed
 
 
 class User(db.Model, UserMixin, RightMixin):

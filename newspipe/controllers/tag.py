@@ -2,9 +2,9 @@ import logging
 import itertools
 from datetime import datetime, timedelta
 
-from bootstrap import db
+from newspipe.bootstrap import db
 from .abstract import AbstractController
-from web.models.tag import BookmarkTag
+from newspipe.models.tag import BookmarkTag
 
 logger = logging.getLogger(__name__)
 

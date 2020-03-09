@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -
 
-# newspipe - A Web based news aggregator.
-# Copyright (C) 2010-2019  Cédric Bonhomme - https://www.cedricbonhomme.org
+# Newspipe - A Web based news aggregator.
+# Copyright (C) 2010-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: https://git.sr.ht/~cedric/newspipe
 #
@@ -34,13 +34,13 @@ import dateutil.parser
 from datetime import datetime, timezone, timedelta
 from sqlalchemy import or_
 
-import conf
-from bootstrap import db
-from web.models import User
-from web.controllers import FeedController, ArticleController
-from lib.utils import jarr_get
-from lib.feed_utils import construct_feed_from, is_parsing_ok
-from lib.article_utils import construct_article, extract_id, get_article_content
+from newspipe.bootstrap import application
+from newspipe.bootstrap import db
+from newspipe.models import User
+from newspipe.controllers import FeedController, ArticleController
+from newspipe.lib.utils import newspipe_get
+from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
+from newspipe.lib.article_utils import construct_article, extract_id, get_article_content
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ async def parse_feed(user, feed):
     # with (await sem):
     try:
         logger.info("Retrieving feed {}".format(feed.link))
-        resp = await jarr_get(feed.link, timeout=5)
+        resp = await newspipe_get(feed.link, timeout=5)
     except Exception as e:
         logger.info("Problem when reading feed {}".format(feed.link))
         return
@@ -163,9 +163,9 @@ async def retrieve_feed(queue, users, feed_id=None):
         if feed_id is not None:
             filters["id"] = feed_id
         filters["enabled"] = True
-        filters["error_count__lt"] = conf.DEFAULT_MAX_ERROR
+        filters["error_count__lt"] = application.config['DEFAULT_MAX_ERROR']
         filters["last_retrieved__lt"] = datetime.now() - timedelta(
-            minutes=conf.FEED_REFRESH_INTERVAL
+            minutes=application.config['FEED_REFRESH_INTERVAL']
         )
         feeds = FeedController().read(**filters).all()
 

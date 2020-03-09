@@ -45,9 +45,9 @@ from collections import Counter
 from contextlib import contextmanager
 from flask import request
 
-import conf
-from web.controllers import ArticleController
-from lib.utils import clear_string
+from newspipe.bootstrap import application
+from newspipe.controllers import ArticleController
+from newspipe.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +101,7 @@ def fetch(id, feed_id=None):
     """
     cmd = [
         sys.executable,
-        conf.BASE_DIR + "/manager.py",
+        application.config['BASE_DIR'] + "/manager.py",
         "fetch_asyncio",
         "--user_id=" + str(id),
     ]
@@ -154,7 +154,7 @@ def load_stop_words():
     Load the stop words and return them in a list.
     """
     stop_words_lists = glob.glob(
-        os.path.join(conf.BASE_DIR, "web/var/stop_words/*.txt")
+        os.path.join(application.config['BASE_DIR'], "web/var/stop_words/*.txt")
     )
     stop_words = []
 

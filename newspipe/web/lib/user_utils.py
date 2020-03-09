@@ -1,6 +1,6 @@
 from itsdangerous import URLSafeTimedSerializer
-import conf
-from bootstrap import application
+
+from newspipe.bootstrap import application
 
 
 def generate_confirmation_token(nickname):
@@ -14,7 +14,7 @@ def confirm_token(token):
         nickname = serializer.loads(
             token,
             salt=application.config["SECURITY_PASSWORD_SALT"],
-            max_age=conf.TOKEN_VALIDITY_PERIOD,
+            max_age=application.config['TOKEN_VALIDITY_PERIOD'],
         )
     except:
         return False

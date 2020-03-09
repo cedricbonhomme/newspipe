@@ -21,7 +21,7 @@
                     {% else %}
                         <i class="fa fa-eye-slash" aria-hidden="true" title="{{ _('Feed disabled') }}"></i>
                     {% endif %}
-                    {% if feed.error_count >= conf.DEFAULT_MAX_ERROR %}
+                    {% if feed.error_count >= application.config['DEFAULT_MAX_ERROR'] %}
                         <i class="fa fa-exclamation" aria-hidden="true" title="{{ _('Feed encountered too much errors.') }}"></i>
                     {% endif %}
                 </td>

@@ -26,12 +26,12 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from bootstrap import db
+from newspipe.bootstrap import db
 from datetime import datetime
 from sqlalchemy import desc, Index
 from sqlalchemy.orm import validates
-from web.models.right_mixin import RightMixin
-from web.models.article import Article
+from newspipe.models.right_mixin import RightMixin
+from newspipe.models.article import Article
 
 
 class Feed(db.Model, RightMixin):

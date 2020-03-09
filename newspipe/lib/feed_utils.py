@@ -3,10 +3,10 @@ import urllib
 import logging
 import requests
 import feedparser
-from conf import CRAWLER_USER_AGENT
 from bs4 import BeautifulSoup, SoupStrainer
 
-from lib.utils import try_keys, try_get_icon_url, rebuild_url
+from newspipe.bootstrap import application
+from newspipe.lib.utils import try_keys, try_get_icon_url, rebuild_url
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)
@@ -39,7 +39,7 @@ def escape_keys(*keys):
 
 @escape_keys("title", "description")
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
-    requests_kwargs = {"headers": {"User-Agent": CRAWLER_USER_AGENT}, "verify": False}
+    requests_kwargs = {"headers": {"User-Agent": application.config['CRAWLER_USER_AGENT']}, "verify": False}
     if url is None and fp_parsed is not None:
         url = fp_parsed.get("url")
     if url is not None and fp_parsed is None:

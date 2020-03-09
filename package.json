@@ -17,6 +17,6 @@
     "yarn": ">= 1.0.0"
   },
   "scripts": {
-    "postinstall": "cd newspipe/web/static/ ; ln -sf ../../../node_modules npm_components"
+    "postinstall": "cd newspipe/static/ ; ln -sf ../../node_modules npm_components"
   }
 }

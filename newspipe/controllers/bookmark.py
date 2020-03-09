@@ -2,8 +2,8 @@ import logging
 import itertools
 from datetime import datetime, timedelta
 
-from bootstrap import db
-from web.models import Bookmark
+from newspipe.bootstrap import db
+from newspipe.models import Bookmark
 from .abstract import AbstractController
 from .tag import BookmarkTagController
 

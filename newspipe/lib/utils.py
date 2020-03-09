@@ -6,7 +6,7 @@ import requests
 from hashlib import md5
 from flask import request, url_for
 
-import conf
+from newspipe.bootstrap import application
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ def try_get_icon_url(url, *splits):
         response = None
         # if html in content-type, we assume it's a fancy 404 page
         try:
-            response = jarr_get(rb_url)
+            response = newspipe_get(rb_url)
             content_type = response.headers.get("content-type", "")
         except Exception:
             pass
@@ -89,12 +89,12 @@ def redirect_url(default="home"):
     return request.args.get("next") or request.referrer or url_for(default)
 
 
-async def jarr_get(url, **kwargs):
+async def newspipe_get(url, **kwargs):
     request_kwargs = {
         "verify": False,
         "allow_redirects": True,
-        "timeout": conf.CRAWLER_TIMEOUT,
-        "headers": {"User-Agent": conf.CRAWLER_USER_AGENT},
+        "timeout": application.config['CRAWLER_TIMEOUT'],
+        "headers": {"User-Agent": application.config['CRAWLER_USER_AGENT']},
     }
     request_kwargs.update(kwargs)
     return requests.get(url, **request_kwargs)

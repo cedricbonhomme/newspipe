@@ -14,11 +14,11 @@ from flask_babel import gettext
 from flask_login import login_required, current_user
 
 
-from bootstrap import db
-from lib.utils import clear_string, redirect_url
-from lib.data import export_json
-from web.controllers import ArticleController, UserController, CategoryController
-from web.lib.view_utils import etag_match
+from newspipe.bootstrap import db
+from newspipe.lib.utils import clear_string, redirect_url
+from newspipe.lib.data import export_json
+from newspipe.controllers import ArticleController, UserController, CategoryController
+from newspipe.web.lib.view_utils import etag_match
 
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
 article_bp = Blueprint("article", __name__, url_prefix="/article")

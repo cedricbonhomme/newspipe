@@ -4,9 +4,9 @@
 # required imports and code execution for basic functionning
 
 import os
-import conf
 import logging
 from urllib.parse import urlsplit
+from flask_babel import Babel, format_datetime
 
 
 def set_logging(
@@ -47,41 +47,36 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
-application = Flask("web")
+application = Flask(__name__, instance_relative_config=True)
 if os.environ.get("Newspipe_TESTING", False) == "true":
     application.debug = logging.DEBUG
     application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     application.config["TESTING"] = True
 else:
-    application.debug = conf.LOG_LEVEL <= logging.DEBUG
-    application.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    application.config["SQLALCHEMY_DATABASE_URI"] = conf.SQLALCHEMY_DATABASE_URI
-    if "postgres" in conf.SQLALCHEMY_DATABASE_URI:
-        application.config["SQLALCHEMY_POOL_SIZE"] = 15
-        application.config["SQLALCHEMY_MAX_OVERFLOW"] = 0
+    try:
+        application.config.from_pyfile("development.py", silent=False)
+    except Exception:
+        application.config.from_pyfile("production.py", silent=False)
 
-scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
-application.config["SERVER_NAME"] = domain
-application.config["PREFERRED_URL_SCHEME"] = scheme
+# scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
+# application.config["SERVER_NAME"] = domain
+# application.config["PREFERRED_URL_SCHEME"] = scheme
 
-set_logging(conf.LOG_PATH, log_level=conf.LOG_LEVEL)
-
-# Create secrey key so we can use sessions
-application.config["SECRET_KEY"] = getattr(conf, "WEBSERVER_SECRET", None)
-if not application.config["SECRET_KEY"]:
-    application.config["SECRET_KEY"] = os.urandom(12)
-
-application.config["SECURITY_PASSWORD_SALT"] = getattr(
-    conf, "SECURITY_PASSWORD_SALT", None
-)
-if not application.config["SECURITY_PASSWORD_SALT"]:
-    application.config["SECURITY_PASSWORD_SALT"] = os.urandom(12)
+set_logging(application.config['LOG_PATH'])
 
 db = SQLAlchemy(application)
 
 
-def populate_g():
-    from flask import g
+babel = Babel(application)
 
-    g.db = db
-    g.app = application
+
+@babel.localeselector
+def get_locale():
+    # if a user is logged in, use the locale from the user settings
+    # user = getattr(g, 'user', None)
+    # if user is not None:
+    #     return user.locale
+    # otherwise try to guess the language from the user accept
+    # header the browser transmits.  We support de/fr/en in this
+    # example.  The best match wins.
+    return request.accept_languages.best_match(["fr", "en"])

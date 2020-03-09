@@ -10,8 +10,8 @@ from flask_principal import (
     session_identity_loader,
     identity_changed,
 )
-from web.controllers import UserController
-from lib.utils import default_handler
+from newspipe.controllers import UserController
+from newspipe.lib.utils import default_handler
 
 admin_role = RoleNeed("admin")
 api_role = RoleNeed("api")

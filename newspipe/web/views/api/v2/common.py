@@ -26,13 +26,13 @@ from flask import request
 from flask_restful import Resource, reqparse
 from flask_login import current_user
 
-from web.views.common import (
+from newspipe.web.views.common import (
     admin_permission,
     api_permission,
     login_user_bundle,
     jsonify,
 )
-from web.controllers import UserController
+from newspipe.controllers import UserController
 
 logger = logging.getLogger(__name__)
 

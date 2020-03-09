@@ -4,11 +4,11 @@ import sqlalchemy
 from sqlalchemy import func
 from collections import Counter
 
-from bootstrap import db
+from newspipe.bootstrap import db
 from .abstract import AbstractController
-from lib.article_utils import process_filters
-from web.controllers import CategoryController, FeedController
-from web.models import Article
+from newspipe.lib.article_utils import process_filters
+from newspipe.controllers import CategoryController, FeedController
+from newspipe.models import Article
 
 logger = logging.getLogger(__name__)
 

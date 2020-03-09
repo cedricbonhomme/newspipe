@@ -6,12 +6,12 @@ from flask_babel import gettext
 from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
 
-import conf
-from notifications import notifications
-from lib import misc_utils
-from lib.data import import_opml, import_json
-from web.lib.user_utils import confirm_token
-from web.controllers import (
+from newspipe.bootstrap import application
+from newspipe.notifications import notifications
+from newspipe.lib import misc_utils
+from newspipe.lib.data import import_opml, import_json
+from newspipe.web.lib.user_utils import confirm_token
+from newspipe.controllers import (
     UserController,
     FeedController,
     ArticleController,
@@ -19,7 +19,7 @@ from web.controllers import (
     BookmarkController,
 )
 
-from web.forms import ProfileForm
+from newspipe.web.forms import ProfileForm
 
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 user_bp = Blueprint("user", __name__, url_prefix="/user")
@@ -115,7 +115,7 @@ def management():
             else:
                 try:
                     nb = import_opml(current_user.nickname, data.read())
-                    if conf.CRAWLING_METHOD == "classic":
+                    if application.config['CRAWLING_METHOD'] == "classic":
                         misc_utils.fetch(current_user.id, None)
                         flash(str(nb) + "  " + gettext("feeds imported."), "success")
                         flash(gettext("Downloading articles..."), "info")

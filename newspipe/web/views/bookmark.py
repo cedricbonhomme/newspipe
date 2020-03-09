@@ -44,13 +44,12 @@ from flask_login import login_required, current_user
 from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
 
-import conf
-from lib.utils import redirect_url
-from lib.data import import_pinboard_json, export_bookmarks
-from bootstrap import db
-from web.forms import BookmarkForm
-from web.controllers import BookmarkController, BookmarkTagController
-from web.models import BookmarkTag
+from newspipe.lib.utils import redirect_url
+from newspipe.lib.data import import_pinboard_json, export_bookmarks
+from newspipe.bootstrap import db
+from newspipe.web.forms import BookmarkForm
+from newspipe.controllers import BookmarkController, BookmarkTagController
+from newspipe.models import BookmarkTag
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint("bookmarks", __name__, url_prefix="/bookmarks")

@@ -24,10 +24,10 @@ build
 
 newspipe.egg-info/
 
-newspipe/conf/conf.cfg
+instance/development.py
 .coverage
 
 # js and node files
 node_modules
-newspipe/web/static/npm_components
-newspipe/web/static/js/bundle.min.js
+newspipe/static/npm_components
+newspipe/static/js/bundle.min.js

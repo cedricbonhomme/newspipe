@@ -9,8 +9,8 @@ import dateutil.parser
 from bs4 import BeautifulSoup, SoupStrainer
 from requests.exceptions import MissingSchema
 
-import conf
-from lib.utils import jarr_get
+from newspipe.bootstrap import application
+from newspipe.lib.utils import newspipe_get
 
 logger = logging.getLogger(__name__)
 PROCESSED_DATE_KEYS = {"published", "created", "updated"}
@@ -77,16 +77,16 @@ def get_article_content(entry):
 async def get_article_details(entry, fetch=True):
     article_link = entry.get("link")
     article_title = html.unescape(entry.get("title", ""))
-    if fetch and conf.CRAWLER_RESOLV and article_link or not article_title:
+    if fetch and application.config['CRAWLER_RESOLV'] and article_link or not article_title:
         try:
             # resolves URL behind proxies (like feedproxy.google.com)
-            response = await jarr_get(article_link, timeout=5)
+            response = await newspipe_get(article_link, timeout=5)
         except MissingSchema:
             split, failed = urlsplit(article_link), False
             for scheme in "https", "http":
                 new_link = urlunsplit(SplitResult(scheme, *split[1:]))
                 try:
-                    response = await jarr_get(new_link, timeout=5)
+                    response = await newspipe_get(new_link, timeout=5)
                 except Exception as error:
                     failed = True
                     continue

@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bootstrap import db
+from newspipe.bootstrap import db
 from sqlalchemy import Index
-from web.models.right_mixin import RightMixin
+from newspipe.models.right_mixin import RightMixin
 
 
 class Category(db.Model, RightMixin):

@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import calendar
-from bootstrap import conf, application, populate_g
+from newspipe.bootstrap import application
 from flask_babel import Babel, format_datetime
 
 
@@ -33,18 +33,18 @@ def month_name(month_number):
 
 application.jinja_env.filters["month_name"] = month_name
 application.jinja_env.filters["datetime"] = format_datetime
-application.jinja_env.globals["conf"] = conf
+# inject application in Jinja env
+application.jinja_env.globals["application"] = application
 
 # Views
 from flask_restful import Api
 from flask import g
 
 with application.app_context():
-    populate_g()
     g.api = Api(application, prefix="/api/v2.0")
     g.babel = babel
 
-    from web import views
+    from newspipe.web import views
 
     application.register_blueprint(views.articles_bp)
     application.register_blueprint(views.article_bp)
@@ -62,5 +62,7 @@ with application.app_context():
 
 if __name__ == "__main__":
     application.run(
-        host=conf.WEBSERVER_HOST, port=conf.WEBSERVER_PORT, debug=conf.WEBSERVER_DEBUG
+        host=application.config['HOST'],
+        port=application.config['PORT'],
+        debug=application.config['DEBUG']
     )

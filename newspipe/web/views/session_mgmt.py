@@ -24,11 +24,11 @@ from flask_principal import (
     session_identity_loader,
 )
 
-import conf
-from web.views.common import admin_role, api_role, login_user_bundle
-from web.controllers import UserController
-from web.forms import SignupForm, SigninForm
-from notifications import notifications
+from newspipe.bootstrap import application
+from newspipe.web.views.common import admin_role, api_role, login_user_bundle
+from newspipe.controllers import UserController
+from newspipe.web.forms import SignupForm, SigninForm
+from newspipe.notifications import notifications
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -99,7 +99,7 @@ def logout():
 
 @current_app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if not conf.SELF_REGISTRATION:
+    if not application.config['SELF_REGISTRATION']:
         flash(gettext("Self-registration is disabled."), "warning")
         return redirect(url_for("home"))
     if current_user.is_authenticated:

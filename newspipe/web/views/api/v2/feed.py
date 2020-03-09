@@ -1,11 +1,11 @@
-from conf import API_ROOT
 from flask import current_app
 from flask_restful import Api
 
-from web.views.common import api_permission
-from web.controllers.feed import FeedController, DEFAULT_MAX_ERROR, DEFAULT_LIMIT
+from newspipe.bootstrap import application
+from newspipe.web.views.common import api_permission
+from newspipe.controllers.feed import FeedController, DEFAULT_MAX_ERROR, DEFAULT_LIMIT
 
-from web.views.api.v2.common import (
+from newspipe.web.views.api.v2.common import (
     PyAggAbstractResource,
     PyAggResourceNew,
     PyAggResourceExisting,
@@ -39,7 +39,7 @@ class FetchableFeedAPI(PyAggAbstractResource):
         return result or None, 200 if result else 204
 
 
-api = Api(current_app, prefix=API_ROOT)
+api = Api(current_app, prefix=application.config['API_ROOT'])
 
 api.add_resource(FeedNewAPI, "/feed", endpoint="feed_new.json")
 api.add_resource(FeedAPI, "/feed/<int:obj_id>", endpoint="feed.json")

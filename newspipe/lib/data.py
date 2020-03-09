@@ -35,10 +35,10 @@ import opml
 import datetime
 from flask import jsonify
 
-from bootstrap import db
-from web.models import User, Feed, Article
-from web.models.tag import BookmarkTag
-from web.controllers import BookmarkController, BookmarkTagController
+from newspipe.bootstrap import db
+from newspipe.models import User, Feed, Article
+from newspipe.models.tag import BookmarkTag
+from newspipe.controllers import BookmarkController, BookmarkTagController
 
 
 def import_opml(nickname, opml_content):

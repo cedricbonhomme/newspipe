@@ -5,12 +5,12 @@ import os
 import logging
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from bootstrap import application, db, conf, set_logging
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-import web.models
-from web.controllers import UserController
+import newspipe.models
+from newspipe.controllers import UserController
+from newspipe.bootstrap import application, db, set_logging
 
 logger = logging.getLogger("manager")
 
@@ -62,7 +62,7 @@ def fetch_asyncio(user_id=None, feed_id=None):
     import asyncio
 
     with application.app_context():
-        from crawler import default_crawler
+        from newspipe.crawler import default_crawler
 
         filters = {}
         filters["is_active"] = True

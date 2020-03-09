@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import request, Response, make_response
-from lib.utils import to_hash
+from newspipe.lib.utils import to_hash
 
 
 def etag_match(func):

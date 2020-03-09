@@ -1,6 +1,6 @@
 import logging
 import dateutil.parser
-from bootstrap import db
+from newspipe.bootstrap import db
 from datetime import datetime
 from collections import defaultdict
 from sqlalchemy import or_, func

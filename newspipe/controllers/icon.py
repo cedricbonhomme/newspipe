@@ -1,6 +1,6 @@
 import base64
 import requests
-from web.models import Icon
+from newspipe.models import Icon
 from .abstract import AbstractController
 
 

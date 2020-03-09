@@ -1,7 +1,8 @@
 import base64
 from flask import Blueprint, Response, request
-from web.controllers import IconController
-from web.lib.view_utils import etag_match
+
+from newspipe.controllers import IconController
+from newspipe.web.lib.view_utils import etag_match
 
 icon_bp = Blueprint("icon", __name__, url_prefix="/icon")
 
