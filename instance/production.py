@@ -1,7 +1,6 @@
-# [webserver]
+# webserver
 HOST = '127.0.0.1'
 PORT = 5000
-SECRET_KEY = 'a secret only you know'
 DEBUG = False
 TESTING = False
 API_ROOT = "/api/v2.0"
@@ -10,19 +9,16 @@ SECRET_KEY = 'LCx3BchmHRxFzkEv4BqQJyeXRLXenf'
 SECURITY_PASSWORD_SALT = 'L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD'
 
 
-# [misc]
+# misc
 ADMIN_EMAIL = 'admin@admin.localhost'
-SECURITY_PASSWORD_SALT = 'a secret to confirm user account'
 TOKEN_VALIDITY_PERIOD = 3600
+LOG_LEVEL = 'info'
 LOG_PATH = './var/newspipe.log'
 NB_WORKER = 5
-DEBUG = False
-TESTING = False
-LOG_LEVEL = 'info'
 SELF_REGISTRATION = True
 
 
-# [database]
+# database
 DB_CONFIG_DICT = {
     'user': 'user',
     'password': 'password',
@@ -34,18 +30,18 @@ SQLALCHEMY_DATABASE_URI = 'postgres://{user}:{password}@{host}:{port}/{name}'.fo
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-# [crawler]
+# crawler
 CRAWLING_METHOD = 'default'
 DEFAULT_MAX_ERROR = 3
 HTTP_PROXY = ''
-USER_AGENT = 'JARR (https://github.com/JARR/JARR)'
+USER_AGENT = 'Newspipe (https://git.sr.ht/~cedric/newspipe)'
 RESOLVE_ARTICLE_URL = False
 TIMEOUT = 30
 RESOLV = False
 FEED_REFRESH_INTERVAL = 0
 
 
-# [notification]
+# notification
 MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
