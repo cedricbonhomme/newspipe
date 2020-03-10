@@ -41,7 +41,7 @@ MAIL_USE_SSL = False
 MAIL_DEBUG = DEBUG
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
-MAIL_DEFAULT_SENDER = ADMIN_EMAIL
+MAIL_DEFAULT_SENDER = "admin@admin.localhost"
 
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname('.'))

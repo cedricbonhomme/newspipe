@@ -32,6 +32,7 @@ __license__ = "AGPLv3"
 
 import json
 import opml
+import logging
 import datetime
 from flask import jsonify
 
@@ -40,6 +41,8 @@ from newspipe.models import User, Feed, Article
 from newspipe.models.tag import BookmarkTag
 from newspipe.controllers import BookmarkController, BookmarkTagController
 
+
+logger = logging.getLogger(__name__)
 
 def import_opml(nickname, opml_content):
     """

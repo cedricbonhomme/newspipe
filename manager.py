@@ -24,7 +24,7 @@ manager.add_command("db", MigrateCommand)
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
-        web.models.db_empty(db)
+        newspipe.models.db_empty(db)
 
 
 @manager.command
