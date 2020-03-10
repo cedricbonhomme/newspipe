@@ -1,7 +1,7 @@
 import os
 
 #
-# Example configuration file for a PostgreSQL database.
+# Example configuration file for a SQLite database.
 #
 
 # Webserver
@@ -16,16 +16,7 @@ SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
 TOKEN_VALIDITY_PERIOD = 3600
 
 # Database
-DB_CONFIG_DICT = {
-    "user": "user",
-    "password": "password",
-    "host": "localhost",
-    "port": 5432,
-}
-DATABASE_NAME = "newspipe"
-SQLALCHEMY_DATABASE_URI = "postgres://{user}:{password}@{host}:{port}/{name}".format(
-    name=DATABASE_NAME, **DB_CONFIG_DICT
-)
+SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
 
 # Crawler
 CRAWLING_METHOD = "default"
