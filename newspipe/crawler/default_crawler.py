@@ -33,9 +33,8 @@ from datetime import datetime, timedelta
 
 import dateutil.parser
 import feedparser
-from sqlalchemy import or_
 
-from newspipe.bootstrap import application, db
+from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController, FeedController
 from newspipe.lib.article_utils import (
     construct_article,
@@ -44,7 +43,6 @@ from newspipe.lib.article_utils import (
 )
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
 from newspipe.lib.utils import newspipe_get
-from newspipe.models import User
 
 logger = logging.getLogger(__name__)
 

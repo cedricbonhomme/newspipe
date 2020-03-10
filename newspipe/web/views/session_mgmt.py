@@ -20,7 +20,6 @@ from flask_principal import (
     identity_loaded,
     session_identity_loader
 )
-from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash
 
 from newspipe.bootstrap import application

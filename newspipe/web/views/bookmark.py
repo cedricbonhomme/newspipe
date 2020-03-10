@@ -47,7 +47,6 @@ from newspipe.bootstrap import db
 from newspipe.controllers import BookmarkController, BookmarkTagController
 from newspipe.lib.data import export_bookmarks, import_pinboard_json
 from newspipe.lib.utils import redirect_url
-from newspipe.models import BookmarkTag
 from newspipe.web.forms import BookmarkForm
 
 logger = logging.getLogger(__name__)

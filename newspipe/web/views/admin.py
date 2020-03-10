@@ -5,7 +5,6 @@ from flask_babel import format_timedelta, gettext
 from flask_login import current_user, login_required
 
 from newspipe.controllers import UserController
-from newspipe.lib.utils import redirect_url
 from newspipe.web.forms import InformationMessageForm, UserForm
 from newspipe.web.views.common import admin_permission
 

@@ -10,7 +10,7 @@ from flask_script import Manager
 from werkzeug.security import generate_password_hash
 
 import newspipe.models
-from newspipe.bootstrap import application, db, set_logging
+from newspipe.bootstrap import application, db
 from newspipe.controllers import UserController
 
 logger = logging.getLogger("manager")

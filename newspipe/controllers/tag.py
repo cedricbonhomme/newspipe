@@ -1,7 +1,5 @@
-import itertools
 import logging
 
-from newspipe.bootstrap import db
 from newspipe.models.tag import BookmarkTag
 
 from .abstract import AbstractController

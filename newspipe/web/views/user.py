@@ -21,7 +21,6 @@ from newspipe.controllers import (
 )
 from newspipe.lib import misc_utils
 from newspipe.lib.data import import_json, import_opml
-from newspipe.notifications import notifications
 from newspipe.web.forms import ProfileForm
 from newspipe.web.lib.user_utils import confirm_token
 

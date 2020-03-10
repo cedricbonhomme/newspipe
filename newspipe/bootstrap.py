@@ -7,7 +7,7 @@ import logging
 import os
 
 from flask import Flask, request
-from flask_babel import Babel, format_datetime
+from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
 
 
