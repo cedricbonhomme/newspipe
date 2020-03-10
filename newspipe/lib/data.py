@@ -200,7 +200,7 @@ def import_pinboard_json(user, json_content):
     """Import bookmarks from a pinboard JSON export.
     """
     bookmark_contr = BookmarkController(user.id)
-    tag_contr = BookmarkTagController(user.id)
+    BookmarkTagController(user.id)
     bookmarks = json.loads(json_content.decode("utf-8"))
     nb_bookmarks = 0
     for bookmark in bookmarks:
@@ -224,7 +224,7 @@ def import_pinboard_json(user, json_content):
             "time": time,
             "tags": tags,
         }
-        new_bookmark = bookmark_contr.create(**bookmark_attr)
+        bookmark_contr.create(**bookmark_attr)
         nb_bookmarks += 1
     return nb_bookmarks
 

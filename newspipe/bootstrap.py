@@ -5,7 +5,6 @@
 
 import os
 import logging
-from urllib.parse import urlsplit
 from flask import request
 from flask_babel import Babel, format_datetime
 

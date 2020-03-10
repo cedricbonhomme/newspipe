@@ -18,7 +18,6 @@ routes :
     DELETE resources
         -> to delete several
 """
-import ast
 import logging
 from functools import wraps
 from werkzeug.exceptions import Unauthorized, BadRequest, Forbidden, NotFound

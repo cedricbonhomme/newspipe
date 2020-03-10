@@ -48,7 +48,6 @@ __all__ = [
     "BookmarkTag",
 ]
 
-import os
 
 from sqlalchemy.engine import reflection
 from sqlalchemy.schema import (

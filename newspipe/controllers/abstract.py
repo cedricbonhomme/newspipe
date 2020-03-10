@@ -125,7 +125,7 @@ class AbstractController:
         db.session.delete(obj)
         try:
             db.session.commit()
-        except Exception as e:
+        except Exception:
             db.session.rollback()
         return obj
 

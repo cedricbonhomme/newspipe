@@ -27,7 +27,6 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import logging
-import datetime
 from werkzeug.exceptions import BadRequest
 
 from flask import (
@@ -219,7 +218,7 @@ def delete(bookmark_id=None):
 @login_required
 def delete_all():
     "Delete all bookmarks."
-    bookmark = BookmarkController(current_user.id).read().delete()
+    BookmarkController(current_user.id).read().delete()
     db.session.commit()
     flash(gettext("Bookmarks successfully deleted."), "success")
     return redirect(redirect_url())

@@ -1,4 +1,3 @@
-import re
 import logging
 import sqlalchemy
 from sqlalchemy import func

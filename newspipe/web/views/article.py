@@ -157,7 +157,7 @@ def export():
     user = UserController(current_user.id).get(id=current_user.id)
     try:
         json_result = export_json(user)
-    except Exception as e:
+    except Exception:
         flash(gettext("Error when exporting articles."), "danger")
         return redirect(redirect_url())
     response = make_response(json_result)

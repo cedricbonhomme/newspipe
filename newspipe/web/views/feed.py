@@ -50,7 +50,6 @@ def feeds():
 
 def feed_view(feed_id=None, user_id=None):
     feed = FeedController(user_id).get(id=feed_id)
-    word_size = 6
     category = None
     if feed.category_id:
         category = CategoryController(user_id).get(id=feed.category_id)
@@ -75,7 +74,7 @@ def feed_view(feed_id=None, user_id=None):
         first_article = articles[-1].date
         delta = last_article - first_article
         average = round(float(articles.count()) / abs(delta.days), 2)
-    except Exception as e:
+    except Exception:
         last_article = datetime.fromtimestamp(0)
         first_article = datetime.fromtimestamp(0)
         delta = last_article - first_article

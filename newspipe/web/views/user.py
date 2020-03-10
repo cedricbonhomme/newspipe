@@ -1,6 +1,3 @@
-import string
-import random
-from datetime import datetime, timedelta
 from flask import Blueprint, g, render_template, redirect, flash, url_for, request
 from flask_babel import gettext
 from flask_login import login_required, current_user

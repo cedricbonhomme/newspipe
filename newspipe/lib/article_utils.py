@@ -92,7 +92,7 @@ async def get_article_details(entry, fetch=True):
                 new_link = urlunsplit(SplitResult(scheme, *split[1:]))
                 try:
                     response = await newspipe_get(new_link, timeout=5)
-                except Exception as error:
+                except Exception:
                     failed = True
                     continue
                 failed = False

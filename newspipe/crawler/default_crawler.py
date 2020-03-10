@@ -31,7 +31,7 @@ import asyncio
 import logging
 import feedparser
 import dateutil.parser
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 from sqlalchemy import or_
 
 from newspipe.bootstrap import application
@@ -64,7 +64,7 @@ async def parse_feed(user, feed):
     try:
         logger.info("Retrieving feed {}".format(feed.link))
         resp = await newspipe_get(feed.link, timeout=5)
-    except Exception as e:
+    except Exception:
         logger.info("Problem when reading feed {}".format(feed.link))
         return
     finally:

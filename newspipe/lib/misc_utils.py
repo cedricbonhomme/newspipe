@@ -30,7 +30,6 @@ import re
 import os
 import sys
 import glob
-import json
 import logging
 import operator
 import urllib
