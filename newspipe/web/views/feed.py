@@ -179,7 +179,7 @@ def bookmarklet():
         )
     feed = feed_contr.create(**feed)
     flash(gettext("Feed was successfully created."), "success")
-    if feed.enabled and application.confg['CRAWLING_METHOD'] == "default":
+    if feed.enabled and application.confg["CRAWLING_METHOD"] == "default":
         misc_utils.fetch(current_user.id, feed.id)
         flash(gettext("Downloading articles for the new feed..."), "info")
     return redirect(url_for("feed.form", feed_id=feed.id))
@@ -286,7 +286,7 @@ def process_form(feed_id=None):
         "success",
     )
 
-    if application.confg['CRAWLING_METHOD'] == "default":
+    if application.confg["CRAWLING_METHOD"] == "default":
         misc_utils.fetch(current_user.id, new_feed.id)
         flash(gettext("Downloading articles for the new feed..."), "info")
 
@@ -335,7 +335,7 @@ def export():
     if not include_private:
         filter["private"] = False
     if not include_exceeded_error_count:
-        filter["error_count__lt"] = application.confg['DEFAULT_MAX_ERROR']
+        filter["error_count__lt"] = application.confg["DEFAULT_MAX_ERROR"]
 
     user = UserController(current_user.id).get(id=current_user.id)
     feeds = FeedController(current_user.id).read(**filter)

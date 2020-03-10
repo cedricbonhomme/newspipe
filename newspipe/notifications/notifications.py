@@ -33,20 +33,20 @@ def new_account_notification(user, email):
     """
     token = generate_confirmation_token(user.nickname)
     expire_time = datetime.datetime.now() + datetime.timedelta(
-        seconds=application.config['TOKEN_VALIDITY_PERIOD']
+        seconds=application.config["TOKEN_VALIDITY_PERIOD"]
     )
 
     plaintext = render_template(
         "emails/account_activation.txt",
         user=user,
-        platform_url=application.config['PLATFORM_URL'],
+        platform_url=application.config["PLATFORM_URL"],
         token=token,
         expire_time=expire_time,
     )
 
     emails.send(
         to=email,
-        bcc=application.config['NOTIFICATION_EMAIL'],
+        bcc=application.config["NOTIFICATION_EMAIL"],
         subject="[Newspipe] Account creation",
         plaintext=plaintext,
     )
@@ -59,7 +59,7 @@ def new_password_notification(user, password):
     plaintext = render_template("emails/new_password.txt", user=user, password=password)
     emails.send(
         to=user.email,
-        bcc=application.config['NOTIFICATION_EMAIL'],
+        bcc=application.config["NOTIFICATION_EMAIL"],
         subject="[Newspipe] New password",
         plaintext=plaintext,
     )

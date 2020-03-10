@@ -93,8 +93,8 @@ async def newspipe_get(url, **kwargs):
     request_kwargs = {
         "verify": False,
         "allow_redirects": True,
-        "timeout": application.config['CRAWLER_TIMEOUT'],
-        "headers": {"User-Agent": application.config['CRAWLER_USER_AGENT']},
+        "timeout": application.config["CRAWLER_TIMEOUT"],
+        "headers": {"User-Agent": application.config["CRAWLER_USER_AGENT"]},
     }
     request_kwargs.update(kwargs)
     return requests.get(url, **request_kwargs)

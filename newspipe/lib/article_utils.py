@@ -77,7 +77,12 @@ def get_article_content(entry):
 async def get_article_details(entry, fetch=True):
     article_link = entry.get("link")
     article_title = html.unescape(entry.get("title", ""))
-    if fetch and application.config['CRAWLER_RESOLV'] and article_link or not article_title:
+    if (
+        fetch
+        and application.config["CRAWLER_RESOLV"]
+        and article_link
+        or not article_title
+    ):
         try:
             # resolves URL behind proxies (like feedproxy.google.com)
             response = await newspipe_get(article_link, timeout=5)

@@ -49,7 +49,7 @@ class ArticlesChallenge(PyAggAbstractResource):
         return result or None, 200 if result else 204
 
 
-api = Api(current_app, prefix=application.config['API_ROOT'])
+api = Api(current_app, prefix=application.config["API_ROOT"])
 
 api.add_resource(ArticleNewAPI, "/article", endpoint="article_new.json")
 api.add_resource(ArticleAPI, "/article/<int:obj_id>", endpoint="article.json")

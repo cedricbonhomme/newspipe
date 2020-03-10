@@ -10,7 +10,7 @@ from newspipe.lib.utils import clear_string
 
 logger = logging.getLogger(__name__)
 DEFAULT_LIMIT = 5
-DEFAULT_MAX_ERROR = application.config['DEFAULT_MAX_ERROR']
+DEFAULT_MAX_ERROR = application.config["DEFAULT_MAX_ERROR"]
 
 
 class FeedController(AbstractController):

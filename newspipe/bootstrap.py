@@ -62,7 +62,7 @@ else:
 # application.config["SERVER_NAME"] = domain
 # application.config["PREFERRED_URL_SCHEME"] = scheme
 
-set_logging(application.config['LOG_PATH'])
+set_logging(application.config["LOG_PATH"])
 
 db = SQLAlchemy(application)
 

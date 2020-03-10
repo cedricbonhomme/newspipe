@@ -40,7 +40,11 @@ from newspipe.models import User
 from newspipe.controllers import FeedController, ArticleController
 from newspipe.lib.utils import newspipe_get
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
-from newspipe.lib.article_utils import construct_article, extract_id, get_article_content
+from newspipe.lib.article_utils import (
+    construct_article,
+    extract_id,
+    get_article_content,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -163,9 +167,9 @@ async def retrieve_feed(queue, users, feed_id=None):
         if feed_id is not None:
             filters["id"] = feed_id
         filters["enabled"] = True
-        filters["error_count__lt"] = application.config['DEFAULT_MAX_ERROR']
+        filters["error_count__lt"] = application.config["DEFAULT_MAX_ERROR"]
         filters["last_retrieved__lt"] = datetime.now() - timedelta(
-            minutes=application.config['FEED_REFRESH_INTERVAL']
+            minutes=application.config["FEED_REFRESH_INTERVAL"]
         )
         feeds = FeedController().read(**filters).all()
 

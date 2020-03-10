@@ -33,8 +33,11 @@ logger = logging.getLogger(__name__)
 @async_maker
 def send_async_email(mfrom, mto, msg):
     try:
-        s = smtplib.SMTP(application.config['NOTIFICATION_HOST'])
-        s.login(application.config['NOTIFICATION_USERNAME'], application.config['NOTIFICATION_PASSWORD'])
+        s = smtplib.SMTP(application.config["NOTIFICATION_HOST"])
+        s.login(
+            application.config["NOTIFICATION_USERNAME"],
+            application.config["NOTIFICATION_PASSWORD"],
+        )
     except Exception:
         logger.exception("send_async_email raised:")
     else:
@@ -56,7 +59,7 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
-    msg["From"] = application.config['NOTIFICATION_EMAIL']
+    msg["From"] = application.config["NOTIFICATION_EMAIL"]
     msg["To"] = to
     msg["BCC"] = bcc
 
@@ -71,12 +74,17 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     msg.attach(part2)
 
     try:
-        s = smtplib.SMTP(application.config['NOTIFICATION_HOST'])
-        s.login(application.config['NOTIFICATION_USERNAME'], application.config['NOTIFICATION_PASSWORD'])
+        s = smtplib.SMTP(application.config["NOTIFICATION_HOST"])
+        s.login(
+            application.config["NOTIFICATION_USERNAME"],
+            application.config["NOTIFICATION_PASSWORD"],
+        )
     except Exception:
         logger.exception("send_smtp raised:")
     else:
         s.sendmail(
-            application.config['NOTIFICATION_EMAIL'], msg["To"] + ", " + msg["BCC"], msg.as_string()
+            application.config["NOTIFICATION_EMAIL"],
+            msg["To"] + ", " + msg["BCC"],
+            msg.as_string(),
         )
         s.quit()

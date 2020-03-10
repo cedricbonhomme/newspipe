@@ -62,7 +62,7 @@ with application.app_context():
 
 if __name__ == "__main__":
     application.run(
-        host=application.config['HOST'],
-        port=application.config['PORT'],
-        debug=application.config['DEBUG']
+        host=application.config["HOST"],
+        port=application.config["PORT"],
+        debug=application.config["DEBUG"],
     )

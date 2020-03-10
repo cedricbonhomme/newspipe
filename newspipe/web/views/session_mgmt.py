@@ -99,7 +99,7 @@ def logout():
 
 @current_app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if not application.config['SELF_REGISTRATION']:
+    if not application.config["SELF_REGISTRATION"]:
         flash(gettext("Self-registration is disabled."), "warning")
         return redirect(url_for("home"))
     if current_user.is_authenticated:

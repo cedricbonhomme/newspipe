@@ -115,7 +115,7 @@ def management():
             else:
                 try:
                     nb = import_opml(current_user.nickname, data.read())
-                    if application.config['CRAWLING_METHOD'] == "classic":
+                    if application.config["CRAWLING_METHOD"] == "classic":
                         misc_utils.fetch(current_user.id, None)
                         flash(str(nb) + "  " + gettext("feeds imported."), "success")
                         flash(gettext("Downloading articles..."), "info")

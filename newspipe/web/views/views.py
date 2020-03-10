@@ -24,7 +24,7 @@ def authentication_required(error):
 
 @current_app.errorhandler(403)
 def authentication_failed(error):
-    if application.conf['API_ROOT'] in request.url:
+    if application.conf["API_ROOT"] in request.url:
         return error
     flash(gettext("Forbidden."), "danger")
     return redirect(url_for("login"))
@@ -70,7 +70,7 @@ def popular():
     filters = {}
     filters["created_date__gt"] = not_added_before
     filters["private"] = False
-    filters["error_count__lt"] = application.config['DEFAULT_MAX_ERROR']
+    filters["error_count__lt"] = application.config["DEFAULT_MAX_ERROR"]
     feeds = FeedController().count_by_link(**filters)
     sorted_feeds = sorted(list(feeds.items()), key=operator.itemgetter(1), reverse=True)
     return render_template("popular.html", popular=sorted_feeds)
@@ -79,7 +79,7 @@ def popular():
 @current_app.route("/about", methods=["GET"])
 @etag_match
 def about():
-    return render_template("about.html", contact=application.config['ADMIN_EMAIL'])
+    return render_template("about.html", contact=application.config["ADMIN_EMAIL"])
 
 
 @current_app.route("/about/more", methods=["GET"])
@@ -88,9 +88,7 @@ def about_more():
     version = __version__.split("-")
     if len(version) == 1:
         newspipe_version = version[0]
-        version_url = "https://git.sr.ht/~cedric/newspipe/refs/{}".format(
-            version[0]
-        )
+        version_url = "https://git.sr.ht/~cedric/newspipe/refs/{}".format(version[0])
     else:
         newspipe_version = "{} - {}".format(version[0], version[2][1:])
         version_url = "https://git.sr.ht/~cedric/newspipe/commit/{}".format(
@@ -101,7 +99,9 @@ def about_more():
         "about_more.html",
         newspipe_version=newspipe_version,
         version_url=version_url,
-        registration=[application.config['SELF_REGISTRATION'] and "Open" or "Closed"][0],
+        registration=[application.config["SELF_REGISTRATION"] and "Open" or "Closed"][
+            0
+        ],
         python_version="{}.{}.{}".format(*sys.version_info[:3]),
         nb_users=UserController().read().count(),
     )
