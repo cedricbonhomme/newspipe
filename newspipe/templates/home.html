@@ -104,11 +104,11 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <td>
-                                <a href="#"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
+                                <a href="#"><i class="fa fa-times delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
                                 {% if article.like %}
-                                    <a href="#"><i class="fa fa-star" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
-                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
                                 {% endif %}
                                 {% if article.readed %}
                                     <a href="#"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></a>

@@ -105,16 +105,16 @@ function change_unread_counter(feed_id, increment) {
     $('.like').on('click', function() {
         var article_id = $(this).parent().parent().parent().attr("data-article");
         var data;
-        if ($(this).hasClass("glyphicon-star")) {
+        if ($(this).hasClass("fa-star")) {
             data = JSON.stringify({like: false})
-            $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+            $(this).removeClass('fa-star').addClass('fa-star-o');
             if(window.location.pathname.indexOf('/favorites') != -1) {
                 $(this).parent().parent().parent().remove();
             }
         }
         else {
             data = JSON.stringify({like: true})
-            $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+            $(this).removeClass('fa-star-o').addClass('fa-star');
         }
 
         // sends the updates to the server
