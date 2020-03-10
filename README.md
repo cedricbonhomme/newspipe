@@ -2,8 +2,7 @@
 
 ## Presentation
 
-[Newspipe](https://git.sr.ht/~cedric/newspipe) is a web-based news
-aggregator and reader.
+[Newspipe](https://git.sr.ht/~cedric/newspipe) is a web news aggregator.
 
 Newspipe is written in Python. The core technologies are
 [Flask](http://flask.pocoo.org),

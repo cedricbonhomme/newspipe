@@ -1,5 +1,5 @@
 /*!
-* Newspipe - A Web based news aggregator.
+* Newspipe - A web news aggregator.
 * Copyright (C) 2010-2020 Cédric Bonhomme - https://cedricbonhomme.org
 *
 * For more information: https://git.sr.ht/~cedric/newspipe

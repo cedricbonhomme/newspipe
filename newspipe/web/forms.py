@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Newspipe - A Web based news aggregator.
+# Newspipe - A web news aggregator.
 # Copyright (C) 2010-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: http://gitlab.com/newspipe/newspipe
