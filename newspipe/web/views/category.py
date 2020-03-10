@@ -1,11 +1,15 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_babel import gettext
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 
-from newspipe.web.forms import CategoryForm
+from newspipe.controllers import (
+    ArticleController,
+    CategoryController,
+    FeedController
+)
 from newspipe.lib.utils import redirect_url
+from newspipe.web.forms import CategoryForm
 from newspipe.web.lib.view_utils import etag_match
-from newspipe.controllers import ArticleController, FeedController, CategoryController
 
 categories_bp = Blueprint("categories", __name__, url_prefix="/categories")
 category_bp = Blueprint("category", __name__, url_prefix="/category")

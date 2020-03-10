@@ -1,9 +1,10 @@
+import logging
 import re
 import types
 import urllib
-import logging
-import requests
 from hashlib import md5
+
+import requests
 from flask import request, url_for
 
 from newspipe.bootstrap import application

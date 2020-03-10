@@ -1,12 +1,13 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, flash, url_for
-from flask_babel import gettext, format_timedelta
-from flask_login import login_required, current_user
 
-from newspipe.lib.utils import redirect_url
+from flask import Blueprint, flash, redirect, render_template, url_for
+from flask_babel import format_timedelta, gettext
+from flask_login import current_user, login_required
+
 from newspipe.controllers import UserController
-from newspipe.web.views.common import admin_permission
+from newspipe.lib.utils import redirect_url
 from newspipe.web.forms import InformationMessageForm, UserForm
+from newspipe.web.views.common import admin_permission
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 

@@ -26,14 +26,15 @@ __revision__ = "$Date: 2016/12/07 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from newspipe.bootstrap import db
 from datetime import datetime
-from sqlalchemy import desc
-from sqlalchemy.orm import validates
-from sqlalchemy.ext.associationproxy import association_proxy
 
-from newspipe.models.tag import BookmarkTag
+from sqlalchemy import desc
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
+
+from newspipe.bootstrap import db
 from newspipe.models.right_mixin import RightMixin
+from newspipe.models.tag import BookmarkTag
 
 
 class Bookmark(db.Model, RightMixin):

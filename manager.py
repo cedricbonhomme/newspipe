@@ -1,16 +1,17 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import logging
+import os
 from datetime import datetime
-from werkzeug.security import generate_password_hash
-from flask_script import Manager
+
 from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from werkzeug.security import generate_password_hash
 
 import newspipe.models
-from newspipe.controllers import UserController
 from newspipe.bootstrap import application, db, set_logging
+from newspipe.controllers import UserController
 
 logger = logging.getLogger("manager")
 

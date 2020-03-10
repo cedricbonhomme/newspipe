@@ -1,8 +1,9 @@
-import logging
 import itertools
+import logging
 
 from newspipe.bootstrap import db
 from newspipe.models import Bookmark
+
 from .abstract import AbstractController
 from .tag import BookmarkTagController
 

@@ -4,9 +4,9 @@ from flask_restful import Api
 from newspipe.bootstrap import application
 from newspipe.controllers.category import CategoryController
 from newspipe.web.views.api.v2.common import (
-    PyAggResourceNew,
     PyAggResourceExisting,
     PyAggResourceMulti,
+    PyAggResourceNew
 )
 
 

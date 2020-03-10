@@ -19,9 +19,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import calendar
-from newspipe.bootstrap import application
-from flask_babel import Babel, format_datetime
 
+from flask import g
+from flask_babel import Babel, format_datetime
+# Views
+from flask_restful import Api
+
+from newspipe.bootstrap import application
 
 babel = Babel(application)
 
@@ -36,9 +40,6 @@ application.jinja_env.filters["datetime"] = format_datetime
 # inject application in Jinja env
 application.jinja_env.globals["application"] = application
 
-# Views
-from flask_restful import Api
-from flask import g
 
 with application.app_context():
     g.api = Api(application, prefix="/api/v2.0")

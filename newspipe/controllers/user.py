@@ -1,7 +1,10 @@
 import logging
-from werkzeug.security import generate_password_hash, check_password_hash
-from .abstract import AbstractController
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from newspipe.models import User
+
+from .abstract import AbstractController
 
 logger = logging.getLogger(__name__)
 

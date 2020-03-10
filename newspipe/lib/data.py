@@ -30,17 +30,17 @@ __license__ = "AGPLv3"
 # This file contains the import/export functions of Newspipe.
 #
 
-import json
-import opml
-import logging
 import datetime
+import json
+import logging
+
+import opml
 from flask import jsonify
 
 from newspipe.bootstrap import db
-from newspipe.models import User, Feed, Article
-from newspipe.models.tag import BookmarkTag
 from newspipe.controllers import BookmarkController, BookmarkTagController
-
+from newspipe.models import Article, Feed, User
+from newspipe.models.tag import BookmarkTag
 
 logger = logging.getLogger(__name__)
 

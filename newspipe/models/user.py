@@ -28,14 +28,15 @@ __license__ = "GPLv3"
 
 import re
 from datetime import datetime
-from werkzeug.security import check_password_hash
+
 from flask_login import UserMixin
 from sqlalchemy.orm import validates
+from werkzeug.security import check_password_hash
 
 from newspipe.bootstrap import db
-from newspipe.models.right_mixin import RightMixin
 from newspipe.models.category import Category
 from newspipe.models.feed import Feed
+from newspipe.models.right_mixin import RightMixin
 
 
 class User(db.Model, UserMixin, RightMixin):

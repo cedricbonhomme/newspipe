@@ -1,4 +1,5 @@
 import base64
+
 from flask import Blueprint, Response, request
 
 from newspipe.controllers import IconController

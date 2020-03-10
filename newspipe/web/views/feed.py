@@ -1,33 +1,33 @@
 import logging
-import requests.exceptions
 from datetime import datetime, timedelta
+
+import requests.exceptions
+from flask import (
+    Blueprint,
+    flash,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for
+)
+from flask_babel import gettext
+from flask_login import current_user, login_required
+from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
 from werkzeug.exceptions import BadRequest
 
-from flask import (
-    Blueprint,
-    render_template,
-    flash,
-    redirect,
-    request,
-    url_for,
-    make_response,
-)
-from flask_babel import gettext
-from flask_login import login_required, current_user
-from flask_paginate import Pagination, get_page_args
-
 from newspipe.bootstrap import application
-from newspipe.lib import misc_utils, utils
-from newspipe.lib.feed_utils import construct_feed_from
-from newspipe.web.lib.view_utils import etag_match
-from newspipe.web.forms import AddFeedForm
 from newspipe.controllers import (
-    UserController,
+    ArticleController,
     CategoryController,
     FeedController,
-    ArticleController,
+    UserController
 )
+from newspipe.lib import misc_utils, utils
+from newspipe.lib.feed_utils import construct_feed_from
+from newspipe.web.forms import AddFeedForm
+from newspipe.web.lib.view_utils import etag_match
 
 logger = logging.getLogger(__name__)
 feeds_bp = Blueprint("feeds", __name__, url_prefix="/feeds")

@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from threading import Thread
 from functools import wraps
+from threading import Thread
 
 from flask_login import login_required
 

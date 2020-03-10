@@ -1,5 +1,7 @@
 from functools import wraps
-from flask import request, Response, make_response
+
+from flask import Response, make_response, request
+
 from newspipe.lib.utils import to_hash
 
 

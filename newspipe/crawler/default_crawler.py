@@ -26,25 +26,25 @@ __revision__ = "$Date: 2019/05/21 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
-import io
 import asyncio
+import io
 import logging
-import feedparser
-import dateutil.parser
 from datetime import datetime, timedelta
+
+import dateutil.parser
+import feedparser
 from sqlalchemy import or_
 
-from newspipe.bootstrap import application
-from newspipe.bootstrap import db
-from newspipe.models import User
-from newspipe.controllers import FeedController, ArticleController
-from newspipe.lib.utils import newspipe_get
-from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
+from newspipe.bootstrap import application, db
+from newspipe.controllers import ArticleController, FeedController
 from newspipe.lib.article_utils import (
     construct_article,
     extract_id,
-    get_article_content,
+    get_article_content
 )
+from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
+from newspipe.lib.utils import newspipe_get
+from newspipe.models import User
 
 logger = logging.getLogger(__name__)
 

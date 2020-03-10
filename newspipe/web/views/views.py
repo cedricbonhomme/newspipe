@@ -1,14 +1,22 @@
-import sys
 import logging
 import operator
+import sys
 from datetime import datetime, timedelta
-from flask import request, render_template, flash, url_for, redirect, current_app
+
+from flask import (
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for
+)
 from flask_babel import gettext
 from sqlalchemy import desc
 
 from newspipe.bootstrap import application
-from newspipe.web import __version__
 from newspipe.controllers import FeedController, UserController
+from newspipe.web import __version__
 from newspipe.web.lib.view_utils import etag_match
 
 logger = logging.getLogger(__name__)

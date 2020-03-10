@@ -26,15 +26,23 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from .feed import Feed
-from .role import Role
-from .user import User
+from sqlalchemy.engine import reflection
+from sqlalchemy.schema import (
+    DropConstraint,
+    DropTable,
+    ForeignKeyConstraint,
+    MetaData,
+    Table
+)
+
 from .article import Article
-from .icon import Icon
-from .category import Category
-from .tag import BookmarkTag
-from .tag import ArticleTag
 from .bookmark import Bookmark
+from .category import Category
+from .feed import Feed
+from .icon import Icon
+from .role import Role
+from .tag import ArticleTag, BookmarkTag
+from .user import User
 
 __all__ = [
     "Feed",
@@ -49,14 +57,6 @@ __all__ = [
 ]
 
 
-from sqlalchemy.engine import reflection
-from sqlalchemy.schema import (
-    MetaData,
-    Table,
-    DropTable,
-    ForeignKeyConstraint,
-    DropConstraint,
-)
 
 
 def db_empty(db):

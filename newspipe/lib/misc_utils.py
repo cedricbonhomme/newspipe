@@ -26,27 +26,29 @@ __revision__ = "$Date: 2016/11/22 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
-import re
-import os
-import sys
 import glob
 import logging
 import operator
-import urllib
+import os
+import re
 import subprocess
-import sqlalchemy
-
-try:
-    from urlparse import urlparse, parse_qs, urlunparse
-except:
-    from urllib.parse import urlparse, parse_qs, urlunparse, urljoin
+import sys
+import urllib
 from collections import Counter
 from contextlib import contextmanager
+
+import sqlalchemy
 from flask import request
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
 from newspipe.lib.utils import clear_string
+
+try:
+    from urlparse import urlparse, parse_qs, urlunparse
+except:
+    from urllib.parse import urlparse, parse_qs, urlunparse, urljoin
+
 
 logger = logging.getLogger(__name__)
 

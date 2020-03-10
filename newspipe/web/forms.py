@@ -26,25 +26,25 @@ __revision__ = "$Date: 2015/05/06 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
-from flask import flash, url_for, redirect
-from flask_wtf import FlaskForm
+from flask import flash, redirect, url_for
 from flask_babel import lazy_gettext
+from flask_wtf import FlaskForm
 from werkzeug.exceptions import NotFound
 from wtforms import (
-    TextField,
-    TextAreaField,
-    PasswordField,
     BooleanField,
-    SubmitField,
-    IntegerField,
-    SelectField,
-    validators,
     HiddenField,
+    IntegerField,
+    PasswordField,
+    SelectField,
+    SubmitField,
+    TextAreaField,
+    TextField,
+    validators
 )
 from wtforms.fields.html5 import EmailField, URLField
 
-from newspipe.lib import misc_utils
 from newspipe.controllers import UserController
+from newspipe.lib import misc_utils
 from newspipe.models import User
 
 

@@ -1,15 +1,17 @@
 import json
-from functools import wraps
 from datetime import datetime
-from flask import current_app, Response
+from functools import wraps
+
+from flask import Response, current_app
 from flask_login import login_user
 from flask_principal import (
     Identity,
     Permission,
     RoleNeed,
-    session_identity_loader,
     identity_changed,
+    session_identity_loader
 )
+
 from newspipe.controllers import UserController
 from newspipe.lib.utils import default_handler
 

@@ -1,10 +1,12 @@
 import logging
-import dateutil.parser
-from newspipe.bootstrap import db
-from datetime import datetime
 from collections import defaultdict
-from sqlalchemy import or_, func
+from datetime import datetime
+
+import dateutil.parser
+from sqlalchemy import func, or_
 from werkzeug.exceptions import Forbidden, NotFound
+
+from newspipe.bootstrap import db
 
 logger = logging.getLogger(__name__)
 

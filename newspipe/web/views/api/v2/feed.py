@@ -2,15 +2,18 @@ from flask import current_app
 from flask_restful import Api
 
 from newspipe.bootstrap import application
-from newspipe.web.views.common import api_permission
-from newspipe.controllers.feed import FeedController, DEFAULT_MAX_ERROR, DEFAULT_LIMIT
-
+from newspipe.controllers.feed import (
+    DEFAULT_LIMIT,
+    DEFAULT_MAX_ERROR,
+    FeedController
+)
 from newspipe.web.views.api.v2.common import (
     PyAggAbstractResource,
-    PyAggResourceNew,
     PyAggResourceExisting,
     PyAggResourceMulti,
+    PyAggResourceNew
 )
+from newspipe.web.views.common import api_permission
 
 
 class FeedNewAPI(PyAggResourceNew):

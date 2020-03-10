@@ -1,8 +1,9 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from newspipe.bootstrap import db
 from sqlalchemy import Index
+
+from newspipe.bootstrap import db
 from newspipe.models.right_mixin import RightMixin
 
 

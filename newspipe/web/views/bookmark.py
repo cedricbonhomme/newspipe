@@ -27,28 +27,28 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "AGPLv3"
 
 import logging
-from werkzeug.exceptions import BadRequest
 
 from flask import (
     Blueprint,
-    render_template,
     flash,
-    redirect,
-    request,
-    url_for,
     make_response,
+    redirect,
+    render_template,
+    request,
+    url_for
 )
 from flask_babel import gettext
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from flask_paginate import Pagination, get_page_args
 from sqlalchemy import desc
+from werkzeug.exceptions import BadRequest
 
-from newspipe.lib.utils import redirect_url
-from newspipe.lib.data import import_pinboard_json, export_bookmarks
 from newspipe.bootstrap import db
-from newspipe.web.forms import BookmarkForm
 from newspipe.controllers import BookmarkController, BookmarkTagController
+from newspipe.lib.data import export_bookmarks, import_pinboard_json
+from newspipe.lib.utils import redirect_url
 from newspipe.models import BookmarkTag
+from newspipe.web.forms import BookmarkForm
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint("bookmarks", __name__, url_prefix="/bookmarks")

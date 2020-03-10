@@ -1,13 +1,15 @@
 import logging
-import sqlalchemy
-from sqlalchemy import func
 from collections import Counter
 
+import sqlalchemy
+from sqlalchemy import func
+
 from newspipe.bootstrap import db
-from .abstract import AbstractController
-from newspipe.lib.article_utils import process_filters
 from newspipe.controllers import CategoryController, FeedController
+from newspipe.lib.article_utils import process_filters
 from newspipe.models import Article
+
+from .abstract import AbstractController
 
 logger = logging.getLogger(__name__)
 

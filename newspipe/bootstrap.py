@@ -3,10 +3,12 @@
 
 # required imports and code execution for basic functionning
 
-import os
 import logging
-from flask import request
+import os
+
+from flask import Flask, request
 from flask_babel import Babel, format_datetime
+from flask_sqlalchemy import SQLAlchemy
 
 
 def set_logging(
@@ -43,8 +45,6 @@ def set_logging(
         logger.setLevel(log_level)
 
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)

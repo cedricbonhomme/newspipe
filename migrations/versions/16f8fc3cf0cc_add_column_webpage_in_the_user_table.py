@@ -12,8 +12,8 @@ down_revision = "957d4c5b8ac9"
 branch_labels = None
 depends_on = None
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 
 def upgrade():

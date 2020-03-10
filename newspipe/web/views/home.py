@@ -1,19 +1,29 @@
-import pytz
 import logging
 from datetime import datetime
 
-from flask import current_app, render_template, request, flash, url_for, redirect
-from flask_login import login_required, current_user
-from flask_babel import gettext, get_locale
+import pytz
 from babel.dates import format_datetime, format_timedelta
+from flask import (
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for
+)
+from flask_babel import get_locale, gettext
+from flask_login import current_user, login_required
 
 from newspipe.bootstrap import application
-from newspipe.lib.utils import redirect_url
+from newspipe.controllers import (
+    ArticleController,
+    CategoryController,
+    FeedController
+)
 from newspipe.lib import misc_utils
+from newspipe.lib.utils import redirect_url
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.views.common import jsonify
-
-from newspipe.controllers import FeedController, ArticleController, CategoryController
 
 localize = pytz.utc.localize
 logger = logging.getLogger(__name__)
