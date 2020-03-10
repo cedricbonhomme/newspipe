@@ -44,7 +44,7 @@ MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = "admin@admin.localhost"
 
 # Misc
-BASE_DIR = os.path.abspath(os.path.dirname('.'))
+BASE_DIR = os.path.abspath(os.path.dirname("."))
 LANGUAGES = {"en": "English", "fr": "French"}
 TIME_ZONE = {"en": "US/Eastern", "fr": "Europe/Paris"}
 ADMIN_EMAIL = "admin@admin.localhost"

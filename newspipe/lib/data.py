@@ -44,6 +44,7 @@ from newspipe.controllers import BookmarkController, BookmarkTagController
 
 logger = logging.getLogger(__name__)
 
+
 def import_opml(nickname, opml_content):
     """
     Import new feeds from an OPML file.

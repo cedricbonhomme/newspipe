@@ -53,20 +53,18 @@ if os.environ.get("Newspipe_TESTING", False) == "true":
     application.debug = logging.DEBUG
     application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     application.config["TESTING"] = True
+elif os.environ.get("Newspipe_CONFIG", False):
+    # if the configuration file is specified via an environment variable
+    application.config.from_pyfile(os.environ.get("Newspipe_CONFIG"), silent=False)
 else:
     try:
         application.config.from_pyfile("development.py", silent=False)
     except Exception:
         application.config.from_pyfile("production.py", silent=False)
 
-# scheme, domain, _, _, _ = urlsplit(conf.PLATFORM_URL)
-# application.config["SERVER_NAME"] = domain
-# application.config["PREFERRED_URL_SCHEME"] = scheme
-
 set_logging(application.config["LOG_PATH"])
 
 db = SQLAlchemy(application)
-
 
 babel = Babel(application)
 
@@ -80,4 +78,4 @@ def get_locale():
     # otherwise try to guess the language from the user accept
     # header the browser transmits.  We support de/fr/en in this
     # example.  The best match wins.
-    return request.accept_languages.best_match(["fr", "en"])
+    return request.accept_languages.best_match(application.config["LANGUAGES"].keys())
