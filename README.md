@@ -46,10 +46,10 @@ $ git clone https://git.sr.ht/~cedric/newspipe
 $ cd newspipe/
 $ poetry install
 $ npm install
-$ cp newspipe/conf/conf.cfg-sample newspipe/conf/conf.cfg
+$ cp instance/production.py instance/development.py
 $ poetry shell
-$ python newspipe/manager.py db_create
-$ python newspipe/runserver.py
+$ python manager.py db_create
+$ python runserver.py
   * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 
