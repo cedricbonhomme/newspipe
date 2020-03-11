@@ -35,7 +35,7 @@ https://lists.sr.ht/~cedric/newspipe
 Newspipe is really easy to deploy.
 
 Assuming you have already installed ``git``, ``npm``, ``poetry``,  and
-``Python >= 3.8`` (better to use [pyenv](https://github.com/pyenv/pyenv)).
+``Python >= 3.8``, you just have to do the following:
 
 ```bash
 $ git clone https://git.sr.ht/~cedric/newspipe
@@ -47,11 +47,11 @@ $ poetry shell
 $ python manager.py db_create
 $ python manager.py create_admin <nickname> <password>
 $ python runserver.py
-  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
 
 If you want to use PostgreSQL you can customize
-the provided example configuration file (in ``instance/production.py``):
+the provided example configuration file (``instance/production.py``):
 
 ```bash
 $ sudo apt-get install postgresql
