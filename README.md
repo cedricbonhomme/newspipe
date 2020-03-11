@@ -34,13 +34,11 @@ https://lists.sr.ht/~cedric/newspipe
 
 Newspipe is really easy to deploy.
 
-### Requirements
-
-```bash
-$ sudo apt-get install npm
-```
 
 ##  Configure and install the application
+
+Assuming you have already installed ``git``, ``npm``, ``poetry``,  and
+``Python >= 3.8``.
 
 ```bash
 $ git clone https://git.sr.ht/~cedric/newspipe
