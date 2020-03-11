@@ -20,7 +20,7 @@ SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
 
 # Crawler
 CRAWLING_METHOD = "default"
-DEFAULT_MAX_ERROR = 3
+DEFAULT_MAX_ERROR = 6
 HTTP_PROXY = ""
 CRAWLER_USER_AGENT = "Newspipe (https://git.sr.ht/~cedric/newspipe)"
 CRAWLER_TIMEOUT = 30

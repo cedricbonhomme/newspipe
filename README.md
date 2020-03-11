@@ -37,7 +37,7 @@ Newspipe is really easy to deploy.
 ### Requirements
 
 ```bash
-$ sudo apt-get install npm postgresql
+$ sudo apt-get install npm
 ```
 
 ##  Configure and install the application
@@ -47,19 +47,21 @@ $ git clone https://git.sr.ht/~cedric/newspipe
 $ cd newspipe/
 $ npm install
 $ poetry install
-$ cp instance/production.py instance/development.py
+$ export Newspipe_CONFIG=sqlite.py
 $ poetry shell
 $ python manager.py db_create
 $ python runserver.py
   * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 
-If you want to use SQLite you do not need to install PostgreSQL. Simply use
-the provided configuration file (in ``instance/sqlite.py``) thank to this
-environment variable:
+If you want to use PostgreSQL you can customize
+the provided example configuration file (in ``instance/production.py``):
 
 ```bash
-export Newspipe_CONFIG=sqlite.py
+$ sudo apt-get install postgresql
+$ cp instance/production.py instance/postgresql.py
+$ vim instance/postgresql.py # customize it
+$ export Newspipe_CONFIG=postgresql.py
 ```
 
 ## License
