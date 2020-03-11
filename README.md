@@ -34,11 +34,8 @@ https://lists.sr.ht/~cedric/newspipe
 
 Newspipe is really easy to deploy.
 
-
-##  Configure and install the application
-
 Assuming you have already installed ``git``, ``npm``, ``poetry``,  and
-``Python >= 3.8``.
+``Python >= 3.8`` (better to use [pyenv](https://github.com/pyenv/pyenv)).
 
 ```bash
 $ git clone https://git.sr.ht/~cedric/newspipe
@@ -48,6 +45,7 @@ $ poetry install
 $ export Newspipe_CONFIG=sqlite.py
 $ poetry shell
 $ python manager.py db_create
+$ python manager.py create_admin <nickname> <password>
 $ python runserver.py
   * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
