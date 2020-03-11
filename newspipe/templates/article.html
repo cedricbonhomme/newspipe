@@ -4,14 +4,14 @@
     <div class="well">
         <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
         <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
-        <a href="{{ url_for("article.delete", article_id=article.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
+        <a href="{{ url_for("article.delete", article_id=article.id) }}"><i class="fa fa-times delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
         {% if article.like %}
-            <a href="#"><i class="fa fa-star" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
+            <a href="#"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
         {% else %}
-            <a href="#"><i class="fa fa-star-o" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
+            <a href="#"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
         {% endif %}
         {% if article.readed %}
-            <a href="#"><i class="fa fa-check-square readed" title="{{ _('Mark this article as unread') }}"></i></a>
+            <a href="#"><i class="fa fa-square-o readed" title="{{ _('Mark this article as unread') }}"></i></a>
         {% else %}
             <a href="#"><i class="fa fa-check-square-o readed" aria-hidden="true" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
         {% endif %}
