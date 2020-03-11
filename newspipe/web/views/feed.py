@@ -61,7 +61,7 @@ def feed_view(feed_id=None, user_id=None):
     pagination = Pagination(
         page=page,
         total=articles.count(),
-        css_framework="bootstrap3",
+        css_framework="bootstrap4",
         search=False,
         record_name="articles",
         per_page=per_page,
