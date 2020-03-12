@@ -34,6 +34,8 @@ logger = logging.getLogger(__name__)
 def home():
     """Displays the home page of the connected user.
     """
+    filters = _get_filters(request.args)
+
     art_contr = ArticleController(current_user.id)
 
     unread = art_contr.count_by_feed(readed=False)
@@ -51,7 +53,6 @@ def home():
     liked = int(request.args.get("liked", 0)) == 1
     limit = request.args.get("limit", 1000)
 
-    filters = {}
     if filter_ in ["read", "unread"]:
         filters["readed"] = filter_ == "read"
     if feed_id:
