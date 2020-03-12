@@ -40,7 +40,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRSS" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-rss" aria-hidden="true"></i>&nbsp;{{ _('Feeds') }}</a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownRSS">
-                              <a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Subscribed') }}</a>
+                              <a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a>
                               <a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a>
                               <a class="dropdown-item" href="{{ url_for('popular') }}">{{ _('Popular') }}</a>
                               <a class="dropdown-item" href="{{ url_for('articles.history') }}">{{ _('History') }}</a>
@@ -141,7 +141,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         {% for category, message in messages %}
                             <div class="alert alert-{{category}}">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>

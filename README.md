@@ -60,6 +60,9 @@ $ vim instance/postgresql.py # customize it
 $ export Newspipe_CONFIG=postgresql.py
 ```
 
+For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
+
+
 ## License
 
 [Newspipe](https://git.sr.ht/~cedric/newspipe) is under the

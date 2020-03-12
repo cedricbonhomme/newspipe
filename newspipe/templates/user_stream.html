@@ -2,17 +2,17 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col">
             <form class="form-inline">
                 <div class="form-group">
-                    <label>Filter per category</label>
+                    <label>Filter per category</label>&nbsp;
                     <select class="form-control" id="category-select" name="category_id">
-                    <option  value="0">All</option>
-                    {% for cur_category in user.categories %}
-                        <option value="{{cur_category.id}}" {% if cur_category.id==category.id %}selected{% endif %}>{{ cur_category.name }}</option>
-                    {% endfor %}
+                        <option  value="0">All</option>
+                        {% for cur_category in user.categories %}
+                            <option value="{{cur_category.id}}" {% if cur_category.id==category.id %}selected{% endif %}>{{ cur_category.name }}</option>
+                        {% endfor %}
                     </select>
-                    <button type="submit" class="btn btn-primary mb-2">OK</button>
+                    &nbsp;<button type="submit" class="btn btn-primary">OK</button>
                 </div>
             </form>
         </div>
@@ -22,20 +22,20 @@
 
     {% if category %}
     <div class="row">
-        <div class="col-md-8 offset-md-1">
+        <div class="col">
             <p class="lead">Articles from the category <a href="{{ url_for('user.profile_public', nickname=user.nickname, category_id=category.id) }}">{{ category.name }}</a></p>
         </div>
     </div>
     {% endif %}
 
     <div class="row">
-        <div class="col-md-8 offset-md-1">
+        <div class="col">
             {{ pagination.info }}
         </div>
     </div>
 
     <div class="row">
-       <div class="col-md-8 offset-md-1">
+       <div class="col">
            {{ pagination.links }}
        </div>
    </div>
@@ -62,7 +62,7 @@
     </div>
 
     <div class="row">
-       <div class="col-md-8 offset-md-1">
+       <div class="col">
            {{ pagination.links }}
        </div>
    </div>

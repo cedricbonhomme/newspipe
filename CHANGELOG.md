@@ -1,6 +1,15 @@
 Newspipe Changelog
 ==================
 
+## 9.1.0 (2020-03-12)
+
+    Improvements:
+     * the Web graphical interface is now using Bootstrap 4;
+     * a lot of responsiveness work has been done;
+     * the back-end code has been refactored and cleaned;
+     * the configuration and deployment of Newspipe is now a lot easier.
+
+
 ## 9.0 (2020-02-27)
 
     New:

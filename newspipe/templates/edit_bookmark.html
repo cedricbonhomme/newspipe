@@ -1,67 +1,70 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="well">
-        <h3>{{ action }}</h3>
-        <form action="" method="post" name="save" class="form-horizontal">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="{{ form.href.id }}" class="col-sm-3 control-label">{{ form.href.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.href(class_="form-control", size="100%") }}
+    <div class="row">
+        <div class="col">
+            <h3>{{ action }}</h3>
+            <form action="" method="post" name="save" class="form-horizontal">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="{{ form.href.id }}" class="col-sm-3 control-label">{{ form.href.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.href(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.href.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                {% for error in form.href.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.title(class_="form-control", size="100%") }}
+                <div class="form-group">
+                    <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.title(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.description.id }}" class="col-sm-3 control-label">{{ form.description.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.description(class_="form-control", size="100%") }}
+                <div class="form-group">
+                    <label for="{{ form.description.id }}" class="col-sm-3 control-label">{{ form.description.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.description(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.tags.id }}" class="col-sm-3 control-label">{{ form.tags.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.tags(class_="form-control", size="100%") }}
+                <div class="form-group">
+                    <label for="{{ form.tags.id }}" class="col-sm-3 control-label">{{ form.tags.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.tags(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.shared.id }}" class="col-sm-3 control-label">{{ form.shared.label }}</label>
-                <div class="col-sm-9">
-                    <div class="checkbox">
-                        {{ form.shared(class_="checkbox",  style="margin-left: 0px;") }}
+                <div class="form-group">
+                    <label for="{{ form.shared.id }}" class="col-sm-3 control-label">{{ form.shared.label }}</label>
+                    <div class="col-sm-9">
+                        <div class="checkbox">
+                            {{ form.shared(class_="checkbox",  style="margin-left: 0px;") }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="{{ form.to_read.id }}" class="col-sm-3 control-label">{{ form.to_read.label }}</label>
-                <div class="col-sm-9">
-                    <div class="checkbox">
-                        {{ form.to_read(class_="checkbox",  style="margin-left: 0px;") }}
+                <div class="form-group">
+                    <label for="{{ form.to_read.id }}" class="col-sm-3 control-label">{{ form.to_read.label }}</label>
+                    <div class="col-sm-9">
+                        <div class="checkbox">
+                            {{ form.to_read(class_="checkbox",  style="margin-left: 0px;") }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    {{ form.submit(class_="btn btn-primary") }}
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        {{ form.submit(class_="btn btn-primary") }}
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
     {% if action == _('Add a new bookmark') %}
         <div class="row">
             <div class="col-md-6 pull-right">
