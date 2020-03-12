@@ -72,7 +72,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
-                              </form>
+                            </form>
                         </div>
                     </li>
 
@@ -81,6 +81,26 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBookmark">
                             <a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a>
                             <a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a new bookmark') }}</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></i>&nbsp;{{ _('Search') }}</a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSearch">
+                            <form class="navbar-form navbar-left px-4 py-3" action="{{ url_for('home') }}" method="GET">
+                                <div class="form-group">
+                                    <input class="form-control" name="query" type="text" placeholder="{{_('Query')}}" required="required"/>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkTitle" name="search_title" checked>
+                                    <label class="form-check-label" for="checkTitle">Search in title</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkContent" name="search_content">
+                                    <label class="form-check-label" for="checkContent">Search in content</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">OK</button>
+                            </form>
                         </div>
                     </li>
 

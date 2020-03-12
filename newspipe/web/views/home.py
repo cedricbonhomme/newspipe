@@ -98,8 +98,8 @@ def _get_filters(in_dict):
     filters = {}
     query = in_dict.get("query")
     if query:
-        search_title = in_dict.get("search_title") == "true"
-        search_content = in_dict.get("search_content") == "true"
+        search_title = in_dict.get("search_title") == "on"
+        search_content = in_dict.get("search_content") == "on"
         if search_title:
             filters["title__ilike"] = "%%%s%%" % query
         if search_content:
