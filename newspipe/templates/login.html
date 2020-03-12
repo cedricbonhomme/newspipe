@@ -1,31 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{ _('Log In') }}</h2>
-                    <form action="{{ url_for('login') }}" method=post>
-                        {{ form.hidden_tag() }}
-                        <div class="form-group">
-                        {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
-                        </div>
-                        {% for message in form.nickmane.errors %}
-                            <div class="alert alert-warning" role="alert">{{ message }}</div>
-                        {% endfor %}
-                        <div class="form-group">
-                        {{ form.password(class_="form-control", placeholder=_('Your Password')) }}
-                        </div>
-                        {% for message in form.password.errors %}
-                            <div class="alert alert-warning" role="alert">{{ message }}</div>
-                        {% endfor %}
-                        {{ form.submit(class_="btn btn-primary") }}
-                    </form>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h2>{{ _('Log In') }}</h2>
+            <form action="{{ url_for('login') }}" method=post>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
                 </div>
-            </div>
-            <br />
-            <a href="/signup" class="btn btn-primary">{{ _('Sign up') }}</a>
+                {% for message in form.nickmane.errors %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+                <div class="form-group">
+                {{ form.password(class_="form-control", placeholder=_('Your Password')) }}
+                </div>
+                {% for message in form.password.errors %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+                {{ form.submit(class_="btn btn-primary") }}
+                <a href="/signup" class="btn btn-secondary">{{ _('Sign up') }}</a>
+            </form>
         </div>
     </div>
 </div><!-- /.container -->

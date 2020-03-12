@@ -42,6 +42,11 @@ a {
     opacity: 1;
     color: white;
 }
+.btn-secondary {
+    background-color: #0082c9;
+    opacity: 0.6;
+    color: white;
+}
 
 .btn-outline-primary {
     border-color: #0082c9;
