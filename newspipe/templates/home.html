@@ -38,8 +38,8 @@
             <li class="nav-item feed-commands"><span class="nav-link">
                 <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
             </span></li>
         {% endfor %}
@@ -57,8 +57,8 @@
             <li class="nav-item feed-commands"><span class="nav-link">
                 <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                 <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
             </span></li>
         {% endfor %}
@@ -94,7 +94,11 @@
                 <table class="table table-striped strict-table">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>
+                                {% if feed_id %}
+                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                {% endif%}
+                            </th>
                             <th>{{ _('Feed') }}</th>
                             <th>{{ _('Article') }}</th>
                             <th>{{ _('Date') }}</th>

@@ -9,7 +9,7 @@ from flask import (
     redirect,
     render_template,
     request,
-    url_for
+    url_for,
 )
 from flask_babel import gettext
 from flask_login import current_user, login_required
@@ -21,7 +21,7 @@ from newspipe.controllers import (
     ArticleController,
     CategoryController,
     FeedController,
-    UserController
+    UserController,
 )
 from newspipe.lib import misc_utils, utils
 from newspipe.lib.feed_utils import construct_feed_from

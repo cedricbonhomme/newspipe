@@ -8,7 +8,7 @@ from flask import (
     render_template,
     request,
     session,
-    url_for
+    url_for,
 )
 from flask_babel import gettext, lazy_gettext
 from flask_login import LoginManager, current_user, login_required, logout_user
@@ -18,7 +18,7 @@ from flask_principal import (
     UserNeed,
     identity_changed,
     identity_loaded,
-    session_identity_loader
+    session_identity_loader,
 )
 from werkzeug.security import generate_password_hash
 

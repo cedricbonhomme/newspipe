@@ -1,12 +1,4 @@
-from flask import (
-    Blueprint,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    url_for
-)
+from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from flask_babel import gettext
 from flask_login import current_user, login_required
 from flask_paginate import Pagination, get_page_args
@@ -17,7 +9,7 @@ from newspipe.controllers import (
     BookmarkController,
     CategoryController,
     FeedController,
-    UserController
+    UserController,
 )
 from newspipe.lib import misc_utils
 from newspipe.lib.data import import_json, import_opml

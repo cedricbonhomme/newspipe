@@ -35,7 +35,7 @@ from flask import (
     redirect,
     render_template,
     request,
-    url_for
+    url_for,
 )
 from flask_babel import gettext
 from flask_login import current_user, login_required

@@ -10,7 +10,7 @@ from newspipe.web.views.api.v2.common import (
     PyAggAbstractResource,
     PyAggResourceExisting,
     PyAggResourceMulti,
-    PyAggResourceNew
+    PyAggResourceNew,
 )
 from newspipe.web.views.common import api_permission
 

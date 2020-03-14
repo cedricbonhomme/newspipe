@@ -32,7 +32,7 @@ from sqlalchemy.schema import (
     DropTable,
     ForeignKeyConstraint,
     MetaData,
-    Table
+    Table,
 )
 
 from .article import Article
@@ -55,8 +55,6 @@ __all__ = [
     "ArticleTag",
     "BookmarkTag",
 ]
-
-
 
 
 def db_empty(db):
