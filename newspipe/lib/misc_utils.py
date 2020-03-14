@@ -102,7 +102,7 @@ def fetch(id, feed_id=None):
     """
     cmd = [
         sys.executable,
-        application.config["BASE_DIR"] + "/manager.py",
+        "manager.py",
         "fetch_asyncio",
         "--user_id=" + str(id),
     ]
