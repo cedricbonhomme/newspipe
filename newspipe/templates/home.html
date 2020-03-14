@@ -105,7 +105,7 @@
                                 <th>{{ _('Feed') }}</th>
                             {% endif %}
                             <th>{{ _('Article') }}</th>
-                            <th>{{ _('Date') }}</th>
+                            <th class="d-none d-lg-block">{{ _('Date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,7 +131,7 @@
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
                                 <a href="/article/{{ article.id }}">{{ article.title | safe }}</a>
                             </td>
-                            <td class="date">{{ article.date | datetime(format='short') }}</a></td>
+                            <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
