@@ -6,6 +6,7 @@ import os
 
 # Webserver
 HOST = "127.0.0.1"
+PLATFORM_URL = ""
 PORT = 5000
 DEBUG = False
 API_ROOT = "/api/v2.0"
@@ -13,7 +14,6 @@ API_ROOT = "/api/v2.0"
 CSRF_ENABLED = True
 SECRET_KEY = "LCx3BchmHRxFzkEv4BqQJyeXRLXenf"
 SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
-TOKEN_VALIDITY_PERIOD = 3600
 
 # Database
 DB_CONFIG_DICT = {
@@ -46,6 +46,7 @@ MAIL_DEBUG = DEBUG
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = "admin@admin.localhost"
+TOKEN_VALIDITY_PERIOD = 3600
 
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname("."))

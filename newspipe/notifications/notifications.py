@@ -47,7 +47,7 @@ def new_account_notification(user, email):
 
     emails.send(
         to=email,
-        bcc=application.config["NOTIFICATION_EMAIL"],
+        bcc=application.config["MAIL_DEFAULT_SENDER"],
         subject="[Newspipe] Account creation",
         plaintext=plaintext,
     )
