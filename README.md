@@ -6,6 +6,8 @@
 
 [Newspipe](https://git.sr.ht/~cedric/newspipe) is a web news aggregator.
 
+![Newspipe Home page](docs/static/newspipe_home-page.png "Newspipe Home page")
+
 Newspipe is written in Python. The core technologies are
 [Flask](http://flask.pocoo.org),
 [asyncio](https://www.python.org/dev/peps/pep-3156/) and
