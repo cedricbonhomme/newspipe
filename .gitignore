@@ -5,6 +5,7 @@ syntax: glob
 *.pyc
 *~
 *.db
+*.mo
 
 # Emacs
 eproject.cfg

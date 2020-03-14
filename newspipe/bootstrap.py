@@ -7,7 +7,7 @@ import logging
 import os
 
 from flask import Flask, request
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -77,3 +77,19 @@ def get_locale():
     # header the browser transmits.  We support de/fr/en in this
     # example.  The best match wins.
     return request.accept_languages.best_match(application.config["LANGUAGES"].keys())
+
+
+# Jinja filters
+def month_name(month_number):
+    return calendar.month_name[month_number]
+
+
+def datetimeformat(value, format="%Y-%m-%d %H:%M"):
+    return value.strftime(format)
+
+
+application.jinja_env.filters["month_name"] = month_name
+application.jinja_env.filters["datetime"] = format_datetime
+application.jinja_env.filters["datetimeformat"] = datetimeformat
+# inject application in Jinja env
+application.jinja_env.globals["application"] = application

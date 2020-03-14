@@ -21,34 +21,13 @@
 import calendar
 
 from flask import g
-from flask_babel import Babel, format_datetime
-# Views
 from flask_restful import Api
 
 from newspipe.bootstrap import application
 
-babel = Babel(application)
-
-
-# Jinja filters
-def month_name(month_number):
-    return calendar.month_name[month_number]
-
-
-def datetimeformat(value, format="%Y-%m-%d %H:%M"):
-    return value.strftime(format)
-
-
-application.jinja_env.filters["month_name"] = month_name
-application.jinja_env.filters["datetime"] = format_datetime
-application.jinja_env.filters["datetimeformat"] = datetimeformat
-# inject application in Jinja env
-application.jinja_env.globals["application"] = application
-
 
 with application.app_context():
     g.api = Api(application, prefix="/api/v2.0")
-    g.babel = babel
 
     from newspipe.web import views
 

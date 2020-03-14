@@ -46,7 +46,7 @@ $ npm install
 $ poetry install
 $ export Newspipe_CONFIG=sqlite.py
 $ poetry shell
-$ pybabel compile -d newspipe/web/translations
+$ pybabel compile -d newspipe/translations
 $ python manager.py db_create
 $ python manager.py create_admin <nickname> <password>
 $ python runserver.py
