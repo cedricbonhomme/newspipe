@@ -6,7 +6,6 @@ import os
 
 # Webserver
 HOST = "127.0.0.1"
-PLATFORM_URL = ""
 PORT = 5000
 DEBUG = False
 API_ROOT = "/api/v2.0"
@@ -47,6 +46,7 @@ MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = "admin@admin.localhost"
 TOKEN_VALIDITY_PERIOD = 3600
+PLATFORM_URL = "https://www.newspipe.org"
 
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname("."))
