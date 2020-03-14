@@ -1,4 +1,4 @@
 #! /bin/sh
 
-pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot ..
-poedit fr/LC_MESSAGES/messages.po
+pybabel extract -F newspipe/web/translations/babel.cfg -k lazy_gettext -o newspipe/web/translations/messages.pot newspipe/web/
+poedit newspipe/web/translations/fr/LC_MESSAGES/messages.po

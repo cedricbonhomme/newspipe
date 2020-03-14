@@ -35,8 +35,13 @@ def month_name(month_number):
     return calendar.month_name[month_number]
 
 
+def datetimeformat(value, format="%Y-%m-%d %H:%M"):
+    return value.strftime(format)
+
+
 application.jinja_env.filters["month_name"] = month_name
 application.jinja_env.filters["datetime"] = format_datetime
+application.jinja_env.filters["datetimeformat"] = datetimeformat
 # inject application in Jinja env
 application.jinja_env.globals["application"] = application
 
