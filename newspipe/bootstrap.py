@@ -45,7 +45,6 @@ def set_logging(
         logger.setLevel(log_level)
 
 
-
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
 if os.environ.get("Newspipe_TESTING", False) == "true":

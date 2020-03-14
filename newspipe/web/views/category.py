@@ -2,11 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_babel import gettext
 from flask_login import current_user, login_required
 
-from newspipe.controllers import (
-    ArticleController,
-    CategoryController,
-    FeedController
-)
+from newspipe.controllers import ArticleController, CategoryController, FeedController
 from newspipe.lib.utils import redirect_url
 from newspipe.web.forms import CategoryForm
 from newspipe.web.lib.view_utils import etag_match

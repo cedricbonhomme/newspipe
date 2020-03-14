@@ -31,7 +31,7 @@ from newspipe.web.views.common import (
     admin_permission,
     api_permission,
     jsonify,
-    login_user_bundle
+    login_user_bundle,
 )
 
 logger = logging.getLogger(__name__)

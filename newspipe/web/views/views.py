@@ -3,14 +3,7 @@ import operator
 import sys
 from datetime import datetime, timedelta
 
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for
-)
+from flask import current_app, flash, redirect, render_template, request, url_for
 from flask_babel import gettext
 from sqlalchemy import desc
 

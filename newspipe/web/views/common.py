@@ -9,7 +9,7 @@ from flask_principal import (
     Permission,
     RoleNeed,
     identity_changed,
-    session_identity_loader
+    session_identity_loader,
 )
 
 from newspipe.controllers import UserController

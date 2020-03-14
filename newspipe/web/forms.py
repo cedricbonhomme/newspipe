@@ -39,7 +39,7 @@ from wtforms import (
     SubmitField,
     TextAreaField,
     TextField,
-    validators
+    validators,
 )
 from wtforms.fields.html5 import EmailField, URLField
 

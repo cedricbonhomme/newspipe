@@ -3,23 +3,12 @@ from datetime import datetime
 
 import pytz
 from babel.dates import format_datetime, format_timedelta
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for
-)
+from flask import current_app, flash, redirect, render_template, request, url_for
 from flask_babel import get_locale, gettext
 from flask_login import current_user, login_required
 
 from newspipe.bootstrap import application
-from newspipe.controllers import (
-    ArticleController,
-    CategoryController,
-    FeedController
-)
+from newspipe.controllers import ArticleController, CategoryController, FeedController
 from newspipe.lib import misc_utils
 from newspipe.lib.utils import redirect_url
 from newspipe.web.lib.view_utils import etag_match
@@ -52,6 +41,9 @@ def home():
     feed_id = int(request.args.get("feed", 0))
     liked = int(request.args.get("liked", 0)) == 1
     limit = request.args.get("limit", 1000)
+    query = request.args.get("query", "")
+    search_title = request.args.get("search_title", "off")
+    search_content = request.args.get("search_content", "off")
 
     if filter_ in ["read", "unread"]:
         filters["readed"] = filter_ == "read"
@@ -71,12 +63,26 @@ def home():
         for feed in FeedController(current_user.id).read(error_count__gt=0).all()
     }
 
-    def gen_url(filter_=filter_, limit=limit, feed=feed_id, liked=liked):
-        return "?filter_=%s&limit=%s&feed=%d&liked=%s" % (
-            filter_,
-            limit,
-            feed,
-            1 if liked else 0,
+    def gen_url(
+        filter_=filter_,
+        limit=limit,
+        feed=feed_id,
+        liked=liked,
+        query=query,
+        search_title=search_title,
+        search_content=search_content,
+    ):
+        return (
+            "?filter_=%s&limit=%s&feed=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
+            % (
+                filter_,
+                limit,
+                feed,
+                1 if liked else 0,
+                query,
+                search_title,
+                search_content,
+            )
         )
 
     return render_template(
