@@ -13,7 +13,6 @@ API_ROOT = "/api/v2.0"
 CSRF_ENABLED = True
 SECRET_KEY = "LCx3BchmHRxFzkEv4BqQJyeXRLXenf"
 SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
-TOKEN_VALIDITY_PERIOD = 3600
 
 # Database
 SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
@@ -37,6 +36,8 @@ MAIL_DEBUG = DEBUG
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = "admin@admin.localhost"
+TOKEN_VALIDITY_PERIOD = 3600
+PLATFORM_URL = "https://www.newspipe.org"
 
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname("."))
