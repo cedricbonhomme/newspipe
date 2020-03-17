@@ -5,7 +5,7 @@ import os
 #
 
 # Webserver
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 5000
 DEBUG = False
 API_ROOT = "/api/v2.0"
@@ -47,3 +47,4 @@ ADMIN_EMAIL = "admin@admin.localhost"
 LOG_LEVEL = "info"
 LOG_PATH = "./var/newspipe.log"
 SELF_REGISTRATION = True
+SQLALCHEMY_TRACK_MODIFICATIONS = False

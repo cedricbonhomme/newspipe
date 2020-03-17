@@ -65,6 +65,11 @@ $ export Newspipe_CONFIG=postgresql.py
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 
+For development, you can use Docker:
+
+```bash
+$ docker-compose up
+```
 
 ## License
 

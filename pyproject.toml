@@ -6,7 +6,7 @@ authors = ["Cédric Bonhomme <cedric@cedricbonhomme.org>"]
 license = "AGPL-3.0-or-later"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 aiohttp = "^3.6.2"
 requests = "^2.23.0"
 chardet = "^3.0.4"

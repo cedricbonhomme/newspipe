@@ -23,8 +23,8 @@ def set_logging(
             "root",
             "bootstrap",
             "runserver",
-            "web",
-            "crawler.default_crawler",
+            "newspipe",
+            "newspipe.crawler.default_crawler",
             "manager",
             "plugins",
         )
@@ -59,7 +59,7 @@ else:
     try:
         application.config.from_pyfile("development.py", silent=False)
     except Exception:
-        application.config.from_pyfile("production.py", silent=False)
+        application.config.from_pyfile("sqlite.py", silent=False)
 
 set_logging(application.config["LOG_PATH"])
 

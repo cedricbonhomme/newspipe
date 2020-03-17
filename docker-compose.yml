@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  newspipe:
+    build: .
+    tty: true
+    environment:
+        - Newspipe_CONFIG=/newspipe/instance/sqlite.py
+    command:
+        - /bin/sh
+        - -c
+        - |
+            poetry run pybabel compile -d newspipe/translations
+            poetry run ./runserver.py
+    volumes:
+      - .:/newspipe
+    ports:
+        - "5000:5000"
