@@ -39,8 +39,11 @@ def db_create():
         "pwdhash": generate_password_hash(os.environ.get("ADMIN_PASSWORD", "password")),
     }
     with application.app_context():
-        db.create_all()
-        UserController(ignore_context=True).create(**admin)
+        try:
+            db.create_all()
+            UserController(ignore_context=True).create(**admin)
+        except Exception as e:
+            print(e)
 
 
 @manager.command

@@ -10,10 +10,8 @@ RUN apk update && \
   libxml2-dev \
   libxslt-dev \
   libpq \
+  postgresql-client \
   postgresql-dev \
-  sqlite-dev \
-  sqlite \
-  sqlite-libs \
   npm
 RUN pip install poetry
 
@@ -27,16 +25,11 @@ COPY package.json .
 COPY package-lock.json .
 COPY pyproject.toml .
 COPY poetry.lock .
-COPY instance/sqlite.py .
-COPY instance/sqlite.py instance/
-COPY instance/sqlite.py newspipe/
+COPY wait-for-postgres.sh .
+
+RUN chmod +x ./wait-for-postgres.sh
 
 RUN npm install
 COPY node_modules newspipe/static/npm_components
 
-ENV Newspipe_CONFIG sqlite.py
-
 RUN poetry install
-RUN poetry run pybabel compile -d newspipe/translations
-RUN poetry run ./manager.py db_create
-RUN poetry run ./manager.py create_admin admin password

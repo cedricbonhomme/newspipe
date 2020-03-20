@@ -5,7 +5,7 @@ import os
 #
 
 # Webserver
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 5000
 DEBUG = False
 API_ROOT = "/api/v2.0"
@@ -16,12 +16,12 @@ SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
 
 # Database
 DB_CONFIG_DICT = {
-    "user": "user",
+    "user": "postgres",
     "password": "password",
-    "host": "localhost",
+    "host": "db",
     "port": 5432,
 }
-DATABASE_NAME = "newspipe"
+DATABASE_NAME = "postgres"
 SQLALCHEMY_DATABASE_URI = "postgres://{user}:{password}@{host}:{port}/{name}".format(
     name=DATABASE_NAME, **DB_CONFIG_DICT
 )

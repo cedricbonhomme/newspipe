@@ -1,18 +1,34 @@
 version: '3'
 services:
 
+  db:
+    image: postgres:latest
+    hostname: db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql/data
+
   newspipe:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     tty: true
     environment:
-        - Newspipe_CONFIG=/newspipe/instance/sqlite.py
-    command:
-        - /bin/sh
-        - -c
-        - |
-            poetry run pybabel compile -d newspipe/translations
-            poetry run ./runserver.py
+        - Newspipe_CONFIG=/newspipe/instance/production.py
     volumes:
-      - .:/newspipe
+      - .:/newspipe:rw
     ports:
         - "5000:5000"
+    expose:
+      - '5000'
+    depends_on:
+      - db
+    command: "./wait-for-postgres.sh db"
