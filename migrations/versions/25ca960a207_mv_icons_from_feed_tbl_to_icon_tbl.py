@@ -13,8 +13,6 @@ down_revision = "19bdaa6208e"
 import sqlalchemy as sa
 from alembic import op
 
-import conf
-
 
 def upgrade():
     op.create_table(
@@ -28,11 +26,3 @@ def upgrade():
     if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
         op.create_foreign_key(None, "feed", "icon", ["icon_url"], ["url"])
         op.drop_column("feed", "icon")
-
-
-def downgrade():
-    op.add_column("feed", sa.Column("icon", sa.VARCHAR(), nullable=True))
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
-        op.drop_constraint(None, "feed", type_="foreignkey")
-        op.drop_column("feed", "icon_url")
-    op.drop_table("icon")

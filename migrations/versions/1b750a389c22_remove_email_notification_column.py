@@ -13,11 +13,9 @@ down_revision = "48f561c0ce6"
 import sqlalchemy as sa
 from alembic import op
 
-import conf
-
 
 def upgrade():
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
+    if "sqlite" not in "SQLALCHEMY_DATABASE_URI":
         op.drop_column("feed", "email_notification")
 
 

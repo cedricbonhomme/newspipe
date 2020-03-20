@@ -15,8 +15,6 @@ from datetime import datetime
 import sqlalchemy as sa
 from alembic import op
 
-import conf
-
 
 def upgrade():
     unix_start = datetime(1970, 1, 1)
@@ -30,21 +28,5 @@ def upgrade():
                 nullable=True,
                 default=unix_start,
                 server_default=str(unix_start),
-            ),
-        )
-
-
-def downgrade():
-    unix_start = datetime(1970, 1, 1)
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
-        op.drop_column("feed", "last_modified")
-        op.add_column(
-            "feed",
-            sa.Column(
-                "last_modified",
-                sa.DateTime(),
-                nullable=True,
-                default=unix_start,
-                server_default=unix_start,
             ),
         )
