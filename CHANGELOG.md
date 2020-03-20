@@ -1,145 +1,197 @@
 Newspipe Changelog
 ==================
 
+## 9.2.0 (2020-03-20)
+
+### New
+
+- a Docker configuration file is provided.
+
+### Improvements
+
+- some responsiveness work has been done. The interface is now more usable with
+  small devices;
+- the search of articles has been improved;
+- improved email notification mechanism.
+
+### Fixes
+
+- various minor fixes (mainly bugs introduced on version 9.1.0 after the
+  refactoring of the back-end).
+
+
 ## 9.1.0 (2020-03-12)
 
-    Improvements:
-     * the Web graphical interface is now using Bootstrap 4;
-     * a lot of responsiveness work has been done;
-     * the back-end code has been refactored and cleaned;
-     * the configuration and deployment of Newspipe is now a lot easier.
+### Improvements
+
+- the Web graphical interface is now using Bootstrap 4;
+- a lot of responsiveness work has been done;
+- the back-end code has been refactored and cleaned;
+- the configuration and deployment of Newspipe is now a lot easier.
 
 
 ## 9.0 (2020-02-27)
 
-    New:
-     * email address of users are no longer stored in the database. Only a
-       nickname and a password are required to create an account;
-     * deployment is now done with poetry;
-     * removed a lot bad JavaScript code.
-    Improvements:
-     * feeds are now retrieved with requests. feedparser is only used for the
-       parsing;
-     * improvements to the crawler.
+### New
+
+- email address of users are no longer stored in the database. Only a nickname
+  and a password are required to create an account;
+- deployment is now done with poetry;
+- removed a lot bad JavaScript code.
+
+### Improvements
+
+- feeds are now retrieved with requests. feedparser is only used for the
+  parsing;
+- improvements to the crawler.
 
 
 ## 8.0 (2017-05-24)
 
-    New:
-     * you can now manage your bookmarks with Newspipe;
-     * a bookmarklet is available in order to quickly bookmark Web pages;
-     * import of bookmarks from Pinboard (JSON export);
-     * new logo;
-    Improvements:
-     * refactoring and code cleaning;
-     * improved Heroku auto-deploy functionality.
-    Fixes:
-     * crawler: argument of type 'NoneType' is not iterable in html.unescape().
+### New
+
+- you can now manage your bookmarks with Newspipe;
+- a bookmarklet is available in order to quickly bookmark Web pages;
+- import of bookmarks from Pinboard (JSON export);
+- new logo;
+
+### Improvements
+
+- refactoring and code cleaning;
+- improved Heroku auto-deploy functionality.
+
+### Fixes
+
+- crawler: argument of type 'NoneType' is not iterable in html.unescape().
 
 
 ## 7.1.3 (2016-11-14)
 
-    New:
-     * a template for the articles of public feeds has been added;
-     * the template of the feeds is now also used for users who are not
-       authenticated (if the feed is not private);
-     * tags of articles are now displayed in the UI.
-    Improvements:
-     * it is now possible to configure the feeds refresh interval (in minutes)
-       for the crawler (even if the crawler is used with cron);
-     * various improvements to the UI of the public profile page;
-     * simpler format for the logs when the application is running on Heroku.
+### New
+
+- a template for the articles of public feeds has been added;
+- the template of the feeds is now also used for users who are not
+  authenticated (if the feed is not private);
+- tags of articles are now displayed in the UI.
+
+### Improvements
+
+- it is now possible to configure the feeds refresh interval (in minutes) for
+  the crawler (even if the crawler is used with cron);
+- various improvements to the UI of the public profile page;
+- simpler format for the logs when the application is running on Heroku.
 
 
 ## 7.1.2 (2016-11-08)
 
-    New:
-     * the new name of JARR is now Newspipe;
-     * the user can now add its twitter link through the profile page;
-     * it is now possible to edit the visibility of a feed (if it should be
-       listed in the list of the user's public profile);
-     * tags of articles are now retrieved in order to use k-means clustering
-       on tags (will be faster than on the article's content);
-     * various improvements to the crawler (test if an article should be
-       updated and better use of coroutines).
-    Improvements:
-     * improved the layout of the profile page;
-     * the React.js page now only lists the feeds with unread articles by
-       default;
-     * improvements for the crawler.
-    Removal:
-     * removed the 'refresh_rate' column from the user table;
-     * removed the export to HTML webzine functionality.
+### New
+
+- the new name of JARR is now Newspipe;
+- the user can now add its twitter link through the profile page;
+- it is now possible to edit the visibility of a feed (if it should be listed
+  in the list of the user's public profile);
+- tags of articles are now retrieved in order to use k-means clustering on tags
+  (will be faster than on the article's content);
+- various improvements to the crawler (test if an article should be updated and
+  better use of coroutines).
+
+### Improvements
+
+- improved the layout of the profile page;
+- the React.js page now only lists the feeds with unread articles by default;
+- improvements for the crawler.
+
+### Removal
+
+- removed the 'refresh_rate' column from the user table;
+- removed the export to HTML webzine functionality.
 
 
 ## 7.1.1 (2016-10-04)
 
-    Improvements:
-     * improved the installation script;
-     * improved the deployment process with Vagrant.
-    Fixes:
-     * fixed a bug that occurred when deleting a user who has categories with
-       feeds in it;
-     * fixed a bug that occurred when the user wants to use SQLite.
+### Improvements
+
+- improved the installation script;
+- improved the deployment process with Vagrant.
+
+### Fixes
+
+- fixed a bug that occurred when deleting a user who has categories with feeds
+  in it;
+- fixed a bug that occurred when the user wants to use SQLite.
 
 
 ## 7.1 (2016-09-26)
 
-    New:
-     * public profile page for users (private by default);
-     * popular page: displays the most popular feeds recentlty added by the users;
-     * new logo.
-    Improvements:
-     * the profile edition page has been improved;
-     * the generation of the tag cloud has been improved (faster).
-    Fixes:
-     * fixed a bug when loading the list of stop words.
+### New
+
+- public profile page for users (private by default);
+- popular page: displays the most popular feeds recently added by the users;
+- new logo.
+
+### Improvements
+
+- the profile edition page has been improved;
+- the generation of the tag cloud has been improved (faster).
+
+### Fixes
+
+- fixed a bug when loading the list of stop words.
 
 
 ## 7.0 (2016-04-07)
 
-    New:
-     * redoing entierly the home page with react;
-     * implementing category;
-     * the classic crawler is now taking into account updated articles from feeds;
-     * support of HTTP proxy has been removed;
-     * article URL resolving has been removed (wasn't used);
-     * improvement of the management of users in the dashboard;
-     * account confirmation is now achieved with a token that expires in a
-       specified time.
-    Improvements:
-     * Code re-arangement: move all code to /src/
+### New
+
+- redoing entirely the home page with react;
+- implementing category;
+- the classic crawler is now taking into account updated articles from feeds;
+- support of HTTP proxy has been removed;
+- article URL resolving has been removed (wasn't used);
+- improvement of the management of users in the dashboard;
+- account confirmation is now achieved with a token that expires in a specified
+  time.
+
+### Improvements
+
+- Code re-arangement: move all code to /src/
 
 
 ## 6.7 (2015-07-21)
 
-    New:
-     * a filter mechanism for feeds has been added (PR #14);
-     * icon of feeds is now an url retrieved from the feed or the site link (PR #15).
-    Improvements:
-     * improvements for the bookmarklet (PR #16 and PR #18);
-     * performance improvements (display of the /feed page);
-     * enhancements for the two crawlers;
-     * enhancements of the UI (PR #14);
-     * misc changes to the models and controllers.
+### New
+
+- a filter mechanism for feeds has been added (PR #14);
+- icon of feeds is now an url retrieved from the feed or the site link (PR #15).
+
+### Improvements
+
+- improvements for the bookmarklet (PR #16 and PR #18);
+- performance improvements (display of the /feed page);
+- enhancements for the two crawlers;
+- enhancements of the UI (PR #14);
+- misc changes to the models and controllers.
 
 
 ## 6.6 (2015-06-02)
 
-    New:
-     * it is now possible to sort the list of articles by feed title or article title;
-     * added base unittests.
-    Improvements:
-     * fixed some minor bugs;
-     * improved the asyncio crawler;
-     * automatically use the good Python executable for the asyncio crawler;
-     * improved controllers (enforcing better use of user_id);
-     * the search is now case insensitive.
+### New
+
+- it is now possible to sort the list of articles by feed title or article title;
+- added base unittests.
+
+### Improvements
+
+- fixed some minor bugs;
+- improved the asyncio crawler;
+- automatically use the good Python executable for the asyncio crawler;
+- improved controllers (enforcing better use of user_id);
+- the search is now case insensitive.
 
 
 ## 6.5.5 (2015-04-22)
 
-    The full text search powered by Whoosh has been removed.
+- The full text search powered by Whoosh has been removed.
 
 
 ## 6.5.4 (2015-04-16)
@@ -161,83 +213,102 @@ Newspipe Changelog
 
 ## 6.5.1 (2015-04-08)
 
-    Improvements:
-     * improvements on the controllers;
-     * the minimum error count is now specified in the configuration file.
+### Improvements
+
+- improvements on the controllers;
+- the minimum error count is now specified in the configuration file.
 
 
 ## 6.5 (2015-04-07)
 
-    Improvements:
-     * new CSS;
-     * improved installation script;
-     * it is now possible to delete all duplicate articles with one HTTP delete request.
+### Improvements
+
+- new CSS;
+- improved installation script;
+- it is now possible to delete all duplicate articles with one HTTP delete request.
 
 
 ## 6.4 (2015-03-17)
 
-    New:
-     * a new page 'history' to explore your database of articles.
-    Changes:
-     * updated documentation;
-     * minor improvements.
-    Fixes:
-     * changed the type of the column 'last_modified' to string.
+### New
+- a new page 'history' to explore your database of articles.
+
+### Changes
+
+- updated documentation;
+- minor improvements.
+
+### Fixes
+
+- changed the type of the column 'last_modified' to string.
 
 
 ## 6.3 (2015-03-08)
 
-    New:
-    * a new architecture with base for controllers;
-    * new, more complete RESTful API;
-    * a crawler handling errors and cache control;
-    * the new crawler takes advantage of the RESTful API
-    (can be run on the client side).
+### New
+
+- a new architecture with base for controllers;
+- new, more complete RESTful API;
+- a crawler handling errors and cache control;
+- the new crawler takes advantage of the RESTful API (can be run on the client
+  side).
 
 
 ## 6.2 (2015-02-26)
 
-    The system of email notifications for new articles has been removed.
-    This feature was hardly used.
+- The system of email notifications for new articles has been removed. This
+  feature was hardly used.
 
 
 ## 6.1 (2015-02-23)
 
-    Improvements: articles are now identified with the id provided
-    by the RSS/ATOM feed.
-    Prevent BeautifulSoup4 from adding extra '<html><body>' tags to
-    the soup with the 'lxml' parser.
-    Indexation is now used with the new crawler.
-    The documentation has been updated.
+### Improvements
+
+- articles are now identified with the id provided by the RSS/ATOM feed.
+- Prevent BeautifulSoup4 from adding extra '<html><body>' tags to the soup with
+  the 'lxml' parser.
+- Indexation is now used with the new crawler.
+- The documentation has been updated.
 
 
 ## 6.0 (2015-02-08)
 
-    New: pyAggr3g470r is now working with Python 3.4. Tested on Heroku
-    with Python 3.4.2.
-    Improvements: The feed crawler uses the PEP 3156 (asyncio). The action
-    buttons are now on the left. It is easier to mark an article as read.
+### New
+
+- pyAggr3g470r is now working with Python 3.4. Tested on Heroku with
+  Python 3.4.2.
+
+### Improvements
+
+- The feed crawler uses the PEP 3156 (asyncio). The action buttons are now on
+  the left. It is easier to mark an article as read.
 
 
 ## 5.7.0 (2014-11-20)
 
-    Improvements: major improvements of the email notifications system.
-    Notifications are now sent through Postmark (for example for Heroku)
-    or a standard SMTP server.
-    Bug fix: activation key was too long for the database column.
+### Improvements
+
+- major improvements of the email notifications system;
+- Notifications are now sent through Postmark (for example for Heroku) or a
+  standard SMTP server.
+
+### Fixes
+
+- activation key was too long for the database column.
 
 
 ## 5.6.6 (2014-09-24)
 
-    Improvements: Significant performance improvement for the views
-    /favorites and /unread. The performance problem has been introduced
-    with the release 5.6.5.
+### Improvements
+
+Significant performance improvement for the views /favorites and /unread.
+The performance problem has been introduced with the release 5.6.5.
 
 
 ## 5.6.5 (2014-09-15)
 
-    This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
-    (conflicts between persistent ant transcient SQLAlchemy objects).
+This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
+(conflicts between persistent ant transcient SQLAlchemy objects).
 
 
 ## 5.6.4 (2014-09-12)
@@ -249,22 +320,31 @@ Newspipe Changelog
 
 ## 5.6.3 (2014-08-27)
 
-    News: It is now possible to delete articles older than a given number
-    of weeks. This can be done via the management page.
-    A new environment variable enables to activate or deactivate the
-    self-registration.
-    Changes: translations were updated. Some minor bugfixes. Improved
-    deployment instructions in the README.
+### News
+
+- It is now possible to delete articles older than a given number of weeks.
+  This can be done via the management page;
+- A new environment variable enables to activate or deactivate the
+  self-registration.
+
+### Changes
+
+- translations were updated;
+- improved deployment instructions in the README.
 
 
 ## 5.6.2 (2014-08-10)
 
-    Minor improvements: Articles are automatically retrieved after the import
-    of an OPML file.
-    When displaying all articles (unread + read), titles of unread articles
-    are emphasized in bold.
-    A new tab is opened when clicking on the title of an article.
-    New: pyAggr3g470r can be deployed with the Heroku auto deploy button.
+### New
+
+- pyAggr3g470r can be deployed with the Heroku auto deploy button.
+
+### Improvements
+
+- Articles are automatically retrieved after the import of an OPML file;
+- When displaying all articles (unread + read), titles of unread articles
+  are emphasized in bold;
+- A new tab is opened when clicking on the title of an article.
 
 
 ## 5.6.1 (2014-07-13)

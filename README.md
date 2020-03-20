@@ -36,6 +36,8 @@ https://lists.sr.ht/~cedric/newspipe
 
 Newspipe is really easy to deploy.
 
+### Manual deployment
+
 Assuming you have already installed ``git``, ``npm``, ``poetry``,  and
 ``Python >= 3.8``, you just have to do the following:
 
@@ -65,11 +67,16 @@ $ export Newspipe_CONFIG=postgresql.py
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 
-For development, you can use Docker:
+### Deployment with Docker
 
 ```bash
+$ git clone https://git.sr.ht/~cedric/newspipe
+$ cd newspipe/
 $ docker-compose up
 ```
+
+The login will be *admin* and the password *password*.
+
 
 ## License
 
