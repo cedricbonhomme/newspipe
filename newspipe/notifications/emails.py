@@ -52,7 +52,7 @@ def send(*args, **kwargs):
     send_smtp(**kwargs)
 
 
-def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
+def send_smtp(to="", subject="", plaintext="", html=""):
     """
     Send an email.
     """
@@ -61,7 +61,6 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     msg["Subject"] = subject
     msg["From"] = application.config["MAIL_DEFAULT_SENDER"]
     msg["To"] = to
-    msg["BCC"] = bcc
 
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(plaintext, "plain", "utf-8")
@@ -85,7 +84,7 @@ def send_smtp(to="", bcc="", subject="", plaintext="", html=""):
     else:
         s.sendmail(
             application.config["MAIL_DEFAULT_SENDER"],
-            msg["To"] + ", " + msg["BCC"],
+            msg["To"],
             msg.as_string(),
         )
         s.quit()

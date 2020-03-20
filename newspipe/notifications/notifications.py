@@ -47,7 +47,6 @@ def new_account_notification(user, email):
 
     emails.send(
         to=email,
-        bcc=application.config["MAIL_DEFAULT_SENDER"],
         subject="[Newspipe] Account creation",
         plaintext=plaintext,
     )
@@ -60,7 +59,6 @@ def new_password_notification(user, password):
     plaintext = render_template("emails/new_password.txt", user=user, password=password)
     emails.send(
         to=user.email,
-        bcc=application.config["NOTIFICATION_EMAIL"],
         subject="[Newspipe] New password",
         plaintext=plaintext,
     )
