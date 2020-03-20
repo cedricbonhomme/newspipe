@@ -13,7 +13,6 @@ RUN apk update && \
   postgresql-client \
   postgresql-dev \
   npm
-RUN pip install poetry
 
 WORKDIR newspipe
 
@@ -32,4 +31,5 @@ RUN chmod +x ./wait-for-postgres.sh
 RUN npm install
 COPY node_modules newspipe/static/npm_components
 
+RUN pip install poetry
 RUN poetry install
