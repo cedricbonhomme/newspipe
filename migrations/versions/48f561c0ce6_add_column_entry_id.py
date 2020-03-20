@@ -15,13 +15,6 @@ depends_on = None
 import sqlalchemy as sa
 from alembic import op
 
-import conf
-
 
 def upgrade():
     op.add_column("article", sa.Column("entry_id", sa.String(), nullable=True))
-
-
-def downgrade():
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
-        op.drop_column("article", "entry_id")
