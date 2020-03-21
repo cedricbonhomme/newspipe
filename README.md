@@ -22,6 +22,9 @@ https://lists.sr.ht/~cedric/newspipe
 The documentation is here:
 https://man.sr.ht/~cedric/newspipe
 
+The official instance is here:
+https://www.newspipe.org
+
 ## Main features
 
 * multiple users can use a Newspipe instance;
