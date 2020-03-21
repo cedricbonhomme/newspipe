@@ -23,8 +23,6 @@ services:
     tty: true
     environment:
         - Newspipe_CONFIG=/newspipe/instance/production.py
-    volumes:
-      - .:/newspipe:rw
     ports:
         - "5000:5000"
     expose:

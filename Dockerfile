@@ -28,8 +28,10 @@ COPY wait-for-postgres.sh .
 
 RUN chmod +x ./wait-for-postgres.sh
 
+RUN mkdir node_modules
 RUN npm install
-COPY node_modules newspipe/static/npm_components
+RUN mkdir -p newspipe/static/npm_components
+RUN cp -R node_modules/* newspipe/static/npm_components/
 
 RUN pip install poetry
 RUN poetry install
