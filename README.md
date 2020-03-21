@@ -19,6 +19,8 @@ https://todo.sr.ht/~cedric/newspipe
 For contributions, use the mailing list to send your patches:
 https://lists.sr.ht/~cedric/newspipe
 
+The documentation is here:
+https://man.sr.ht/~cedric/newspipe
 
 ## Main features
 
