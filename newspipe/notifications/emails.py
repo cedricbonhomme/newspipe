@@ -85,6 +85,6 @@ def send_smtp(to="", subject="", plaintext="", html=""):
         s.sendmail(
             application.config["MAIL_DEFAULT_SENDER"],
             msg["To"],
-            msg.as_string(),
+            msg.as_bytes().decode(encoding='UTF-8'),
         )
         s.quit()
