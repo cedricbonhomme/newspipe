@@ -270,6 +270,17 @@ SQLAlchemy = ">=0.8.0"
 
 [[package]]
 category = "main"
+description = "HTTP security headers for Flask."
+name = "flask-talisman"
+optional = false
+python-versions = "*"
+version = "0.7.0"
+
+[package.dependencies]
+six = ">=1.9.0"
+
+[[package]]
+category = "main"
 description = "Simple integration of Flask and WTForms."
 name = "flask-wtf"
 optional = false
@@ -572,7 +583,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "a76c1fbed09fe6be2b0351add63dc5b8e218761204f65f1e60d25ef202e2a9e1"
+content-hash = "c8407863562e0f8573d3f8b8a7b1ab4b09ea3a40271ae077af278176246e934b"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -674,6 +685,10 @@ flask-script = [
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.4.1.tar.gz", hash = "sha256:6974785d913666587949f7c2946f7001e4fa2cb2d19f4e69ead02e4b8f50b33d"},
     {file = "Flask_SQLAlchemy-2.4.1-py2.py3-none-any.whl", hash = "sha256:0078d8663330dc05a74bc72b3b6ddc441b9a744e2f56fe60af1a5bfc81334327"},
+]
+flask-talisman = [
+    {file = "flask-talisman-0.7.0.tar.gz", hash = "sha256:468131464a249274ed226efc21b372518f442487e58918ccab8357eaa638fd1f"},
+    {file = "flask_talisman-0.7.0-py2.py3-none-any.whl", hash = "sha256:eaa754f4b771dfbe473843391d69643b79e3a38c865790011ac5e4179c68e3ec"},
 ]
 flask-wtf = [
     {file = "Flask-WTF-0.14.3.tar.gz", hash = "sha256:d417e3a0008b5ba583da1763e4db0f55a1269d9dd91dcc3eb3c026d3c5dbd720"},

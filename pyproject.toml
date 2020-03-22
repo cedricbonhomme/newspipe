@@ -30,6 +30,7 @@ Flask-Script = "^2.0.6"
 WTForms = "^2.2.1"
 python-dateutil = "^2.8.1"
 psycopg2-binary = "^2.8.4"
+flask-talisman = "^0.7.0"
 
 
 

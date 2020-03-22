@@ -17,6 +17,16 @@ SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
 # Database
 SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
 
+# Security
+CONTENT_SECURITY_POLICY = {
+    'default-src': '\'self\'',
+    'img-src': '*',
+    'media-src': [
+        'youtube.com',
+    ],
+    'script-src': '\'self\''
+}
+
 # Crawler
 CRAWLING_METHOD = "default"
 DEFAULT_MAX_ERROR = 6

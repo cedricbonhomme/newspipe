@@ -26,6 +26,16 @@ SQLALCHEMY_DATABASE_URI = "postgres://{user}:{password}@{host}:{port}/{name}".fo
     name=DATABASE_NAME, **DB_CONFIG_DICT
 )
 
+# Security
+CONTENT_SECURITY_POLICY = {
+    'default-src': '\'self\'',
+    'img-src': '*',
+    'media-src': [
+        'youtube.com',
+    ],
+    'script-src': '\'self\''
+}
+
 # Crawler
 CRAWLING_METHOD = "default"
 DEFAULT_MAX_ERROR = 6

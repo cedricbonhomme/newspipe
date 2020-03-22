@@ -8,6 +8,7 @@ import logging
 import os
 
 from flask import Flask, request
+from flask_talisman import Talisman
 from flask_babel import Babel, format_datetime
 from flask_sqlalchemy import SQLAlchemy
 
@@ -64,6 +65,8 @@ else:
 set_logging(application.config["LOG_PATH"])
 
 db = SQLAlchemy(application)
+
+talisman = Talisman(application, content_security_policy=application.config["CONTENT_SECURITY_POLICY"])
 
 babel = Babel(application)
 
