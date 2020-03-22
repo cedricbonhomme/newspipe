@@ -33,9 +33,15 @@ CONTENT_SECURITY_POLICY = {
     'media-src': [
         'youtube.com',
     ],
-    'script-src': '\'self\''
+    'script-src': [
+        '\'self\'',
+        '\'unsafe-inline\'',
+    ],
+    'style-src': [
+        '\'self\'',
+        '\'unsafe-inline\'',
+    ]
 }
-
 # Crawler
 CRAWLING_METHOD = "default"
 DEFAULT_MAX_ERROR = 6

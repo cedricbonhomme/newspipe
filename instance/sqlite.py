@@ -24,7 +24,14 @@ CONTENT_SECURITY_POLICY = {
     'media-src': [
         'youtube.com',
     ],
-    'script-src': '\'self\''
+    'script-src': [
+        '\'self\'',
+        '\'unsafe-inline\'',
+    ],
+    'style-src': [
+        '\'self\'',
+        '\'unsafe-inline\'',
+    ]
 }
 
 # Crawler
