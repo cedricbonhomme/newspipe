@@ -7,7 +7,7 @@ from flask import current_app, flash, redirect, render_template, request, url_fo
 from flask_babel import gettext
 from sqlalchemy import desc
 
-from newspipe.bootstrap import application
+from newspipe.bootstrap import application, talisman
 from newspipe.controllers import FeedController, UserController
 from newspipe.web import __version__
 from newspipe.web.lib.view_utils import etag_match
@@ -96,6 +96,8 @@ def about_more():
             version[2][1:]
         )
 
+    talisman._parse_policy(talisman.content_security_policy)
+
     return render_template(
         "about_more.html",
         newspipe_version=newspipe_version,
@@ -105,4 +107,5 @@ def about_more():
         ],
         python_version="{}.{}.{}".format(*sys.version_info[:3]),
         nb_users=UserController().read().count(),
+        content_security_policy=talisman._parse_policy(talisman.content_security_policy),
     )
