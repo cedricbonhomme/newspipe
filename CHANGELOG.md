@@ -1,6 +1,13 @@
 Newspipe Changelog
 ==================
 
+## 9.3.0 (2020-03-22)
+
+### New
+
+- it is now possible to configure a Content Security Policy.
+
+
 ## 9.2.0 (2020-03-20)
 
 ### New
@@ -743,32 +750,32 @@ This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
 
 ## 0.5 (2010-02-02)
 
-    It is now possible to fetch feeds manually by clicking on "Fetch all feeds"
-    and/or with cron. Better navigation between feeds and improvements to the
-    SQLite database have been added.
+It is now possible to fetch feeds manually by clicking on "Fetch all feeds"
+and/or with cron. Better navigation between feeds and improvements to the
+SQLite database have been added.
 
 
 ## 0.4 (2010-02-01)
 
-    Release 0.4. The main page display only 10 articles by feeds.
-    For each feeds a page present the list of all articles. The SQLite base is
-    smaller than before (removed hashed value).
-    A lot of improvements.
+- The main page display only 10 articles by feeds;
+- For each feeds a page present the list of all articles. The SQLite base is
+  smaller than before (removed hashed value);
+- A lot of improvements.
 
 
 ## 0.3 (2010-02-01)
 
-    A new menu was added for faster access to feeds. Some improvements were
-    made to the CSS.
+- a new menu was added for faster access to feeds;
+- some improvements were made to the CSS.
 
 
 ## 0.2 (2010-01-31)
 
-    Articles are now sorted by date, and it is possible to read just a
-    description of an article. There are some improvements in the code and
-    SQLite base management.
+- Articles are now sorted by date, and it is possible to read just a description
+  of an article;
+- There are some improvements in the code and SQLite base management.
 
 
 ## 0.1 (2010-01-29)
 
-    First release of pyAggr3g470r.
+First release of pyAggr3g470r.
