@@ -139,21 +139,25 @@ function change_unread_counter(feed_id, increment) {
 
     // Delete an article
     $('.delete').on('click', function() {
-        var feed_id = $(this).parent().parent().parent().attr("data-feed");
-        var article_id = $(this).parent().parent().parent().attr("data-article");
-        $(this).parent().parent().parent().remove();
+        var r = confirm('You are going to delete this article.');
 
-        // sends the updates to the server
-        $.ajax({
-            type: 'DELETE',
-            url: API_ROOT + "article/" + article_id,
-            success: function (result) {
-                change_unread_counter(feed_id, -1);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                console.log(XMLHttpRequest.responseText);
-            }
-        });
+        if (r == true) {
+            var feed_id = $(this).parent().parent().parent().attr("data-feed");
+            var article_id = $(this).parent().parent().parent().attr("data-article");
+            $(this).parent().parent().parent().remove();
+
+            // sends the updates to the server
+            $.ajax({
+                type: 'DELETE',
+                url: API_ROOT + "article/" + article_id,
+                success: function (result) {
+                    change_unread_counter(feed_id, -1);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest.responseText);
+                }
+            });
+        }
     });
 
 

@@ -27,7 +27,7 @@
                 <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
             </span></li>
         {% for fid, nbunread in unread|dictsort(by='value')|reverse %}
-            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
@@ -37,17 +37,17 @@
                     {{ feeds[fid].title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
-            <li class="nav-item feed-commands"><span class="nav-link">
+            <li class="nav-item feed-commands" data-feed="{{ fid }}"><span class="nav-link">
                 <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
 
         {% for fid, feed in feeds.items() if not fid in unread %}
-            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
                     <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
@@ -56,12 +56,12 @@
                     {{ feed.title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
-            <li class="nav-item feed-commands"><span class="nav-link">
+            <li class="nav-item feed-commands" data-feed="{{ fid }}"><span class="nav-link">
                 <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="{{ url_for('feed.delete', feed_id=fid) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
         </ul>

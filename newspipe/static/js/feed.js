@@ -20,3 +20,27 @@ $('.container').on('click', '#add-feed-filter-row', function() {
 $('.container').on('click', '.del-feed-filter-row', function() {
     $(this).parent().remove();
 });
+
+
+// Delete a feed
+$('.delete-feed').on('click', function() {
+    var r = confirm('You are going to delete this feed.');
+
+    if (r == true) {
+        var feed_id = $(this).parent().parent().parent().attr("data-feed");
+        $(this).parent().parent().parent().remove();
+        $('.feed-menu[data-feed='+feed_id+']').remove();
+
+        // sends the updates to the server
+        $.ajax({
+            type: 'DELETE',
+            url: API_ROOT + "feed/" + feed_id,
+            success: function (result) {
+                // change_unread_counter(feed_id, -1);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.responseText);
+            }
+        });
+    }
+});
