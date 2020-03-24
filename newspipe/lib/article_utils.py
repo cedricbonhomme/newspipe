@@ -90,7 +90,6 @@ async def get_article_details(entry, fetch=True):
     ):
         try:
             # resolves URL behind proxies (like feedproxy.google.com)
-            print('trying to resolve URL...')
             response = await newspipe_get(article_link, timeout=5)
         except MissingSchema:
             split, failed = urlsplit(article_link), False
