@@ -19,7 +19,12 @@ PROCESSED_DATE_KEYS = {"published", "created", "updated"}
 def extract_id(entry):
     """ extract a value from an entry that will identify it among the other of
     that feed"""
-    return entry.get("entry_id") or entry.get("id") or entry["link"]
+    entry_id = 'undefined'
+    try:
+        entry_id = entry.get("entry_id") or entry.get("id") or entry["link"]
+    except:
+        pass
+    return entry_id
 
 
 async def construct_article(entry, feed, fields=None, fetch=True):
@@ -85,12 +90,13 @@ async def get_article_details(entry, fetch=True):
     ):
         try:
             # resolves URL behind proxies (like feedproxy.google.com)
+            print('trying to resolve URL...')
             response = await newspipe_get(article_link, timeout=5)
         except MissingSchema:
             split, failed = urlsplit(article_link), False
             for scheme in "https", "http":
-                new_link = urlunsplit(SplitResult(scheme, *split[1:]))
                 try:
+                    new_link = urlunsplit(SplitResult(scheme, *split[1:]))
                     response = await newspipe_get(new_link, timeout=5)
                 except Exception:
                     failed = True

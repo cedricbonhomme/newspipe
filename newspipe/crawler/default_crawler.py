@@ -169,7 +169,16 @@ async def retrieve_feed(queue, users, feed_id=None):
         filters["last_retrieved__lt"] = datetime.now() - timedelta(
             minutes=application.config["FEED_REFRESH_INTERVAL"]
         )
-        feeds = FeedController().read(**filters).all()
+        #feeds = FeedController().read(**filters).all()
+        feeds = [] # temporary fix for: sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) SSL SYSCALL error: EOF detected
+        for feed in user.feeds:
+            if not feed.enabled:
+                continue
+            if feed.error_count > application.config["DEFAULT_MAX_ERROR"]:
+                continue
+            if feed.last_retrieved > (datetime.now() - timedelta(minutes=application.config["FEED_REFRESH_INTERVAL"])):
+                continue
+            feeds.append(feed)
 
         if feeds == []:
             logger.info("No feed to retrieve for {}".format(user.nickname))
