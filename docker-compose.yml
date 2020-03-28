@@ -21,6 +21,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     tty: true
+    volumes:
+      - .:/newspipe:rw
+      - /newspipe/static/npm_components/
     environment:
         - Newspipe_CONFIG=/newspipe/instance/production.py
     ports:
