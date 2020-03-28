@@ -61,11 +61,11 @@ $ python runserver.py
 ```
 
 If you want to use PostgreSQL you can customize
-the provided example configuration file (``instance/production.py``):
+the provided example configuration file (``instance/config.py``):
 
 ```bash
 $ sudo apt-get install postgresql
-$ cp instance/production.py instance/postgresql.py
+$ cp instance/config.py instance/postgresql.py
 $ vim instance/postgresql.py # customize it
 $ export Newspipe_CONFIG=postgresql.py
 ```
