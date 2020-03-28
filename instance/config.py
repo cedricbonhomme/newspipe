@@ -7,7 +7,7 @@ import os
 # Webserver
 HOST = "0.0.0.0"
 PORT = 5000
-DEBUG = False
+DEBUG = True
 API_ROOT = "/api/v2.0"
 
 CSRF_ENABLED = True

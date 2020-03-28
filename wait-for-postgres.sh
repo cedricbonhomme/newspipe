@@ -13,7 +13,7 @@ do
 done
 
 >&2 echo "Postgres is up - executing command"
-export Newspipe_CONFIG=/newspipe/instance/production.py
+export Newspipe_CONFIG=/newspipe/instance/config.py
 poetry run ./manager.py db_create >/dev/null
 poetry run pybabel compile -d newspipe/translations
 poetry run ./runserver.py
