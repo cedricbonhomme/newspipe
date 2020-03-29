@@ -42,7 +42,7 @@ CRAWLER_USER_AGENT = "Newspipe (https://git.sr.ht/~cedric/newspipe)"
 CRAWLER_TIMEOUT = 30
 CRAWLER_RESOLV = False
 RESOLVE_ARTICLE_URL = False
-FEED_REFRESH_INTERVAL = 120
+FEED_REFRESH_INTERVAL = 0
 
 # Notification
 MAIL_SERVER = "localhost"

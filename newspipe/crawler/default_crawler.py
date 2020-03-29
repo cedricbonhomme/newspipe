@@ -61,7 +61,7 @@ async def parse_feed(user, feed):
     # with (await sem):
     try:
         logger.info("Retrieving feed {}".format(feed.link))
-        resp = await newspipe_get(feed.link, timeout=5)
+        resp = newspipe_get(feed.link, timeout=5)
     except Exception:
         logger.info("Problem when reading feed {}".format(feed.link))
         return
@@ -117,8 +117,8 @@ async def insert_articles(queue, nḅ_producers=1):
         if item is None:
             nb_producers_done += 1
             if nb_producers_done == nḅ_producers:
-                print("All producers done.")
-                print("Process finished.")
+                logger.info("All producers done.")
+                logger.info("Process finished.")
                 break
             continue
 
@@ -179,6 +179,8 @@ async def retrieve_feed(queue, users, feed_id=None):
             if feed.last_retrieved > (datetime.now() - timedelta(minutes=application.config["FEED_REFRESH_INTERVAL"])):
                 continue
             feeds.append(feed)
+            if feed_id and feed_id == feed.id:
+                break
 
         if feeds == []:
             logger.info("No feed to retrieve for {}".format(user.nickname))

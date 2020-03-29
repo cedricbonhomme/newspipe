@@ -90,7 +90,7 @@ def redirect_url(default="home"):
     return request.args.get("next") or request.referrer or url_for(default)
 
 
-async def newspipe_get(url, **kwargs):
+def newspipe_get(url, **kwargs):
     request_kwargs = {
         "verify": False,
         "allow_redirects": True,

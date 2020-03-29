@@ -33,7 +33,7 @@
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                     {% endif %}
                     <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
-                    <!-- <img src="{{ url_for('icon.icon', url=feeds[fid].url) }}" width="16px"> -->
+                    <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
                     {{ feeds[fid].title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
@@ -52,7 +52,7 @@
                     <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
-                    <!-- <img src="{{ url_for('icon.icon', url=feeds[fid].url) }}" width="16px"> -->
+                    <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
                     {{ feed.title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
@@ -126,7 +126,10 @@
                                 {% endif %}
                             </td>
                             {% if not feed_id %}
-                                <td><a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title | safe }}</a></td>
+                                <td>
+                                    <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
+                                    <a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title | safe }}</a>
+                                </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
                                 <a href="/article/{{ article.id }}">{{ article.title | safe }}</a>
