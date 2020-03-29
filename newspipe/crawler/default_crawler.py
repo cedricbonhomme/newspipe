@@ -178,10 +178,9 @@ async def retrieve_feed(queue, users, feed_id=None):
                 continue
             if feed.last_retrieved > (datetime.now() - timedelta(minutes=application.config["FEED_REFRESH_INTERVAL"])):
                 continue
-            feeds.append(feed)
-            if feed_id and feed_id == feed.id:
-                break
-
+            if None is feed_id or (feed_id and feed_id == feed.id):
+                feeds.append(feed)
+        logger.info(feeds)
         if feeds == []:
             logger.info("No feed to retrieve for {}".format(user.nickname))
 

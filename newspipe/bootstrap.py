@@ -24,7 +24,6 @@ def set_logging(
             "root",
             "bootstrap",
             "runserver",
-            "newspipe",
             "newspipe.crawler.default_crawler",
             "manager",
             "plugins",
