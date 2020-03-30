@@ -97,7 +97,7 @@ async def parse_feed(user, feed):
 
     # Feed information
     try:
-        construct_feed_from(feed.link, parsed_feed).update(up_feed)
+        up_feed.update(construct_feed_from(feed.link, parsed_feed))
     except:
         logger.exception("error when constructing feed: {}".format(feed.link))
     if feed.title and "title" in up_feed:
