@@ -49,9 +49,9 @@ async def construct_article(entry, feed, fields=None, fetch=True):
                         timezone.utc
                     )
                 except ParserError:
-                    logger.exception("Error when parsing date {}".format(entry[date_key]))
+                    logger.exception("Error when parsing date: {}".format(entry[date_key]))
                 except Exception as e:
-                    logger.exception(e)
+                    pass
                 else:
                     break
     push_in_article("content", get_article_content(entry))

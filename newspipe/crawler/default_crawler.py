@@ -103,7 +103,10 @@ async def parse_feed(user, feed):
     if feed.title and "title" in up_feed:
         # do not override the title set by the user
         del up_feed["title"]
-    FeedController().update({"id": feed.id}, up_feed)
+    try:
+        FeedController().update({"id": feed.id}, up_feed)
+    except:
+        logger.exception("error when updating feed: {}".format(feed.link))
 
     return articles
 

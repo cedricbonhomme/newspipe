@@ -42,6 +42,7 @@ def escape_keys(*keys):
 def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     requests_kwargs = {
         "headers": {"User-Agent": application.config["CRAWLER_USER_AGENT"]},
+        "timeout": application.config["CRAWLER_TIMEOUT"],
         "verify": False,
     }
     if url is None and fp_parsed is not None:
@@ -87,7 +88,9 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
 
     try:
         response = requests.get(feed["site_link"], **requests_kwargs)
-    except requests.exceptions.InvalidSchema as e:
+    except requests.exceptions.InvalidSchema:
+        return feed
+    except requests.exceptions.ConnectionError:
         return feed
     except:
         logger.exception("failed to retrieve %r", feed["site_link"])
