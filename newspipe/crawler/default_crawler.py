@@ -180,7 +180,7 @@ async def retrieve_feed(queue, users, feed_id=None):
                 continue
             if None is feed_id or (feed_id and feed_id == feed.id):
                 feeds.append(feed)
-        logger.info(feeds)
+
         if feeds == []:
             logger.info("No feed to retrieve for {}".format(user.nickname))
 
