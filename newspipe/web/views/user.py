@@ -73,7 +73,7 @@ def user_stream(per_page, nickname=None):
     filters["feed_id__in"] = [feed.id for feed in feeds]
     if category:
         filters["category_id"] = category_id
-    articles = ArticleController(user.id).read_light(**filters)
+    articles = ArticleController(user.id).read(**filters)
 
     # Server-side pagination
     page, per_page, offset = get_page_args(per_page_parameter="per_page")

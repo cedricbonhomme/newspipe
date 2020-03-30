@@ -53,7 +53,9 @@
             {% for article in articles %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td><a href="{{ url_for('article.article_pub', article_id=article.id) }}">{{ article.title }}</a></td>
+                    <td><img src="{{ url_for('icon.icon', url=article.source.icon_url) }}" width="16px" />
+                        <a href="{{ url_for('article.article_pub', article_id=article.id) }}">{{ article.title }}</a>
+                    </td>
                     <td>{{ article.date }}</td>
                 </tr>
             {% endfor %}

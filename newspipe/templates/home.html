@@ -102,7 +102,7 @@
                                 {% endif%}
                             </th>
                             {% if not feed_id %}
-                                <th>{{ _('Feed') }}</th>
+                                <th class="d-none d-md-block">{{ _('Feed') }}</th>
                             {% endif %}
                             <th>{{ _('Article') }}</th>
                             <th class="d-none d-lg-block">{{ _('Date') }}</th>
@@ -126,7 +126,7 @@
                                 {% endif %}
                             </td>
                             {% if not feed_id %}
-                                <td>
+                                <td class="d-none d-md-block">
                                     <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
                                     <a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title | safe }}</a>
                                 </td>
@@ -135,7 +135,7 @@
                                 <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
                                 <a href="/article/{{ article.id }}">{{ article.title | safe }}</a>
                             </td>
-                            <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</a></td>
+                            <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
