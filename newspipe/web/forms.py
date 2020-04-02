@@ -222,11 +222,8 @@ class ProfileForm(FlaskForm):
 
 class AddFeedForm(FlaskForm):
     title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(
-        lazy_gettext("Feed link"),
-        [validators.Required(lazy_gettext("Please enter the URL."))],
-    )
-    site_link = TextField(lazy_gettext("Site link"), [validators.Optional()])
+    link = TextField(lazy_gettext("Feed link"))
+    site_link = TextField(lazy_gettext("Site link"))
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
     category_id = SelectField(

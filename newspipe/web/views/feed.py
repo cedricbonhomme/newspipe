@@ -242,11 +242,11 @@ def process_form(feed_id=None):
 
     if not form.validate():
         return render_template("edit_feed.html", form=form)
-    existing_feeds = list(feed_contr.read(link=form.link.data))
+    existing_feeds = list(feed_contr.read(link=form.link.data, site_link=form.site_link.data))
     if existing_feeds and feed_id is None:
         flash(gettext("Couldn't add feed: feed already exists."), "warning")
         return redirect(url_for("feed.form", feed_id=existing_feeds[0].id))
-    # Edit an existing feed
+
     feed_attr = {
         "title": form.title.data,
         "enabled": form.enabled.data,
@@ -266,6 +266,7 @@ def process_form(feed_id=None):
             feed_attr["filters"][i][filter_attr] = value
 
     if feed_id is not None:
+        # Edit an existing feed
         feed_contr.update({"id": feed_id}, feed_attr)
         flash(
             gettext(
@@ -277,7 +278,24 @@ def process_form(feed_id=None):
         return redirect(url_for("feed.form", feed_id=feed_id))
 
     # Create a new feed
-    new_feed = feed_contr.create(**feed_attr)
+    url = form.site_link.data if form.site_link.data else form.link.data
+    try:
+        feed = construct_feed_from(url)
+    except requests.exceptions.ConnectionError:
+        flash(
+            gettext("Impossible to connect to the address: {}.".format(url)), "danger"
+        )
+        return redirect(url_for("home"))
+    except Exception:
+        logger.exception("something bad happened when fetching %r", url)
+        return redirect(url_for("home"))
+
+    del feed_attr["link"]
+    del feed_attr["site_link"]
+    # remove keys with empty strings
+    feed_attr = {k: v for k, v in feed_attr.items() if v is not ""}
+    feed.update(feed_attr)
+    new_feed = feed_contr.create(**feed)
 
     flash(
         gettext("Feed %(feed_title)r successfully created.", feed_title=new_feed.title),

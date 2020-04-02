@@ -1,65 +1,79 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="well">
         <h3>{{ action }}</h3>
-        <form action="" method="post" name="save" class="form-horizontal">
+        <form action="" method="POST" name="save" class="form-horizontal">
             {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="{{ form.link.id }}" class="col-sm-3 control-label">{{ form.link.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.link(class_="form-control", size="100%") }}
+            <p>Enter the URL of the website or the URL of the feed (RSS/ATOM).</p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
+                    <div class="col">
+                        {{ form.site_link(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                <div class="form-group col-md-6">
+                    <label for="{{ form.link.id }}" class="col-sm-3 control-label">{{ form.link.label }}</label>
+                    <div class="col">
+                        {{ form.link(class_="form-control", size="100%") }}
+                    </div>
+                    {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{ form.submit(class_="btn btn-primary") }}
+                </div>
             </div>
 
+            <hr />
+
             <div class="form-group">
-                <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.title(class_="form-control", size="100%", placeholder=_('Optional')) }}
+                <label for="{{ form.title.id }}" class="col control-label">{{ form.title.label }}</label>
+                <div class="col">
+                    {{ form.title(class_="form-control", size="100%", placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
                 </div>
                 {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
 
             <div class="form-group">
-                <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.site_link(class_="form-control", size="100%", placeholder=_('Optional')) }}
-                </div>
-                {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ form.category_id.id }}" class="col-sm-3 control-label">{{ form.category_id.label }}</label>
-                <div class="col-sm-9">
+                <label for="{{ form.category_id.id }}" class="col control-label">{{ form.category_id.label }}</label>
+                <div class="col">
                     {{ form.category_id(class_="form-control", placeholder=_('Optional')) }}
                 </div>
                 {% for error in form.category_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
 
-            <div class="form-group">
-                <label for="{{ form.enabled.id }}" class="col-sm-3 control-label">{{ form.enabled.label }}</label>
-                <div class="col-sm-9">
-                    <div class="checkbox">
-                        {{ form.enabled(class_="checkbox",  style="margin-left: 0px;") }}
+            <div class="form-check form-check-inline">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.enabled.id }}" class="form-check-label">{{ form.enabled.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.enabled(class_="form-check-input",  style="margin-left: 0px;") }}
+                        <div class="text-muted text-justify">
+                            {{ _("If unchecked, this feed won't be retrieved by the aggregator.") }}
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="{{ form.private.id }}" class="col-sm-3 control-label">{{ form.private.label }}</label>
-                <div class="col-sm-9">
-                    <div class="checkbox">
-                        {{ form.private(class_="checkbox",  style="margin-left: 0px;") }}
+                <div class="form-group col-md-6">
+                    <label for="{{ form.private.id }}" class="form-check-label">{{ form.private.label }}</label>
+                    <div class="col-sm-9">
+                        {{ form.private(class_="form-check-input",  style="margin-left: 0px;") }}
+                        <div class="text-muted text-justify">
+                            {{ _("If checked, this feed won't be listed on <a href='%(url)s'>your profile page</a>.", url=url_for('user.profile_public', nickname=current_user.nickname) ) }}
+                            {{ _("Check this box if there is a private token in the link of the feed.") }}
+                        </div>
                     </div>
-                    <span class="text-muted">{{ _("If checked, articles of this feed won't be available to others and the feed won't be listed on <a href='%(url)s'>your profile page</a>.", url=url_for('user.profile_public', nickname=current_user.nickname) ) }}</span>
-                    <span class="text-muted">{{ _("Check this box if there is a private token in the link of the feed.") }}</span>
                 </div>
-
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{ _("Filters") }}</label>
+                <div class="col-sm-9">
+                    <div class="text-muted text-justify">
+                        {{ _("Here you can define actions to perform on newly retrieved items.") }}
+                    </div>
+                </div>
                 <div class="col-sm-1">
                     <input value="+" type="button" class="form-control" id="add-feed-filter-row" />
                 </div>
@@ -93,6 +107,5 @@
                 </div>
             </div>
         </form>
-    </div>
 </div><!-- /.container -->
 {% endblock %}
