@@ -2,6 +2,7 @@ import base64
 
 import requests
 
+from newspipe.lib.utils import newspipe_get
 from newspipe.models import Icon
 
 from .abstract import AbstractController
@@ -13,14 +14,17 @@ class IconController(AbstractController):
 
     def _build_from_url(self, attrs):
         if "url" in attrs and "content" not in attrs:
-            resp = requests.get(attrs["url"], verify=False)
-            attrs.update(
-                {
-                    "url": resp.url,
-                    "mimetype": resp.headers.get("content-type", None),
-                    "content": base64.b64encode(resp.content).decode("utf8"),
-                }
-            )
+            try:
+                resp = newspipe_get(attrs["url"], timeout=5)
+                attrs.update(
+                    {
+                        "url": resp.url,
+                        "mimetype": resp.headers.get("content-type", None),
+                        "content": base64.b64encode(resp.content).decode("utf8"),
+                    }
+                )
+            except requests.exceptions.ConnectionError:
+                pass
         return attrs
 
     def create(self, **attrs):

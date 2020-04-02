@@ -2,6 +2,7 @@ import html
 import logging
 import re
 from datetime import datetime, timezone
+from dateutil.parser._parser import ParserError
 from enum import Enum
 from urllib.parse import SplitResult, urlsplit, urlunsplit
 
@@ -47,8 +48,10 @@ async def construct_article(entry, feed, fields=None, fetch=True):
                     article["date"] = dateutil.parser.parse(entry[date_key]).astimezone(
                         timezone.utc
                     )
+                except ParserError:
+                    logger.exception("Error when parsing date: {}".format(entry[date_key]))
                 except Exception as e:
-                    logger.exception(e)
+                    pass
                 else:
                     break
     push_in_article("content", get_article_content(entry))
