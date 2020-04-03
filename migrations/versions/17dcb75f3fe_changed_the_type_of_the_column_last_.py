@@ -18,15 +18,14 @@ from alembic import op
 
 def upgrade():
     unix_start = datetime(1970, 1, 1)
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
-        op.drop_column("feed", "last_modified")
-        op.add_column(
-            "feed",
-            sa.Column(
-                "last_modified",
-                sa.String(),
-                nullable=True,
-                default=unix_start,
-                server_default=str(unix_start),
-            ),
-        )
+    op.drop_column("feed", "last_modified")
+    op.add_column(
+        "feed",
+        sa.Column(
+            "last_modified",
+            sa.String(),
+            nullable=True,
+            default=unix_start,
+            server_default=str(unix_start),
+        ),
+    )

@@ -293,7 +293,7 @@ def process_form(feed_id=None):
     del feed_attr["link"]
     del feed_attr["site_link"]
     # remove keys with empty strings
-    feed_attr = {k: v for k, v in feed_attr.items() if v is not ""}
+    feed_attr = {k: v for k, v in feed_attr.items() if v != ""}
     feed.update(feed_attr)
     new_feed = feed_contr.create(**feed)
 

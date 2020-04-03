@@ -23,6 +23,5 @@ def upgrade():
         sa.PrimaryKeyConstraint("url"),
     )
     op.add_column("feed", sa.Column("icon_url", sa.String(), nullable=True))
-    if "sqlite" not in conf.SQLALCHEMY_DATABASE_URI:
-        op.create_foreign_key(None, "feed", "icon", ["icon_url"], ["url"])
-        op.drop_column("feed", "icon")
+    op.create_foreign_key(None, "feed", "icon", ["icon_url"], ["url"])
+    op.drop_column("feed", "icon")
