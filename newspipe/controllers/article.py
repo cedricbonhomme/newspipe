@@ -74,17 +74,18 @@ class ArticleController(AbstractController):
         Sort articles by year and month.
         """
         articles_counter = Counter()
-        articles = self.read()
+        articles = self.read_light()
         if year is not None:
             articles = articles.filter(sqlalchemy.extract("year", Article.date) == year)
             if month is not None:
                 articles = articles.filter(
                     sqlalchemy.extract("month", Article.date) == month
                 )
-        for article in articles.all():
-            if year is not None:
+        if year is not None:
+            for article in articles.all():
                 articles_counter[article.date.month] += 1
-            else:
+        else:
+            for article in articles.all():
                 articles_counter[article.date.year] += 1
         return articles_counter, articles
 

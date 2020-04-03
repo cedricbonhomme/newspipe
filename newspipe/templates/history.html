@@ -10,11 +10,11 @@
         <h3>{{ year }}</h3>
     {% endif %}
     <ul class="list-group">
-    {% for article in articles_counter | sort(reverse = True) %}
+    {% for date in articles_counter | sort(reverse = True) %}
         {% if year == None %}
-            <li class="list-group-item"><a href="{{ url_for("articles.history", year=article) }}">{{ article }}</a> : {{ articles_counter[article] }} articles</li>
+            <li class="list-group-item"><a href="{{ url_for("articles.history", year=date) }}">{{ date }}</a> : {{ articles_counter[date] }} articles</li>
         {% elif month == None %}
-            <li class="list-group-item"><a href="{{ url_for("articles.history", year=year, month=article) }}">{{ article | month_name  }}</a> : {{ articles_counter[article] }} articles</li>
+            <li class="list-group-item"><a href="{{ url_for("articles.history", year=year, month=date) }}">{{ date | month_name  }}</a> : {{ articles_counter[date] }} articles</li>
         {% else %}
             {% for article in articles %}
                 <li class="list-group-item">{{ article.date | datetime }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
