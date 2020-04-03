@@ -48,13 +48,14 @@ def set_logging(
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
-if os.environ.get("Newspipe_TESTING", False) == "true":
+configuration = os.environ.get("Newspipe_CONFIG", False)
+if configuration == "testing":
     application.debug = logging.DEBUG
     application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     application.config["TESTING"] = True
-elif os.environ.get("Newspipe_CONFIG", False):
+elif configuration:
     # if the configuration file is specified via an environment variable
-    application.config.from_pyfile(os.environ.get("Newspipe_CONFIG"), silent=False)
+    application.config.from_pyfile(configuration, silent=False)
 else:
     try:
         application.config.from_pyfile("development.py", silent=False)
