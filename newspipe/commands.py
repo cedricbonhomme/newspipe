@@ -6,7 +6,6 @@ import os
 from datetime import datetime
 
 import click
-from flask import Flask
 from werkzeug.security import generate_password_hash
 
 import newspipe.models
