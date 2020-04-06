@@ -18,7 +18,6 @@ WORKDIR newspipe
 
 COPY newspipe newspipe/
 COPY instance instance/
-COPY manager.py .
 COPY runserver.py .
 COPY package.json .
 COPY package-lock.json .
