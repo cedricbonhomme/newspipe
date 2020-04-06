@@ -109,7 +109,7 @@ def fetch(id, feed_id=None):
     ]
     if feed_id:
         cmd.extend(["--feed-id", str(feed_id)])
-    return subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    return subprocess.Popen(cmd, stdout=subprocess.PIPE, env=env)
 
 
 def history(user_id, year=None, month=None):
