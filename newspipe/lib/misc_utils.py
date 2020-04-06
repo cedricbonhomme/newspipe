@@ -100,6 +100,8 @@ def fetch(id, feed_id=None):
     Fetch the feeds in a new processus.
     The default crawler ("asyncio") is launched with the manager.
     """
+    env = os.environ.copy()
+    env['FLASK_APP'] = 'runserver.py'
     cmd = [
         sys.exec_prefix + "/bin/flask",
         "fetch_asyncio",
