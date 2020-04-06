@@ -101,8 +101,7 @@ def fetch(id, feed_id=None):
     The default crawler ("asyncio") is launched with the manager.
     """
     cmd = [
-        "poetry", "run",
-        "flask",
+        sys.exec_prefix + "/bin/flask",
         "fetch_asyncio",
         "--user-id", str(id),
     ]

@@ -1,6 +1,21 @@
 Newspipe Changelog
 ==================
 
+## 9.4.0 (not yet released)
+
+### New
+
+- migrated form Flask-Script to the built-in integration of the click command
+  line interface of Flask;
+- display feeds icon in the list of feeds.
+
+### Improvements
+
+- simplify loading of the configuration file;
+- speed improvements to the /history page;
+- various improvements to the Web user interface and to the crawler.
+
+
 ## 9.3.0 (2020-03-22)
 
 ### New
