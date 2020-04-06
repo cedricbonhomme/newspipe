@@ -5,48 +5,37 @@ import logging
 import os
 from datetime import datetime
 
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+import click
+from flask import Flask
 from werkzeug.security import generate_password_hash
 
 import newspipe.models
 from newspipe.bootstrap import application, db
 from newspipe.controllers import UserController
 
-logger = logging.getLogger("manager")
-
-Migrate(application, db)
-
-manager = Manager(application)
-manager.add_command("db", MigrateCommand)
+logger = logging.getLogger("commands")
 
 
-@manager.command
+@application.cli.command("db_empty")
 def db_empty():
     "Will drop every datas stocked in db."
     with application.app_context():
         newspipe.models.db_empty(db)
 
 
-@manager.command
+@application.cli.command("db_create")
 def db_create():
     "Will create the database from conf parameters."
-    admin = {
-        "is_admin": True,
-        "is_api": True,
-        "is_active": True,
-        "nickname": "admin",
-        "pwdhash": generate_password_hash(os.environ.get("ADMIN_PASSWORD", "password")),
-    }
     with application.app_context():
         try:
             db.create_all()
-            UserController(ignore_context=True).create(**admin)
         except Exception as e:
             print(e)
 
 
-@manager.command
+@application.cli.command("create_admin")
+@click.option('--nickname', default='admin', help='Nickname')
+@click.option('--password', default='password', help='Password')
 def create_admin(nickname, password):
     "Will create an admin user."
     admin = {
@@ -60,7 +49,9 @@ def create_admin(nickname, password):
         UserController(ignore_context=True).create(**admin)
 
 
-@manager.command
+@application.cli.command("fetch_asyncio")
+@click.option('--user-id', default=None, help='Id of the user')
+@click.option('--feed-id', default=None, help='If of the feed')
 def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
     import asyncio
@@ -92,7 +83,3 @@ def fetch_asyncio(user_id=None, feed_id=None):
         end = datetime.now()
         loop.close()
         logger.info("Crawler finished in {} seconds.".format((end - start).seconds))
-
-
-if __name__ == "__main__":
-    manager.run()

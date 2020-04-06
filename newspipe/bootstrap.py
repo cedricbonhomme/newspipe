@@ -48,7 +48,7 @@ def set_logging(
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
-configuration = os.environ.get("Newspipe_CONFIG", False)
+configuration = os.environ.get("NEWSPIPE_CONFIG", False)
 if configuration == "testing":
     application.debug = logging.DEBUG
     application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"

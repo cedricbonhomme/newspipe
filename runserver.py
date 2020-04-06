@@ -22,6 +22,15 @@ from flask import g
 from flask_restful import Api
 
 from newspipe.bootstrap import application
+from newspipe import commands
+
+
+def register_commands(app):
+    """Register Click commands."""
+    app.cli.add_command(commands.db_empty)
+    app.cli.add_command(commands.db_create)
+    app.cli.add_command(commands.fetch_asyncio)
+    app.cli.add_command(commands.create_admin)
 
 
 with application.app_context():
@@ -41,6 +50,8 @@ with application.app_context():
     application.register_blueprint(views.user_bp)
     application.register_blueprint(views.bookmarks_bp)
     application.register_blueprint(views.bookmark_bp)
+
+    register_commands(application)
 
 
 if __name__ == "__main__":

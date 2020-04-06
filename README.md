@@ -51,13 +51,21 @@ $ git clone https://git.sr.ht/~cedric/newspipe
 $ cd newspipe/
 $ npm install
 $ poetry install
-$ export Newspipe_CONFIG=sqlite.py
 $ poetry shell
 $ pybabel compile -d newspipe/translations
-$ python manager.py db_create
-$ python manager.py create_admin <nickname> <password>
-$ python runserver.py
-  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+$ export NEWSPIPE_CONFIG=sqlite.py
+$ export FLASK_APP=runserver.py
+$ export FLASK_ENV=development
+$ flask db_create
+$ flask create_admin --nickname <nickname> --password <password>
+$ flask run
+ * Serving Flask app "runserver" (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 221-873-938
 ```
 
 If you want to use PostgreSQL you can customize
@@ -67,7 +75,7 @@ the provided example configuration file (``instance/config.py``):
 $ sudo apt-get install postgresql
 $ cp instance/config.py instance/postgresql.py
 $ vim instance/postgresql.py # customize it
-$ export Newspipe_CONFIG=postgresql.py
+$ export NEWSPIPE_CONFIG=postgresql.py
 ```
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.

@@ -247,17 +247,6 @@ docs = ["sphinx"]
 
 [[package]]
 category = "main"
-description = "Scripting support for Flask"
-name = "flask-script"
-optional = false
-python-versions = "*"
-version = "2.0.6"
-
-[package.dependencies]
-Flask = "*"
-
-[[package]]
-category = "main"
 description = "Adds SQLAlchemy support to your Flask application."
 name = "flask-sqlalchemy"
 optional = false
@@ -583,7 +572,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "c8407863562e0f8573d3f8b8a7b1ab4b09ea3a40271ae077af278176246e934b"
+content-hash = "f5e5860ca483252734221f791fc859169287b8c691ab6ee15816f79794faabcd"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -678,9 +667,6 @@ flask-principal = [
 flask-restful = [
     {file = "Flask-RESTful-0.3.8.tar.gz", hash = "sha256:5ea9a5991abf2cb69b4aac19793faac6c032300505b325687d7c305ffaa76915"},
     {file = "Flask_RESTful-0.3.8-py2.py3-none-any.whl", hash = "sha256:d891118b951921f1cec80cabb4db98ea6058a35e6404788f9e70d5b243813ec2"},
-]
-flask-script = [
-    {file = "Flask-Script-2.0.6.tar.gz", hash = "sha256:6425963d91054cfcc185807141c7314a9c5ad46325911bd24dcb489bd0161c65"},
 ]
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.4.1.tar.gz", hash = "sha256:6974785d913666587949f7c2946f7001e4fa2cb2d19f4e69ead02e4b8f50b33d"},
