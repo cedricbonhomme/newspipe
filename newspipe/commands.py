@@ -45,7 +45,10 @@ def create_admin(nickname, password):
         "pwdhash": generate_password_hash(password),
     }
     with application.app_context():
-        UserController(ignore_context=True).create(**admin)
+        try:
+            UserController(ignore_context=True).create(**admin)
+        except Exception as e:
+            print(e)
 
 
 @application.cli.command("fetch_asyncio")
