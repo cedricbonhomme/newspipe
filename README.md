@@ -80,16 +80,6 @@ $ export NEWSPIPE_CONFIG=postgresql.py
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 
-### Deployment with Docker
-
-```bash
-$ git clone https://git.sr.ht/~cedric/newspipe
-$ cd newspipe/
-$ docker-compose up
-```
-
-The login will be *admin* and the password *password*.
-
 
 ## License
 
