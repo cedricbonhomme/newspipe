@@ -41,8 +41,6 @@ https://www.newspipe.org
 
 Newspipe is really easy to deploy.
 
-### Manual deployment
-
 Assuming you have already installed ``git``, ``npm``, ``poetry``,  and
 ``Python >= 3.8``, you just have to do the following:
 
