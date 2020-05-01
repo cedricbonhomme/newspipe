@@ -4,7 +4,7 @@
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2020 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information: https://git.sr.ht/~cedric/newspipe
+# For more information: https://sr.ht/~cedric/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as

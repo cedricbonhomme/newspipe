@@ -4,7 +4,7 @@
 
 ## Presentation
 
-[Newspipe](https://git.sr.ht/~cedric/newspipe) is a web news aggregator.
+[Newspipe](https://sr.ht/~cedric/newspipe) is a web news aggregator.
 
 ![Newspipe Home page](docs/static/newspipe_home-page.png "Newspipe Home page")
 
@@ -93,7 +93,7 @@ The login will be *admin* and the password *password*.
 
 ## License
 
-[Newspipe](https://git.sr.ht/~cedric/newspipe) is under the
+[Newspipe](https://sr.ht/~cedric/newspipe) is under the
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 
