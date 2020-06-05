@@ -25,10 +25,14 @@ def home():
     """
     filters = _get_filters(request.args)
 
+    category_contr = CategoryController(current_user.id)
     art_contr = ArticleController(current_user.id)
+    categories = {cat.id: cat for cat in category_contr.read().all()}
 
     unread = art_contr.count_by_feed(readed=False)
     nb_unread = art_contr.read_light(readed=False).count()
+
+    unread_by_cat = art_contr.count_by_category(readed=False)
 
     feeds = {
         feed.id: feed
@@ -93,6 +97,8 @@ def home():
         filter_=filter_,
         limit=limit,
         feeds=feeds,
+        categories=categories,
+        unread_by_cat=unread_by_cat,
         liked=liked,
         unread=dict(unread),
         articles=articles.all(),

@@ -53,6 +53,14 @@ a {
     color: #0082c9;
 }
 
+.bg-primary {
+    background-color: #0082c9 !important;
+    opacity: 1;
+    color: white;
+    text-align: center;
+}
+
+
 /* Sticky footer */
 .footer {
   position: absolute;
