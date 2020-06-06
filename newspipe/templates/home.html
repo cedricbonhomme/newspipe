@@ -143,7 +143,6 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <td>
-                                <a href="#"><i class="fa fa-times delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
                                 {% if article.like %}
                                     <a href="#"><i class="fa fa-heart like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
