@@ -17,9 +17,11 @@
         {% endif %}
         <h6>{{ article.date | datetime }}</h6>
     </div>
+    <br />
     <div class="well">
         {{ article.content | safe }}
     </div>
+    <br />
     <div class="well">
         <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank">
             <img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" />
