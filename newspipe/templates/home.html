@@ -27,7 +27,7 @@
                 <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
             </span></li>
         </ul>
-        {% for catid, nbunread in unread_by_cat.items() if catid %}
+        {% for catid, nbunread in unread_by_cat|dictsort(by='value')|reverse if catid %}
             <ul class="nav flex-column">
             <div class="bg-primary clearfix">{{ categories[catid].name }}</div>
             {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
@@ -75,6 +75,7 @@
         {% endfor %}
         </ul>
 
+        <hr />
         <ul class="nav flex-column">
         {% for fid, feed in feeds.items() if not fid in unread %}
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
