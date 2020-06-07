@@ -36,6 +36,7 @@ from wtforms import (
     IntegerField,
     PasswordField,
     SelectField,
+    SelectMultipleField,
     SubmitField,
     TextAreaField,
     TextField,
@@ -238,7 +239,12 @@ class AddFeedForm(FlaskForm):
 
 class CategoryForm(FlaskForm):
     name = TextField(lazy_gettext("Category name"))
+    feeds = SelectMultipleField(lazy_gettext("Feeds in this category"), coerce=int)
     submit = SubmitField(lazy_gettext("Save"))
+
+    def set_feed_choices(self, feeds):
+        self.feeds.choices = []
+        self.feeds.choices += [(feed.id, feed.title) for feed in feeds]
 
 
 class BookmarkForm(FlaskForm):
