@@ -1,16 +1,19 @@
 Newspipe Changelog
 ==================
 
-## 9.4.0 (not yet released)
+## 9.4.0 (2020-06-08)
 
 ### New
 
 - migrated form Flask-Script to the built-in integration of the click command
   line interface of Flask;
-- display feeds icon in the list of feeds.
+- when creating or editing a category it is now possible to assign feeds via a
+  select multiple field.
 
 ### Improvements
 
+- improved list of feeds menu. Feeds are now sorted per categories (sorted per
+  number of unread articles). And the feed icons are displayed;
 - simplify loading of the configuration file;
 - speed improvements to the /history page;
 - various improvements to the Web user interface and to the crawler.
