@@ -20,7 +20,7 @@
             <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=0) }}">
                 {% if not feed_id %}<b>{% endif %}
                     {{ _('All feeds') }}
-                    <span id="total-unread" class="badge pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
+                    <span id="total-unread" class="badge bg-primary pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
                 {% if not feed_id %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands"><span class="nav-link">
@@ -34,9 +34,9 @@
                 <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-feed="{{ feed.id }}"><a class="nav-link" href="{{ gen_url(feed=feed.id) }}">
                     {% if feed_id == feed.id %}<b>{% endif %}
                         {% if in_error.get(feed.id, 0) > 0 %}
-                            <span style="background-color: {{ "red" if in_error[feed.id] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                            <span style="background-color: {{ "red" if in_error[feed.id] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                         {% endif %}
-                        <span id="unread-{{ feed.id }}" class="badge pull-right">{{ unread[feed.id] }}</span>
+                        <span id="unread-{{ feed.id }}" class="badge bg-primary pull-right">{{ unread[feed.id] }}</span>
                         <img src="{{ url_for('icon.icon', url=feeds[feed.id].icon_url) }}" width="16px">
                         {{ feeds[feed.id].title | safe | truncate(25, True) }}
                     {% if feed_id == feed.id %}</b>{% endif %}
@@ -58,9 +58,9 @@
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
-                        <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                        <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                     {% endif %}
-                    <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
+                    <span id="unread-{{ fid }}" class="badge bg-primary pull-right">{{ nbunread }}</span>
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
                     {{ feeds[fid].title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
@@ -80,7 +80,7 @@
         {% for fid, feed in feeds.items() if not fid in unread %}
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
-                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
@@ -115,10 +115,10 @@
                 </li>
                 <li id="tab-nbdisplay" class="px-5 nav-item d-none d-lg-block">
                     <div id="nbdisplay">
-                        <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>
-                        <a href="{{ gen_url(limit=100) }}" class="badge {% if limit == 100 %}badge-primary{% else %}badge-info{% endif %}">{{ _(100) }}</a>
-                        <a href="{{ gen_url(limit=1000) }}" class="badge {% if limit == 1000 %}badge-primary{% else %}badge-info{% endif %}">{{ _(1000) }}</a>
-                        <a href="{{ gen_url(limit='all') }}" class="badge {% if limit == 'all' %}badge-primary{% else %}badge-info{% endif %}">{{ _('All') }}</a>
+                        <a href="{{ gen_url(limit=10) }}" class="badge bg-primary {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>
+                        <a href="{{ gen_url(limit=100) }}" class="badge bg-primary {% if limit == 100 %}badge-primary{% else %}badge-info{% endif %}">{{ _(100) }}</a>
+                        <a href="{{ gen_url(limit=1000) }}" class="badge bg-primary {% if limit == 1000 %}badge-primary{% else %}badge-info{% endif %}">{{ _(1000) }}</a>
+                        <a href="{{ gen_url(limit='all') }}" class="badge bg-primary {% if limit == 'all' %}badge-primary{% else %}badge-info{% endif %}">{{ _('All') }}</a>
                     </div>
                 </li>
             </ul>
