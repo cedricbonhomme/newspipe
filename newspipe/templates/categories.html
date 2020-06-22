@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ _("You have %(categories)d categories &middot; Add a %(start_link)scategory%(end_link)s", categories=categories|count, start_link=("<a href='%s'>" % url_for("category.form"))|safe, end_link="</a>"|safe) }}</h1>
+    <h1>{{ _("You have %(categories)d categories &middot; %(start_link)sAdd%(end_link)s a category", categories=categories|count, start_link=("<a href='%s'>" % url_for("category.form"))|safe, end_link="</a>"|safe) }}</h1>
     {% if categories|count == 0 %}
         <h1>{{_("No category")}}</h1>
     {% else %}

@@ -68,17 +68,17 @@
                     <p>{{ _('Export feeds to OPML.') }}</p>
                     <form class="form" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
                         <div class="form-group">
-                            <div class="input-group">
-                                <label>Include disabled feeds</label>
-                                <input type="checkbox" class="form-control" name="includedisabled" checked />
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" name="includedisabled" checked />
+                              <label class="form-check-label">Include disabled feeds</label>
                             </div>
-                            <div class="input-group">
-                                <label title="Newspipe encountered too much problems when retrieving these feeds.">Include dead feeds</label>
-                                <input type="checkbox" class="form-control" name="includeexceedederrorcount" checked />
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" name="includeexceedederrorcount" checked />
+                              <label class="form-check-label" title="Newspipe encountered too much problems when retrieving these feeds.">Include dead feeds</label>
                             </div>
-                            <div class="input-group">
-                                <label>Include private feeds</label>
-                                <input type="checkbox" class="form-control" name="includeprivate" checked />
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" name="includeprivate" checked />
+                              <label class="form-check-label">Include private feeds</label>  
                             </div>
                         </div>
                         <button class="btn btn-primary" type="submit">{{ _('Export') }}</button>

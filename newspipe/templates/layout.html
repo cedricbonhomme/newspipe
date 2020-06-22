@@ -10,22 +10,17 @@
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap-select/dist/css/bootstrap-select.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}" />
     <!-- JavaScript -->
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/popper.js/dist/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     {% endblock %}
   </head>
   <body>
     {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-newspipe-blue">
+       <div class="container-fluid">
         <a class="navbar-brand" href="/">🗞&nbsp;Newspipe</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -135,6 +130,7 @@
             </ul>
         </div>
         {% endblock %}
+      </div>
     </nav>
     {% endblock %}
     <br />

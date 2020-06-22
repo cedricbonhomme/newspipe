@@ -20,154 +20,135 @@
 
 API_ROOT = '/api/v2.0/'
 
-if (typeof jQuery === 'undefined') { throw new Error('Requires jQuery') }
 
 function change_unread_counter(feed_id, increment) {
-    var new_value = parseInt($("#unread-"+feed_id).text()) + increment;
-    $("#unread-"+feed_id).text(new_value);
-    $("#total-unread").text(parseInt($("#total-unread").text()) + increment);
+   console.log(document.getElementById("unread-"+feed_id));
+   
+    el = document.getElementById("unread-"+feed_id)
+    if (el != null) {
+      var new_value = parseInt(el.textContent) + increment;
+      document.getElementById("unread-"+feed_id).textContent = new_value;
+    }
+   
+    document.getElementById("total-unread").textContent = parseInt(document.getElementById("total-unread").textContent) + increment;
+
     if (new_value == 0) {
-        $("#unread-"+feed_id).hide();
-    } else {
-        $("#unread-"+feed_id).show();
+        document.getElementById("unread-"+feed_id).display = "none";
     }
 }
 
-+function ($) {
 
-    // Mark an article as read when it is opened in a new table
-    $('.open-article').on('click', function(e) {
-      var feed_id = $(this).parent().parent().attr("data-feed");
-      var filter = $('#filters').attr("data-filter");
-      if (filter == "unread") {
-        $(this).parent().parent().remove();
-        change_unread_counter(feed_id, -1);
+// Mark an article as read when it is opened in a new table
+document.getElementsByClassName('open-article').onclick = function fun() {
+  var feed_id = $(this).parentNode.parentNode.attr("data-feed");
+  var filter = $('#filters').attr("data-filter");
+  if (filter == "unread") {
+    $(this).parentNode.parentNode.remove();
+    change_unread_counter(feed_id, -1);
+  }
+};
+
+
+// Mark an article as read or unread.
+var nodes = document.getElementsByClassName('readed');
+Array.prototype.map.call(nodes, function(node) {
+    node.onclick = function() {
+      var article_id = node.parentNode.parentNode.parentNode.getAttribute("data-article");
+      var feed_id = node.parentNode.parentNode.parentNode.getAttribute("data-feed");
+      var filter = document.getElementById('filters').getAttribute("data-filter");
+
+      var data;
+      if (node.classList.contains('fa-square-o')) {
+          data = JSON.stringify({
+              readed: false
+          })
+          if (filter == "read") {
+              node.parentNode.parentNode.parentNode.remove();
+          }
+          else {
+              // here, filter == "all"
+              // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "bold" );
+              node.classList.remove('fa-square-o');
+              node.classList.add('fa-check-square-o');
+          }
+          change_unread_counter(feed_id, 1);
       }
-    });
+      else {
+          data = JSON.stringify({readed: true})
+          if (filter == "unread") {
+              node.parentNode.parentNode.parentNode.remove();
+          }
+          else {
+              // here, filter == "all"
+              // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "normal" );
+              node.classList.remove('fa-check-square-o');
+              node.classList.add('fa-square-o');
+          }
+          change_unread_counter(feed_id, -1);
+      }
+
+      // sends the updates to the server
+      fetch(API_ROOT + "article/" + article_id, {
+        method: "PUT", 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data
+      }).then(res => {
+        console.log("Request complete! response:", res);
+      }).catch((error) => {
+        console.error('Error:', error);
+      });;
+    }
+});
 
 
 
-    // Mark an article as read or unread.
-    $('.readed').on('click', function() {
-        var article_id = $(this).parent().parent().parent().attr("data-article");
-        var feed_id = $(this).parent().parent().parent().attr("data-feed");
-        var filter = $('#filters').attr("data-filter");
+// Like or unlike an article
+var nodes = document.getElementsByClassName('like');
+Array.prototype.map.call(nodes, function(node) {
+    node.onclick = function() {
+      var article_id = node.parentNode.parentNode.parentNode.getAttribute('data-article');
+      var data;
+      if (node.classList.contains("fa-heart")) {
+          data = JSON.stringify({like: false});
+          node.classList.remove('fa-heart');
+          node.classList.add('fa-heart-o');
+          if(window.location.pathname.indexOf('/favorites') != -1) {
+              node.parentNode.parentNode.parentNode.remove();
+          }
+      }
+      else {
+          data = JSON.stringify({like: true})
+          node.classList.remove('fa-heart-o');
+          node.classList.add('fa-heart');
+      }
 
-        var data;
-        if ($(this).hasClass('fa-square-o')) {
-            data = JSON.stringify({
-                readed: false
-                })
-            if (filter == "read") {
-                $(this).parent().parent().parent().remove();
-            }
-            else {
-                // here, filter == "all"
-                $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "bold" );
-                $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
-            }
-            change_unread_counter(feed_id, 1);
-        }
-        else {
-            data = JSON.stringify({readed: true})
-            if (filter == "unread") {
-                $(this).parent().parent().parent().remove();
-            }
-            else {
-                // here, filter == "all"
-                $(this).parent().parent().parent().children("td:nth-child(2)").css( "font-weight", "normal" );
-                $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-            change_unread_counter(feed_id, -1);
-        }
-
-        // sends the updates to the server
-        $.ajax({
-            type: 'PUT',
-            // Provide correct Content-Type, so that Flask will know how to process it.
-            contentType: 'application/json',
-            // Encode your data as JSON.
-            data: data,
-            // This is the type of data you're expecting back from the server.
-            url: API_ROOT + "article/" + article_id,
-            success: function (result) {
-                //console.log(result);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                console.log(XMLHttpRequest.responseText);
-            }
-        });
-    });
-
-
-
-    // Like or unlike an article
-    $('.like').on('click', function() {
-        var article_id = $(this).parent().parent().parent().attr("data-article");
-        var data;
-        if ($(this).hasClass("fa-heart")) {
-            data = JSON.stringify({like: false})
-            $(this).removeClass('fa-heart').addClass('fa-heart-o');
-            if(window.location.pathname.indexOf('/favorites') != -1) {
-                $(this).parent().parent().parent().remove();
-            }
-        }
-        else {
-            data = JSON.stringify({like: true})
-            $(this).removeClass('fa-heart-o').addClass('fa-heart');
-        }
-
-        // sends the updates to the server
-        $.ajax({
-            type: 'PUT',
-            // Provide correct Content-Type, so that Flask will know how to process it.
-            contentType: 'application/json',
-            // Encode your data as JSON.
-            data: data,
-            // This is the type of data you're expecting back from the server.
-            url: API_ROOT + "article/" + article_id,
-            success: function (result) {
-                //console.log(result);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                console.log(XMLHttpRequest.responseText);
-            }
-        });
-    });
-
-
-
-    // Delete an article
-    $('.delete').on('click', function() {
-        var r = confirm('You are going to delete this article.');
-
-        if (r == true) {
-            var feed_id = $(this).parent().parent().parent().attr("data-feed");
-            var article_id = $(this).parent().parent().parent().attr("data-article");
-            $(this).parent().parent().parent().remove();
-
-            // sends the updates to the server
-            $.ajax({
-                type: 'DELETE',
-                url: API_ROOT + "article/" + article_id,
-                success: function (result) {
-                    change_unread_counter(feed_id, -1);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(XMLHttpRequest.responseText);
-                }
-            });
-        }
-    });
+      // sends the updates to the server
+      fetch(API_ROOT + "article/" + article_id, {
+        method: "PUT", 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data
+      }).then(res => {
+        console.log("Request complete! response:", res);
+      }).catch((error) => {
+        console.error('Error:', error);
+      });;
+    }
+});
 
 
 
     // Delete all duplicate articles (used in the page /duplicates)
-    $('.delete-all').click(function(){
+    var nodes = document.getElementsByClassName('delete-all');
+    Array.prototype.map.call(nodes, function(node) {
+        node.onclick = function() {
         var data = [];
 
-        var columnNo = $(this).parent().index();
-        $(this).closest("table")
+        var columnNo = node.parentNode.index();
+        node.closest("table")
             .find("tr td:nth-child(" + (columnNo+1) + ")")
             .each(function(line, column) {
                 data.push(parseInt(column.id));
@@ -176,20 +157,16 @@ function change_unread_counter(feed_id, increment) {
         data = JSON.stringify(data);
 
         // sends the updates to the server
-        $.ajax({
-            type: 'DELETE',
-            // Provide correct Content-Type, so that Flask will know how to process it.
-            contentType: 'application/json',
-            data: data,
-            url: API_ROOT + "articles",
-            success: function (result) {
-                //console.log(result);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                console.log(XMLHttpRequest.responseText);
-            }
-        });
-
-    });
-
-}(jQuery);
+        fetch(API_ROOT + "articles", {
+          method: "DELETE", 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: data
+        }).then(res => {
+          console.log("Request complete! response:", res);
+        }).catch((error) => {
+          console.error('Error:', error);
+        });;
+      }
+  });
