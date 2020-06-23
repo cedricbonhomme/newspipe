@@ -6,20 +6,20 @@
             <h2>{{ _('Log In') }}</h2>
             <form action="{{ url_for('login') }}" method=post>
                 {{ form.hidden_tag() }}
-                <div class="form-group">
+                <div class="input-group mb-3">
                 {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
                 </div>
                 {% for message in form.nickmane.errors %}
                     <div class="alert alert-warning" role="alert">{{ message }}</div>
                 {% endfor %}
-                <div class="form-group">
+                <div class="input-group mb-3">
                 {{ form.password(class_="form-control", placeholder=_('Your Password')) }}
                 </div>
                 {% for message in form.password.errors %}
                     <div class="alert alert-warning" role="alert">{{ message }}</div>
                 {% endfor %}
                 {{ form.submit(class_="btn btn-primary") }}
-                <a href="/signup" class="btn btn-secondary">{{ _('Sign up') }}</a>
+                <a href="/signup" class="btn btn-info">{{ _('Sign up') }}</a>
             </form>
         </div>
     </div>

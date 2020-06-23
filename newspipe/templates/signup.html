@@ -2,20 +2,24 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col">
+        <div class="col-md-6">
             <form action="" method="post" name="save">
                 {{ form.hidden_tag() }}
-                <div class="form-group">
-                    {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                    <p class="help-block">{{ _('Letters, numbers, dots and underscores only.') }}</p>
+                <div class="input-group mb-3">
+                    {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
+                    {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    &nbsp;<span class="text-muted">{{ _('Letters, numbers, dots and underscores only.') }}</span>
                 </div>
-                <div class="form-group">
-                    {{ form.email(class_="form-control", placeholder=_('Your email')) }} {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                    <p class="help-block">{{ _("Only for account activation. Your email won't be stored.") }}</p>
+                <p class="help-block"></p>
+                <div class="input-group mb-3">
+                    {{ form.email(class_="form-control", placeholder=_('Your email')) }}
+                    {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    &nbsp;<span class="text-muted">{{ _("Only for account activation. Your email won't be stored.") }}</span>
                 </div>
-                <div class="form-group">
-                    {{ form.password(class_="form-control", placeholder=_('Your password')) }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                    <p class="help-block">{{ _('Minimum 6 characters.') }}</p>
+                <div class="input-group mb-3">
+                    {{ form.password(class_="form-control", placeholder=_('Your password')) }}
+                    {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    &nbsp;<span class="text-muted">{{ _('Minimum 6 characters.') }}</span>
                 </div>
                 <br />
                 {{ form.submit(class_="btn btn-primary") }}

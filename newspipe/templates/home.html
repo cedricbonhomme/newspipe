@@ -7,7 +7,7 @@
 </style>
 <div class="container-fluid">
 {% if feeds|count == 0 %}
-    <div class="row  justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-md-6">
             <h1>{{ _("You don't have any feeds.") }}</h1>
             <h1><a href="{{ url_for('feed.form') }}">{{ _('Add some') }}</a>, {{ _('or') }} <a href="{{ url_for('user.management') }}">{{ _('upload an OPML file.') }}</a></h1>
@@ -46,7 +46,6 @@
                             <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                             <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                             <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                            <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
                         </span></li>
                     {% endfor %}
                     </div>
@@ -78,7 +77,6 @@
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
         </div>
@@ -108,7 +106,6 @@
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
         </div>

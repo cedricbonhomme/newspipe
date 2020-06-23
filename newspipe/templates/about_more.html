@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h2>{{ _('Information about this instance') }}</h2>
-    <ul class="list-group">
-        <li class="list-group-item">{{ _('Newspipe version') }}: <em><a href="{{ version_url }}">{{newspipe_version}}</a></em></li>
-        <li class="list-group-item">{{ _('Python version') }}: <em>{{python_version}}</em></li>
-        <li class="list-group-item">{{ _('Registration') }}: <em>{{registration}}</em></li>
-        <li class="list-group-item">{{ _('Number of users') }}: <em>{{nb_users}}</em></li>
-        <li class="list-group-item">{{ _('Content Security Policy') }}: <em>{{content_security_policy}}</em></li>
-    </ul>
+    <div class="row">
+        <div class="col">
+            <h2>{{ _('Information about this instance') }}</h2>
+            <ul class="list-group">
+                <li class="list-group-item">{{ _('Newspipe version') }}: <em><a href="{{ version_url }}">{{newspipe_version}}</a></em></li>
+                <li class="list-group-item">{{ _('Python version') }}: <em>{{python_version}}</em></li>
+                <li class="list-group-item">{{ _('Registration') }}: <em>{{registration}}</em></li>
+                <li class="list-group-item">{{ _('Number of users') }}: <em>{{nb_users}}</em></li>
+                <li class="list-group-item">{{ _('Content Security Policy') }}: <em>{{content_security_policy}}</em></li>
+            </ul>
+        </div>
+    </div>
 </div><!-- /.container -->
 {% endblock %}

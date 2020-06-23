@@ -4,7 +4,7 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Newspipe is a web news aggregator and reader." />
+    <meta name="description" content="Newspipe - A web news reader." />
     <meta name="author" content="" />
     <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
@@ -37,37 +37,33 @@
                     {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRSS" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-rss" aria-hidden="true"></i>&nbsp;{{ _('Feeds') }}</a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownRSS">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownRSS" style="min-width: 300px;">
                               <a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a>
                               <a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a>
                               <a class="dropdown-item" href="{{ url_for('popular') }}">{{ _('Popular') }}</a>
                               <a class="dropdown-item" href="{{ url_for('articles.history') }}">{{ _('History') }}</a>
                               <div class="dropdown-divider"></div>
                               <a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a new feed') }}</a>
-                              <form class="navbar-form  navbar-left px-4 py-3" action="{{ url_for('feed.bookmarklet') }}">
-                                  <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
-                                  <div class="input-group input-group-inline">
-                                      <div class="input-group-prepend">
-                                            <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
-                                      </div>
+                              <form class="px-4 py-3" action="{{ url_for('feed.bookmarklet') }}">
+                                <div class="input-group">
+                                      <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
+                                      <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
                                       <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                  </div>
-                                </form>
+                                 </div>
+                              </form>
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{{ _('Categories') }}</a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownCategory">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownCategory" style="min-width: 250px;">
                             <a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a new category') }}</a>
-                            <form class="navbar-form navbar-left px-4 py-3" action="{{ url_for('category.form') }}" method="POST" name="category">
+                            <form class="px-4 py-3" action="{{ url_for('category.form') }}" method="POST" name="category">
                                 <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new category') }}</label>
-                                <div class="input-group input-group-inline">
-                                    <div class="input-group-prepend">
-                                          <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
-                                    </div>
+                                <div class="input-group">
+                                    <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                 </div>
                             </form>
@@ -84,16 +80,16 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></i>&nbsp;{{ _('Search') }}</a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSearch">
-                            <form class="navbar-form navbar-left px-4 py-3" action="{{ url_for('home') }}" method="GET">
-                                <div class="form-group">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSearch" style="min-width: 300px;">
+                            <form class="px-4 py-3" action="{{ url_for('home') }}" method="GET">
+                                <div class="mb-3">
                                     <input class="form-control" name="query" type="text" placeholder="{{_('Query')}}" required="required"/>
                                 </div>
-                                <div class="form-group form-check">
+                                <div class="mb-3">
                                     <input type="checkbox" class="form-check-input" id="checkTitle" name="search_title" checked>
                                     <label class="form-check-label" for="checkTitle">Search in title</label>
                                 </div>
-                                <div class="form-group form-check">
+                                <div class="mb-3">
                                     <input type="checkbox" class="form-check-input" id="checkContent" name="search_content">
                                     <label class="form-check-label" for="checkContent">Search in content</label>
                                 </div>
