@@ -16,51 +16,59 @@
 {% else %}
     <div class="row">
     <div id="sidebar" class="col-2 d-none d-lg-block" style="min-height: 650px;">
-        <ul class="nav flex-column" data-offset-top="0" data-offset-bottom="0">
-            <li class="nav-item feed-menu"><a class="nav-link" href="{{ gen_url(feed=0) }}">
-                {% if not feed_id %}<b>{% endif %}
-                    {{ _('All feeds') }}
-                    <span id="total-unread" class="badge bg-primary pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
-                {% if not feed_id %}</b>{% endif %}
-            </a></li>
-            <li class="nav-item feed-commands"><span class="nav-link">
-                <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
-            </span></li>
-        </ul>
+        <a class="nav-link" href="{{ gen_url(feed=0) }}">
+            {% if not feed_id %}<b>{% endif %}{{ _('All feeds') }}{% if not feed_id %}</b>{% endif %}
+            <span id="total-unread" class="badge badge-light pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
+        </a>
         {% for catid, nbunread in unread_by_cat|dictsort(by='value')|reverse if catid %}
             <ul class="nav flex-column">
-            <div class="bg-primary clearfix">{{ categories[catid].name }}</div>
-            {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
-                <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-feed="{{ feed.id }}"><a class="nav-link" href="{{ gen_url(feed=feed.id) }}">
-                    {% if feed_id == feed.id %}<b>{% endif %}
-                        {% if in_error.get(feed.id, 0) > 0 %}
-                            <span style="background-color: {{ "red" if in_error[feed.id] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
-                        {% endif %}
-                        <span id="unread-{{ feed.id }}" class="badge bg-primary pull-right">{{ unread[feed.id] }}</span>
-                        <img src="{{ url_for('icon.icon', url=feeds[feed.id].icon_url) }}" width="16px">
-                        {{ feeds[feed.id].title | safe | truncate(25, True) }}
-                    {% if feed_id == feed.id %}</b>{% endif %}
-                </a></li>
-                <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ feed.id }}"><span class="nav-link">
-                    <a href="/feed/{{ feed.id }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
-                    <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                    <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
-                    <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
-                </span></li>
-            {% endfor %}
+                <div class="accordion" id="accordion-{{ catid }}">
+                    <div class="bg-primary clearfix text-sm-left font-weight-bold">
+                        <button class="btn btn-primary btn-sm pull-right" type="button" data-toggle="collapse" data-target="#collapse-{{ catid }}" aria-expanded="true" aria-controls="collapse-{{ catid }}">
+                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <span class="align-middle">&nbsp;{{ categories[catid].name }}</<span>
+                    </div>
+                    <div class="collapse show" id="collapse-{{ catid }}" data-parent="#accordion-{{ catid }}">
+                    {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
+                        <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-feed="{{ feed.id }}"><a class="nav-link" href="{{ gen_url(feed=feed.id) }}">
+                            {% if feed_id == feed.id %}<b>{% endif %}
+                                {% if in_error.get(feed.id, 0) > 0 %}
+                                    <span style="background-color: {{ "red" if in_error[feed.id] > 2 else "orange" }} ;" class="badge bg-danger pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                                {% endif %}
+                                <span id="unread-{{ feed.id }}" class="badge badge-light pull-right">{{ unread[feed.id] }}</span>
+                                <img src="{{ url_for('icon.icon', url=feeds[feed.id].icon_url) }}" width="16px">
+                                {{ feeds[feed.id].title | safe | truncate(25, True) }}
+                            {% if feed_id == feed.id %}</b>{% endif %}
+                        </a></li>
+                        <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ feed.id }}"><span class="nav-link">
+                            <a href="/feed/{{ feed.id }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
+                            <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
+                            <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
+                            <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                            <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
+                        </span></li>
+                    {% endfor %}
+                    </div>
+                </div>
             </ul>
         {% endfor %}
 
         <ul class="nav flex-column">
-        <div class="bg-primary clearfix">No category</div>
+        <div class="bg-primary clearfix text-sm-left font-weight-bold">
+            <button class="btn btn-primary btn-sm pull-right" type="button" data-toggle="collapse" data-target="#collapse-noCategory" aria-expanded="true" aria-controls="collapse-noCategory">
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </button>
+            <span class="align-middle">&nbsp;No category</<span>
+        </div>
+        <div class="collapse show" id="collapse-noCategory">
         {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id  %}
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
-                        <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                        <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                     {% endif %}
-                    <span id="unread-{{ fid }}" class="badge bg-primary pull-right">{{ nbunread }}</span>
+                    <span id="unread-{{ fid }}" class="badge badge-light pull-right">{{ nbunread }}</span>
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
                     {{ feeds[fid].title | safe | truncate(25, True) }}
                 {% if feed_id == fid %}</b>{% endif %}
@@ -73,14 +81,22 @@
                 <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
+        </div>
         </ul>
 
         <hr />
         <ul class="nav flex-column">
+        <div class="bg-primary clearfix text-sm-left font-weight-bold">
+            <button class="btn btn-primary btn-sm pull-right" type="button" data-toggle="collapse" data-target="#collapse-unread" aria-expanded="false" aria-controls="collapse-unread">
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </button>
+            <span class="align-middle">&nbsp;Nothing to read</<span>
+        </div>
+        <div class="collapse" id="collapse-unread">
         {% for fid, feed in feeds.items() if not fid in unread %}
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
                 {% if in_error.get(fid, 0) > 0 %}
-                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-primary pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
@@ -95,6 +111,7 @@
                 <a href="#"><i class="fa fa-times delete-feed" aria-hidden="true" title="{{ _('Delete this feed') }}"></i></a>
             </span></li>
         {% endfor %}
+        </div>
         </ul>
     </div>
 
@@ -115,10 +132,10 @@
                 </li>
                 <li id="tab-nbdisplay" class="px-5 nav-item d-none d-lg-block">
                     <div id="nbdisplay">
-                        <a href="{{ gen_url(limit=10) }}" class="badge bg-primary {% if limit == 10 %}badge-primary{% else %}badge-info{% endif %}">{{ _(10) }}</a>
-                        <a href="{{ gen_url(limit=100) }}" class="badge bg-primary {% if limit == 100 %}badge-primary{% else %}badge-info{% endif %}">{{ _(100) }}</a>
-                        <a href="{{ gen_url(limit=1000) }}" class="badge bg-primary {% if limit == 1000 %}badge-primary{% else %}badge-info{% endif %}">{{ _(1000) }}</a>
-                        <a href="{{ gen_url(limit='all') }}" class="badge bg-primary {% if limit == 'all' %}badge-primary{% else %}badge-info{% endif %}">{{ _('All') }}</a>
+                        <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(10) }}</a>
+                        <a href="{{ gen_url(limit=100) }}" class="badge {% if limit == 100 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(100) }}</a>
+                        <a href="{{ gen_url(limit=1000) }}" class="badge {% if limit == 1000 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(1000) }}</a>
+                        <a href="{{ gen_url(limit='all') }}" class="badge {% if limit == 'all' %}bg-primary{% else %}bg-secondary{% endif %}">{{ _('All') }}</a>
                     </div>
                 </li>
             </ul>
@@ -131,6 +148,8 @@
                             <th  scope="col">
                                 {% if feed_id %}
                                     <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                {% else %}
+                                    <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
                                 {% endif%}
                             </th>
                             {% if not feed_id %}

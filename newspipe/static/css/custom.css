@@ -60,6 +60,12 @@ a {
     text-align: center;
 }
 
+.badge-light {
+    background-color: rgb(246, 248, 250);
+    opacity: 1;
+    color: #0082c9 !important;
+}
+
 
 /* Sticky footer */
 .footer {
