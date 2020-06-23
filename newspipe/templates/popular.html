@@ -8,16 +8,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
             <ul class="list-group">
-            {% for feed in popular %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% for feed in popular | select("defined") %}
+                <li class="list-group-item d-flex justify-content-between">
                     <a href="{{ feed[0] }}">{{ feed[0] }}</a>
-                    <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}" >
-                        <span class="fa fa-plus text-muted" aria-hidden="true" title="follow this feed"></span>
-                        <span class="text-muted">{{ _('add this feed') }}</span>
-                    </a>
-                    <span class="badge badge-primary badge-pill">{{ feed[1] }}</span>
+                    <div>
+                        <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}">
+                            <span class="fa fa-plus text-muted" aria-hidden="true" title="follow this feed"></span>
+                            <span class="text-muted">{{ _('add this feed') }}</span>
+                        </a>
+                        &nbsp;
+                        <span class="badge badge-light rounded-pill">{{ feed[1] }}</span>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
