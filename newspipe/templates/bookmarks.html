@@ -58,7 +58,7 @@
                         </h4>
                         <p class="list-group-item-text">
                             <div class="text-muted">{{ bookmark.description }}</div>
-                            <div>{% for tag in bookmark.tags %}<a href="{{ url_for('bookmarks.list_', tag=tag.text) }}">{{ tag.text }}&nbsp;</a>{% endfor %}</div>
+                            <div>{% for tag in bookmark.tags %}<a href="{{ url_for('bookmarks.list_', tag=tag.text) }}">{{ tag.text }}</a>&nbsp;{% endfor %}</div>
                             {{ bookmark.time | datetime }}
                             {% if current_user.is_authenticated %}
                                 <a class="text-muted" href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}">edit</a>
