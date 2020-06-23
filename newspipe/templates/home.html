@@ -125,10 +125,10 @@
         </div>
         {% if articles | count != 0%}
             <div class="table-responsive">
-                <table class="table table-striped strict-table">
+                <table class="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th>
+                            <th  scope="col">
                                 {% if feed_id %}
                                     <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                                 {% endif%}
@@ -143,7 +143,7 @@
                     <tbody>
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
-                            <td>
+                            <th scope="row">
                                 {% if article.like %}
                                     <a href="#"><i class="fa fa-heart like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
@@ -153,9 +153,8 @@
                                     <a href="#"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></a>
                                 {% else %}
                                     <a href="#"><i class="fa fa-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
-                                    {% if filter_ == 'all' %}</b>{% endif %}
                                 {% endif %}
-                            </td>
+                            </th>
                             {% if not feed_id %}
                                 <td class="d-none d-md-block">
                                     <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
@@ -163,8 +162,7 @@
                                 </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
-                                <a href="/article/{{ article.id }}">{{ article.title | safe }}</a>
+                                <a href="/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '...') }}</a>
                             </td>
                             <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</td>
                         </tr>
