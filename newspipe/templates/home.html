@@ -160,15 +160,15 @@
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-feed="{{ article.feed_id }}">
                             <th scope="row">
-                                {% if article.like %}
-                                    <a href="#"><i class="fa fa-heart like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
-                                {% else %}
-                                    <a href="#"><i class="fa fa-heart-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
-                                {% endif %}
                                 {% if article.readed %}
                                     <a href="#"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></a>
                                 {% else %}
                                     <a href="#"><i class="fa fa-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
+                                {% endif %}
+                                {% if article.like %}
+                                    <a href="#"><i class="fa fa-heart like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
+                                {% else %}
+                                    <a href="#"><i class="fa fa-heart-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
                                 {% endif %}
                             </th>
                             {% if not feed_id %}
