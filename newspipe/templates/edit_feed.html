@@ -2,18 +2,18 @@
 {% block content %}
 <div class="container">
         <h3>{{ action }}</h3>
-        <form action="" method="POST" name="save" class="form-horizontal">
+        <form action="" method="POST" name="save">
             {{ form.hidden_tag() }}
             <p>Enter the URL of the website or the URL of the feed (RSS/ATOM).</p>
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
                     <div class="col">
                         {{ form.site_link(class_="form-control", size="100%") }}
                     </div>
                     {% for error in form.site_link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     <label for="{{ form.link.id }}" class="col-sm-3 control-label">{{ form.link.label }}</label>
                     <div class="col">
                         {{ form.link(class_="form-control", size="100%") }}
@@ -21,7 +21,7 @@
                     {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
             </div>
-            <div class="form-group">
+            <div>
                 <div class="col-sm-offset-3 col-sm-9">
                     {{ form.submit(class_="btn btn-primary") }}
                 </div>
@@ -67,40 +67,55 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{{ _("Filters") }}</label>
-                <div class="col-sm-9">
-                    <div class="text-muted text-justify">
-                        {{ _("Here you can define actions to perform on newly retrieved items.") }}
-                    </div>
+            <hr />
+
+            <div class="row">
+              <div class="col">
+                <h4>{{ _("Filters") }}</h4>
+                <div class="text-justify">
+                  {{ _("Here you can define actions to perform on newly retrieved items.") }}
                 </div>
-                <div class="col-sm-1">
-                    <input value="+" type="button" class="form-control" id="add-feed-filter-row" />
-                </div>
+                <button type="button" class="btn btn-primary" id="add-feed-filter-row" >+</button>
+              </div>
             </div>
-            <div class="form-inline col-sm-offset-4 col-sm-8" id="filters-container">
+
+            <br />
+
+            <div id="filters-container">
                 {% if feed %}
                     {% for filter_ in feed.filters or [] %}
-                        <div class="form-group">
+                      <div class="row row-cols-md-auto g-5 align-items-center">
+                        <div class="col">
                             <input value="-" type="button" class="form-control del-feed-filter-row" />
-                            <select name="type" class="form-control" >
+                        </div>
+                        <div class="col">
+                            <select name="type" class="form-select" >
                                 <option value="simple match" {% if filter_.get("type") == "simple match" %}selected{% endif %}>{{ _("simple match") }}</option>
                                 <option value="regex" {% if filter_.get("type") == "regex" %}selected{% endif %}>{{ _("regex") }}</option>
                             </select>
+                        </div>
+                        <div class="col">
                             <input type="text" class="form-control" value="{{ filter_.get("pattern") }}" name="pattern" />
-                            <select name="action_on" class="form-control">
+                        </div>
+                        <div class="col">
+                            <select name="action_on" class="form-select">
                                 <option value="match" {% if filter_.get("action on") == "match" %}selected{% endif %}>{{ _("match") }}</option>
                                 <option value="no match" {% if filter_.get("action on") == "no match" %}selected{% endif %}>{{ _("no match") }}</option>
                             </select>
-                            <select name="action" class="form-control">
+                        </div>
+                        <div class="col">
+                            <select name="action" class="form-select">
                                 <option value="mark as read" {% if filter_.get("action") == "mark as read" %}selected{% endif %}>{{ _("mark as read") }}</option>
                                 <option value="mark as favorite" {% if filter_.get("action") == "mark as favorite" %}selected{% endif %}>{{ _("mark as favorite") }}</option>
                             </select>
                         </div>
+                      </div><br />
                     {% endfor %}
                 {% endif %}
             </div>
-
+            
+            <br />
+            
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     {{ form.submit(class_="btn btn-primary") }}

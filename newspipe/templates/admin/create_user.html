@@ -4,23 +4,21 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="well">
-        <h2>{{ message | safe }}</h2>
-        <form action="" method="post" name="saveprofileform" id="profileform">
-            {{ form.hidden_tag() }}
+  <h2>{{ message | safe }}</h2>
+  <form action="" method="post" name="saveprofileform" id="profileform">
+      {{ form.hidden_tag() }}
 
-            {{ form.nickname.label }}
-            {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      {{ form.nickname.label }}
+      {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            {{ form.password.label }}
-            {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      {{ form.password.label }}
+      {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            {{ form.automatic_crawling.label }}
-            {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+      {{ form.automatic_crawling.label }}
+      {{ form.automatic_crawling(class_="form-control") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            <br />
-            {{ form.submit(class_="btn btn-primary") }}
-        </form>
-    </div>
+      <br />
+      {{ form.submit(class_="btn btn-primary") }}
+  </form>
 </div>
 {% endblock %}
