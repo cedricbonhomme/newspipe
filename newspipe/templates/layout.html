@@ -28,6 +28,23 @@
         {% block menu_links %}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
+            <ul class="navbar-nav mr-auto w-100 justify-content-center">
+                <li class="nav-item">
+                {% block messages %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{category}}" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endblock %}
+                </li>
+            </ul>
+
             <ul class="navbar-nav mr-auto w-100 justify-content-end">
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
@@ -129,26 +146,6 @@
       </div>
     </nav>
     {% endblock %}
-    <br />
-
-    <div class="container alert-message not-at-home">
-    {% block messages %}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{category}}">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endwith %}
-    {% endblock %}
-    </div>
 
     {% block content %}{% endblock %}
 
