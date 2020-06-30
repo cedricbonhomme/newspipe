@@ -1,7 +1,4 @@
 {% extends "layout.html" %}
-{% block head%}
-{{super()}}
-{% endblock %}
 {% block content %}
 <div class="container">
 <h1>{{ _('Registered users') }}</h1>
@@ -17,7 +14,7 @@
     </thead>
     <tbody>
     {% for user in users %}
-        <tr {% if not user.is_active  %}class="warning"{% endif %}>
+        <tr {% if not user.is_active  %}class="table-warning"{% endif %} {% if user.is_public_profile  %}class="table-info"{% endif %}>
             <td>{{ loop.index }}</td>
             <td>
               {% if user.is_public_profile %}
@@ -33,12 +30,7 @@
                 <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}
                     <a href="{{ url_for("admin.toggle_user", user_id=user.id) }}">
-                    {% if user.is_active %}
-                        <i class="fa fa-ban" title="{{ _("Disable this account") }}"></i>
-                    {% else %}
-                        <i class="fa fa-check-circle-o" aria-hidden="true" title="{{ _("Enable this account") }}"></i>
-                    {% endif %}
-                    </a>
+                    {% if user.is_active %}<i class="fa fa-ban" title="{{ _("Disable this account") }}"></i>{% else %}<i class="fa fa-check-circle-o" aria-hidden="true" title="{{ _("Enable this account") }}"></i>{% endif %}</a>
                     <a href="{{ url_for("admin.delete_user", user_id=user.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this user') }}" onclick="return confirm('{{ _('You are going to delete this account.') }}');"></i></a>
                 {% endif %}
             </td>
@@ -48,21 +40,4 @@
 </table>
 <a href="{{ url_for("admin.user_form") }}" class="btn btn-primary">{{ _('Add a new user') }}</a>
 </div>
-<script>
-$(document).ready(function() {
-    $('#table-users').DataTable( {
-        responsive: true,
-        columnDefs: [
-            {
-                targets: [0, 4],
-                "searchable": false
-            },
-            {
-                targets: [3],
-                "orderSequence": ["desc"]
-            }
-        ]
-    });
-});
-</script>
 {% endblock %}

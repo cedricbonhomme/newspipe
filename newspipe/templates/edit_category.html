@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="{{ form.name.id }}" class="col-sm-3 control-label">{{ form.feeds.label }}</label>
                 <div class="col-sm-9">
-                    {{ form.feeds(class_="selectpicker", **{'data-live-search':'true', 'data-width':'auto'}) }}
+                    {{ form.feeds(class_="", **{'data-live-search':'true', 'data-width':'auto'}) }}
                 </div>
                 {% for error in form.feeds.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
@@ -27,9 +27,4 @@
         </form>
     </div>
 </div><!-- /.container -->
-<script>
-$(document).ready(function() {
-    $('.selectpicker').selectpicker();
-});
-</script>
 {% endblock %}
