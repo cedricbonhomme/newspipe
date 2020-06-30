@@ -31,4 +31,3 @@ instance/development.py
 # js and node files
 node_modules
 newspipe/static/npm_components
-newspipe/static/js/bundle.min.js

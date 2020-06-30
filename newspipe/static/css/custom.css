@@ -87,11 +87,19 @@ a {
     display: inline;
 }
 
+.alert {
+  margin-bottom: 1px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0px 15px;
+}
+
 .alert-message {
     position: relative;
     display: block;
     z-index: 1001;
 }
+
 
 /*customization for Flask-Paginate*/
 .pagination-page-info {
