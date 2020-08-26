@@ -201,7 +201,7 @@ def delete_account():
     """
     UserController(current_user.id).delete(current_user.id)
     flash(gettext("Your account has been deleted."), "success")
-    return redirect(url_for("login"))
+    return redirect(url_for("logout"))
 
 
 @user_bp.route("/confirm_account/<string:token>", methods=["GET"])

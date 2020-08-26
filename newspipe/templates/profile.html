@@ -61,7 +61,7 @@
     <br />
     <div class="row">
         <div class="col">
-            <a href="/delete_account" class="btn btn-warning" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
+            <a href="{{ url_for('user.delete_account') }}" class="btn btn-warning" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
         </div>
    </div>
 </div><!-- /.container -->
