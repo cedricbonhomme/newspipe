@@ -109,6 +109,13 @@ class PyAggAbstractResource(Resource):
                 parser.add_argument(
                     attr_name, location="json", default=in_values[attr_name]
                 )
+
+        if not default:
+            for value in in_values:
+                parser.add_argument(
+                    value, location="json", default=in_values[value]
+                )
+
         return parser.parse_args(req=request.args, strict=strict)
 
 
@@ -146,6 +153,7 @@ class PyAggResourceMulti(PyAggAbstractResource):
         try:
             limit = request.json.pop("limit", 10)
             order_by = request.json.pop("order_by", None)
+            args = self.reqparse_args(right="read", default=True)
         except Exception:
             args = self.reqparse_args(right="read", default=False)
             limit = request.args.get("limit", 10)
