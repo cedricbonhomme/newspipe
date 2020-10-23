@@ -112,6 +112,8 @@ def import_json(nickname, json_content):
     nb_feeds, nb_articles = 0, 0
     # Create feeds:
     for feed in json_account:
+        if 'link' not in feed.keys() or feed['link'] is None:
+            continue
         if (
             None
             != Feed.query.filter(
@@ -132,6 +134,8 @@ def import_json(nickname, json_content):
     db.session.commit()
     # Create articles:
     for feed in json_account:
+        if 'link' not in feed.keys() or feed['link'] is None:
+            continue
         user_feed = Feed.query.filter(
             Feed.user_id == user.id, Feed.link == feed["link"]
         ).first()

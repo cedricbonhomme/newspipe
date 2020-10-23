@@ -140,4 +140,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             if len(alternates) >= 1:
                 feed["link"] = rebuild_url(alternates[0].attrs["href"], feed_split)
                 break
+        else:
+            assert feed.get("link", None) is not None
+
     return feed
