@@ -66,12 +66,11 @@ def delete_user(user_id=None):
 @application.cli.command("delete_inactive_users")
 @click.option('--last-seen', default=6, help='Number of months since last seen.')
 def delete_inactive_users(last_seen):
-    "Delete inactive users."
+    "Delete inactive users (inactivity is given in parameter and specified in number of months)."
+    filter = {}
     filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
     try:
-        user = UserController().read(**filter).all()
-        for us in user:
-            print(us.nickname)
+        user = UserController().delete(**filter)
         print("Inactive users deleted.")
     except Exception as e:
         print(e)
