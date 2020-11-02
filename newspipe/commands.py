@@ -70,7 +70,14 @@ def delete_inactive_users(last_seen):
     filter = {}
     filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
     try:
-        user = UserController().delete(**filter)
+        users = UserController().read(**filter)
+        for user in users:
+            db.session.delete(user)
+            try:
+                print("Deleting user {}...".format(user.nickname))
+                db.session.commit()
+            except:
+                db.session.rollback()
         print("Inactive users deleted.")
     except Exception as e:
         print(e)
