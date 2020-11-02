@@ -51,6 +51,17 @@ def create_admin(nickname, password):
             print(e)
 
 
+@application.cli.command("delete_user")
+@click.option('--user-id', required=True, help='Id of the user to delete.')
+def delete_user(user_id=None):
+    "Delete the user with the id specified in the command line."
+    try:
+        user = UserController().delete(user_id)
+        print("User {} deleted".format(user.nickname))
+    except Exception as e:
+        print(e)
+
+
 @application.cli.command("fetch_asyncio")
 @click.option('--user-id', default=None, help='Id of the user')
 @click.option('--feed-id', default=None, help='If of the feed')
