@@ -69,18 +69,34 @@ def delete_inactive_users(last_seen):
     "Delete inactive users (inactivity is given in parameter and specified in number of months)."
     filter = {}
     filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
-    try:
-        users = UserController().read(**filter)
-        for user in users:
-            db.session.delete(user)
-            try:
-                print("Deleting user {}...".format(user.nickname))
-                db.session.commit()
-            except:
-                db.session.rollback()
-        print("Inactive users deleted.")
-    except Exception as e:
-        print(e)
+    users = UserController().read(**filter)
+    for user in users:
+        db.session.delete(user)
+        try:
+            print("Deleting user {}...".format(user.nickname))
+            db.session.commit()
+        except:
+            db.session.rollback()
+    print("Inactive users deleted.")
+
+
+@application.cli.command("disable_inactive_users")
+@click.option('--last-seen', default=6, help='Number of months since last seen.')
+def disable_inactive_users(last_seen):
+    "Disable inactive users (inactivity is given in parameter and specified in number of months)."
+    filter = {}
+    filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
+    users = UserController().read(**filter)
+    for user in users:
+        user.is_active = False
+        user.is_public_profile = False
+        user.automatic_crawling = False
+        try:
+            print("Updating user {}...".format(user.nickname))
+            db.session.commit()
+        except:
+            db.session.rollback()
+    print("Inactive users disabled.")
 
 
 @application.cli.command("fetch_asyncio")
