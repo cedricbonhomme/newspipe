@@ -4,9 +4,9 @@
   "license": "AGPL-3.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^5.0.0-alpha1",
+    "bootstrap": "^5.0.0-alpha2",
     "fork-awesome": "^1.1.7",
-    "moment": "^2.27.0",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1"
   },
   "engines": {
