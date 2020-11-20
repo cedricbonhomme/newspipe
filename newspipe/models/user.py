@@ -83,7 +83,7 @@ class User(db.Model, UserMixin, RightMixin):
 
     @staticmethod
     def _fields_base_read():
-        return {"date_created", "last_connection"}
+        return {"date_created", "last_seen"}
 
     @staticmethod
     def make_valid_nickname(nickname):
