@@ -63,12 +63,12 @@ class Article(db.Model, RightMixin):
     tags = association_proxy("tag_objs", "text")
 
     # indexes
-    # __table_args__ = (
-    #    Index('user_id'),
-    #    Index('user_id', 'category_id'),
-    #    Index('user_id', 'feed_id'),
-    #    Index('ix_article_uid_fid_eid', user_id, feed_id, entry_id)
-    # )
+    __table_args__ = (
+       Index('user_id'),
+       Index('user_id', 'category_id'),
+       Index('user_id', 'feed_id'),
+       Index('ix_article_uid_fid_eid', user_id, feed_id, entry_id)
+    )
 
     # api whitelists
     @staticmethod
