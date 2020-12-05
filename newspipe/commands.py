@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash
 
 import newspipe.models
 from newspipe.bootstrap import application, db
-from newspipe.controllers import UserController
+from newspipe.controllers import UserController, ArticleController
 
 logger = logging.getLogger("commands")
 
@@ -97,6 +97,23 @@ def disable_inactive_users(last_seen):
         except:
             db.session.rollback()
     print("Inactive users disabled.")
+
+
+@application.cli.command("delete_read_articles")
+def delete_read_articles():
+    "Delete read articles retrieved since more than 5 days ago."
+    filter = {}
+    filter["user_id__ne"] = 1
+    filter["readed"] = True
+    filter["retrieved_date__lt"] = date.today() - relativedelta(days=5)
+    articles = ArticleController().read(**filter)
+    for article in articles:
+        try:
+            db.session.delete(article)
+            db.session.commit()
+        except:
+            db.session.rollback()
+    print("Read articles deleted.")
 
 
 @application.cli.command("fetch_asyncio")
