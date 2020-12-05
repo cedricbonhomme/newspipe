@@ -106,7 +106,7 @@ def delete_read_articles():
     filter["user_id__ne"] = 1
     #filter["readed"] = True # temporary comment
     filter["retrieved_date__lt"] = date.today() - relativedelta(days=5)
-    articles = ArticleController().read(**filter).limit(10000)
+    articles = ArticleController().read(**filter).limit(5000)
     for article in articles:
         try:
             db.session.delete(article)
