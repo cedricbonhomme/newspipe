@@ -87,7 +87,7 @@ async def get_article_details(entry, fetch=True):
     article_title = html.unescape(entry.get("title", ""))
     if (
         fetch
-        and application.config["CRAWLER_RESOLV"]
+        and application.config["CRAWLER_RESOLVE_ARTICLE_URL"]
         and article_link
         or not article_title
     ):
