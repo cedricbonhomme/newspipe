@@ -22,8 +22,6 @@ API_ROOT = '/api/v2.0/'
 
 
 function change_unread_counter(feed_id, increment) {
-   console.log(document.getElementById("unread-"+feed_id));
-   
     el = document.getElementById("unread-"+feed_id)
     if (el != null) {
       var new_value = parseInt(el.textContent) + increment;
@@ -49,7 +47,7 @@ document.getElementsByClassName('open-article').onclick = function fun() {
 };
 
 
-// Mark an article as read or unread.
+// Mark an article as read or unread from the home page
 var nodes = document.getElementsByClassName('readed');
 Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
@@ -103,6 +101,40 @@ Array.prototype.map.call(nodes, function(node) {
 });
 
 
+// Mark an article as read or unread from the article page
+var nodes = document.getElementsByClassName('readed-article-page');
+Array.prototype.map.call(nodes, function(node) {
+    node.onclick = function() {
+      var article_id = node.parentNode.parentNode.parentNode.getAttribute("data-article");
+
+      var data;
+      if (node.classList.contains('fa-square-o')) {
+        data = JSON.stringify({readed: false})
+        node.classList.remove('fa-square-o');
+        node.classList.add('fa-check-square-o');
+      }
+      else {
+        data = JSON.stringify({readed: true})
+        node.classList.remove('fa-check-square-o');
+        node.classList.add('fa-square-o');
+      }
+
+      // sends the updates to the server
+      fetch(API_ROOT + "article/" + article_id, {
+        method: "PUT", 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data
+      }).then(res => {
+        console.log("Request complete! response:", res);
+      }).catch((error) => {
+        console.error('Error:', error);
+      });;
+    }
+});
+
+
 
 // Like or unlike an article
 var nodes = document.getElementsByClassName('like');
@@ -110,18 +142,18 @@ Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
       var article_id = node.parentNode.parentNode.parentNode.getAttribute('data-article');
       var data;
-      if (node.classList.contains("fa-heart")) {
+      if (node.classList.contains("fa-star")) {
           data = JSON.stringify({like: false});
-          node.classList.remove('fa-heart');
-          node.classList.add('fa-heart-o');
+          node.classList.remove('fa-star');
+          node.classList.add('fa-star-o');
           if(window.location.pathname.indexOf('/favorites') != -1) {
               node.parentNode.parentNode.parentNode.remove();
           }
       }
       else {
           data = JSON.stringify({like: true})
-          node.classList.remove('fa-heart-o');
-          node.classList.add('fa-heart');
+          node.classList.remove('fa-star-o');
+          node.classList.add('fa-star');
       }
 
       // sends the updates to the server

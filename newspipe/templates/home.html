@@ -125,7 +125,7 @@
                     <a class="nav-link {% if filter_ == 'unread' %}active{% endif %}" href="{{ gen_url(filter_='unread') }}">{{ _('Unread') }}</a>
                 </li>
                 <li id="tab-unread" class="px-5 nav-item">
-                    <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}"><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;{{ _('Liked') }}</a>
+                    <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}"><i class="fa fa-star" aria-hidden="true"></i>&nbsp;{{ _('Liked') }}</a>
                 </li>
                 <li id="tab-nbdisplay" class="px-5 nav-item d-none d-lg-block">
                     <div id="nbdisplay">
@@ -166,9 +166,9 @@
                                     <a href="#"><i class="fa fa-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
                                 {% endif %}
                                 {% if article.like %}
-                                    <a href="#"><i class="fa fa-heart like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
                                 {% else %}
-                                    <a href="#"><i class="fa fa-heart-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
+                                    <a href="#"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
                                 {% endif %}
                             </th>
                             {% if not feed_id %}
