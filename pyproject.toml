@@ -11,7 +11,6 @@ aiohttp = "^3.6.2"
 requests = "^2.23.0"
 chardet = "^3.0.4"
 requests-futures = "^1.0.0"
-feedparser = "^5.2.1"
 beautifulsoup4 = "^4.8.2"
 lxml = "^4.5.0"
 opml = "^0.5"
@@ -30,6 +29,7 @@ WTForms = "^2.2.1"
 python-dateutil = "^2.8.1"
 psycopg2-binary = "^2.8.4"
 flask-talisman = "^0.7.0"
+feedparser = "^6.0.2"
 
 
 
