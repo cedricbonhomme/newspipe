@@ -116,6 +116,19 @@ def delete_read_articles():
     print("Read articles deleted.")
 
 
+@application.cli.command("fix_article_entry_id")
+def fix_article_entry_id():
+    filter = {}
+    filter["entry_id"] = None
+    articles = ArticleController().read(**filter).limit(50)
+    for article in articles:
+        try:
+            article.entry_id = str(article.id)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+
 @application.cli.command("fetch_asyncio")
 @click.option('--user-id', default=None, help='Id of the user')
 @click.option('--feed-id', default=None, help='If of the feed')
