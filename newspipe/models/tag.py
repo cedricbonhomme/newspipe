@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from sqlalchemy import Index, ForeignKeyConstraint
+
 from newspipe.bootstrap import db
 
 
@@ -19,6 +21,12 @@ class ArticleTag(db.Model):
 
     def __init__(self, text):
         self.text = text
+
+    __table_args__ = (
+            ForeignKeyConstraint([article_id], ['article.id'],
+                                 ondelete='CASCADE'),
+            Index('ix_articletag_aid', article_id),
+    )
 
 
 class BookmarkTag(db.Model):
