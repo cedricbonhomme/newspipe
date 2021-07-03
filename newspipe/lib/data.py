@@ -112,7 +112,7 @@ def import_json(nickname, json_content):
     nb_feeds, nb_articles = 0, 0
     # Create feeds:
     for feed in json_account:
-        if 'link' not in feed.keys() or feed['link'] is None:
+        if "link" not in feed.keys() or feed["link"] is None:
             continue
         if (
             None
@@ -134,7 +134,7 @@ def import_json(nickname, json_content):
     db.session.commit()
     # Create articles:
     for feed in json_account:
-        if 'link' not in feed.keys() or feed['link'] is None:
+        if "link" not in feed.keys() or feed["link"] is None:
             continue
         user_feed = Feed.query.filter(
             Feed.user_id == user.id, Feed.link == feed["link"]
@@ -201,8 +201,7 @@ def export_json(user):
 
 
 def import_pinboard_json(user, json_content):
-    """Import bookmarks from a pinboard JSON export.
-    """
+    """Import bookmarks from a pinboard JSON export."""
     bookmark_contr = BookmarkController(user.id)
     BookmarkTagController(user.id)
     bookmarks = json.loads(json_content.decode("utf-8"))
@@ -234,8 +233,7 @@ def import_pinboard_json(user, json_content):
 
 
 def export_bookmarks(user):
-    """Export all bookmarks of a user (compatible with Pinboard).
-    """
+    """Export all bookmarks of a user (compatible with Pinboard)."""
     bookmark_contr = BookmarkController(user.id)
     bookmarks = bookmark_contr.read()
     export = []

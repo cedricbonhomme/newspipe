@@ -73,12 +73,11 @@ class Feed(db.Model, RightMixin):
     )
 
     __table_args__ = (
-            ForeignKeyConstraint([user_id], ['user.id'], ondelete='CASCADE'),
-            ForeignKeyConstraint([category_id], ['category.id'],
-                                 ondelete='CASCADE'),
-            ForeignKeyConstraint([icon_url], ['icon.url']),
-            Index('ix_feed_uid', user_id),
-            Index('ix_feed_uid_cid', user_id, category_id),
+        ForeignKeyConstraint([user_id], ["user.id"], ondelete="CASCADE"),
+        ForeignKeyConstraint([category_id], ["category.id"], ondelete="CASCADE"),
+        ForeignKeyConstraint([icon_url], ["icon.url"]),
+        Index("ix_feed_uid", user_id),
+        Index("ix_feed_uid_cid", user_id, category_id),
     )
 
     # idx_feed_uid_cid = Index("user_id", "category_id")

@@ -18,9 +18,9 @@ PROCESSED_DATE_KEYS = {"published", "created", "updated"}
 
 
 def extract_id(entry):
-    """ extract a value from an entry that will identify it among the other of
+    """extract a value from an entry that will identify it among the other of
     that feed"""
-    entry_id = 'undefined'
+    entry_id = "undefined"
     try:
         entry_id = entry.get("entry_id") or entry.get("id") or entry["link"]
     except:
@@ -49,7 +49,9 @@ async def construct_article(entry, feed, fields=None, fetch=True):
                         timezone.utc
                     )
                 except ParserError:
-                    logger.exception("Error when parsing date: {}".format(entry[date_key]))
+                    logger.exception(
+                        "Error when parsing date: {}".format(entry[date_key])
+                    )
                 except Exception as e:
                     pass
                 else:

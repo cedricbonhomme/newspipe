@@ -69,7 +69,9 @@ db = SQLAlchemy(application)
 
 migrate = Migrate(application, db)
 
-talisman = Talisman(application, content_security_policy=application.config["CONTENT_SECURITY_POLICY"])
+talisman = Talisman(
+    application, content_security_policy=application.config["CONTENT_SECURITY_POLICY"]
+)
 
 babel = Babel(application)
 

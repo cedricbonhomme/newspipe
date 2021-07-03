@@ -107,5 +107,7 @@ def about_more():
         ],
         python_version="{}.{}.{}".format(*sys.version_info[:3]),
         nb_users=UserController().read().count(),
-        content_security_policy=talisman._parse_policy(talisman.content_security_policy),
+        content_security_policy=talisman._parse_policy(
+            talisman.content_security_policy
+        ),
     )

@@ -23,9 +23,8 @@ class ArticleTag(db.Model):
         self.text = text
 
     __table_args__ = (
-            ForeignKeyConstraint([article_id], ['article.id'],
-                                 ondelete='CASCADE'),
-            Index('ix_articletag_aid', article_id),
+        ForeignKeyConstraint([article_id], ["article.id"], ondelete="CASCADE"),
+        Index("ix_articletag_aid", article_id),
     )
 
 

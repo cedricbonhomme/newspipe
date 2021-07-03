@@ -34,8 +34,8 @@ def db_create():
 
 
 @application.cli.command("create_admin")
-@click.option('--nickname', default='admin', help='Nickname')
-@click.option('--password', default='password', help='Password')
+@click.option("--nickname", default="admin", help="Nickname")
+@click.option("--password", default="password", help="Password")
 def create_admin(nickname, password):
     "Will create an admin user."
     admin = {
@@ -53,7 +53,7 @@ def create_admin(nickname, password):
 
 
 @application.cli.command("delete_user")
-@click.option('--user-id', required=True, help='Id of the user to delete.')
+@click.option("--user-id", required=True, help="Id of the user to delete.")
 def delete_user(user_id=None):
     "Delete the user with the id specified in the command line."
     try:
@@ -64,7 +64,7 @@ def delete_user(user_id=None):
 
 
 @application.cli.command("delete_inactive_users")
-@click.option('--last-seen', default=6, help='Number of months since last seen.')
+@click.option("--last-seen", default=6, help="Number of months since last seen.")
 def delete_inactive_users(last_seen):
     "Delete inactive users (inactivity is given in parameter and specified in number of months)."
     filter = {}
@@ -81,7 +81,7 @@ def delete_inactive_users(last_seen):
 
 
 @application.cli.command("disable_inactive_users")
-@click.option('--last-seen', default=6, help='Number of months since last seen.')
+@click.option("--last-seen", default=6, help="Number of months since last seen.")
 def disable_inactive_users(last_seen):
     "Disable inactive users (inactivity is given in parameter and specified in number of months)."
     filter = {}
@@ -101,10 +101,11 @@ def disable_inactive_users(last_seen):
 
 @application.cli.command("delete_read_articles")
 def delete_read_articles():
-    "Delete read articles retrieved since more than 15 days ago."
+    "Delete read articles (and not liked) retrieved since more than 15 days ago."
     filter = {}
     filter["user_id__ne"] = 1
-    #filter["readed"] = True # temporary comment
+    filter["readed"] = True
+    filter["like"] = False
     filter["retrieved_date__lt"] = date.today() - relativedelta(days=15)
     articles = ArticleController().read(**filter).limit(5000)
     for article in articles:
@@ -130,8 +131,8 @@ def fix_article_entry_id():
 
 
 @application.cli.command("fetch_asyncio")
-@click.option('--user-id', default=None, help='Id of the user')
-@click.option('--feed-id', default=None, help='If of the feed')
+@click.option("--user-id", default=None, help="Id of the user")
+@click.option("--feed-id", default=None, help="If of the feed")
 def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
     import asyncio

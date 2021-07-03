@@ -112,9 +112,7 @@ class PyAggAbstractResource(Resource):
 
         if not default:
             for value in in_values:
-                parser.add_argument(
-                    value, location="json", default=in_values[value]
-                )
+                parser.add_argument(value, location="json", default=in_values[value])
 
         return parser.parse_args(req=request.args, strict=strict)
 

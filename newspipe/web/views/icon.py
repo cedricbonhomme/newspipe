@@ -17,4 +17,9 @@ def icon():
         return Response(base64.b64decode(icon.content), headers=headers)
     except:
         headers = {"Cache-Control": "max-age=86400", "Content-Type": "image/gif"}
-        return Response(base64.b64decode("R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="), headers=headers)
+        return Response(
+            base64.b64decode(
+                "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+            ),
+            headers=headers,
+        )

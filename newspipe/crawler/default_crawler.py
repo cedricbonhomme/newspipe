@@ -112,8 +112,7 @@ async def parse_feed(user, feed):
 
 
 async def insert_articles(queue, nḅ_producers=1):
-    """Consumer coroutines.
-    """
+    """Consumer coroutines."""
     nb_producers_done = 0
     while True:
         item = await queue.get()
@@ -172,14 +171,19 @@ async def retrieve_feed(queue, users, feed_id=None):
         filters["last_retrieved__lt"] = datetime.now() - timedelta(
             minutes=application.config["FEED_REFRESH_INTERVAL"]
         )
-        #feeds = FeedController().read(**filters).all()
-        feeds = [] # temporary fix for: sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) SSL SYSCALL error: EOF detected
+        # feeds = FeedController().read(**filters).all()
+        feeds = (
+            []
+        )  # temporary fix for: sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) SSL SYSCALL error: EOF detected
         for feed in user.feeds:
             if not feed.enabled:
                 continue
             if feed.error_count > application.config["DEFAULT_MAX_ERROR"]:
                 continue
-            if feed.last_retrieved > (datetime.now() - timedelta(minutes=application.config["FEED_REFRESH_INTERVAL"])):
+            if feed.last_retrieved > (
+                datetime.now()
+                - timedelta(minutes=application.config["FEED_REFRESH_INTERVAL"])
+            ):
                 continue
             if None is feed_id or (feed_id and feed_id == feed.id):
                 feeds.append(feed)

@@ -242,7 +242,9 @@ def process_form(feed_id=None):
 
     if not form.validate():
         return render_template("edit_feed.html", form=form)
-    existing_feeds = list(feed_contr.read(link=form.link.data, site_link=form.site_link.data))
+    existing_feeds = list(
+        feed_contr.read(link=form.link.data, site_link=form.site_link.data)
+    )
     if existing_feeds and feed_id is None:
         flash(gettext("Couldn't add feed: feed already exists."), "warning")
         return redirect(url_for("feed.form", feed_id=existing_feeds[0].id))

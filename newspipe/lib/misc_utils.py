@@ -101,11 +101,12 @@ def fetch(id, feed_id=None):
     The default crawler ("asyncio") is launched with the manager.
     """
     env = os.environ.copy()
-    env['FLASK_APP'] = 'runserver.py'
+    env["FLASK_APP"] = "runserver.py"
     cmd = [
         sys.exec_prefix + "/bin/flask",
         "fetch_asyncio",
-        "--user-id", str(id),
+        "--user-id",
+        str(id),
     ]
     if feed_id:
         cmd.extend(["--feed-id", str(feed_id)])

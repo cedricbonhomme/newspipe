@@ -63,7 +63,7 @@ class AbstractController:
         return db_filters
 
     def _get(self, **filters):
-        """ Will add the current user id if that one is not none (in which case
+        """Will add the current user id if that one is not none (in which case
         the decision has been made in the code that the query shouldn't be user
         dependent) and the user is not an admin and the filters doesn't already
         contains a filter for that user.

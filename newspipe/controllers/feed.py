@@ -88,9 +88,7 @@ class FeedController(AbstractController):
             icon_contr.create(**{"url": attrs["icon_url"]})
 
     def create(self, **attrs):
-        assert (
-            'link' in attrs
-        ), "A feed must have a link."
+        assert "link" in attrs, "A feed must have a link."
         self._ensure_icon(attrs)
         return super().create(**attrs)
 

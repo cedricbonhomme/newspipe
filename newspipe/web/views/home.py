@@ -21,8 +21,7 @@ logger = logging.getLogger(__name__)
 @current_app.route("/")
 @login_required
 def home():
-    """Displays the home page of the connected user.
-    """
+    """Displays the home page of the connected user."""
     filters = _get_filters(request.args)
 
     category_contr = CategoryController(current_user.id)
@@ -76,17 +75,14 @@ def home():
         search_title=search_title,
         search_content=search_content,
     ):
-        return (
-            "?filter_=%s&limit=%s&feed=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
-            % (
-                filter_,
-                limit,
-                feed,
-                1 if liked else 0,
-                query,
-                search_title,
-                search_content,
-            )
+        return "?filter_=%s&limit=%s&feed=%d&liked=%s&query=%s&search_title=%s&search_content=%s" % (
+            filter_,
+            limit,
+            feed,
+            1 if liked else 0,
+            query,
+            search_title,
+            search_content,
         )
 
     return render_template(
