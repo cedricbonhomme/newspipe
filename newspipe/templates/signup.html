@@ -9,19 +9,18 @@
                 <div class="input-group mb-3">
                     {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
                     <span class="input-group-text">{{ _('Letters, numbers, dots and underscores only.') }}</span>
-                    {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                <p class="help-block"></p>
+                {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <div class="input-group mb-3">
                     {{ form.email(class_="form-control", placeholder=_('Your email')) }}
                     <span class="input-group-text">{{ _("Only for account activation. Your email won't be stored.") }}</span>
-                    {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
+                {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <div class="input-group mb-3">
                     {{ form.password(class_="form-control", placeholder=_('Your password')) }}
                     <span class="input-group-text">{{ _('Minimum 20 characters.') }}</span>
-                    {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
+                {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 <br />
                 {{ form.submit(class_="btn btn-primary") }}
             </form>

@@ -199,20 +199,8 @@ class ProfileForm(FlaskForm):
         lazy_gettext("Nickname"),
         [validators.Required(lazy_gettext("Please enter your nickname."))],
     )
-    password = PasswordField(
-        lazy_gettext("Password"),
-        [
-            validators.Required(lazy_gettext("Please enter a password.")),
-            validators.Length(min=20, max=500),
-        ],
-    )
-    password_conf = PasswordField(
-        lazy_gettext("Password"),
-        [
-            validators.Required(lazy_gettext("Please enter a password.")),
-            validators.Length(min=20, max=500),
-        ],
-    )
+    password = PasswordField(lazy_gettext("Password"))
+    password_conf = PasswordField(lazy_gettext("Password"))
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     bio = TextAreaField(lazy_gettext("Bio"))
     webpage = URLField(lazy_gettext("Webpage"))
@@ -222,11 +210,16 @@ class ProfileForm(FlaskForm):
 
     def validate(self):
         validated = super(ProfileForm, self).validate()
-        if self.password.data != self.password_conf.data:
-            message = lazy_gettext("Passwords aren't the same.")
-            self.password.errors.append(message)
-            self.password_conf.errors.append(message)
-            validated = False
+        if self.password.data:
+            if self.password.data != self.password_conf.data:
+                message = lazy_gettext("Passwords aren't the same.")
+                self.password.errors.append(message)
+                self.password_conf.errors.append(message)
+                validated = False
+            if not 20 <= len(self.password.data) <= 500:
+                message = lazy_gettext("Password must be between 20 and 500 characters.")
+                self.password.errors.append(message)
+                validated = False
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
             self.nickname.errors.append(
                 lazy_gettext(
