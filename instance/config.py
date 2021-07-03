@@ -22,7 +22,7 @@ DB_CONFIG_DICT = {
     "port": 5432,
 }
 DATABASE_NAME = "postgres"
-SQLALCHEMY_DATABASE_URI = "postgres://{user}:{password}@{host}:{port}/{name}".format(
+SQLALCHEMY_DATABASE_URI = "postgresql://{user}:{password}@{host}:{port}/{name}".format(
     name=DATABASE_NAME, **DB_CONFIG_DICT
 )
 
