@@ -73,7 +73,7 @@ class SignupForm(FlaskForm):
         lazy_gettext("Password"),
         [
             validators.Required(lazy_gettext("Please enter a password.")),
-            validators.Length(min=6, max=100),
+            validators.Length(min=20, max=500),
         ],
     )
     submit = SubmitField(lazy_gettext("Sign up"))
@@ -130,7 +130,7 @@ class SigninForm(RedirectForm):
         lazy_gettext("Password"),
         [
             validators.Required(lazy_gettext("Please enter a password.")),
-            validators.Length(min=6, max=100),
+            validators.Length(min=6, max=500),
         ],
     )
     submit = SubmitField(lazy_gettext("Log In"))
@@ -167,7 +167,13 @@ class UserForm(FlaskForm):
         lazy_gettext("Nickname"),
         [validators.Required(lazy_gettext("Please enter your nickname."))],
     )
-    password = PasswordField(lazy_gettext("Password"))
+    password = PasswordField(
+        lazy_gettext("Password"),
+        [
+            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.Length(min=20, max=500),
+        ],
+    )
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
@@ -193,8 +199,20 @@ class ProfileForm(FlaskForm):
         lazy_gettext("Nickname"),
         [validators.Required(lazy_gettext("Please enter your nickname."))],
     )
-    password = PasswordField(lazy_gettext("Password"))
-    password_conf = PasswordField(lazy_gettext("Password Confirmation"))
+    password = PasswordField(
+        lazy_gettext("Password"),
+        [
+            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.Length(min=20, max=500),
+        ],
+    )
+    password_conf = PasswordField(
+        lazy_gettext("Password"),
+        [
+            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.Length(min=20, max=500),
+        ],
+    )
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     bio = TextAreaField(lazy_gettext("Bio"))
     webpage = URLField(lazy_gettext("Webpage"))
