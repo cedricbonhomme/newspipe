@@ -167,13 +167,7 @@ class UserForm(FlaskForm):
         lazy_gettext("Nickname"),
         [validators.Required(lazy_gettext("Please enter your nickname."))],
     )
-    password = PasswordField(
-        lazy_gettext("Password"),
-        [
-            validators.Required(lazy_gettext("Please enter a password.")),
-            validators.Length(min=20, max=500),
-        ],
-    )
+    password = PasswordField(lazy_gettext("Password"))
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
