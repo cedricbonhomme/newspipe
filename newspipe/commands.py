@@ -101,12 +101,12 @@ def disable_inactive_users(last_seen):
 
 @application.cli.command("delete_read_articles")
 def delete_read_articles():
-    "Delete read articles (and not liked) retrieved since more than 15 days ago."
+    "Delete read articles (and not liked) retrieved since more than 60 days ago."
     filter = {}
     filter["user_id__ne"] = 1
     filter["readed"] = True
     filter["like"] = False
-    filter["retrieved_date__lt"] = date.today() - relativedelta(days=15)
+    filter["retrieved_date__lt"] = date.today() - relativedelta(days=60)
     articles = ArticleController().read(**filter).limit(5000)
     for article in articles:
         try:
