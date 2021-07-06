@@ -36,6 +36,7 @@ from werkzeug.security import check_password_hash
 from newspipe.bootstrap import db
 from newspipe.models.category import Category
 from newspipe.models.feed import Feed
+from newspipe.models.bookmark import Bookmark
 from newspipe.models.right_mixin import RightMixin
 
 
@@ -75,6 +76,12 @@ class User(db.Model, UserMixin, RightMixin):
         backref="user",
         cascade="all, delete-orphan",
         foreign_keys=[Feed.user_id],
+    )
+    bookmarks = db.relationship(
+        "Bookmark",
+        backref="user",
+        cascade="all, delete-orphan",
+        foreign_keys=[Bookmark.user_id],
     )
 
     @staticmethod

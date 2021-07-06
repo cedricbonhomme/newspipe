@@ -14,6 +14,9 @@ class BookmarkController(AbstractController):
     def count_by_href(self, **filters):
         return self._count_by(Bookmark.href, filters)
 
+    def read_ordered(self, **filters):
+        return super().read(**filters).order_by(Bookmark.time.desc())
+
     def update(self, filters, attrs):
         BookmarkTagController(self.user_id).read(
             **{"bookmark_id": filters["id"]}

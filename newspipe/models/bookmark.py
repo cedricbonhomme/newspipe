@@ -52,12 +52,19 @@ class Bookmark(db.Model, RightMixin):
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
 
     # relationships
+    # tags = db.relationship(
+    #     BookmarkTag,
+    #     backref="of_bookmark",
+    #     lazy="dynamic",
+    #     cascade="all,delete-orphan",
+    #     order_by=desc(BookmarkTag.text),
+    # )
     tags = db.relationship(
-        BookmarkTag,
-        backref="of_bookmark",
-        lazy="dynamic",
+        "BookmarkTag",
+        back_populates="bookmark",
         cascade="all,delete-orphan",
-        order_by=desc(BookmarkTag.text),
+        lazy=False,
+        foreign_keys="[BookmarkTag.bookmark_id]",
     )
     tags_proxy = association_proxy("tags", "text")
 

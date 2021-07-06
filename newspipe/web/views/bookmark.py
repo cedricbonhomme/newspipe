@@ -40,7 +40,7 @@ from flask import (
 from flask_babel import gettext
 from flask_login import current_user, login_required
 from flask_paginate import Pagination, get_page_args
-from sqlalchemy import desc
+from sqlalchemy import desc, text
 from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import db
@@ -93,11 +93,9 @@ def list_(per_page, status="all"):
         filters["shared"] = True
 
     bookmarks = (
-        BookmarkController(user_id).read(**filters).order_by(desc("time")).limit(1000)
+        BookmarkController(user_id).read_ordered(**filters).limit(1000)
+        # BookmarkController(user_id).read(**filters).limit(1000)
     )
-
-    # tag_contr = BookmarkTagController(user_id)
-    # tag_contr.read().join(bookmarks).all()
 
     page, per_page, offset = get_page_args()
     pagination = Pagination(
