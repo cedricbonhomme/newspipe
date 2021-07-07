@@ -62,8 +62,7 @@ class Bookmark(db.Model, RightMixin):
     tags = db.relationship(
         "BookmarkTag",
         back_populates="bookmark",
-        cascade="all,delete-orphan",
-        lazy=False,
+        cascade="all, delete-orphan",
         foreign_keys="[BookmarkTag.bookmark_id]",
     )
     tags_proxy = association_proxy("tags", "text")

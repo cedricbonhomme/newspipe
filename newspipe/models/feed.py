@@ -60,10 +60,12 @@ class Feed(db.Model, RightMixin):
     last_error = db.Column(db.String(), default="")
     error_count = db.Column(db.Integer(), default=0)
 
-    # relationship
+    # foreign keys
     icon_url = db.Column(db.String(), db.ForeignKey("icon.url"), default=None)
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
     category_id = db.Column(db.Integer(), db.ForeignKey("category.id"))
+
+    # relationship
     articles = db.relationship(
         Article,
         backref="source",
