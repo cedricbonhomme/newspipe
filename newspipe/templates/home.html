@@ -159,18 +159,18 @@
                     <tbody>
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-bs-feed="{{ article.feed_id }}">
-                            <th scope="row">
+                            <td scope="row">
                                 {% if article.readed %}
-                                    <a href="#"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></a>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>
                                 {% else %}
-                                    <a href="#"><i class="fa fa-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="fa fa-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></button>
                                 {% endif %}
                                 {% if article.like %}
-                                    <a href="#"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></button>
                                 {% else %}
-                                    <a href="#"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></button>
                                 {% endif %}
-                            </th>
+                            </td>
                             {% if not feed_id %}
                                 <td class="d-none d-md-block">
                                     <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
