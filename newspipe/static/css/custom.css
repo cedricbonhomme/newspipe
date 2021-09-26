@@ -66,6 +66,14 @@ a {
     color: #0082c9 !important;
 }
 
+/* Main table for the list of news */
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: 0;
+  font-size: 16px;
+  line-height: .09;
+  border-radius: 0;
+}
 
 /* Sticky footer */
 .footer {
