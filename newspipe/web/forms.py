@@ -4,7 +4,7 @@
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2021 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information: http://gitlab.com/newspipe/newspipe
+# For more information: https://sr.ht/~cedric/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ from werkzeug.exceptions import NotFound
 from wtforms import (
     BooleanField,
     HiddenField,
-    IntegerField,
     PasswordField,
     SelectField,
     SelectMultipleField,
@@ -211,7 +210,8 @@ class ProfileForm(FlaskForm):
                 self.password_conf.errors.append(message)
                 validated = False
             if not 20 <= len(self.password.data) <= 500:
-                message = lazy_gettext("Password must be between 20 and 500 characters.")
+                message = lazy_gettext(
+                    "Password must be between 20 and 500 characters.")
                 self.password.errors.append(message)
                 validated = False
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
