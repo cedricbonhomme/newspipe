@@ -16,7 +16,6 @@ from newspipe.lib.data import import_json, import_opml
 from newspipe.web.forms import ProfileForm
 from newspipe.web.lib.user_utils import confirm_token
 
-users_bp = Blueprint("users", __name__, url_prefix="/users")
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
 
@@ -114,7 +113,7 @@ def management():
                         misc_utils.fetch(current_user.id, None)
                         flash(str(nb) + "  " + gettext("feeds imported."), "success")
                         flash(gettext("Downloading articles..."), "info")
-                except:
+                except Exception:
                     flash(gettext("Impossible to import the new feeds."), "danger")
         elif None != request.files.get("jsonfile", None):
             # Import an account
@@ -125,7 +124,7 @@ def management():
                 try:
                     nb = import_json(current_user.nickname, data.read())
                     flash(gettext("Account imported."), "success")
-                except:
+                except Exception:
                     flash(gettext("Impossible to import the account."), "danger")
         else:
             flash(gettext("File not allowed."), "danger")
