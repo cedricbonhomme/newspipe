@@ -6,4 +6,4 @@ from newspipe.web.views.bookmark import bookmark_bp, bookmarks_bp
 from newspipe.web.views.category import categories_bp, category_bp
 from newspipe.web.views.feed import feed_bp, feeds_bp
 from newspipe.web.views.icon import icon_bp
-from newspipe.web.views.user import user_bp, users_bp
+from newspipe.web.views.user import user_bp
