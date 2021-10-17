@@ -15,7 +15,7 @@ def icon():
         icon = IconController().get(url=request.args["url"])
         headers = {"Cache-Control": "max-age=86400", "Content-Type": icon.mimetype}
         return Response(base64.b64decode(icon.content), headers=headers)
-    except:
+    except Exception:
         headers = {"Cache-Control": "max-age=86400", "Content-Type": "image/gif"}
         return Response(
             base64.b64decode(
