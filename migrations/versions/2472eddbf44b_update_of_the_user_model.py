@@ -33,7 +33,10 @@ def downgrade():
         sa.Column("id", sa.INTEGER(), nullable=False),
         sa.Column("name", sa.VARCHAR(), nullable=True),
         sa.Column("user_id", sa.INTEGER(), nullable=True),
-        sa.ForeignKeyConstraint(["user_id"], ["user.id"],),
+        sa.ForeignKeyConstraint(
+            ["user_id"],
+            ["user.id"],
+        ),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("name"),
     )

@@ -19,19 +19,19 @@ SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
 
 # Security
 CONTENT_SECURITY_POLICY = {
-    'default-src': '\'self\'',
-    'img-src': '* data:',
-    'media-src': [
-        'youtube.com',
+    "default-src": "'self'",
+    "img-src": "* data:",
+    "media-src": [
+        "youtube.com",
     ],
-    'script-src': [
-        '\'self\'',
-        '\'unsafe-inline\'',
+    "script-src": [
+        "'self'",
+        "'unsafe-inline'",
     ],
-    'style-src': [
-        '\'self\'',
-        '\'unsafe-inline\'',
-    ]
+    "style-src": [
+        "'self'",
+        "'unsafe-inline'",
+    ],
 }
 
 # Crawler

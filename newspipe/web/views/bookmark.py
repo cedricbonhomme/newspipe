@@ -93,7 +93,9 @@ def list_(per_page, status="all"):
         filters["shared"] = True
 
     bookmarks = (
-        BookmarkController(user_id).read_ordered(**filters).limit(1000)
+        BookmarkController(user_id)
+        .read_ordered(**filters)
+        .limit(1000)
         # BookmarkController(user_id).read(**filters).limit(1000)
     )
 

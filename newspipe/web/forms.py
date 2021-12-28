@@ -211,7 +211,8 @@ class ProfileForm(FlaskForm):
                 validated = False
             if not 20 <= len(self.password.data) <= 500:
                 message = lazy_gettext(
-                    "Password must be between 20 and 500 characters.")
+                    "Password must be between 20 and 500 characters."
+                )
                 self.password.errors.append(message)
                 validated = False
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
