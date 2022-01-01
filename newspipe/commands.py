@@ -149,11 +149,11 @@ def fetch_asyncio(user_id=None, feed_id=None):
 
         try:
             feed_id = int(feed_id)
-        except:
+        except Exception:
             feed_id = None
 
         loop = asyncio.get_event_loop()
-        queue = asyncio.Queue(maxsize=3, loop=loop)
+        queue = asyncio.Queue(maxsize=3)
 
         producer_coro = default_crawler.retrieve_feed(queue, users, feed_id)
         consumer_coro = default_crawler.insert_articles(queue, 1)
