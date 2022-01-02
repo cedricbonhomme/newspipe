@@ -20,9 +20,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 __author__ = "Cedric Bonhomme"
-__version__ = "$Revision: 0.4 $"
+__version__ = "$Revision: 0.5 $"
 __date__ = "$Date: 2013/11/05 $"
-__revision__ = "$Date: 2014/04/12 $"
+__revision__ = "$Date: 2022/01/02 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
@@ -94,7 +94,7 @@ class User(db.Model, UserMixin, RightMixin):
 
     @staticmethod
     def make_valid_nickname(nickname):
-        return re.sub("[^a-zA-Z0-9_\.]", "", nickname)
+        return re.sub("[^a-zA-Z0-9_-]", "", nickname)
 
     @validates("bio")
     def validates_bio(self, key, value):

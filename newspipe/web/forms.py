@@ -87,7 +87,7 @@ class SignupForm(FlaskForm):
             self.nickname.errors.append(
                 lazy_gettext(
                     "This nickname has invalid characters. "
-                    "Please use letters, numbers, dots and underscores only."
+                    "Please use letters, numbers, dash and underscores only."
                 )
             )
             validated = False

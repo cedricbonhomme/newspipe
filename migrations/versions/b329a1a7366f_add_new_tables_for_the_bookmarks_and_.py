@@ -7,15 +7,13 @@ Create Date: 2017-05-23 21:42:37.636307
 """
 
 # revision identifiers, used by Alembic.
+from alembic import op
+import sqlalchemy as sa
+from datetime import datetime
 revision = "b329a1a7366f"
 down_revision = "2c5cc05216fa"
 branch_labels = None
 depends_on = None
-
-from datetime import datetime
-
-import sqlalchemy as sa
-from alembic import op
 
 
 def upgrade():

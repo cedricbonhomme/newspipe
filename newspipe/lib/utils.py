@@ -82,7 +82,7 @@ def clear_string(data):
     and consecutive white spaces (more that one).
     """
     p = re.compile("<[^>]+>")  # HTML tags
-    q = re.compile("\s")  # consecutive white spaces
+    q = re.compile(r"\s")  # consecutive white spaces
     return p.sub("", q.sub(" ", data))
 
 
