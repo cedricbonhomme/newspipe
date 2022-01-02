@@ -7,6 +7,7 @@ from newspipe.web.views.category import categories_bp, category_bp
 from newspipe.web.views.feed import feed_bp, feeds_bp
 from newspipe.web.views.icon import icon_bp
 from newspipe.web.views.user import user_bp
+from newspipe.web.views.stats import stats_bp
 
 __all__ = [
     "home",
@@ -24,4 +25,5 @@ __all__ = [
     "feeds_bp",
     "icon_bp",
     "user_bp",
+    "stats_bp"
 ]

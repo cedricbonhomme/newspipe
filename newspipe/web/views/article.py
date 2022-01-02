@@ -94,9 +94,12 @@ def delete(article_id=None):
 @articles_bp.route("/history/<int:year>/<int:month>", methods=["GET"])
 @login_required
 def history(year=None, month=None):
-    cntr, artcles = ArticleController(current_user.id).get_history(year, month)
+    if month is not None:
+        cntr, articles = ArticleController(current_user.id).get_history(year, month)
+    else:
+        cntr, articles = {}, []
     return render_template(
-        "history.html", articles_counter=cntr, articles=artcles, year=year, month=month
+        "history.html", articles_counter=cntr, articles=articles, year=year, month=month
     )
 
 

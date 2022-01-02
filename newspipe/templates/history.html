@@ -1,26 +1,118 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='npm_components/chart.js/dist/chart.min.js') }}"></script>
+<style>
+  .chart-container {
+    display: block;
+    float: none;
+    width: 20%;
+    margin-top: 0px;
+    margin-right:0px;
+    margin-left:0px;
+    height: auto;
+  }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>{{ _('History') }}</h1>
-    {% if month != None %}
-        <h2><a href="{{ url_for("articles.history", year=year) }}"><span class="fa fa-chevron-left" aria-hidden="true"></span> {{ year }}</a></h2>
-        <h3>{{ month | month_name }}</h3>
-    {% elif year != None %}
-        <h2><a href="{{ url_for("articles.history") }}"><span class="fa fa-chevron-left" aria-hidden="true"></span>&nbsp{{ _('all years') }}</a></h2>
-        <h3>{{ year }}</h3>
-    {% endif %}
-    <ul class="list-group">
-    {% for date in articles_counter | sort(reverse = True) %}
-        {% if year == None %}
-            <li class="list-group-item"><a href="{{ url_for("articles.history", year=date) }}">{{ date }}</a> : {{ articles_counter[date] }} articles</li>
-        {% elif month == None %}
-            <li class="list-group-item"><a href="{{ url_for("articles.history", year=year, month=date) }}">{{ date | month_name  }}</a> : {{ articles_counter[date] }} articles</li>
-        {% else %}
-            {% for article in articles %}
-                <li class="list-group-item">{{ article.date | datetime }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
-            {% endfor %}
-        {% endif %}
-     {% endfor %}
-     </ul>
+  <h1>{{ _('History') }}</h1>
+
+  {% if month != None %}
+  <h2><a href="{{ url_for("articles.history", year=year) }}"><span class="fa fa-chevron-left" aria-hidden="true"></span> {{ year }}</a></h2>
+  <h3>{{ month | month_name }}</h3>
+  {% elif year != None %}
+  <h2><a href="{{ url_for("articles.history") }}"><span class="fa fa-chevron-left" aria-hidden="true"></span>&nbsp{{ _('all years') }}</a></h2>
+  <h3>{{ year }}</h3>
+  {% endif %}
+
+  {% if month == None %}
+  <div class="row">
+    <div class="col chart-container">
+      <canvas id="stats-history"></canvas>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if year != None and month != None %}
+  <div class="row">
+    <div class="col">
+      <ul class="list-group">
+        {% for date in articles_counter | sort(reverse = True) %}
+        {% for article in articles %}
+        <li class="list-group-item">{{ article.date | datetime }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
+        {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
 </div><!-- /.container -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var months = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+    var colors = ['rgba(230, 25, 75, 0.4)', 'rgba(60, 180, 75, 0.4)',
+    'rgba(255, 225, 25, 0.4)', 'rgba(0, 130, 200, 0.4)', 'rgba(245, 130, 48, 0.4)',
+    'rgba(145, 30, 180, 0.4)', 'rgba(70, 240, 240, 0.4)', 'rgba(240, 50, 230, 0.4)',
+    'rgba(210, 245, 60, 0.4)', 'rgba(250, 190, 190, 0.4)', 'rgba(0, 128, 128, 0.4)',
+    'rgb(148, 163, 209, 0.4)', 'rgba(170, 110, 40, 0.4)', 'rgb(141, 140, 255, 0.4)',
+    'rgba(128, 0, 0, 0.4)', 'rgba(170, 255, 195, 0.4)', 'rgba(128, 128, 0, 0.4)',
+    'rgba(255, 215, 180, 0.4)', 'rgba(0, 0, 128, 0.4)', 'rgb(241, 147, 241, 0.4)',
+    'rgba(255, 255, 255, 0.4)', 'rgb(129, 181, 255, 0.4)', 'rgb(229, 236, 202, 0.4)',
+    'rgb(157, 196, 241, 0.4)', 'rgb(253, 141, 211, 0.4)', 'rgb(180, 128, 253, 0.4)',
+    'rgb(255, 195, 129, 0.4)', 'rgb(204, 228, 230, 0.4)'];
+
+    var period = window.location.pathname.split("/history")[1]
+    if (period == null){
+      period = "";
+    }
+
+    if (period.split('/').length - 1 < 2) {
+      fetch("/stats/history.json" + period)
+      .then(response => response.json())
+      .then(result => {
+        if (period.split('/').length - 1 == 1) {
+          var labels = Object.keys(result).map(function(e){return months[e-1]});
+        } else {
+          var labels = Object.keys(result);
+        }
+        var ctx = document.getElementById("stats-history").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'History of aggregated articles.',
+              data: Object.values(result),
+              borderWidth: 1,
+              backgroundColor: colors
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            onClick: function(evt) {
+              const points = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+              if (points.length) {
+                const firstPoint = points[0];
+                var label = myChart.data.labels[firstPoint.index];
+                var value = myChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+
+                if (months.includes(label)) {
+                  the_month = months.indexOf(label)+1;
+                  window.location = window.location + "/" + the_month;
+                } else {
+                  window.location = window.location + "/" + label;
+                }
+              }
+            }
+          }
+        });
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  });
+</script>
 {% endblock %}

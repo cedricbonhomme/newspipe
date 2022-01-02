@@ -49,6 +49,7 @@ with application.app_context():
     application.register_blueprint(views.user_bp)
     application.register_blueprint(views.bookmarks_bp)
     application.register_blueprint(views.bookmark_bp)
+    application.register_blueprint(views.stats_bp)
 
     register_commands(application)
 
