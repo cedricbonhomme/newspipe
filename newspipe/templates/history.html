@@ -29,6 +29,9 @@
   {% if month == None %}
   <div class="row">
     <div class="col chart-container">
+      <div id="spinner" class="d-flex justify-content-center">
+          <div class="spinner-border" role="status"><span class="sr-only">{{ _('Loading...') }}</span></div>
+      </div>
       <canvas id="stats-history"></canvas>
     </div>
   </div>
@@ -72,6 +75,9 @@
       fetch("/stats/history.json" + period)
       .then(response => response.json())
       .then(result => {
+        var element = document.getElementById("spinner");
+        element.parentNode.removeChild(element);
+
         if (period.split('/').length - 1 == 1) {
           var labels = Object.keys(result).map(function(e){return months[e-1]});
         } else {
