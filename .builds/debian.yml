@@ -1,4 +1,4 @@
-image: ubuntu/21.10
+image: ubuntu/22.04
 sources:
   - https://git.sr.ht/~cedric/newspipe
 packages:
