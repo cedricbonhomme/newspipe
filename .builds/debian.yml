@@ -1,4 +1,4 @@
-image: debian/bullseye
+image: ubuntu/21.10
 sources:
   - https://git.sr.ht/~cedric/newspipe
 packages:
