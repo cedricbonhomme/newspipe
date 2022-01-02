@@ -155,7 +155,7 @@ def process_filters(filters, article, only_actions=None):
     if only_actions is None:
         only_actions = set(FiltersAction)
     for filter_ in filters:
-        match = False
+        matching = False
         try:
             pattern = filter_.get("pattern", "")
             filter_type = FiltersType(filter_.get("type"))
@@ -181,20 +181,21 @@ def process_filters(filters, article, only_actions=None):
             continue
         title = article.get("title", "").lower()
         tags = [tag.lower() for tag in article.get("tags", [])]
-        if filter_type is FiltersType.REGEX:
-            match = re.match(pattern, title)
-        elif filter_type is FiltersType.MATCH:
-            match = pattern in title
-        elif filter_type is FiltersType.EXACT_MATCH:
-            match = pattern == title
-        elif filter_type is FiltersType.TAG_MATCH:
-            match = pattern in tags
-        elif filter_type is FiltersType.TAG_CONTAINS:
-            match = any(pattern in tag for tag in tags)
+        match filter_type:
+            case FiltersType.REGEX:
+                matching = re.match(pattern, title)
+            case FiltersType.MATCH:
+                matching = pattern in title
+            case FiltersType.EXACT_MATCH:
+                matching = pattern == title
+            case FiltersType.TAG_MATCH:
+                matching = pattern in tags
+            case FiltersType.TAG_CONTAINS:
+                matching = any(pattern in tag for tag in tags)
         take_action = (
-            match
+            matching
             and filter_trigger is FiltersTrigger.MATCH
-            or not match
+            or not matching
             and filter_trigger is FiltersTrigger.NO_MATCH
         )
 
