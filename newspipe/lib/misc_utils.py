@@ -46,7 +46,7 @@ from newspipe.lib.utils import clear_string
 
 try:
     from urlparse import urlparse, parse_qs, urlunparse
-except:
+except Exception:
     from urllib.parse import urlparse, parse_qs, urlunparse, urljoin
 
 
@@ -119,14 +119,14 @@ def history(user_id, year=None, month=None):
     """
     articles_counter = Counter()
     articles = ArticleController(user_id).read()
-    if None != year:
+    if year is not None:
         articles = articles.filter(sqlalchemy.extract("year", "Article.date") == year)
-        if None != month:
+        if month is not None:
             articles = articles.filter(
                 sqlalchemy.extract("month", "Article.date") == month
             )
     for article in articles.all():
-        if None != year:
+        if year is not None:
             articles_counter[article.date.month] += 1
         else:
             articles_counter[article.date.year] += 1

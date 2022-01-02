@@ -16,6 +16,6 @@ def confirm_token(token):
             salt=application.config["SECURITY_PASSWORD_SALT"],
             max_age=application.config["TOKEN_VALIDITY_PERIOD"],
         )
-    except:
+    except Exception:
         return False
     return nickname

@@ -52,7 +52,7 @@ def import_opml(nickname, opml_content):
     user = User.query.filter(User.nickname == nickname).first()
     try:
         subscriptions = opml.from_string(opml_content)
-    except:
+    except Exception:
         logger.exception("Parsing OPML file failed:")
         raise
 
@@ -66,26 +66,26 @@ def import_opml(nickname, opml_content):
             else:
                 try:
                     title = subscription.text
-                except:
+                except Exception:
                     title = ""
                 try:
                     description = subscription.description
-                except:
+                except Exception:
                     description = ""
                 try:
                     link = subscription.xmlUrl
-                except:
+                except Exception:
                     continue
                 if (
-                    None
-                    != Feed.query.filter(
+                    Feed.query.filter(
                         Feed.user_id == user.id, Feed.link == link
                     ).first()
+                    is not None
                 ):
                     continue
                 try:
                     site_link = subscription.htmlUrl
-                except:
+                except Exception:
                     site_link = ""
                 new_feed = Feed(
                     title=title,
@@ -115,10 +115,10 @@ def import_json(nickname, json_content):
         if "link" not in feed.keys() or feed["link"] is None:
             continue
         if (
-            None
-            != Feed.query.filter(
+            Feed.query.filter(
                 Feed.user_id == user.id, Feed.link == feed["link"]
             ).first()
+            is not None
         ):
             continue
         new_feed = Feed(
@@ -139,15 +139,15 @@ def import_json(nickname, json_content):
         user_feed = Feed.query.filter(
             Feed.user_id == user.id, Feed.link == feed["link"]
         ).first()
-        if None != user_feed:
+        if user_feed is not None:
             for article in feed["articles"]:
                 if (
-                    None
-                    == Article.query.filter(
+                    Article.query.filter(
                         Article.user_id == user.id,
                         Article.feed_id == user_feed.id,
                         Article.link == article["link"],
                     ).first()
+                    is not None
                 ):
                     new_article = Article(
                         entry_id=article["link"],

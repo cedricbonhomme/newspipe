@@ -40,7 +40,6 @@ from flask import (
 from flask_babel import gettext
 from flask_login import current_user, login_required
 from flask_paginate import Pagination, get_page_args
-from sqlalchemy import desc, text
 from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import db

@@ -23,7 +23,7 @@ def extract_id(entry):
     entry_id = "undefined"
     try:
         entry_id = entry.get("entry_id") or entry.get("id") or entry["link"]
-    except:
+    except Exception:
         pass
     return entry_id
 
@@ -52,7 +52,7 @@ async def construct_article(entry, feed, fields=None, fetch=True):
                     logger.exception(
                         "Error when parsing date: {}".format(entry[date_key])
                     )
-                except Exception as e:
+                except Exception:
                     pass
                 else:
                     break

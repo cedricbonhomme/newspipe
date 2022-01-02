@@ -92,7 +92,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         return feed
     except requests.exceptions.ConnectionError:
         return feed
-    except:
+    except Exception:
         logger.exception("failed to retrieve %r", feed["site_link"])
         return feed
     bs_parsed = BeautifulSoup(

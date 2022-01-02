@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from flask import (
     Blueprint,
     flash,
-    g,
     make_response,
     redirect,
     render_template,
@@ -14,7 +13,7 @@ from flask_babel import gettext
 from flask_login import current_user, login_required
 
 from newspipe.bootstrap import db
-from newspipe.controllers import ArticleController, CategoryController, UserController
+from newspipe.controllers import ArticleController, UserController
 from newspipe.lib.data import export_json
 from newspipe.lib.utils import clear_string, redirect_url
 from newspipe.web.lib.view_utils import etag_match

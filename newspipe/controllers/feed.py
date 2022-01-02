@@ -24,7 +24,7 @@ class FeedController(AbstractController):
                 error_count__lt=max_error, enabled=True, last_retrieved__lt=max_last
             )
             .join(User)
-            .filter(User.is_active == True)
+            .filter(User.is_active == True)  # noqa
             .order_by("last_retrieved")
             .limit(limit)
         ]

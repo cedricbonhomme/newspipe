@@ -65,7 +65,8 @@ def delete_user(user_id=None):
 @application.cli.command("delete_inactive_users")
 @click.option("--last-seen", default=6, help="Number of months since last seen.")
 def delete_inactive_users(last_seen):
-    "Delete inactive users (inactivity is given in parameter and specified in number of months)."
+    """Delete inactive users (inactivity is given in parameter and specified in number
+    of months)."""
     filter = {}
     filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
     users = UserController().read(**filter)
@@ -74,7 +75,7 @@ def delete_inactive_users(last_seen):
         try:
             print("Deleting user {}...".format(user.nickname))
             db.session.commit()
-        except:
+        except Exception:
             db.session.rollback()
     print("Inactive users deleted.")
 
@@ -82,7 +83,8 @@ def delete_inactive_users(last_seen):
 @application.cli.command("disable_inactive_users")
 @click.option("--last-seen", default=6, help="Number of months since last seen.")
 def disable_inactive_users(last_seen):
-    "Disable inactive users (inactivity is given in parameter and specified in number of months)."
+    """Disable inactive users (inactivity is given in parameter and specified in number
+    of months)."""
     filter = {}
     filter["last_seen__lt"] = date.today() - relativedelta(months=last_seen)
     users = UserController().read(**filter)
@@ -93,7 +95,7 @@ def disable_inactive_users(last_seen):
         try:
             print("Updating user {}...".format(user.nickname))
             db.session.commit()
-        except:
+        except Exception:
             db.session.rollback()
     print("Inactive users disabled.")
 
@@ -111,7 +113,7 @@ def delete_read_articles():
         try:
             db.session.delete(article)
             db.session.commit()
-        except:
+        except Exception:
             db.session.rollback()
     print("Read articles deleted.")
 
@@ -125,7 +127,7 @@ def fix_article_entry_id():
         try:
             article.entry_id = str(article.id)
             db.session.commit()
-        except:
+        except Exception:
             db.session.rollback()
 
 

@@ -101,7 +101,7 @@ def management():
     Display the management page.
     """
     if request.method == "POST":
-        if None != request.files.get("opmlfile", None):
+        if None is not request.files.get("opmlfile", None):
             # Import an OPML file
             data = request.files.get("opmlfile", None)
             if not misc_utils.allowed_file(data.filename):
@@ -115,7 +115,7 @@ def management():
                         flash(gettext("Downloading articles..."), "info")
                 except Exception:
                     flash(gettext("Impossible to import the new feeds."), "danger")
-        elif None != request.files.get("jsonfile", None):
+        elif None is not request.files.get("jsonfile", None):
             # Import an account
             data = request.files.get("jsonfile", None)
             if not misc_utils.allowed_file(data.filename):

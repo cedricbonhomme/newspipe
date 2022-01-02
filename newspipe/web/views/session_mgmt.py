@@ -7,11 +7,10 @@ from flask import (
     flash,
     redirect,
     render_template,
-    request,
     session,
     url_for,
 )
-from flask_babel import gettext, lazy_gettext
+from flask_babel import gettext
 from flask_login import LoginManager, current_user, login_required, logout_user
 from flask_principal import (
     AnonymousIdentity,

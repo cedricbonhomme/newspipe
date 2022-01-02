@@ -39,7 +39,6 @@ from newspipe.controllers import ArticleController, FeedController
 from newspipe.lib.article_utils import (
     construct_article,
     extract_id,
-    get_article_content,
 )
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
 from newspipe.lib.utils import newspipe_get
@@ -98,14 +97,14 @@ async def parse_feed(user, feed):
     # Feed information
     try:
         up_feed.update(construct_feed_from(feed.link, parsed_feed))
-    except:
+    except Exception:
         logger.exception("error when constructing feed: {}".format(feed.link))
     if feed.title and "title" in up_feed:
         # do not override the title set by the user
         del up_feed["title"]
     try:
         FeedController().update({"id": feed.id}, up_feed)
-    except:
+    except Exception:
         logger.exception("error when updating feed: {}".format(feed.link))
 
     return articles
@@ -172,9 +171,8 @@ async def retrieve_feed(queue, users, feed_id=None):
             minutes=application.config["FEED_REFRESH_INTERVAL"]
         )
         # feeds = FeedController().read(**filters).all()
-        feeds = (
-            []
-        )  # temporary fix for: sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) SSL SYSCALL error: EOF detected
+        feeds = []  # temporary fix for: sqlalchemy.exc.OperationalError:
+        # (psycopg2.OperationalError) SSL SYSCALL error: EOF detected
         for feed in user.feeds:
             if not feed.enabled:
                 continue
