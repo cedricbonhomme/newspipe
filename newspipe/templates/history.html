@@ -83,15 +83,18 @@
           data: {
             labels: labels,
             datasets: [{
-              label: 'History of aggregated articles.',
+              label: 'Number of aggregated articles',
               data: Object.values(result),
               borderWidth: 1,
               backgroundColor: colors
             }],
           },
           options: {
+            title: {
+              display: true,
+              text: 'Number of aggregated articles'
+            },
             responsive: true,
-            maintainAspectRatio: false,
             onClick: function(evt) {
               const points = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
               if (points.length) {
@@ -106,6 +109,16 @@
                   window.location = window.location + "/" + label;
                 }
               }
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+            },
+            y: {
+              display: true,
+              beginAtZero: true,
+              type: 'logarithmic',
             }
           }
         });
