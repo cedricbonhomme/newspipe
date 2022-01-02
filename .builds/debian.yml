@@ -1,4 +1,4 @@
-image: debian/sid
+image: debian/bullseye
 sources:
   - https://git.sr.ht/~cedric/newspipe
 packages:
