@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -
-
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -59,29 +57,30 @@ async def parse_feed(user, feed):
     resp = None
     # with (await sem):
     try:
-        logger.info("Retrieving feed {}".format(feed.link))
+        logger.info(f"Retrieving feed {feed.link}")
         resp = newspipe_get(feed.link, timeout=5)
     except Exception:
-        logger.info("Problem when reading feed {}".format(feed.link))
+        logger.info(f"Problem when reading feed {feed.link}")
         return
-    finally:
-        if None is resp:
-            return
+
+    if None is resp:
+        return
+
+    try:
+        content = io.BytesIO(resp.content)
+        parsed_feed = feedparser.parse(content)
+    except Exception as e:
+        up_feed["last_error"] = str(e)
+        up_feed["error_count"] = feed.error_count + 1
+        logger.exception("error when parsing feed: " + str(e))
+
+    up_feed["last_retrieved"] = datetime.now(dateutil.tz.tzlocal())
+    if parsed_feed is None:
         try:
-            content = io.BytesIO(resp.content)
-            parsed_feed = feedparser.parse(content)
+            FeedController().update({"id": feed.id}, up_feed)
         except Exception as e:
-            up_feed["last_error"] = str(e)
-            up_feed["error_count"] = feed.error_count + 1
-            logger.exception("error when parsing feed: " + str(e))
-        finally:
-            up_feed["last_retrieved"] = datetime.now(dateutil.tz.tzlocal())
-            if parsed_feed is None:
-                try:
-                    FeedController().update({"id": feed.id}, up_feed)
-                except Exception as e:
-                    logger.exception("something bad here: " + str(e))
-                return
+            logger.exception("something bad here: " + str(e))
+        return
 
     if not is_parsing_ok(parsed_feed):
         up_feed["last_error"] = str(parsed_feed["bozo_exception"])
@@ -98,14 +97,14 @@ async def parse_feed(user, feed):
     try:
         up_feed.update(construct_feed_from(feed.link, parsed_feed))
     except Exception:
-        logger.exception("error when constructing feed: {}".format(feed.link))
+        logger.exception(f"error when constructing feed: {feed.link}")
     if feed.title and "title" in up_feed:
         # do not override the title set by the user
         del up_feed["title"]
     try:
         FeedController().update({"id": feed.id}, up_feed)
     except Exception:
-        logger.exception("error when updating feed: {}".format(feed.link))
+        logger.exception(f"error when updating feed: {feed.link}")
 
     return articles
 
@@ -129,7 +128,7 @@ async def insert_articles(queue, nḅ_producers=1):
             logger.info("None")
             articles = []
 
-        logger.info("Inserting articles for {}".format(feed.link))
+        logger.info(f"Inserting articles for {feed.link}")
 
         art_contr = ArticleController(user.id)
         for article in articles:
@@ -160,7 +159,7 @@ async def retrieve_feed(queue, users, feed_id=None):
     Launch the processus.
     """
     for user in users:
-        logger.info("Starting to retrieve feeds for {}".format(user.nickname))
+        logger.info(f"Starting to retrieve feeds for {user.nickname}")
         filters = {}
         filters["user_id"] = user.id
         if feed_id is not None:
@@ -187,7 +186,7 @@ async def retrieve_feed(queue, users, feed_id=None):
                 feeds.append(feed)
 
         if feeds == []:
-            logger.info("No feed to retrieve for {}".format(user.nickname))
+            logger.info(f"No feed to retrieve for {user.nickname}")
 
         for feed in feeds:
             articles = await parse_feed(user, feed)

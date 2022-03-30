@@ -1,17 +1,16 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -
-
 # required imports and code execution for basic functionning
-
 import calendar
 import logging
 import os
 
-from flask import Flask, request
+from flask import Flask
+from flask import request
+from flask_babel import Babel
+from flask_babel import format_datetime
 from flask_migrate import Migrate
-from flask_talisman import Talisman
-from flask_babel import Babel, format_datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
 
 
 def set_logging(

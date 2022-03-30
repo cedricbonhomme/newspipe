@@ -8,15 +8,15 @@ class RightMixin:
 
     @staticmethod
     def _fields_base_read():
-        return set(["id"])
+        return {"id"}
 
     @staticmethod
     def _fields_api_write():
-        return set([])
+        return set()
 
     @staticmethod
     def _fields_api_read():
-        return set(["id"])
+        return {"id"}
 
     @classmethod
     def fields_base_write(cls):

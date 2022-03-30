@@ -5,10 +5,9 @@ Revises: fa10b0bdd045
 Create Date: 2016-10-24 13:28:55.964803
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 revision = "be2b8b6f33dd"
 down_revision = "fa10b0bdd045"

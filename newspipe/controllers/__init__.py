@@ -1,5 +1,5 @@
 from .feed import FeedController
-from .category import CategoryController
+from .category import CategoryController  # noreorder
 from .article import ArticleController
 from .user import UserController
 from .icon import IconController

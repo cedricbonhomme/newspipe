@@ -27,7 +27,7 @@ function change_unread_counter(feed_id, increment) {
       var new_value = parseInt(el.textContent) + increment;
       document.getElementById("unread-"+feed_id).textContent = new_value;
     }
-   
+
     document.getElementById("total-unread").textContent = parseInt(document.getElementById("total-unread").textContent) + increment;
 
     if (new_value == 0) {
@@ -87,7 +87,7 @@ Array.prototype.map.call(nodes, function(node) {
 
       // sends the updates to the server
       fetch(API_ROOT + "article/" + article_id, {
-        method: "PUT", 
+        method: "PUT",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -121,7 +121,7 @@ Array.prototype.map.call(nodes, function(node) {
 
       // sends the updates to the server
       fetch(API_ROOT + "article/" + article_id, {
-        method: "PUT", 
+        method: "PUT",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -158,7 +158,7 @@ Array.prototype.map.call(nodes, function(node) {
 
       // sends the updates to the server
       fetch(API_ROOT + "article/" + article_id, {
-        method: "PUT", 
+        method: "PUT",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -190,7 +190,7 @@ Array.prototype.map.call(nodes, function(node) {
 
         // sends the updates to the server
         fetch(API_ROOT + "articles", {
-          method: "DELETE", 
+          method: "DELETE",
           headers: {
             'Content-Type': 'application/json',
           },

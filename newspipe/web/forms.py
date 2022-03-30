@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -171,7 +169,7 @@ class UserForm(FlaskForm):
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
-        validated = super(UserForm, self).validate()
+        validated = super().validate()
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
             self.nickname.errors.append(
                 lazy_gettext(
@@ -202,7 +200,7 @@ class ProfileForm(FlaskForm):
     submit = SubmitField(lazy_gettext("Save"))
 
     def validate(self):
-        validated = super(ProfileForm, self).validate()
+        validated = super().validate()
         if self.password.data:
             if self.password.data != self.password_conf.data:
                 message = lazy_gettext("Passwords aren't the same.")

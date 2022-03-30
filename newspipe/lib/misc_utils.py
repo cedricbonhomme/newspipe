@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -52,7 +50,7 @@ except Exception:
 
 logger = logging.getLogger(__name__)
 
-ALLOWED_EXTENSIONS = set(["xml", "opml", "json"])
+ALLOWED_EXTENSIONS = {"xml", "opml", "json"}
 
 
 def is_safe_url(target):
@@ -86,7 +84,7 @@ def allowed_file(filename):
 def opened_w_error(filename, mode="r"):
     try:
         f = open(filename, mode)
-    except IOError as err:
+    except OSError as err:
         yield None, err
     else:
         try:
@@ -139,7 +137,7 @@ def clean_url(url):
     """
     parsed_url = urlparse(url)
     qd = parse_qs(parsed_url.query, keep_blank_values=True)
-    filtered = dict((k, v) for k, v in qd.items() if not k.startswith("utm_"))
+    filtered = {k: v for k, v in qd.items() if not k.startswith("utm_")}
     return urlunparse(
         [
             parsed_url.scheme,
@@ -192,7 +190,7 @@ def tag_cloud(tags):
     Generates a tags cloud.
     """
     tags.sort(key=operator.itemgetter(0))
-    max_tag = max([tag[1] for tag in tags])
+    max_tag = max(tag[1] for tag in tags)
     return "\n".join(
         [
             ("<font size=%d>%s</font>" % (min(1 + count * 7 / max_tag, 7), word))

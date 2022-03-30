@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -21,8 +19,8 @@
 from flask import g
 from flask_restful import Api
 
-from newspipe.bootstrap import application
 from newspipe import commands
+from newspipe.bootstrap import application
 
 
 def register_commands(app):

@@ -5,11 +5,11 @@ Revises: 1b750a389c22
 Create Date: 2015-03-04 22:59:44.665979
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
-import sqlalchemy as sa
 from datetime import datetime
+
+import sqlalchemy as sa
+from alembic import op
 
 revision = "cde34831ea"
 down_revision = "1b750a389c22"

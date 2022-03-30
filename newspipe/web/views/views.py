@@ -1,14 +1,22 @@
 import logging
 import operator
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
-from flask import current_app, flash, redirect, render_template, request, url_for
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from flask_babel import gettext
 from sqlalchemy import desc
 
-from newspipe.bootstrap import application, talisman
-from newspipe.controllers import FeedController, UserController
+from newspipe.bootstrap import application
+from newspipe.bootstrap import talisman
+from newspipe.controllers import FeedController
+from newspipe.controllers import UserController
 from newspipe.web import __version__
 from newspipe.web.lib.view_utils import etag_match
 
@@ -89,9 +97,9 @@ def about_more():
     version = __version__.split("-")
     if len(version) == 1:
         newspipe_version = version[0]
-        version_url = "https://git.sr.ht/~cedric/newspipe/refs/{}".format(version[0])
+        version_url = f"https://git.sr.ht/~cedric/newspipe/refs/{version[0]}"
     else:
-        newspipe_version = "{} - {}".format(version[0], version[2][1:])
+        newspipe_version = f"{version[0]} - {version[2][1:]}"
         version_url = "https://git.sr.ht/~cedric/newspipe/commit/{}".format(
             version[2][1:]
         )

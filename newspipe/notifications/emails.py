@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -18,12 +16,11 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import logging
 import smtplib
+from email import charset
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email import charset
 
 from newspipe.bootstrap import application
 from newspipe.web.decorators import async_maker

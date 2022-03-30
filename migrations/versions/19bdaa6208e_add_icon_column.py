@@ -5,10 +5,9 @@ Revises: 422da2d0234
 Create Date: 2015-07-03 12:09:58.596010
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 revision = "19bdaa6208e"
 down_revision = "422da2d0234"

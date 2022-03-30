@@ -1096,4 +1096,3 @@ msgstr ""
 #: newspipe/web/views/views.py:30
 msgid "Forbidden."
 msgstr ""
-

@@ -5,10 +5,9 @@ Revises: 16f8fc3cf0cc
 Create Date: 2016-10-05 08:47:51.384069
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 revision = "f700c4237e9d"
 down_revision = "16f8fc3cf0cc"

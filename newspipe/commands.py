@@ -1,16 +1,17 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import logging
-from dateutil.relativedelta import relativedelta
-from datetime import datetime, date
+from datetime import date
+from datetime import datetime
 
 import click
+from dateutil.relativedelta import relativedelta
 from werkzeug.security import generate_password_hash
 
 import newspipe.models
-from newspipe.bootstrap import application, db
-from newspipe.controllers import UserController, ArticleController
+from newspipe.bootstrap import application
+from newspipe.bootstrap import db
+from newspipe.controllers import ArticleController
+from newspipe.controllers import UserController
 
 logger = logging.getLogger("commands")
 
@@ -57,7 +58,7 @@ def delete_user(user_id=None):
     "Delete the user with the id specified in the command line."
     try:
         user = UserController().delete(user_id)
-        print("User {} deleted".format(user.nickname))
+        print(f"User {user.nickname} deleted")
     except Exception as e:
         print(e)
 
@@ -73,7 +74,7 @@ def delete_inactive_users(last_seen):
     for user in users:
         db.session.delete(user)
         try:
-            print("Deleting user {}...".format(user.nickname))
+            print(f"Deleting user {user.nickname}...")
             db.session.commit()
         except Exception:
             db.session.rollback()
@@ -93,7 +94,7 @@ def disable_inactive_users(last_seen):
         user.is_public_profile = False
         user.automatic_crawling = False
         try:
-            print("Updating user {}...".format(user.nickname))
+            print(f"Updating user {user.nickname}...")
             db.session.commit()
         except Exception:
             db.session.rollback()
@@ -164,4 +165,4 @@ def fetch_asyncio(user_id=None, feed_id=None):
         loop.run_until_complete(asyncio.gather(producer_coro, consumer_coro))
         end = datetime.now()
         loop.close()
-        logger.info("Crawler finished in {} seconds.".format((end - start).seconds))
+        logger.info(f"Crawler finished in {(end - start).seconds} seconds.")

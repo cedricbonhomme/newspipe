@@ -1,29 +1,29 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 import requests.exceptions
-from flask import (
-    Blueprint,
-    flash,
-    make_response,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import Blueprint
+from flask import flash
+from flask import make_response
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from flask_babel import gettext
-from flask_login import current_user, login_required
-from flask_paginate import Pagination, get_page_args
+from flask_login import current_user
+from flask_login import login_required
+from flask_paginate import get_page_args
+from flask_paginate import Pagination
 from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import application
-from newspipe.controllers import (
-    ArticleController,
-    CategoryController,
-    FeedController,
-    UserController,
-)
-from newspipe.lib import misc_utils, utils
+from newspipe.controllers import ArticleController
+from newspipe.controllers import CategoryController
+from newspipe.controllers import FeedController
+from newspipe.controllers import UserController
+from newspipe.lib import misc_utils
+from newspipe.lib import utils
 from newspipe.lib.feed_utils import construct_feed_from
 from newspipe.web.forms import AddFeedForm
 from newspipe.web.lib.view_utils import etag_match
@@ -159,9 +159,7 @@ def bookmarklet():
     try:
         feed = construct_feed_from(url)
     except requests.exceptions.ConnectionError:
-        flash(
-            gettext("Impossible to connect to the address: {}.".format(url)), "danger"
-        )
+        flash(gettext(f"Impossible to connect to the address: {url}."), "danger")
         return redirect(url_for("home"))
     except Exception:
         logger.exception("something bad happened when fetching %r", url)
@@ -285,9 +283,7 @@ def process_form(feed_id=None):
     try:
         feed = construct_feed_from(url)
     except requests.exceptions.ConnectionError:
-        flash(
-            gettext("Impossible to connect to the address: {}.".format(url)), "danger"
-        )
+        flash(gettext(f"Impossible to connect to the address: {url}."), "danger")
         return redirect(url_for("home"))
     except Exception:
         logger.exception("something bad happened when fetching %r", url)

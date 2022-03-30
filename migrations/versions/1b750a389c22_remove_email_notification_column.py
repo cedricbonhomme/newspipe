@@ -5,10 +5,9 @@ Revises: 48f561c0ce6
 Create Date: 2015-02-25 23:01:07.253429
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 
 revision = "1b750a389c22"
 down_revision = "48f561c0ce6"

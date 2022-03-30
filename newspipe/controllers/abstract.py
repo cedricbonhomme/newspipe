@@ -3,8 +3,10 @@ from collections import defaultdict
 from datetime import datetime
 
 import dateutil.parser
-from sqlalchemy import func, or_
-from werkzeug.exceptions import Forbidden, NotFound
+from sqlalchemy import func
+from sqlalchemy import or_
+from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import NotFound
 
 from newspipe.bootstrap import db
 
@@ -89,7 +91,7 @@ class AbstractController:
             )
         if not obj:
             raise NotFound(
-                {"message": "No %r (%r)" % (self._db_cls.__class__.__name__, filters)}
+                {"message": f"No {self._db_cls.__class__.__name__!r} ({filters!r})"}
             )
         return obj
 
@@ -160,7 +162,7 @@ class AbstractController:
             assert right in {"read", "write"}, (
                 "right must be 'read' or 'write' with role %r" % role
             )
-            columns = getattr(cls._db_cls, "fields_%s_%s" % (role, right))()
+            columns = getattr(cls._db_cls, f"fields_{role}_{right}")()
         for column in columns:
             result[column] = {}
             db_col = getattr(cls._db_cls, column).property.columns[0]

@@ -1,6 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from sqlalchemy import Index
 
 from newspipe.bootstrap import db

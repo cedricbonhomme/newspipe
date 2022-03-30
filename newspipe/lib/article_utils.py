@@ -1,13 +1,17 @@
 import html
 import logging
 import re
-from datetime import datetime, timezone
-from dateutil.parser._parser import ParserError
+from datetime import datetime
+from datetime import timezone
 from enum import Enum
-from urllib.parse import SplitResult, urlsplit, urlunsplit
+from urllib.parse import SplitResult
+from urllib.parse import urlsplit
+from urllib.parse import urlunsplit
 
 import dateutil.parser
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
+from bs4 import SoupStrainer
+from dateutil.parser._parser import ParserError
 from requests.exceptions import MissingSchema
 
 from newspipe.bootstrap import application
@@ -49,9 +53,7 @@ async def construct_article(entry, feed, fields=None, fetch=True):
                         timezone.utc
                     )
                 except ParserError:
-                    logger.exception(
-                        "Error when parsing date: {}".format(entry[date_key])
-                    )
+                    logger.exception(f"Error when parsing date: {entry[date_key]}")
                 except Exception:
                     pass
                 else:

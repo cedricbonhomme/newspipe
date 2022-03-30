@@ -5,11 +5,11 @@ Revises: 2c5cc05216fa
 Create Date: 2017-05-23 21:42:37.636307
 
 """
-
 # revision identifiers, used by Alembic.
-from alembic import op
-import sqlalchemy as sa
 from datetime import datetime
+
+import sqlalchemy as sa
+from alembic import op
 
 revision = "b329a1a7366f"
 down_revision = "2c5cc05216fa"

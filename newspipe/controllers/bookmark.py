@@ -1,9 +1,8 @@
 import logging
 
-from newspipe.models import Bookmark
-
 from .abstract import AbstractController
 from .tag import BookmarkTagController
+from newspipe.models import Bookmark
 
 logger = logging.getLogger(__name__)
 
