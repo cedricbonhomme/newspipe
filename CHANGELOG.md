@@ -1,6 +1,31 @@
 Newspipe Changelog
 ==================
 
+## 9.5.0 (2022-03-31)
+
+### New
+
+- [commands] Added a function which deletes read articles retrieved since more than 60
+  days ago;
+- [commands] added a command to delete inactive users (number of months given in
+  parameter);
+- [stats_bp] Added new blueprint for future stats and added a new bar chart in the
+  history page.
+
+## Improvements
+
+- improved indexes of the database;
+- various improvements to the Web graphical interface;
+- improved code style;
+- updated Python and JavaScript dependencies;
+- various improvements related to the migration to Bootstrap 5.
+
+### Fixes
+
+- [controllers] fixed an issue in the management of bookmark's tags;
+- various fixes.
+
+
 ## 9.4.0 (2020-06-08)
 
 ### New
