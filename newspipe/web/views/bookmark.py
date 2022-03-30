@@ -41,7 +41,7 @@ from flask_paginate import Pagination, get_page_args
 from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import db
-from newspipe.controllers import BookmarkController, BookmarkTagController
+from newspipe.controllers import BookmarkController
 from newspipe.lib.data import export_bookmarks, import_pinboard_json
 from newspipe.lib.utils import redirect_url
 from newspipe.web.forms import BookmarkForm
@@ -151,7 +151,6 @@ def process_form(bookmark_id=None):
     "Process the creation/edition of bookmarks."
     form = BookmarkForm()
     bookmark_contr = BookmarkController(current_user.id)
-    tag_contr = BookmarkTagController(current_user.id)
 
     if not form.validate():
         return render_template("edit_bookmark.html", form=form)
@@ -170,26 +169,14 @@ def process_form(bookmark_id=None):
     }
 
     if bookmark_id is not None:
-        tags = []
-        for tag in form.tags.data.split(","):
-            new_tag = tag_contr.create(
-                text=tag.strip(), user_id=current_user.id, bookmark_id=bookmark_id
-            )
-            tags.append(new_tag)
-        bookmark_attr["tags"] = tags
+        bookmark_attr["tags"] = form.tags.data.split(",")
         bookmark_contr.update({"id": bookmark_id}, bookmark_attr)
         flash(gettext("Bookmark successfully updated."), "success")
         return redirect(url_for("bookmark.form", bookmark_id=bookmark_id))
 
     # Create a new bookmark
     new_bookmark = bookmark_contr.create(**bookmark_attr)
-    tags = []
-    for tag in form.tags.data.split(","):
-        new_tag = tag_contr.create(
-            text=tag.strip(), user_id=current_user.id, bookmark_id=new_bookmark.id
-        )
-        tags.append(new_tag)
-    bookmark_attr["tags"] = tags
+    bookmark_attr["tags"] = form.tags.data.split(",")
     bookmark_contr.update({"id": new_bookmark.id}, bookmark_attr)
     flash(gettext("Bookmark successfully created."), "success")
     return redirect(url_for("bookmark.form", bookmark_id=new_bookmark.id))

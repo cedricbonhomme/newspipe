@@ -1,5 +1,7 @@
 import logging
 
+from flask_login import current_user
+
 from .abstract import AbstractController
 from .tag import BookmarkTagController
 from newspipe.models import Bookmark
@@ -20,16 +22,14 @@ class BookmarkController(AbstractController):
         BookmarkTagController(self.user_id).read(
             **{"bookmark_id": filters["id"]}
         ).delete()
-
         for tag in attrs["tags"]:
-            BookmarkTagController(self.user_id).create(
-                **{
-                    "text": tag.text,
-                    "id": tag.id,
-                    "bookmark_id": tag.bookmark_id,
-                    "user_id": tag.user_id,
-                }
-            )
-
+            if tag:
+                BookmarkTagController(self.user_id).create(
+                    **{
+                        "text": tag.strip(),
+                        "user_id": current_user.id,
+                        "bookmark_id": filters["id"],
+                    }
+                )
         del attrs["tags"]
         return super().update(filters, attrs)
