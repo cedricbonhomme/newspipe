@@ -119,3 +119,9 @@ def about_more():
             talisman.content_security_policy
         ),
     )
+
+
+@current_app.route("/robots.txt", methods=["GET"])
+def robots():
+    """Robots dot txt page."""
+    return render_template("robots.txt"), 200, {"Content-Type": "text/plain"}
