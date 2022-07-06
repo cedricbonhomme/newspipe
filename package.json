@@ -9,7 +9,7 @@
     "bootstrap-select": "^1.14.0-beta2",
     "chart.js": "^3.8.0",
     "fork-awesome": "^1.2.0",
-    "moment": "^2.29.3"
+    "moment": "^2.29.4"
   },
   "engines": {
     "yarn": ">= 1.0.0"
