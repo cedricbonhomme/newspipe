@@ -41,6 +41,7 @@ pre-commit = "^2.19.0"
 black = "^22.3.0"
 pyupgrade = "^2.34.0"
 reorder-python-imports = "^3.1.0"
+pip-audit = "^2.4.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
