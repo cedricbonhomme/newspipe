@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# required imports and code execution for basic functionning
 import calendar
 import logging
 import os
