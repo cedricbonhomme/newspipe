@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # Newspipe - A web news aggregator.
-# Copyright (C) 2010-2022 Cédric Bonhomme - https://www.cedricbonhomme.org
+# Copyright (C) 2010-2023 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
 # For more information: https://sr.ht/~cedric/newspipe
 #

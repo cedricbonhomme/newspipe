@@ -28,6 +28,6 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
   - repo: https://github.com/trailofbits/pip-audit
-    rev: v2.4.12
+    rev: v2.4.13
     hooks:
       -   id: pip-audit
