@@ -1423,7 +1423,6 @@ category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "opml-0.5-py2.5.egg", hash = "sha256:9d92806e32068ae5eb2d8826b54d3eeaad1d57b9d6c9cbdc28b57369f85c1222"},
     {file = "opml-0.5.tar.gz", hash = "sha256:db1eef2a251b8af33e2eabb62baf922006dbd8c66c742931090e331a0362a770"},
 ]
 
