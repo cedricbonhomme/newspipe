@@ -24,6 +24,8 @@ __revision__ = "$Date: 2014/04/12 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+from sqlalchemy import text
+from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 from sqlalchemy.schema import (
     DropConstraint,
@@ -53,6 +55,21 @@ __all__ = [
     "ArticleTag",
     "BookmarkTag",
 ]
+
+
+def db_create(db, db_config_dict, database_name):
+    db_conn_format = "postgresql://{user}:{password}@{host}:{port}/{database}"
+    db_conn_uri_default = db_conn_format.format(database="postgres", **db_config_dict)
+    engine_default = create_engine(db_conn_uri_default)
+    conn = engine_default.connect()
+    conn.execute(text("COMMIT"))
+    conn.execute(text("CREATE DATABASE %s" % database_name))
+    conn.close()
+
+
+def db_init(db):
+    "Will create the database from conf parameters."
+    db.create_all()
 
 
 def db_empty(db):

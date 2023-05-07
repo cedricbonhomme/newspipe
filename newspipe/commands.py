@@ -4,6 +4,8 @@ from datetime import date
 from datetime import datetime
 
 import click
+from sqlalchemy import text
+from sqlalchemy import create_engine
 from dateutil.relativedelta import relativedelta
 from werkzeug.security import generate_password_hash
 
@@ -25,12 +27,20 @@ def db_empty():
 
 @application.cli.command("db_create")
 def db_create():
+    "Will create the database."
+    with application.app_context():
+        newspipe.models.db_create(
+            db,
+            application.config["DB_CONFIG_DICT"],
+            application.config["DATABASE_NAME"],
+        )
+
+
+@application.cli.command("db_init")
+def db_init():
     "Will create the database from conf parameters."
     with application.app_context():
-        try:
-            db.create_all()
-        except Exception as e:
-            print(e)
+        newspipe.models.db_init(db)
 
 
 @application.cli.command("create_admin")
