@@ -6,7 +6,8 @@
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
-    "chart.js": "^4.2.0",
+    "bootstrap-select": "^1.13.18",
+    "chart.js": "^4.2.1",
     "fork-awesome": "^1.2.0",
     "moment": "^2.29.4"
   },

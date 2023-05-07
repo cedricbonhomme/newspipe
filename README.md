@@ -53,8 +53,9 @@ $ poetry shell
 $ pybabel compile -d newspipe/translations
 $ export NEWSPIPE_CONFIG=sqlite.py
 $ export FLASK_APP=runserver.py
-$ export FLASK_ENV=development
+$ export FLASK_DEBUG=1
 $ flask db_create
+$ flask db_init
 $ flask create_admin --nickname <nickname> --password <password>
 $ flask run
  * Serving Flask app "runserver" (lazy loading)
