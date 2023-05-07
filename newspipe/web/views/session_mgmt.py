@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import current_app
 from flask import flash
 from flask import redirect
+from flask import request
 from flask import render_template
 from flask import session
 from flask import url_for
@@ -79,7 +80,8 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     form = SigninForm()
-    if form.validate_on_submit():
+    # if form.validate_on_submit():
+    if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
         login_user_bundle(form.user)
         return form.redirect("home")
     return render_template("login.html", form=form)
