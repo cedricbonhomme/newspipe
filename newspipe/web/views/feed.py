@@ -234,6 +234,7 @@ def form(feed_id=None):
 @feed_bp.route("/edit/<int:feed_id>", methods=["POST"])
 @login_required
 def process_form(feed_id=None):
+
     form = AddFeedForm()
     feed_contr = FeedController(current_user.id)
     form.set_category_choices(CategoryController(current_user.id).read())
@@ -267,7 +268,6 @@ def process_form(feed_id=None):
 
     if feed_id is not None:
         # Edit an existing feed
-        print(feed_attr["category_id"])
         feed_contr.update({"id": feed_id}, feed_attr)
         flash(
             gettext(
@@ -276,6 +276,7 @@ def process_form(feed_id=None):
             ),
             "success",
         )
+
         return redirect(url_for("feed.form", feed_id=feed_id))
 
     # Create a new feed

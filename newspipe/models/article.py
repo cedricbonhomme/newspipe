@@ -49,7 +49,7 @@ class Article(db.Model, RightMixin):
     # foreign keys
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
     feed_id = db.Column(db.Integer(), db.ForeignKey("feed.id"))
-    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"))
+    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"), nullable=True)
 
     # relationships
     tag_objs = db.relationship(

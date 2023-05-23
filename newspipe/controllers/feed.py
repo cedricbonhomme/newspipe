@@ -95,7 +95,6 @@ class FeedController(AbstractController):
 
     def update(self, filters, attrs):
         from .article import ArticleController
-
         self._ensure_icon(attrs)
         # if "category_id" in attrs and attrs["category_id"] == 0:
         #     del attrs["category_id"]

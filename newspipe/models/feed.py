@@ -61,7 +61,7 @@ class Feed(db.Model, RightMixin):
     # foreign keys
     icon_url = db.Column(db.String(), db.ForeignKey("icon.url"), default=None)
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
-    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"))
+    category_id = db.Column(db.Integer(), db.ForeignKey("category.id"), nullable=True)
 
     # relationship
     articles = db.relationship(
