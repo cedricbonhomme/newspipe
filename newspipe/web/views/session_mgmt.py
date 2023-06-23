@@ -84,7 +84,7 @@ def login():
     if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
         login_user_bundle(form.user)
         return form.redirect("home")
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, self_registration=application.config["SELF_REGISTRATION"])
 
 
 @current_app.route("/logout")
