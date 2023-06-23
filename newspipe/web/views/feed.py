@@ -234,7 +234,6 @@ def form(feed_id=None):
 @feed_bp.route("/edit/<int:feed_id>", methods=["POST"])
 @login_required
 def process_form(feed_id=None):
-
     form = AddFeedForm()
     feed_contr = FeedController(current_user.id)
     form.set_category_choices(CategoryController(current_user.id).read())

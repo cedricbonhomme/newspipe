@@ -4,8 +4,8 @@ from datetime import datetime
 from flask import current_app
 from flask import flash
 from flask import redirect
-from flask import request
 from flask import render_template
+from flask import request
 from flask import session
 from flask import url_for
 from flask_babel import gettext
@@ -84,7 +84,11 @@ def login():
     if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
         login_user_bundle(form.user)
         return form.redirect("home")
-    return render_template("login.html", form=form, self_registration=application.config["SELF_REGISTRATION"])
+    return render_template(
+        "login.html",
+        form=form,
+        self_registration=application.config["SELF_REGISTRATION"],
+    )
 
 
 @current_app.route("/logout")

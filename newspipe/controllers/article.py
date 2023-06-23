@@ -66,7 +66,7 @@ class ArticleController(AbstractController):
             try:
                 cat = CategoryController().get(id=attrs["category_id"])
                 assert self.user_id is None or cat.user_id == user_id, (
-                "no right on cat %r" % cat.id
+                    "no right on cat %r" % cat.id
                 )
             except Exception:
                 pass

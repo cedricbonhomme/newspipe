@@ -120,7 +120,6 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         return wrapper
 
     if not feed.get("icon_url"):
-
         icons = bs_parsed.find_all(check_keys(rel=["icon", "shortcut"]))
         if not len(icons):
             icons = bs_parsed.find_all(check_keys(rel=["icon"]))

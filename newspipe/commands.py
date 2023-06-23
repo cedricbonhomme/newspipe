@@ -4,8 +4,6 @@ from datetime import date
 from datetime import datetime
 
 import click
-from sqlalchemy import text
-from sqlalchemy import create_engine
 from dateutil.relativedelta import relativedelta
 from werkzeug.security import generate_password_hash
 
@@ -14,6 +12,9 @@ from newspipe.bootstrap import application
 from newspipe.bootstrap import db
 from newspipe.controllers import ArticleController
 from newspipe.controllers import UserController
+
+# from sqlalchemy import create_engine
+# from sqlalchemy import text
 
 logger = logging.getLogger("commands")
 
