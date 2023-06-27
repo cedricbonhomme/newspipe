@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
 from .abstract import AbstractController
+from newspipe.bootstrap import application
 from newspipe.models import User
 
 # from ldap3.core.exceptions import LDAPPasswordIsMandatoryError
@@ -150,7 +151,7 @@ class LdapuserController:
 
     def ldap_login(self, username, password):
         # print(f"DEBUG: Trying user {username} with pw '{password}'")
-        this_uri = self.get_next_ldap_server(app)
+        this_uri = self.get_next_ldap_server(application.config)
         # Perform the ldap interactions
         user = self.authenticated_user(
             server_uri=this_uri, user_dn=username, password=password
