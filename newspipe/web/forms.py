@@ -185,7 +185,7 @@ class SigninForm(RedirectForm):
                     if user:
                         validated = True
                         self.user = user
-                except:
+                except Exception:
                     self.nickmane.errors.append(
                         f"Unable to provision user for valid ldap user {self.nickmane.data}"
                     )
@@ -200,7 +200,8 @@ class SigninForm(RedirectForm):
             # must short-circuit the password check for ldap users
             if not ldapuser:
                 try:
-                    # with an external_auth user but external auth disabled in config now, the empty password on the user in the database will fail
+                    # with an external_auth user but external auth disabled in config now,
+                    # the empty password on the user in the database will fail
                     if not ucontr.check_password(user, self.password.data):
                         self.password.errors.append("Wrong password")
                         validated = False

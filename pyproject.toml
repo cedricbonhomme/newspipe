@@ -33,6 +33,7 @@ psycopg2-binary = "^2.9.6"
 flask-talisman = "^0.8.1"
 feedparser = "^6.0.8"
 mypy = "^0.991"
+ldap3 = "^2.9.1"
 
 [tool.poetry.group.dev.dependencies ]
 sqlalchemy-schemadisplay = "^1.3"

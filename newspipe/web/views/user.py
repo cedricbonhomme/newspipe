@@ -9,7 +9,6 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_paginate import get_page_args
 from flask_paginate import Pagination
-from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController

@@ -12,6 +12,7 @@ __all__ = [
     "CategoryController",
     "ArticleController",
     "UserController",
+    "LdapuserController",
     "IconController",
     "BookmarkController",
     "BookmarkTagController",

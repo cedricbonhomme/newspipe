@@ -1,18 +1,20 @@
 import logging
 from urllib.parse import urlparse
 
+import ldap3
+from ldap3.core.exceptions import LDAPBindError
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
 from .abstract import AbstractController
 from newspipe.models import User
 
-logger = logging.getLogger(__name__)
+# from ldap3.core.exceptions import LDAPPasswordIsMandatoryError
 
 # FOR LDAP
 # Reference: session_app
-import ldap3
-from ldap3.core.exceptions import LDAPBindError, LDAPPasswordIsMandatoryError
+
+logger = logging.getLogger(__name__)
 
 
 class UserController(AbstractController):
@@ -53,7 +55,8 @@ class LdapuserController:
         # list_matching_users always returns list, so if it contains <> 1 we are in trouble
         if len(this_user) != 1:
             print(
-                f"WARNING: cannot determine unique user for {config['LDAP_USER_MATCH_ATTRIB']}={user} which returned {this_user}"
+                f"WARNING: cannot determine unique user for"
+                f" {config['LDAP_USER_MATCH_ATTRIB']}={user} which returned {this_user}"
             )
             return False
         # logger does not work here+flask for some reason. Very sad!
@@ -128,14 +131,16 @@ class LdapuserController:
         try:
             import dns
             import dns.resolver
-        except:
+        except Exception:
             print("Need python3-dns or dnspython installed for dns lookups.")
             return [domain]
         namelist = []
         try:
             query = dns.resolver.query(f"_ldap._tcp.{domain}", "SRV")
         except dns.resolver.NXDOMAIN:
-            # no records exist that match the request, so we were probably given a specific hostname, and an empty query will trigger the logic below that will add the original domain to the list.
+            # no records exist that match the request, so we were probably
+            # given a specific hostname, and an empty query will trigger
+            # the logic below that will add the original domain to the list.
             query = []
         for i in query:
             namelist.append(i.target.to_text().rstrip("."))

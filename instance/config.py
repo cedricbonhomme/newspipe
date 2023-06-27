@@ -85,7 +85,8 @@ LDAP_USER_ATTRIB_MEMBEROF = "memberof"
 LDAP_GROUP_DISPLAY_ATTRIB = "cn"
 LDAP_BIND_DN = "uid=sampleuser,cn=users,cn=accounts,dc=ipa,dc=internal,dc=com"
 LDAP_BIND_PASSWORD = "examplepassword"
-# Additional filter to restrict user lookup. If not equivalent to False (e.g., undefined), will be logical-anded to the user-match-attribute search filter.
+# Additional filter to restrict user lookup. If not equivalent to False
+# (e.g., undefined), will be logical-anded to the user-match-attribute search filter.
 LDAP_FILTER = (
     "(memberOf=cn=newspipe-users,cn=groups,cn=accounts,dc=ipa,dc=internal,dc=com)"
 )
