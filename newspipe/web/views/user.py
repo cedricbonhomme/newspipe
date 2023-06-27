@@ -9,6 +9,7 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_paginate import get_page_args
 from flask_paginate import Pagination
+from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
@@ -165,6 +166,9 @@ def profile():
     if request.method == "POST":
         if form.validate():
             try:
+                # for external user, just force the exact same username.
+                if user.external_auth or not form.nickname.data:
+                    form.nickname.data = user.nickname
                 user_contr.update(
                     {"id": current_user.id},
                     {
@@ -195,7 +199,9 @@ def profile():
 
     if request.method == "GET":
         form = ProfileForm(obj=user)
-        return render_template("profile.html", user=user, form=form)
+        return render_template(
+            "profile.html", user=user, form=form, nick_disabled=bool(user.external_auth)
+        )
 
 
 @user_bp.route("/delete_account", methods=["GET"])

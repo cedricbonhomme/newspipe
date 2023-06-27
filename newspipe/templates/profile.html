@@ -21,13 +21,13 @@
 
                     <div class="col">
                         {{ form.nickname.label }}
-                        {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        {% if nick_disabled %}{{ form.nickname(class_="form-control", disabled=True) }}{% else %}{{ form.nickname(class_="form-control") }}{% endif %} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                        {{ form.password.label }}
+                        {% if not user.external_auth %}{{ form.password.label }}
                         {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
                         {{ form.password_conf.label }}
-                        {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}{% else%}{% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}No password management for auth type {{  user.external_auth }}{% endif %}
                     </div>
 
                     <div class="col">

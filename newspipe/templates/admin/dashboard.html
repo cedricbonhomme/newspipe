@@ -9,6 +9,7 @@
             <th>{{ _('Nickname') }}</th>
             <th>{{ _('Member since') }}</th>
             <th>{{ _('Last seen') }}</th>
+            <th>{{ _('External auth') }}</th>
             <th>{{ _('Actions') }}</th>
         </tr>
     </thead>
@@ -26,6 +27,7 @@
             </td>
             <td class="date">{{ user.date_created | datetime }}</td>
             <td class="date">{{ user.last_seen | datetime }}</td>
+            <td class="date">{{ user.external_auth | safe }}</td>
             <td>
                 <a href="{{ url_for("admin.user_form", user_id=user.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this user') }}"></i></a>
                 {% if user.id != current_user.id %}

@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 @current_app.errorhandler(401)
 def authentication_required(error):
-    if application.conf["API_ROOT"] in request.url:
+    if application.config["API_ROOT"] in request.url:
         return error
     flash(gettext("Authentication required."), "info")
     return redirect(url_for("login"))
@@ -33,7 +33,7 @@ def authentication_required(error):
 
 @current_app.errorhandler(403)
 def authentication_failed(error):
-    if application.conf["API_ROOT"] in request.url:
+    if application.config["API_ROOT"] in request.url:
         return error
     flash(gettext("Forbidden."), "danger")
     return redirect(url_for("login"))

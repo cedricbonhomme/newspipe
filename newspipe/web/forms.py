@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# vim: set ts=4 sts=4 sw=4 et:
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2023 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
@@ -24,6 +25,7 @@ __revision__ = "$Date: 2015/05/06 $"
 __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
+import logging
 from flask import redirect, url_for
 from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
@@ -41,9 +43,12 @@ from wtforms import (
 )
 from wtforms.fields.html5 import EmailField, URLField
 
-from newspipe.controllers import UserController
+from newspipe.bootstrap import application
+from newspipe.controllers import UserController, LdapuserController
 from newspipe.lib import misc_utils
 from newspipe.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class SignupForm(FlaskForm):
@@ -138,19 +143,76 @@ class SigninForm(RedirectForm):
 
     def validate(self):
         validated = super().validate()
+        # try ldap before doing anything else
+        ldap_enabled = (
+            application.config["LDAP_ENABLED"]
+            if "LDAP_ENABLED" in application.config
+            else False
+        )
+        ldapuser = None
+        if ldap_enabled:
+            ucontrldap = LdapuserController()
+            try:
+                # this returns False if invalid username or password.
+                ldapuser = ucontrldap.check_password(
+                    user=self.nickmane.data,
+                    password=self.password.data,
+                    config=application.config,
+                )
+                if ldapuser:
+                    self.nickmane.errors.append(
+                        f"validated ldap user {self.nickmane.data}"
+                    )
+                else:
+                    # self.nickmane.errors.append(f"Invalid username or password.")
+                    raise NotFound
+            except NotFound:
+                pass  # just assume the user is trying a local account
         ucontr = UserController()
         try:
             user = ucontr.get(nickname=self.nickmane.data)
         except NotFound:
-            self.nickmane.errors.append("Wrong nickname")
-            validated = False
+            if ldap_enabled and ldapuser:
+                try:
+                    user = ucontr.create(
+                        nickname=self.nickmane.data,
+                        password="",
+                        automatic_crawling=True,
+                        is_admin=False,
+                        is_active=True,
+                        external_auth="ldap",
+                    )
+                    if user:
+                        validated = True
+                        self.user = user
+                except:
+                    self.nickmane.errors.append(
+                        f"Unable to provision user for valid ldap user {self.nickmane.data}"
+                    )
+                    validated = False
+            else:
+                self.nickmane.errors.append("Wrong nickname")
+                validated = False
         else:
             if not user.is_active:
                 self.nickmane.errors.append("Account not active")
                 validated = False
-            if not ucontr.check_password(user, self.password.data):
-                self.password.errors.append("Wrong password")
-                validated = False
+            # must short-circuit the password check for ldap users
+            if not ldapuser:
+                try:
+                    # with an external_auth user but external auth disabled in config now, the empty password on the user in the database will fail
+                    if not ucontr.check_password(user, self.password.data):
+                        self.password.errors.append("Wrong password")
+                        validated = False
+                except AttributeError:
+                    if ldap_enabled:
+                        self.password.errors.append("Wrong password")
+                        validated = False
+                    else:
+                        self.password.errors.append(
+                            "External auth {user.external_auth} unavailable. Contact the admin."
+                        )
+                        validated = False
             self.user = user
         return validated
 
@@ -188,7 +250,8 @@ class ProfileForm(FlaskForm):
 
     nickname = TextField(
         lazy_gettext("Nickname"),
-        [validators.Required(lazy_gettext("Please enter your nickname."))],
+        # [validators.Required(lazy_gettext("Please enter your nickname."))],
+        [validators.Optional()],
     )
     password = PasswordField(lazy_gettext("Password"))
     password_conf = PasswordField(lazy_gettext("Password"))
@@ -213,7 +276,9 @@ class ProfileForm(FlaskForm):
                 )
                 self.password.errors.append(message)
                 validated = False
-        if self.nickname.data != User.make_valid_nickname(self.nickname.data):
+        if self.nickname.data and (
+            self.nickname.data != User.make_valid_nickname(self.nickname.data)
+        ):
             self.nickname.errors.append(
                 lazy_gettext(
                     "This nickname has "

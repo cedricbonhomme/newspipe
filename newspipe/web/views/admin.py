@@ -46,10 +46,17 @@ def user_form(user_id=None):
         user = UserController().get(id=user_id)
         form = UserForm(obj=user)
         message = gettext("Edit the user <i>%(nick)s</i>", nick=user.nickname)
+        if user.external_auth:
+            message += f" (external auth type: {user.external_auth})"
     else:
         form = UserForm()
         message = gettext("Add a new user")
-    return render_template("/admin/create_user.html", form=form, message=message)
+    return render_template(
+        "/admin/create_user.html",
+        form=form,
+        message=message,
+        pw_disabled=bool(user.external_auth),
+    )
 
 
 @admin_bp.route("/user/create", methods=["POST"])

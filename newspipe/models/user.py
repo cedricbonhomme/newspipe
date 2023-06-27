@@ -46,6 +46,7 @@ class User(db.Model, UserMixin, RightMixin):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(), unique=True)
     pwdhash = db.Column(db.String())
+    external_auth = db.Column(db.String(), default="", nullable=True)
 
     automatic_crawling = db.Column(db.Boolean(), default=True)
 

@@ -35,6 +35,7 @@ https://www.newspipe.org
 * detection of inactive feeds;
 * share articles on Pinboard, Reddit and Twitter;
 * management of bookmarks (with import from Pinboard).
+* Optional ldap authentication
 
 
 ## Deployment

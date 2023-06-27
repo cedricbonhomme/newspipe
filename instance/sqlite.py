@@ -64,3 +64,21 @@ LOG_LEVEL = "info"
 LOG_PATH = "./var/newspipe.log"
 SELF_REGISTRATION = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Ldap, optional
+LDAP_ENABLED = False
+# LDAP_URI will automatically try the _ldap._tcp lookups like for a kerberos domain but
+# will fall back to this exact domain (server) name if such a TXT record is not found.
+LDAP_URI = "ldaps://ipa.internal.com:636"
+LDAP_USER_BASE = "cn=users,cn=accounts,dc=ipa,dc=internal,dc=com"
+LDAP_GROUP_BASE = "cn=groups,cn=accounts,dc=ipa,dc=internal,dc=com"
+LDAP_USER_MATCH_ATTRIB = "uid"
+LDAP_USER_DISPLAY_ATTRIB = "uid"
+LDAP_USER_ATTRIB_MEMBEROF = "memberof"
+LDAP_GROUP_DISPLAY_ATTRIB = "cn"
+LDAP_BIND_DN = "uid=sampleuser,cn=users,cn=accounts,dc=ipa,dc=internal,dc=com"
+LDAP_BIND_PASSWORD = "examplepassword"
+# Additional filter to restrict user lookup. If not equivalent to False (e.g., undefined), will be logical-anded to the user-match-attribute search filter.
+LDAP_FILTER = (
+    "(memberOf=cn=newspipe-users,cn=groups,cn=accounts,dc=ipa,dc=internal,dc=com)"
+)
