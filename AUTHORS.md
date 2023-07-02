@@ -6,3 +6,4 @@ by Cédric Bonhomme https://www.cedricbonhomme.org
 ## Contributors
 
 - François Schmidts http://1pxsolidblack.pl
+- B. Stack <bgstack15@gmail.com>
