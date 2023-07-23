@@ -125,3 +125,9 @@ def about_more():
 def robots():
     """Robots dot txt page."""
     return render_template("robots.txt"), 200, {"Content-Type": "text/plain"}
+
+
+@current_app.route("/humans.txt", methods=["GET"])
+def humans():
+    """Human dot txt page."""
+    return render_template("humans.txt"), 200, {"Content-Type": "text/plain"}
