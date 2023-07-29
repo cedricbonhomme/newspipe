@@ -259,7 +259,6 @@ class ProfileForm(FlaskForm):
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     bio = TextAreaField(lazy_gettext("Bio"))
     webpage = URLField(lazy_gettext("Webpage"))
-    twitter = URLField(lazy_gettext("Twitter"))
     is_public_profile = BooleanField(lazy_gettext("Public profile"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 

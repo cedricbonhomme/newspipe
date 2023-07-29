@@ -33,7 +33,6 @@ https://www.newspipe.org
 * export and import feeds with OPML files;
 * search and favorite articles;
 * detection of inactive feeds;
-* share articles on Pinboard, Reddit and Twitter;
 * management of bookmarks (with import from Pinboard).
 * Optional ldap authentication
 

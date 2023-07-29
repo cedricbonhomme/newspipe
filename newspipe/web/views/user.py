@@ -177,7 +177,6 @@ def profile():
                         "is_public_profile": form.is_public_profile.data,
                         "bio": form.bio.data,
                         "webpage": form.webpage.data,
-                        "twitter": form.twitter.data,
                     },
                 )
             except Exception as error:

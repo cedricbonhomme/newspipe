@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-03-14 22:42+0100\n"
-"PO-Revision-Date: 2020-03-14 22:48+0100\n"
+"PO-Revision-Date: 2023-07-29 17:06+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 1.3\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: newspipe/templates/about.html:6 newspipe/templates/layout.html:117
 #: newspipe/templates/layout.html:129
@@ -31,15 +31,15 @@ msgstr "Newspipe est un agrégateur de nouvelles Web."
 #: newspipe/templates/about.html:9
 msgid ""
 "This software is under AGPLv3 license. You are welcome to copy, modify or\n"
-"            redistribute the <a href=\"https://git.sr.ht/~cedric/newspipe"
-"\">source code</a>\n"
+"            redistribute the <a href=\"https://git.sr.ht/~cedric/"
+"newspipe\">source code</a>\n"
 "            according to the <a href=\"https://www.gnu.org/licenses/agpl-3.0."
 "html\">Affero GPL</a> license."
 msgstr ""
 "Ce logiciel est sous licence AGPLv3. Vous êtes invité à copier, modifier ou "
 "redistribuer le <a href=\"https://git.sr.ht/~cedric/newspipe\">code source</"
-"a> selon la licence <a href=\"https://www.gnu.org/licenses/agpl-3.0.html"
-"\">Affero GPL</a>."
+"a> selon la licence <a href=\"https://www.gnu.org/licenses/agpl-3.0."
+"html\">Affero GPL</a>."
 
 #: newspipe/templates/about.html:12
 msgid ""
@@ -76,11 +76,11 @@ msgstr ""
 #: newspipe/templates/about.html:22
 #, python-format
 msgid ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Subscribe to this feed using Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
+"rel=\"bookmark\">Subscribe to this feed using Newspipe</a>"
 msgstr ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Abonnez-vous à ce flux en utilisant Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
+"rel=\"bookmark\">Abonnez-vous à ce flux en utilisant Newspipe</a>"
 
 #: newspipe/templates/about_more.html:5
 msgid "Newspipe version"
@@ -133,8 +133,8 @@ msgstr "Partager sur"
 #: newspipe/templates/categories.html:4
 #, python-format
 msgid ""
-"You have %(categories)d categories &middot; Add a %(start_link)scategory"
-"%(end_link)s"
+"You have %(categories)d categories &middot; Add a "
+"%(start_link)scategory%(end_link)s"
 msgstr ""
 "Vous avez %(categories)d catégories &middot; Ajouter une "
 "%(start_link)scategorie%(end_link)s"
@@ -199,11 +199,11 @@ msgstr ""
 #: newspipe/templates/edit_bookmark.html:72
 #, python-format
 msgid ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Bookmark this page using Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
+"rel=\"bookmark\">Bookmark this page using Newspipe</a>"
 msgstr ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark"
-"\">Marquez cette page en utilisant Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
+"rel=\"bookmark\">Marquez cette page en utilisant Newspipe</a>"
 
 #: newspipe/templates/edit_bookmark.html:76
 msgid "Import bookmarks from Pinboard"
@@ -686,10 +686,6 @@ msgstr "Supprimer votre compte"
 msgid "Webpage"
 msgstr "Page web"
 
-#: newspipe/templates/profile_public.html:24 newspipe/web/forms.py:200
-msgid "Twitter"
-msgstr "Twitter"
-
 #: newspipe/templates/signup.html:10
 msgid "Letters, numbers, dots and underscores only."
 msgstr "Lettres,  chiffres, points et '_' seulement."
@@ -1131,313 +1127,3 @@ msgstr "Authentification requise."
 #: newspipe/web/views/views.py:30
 msgid "Forbidden."
 msgstr "Interdit."
-
-#~ msgid ""
-#~ "You can easily <a href=\"https://newspipe.readthedocs.io/en/latest/"
-#~ "deployment.html\">install Newspipe on your server</a>."
-#~ msgstr ""
-#~ "Vous pouvez facilement <a href=\"https://newspipe.readthedocs.io/en/"
-#~ "latest/deployment.html\">installer Newspipe sur votre serveur</a>."
-
-#~ msgid "Alternatively, you can deploy your own copy using this button:"
-#~ msgstr ""
-#~ "Alternativement, vous pouvez déployer votre propre copie en utilisant ce "
-#~ "bouton:"
-
-#~ msgid ""
-#~ "The documentation of the API is <a href=\"https://newspipe.readthedocs.io/"
-#~ "en/latest/web-services-v3.html\">here</a>."
-#~ msgstr ""
-#~ "La documentation de l'API est <a href=\"https://newspipe.readthedocs.io/"
-#~ "en/latest/web-services-v3.html\">ici</a>."
-
-#~ msgid "Running on Heroku"
-#~ msgstr "Fonctionne sur Heroku"
-
-#~ msgid "Most recurrent words"
-#~ msgstr "Mots les plus récurrents"
-
-#~ msgid "Data liberation"
-#~ msgstr "Libération des données"
-
-#~ msgid "OPML import/export"
-#~ msgstr "Import/export OPML"
-
-#~ msgid "Export format not supported."
-#~ msgstr "Ce format d'export n'est pas supporté."
-
-#~ msgid "Please enter your email address."
-#~ msgstr "S'il vous plaît, entrez votre adresse email."
-
-#~ msgid "Please enter your email."
-#~ msgstr "S'il vous plaît, entrez votre email."
-
-#~ msgid "Recover"
-#~ msgstr "Récupérer"
-
-#~ msgid "Account not confirmed."
-#~ msgstr "Compte non confirmé."
-
-#~ msgid "Invalid email."
-#~ msgstr "Email invalide."
-
-#~ msgid "Forgot password"
-#~ msgstr "Mot de passe oublié"
-
-#~ msgid "Recover your account"
-#~ msgstr "Récupérer votre compte"
-
-#~ msgid "Send notification messages"
-#~ msgstr "Envoyer des messages de notification"
-
-#~ msgid "New password sent to your address."
-#~ msgstr "Nouveau mot de passe envoyé à votre adresse."
-
-#~ msgid "Problem while sending your new password: %(error)s"
-#~ msgstr "Problème lors de l'envoi de votre nouveau mot de passe: %(error)s"
-
-#~ msgid "Feeds refresh frequency (in minutes)"
-#~ msgstr "Fréquence de rafraîchissement du flux (en minutes)"
-
-#~ msgid "Export articles"
-#~ msgstr "Exporter les articles"
-
-#~ msgid ""
-#~ "If you have any problem, <a href=\"https://wiki.cedricbonhomme.org/contact"
-#~ "\">contact</a> the administrator."
-#~ msgstr ""
-#~ "Si vous avez des problèmes, <a href=\"https://wiki.cedricbonhomme.org/"
-#~ "contact\">contactez</a> l'administrateur."
-
-#~ msgid "Last seen:"
-#~ msgstr "Vue la dernière fois le"
-
-#~ msgid "Member since:"
-#~ msgstr "Membre depuis le:"
-
-#~ msgid "Webpage:"
-#~ msgstr "Page web:"
-
-#~ msgid "Donation"
-#~ msgstr "Don"
-
-#~ msgid ""
-#~ "If you wish and if you like Newspipe, you can donate via bitcoin <a href="
-#~ "\"https://blockexplorer.com/address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
-#~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Thank you!"
-#~ msgstr ""
-#~ "Si vous le souhaitez et si vous aimez Newspipe, vous pouvez faire un don "
-#~ "via bitcoin <a href=\"https://blockexplorer.com/"
-#~ "address/1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ"
-#~ "\">1GVmhR9fbBeEh7rP1qNq76jWArDdDQ3otZ</a>. Merci!"
-
-#~ msgid "Next post:"
-#~ msgstr "Billet suivant:"
-
-#~ msgid "Previous post:"
-#~ msgstr "Billet précédent:"
-
-#~ msgid "Submit"
-#~ msgstr "Soumettre"
-
-#~ msgid "Account not confirmed"
-#~ msgstr "Compte non confirmé"
-
-#~ msgid "Invalid email or password"
-#~ msgstr "E-mail ou mot de passe invalide"
-
-#~ msgid "No feed"
-#~ msgstr "Aucun flux"
-
-#~ msgid "Add a"
-#~ msgstr "Ajouter un"
-
-#~ msgid "feed"
-#~ msgstr "flux"
-
-#~ msgid "error"
-#~ msgstr "erreur"
-
-#~ msgid "No icon found for this feed"
-#~ msgstr "Aucune icône trouvé pour ce flux."
-
-#~ msgid "Home"
-#~ msgstr "Accueil"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoris"
-
-#~ msgid "Mark all as read older than yesterday"
-#~ msgstr "Marquer tout comme lu plus ancien qu'hier"
-
-#~ msgid "Mark all as read older than %(days)s days"
-#~ msgstr "Marquer tout comme lu plus ancien que %(days)s jours"
-
-#~ msgid "View this user"
-#~ msgstr "Voir cet utilisateur"
-
-#~ msgid "Membership"
-#~ msgstr "Adhésion"
-
-#~ msgid "Logged out successfully."
-#~ msgstr "Déconnecté avec succès."
-
-#~ msgid "Email already used."
-#~ msgstr "Email déjà utilisé."
-
-#~ msgid "No text to search were provided."
-#~ msgstr "Aucun texte à chercher a été soumis."
-
-#~ msgid "Search:"
-#~ msgstr "Recherche:"
-
-#~ msgid "deleted."
-#~ msgstr "supprimé."
-
-#~ msgid "This article do not exist."
-#~ msgstr "Cet article n'existe pas."
-
-#~ msgid "User"
-#~ msgstr "Utilisateur"
-
-#~ msgid "Problem while sending email"
-#~ msgstr "Problème lors de l'envoi de l'email"
-
-#~ msgid "successfully deleted."
-#~ msgstr "supprimé avec succès."
-
-#~ msgid "Account of the user"
-#~ msgstr "Compte de l'utilisateur"
-
-#~ msgid "successfully activated."
-#~ msgstr "activé avec succès."
-
-#~ msgid "Problem while sending activation email"
-#~ msgstr "Problème lors de l'envoi d'email d'activation"
-
-#~ msgid "successfully disabled."
-#~ msgstr "désactivé avec succès."
-
-#~ msgid "You can easily install Newspipe on your server."
-#~ msgstr "Vous pouvez facilement installer Newspipe sur votre serveur."
-
-#~ msgid "This user is not subscribed to any feed."
-#~ msgstr "Cet utilisateur n'est pas encore abonné à des flux."
-
-#~ msgid "(unread) articles"
-#~ msgstr "(non lus) articles"
-
-#~ msgid "Logged in successfully."
-#~ msgstr "Connecté avec succès."
-
-#~ msgid "Index database"
-#~ msgstr "Indexer la base de données"
-
-#~ msgid "Indexing database..."
-#~ msgstr "Indexation la base de données..."
-
-#~ msgid "An error occurred"
-#~ msgstr "Une erreur est survenue."
-
-#~ msgid "Option not available on Heroku."
-#~ msgstr "Option non disponible sur Heroku."
-
-#~ msgid "Full text search is not yet implemented for Heroku."
-#~ msgstr "La recherche rapide n'est pas supporté sur Heroku."
-
-#~ msgid "Favorites articles"
-#~ msgstr "Articles favoris"
-
-#~ msgid "More articles"
-#~ msgstr "Plus d'articles"
-
-#~ msgid "Management"
-#~ msgstr "Gestion"
-
-#~ msgid "Update your"
-#~ msgstr "Mettez à jour votre"
-
-#~ msgid "No unread articles"
-#~ msgstr "Pas d'articles non lus"
-
-#~ msgid "Unread articles"
-#~ msgstr "Articles non lus"
-
-#~ msgid "Mark all feed as read"
-#~ msgstr "Marquer tout comme lu"
-
-#~ msgid "Mark all feed as unread"
-#~ msgstr "Marquer tout comme non lu"
-
-#~ msgid "Feed already in the database."
-#~ msgstr "Flux déjà dans la base de données."
-
-#~ msgid "of the database"
-#~ msgstr "de la base de données"
-
-#~ msgid "Email notification"
-#~ msgstr "Notification par email"
-
-#~ msgid "Database indexed."
-#~ msgstr "Base de données indexée."
-
-#~ msgid "Oh!"
-#~ msgstr "Oh!"
-
-#~ msgid "This feed is empty."
-#~ msgstr "Ce flux est vide."
-
-#~ msgid "Work for you!"
-#~ msgstr "Du travail pour toi!"
-
-#~ msgid "All articles are unread."
-#~ msgstr "Tous les articles sont non lus."
-
-#~ msgid "Well done!"
-#~ msgstr "Bien joué!"
-
-#~ msgid "You read all articles."
-#~ msgstr "Tu as lu tous les articles."
-
-#~ msgid "Please enter a link for the feed."
-#~ msgstr "S'il vous plaît, entrez un lien pour le flux."
-
-#~ msgid "Articles marked as read."
-#~ msgstr "Articles marqués comme lus."
-
-#~ msgid "Fetch this feed"
-#~ msgstr "Récupérer ce flux"
-
-#~ msgid "Fix this."
-#~ msgstr "Résolvez ce problème."
-
-#~ msgid "As an administrator you are not listed in this table"
-#~ msgstr "En tant qu'administrateur vous ne figurez pas dans ce tableau"
-
-#~ msgid "Activation key:"
-#~ msgstr "Clé d'activation:"
-
-#~ msgid "First name"
-#~ msgstr "Prénom"
-
-#~ msgid "Please enter your last name."
-#~ msgstr "S'il vous plaît, entrez votre nom de famille."
-
-#~ msgid ""
-#~ "This lastname has invalid characters. Please use letters, numbers, dots "
-#~ "and underscores only."
-#~ msgstr ""
-#~ "Ce nom de famille a des caractères non valides. S'il vous plaît utiliser "
-#~ "des lettres, des chiffres, des points et '_' seulement."
-
-#~ msgid "Firstname"
-#~ msgstr "Prénom"
-
-#~ msgid "Lastname"
-#~ msgstr "Nom de famille"
-
-#~ msgid "Account creation"
-#~ msgstr "Ouverture de compte"
-
-#~ msgid "Request an account."
-#~ msgstr "Demander un compte."

@@ -37,9 +37,6 @@
                         {{ form.webpage.label }}
                         {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                        {{ form.twitter.label }}
-                        {{ form.twitter(class_="form-control") }} {% for error in form.twitter.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
                         <div class="form-check">
                         {{ form.is_public_profile.label }}
                         {{ form.is_public_profile(class_="form-check-input") }}
