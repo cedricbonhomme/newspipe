@@ -43,7 +43,7 @@
       <ul class="list-group">
         {% for date in articles_counter | sort(reverse = True) %}
         {% for article in articles %}
-        <li class="list-group-item">{{ article.date | datetime }} - <a href="/article/{{ article.id }}">{{ article.title | safe }}</a></li>
+        <li class="list-group-item">{{ article.date | datetime }} - <a href="{{ prefix() }}/article/{{ article.id }}">{{ article.title | safe }}</a></li>
         {% endfor %}
         {% endfor %}
       </ul>

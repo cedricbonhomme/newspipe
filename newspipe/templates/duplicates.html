@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <p><h1>{{ _('Duplicates in the feed') }} <a href="/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
+    <p><h1>{{ _('Duplicates in the feed') }} <a href="{{ prefix() }}/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -19,8 +19,8 @@
             {% for pair in duplicates %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td id="{{ pair[0].id }}"><a href="{{ url_for("article.delete", article_id=pair[0].id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].retrieved_date }})</td>
-                    <td id="{{ pair[1].id }}"><a href="{{ url_for("article.delete", article_id=pair[1].id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].retrieved_date }})</td>
+                    <td id="{{ pair[0].id }}"><a href="{{ url_for("article.delete", article_id=pair[0].id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="{{ prefix() }}/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].retrieved_date }})</td>
+                    <td id="{{ pair[1].id }}"><a href="{{ url_for("article.delete", article_id=pair[1].id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="{{ prefix() }}/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].retrieved_date }})</td>
                 </tr>
             {% endfor %}
             </tbody>

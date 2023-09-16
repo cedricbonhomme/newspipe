@@ -42,7 +42,7 @@
                             {% if feed_id == feed.id %}</b>{% endif %}
                         </a></li>
                         <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}"><span class="nav-link">
-                            <a href="/feed/{{ feed.id }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
+                            <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                             <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                             <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                             <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
@@ -73,7 +73,7 @@
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><span class="nav-link">
-                <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
+                <a href="{{ prefix() }}/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
@@ -102,7 +102,7 @@
                 {% if feed_id == fid %}</b>{% endif %}
             </a></li>
             <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><span class="nav-link">
-                <a href="/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
+                <a href="{{ prefix() }}/feed/{{ fid }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="fa fa-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
@@ -174,11 +174,11 @@
                             {% if not feed_id %}
                                 <td class="d-none d-md-block">
                                     <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
-                                    <a href="/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title | safe }}</a>
+                                    <a href="{{ prefix() }}/article/redirect/{{ article.id}}" target="_blank">{{ article.source.title | safe }}</a>
                                 </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a href="/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '...') }}</a>
+                                <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '...') }}</a>
                             </td>
                             <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</td>
                         </tr>

@@ -138,7 +138,7 @@ class LdapuserController:
         namelist = []
         try:
             query = dns.resolver.query(f"_ldap._tcp.{domain}", "SRV")
-        except dns.resolver.NXDOMAIN:
+        except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer):
             # no records exist that match the request, so we were probably
             # given a specific hostname, and an empty query will trigger
             # the logic below that will add the original domain to the list.

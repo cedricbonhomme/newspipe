@@ -4,7 +4,7 @@
     <div class="row" data-article="{{ article.id }}" id="filters" data-filter="{{ filter_ }}">
         <div class="col">
             <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
-            <h3>{{ _('from') }} <a href="/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
+            <h3>{{ _('from') }} <a href="{{ prefix() }}/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
             <a href="{{ url_for("article.delete", article_id=article.id) }}"><i class="fa fa-times delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
             {% if article.like %}
                 <a href="#"><i class="fa fa-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>

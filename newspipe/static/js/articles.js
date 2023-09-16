@@ -86,7 +86,7 @@ Array.prototype.map.call(nodes, function(node) {
       }
 
       // sends the updates to the server
-      fetch(API_ROOT + "article/" + article_id, {
+      fetch(prefix + API_ROOT + "article/" + article_id, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ Array.prototype.map.call(nodes, function(node) {
       }
 
       // sends the updates to the server
-      fetch(API_ROOT + "article/" + article_id, {
+      fetch(prefix + API_ROOT + "article/" + article_id, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ Array.prototype.map.call(nodes, function(node) {
         data = JSON.stringify(data);
 
         // sends the updates to the server
-        fetch(API_ROOT + "articles", {
+        fetch(prefix + API_ROOT + "articles", {
           method: "DELETE",
           headers: {
             'Content-Type': 'application/json',

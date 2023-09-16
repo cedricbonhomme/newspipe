@@ -21,7 +21,7 @@
     {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-newspipe-blue">
        <div class="container-fluid">
-        <a class="navbar-brand" href="/">Newspipe</a>
+        <a class="navbar-brand" href="{{ prefix() }}/">Newspipe</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -150,6 +150,7 @@
     {% block content %}{% endblock %}
 
     <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/config.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/feed.js') }}"></script>
   </body>

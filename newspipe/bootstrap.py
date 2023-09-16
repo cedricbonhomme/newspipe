@@ -44,6 +44,14 @@ def set_logging(
             handler.setLevel(log_level)
         logger.setLevel(log_level)
 
+class ReverseProxied(object):
+    def __init__(self, app, script_name):
+        self.app = app
+        self.script_name = script_name
+
+    def __call__(self, environ, start_response):
+        environ['SCRIPT_NAME'] = self.script_name
+        return self.app(environ, start_response)
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
@@ -62,6 +70,11 @@ else:
         application.config.from_pyfile("sqlite.py", silent=False)
 
 set_logging(application.config["LOG_PATH"])
+
+_prefix = ""
+if "PREFIX" in application.config:
+    application.wsgi_app = ReverseProxied(application.wsgi_app, script_name=application.config["PREFIX"])
+    _prefix = application.config["PREFIX"]
 
 db = SQLAlchemy(application)
 
@@ -100,3 +113,9 @@ application.jinja_env.filters["datetime"] = format_datetime
 application.jinja_env.filters["datetimeformat"] = datetimeformat
 # inject application in Jinja env
 application.jinja_env.globals["application"] = application
+
+@application.context_processor
+def utility_processor():
+    def prefix():
+        return _prefix.rstrip("/")
+    return dict(prefix=prefix)

@@ -10,6 +10,9 @@ PORT = 5000
 DEBUG = True
 API_ROOT = "/api/v2.0"
 
+# Optional, and useful if you are using a reverse proxy with this virtual path prefix
+#PREFIX = "/newspipe"
+
 CSRF_ENABLED = True
 SECRET_KEY = "LCx3BchmHRxFzkEv4BqQJyeXRLXenf"
 SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
