@@ -1,14 +1,13 @@
 import itertools
 import logging
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
+
+from newspipe.bootstrap import application
+from newspipe.lib.utils import clear_string
+from newspipe.models import Feed, User
 
 from .abstract import AbstractController
 from .icon import IconController
-from newspipe.bootstrap import application
-from newspipe.lib.utils import clear_string
-from newspipe.models import Feed
-from newspipe.models import User
 
 logger = logging.getLogger(__name__)
 DEFAULT_LIMIT = 5

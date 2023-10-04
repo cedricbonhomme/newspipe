@@ -5,14 +5,14 @@ Revises: 2a5604bed382
 Create Date: 2023-07-29 16:44:57.629951
 
 """
+import sqlalchemy as sa
+from alembic import op
+
 # revision identifiers, used by Alembic.
 revision = "73540b3bf183"
 down_revision = "2a5604bed382"
 branch_labels = None
 depends_on = None
-
-from alembic import op
-import sqlalchemy as sa
 
 
 def upgrade():

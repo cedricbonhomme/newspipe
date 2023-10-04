@@ -1,8 +1,6 @@
 import base64
 
-from flask import Blueprint
-from flask import request
-from flask import Response
+from flask import Blueprint, Response, request
 
 from newspipe.controllers import IconController
 from newspipe.web.lib.view_utils import etag_match

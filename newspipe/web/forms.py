@@ -26,6 +26,7 @@ __copyright__ = "Copyright (c) Cedric Bonhomme"
 __license__ = "GPLv3"
 
 import logging
+
 from flask import redirect, url_for
 from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
@@ -44,7 +45,7 @@ from wtforms import (
 from wtforms.fields.html5 import EmailField, URLField
 
 from newspipe.bootstrap import application
-from newspipe.controllers import UserController, LdapuserController
+from newspipe.controllers import LdapuserController, UserController
 from newspipe.lib import misc_utils
 from newspipe.models import User
 

@@ -32,9 +32,9 @@ from sqlalchemy.orm import validates
 from werkzeug.security import check_password_hash
 
 from newspipe.bootstrap import db
+from newspipe.models.bookmark import Bookmark
 from newspipe.models.category import Category
 from newspipe.models.feed import Feed
-from newspipe.models.bookmark import Bookmark
 from newspipe.models.right_mixin import RightMixin
 
 

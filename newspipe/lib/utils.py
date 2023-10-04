@@ -5,8 +5,7 @@ import urllib
 from hashlib import md5
 
 import requests
-from flask import request
-from flask import url_for
+from flask import request, url_for
 
 from newspipe.bootstrap import application
 

@@ -4,13 +4,10 @@ import urllib
 
 import feedparser
 import requests
-from bs4 import BeautifulSoup
-from bs4 import SoupStrainer
+from bs4 import BeautifulSoup, SoupStrainer
 
 from newspipe.bootstrap import application
-from newspipe.lib.utils import rebuild_url
-from newspipe.lib.utils import try_get_icon_url
-from newspipe.lib.utils import try_keys
+from newspipe.lib.utils import rebuild_url, try_get_icon_url, try_keys
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)

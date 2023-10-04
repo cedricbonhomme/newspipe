@@ -26,7 +26,7 @@ __license__ = "GPLv3"
 
 from datetime import datetime
 
-from sqlalchemy import Index, desc, ForeignKeyConstraint
+from sqlalchemy import ForeignKeyConstraint, Index, desc
 from sqlalchemy.orm import validates
 
 from newspipe.bootstrap import db

@@ -2,9 +2,10 @@ import base64
 
 import requests
 
-from .abstract import AbstractController
 from newspipe.lib.utils import newspipe_get
 from newspipe.models import Icon
+
+from .abstract import AbstractController
 
 
 class IconController(AbstractController):

@@ -2,23 +2,13 @@ import logging
 from datetime import datetime
 
 import pytz
-from babel.dates import format_datetime
-from babel.dates import format_timedelta
-from flask import current_app
-from flask import flash
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import url_for
-from flask_babel import get_locale
-from flask_babel import gettext
-from flask_login import current_user
-from flask_login import login_required
+from babel.dates import format_datetime, format_timedelta
+from flask import current_app, flash, redirect, render_template, request, url_for
+from flask_babel import get_locale, gettext
+from flask_login import current_user, login_required
 
 from newspipe.bootstrap import application
-from newspipe.controllers import ArticleController
-from newspipe.controllers import CategoryController
-from newspipe.controllers import FeedController
+from newspipe.controllers import ArticleController, CategoryController, FeedController
 from newspipe.lib import misc_utils
 from newspipe.lib.utils import redirect_url
 from newspipe.web.lib.view_utils import etag_match

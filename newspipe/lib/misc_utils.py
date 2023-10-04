@@ -43,9 +43,9 @@ from newspipe.controllers import ArticleController
 from newspipe.lib.utils import clear_string
 
 try:
-    from urlparse import urlparse, parse_qs, urlunparse
+    from urlparse import parse_qs, urlparse, urlunparse
 except Exception:
-    from urllib.parse import urlparse, parse_qs, urlunparse, urljoin
+    from urllib.parse import parse_qs, urljoin, urlparse, urlunparse
 
 
 logger = logging.getLogger(__name__)

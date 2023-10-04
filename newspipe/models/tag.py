@@ -1,6 +1,5 @@
 #! /usr/bin/env python
-from sqlalchemy import ForeignKeyConstraint
-from sqlalchemy import Index
+from sqlalchemy import ForeignKeyConstraint, Index
 
 from newspipe.bootstrap import db
 

@@ -34,10 +34,7 @@ import feedparser
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController, FeedController
-from newspipe.lib.article_utils import (
-    construct_article,
-    extract_id,
-)
+from newspipe.lib.article_utils import construct_article, extract_id
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
 from newspipe.lib.utils import newspipe_get
 
