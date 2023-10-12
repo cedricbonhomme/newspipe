@@ -3,7 +3,7 @@
 <div class="container">
     <div class="well">
         <h2>
-            <img src="{{ url_for('icon.icon', url=feed.icon_url) }}" />
+            <img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="32" height="32" />
             {{ feed.title }}
         </h2>
         {% if feed.description %} <p>{{ feed.description }}</p> {% endif %}
