@@ -1,5 +1,7 @@
-from flask import Blueprint, jsonify
-from flask_login import current_user, login_required
+from flask import Blueprint
+from flask import jsonify
+from flask_login import current_user
+from flask_login import login_required
 
 from newspipe.controllers import ArticleController
 

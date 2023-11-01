@@ -1,12 +1,16 @@
 import html
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import datetime
+from datetime import timezone
 from enum import Enum
-from urllib.parse import SplitResult, urlsplit, urlunsplit
+from urllib.parse import SplitResult
+from urllib.parse import urlsplit
+from urllib.parse import urlunsplit
 
 import dateutil.parser
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
+from bs4 import SoupStrainer
 from dateutil.parser._parser import ParserError
 from requests.exceptions import MissingSchema
 

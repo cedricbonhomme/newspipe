@@ -1,14 +1,17 @@
 #! /usr/bin/env python
 import logging
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 
 import click
 from dateutil.relativedelta import relativedelta
 from werkzeug.security import generate_password_hash
 
 import newspipe.models
-from newspipe.bootstrap import application, db
-from newspipe.controllers import ArticleController, UserController
+from newspipe.bootstrap import application
+from newspipe.bootstrap import db
+from newspipe.controllers import ArticleController
+from newspipe.controllers import UserController
 
 # from sqlalchemy import create_engine
 # from sqlalchemy import text

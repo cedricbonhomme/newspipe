@@ -3,8 +3,10 @@ from collections import defaultdict
 from datetime import datetime
 
 import dateutil.parser
-from sqlalchemy import func, or_
-from werkzeug.exceptions import Forbidden, NotFound
+from sqlalchemy import func
+from sqlalchemy import or_
+from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import NotFound
 
 from newspipe.bootstrap import db
 

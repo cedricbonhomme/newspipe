@@ -1,33 +1,35 @@
 import logging
 from datetime import datetime
 
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import session
+from flask import url_for
 from flask_babel import gettext
-from flask_login import LoginManager, current_user, login_required, logout_user
-from flask_principal import (
-    AnonymousIdentity,
-    Principal,
-    UserNeed,
-    identity_changed,
-    identity_loaded,
-    session_identity_loader,
-)
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import LoginManager
+from flask_login import logout_user
+from flask_principal import AnonymousIdentity
+from flask_principal import identity_changed
+from flask_principal import identity_loaded
+from flask_principal import Principal
+from flask_principal import session_identity_loader
+from flask_principal import UserNeed
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash
 
 from newspipe.bootstrap import application
 from newspipe.controllers import UserController
 from newspipe.notifications import notifications
-from newspipe.web.forms import SigninForm, SignupForm
-from newspipe.web.views.common import admin_role, api_role, login_user_bundle
+from newspipe.web.forms import SigninForm
+from newspipe.web.forms import SignupForm
+from newspipe.web.views.common import admin_role
+from newspipe.web.views.common import api_role
+from newspipe.web.views.common import login_user_bundle
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.

@@ -6,12 +6,10 @@ from flask_restful import Api
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
-from newspipe.web.views.api.v2.common import (
-    PyAggAbstractResource,
-    PyAggResourceExisting,
-    PyAggResourceMulti,
-    PyAggResourceNew,
-)
+from newspipe.web.views.api.v2.common import PyAggAbstractResource
+from newspipe.web.views.api.v2.common import PyAggResourceExisting
+from newspipe.web.views.api.v2.common import PyAggResourceMulti
+from newspipe.web.views.api.v2.common import PyAggResourceNew
 from newspipe.web.views.common import api_permission
 
 

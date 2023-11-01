@@ -3,12 +3,12 @@ from urllib.parse import urlparse
 
 import ldap3
 from ldap3.core.exceptions import LDAPBindError
-from werkzeug.security import check_password_hash, generate_password_hash
-
-from newspipe.bootstrap import application
-from newspipe.models import User
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 
 from .abstract import AbstractController
+from newspipe.bootstrap import application
+from newspipe.models import User
 
 # from ldap3.core.exceptions import LDAPPasswordIsMandatoryError
 

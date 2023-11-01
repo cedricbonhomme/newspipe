@@ -1,18 +1,24 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from flask_babel import gettext
-from flask_login import current_user, login_required
-from flask_paginate import Pagination, get_page_args
+from flask_login import current_user
+from flask_login import login_required
+from flask_paginate import get_page_args
+from flask_paginate import Pagination
 
 from newspipe.bootstrap import application
-from newspipe.controllers import (
-    ArticleController,
-    BookmarkController,
-    CategoryController,
-    FeedController,
-    UserController,
-)
+from newspipe.controllers import ArticleController
+from newspipe.controllers import BookmarkController
+from newspipe.controllers import CategoryController
+from newspipe.controllers import FeedController
+from newspipe.controllers import UserController
 from newspipe.lib import misc_utils
-from newspipe.lib.data import import_json, import_opml
+from newspipe.lib.data import import_json
+from newspipe.lib.data import import_opml
 from newspipe.web.forms import ProfileForm
 from newspipe.web.lib.user_utils import confirm_token
 

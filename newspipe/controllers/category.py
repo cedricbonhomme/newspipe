@@ -1,7 +1,6 @@
-from newspipe.models import Category
-
 from .abstract import AbstractController
 from .feed import FeedController
+from newspipe.models import Category
 
 
 class CategoryController(AbstractController):

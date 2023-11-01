@@ -2,10 +2,9 @@ import logging
 
 from flask_login import current_user
 
-from newspipe.models import Bookmark
-
 from .abstract import AbstractController
 from .tag import BookmarkTagController
+from newspipe.models import Bookmark
 
 logger = logging.getLogger(__name__)
 

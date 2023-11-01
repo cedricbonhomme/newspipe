@@ -23,16 +23,18 @@ from functools import wraps
 
 from flask import request
 from flask_login import current_user
-from flask_restful import Resource, reqparse
-from werkzeug.exceptions import BadRequest, Forbidden, NotFound, Unauthorized
+from flask_restful import reqparse
+from flask_restful import Resource
+from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import Forbidden
+from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import Unauthorized
 
 from newspipe.controllers import UserController
-from newspipe.web.views.common import (
-    admin_permission,
-    api_permission,
-    jsonify,
-    login_user_bundle,
-)
+from newspipe.web.views.common import admin_permission
+from newspipe.web.views.common import api_permission
+from newspipe.web.views.common import jsonify
+from newspipe.web.views.common import login_user_bundle
 
 logger = logging.getLogger(__name__)
 
