@@ -328,7 +328,7 @@ def duplicates(feed_id):
     feed, duplicates = FeedController(current_user.id).get_duplicates(feed_id)
     if len(duplicates) == 0:
         flash(gettext('No duplicates in the feed "{}".').format(feed.title), "info")
-        return redirect(url_for("feeds"))
+        return redirect(url_for("feeds.feeds"))
     return render_template("duplicates.html", duplicates=duplicates, feed=feed)
 
 
