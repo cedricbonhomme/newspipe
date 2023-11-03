@@ -18,9 +18,6 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-API_ROOT = '/api/v2.0/'
-
-
 function change_unread_counter(feed_id, increment) {
     el = document.getElementById("unread-"+feed_id)
     if (el != null) {
