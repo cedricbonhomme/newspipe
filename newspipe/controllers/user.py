@@ -160,7 +160,6 @@ class LdapuserController:
             return user
         else:
             return False
-        return False
 
     def authenticated_user(self, server_uri, user_dn, password):
         print(f"server_uri: {server_uri}")
@@ -177,4 +176,3 @@ class LdapuserController:
         # except (LDAPPasswordIsMandatoryError, LDAPBindError):
         #   print("Either an ldap password is required, or we had another bind error.")
         #   return False
-        return False
