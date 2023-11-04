@@ -108,5 +108,25 @@ class ArticleController(AbstractController):
             .order_by(Article.date.desc())
         )
 
+    def get_newest(self, **filters):
+        return self.read_light(**filters).first()
+
+    def get_oldest(self, **filters):
+        return (
+            super()
+            .read(**filters)
+            .with_entities(
+                Article.id,
+                Article.title,
+                Article.readed,
+                Article.like,
+                Article.feed_id,
+                Article.date,
+                Article.category_id,
+            )
+            .order_by(Article.date.asc())
+            .first()
+        )
+
     def read_ordered(self, **filters):
         return super().read(**filters).order_by(Article.date.desc())

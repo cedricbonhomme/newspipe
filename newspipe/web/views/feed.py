@@ -67,18 +67,17 @@ def feed_view(feed_id=None, user_id=None):
         per_page=per_page,
     )
 
-    today = datetime.now()
     try:
-        last_article = articles[0].date
-        first_article = articles[-1].date
+        last_article = ArticleController(user_id).get_newest(**filters).date
+        first_article = ArticleController(user_id).get_oldest(**filters).date
         delta = last_article - first_article
-        average = round(float(articles.count()) / abs(delta.days), 2)
+        average = round(articles.count() / abs(delta.days), 2)
     except Exception:
         last_article = datetime.fromtimestamp(0)
         first_article = datetime.fromtimestamp(0)
         delta = last_article - first_article
         average = 0
-    elapsed = today - last_article
+    elapsed = datetime.now() - last_article
 
     return render_template(
         "feed.html",
