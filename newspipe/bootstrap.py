@@ -4,6 +4,7 @@ import logging
 import os
 
 from flask import Flask
+from flask import g
 from flask import request
 from flask_babel import Babel
 from flask_babel import format_datetime
@@ -80,14 +81,19 @@ if "PREFIX" in application.config:
     )
     _prefix = application.config["PREFIX"]
 
-db = SQLAlchemy(application)
 
+# Database and migration
+db = SQLAlchemy(application)
 migrate = Migrate(application, db)
 
+
+# CSP and headers configurations
 talisman = Talisman(
     application, content_security_policy=application.config["CONTENT_SECURITY_POLICY"]
 )
 
+
+# i18n and l10n support
 babel = Babel(application)
 
 
@@ -102,7 +108,13 @@ def get_locale():
     return request.accept_languages.best_match(application.config["LANGUAGES"].keys())
 
 
-babel.init_app(application, locale_selector=get_locale)
+def get_timezone():
+    user = getattr(g, "user", None)
+    if user is not None:
+        return user.timezone
+
+
+babel = Babel(application, locale_selector=get_locale, timezone_selector=get_timezone)
 
 
 # Jinja filters
