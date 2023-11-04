@@ -63,7 +63,7 @@ class FeedController(AbstractController):
         inactives = []
         for feed in self.read():
             try:
-                last_post = feed.articles[0].date
+                last_post = feed.articles.first().date
             except IndexError:
                 continue
             except Exception as e:
