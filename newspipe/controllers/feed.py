@@ -97,8 +97,6 @@ class FeedController(AbstractController):
         from .article import ArticleController
 
         self._ensure_icon(attrs)
-        # if "category_id" in attrs and attrs["category_id"] == 0:
-        #     del attrs["category_id"]
         if "category_id" in attrs:
             art_contr = ArticleController(self.user_id)
             for feed in self.read(**filters):

@@ -255,8 +255,6 @@ def process_form(feed_id=None):
         "category_id": form.category_id.data,
         "private": form.private.data,
     }
-    # if not feed_attr["category_id"] or feed_attr["category_id"] == "0":
-    #     del feed_attr["category_id"]
 
     for filter_attr in ("type", "pattern", "action on", "action"):
         for i, value in enumerate(request.form.getlist(filter_attr.replace(" ", "_"))):
@@ -264,8 +262,8 @@ def process_form(feed_id=None):
                 feed_attr["filters"].append({})
             feed_attr["filters"][i][filter_attr] = value
 
+    # Edit an existing feed
     if feed_id is not None:
-        # Edit an existing feed
         feed_contr.update({"id": feed_id}, feed_attr)
         flash(
             gettext(
