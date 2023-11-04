@@ -7,6 +7,7 @@
                 <th>{{ _('Status') }}</th>
                 <th>{{ _('Title') }}</th>
                 <th>{{ _('Site') }}</th>
+                <th>{{ _('Category') }}</th>
                 <th>{{ _('Articles') }}</th>
                 <th>{{ _('Actions') }}</th>
             </tr>
@@ -27,12 +28,13 @@
                 </td>
                 <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />&nbsp;{% endif %}{{ feed.title }}</td>
                 <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
+                <td>{% if None != feed.category_id and feed.category_id > 0 %}{{ categories[feed.category_id - 1].name }}{% endif %}</td>
                 <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
                 <td>
-                    <a href="{{ url_for("feed.feed", feed_id=feed.id) }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Information') }}"></i></a>
-                    <a href="{{ url_for("feed.form", feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                    <a href="{{ url_for("feed.duplicates", feed_id=feed.id) }}"><i class="fa fa-book" aria-hidden="true" title="{{ _('Duplicate articles') }}"></i></a>
-                    <a href="{{ url_for("feed.delete", feed_id=feed.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                    <a href="{{ url_for('feed.feed', feed_id=feed.id) }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Information') }}"></i></a>
+                    <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
+                    <a href="{{ url_for('feed.duplicates', feed_id=feed.id) }}"><i class="fa fa-book" aria-hidden="true" title="{{ _('Duplicate articles') }}"></i></a>
+                    <a href="{{ url_for('feed.delete', feed_id=feed.id) }}"><i class="fa fa-times" aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
                 </td>
             </tr>
         {% endfor %}
