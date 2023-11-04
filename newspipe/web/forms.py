@@ -39,10 +39,10 @@ from wtforms import (
     SelectMultipleField,
     SubmitField,
     TextAreaField,
-    TextField,
+    StringField,
     validators,
 )
-from wtforms.fields.html5 import EmailField, URLField
+from wtforms.fields import EmailField, URLField
 
 from newspipe.bootstrap import application
 from newspipe.controllers import LdapuserController, UserController
@@ -57,15 +57,15 @@ class SignupForm(FlaskForm):
     Sign up form (registration to newspipe).
     """
 
-    nickname = TextField(
+    nickname = StringField(
         lazy_gettext("Nickname"),
-        [validators.Required(lazy_gettext("Please enter your nickname."))],
+        [validators.DataRequired(lazy_gettext("Please enter your nickname."))],
     )
     email = EmailField(
         lazy_gettext("Email"),
         [
             validators.Length(min=6, max=35),
-            validators.Required(
+            validators.DataRequired(
                 lazy_gettext(
                     "Please enter your email address (only for account activation, won't be stored)."
                 )
@@ -75,7 +75,7 @@ class SignupForm(FlaskForm):
     password = PasswordField(
         lazy_gettext("Password"),
         [
-            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.DataRequired(lazy_gettext("Please enter a password.")),
             validators.Length(min=20, max=500),
         ],
     )
@@ -122,17 +122,17 @@ class SigninForm(RedirectForm):
     Sign in form (connection to newspipe).
     """
 
-    nickmane = TextField(
+    nickmane = StringField(
         "Nickname",
         [
             validators.Length(min=3, max=35),
-            validators.Required(lazy_gettext("Please enter your nickname.")),
+            validators.DataRequired(lazy_gettext("Please enter your nickname.")),
         ],
     )
     password = PasswordField(
         lazy_gettext("Password"),
         [
-            validators.Required(lazy_gettext("Please enter a password.")),
+            validators.DataRequired(lazy_gettext("Please enter a password.")),
             validators.Length(min=6, max=500),
         ],
     )
@@ -224,9 +224,9 @@ class UserForm(FlaskForm):
     Create or edit a user (for the administrator).
     """
 
-    nickname = TextField(
+    nickname = StringField(
         lazy_gettext("Nickname"),
-        [validators.Required(lazy_gettext("Please enter your nickname."))],
+        [validators.DataRequired(lazy_gettext("Please enter your nickname."))],
     )
     password = PasswordField(lazy_gettext("Password"))
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
@@ -250,7 +250,7 @@ class ProfileForm(FlaskForm):
     Edit user information.
     """
 
-    nickname = TextField(
+    nickname = StringField(
         lazy_gettext("Nickname"),
         # [validators.Required(lazy_gettext("Please enter your nickname."))],
         [validators.Optional()],
@@ -292,9 +292,9 @@ class ProfileForm(FlaskForm):
 
 
 class AddFeedForm(FlaskForm):
-    title = TextField(lazy_gettext("Title"), [validators.Optional()])
-    link = TextField(lazy_gettext("Feed link"))
-    site_link = TextField(lazy_gettext("Site link"))
+    title = StringField(lazy_gettext("Title"), [validators.Optional()])
+    link = StringField(lazy_gettext("Feed link"))
+    site_link = StringField(lazy_gettext("Site link"))
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
     category_id = SelectField(
@@ -308,7 +308,7 @@ class AddFeedForm(FlaskForm):
 
 
 class CategoryForm(FlaskForm):
-    name = TextField(lazy_gettext("Category name"))
+    name = StringField(lazy_gettext("Category name"))
     feeds = SelectMultipleField(lazy_gettext("Feeds in this category"), coerce=int)
     submit = SubmitField(lazy_gettext("Save"))
 
@@ -318,26 +318,27 @@ class CategoryForm(FlaskForm):
 
 
 class BookmarkForm(FlaskForm):
-    href = TextField(
-        lazy_gettext("URL"), [validators.Required(lazy_gettext("Please enter an URL."))]
+    href = StringField(
+        lazy_gettext("URL"),
+        [validators.DataRequired(lazy_gettext("Please enter an URL."))],
     )
-    title = TextField(lazy_gettext("Title"), [validators.Length(min=0, max=100)])
-    description = TextField(
+    title = StringField(lazy_gettext("Title"), [validators.Length(min=0, max=100)])
+    description = StringField(
         lazy_gettext("Description"), [validators.Length(min=0, max=500)]
     )
-    tags = TextField(lazy_gettext("Tags"))
+    tags = StringField(lazy_gettext("Tags"))
     to_read = BooleanField(lazy_gettext("To read"), default=False)
     shared = BooleanField(lazy_gettext("Shared"), default=False)
     submit = SubmitField(lazy_gettext("Save"))
 
 
 class InformationMessageForm(FlaskForm):
-    subject = TextField(
+    subject = StringField(
         lazy_gettext("Subject"),
-        [validators.Required(lazy_gettext("Please enter a subject."))],
+        [validators.DataRequired(lazy_gettext("Please enter a subject."))],
     )
     message = TextAreaField(
         lazy_gettext("Message"),
-        [validators.Required(lazy_gettext("Please enter a content."))],
+        [validators.DataRequired(lazy_gettext("Please enter a content."))],
     )
     submit = SubmitField(lazy_gettext("Send"))

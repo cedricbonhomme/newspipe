@@ -91,7 +91,6 @@ talisman = Talisman(
 babel = Babel(application)
 
 
-@babel.localeselector
 def get_locale():
     # if a user is logged in, use the locale from the user settings
     # user = getattr(g, 'user', None)
@@ -101,6 +100,9 @@ def get_locale():
     # header the browser transmits.  We support de/fr/en in this
     # example.  The best match wins.
     return request.accept_languages.best_match(application.config["LANGUAGES"].keys())
+
+
+babel.init_app(application, locale_selector=get_locale)
 
 
 # Jinja filters
