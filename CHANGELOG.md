@@ -1,6 +1,32 @@
 Newspipe Changelog
 ==================
 
+## 10.0.0 (2023-11-06)
+
+### New
+
+- support of ldap-auth;
+- support for reverse proxy and virtual path;
+- added robots.txt and humans.txt pages;
+
+
+## Improvements
+
+- improvements to the categories page;
+- various peformance improvements;
+
+
+### Fixes
+
+- fixed an issue when editing the category of a feed.
+
+## Various changes
+
+- removed Twitter field from the users model;
+- updated all Python and JavaScript dependendencies;
+
+
+
 ## 9.5.0 (2022-03-31)
 
 ### New

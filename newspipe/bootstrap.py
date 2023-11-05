@@ -56,6 +56,8 @@ class ReverseProxied:
         return self.app(environ, start_response)
 
 
+# locale.setlocale(locale.LC_ALL, '')
+
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
 configuration = os.environ.get("NEWSPIPE_CONFIG", False)
@@ -126,9 +128,14 @@ def datetimeformat(value, format="%Y-%m-%d %H:%M"):
     return value.strftime(format)
 
 
+def numberformat(value):
+    return f"{value:n}"
+
+
 application.jinja_env.filters["month_name"] = month_name
 application.jinja_env.filters["datetime"] = format_datetime
 application.jinja_env.filters["datetimeformat"] = datetimeformat
+application.jinja_env.filters["numberformat"] = numberformat
 # inject application in Jinja env
 application.jinja_env.globals["application"] = application
 
