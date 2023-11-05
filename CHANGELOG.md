@@ -7,13 +7,14 @@ Newspipe Changelog
 
 - support of ldap-auth;
 - support for reverse proxy and virtual path;
-- added robots.txt and humans.txt pages;
+- added robots.txt and humans.txt pages.
 
 
 ## Improvements
 
 - improvements to the categories page;
-- various peformance improvements;
+- improved displaying of numbers with localization;
+- various peformance improvements.
 
 
 ### Fixes
@@ -23,7 +24,7 @@ Newspipe Changelog
 ## Various changes
 
 - removed Twitter field from the users model;
-- updated all Python and JavaScript dependendencies;
+- updated all Python and JavaScript dependendencies.
 
 
 

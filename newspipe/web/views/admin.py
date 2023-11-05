@@ -51,11 +51,15 @@ def user_form(user_id=None):
     else:
         form = UserForm()
         message = gettext("Add a new user")
+    try:
+        external_auth = bool(user.external_auth)
+    except Exception:
+        external_auth = False
     return render_template(
         "/admin/create_user.html",
         form=form,
         message=message,
-        pw_disabled=bool(user.external_auth),
+        pw_disabled=external_auth,
     )
 
 
