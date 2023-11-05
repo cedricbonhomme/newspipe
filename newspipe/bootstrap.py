@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import calendar
+import locale
 import logging
 import os
 
@@ -55,8 +56,6 @@ class ReverseProxied:
         environ["SCRIPT_NAME"] = self.script_name
         return self.app(environ, start_response)
 
-
-# locale.setlocale(locale.LC_ALL, '')
 
 # Create Flask application
 application = Flask(__name__, instance_relative_config=True)
@@ -126,6 +125,9 @@ def month_name(month_number):
 
 def datetimeformat(value, format="%Y-%m-%d %H:%M"):
     return value.strftime(format)
+
+
+locale.setlocale(locale.LC_ALL, "")
 
 
 def numberformat(value):
