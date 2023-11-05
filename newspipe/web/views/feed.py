@@ -39,7 +39,10 @@ feed_bp = Blueprint("feed", __name__, url_prefix="/feed")
 def feeds():
     "Lists the subscribed feeds in a table."
     art_contr = ArticleController(current_user.id)
-    categories = CategoryController(current_user.id).read()
+    categories = {
+        category.id: category.name
+        for category in CategoryController(current_user.id).read()
+    }
     return render_template(
         "feeds.html",
         feeds=FeedController(current_user.id).read().order_by("title"),
