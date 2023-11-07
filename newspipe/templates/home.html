@@ -178,7 +178,7 @@
                                 </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '...') }}</a>
+                                <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '…') }}</a>
                             </td>
                             <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</td>
                         </tr>

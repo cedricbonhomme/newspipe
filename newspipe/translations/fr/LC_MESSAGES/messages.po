@@ -1025,8 +1025,8 @@ msgid "Feed was successfully created."
 msgstr "Flux créé avec succès."
 
 #: newspipe/web/views/feed.py:182 newspipe/web/views/feed.py:289
-msgid "Downloading articles for the new feed..."
-msgstr "Téléchargement des articles du nouveau flux..."
+msgid "Downloading articles for the new feed…"
+msgstr "Téléchargement des articles du nouveau flux…"
 
 #: newspipe/web/views/feed.py:200
 msgid "Feed successfully updated."
@@ -1050,7 +1050,7 @@ msgid "No duplicates in the feed \"{}\"."
 msgstr "Pas de doublon dans le flux \"{}\"."
 
 #: newspipe/web/views/home.py:203 newspipe/web/views/user.py:116
-msgid "Downloading articles..."
+msgid "Downloading articles…"
 msgstr "Téléchargement des articles."
 
 #: newspipe/web/views/home.py:206

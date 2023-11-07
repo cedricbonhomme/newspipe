@@ -181,7 +181,7 @@ def bookmarklet():
     flash(gettext("Feed was successfully created."), "success")
     if feed.enabled and application.config["CRAWLING_METHOD"] == "default":
         misc_utils.fetch(current_user.id, feed.id)
-        flash(gettext("Downloading articles for the new feed..."), "info")
+        flash(gettext("Downloading articles for the new feed…"), "info")
     return redirect(url_for("feed.form", feed_id=feed.id))
 
 
@@ -305,7 +305,7 @@ def process_form(feed_id=None):
 
     if application.config["CRAWLING_METHOD"] == "default":
         misc_utils.fetch(current_user.id, new_feed.id)
-        flash(gettext("Downloading articles for the new feed..."), "info")
+        flash(gettext("Downloading articles for the new feed…"), "info")
 
     return redirect(url_for("feed.form", feed_id=new_feed.id))
 

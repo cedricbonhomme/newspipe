@@ -118,7 +118,7 @@ def management():
                     if application.config["CRAWLING_METHOD"] == "classic":
                         misc_utils.fetch(current_user.id, None)
                         flash(str(nb) + "  " + gettext("feeds imported."), "success")
-                        flash(gettext("Downloading articles..."), "info")
+                        flash(gettext("Downloading articles…"), "info")
                 except Exception:
                     flash(gettext("Impossible to import the new feeds."), "danger")
         elif None is not request.files.get("jsonfile", None):

@@ -215,7 +215,7 @@ def fetch(feed_id=None):
     """
     if application.config["CRAWLING_METHOD"] == "default" and current_user.is_admin:
         misc_utils.fetch(current_user.id, feed_id)
-        flash(gettext("Downloading articles..."), "info")
+        flash(gettext("Downloading articles…"), "info")
     else:
         flash(
             gettext(

@@ -568,7 +568,7 @@ This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
 
     pyAggr3g470r is now using the Mako template library.
     Performance improvements for the MongoDB database have been made, and some
-    minor bugfixes. Stop words (a, of, the, an, for...) are now ignored when
+    minor bugfixes. Stop words (a, of, the, an, for, …) are now ignored when
     calculating top words for the generation of the tag cloud.
     A new page indicates the list of inactive feeds (with no new published
     articles since a given number of days).
