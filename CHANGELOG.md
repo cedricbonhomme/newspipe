@@ -1,7 +1,7 @@
 Newspipe Changelog
 ==================
 
-## 10.0.0 (2023-11-06)
+## 10.0.0 (2023-11-08)
 
 ### New
 
@@ -12,14 +12,15 @@ Newspipe Changelog
 
 ## Improvements
 
-- improvements to the categories page;
+- major improvements to the categories page;
 - improved displaying of numbers with localization;
 - various peformance improvements.
 
 
 ### Fixes
 
-- fixed an issue when editing the category of a feed.
+- fixed an issue when editing the category of a feed;
+- fixed issues in the JavaScript code.
 
 ## Various changes
 
