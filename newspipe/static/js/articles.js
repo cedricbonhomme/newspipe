@@ -33,9 +33,9 @@ function change_unread_counter(feed_id, increment) {
 }
 
 
-// Mark an article as read when it is opened in a new table
+// Mark an article as read when it is opened in a new tab
 document.getElementsByClassName('open-article').onclick = function fun() {
-  var feed_id = $(this).parentNode.parentNode.attr("data-feed");
+  var feed_id = $(this).parentNode.parentNode.attr("data-bs-feed");
   var filter = $('#filters').attr("data-filter");
   if (filter == "unread") {
     $(this).parentNode.parentNode.remove();
@@ -49,8 +49,10 @@ var nodes = document.getElementsByClassName('readed');
 Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
       var article_id = node.parentNode.parentNode.parentNode.getAttribute("data-article");
-      var feed_id = node.parentNode.parentNode.parentNode.getAttribute("data-feed");
+      var feed_id = node.parentNode.parentNode.parentNode.getAttribute("data-bs-feed");
       var filter = document.getElementById('filters').getAttribute("data-filter");
+
+      console.log("here");
 
       var data;
       if (node.classList.contains('fa-square-o')) {
@@ -79,6 +81,7 @@ Array.prototype.map.call(nodes, function(node) {
               node.classList.remove('fa-check-square-o');
               node.classList.add('fa-square-o');
           }
+          console.log(feed_id);
           change_unread_counter(feed_id, -1);
       }
 
