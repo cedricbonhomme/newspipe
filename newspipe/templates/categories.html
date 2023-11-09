@@ -109,10 +109,10 @@
         }],
       };
       chartCategories.options.onClick = function(evt) {
-        if (confirm("Go to the object description page ?") == true) {
+        if (confirm("Go to the category edition page ?") == true) {
           var node = chartCategories.getElementsAtEventForMode(evt, 'point', { intersect: false });
           var uuid = Object.keys(labels)[node[0].index]
-          window.location = '/object/'+uuid;
+          window.location = '/category/edit/'+uuid;
         }
       }
       chartCategories.update();
