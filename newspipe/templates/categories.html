@@ -1,36 +1,124 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='npm_components/chart.js/dist/chart.umd.js') }}"></script>
+<style>
+  .chart-container {
+    display: block;
+    float: none;
+    width: 40%;
+    margin-top: 0px;
+    margin-right:0px;
+    margin-left:0px;
+    height: auto;
+  }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container">
     <h1>{{ _("You have %(categories)d categories &middot; %(start_link)sAdd%(end_link)s a category", categories=categories|count, start_link=("<a href='%s'>" % url_for("category.form"))|safe, end_link="</a>"|safe) }}</h1>
+    <br />
     {% if categories|count == 0 %}
         <h1>{{_("No category")}}</h1>
     {% else %}
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>{{ _('Name') }}</th>
-                    <th>{{ _('Feeds') }}</th>
-                    <th>{{ _('Articles') }}</th>
-                    <th>{{ _('Actions') }}</th>
+    <div class="row justify-content-between">
+      <div class="col-6">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{ _('Name') }}</th>
+                        <th>{{ _('Feeds') }}</th>
+                        <th>{{ _('Articles') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ feeds_count.get(category.id, 0) }}</td>
+                        <td>( {{ unread_article_count.get(category.id, 0) }} ) {{ article_count.get(category.id, 0) }}</td>
+                        <td>
+                            <a href="{{ url_for('category.form', category_id=category.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title='{{ _("Edit this category") }}'></i></a>
+                            <a href="{{ url_for('category.delete', category_id=category.id) }}"><i class="fa fa-times" aria-hidden="true" title='{{ _("Delete this category") }}' onclick="return confirm('{{ _('You are going to delete this category.') }}');"></i></a>
+                        </td>
                 </tr>
-            </thead>
-            <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ feeds_count.get(category.id, 0) }}</td>
-                    <td>( {{ unread_article_count.get(category.id, 0) }} ) {{ article_count.get(category.id, 0) }}</td>
-                    <td>
-                        <a href="{{ url_for("category.form", category_id=category.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title='{{ _("Edit this category") }}'></i></a>
-                        <a href="{{ url_for("category.delete", category_id=category.id) }}"><i class="fa fa-times" aria-hidden="true" title='{{ _("Delete this category") }}' onclick="return confirm('{{ _('You are going to delete this category.') }}');"></i></a>
-                    </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="col-3 chart-container">
+        <div id="spinner" class="d-flex justify-content-center">
+            <div id="spinner-border" role="status"><span class="sr-only">{{ _('Loading...') }}</span></div>
+        </div>
+        <canvas id="charts-categories"></canvas>
+      </div>
     </div>
     {% endif %}
+</div><!-- /.container -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var colors = ['rgba(230, 25, 75, 0.4)', 'rgba(60, 180, 75, 0.4)',
+    'rgba(255, 225, 25, 0.4)', 'rgba(0, 130, 200, 0.4)', 'rgba(245, 130, 48, 0.4)',
+    'rgba(145, 30, 180, 0.4)', 'rgba(70, 240, 240, 0.4)', 'rgba(240, 50, 230, 0.4)',
+    'rgba(210, 245, 60, 0.4)', 'rgba(250, 190, 190, 0.4)', 'rgba(0, 128, 128, 0.4)',
+    'rgb(148, 163, 209, 0.4)', 'rgba(170, 110, 40, 0.4)', 'rgb(141, 140, 255, 0.4)',
+    'rgba(128, 0, 0, 0.4)', 'rgba(170, 255, 195, 0.4)', 'rgba(128, 128, 0, 0.4)',
+    'rgba(255, 215, 180, 0.4)', 'rgba(0, 0, 128, 0.4)', 'rgb(241, 147, 241, 0.4)',
+    'rgba(255, 255, 255, 0.4)', 'rgb(129, 181, 255, 0.4)', 'rgb(229, 236, 202, 0.4)',
+    'rgb(157, 196, 241, 0.4)', 'rgb(253, 141, 211, 0.4)', 'rgb(180, 128, 253, 0.4)',
+    'rgb(255, 195, 129, 0.4)', 'rgb(204, 228, 230, 0.4)'];
+
+    var ctx_categories = document.getElementById("charts-categories").getContext('2d');
+    var chartCategories = new Chart(ctx_categories, {
+      type: 'pie',
+      options: {
+        responsive: true,
+        aspectRatio: 0.7,
+        plugins: {
+          legend: {
+            position: 'right',
+          }
+        }
+      }
+    });
+
+    fetch("/stats/categories.json")
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById("spinner").style.display = 'none';
+      document.getElementById("spinner-border").style.display = 'none';
+      data = {}
+      labels = {}
+      result.map(function(elem) {
+        data[elem["id"]] = elem["count"];
+        labels[elem["id"]] = elem["name"];
+      });
+
+      chartCategories.data = {
+        labels: Object.values(labels),
+        datasets: [{
+          label: 'Number of feeds',
+          data: Object.values(data),
+          borderWidth: 1,
+          backgroundColor: colors
+        }],
+      };
+      chartCategories.options.onClick = function(evt) {
+        if (confirm("Go to the object description page ?") == true) {
+          var node = chartCategories.getElementsAtEventForMode(evt, 'point', { intersect: false });
+          var uuid = Object.keys(labels)[node[0].index]
+          window.location = '/object/'+uuid;
+        }
+      }
+      chartCategories.update();
+    }).catch((error) => {
+      console.error('Error:', error);
+    })
+  });
+</script>
 {% endblock %}
