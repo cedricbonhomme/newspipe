@@ -52,6 +52,7 @@ def home():
 
     filter_ = request.args.get("filter_", "unread")
     feed_id = int(request.args.get("feed", 0))
+    category_id = int(request.args.get("category", 0))
     liked = int(request.args.get("liked", 0)) == 1
     limit = request.args.get("limit", 1000)
     query = request.args.get("query", "")
@@ -62,6 +63,8 @@ def home():
         filters["readed"] = filter_ == "read"
     if feed_id:
         filters["feed_id"] = feed_id
+    if category_id:
+        filters["category_id"] = category_id
     if liked:
         filters["like"] = int(liked) == 1
 
@@ -80,17 +83,19 @@ def home():
         filter_=filter_,
         limit=limit,
         feed=feed_id,
+        category=category_id,
         liked=liked,
         query=query,
         search_title=search_title,
         search_content=search_content,
     ):
         return (
-            "?filter_=%s&limit=%s&feed=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
+            "?filter_=%s&limit=%s&feed=%d&category=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
             % (
                 filter_,
                 limit,
                 feed,
+                category,
                 1 if liked else 0,
                 query,
                 search_title,

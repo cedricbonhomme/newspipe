@@ -40,7 +40,7 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ category.name }}</td>
                         <td>{{ feeds_count.get(category.id, 0) }}</td>
-                        <td>( {{ unread_article_count.get(category.id, 0) }} ) {{ article_count.get(category.id, 0) }}</td>
+                        <td>( <a href="{{ url_for('home', filter_='unread', category=category.id) }}">{{ unread_article_count.get(category.id, 0) }}</a> ) {{ article_count.get(category.id, 0) }}</td>
                         <td>
                             <a href="{{ url_for('category.form', category_id=category.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" title='{{ _("Edit this category") }}'></i></a>
                             <a href="{{ url_for('category.delete', category_id=category.id) }}"><i class="fa fa-times" aria-hidden="true" title='{{ _("Delete this category") }}' onclick="return confirm('{{ _('You are going to delete this category.') }}');"></i></a>
