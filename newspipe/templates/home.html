@@ -16,7 +16,7 @@
 {% else %}
     <div class="row">
     <div id="sidebar" class="col-2 d-none d-lg-block" style="min-height: 650px;">
-        <a class="nav-link" href="{{ gen_url(feed=0) }}">
+        <a class="nav-link" href="{{ gen_url(feed=0, category=0) }}">
             {% if not feed_id %}<b>{% endif %}{{ _('All feeds') }}{% if not feed_id %}</b>{% endif %}
             <span id="total-unread" class="badge badge-light pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
         </a>
@@ -27,11 +27,11 @@
                         <button class="btn btn-primary btn-sm pull-right" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ catid }}" aria-expanded="true" aria-controls="collapse-{{ catid }}">
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                         </button>
-                        <span class="align-middle">&nbsp;{{ categories[catid].name }}</<span>
+                        <span class="align-middle"><a class="text-white fs-6" href="{{ gen_url(feed=0, category=catid) }}">{{ categories[catid].name }}</a><span>
                     </div>
                     <div class="collapse show" id="collapse-{{ catid }}" data-parent="#accordion-{{ catid }}">
                     {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
-                        <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}"><a class="nav-link" href="{{ gen_url(feed=feed.id) }}">
+                        <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}"><a class="nav-link" href="{{ gen_url(feed=feed.id, category=0) }}">
                             {% if feed_id == feed.id %}<b>{% endif %}
                                 {% if in_error.get(feed.id, 0) > 0 %}
                                     <span style="background-color: {{ "red" if in_error[feed.id] > 2 else "orange" }} ;" class="badge bg-danger pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
@@ -58,11 +58,11 @@
             <button class="btn btn-primary btn-sm pull-right" role="button" data-bs-toggle="collapse" data-bs-target="#collapse-noCategory" aria-controls="collapse-noCategory">
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
-            <span class="align-middle">&nbsp;No category</<span>
+            <span class="align-middle"><a class="text-white fs-6" href="{{ gen_url(category=0) }}">No category</a></<span>
         </div>
         <div class="collapse show" id="collapse-noCategory">
         {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id  %}
-            <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                 {% if feed_id == fid %}<b>{% endif %}
                     {% if in_error.get(fid, 0) > 0 %}
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
@@ -92,7 +92,7 @@
         </div>
         <div class="collapse" id="collapse-unread">
         {% for fid, feed in feeds.items() if not fid in unread %}
-            <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid) }}">
+            <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                 {% if in_error.get(fid, 0) > 0 %}
                     <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
