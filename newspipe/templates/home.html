@@ -27,7 +27,7 @@
                         <button class="btn btn-primary btn-sm pull-right" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ catid }}" aria-expanded="true" aria-controls="collapse-{{ catid }}">
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                         </button>
-                        <span class="align-middle"><a class="text-white fs-6" href="{{ gen_url(feed=0, category=catid) }}">{{ categories[catid].name }}</a><span>
+                        <span class="align-middle"><a class="text-white fs-6 text-decoration-none" href="{{ gen_url(feed=0, category=catid) }}">{{ categories[catid].name }}</a><span>
                     </div>
                     <div class="collapse show" id="collapse-{{ catid }}" data-parent="#accordion-{{ catid }}">
                     {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
@@ -58,7 +58,7 @@
             <button class="btn btn-primary btn-sm pull-right" role="button" data-bs-toggle="collapse" data-bs-target="#collapse-noCategory" aria-controls="collapse-noCategory">
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
-            <span class="align-middle"><a class="text-white fs-6" href="{{ gen_url(category=0) }}">No category</a></<span>
+            <span class="align-middle"><a class="text-white fs-6 text-decoration-none" href="{{ gen_url(category=0) }}">No category</a></<span>
         </div>
         <div class="collapse show" id="collapse-noCategory">
         {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id  %}
