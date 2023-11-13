@@ -41,9 +41,12 @@
   <div class="row">
     <div class="col">
       <ul class="list-group">
+        {% set ns = namespace(day=1) %}
         {% for date in articles_counter | sort(reverse = True) %}
         {% for article in articles %}
+        {% if ns.day != article.date.day -%}<li class="list-group-item active">{{ article.date | datetimeformat(format="%A %d") }}</li>{% endif %}
         <li class="list-group-item">{{ article.date | datetime }} - <a href="{{ prefix() }}/article/{{ article.id }}">{{ article.title | safe }}</a></li>
+        {% set ns.day = article.date.day %}
         {% endfor %}
         {% endfor %}
       </ul>
