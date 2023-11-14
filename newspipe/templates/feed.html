@@ -18,9 +18,9 @@
         {% if category %}
             {{ _('This feed is part of category %(category_name)s', category_name=category.name) }}<br />
         {% endif %}
-        {{ _('Address of the feed') }}: <a href="{{ feed.link }}" target="_blank">{{ feed.link }}</a><br />
+        {{ _('Address of the feed') }}: <a href="{{ feed.link }}" rel="noopener noreferrer" target="_blank">{{ feed.link }}</a><br />
         {% if feed.site_link != "" %}
-            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}" target="_blank">{{ feed.site_link }}</a><br />
+            {{ _('Address of the site') }}: <a href="{{ feed.site_link }}" rel="noopener noreferrer" target="_blank">{{ feed.site_link }}</a><br />
         {% endif %}
 
         <br />

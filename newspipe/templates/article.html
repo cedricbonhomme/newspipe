@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row" data-article="{{ article.id }}" id="filters" data-filter="{{ filter_ }}">
         <div class="col">
-            <h2><a href="{{ article.link  }}" target="_blank">{{ article.title|safe }}</a></h2>
+            <h2><a href="{{ article.link  }}" rel="noopener noreferrer" target="_blank">{{ article.title|safe }}</a></h2>
             <h3>{{ _('from') }} <a href="{{ prefix() }}/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
             <a href="{{ url_for("article.delete", article_id=article.id) }}"><i class="fa fa-times delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
             {% if article.like %}
@@ -28,8 +28,8 @@
     <br />
     <div class="row">
         <div class="col">
-            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" /></a>
-            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/reddit.png') }}" title="{{ _('Share on') }} reddit" /></a>
+            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" /></a>
+            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/reddit.png') }}" title="{{ _('Share on') }} reddit" /></a>
         <div class="col">
     </div>
 </div><!-- /.container -->
