@@ -65,18 +65,6 @@ def article_pub(article_id=None):
     )
 
 
-@article_bp.route("/like/<int:article_id>", methods=["GET"])
-@login_required
-def like(article_id=None):
-    """
-    Mark or unmark an article as favorites.
-    """
-    art_contr = ArticleController(current_user.id)
-    article = art_contr.get(id=article_id)
-    art_contr = art_contr.update({"id": article_id}, {"like": not article.like})
-    return redirect(redirect_url())
-
-
 @article_bp.route("/delete/<int:article_id>", methods=["GET"])
 @login_required
 def delete(article_id=None):

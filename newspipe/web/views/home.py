@@ -108,6 +108,7 @@ def home():
         nb_unread=nb_unread,
         gen_url=gen_url,
         feed_id=feed_id,
+        category_id=category_id,
         filter_=filter_,
         limit=limit,
         feeds=feeds,
