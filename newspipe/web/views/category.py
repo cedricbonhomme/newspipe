@@ -10,7 +10,7 @@ from flask_login import login_required
 from newspipe.controllers import ArticleController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
-from newspipe.lib.utils import redirect_url
+from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.forms import CategoryForm
 from newspipe.web.lib.view_utils import etag_match
 
@@ -130,4 +130,8 @@ def delete(category_id=None):
         ),
         "success",
     )
-    return redirect(redirect_url())
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"

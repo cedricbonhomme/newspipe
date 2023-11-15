@@ -17,7 +17,7 @@ from newspipe.controllers import ArticleController
 from newspipe.controllers import UserController
 from newspipe.lib.data import export_json
 from newspipe.lib.utils import clear_string
-from newspipe.lib.utils import redirect_url
+from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.lib.view_utils import etag_match
 
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
@@ -115,7 +115,7 @@ def mark_as(new_value="read", feed_id=None, article_id=None):
     flash(gettext(message % new_value), "info")
 
     # if readed:
-    #     return redirect(redirect_url())
+    #     return redirect(safe_redirect_url())
     return redirect(url_for("home"))
 
 
@@ -136,7 +136,11 @@ def expire():
     query.delete()
     db.session.commit()
     flash(gettext("%(count)d articles deleted", count=count), "info")
-    return redirect(redirect_url())
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"
 
 
 @articles_bp.route("/export", methods=["GET"])
@@ -146,11 +150,16 @@ def export():
     Export articles to JSON.
     """
     user = UserController(current_user.id).get(id=current_user.id)
+    json_result = {}
     try:
         json_result = export_json(user)
     except Exception:
         flash(gettext("Error when exporting articles."), "danger")
-        return redirect(redirect_url())
+        url = safe_redirect_url()
+        if url:
+            return redirect(url)
+        else:
+            return "Error"
     response = make_response(json_result)
     response.mimetype = "application/json"
     response.headers["Content-Disposition"] = "attachment; filename=account.json"

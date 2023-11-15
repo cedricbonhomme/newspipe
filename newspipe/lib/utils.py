@@ -3,6 +3,7 @@ import re
 import types
 import urllib
 from hashlib import md5
+from urllib.parse import urlparse
 
 import requests
 from flask import request
@@ -87,8 +88,11 @@ def clear_string(data):
     return p.sub("", q.sub(" ", data))
 
 
-def redirect_url(default="home"):
-    return request.args.get("next") or request.referrer or url_for(default)
+def safe_redirect_url(default="home"):
+    next_url = request.args.get("next") or request.referrer or url_for(default)
+    if next_url and urlparse(next_url).netloc == "":
+        return next_url
+    return None
 
 
 def newspipe_get(url, **kwargs):

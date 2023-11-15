@@ -20,7 +20,7 @@ from newspipe.controllers import ArticleController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
 from newspipe.lib import misc_utils
-from newspipe.lib.utils import redirect_url
+from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.views.common import jsonify
 
@@ -230,4 +230,4 @@ def fetch(feed_id=None):
             ),
             "info",
         )
-    return redirect(redirect_url())
+    return redirect(safe_redirect_url())

@@ -43,7 +43,7 @@ from werkzeug.exceptions import BadRequest
 from newspipe.bootstrap import db
 from newspipe.controllers import BookmarkController
 from newspipe.lib.data import export_bookmarks, import_pinboard_json
-from newspipe.lib.utils import redirect_url
+from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.forms import BookmarkForm
 
 logger = logging.getLogger(__name__)
@@ -204,7 +204,11 @@ def delete_all():
     BookmarkController(current_user.id).read().delete()
     db.session.commit()
     flash(gettext("Bookmarks successfully deleted."), "success")
-    return redirect(redirect_url())
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"
 
 
 @bookmark_bp.route("/bookmarklet", methods=["GET", "POST"])
@@ -257,7 +261,11 @@ def import_pinboard():
         except Exception:
             flash(gettext("Error when importing bookmarks."), "error")
 
-    return redirect(redirect_url())
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"
 
 
 @bookmarks_bp.route("/export", methods=["GET"])
