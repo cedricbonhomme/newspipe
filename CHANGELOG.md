@@ -1,6 +1,20 @@
 Newspipe Changelog
 ==================
 
+## 10.1.0 (2023-11-16)
+
+## Improvements
+
+- major improvements to the layout of the main page;
+- it is now possible to filter articles per category on the main page;
+- improvements to the categories page with a new chart.
+
+
+### Fixes
+
+- secured various internal HTTP redirects.
+
+
 ## 10.0.0 (2023-11-08)
 
 ### New
@@ -10,7 +24,7 @@ Newspipe Changelog
 - added robots.txt and humans.txt pages.
 
 
-## Improvements
+### Improvements
 
 - major improvements to the categories page;
 - improved displaying of numbers with localization;
@@ -25,7 +39,7 @@ Newspipe Changelog
 ## Various changes
 
 - removed Twitter field from the users model;
-- updated all Python and JavaScript dependendencies.
+- updated all Python and JavaScript dependencies.
 
 
 
