@@ -281,8 +281,8 @@ msgstr "articles"
 
 #: newspipe/templates/feed.html:16
 #, python-format
-msgid "This feed is part of category %(category_name)s"
-msgstr "Ce flux fait partie de la catégorie %(category_name)s"
+msgid "This feed is in the category %(category_name)s"
+msgstr "Ce flux est dans la catégorie %(category_name)s"
 
 #: newspipe/templates/feed.html:18
 msgid "Address of the feed"
