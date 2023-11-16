@@ -230,4 +230,8 @@ def fetch(feed_id=None):
             ),
             "info",
         )
-    return redirect(safe_redirect_url())
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"

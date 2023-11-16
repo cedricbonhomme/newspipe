@@ -16,7 +16,7 @@
         <p>
         {{ _('This feed contains') }} {{ feed.articles.all()|count }} {{ _('articles') }}.<br />
         {% if category %}
-            {{ _('This feed is part of category %(category_name)s', category_name=category.name) }}<br />
+            {{ _('This feed is in the category %(category_name)s', category_name=category.name) }}<br />
         {% endif %}
         {{ _('Address of the feed') }}: <a href="{{ feed.link }}" rel="noopener noreferrer" target="_blank">{{ feed.link }}</a><br />
         {% if feed.site_link != "" %}
