@@ -254,6 +254,7 @@ def process_form(feed_id=None):
     feed_attr = {
         "title": form.title.data,
         "enabled": form.enabled.data,
+        "description": form.description.data,
         "link": form.link.data,
         "site_link": form.site_link.data,
         "filters": [],

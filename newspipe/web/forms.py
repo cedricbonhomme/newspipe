@@ -296,6 +296,7 @@ class AddFeedForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), [validators.Optional()])
     link = StringField(lazy_gettext("Feed link"))
     site_link = StringField(lazy_gettext("Site link"))
+    description = StringField(lazy_gettext("Description"))
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
     category_id = SelectField(

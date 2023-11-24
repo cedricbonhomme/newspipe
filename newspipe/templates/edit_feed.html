@@ -24,17 +24,25 @@
             <hr />
 
             <div class="row row-cols-md-auto g-2 align-items-center">
-                <div class="col-md-6">
-                    <label for="{{ form.title.id }}" class="col control-label">{{ form.title.label }}</label>
-                    {{ form.title(class_="form-control", size="100%", placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
-                    {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
-                <div class="col-md-6">
-                    <label for="{{ form.category_id.id }}" class="col control-label">{{ form.category_id.label }}</label>
-                    {{ form.category_id(class_="form-control", placeholder=_('Optional')) }}
-                    {% for error in form.category_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
+              <div class="col-md-6">
+                  <label for="{{ form.title.id }}" class="col control-label">{{ form.title.label }}</label>
+                  {{ form.title(class_="form-control", size="100%", placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
+                  {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+              </div>
+              <div class="col-md-6">
+                  <label for="{{ form.category_id.id }}" class="col control-label">{{ form.category_id.label }}</label>
+                  {{ form.category_id(class_="form-control", placeholder=_('Optional')) }}
+                  {% for error in form.category_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+              </div>
+          </div>
+
+          <div class="row row-cols-md-auto g-2 align-items-center">
+            <div class="col">
+                <label for="{{ form.description.id }}" class="col control-label">{{ form.description.label }}</label>
+                {{ form.description(class_="form-control", size="100%", placeholder=_('Description of the feed.')) }}
+                {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
             </div>
+        </div>
 
             <br />
 
