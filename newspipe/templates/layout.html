@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     {% block head %}
     <meta charset="utf-8">
@@ -11,7 +11,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom1.css') }}" />
     <!-- JavaScript -->
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -19,7 +20,7 @@
   </head>
   <body>
     {% block menu %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-newspipe-blue">
+    <nav class="navbar navbar-expand-lg ">
        <div class="container-fluid">
         <a class="navbar-brand" href="{{ prefix() }}/">Newspipe</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

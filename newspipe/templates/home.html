@@ -18,7 +18,7 @@
     <div id="sidebar" class="col-2 d-none d-lg-block" style="min-height: 650px;">
         <a class="nav-link" href="{{ gen_url(feed=0, category=0) }}">
             {% if not feed_id %}<b>{% endif %}{{ _('All feeds') }}{% if not feed_id %}</b>{% endif %}
-            <span id="total-unread" class="badge badge-light pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
+            <span id="total-unread" class="badge pull-right"> {% if nb_unread > 1000 %}>{% endif %}&nbsp;{{ articles.__len__() }}</span>
         </a>
         {% for catid, nbunread in unread_by_cat|dictsort(by='value')|reverse if catid %}
             <ul class="nav flex-column">
@@ -35,9 +35,9 @@
                                 {% if in_error.get(feed.id, 0) > 0 %}
                                     <span style="background-color: {{ 'red' if in_error[feed.id] > 2 else 'orange' }} ;" class="badge bg-danger pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                                 {% endif %}
-                                <span id="unread-{{ feed.id }}" class="badge badge-light pull-right">{{ unread[feed.id] }}</span>
+                                <span id="unread-{{ feed.id }}" class="badge pull-right">{{ unread[feed.id] }}</span>
                                 <img src="{{ url_for('icon.icon', url=feeds[feed.id].icon_url) }}" width="16px">
-                                <span class="{% if feed_id == feed.id %}text-success fw-bold{% endif %}"">{{ feeds[feed.id].title | safe | truncate(25, True) }}</span>
+                                <span class="{% if feed_id == feed.id %}text-success fw-bold{% endif %}">{{ feeds[feed.id].title | safe | truncate(25, True) }}</span>
                         </a></li>
                         <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}"><span class="nav-link">
                             <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="fa fa-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
@@ -64,7 +64,7 @@
                     {% if in_error.get(fid, 0) > 0 %}
                         <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occured while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                     {% endif %}
-                    <span id="unread-{{ fid }}" class="badge badge-light pull-right">{{ nbunread }}</span>
+                    <span id="unread-{{ fid }}" class="badge pull-right">{{ nbunread }}</span>
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
                     <span class="{% if feed_id == fid %}text-success fw-bold{% endif %}"">{{ feeds[fid].title | safe | truncate(25, True) }}</span>
             </a></li>
@@ -174,7 +174,7 @@
                             </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(90, False, '…') }}</a>
+                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(70, False, '…') }}</a>
                                 <div class="collapse" id="collapse-{{ article.id}}">
                                   <div class="card card-body col-md-10 overflow-auto">
                                     {{ article.content | safe }}
