@@ -170,11 +170,11 @@
                             {% if not feed_id %}
                             <td>
                               <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
-                                <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank">{{ article.source.title | safe }}</a>
+                                <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank" title="{{ article.source.title }}">{{ article.source.title | truncate(20, False, '…') }}</a>
                             </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(100, False, '…') }}</a>
+                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(90, False, '…') }}</a>
                                 <div class="collapse" id="collapse-{{ article.id}}">
                                   <div class="card card-body col-md-10 overflow-auto">
                                     {{ article.content | safe }}
