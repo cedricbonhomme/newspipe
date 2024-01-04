@@ -90,7 +90,7 @@ def clear_string(data):
 
 def safe_redirect_url(default="home"):
     next_url = request.args.get("next") or request.referrer or url_for(default)
-    if next_url and urlparse(next_url).netloc == "":
+    if next_url and urlparse(next_url).netloc != "":
         return next_url
     return None
 
