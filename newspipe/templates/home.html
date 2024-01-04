@@ -138,7 +138,7 @@
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th  scope="col">
+                            <th scope="col">
                                 {% if feed_id %}
                                     <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="fa fa-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                                 {% else %}
@@ -146,16 +146,16 @@
                                 {% endif%}
                             </th>
                             {% if not feed_id %}
-                                <th class="d-none d-md-block">{{ _('Feed') }}</th>
+                                <th>{{ _('Feed') }}</th>
                             {% endif %}
-                            <th>{{ _('Article') }}</th>
-                            <th class="d-none d-lg-block">{{ _('Date') }}</th>
+                            <th scope="col">{{ _('Article') }}</th>
+                            <th scope="col">{{ _('Date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for article in articles %}
                         <tr data-article="{{ article.id }}" data-bs-feed="{{ article.feed_id }}">
-                            <td scope="row">
+                            <th scope="row">
                                 {% if article.readed %}
                                     <button type="button" class="btn btn-link btn-xs"><i class="fa fa-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>
                                 {% else %}
@@ -166,17 +166,24 @@
                                 {% else %}
                                     <button type="button" class="btn btn-link btn-xs"><i class="fa fa-star-o like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></button>
                                 {% endif %}
-                            </td>
+                            </th>
                             {% if not feed_id %}
-                                <td class="d-none d-md-block">
-                                    <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
-                                    <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank">{{ article.source.title | safe }}</a>
-                                </td>
+                            <td>
+                              <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
+                                <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank">{{ article.source.title | safe }}</a>
+                            </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(100, False, '…') }}</a>
+                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(100, False, '…') }}</a>
+                                <div class="collapse" id="collapse-{{ article.id}}">
+                                  <div class="card card-body col-md-10 overflow-auto">
+                                    {{ article.content | safe }}
+                                    <hr />
+                                    <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">Open article in a new page.</a>
+                                  </div>
+                                </div>
                             </td>
-                            <td class="date d-none d-lg-block">{{ article.date | datetime(format='short') }}</td>
+                            <td class="date">{{ article.date | datetime(format='short') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
