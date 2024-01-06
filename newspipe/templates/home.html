@@ -169,8 +169,8 @@
                             </th>
                             {% if not feed_id %}
                             <td>
-                              <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px">
-                                <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank" title="{{ article.source.title }}">{{ article.source.title | truncate(20, False, '…') }}</a>
+                              <img src="{{ url_for('icon.icon', url=feeds[article.source.id].icon_url) }}" width="16px" />
+                              <a href="{{ prefix() }}/article/redirect/{{ article.id}}" rel="noopener noreferrer" target="_blank" title="{{ article.source.title }}">{{ article.source.title | truncate(20, False, '…') }}</a>
                             </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
