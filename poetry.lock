@@ -453,25 +453,25 @@ files = [
 
 [[package]]
 name = "cyclonedx-python-lib"
-version = "5.2.0"
+version = "6.3.0"
 description = "Python library for CycloneDX"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "cyclonedx_python_lib-5.2.0-py3-none-any.whl", hash = "sha256:1b43065205cdc53490c825fcfbda73142b758aa40ca169c968e342e88d06734f"},
-    {file = "cyclonedx_python_lib-5.2.0.tar.gz", hash = "sha256:b9ebf2c0520721d2f8ee16aadc2bbb9d4e015862c84ab1691a49b177f3014d99"},
+    {file = "cyclonedx_python_lib-6.3.0-py3-none-any.whl", hash = "sha256:0e73c1036c2f7fc67adc28aef807e6b44340ea70202aab197fb06b20ea165de8"},
+    {file = "cyclonedx_python_lib-6.3.0.tar.gz", hash = "sha256:82f2489de3c0cadad5af1ad7fa6b6a185f985746370245d38769699c734533c6"},
 ]
 
 [package.dependencies]
 license-expression = ">=30,<31"
 packageurl-python = ">=0.11"
-py-serializable = ">=0.15,<0.16"
+py-serializable = ">=0.16,<0.18"
 sortedcontainers = ">=2.4.0,<3.0.0"
 
 [package.extras]
 json-validation = ["jsonschema[format] (>=4.18,<5.0)"]
-validation = ["jsonschema[format] (>=4.18,<5.0)", "lxml (>=4,<5)"]
-xml-validation = ["lxml (>=4,<5)"]
+validation = ["jsonschema[format] (>=4.18,<5.0)", "lxml (>=4,<6)"]
+xml-validation = ["lxml (>=4,<6)"]
 
 [[package]]
 name = "defusedxml"
@@ -920,13 +920,13 @@ files = [
 
 [[package]]
 name = "jinja2"
-version = "3.1.2"
+version = "3.1.3"
 description = "A very fast and expressive template engine."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
-    {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
+    {file = "Jinja2-3.1.3-py3-none-any.whl", hash = "sha256:7d6d50dd97d52cbc355597bd845fabfbac3f551e1f99619e39a35ce8c370b5fa"},
+    {file = "Jinja2-3.1.3.tar.gz", hash = "sha256:ac8bd6544d4bb2c9792bf3a159e80bba8fda7f07e81bc3aed565432d5925ba90"},
 ]
 
 [package.dependencies]
@@ -1434,13 +1434,13 @@ setuptools = "*"
 
 [[package]]
 name = "packageurl-python"
-version = "0.13.1"
+version = "0.13.4"
 description = "A purl aka. Package URL parser and builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "packageurl-python-0.13.1.tar.gz", hash = "sha256:84f8053f4b85294b98b3b78715475847fb48f4525ec302d06dc35b26a9b3078a"},
-    {file = "packageurl_python-0.13.1-py3-none-any.whl", hash = "sha256:d35090c7ec1d7afc611679912151b2157f28f68e729b6fa56f8ea5422819eaed"},
+    {file = "packageurl-python-0.13.4.tar.gz", hash = "sha256:6eb5e995009cc73387095e0b507ab65df51357d25ddc5fce3d3545ad6dcbbee8"},
+    {file = "packageurl_python-0.13.4-py3-none-any.whl", hash = "sha256:62aa13d60a0082ff115784fefdfe73a12f310e455365cca7c6d362161067f35f"},
 ]
 
 [package.extras]
@@ -1498,18 +1498,18 @@ pip = "*"
 
 [[package]]
 name = "pip-audit"
-version = "2.6.2"
+version = "2.7.0"
 description = "A tool for scanning Python environments for known vulnerabilities"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pip_audit-2.6.2-py3-none-any.whl", hash = "sha256:ac3a4b6e977ef2c574aa8d19a5d71d12201bdb65bba2d67d9df49f53f0be5e7d"},
-    {file = "pip_audit-2.6.2.tar.gz", hash = "sha256:0bbd023a199a104b29f949f063a872d41113b5a9048285666820fa35a76a7794"},
+    {file = "pip_audit-2.7.0-py3-none-any.whl", hash = "sha256:83e039740653eb9ef1a78b1540ed441600cd88a560588ba2c0a169180685a522"},
+    {file = "pip_audit-2.7.0.tar.gz", hash = "sha256:67740c5b1d5d967a258c3dfefc46f9713a2819c48062505ddf4b29de101c2b75"},
 ]
 
 [package.dependencies]
 CacheControl = {version = ">=0.13.0", extras = ["filecache"]}
-cyclonedx-python-lib = ">=4,<6"
+cyclonedx-python-lib = ">=5,<7"
 html5lib = ">=1.1"
 packaging = ">=23.0.0"
 pip-api = ">=0.0.28"
@@ -1521,7 +1521,7 @@ toml = ">=0.10"
 [package.extras]
 dev = ["build", "bump (>=1.3.2)", "pip-audit[doc,lint,test]"]
 doc = ["pdoc"]
-lint = ["interrogate", "mypy", "ruff (<0.1.9)", "types-html5lib", "types-requests", "types-toml"]
+lint = ["interrogate", "mypy", "ruff (<0.1.12)", "types-html5lib", "types-requests", "types-toml"]
 test = ["coverage[toml] (>=7.0,!=7.3.3,<8.0)", "pretend", "pytest", "pytest-cov"]
 
 [[package]]
@@ -1656,13 +1656,13 @@ files = [
 
 [[package]]
 name = "py-serializable"
-version = "0.15.0"
+version = "0.17.1"
 description = "Library for serializing and deserializing Python Objects to and from JSON and XML."
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "py-serializable-0.15.0.tar.gz", hash = "sha256:8fc41457d8ee5f5c5a12f41fd87bf1a4f2ecf9da39fee92059b728e78f320771"},
-    {file = "py_serializable-0.15.0-py3-none-any.whl", hash = "sha256:d3f1201b33420c481aa83f7860c7bf2c2f036ba3ea82b6e15a96696457c36cd2"},
+    {file = "py-serializable-0.17.1.tar.gz", hash = "sha256:875bb9c01df77f563dfcd1e75bb4244b5596083d3aad4ccd3fb63e1f5a9d3e5f"},
+    {file = "py_serializable-0.17.1-py3-none-any.whl", hash = "sha256:389c2254d912bec3a44acdac667c947d73c59325050d5ae66386e1ed7108a45a"},
 ]
 
 [package.dependencies]
@@ -2089,13 +2089,13 @@ files = [
 
 [[package]]
 name = "types-python-dateutil"
-version = "2.8.19.14"
+version = "2.8.19.20240106"
 description = "Typing stubs for python-dateutil"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "types-python-dateutil-2.8.19.14.tar.gz", hash = "sha256:1f4f10ac98bb8b16ade9dbee3518d9ace017821d94b057a425b069f834737f4b"},
-    {file = "types_python_dateutil-2.8.19.14-py3-none-any.whl", hash = "sha256:f977b8de27787639986b4e28963263fd0e5158942b3ecef91b9335c130cb1ce9"},
+    {file = "types-python-dateutil-2.8.19.20240106.tar.gz", hash = "sha256:1f8db221c3b98e6ca02ea83a58371b22c374f42ae5bbdf186db9c9a76581459f"},
+    {file = "types_python_dateutil-2.8.19.20240106-py3-none-any.whl", hash = "sha256:efbbdc54590d0f16152fa103c9879c7d4a00e82078f6e2cf01769042165acaa2"},
 ]
 
 [[package]]
@@ -2175,13 +2175,13 @@ watchdog = ["watchdog (>=2.3)"]
 
 [[package]]
 name = "wtforms"
-version = "3.1.1"
+version = "3.1.2"
 description = "Form validation and rendering for Python web development."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "wtforms-3.1.1-py3-none-any.whl", hash = "sha256:ae7c54b29806c70f7bce8eb9f24afceb10ca5c32af3d9f04f74d2f66ccc5c7e0"},
-    {file = "wtforms-3.1.1.tar.gz", hash = "sha256:5e51df8af9a60f6beead75efa10975e97768825a82146a65c7cbf5b915990620"},
+    {file = "wtforms-3.1.2-py3-none-any.whl", hash = "sha256:bf831c042829c8cdbad74c27575098d541d039b1faa74c771545ecac916f2c07"},
+    {file = "wtforms-3.1.2.tar.gz", hash = "sha256:f8d76180d7239c94c6322f7990ae1216dae3659b7aa1cee94b6318bdffb474b9"},
 ]
 
 [package.dependencies]
