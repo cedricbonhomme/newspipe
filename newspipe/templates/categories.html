@@ -38,7 +38,7 @@
                 {% for category in categories %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ category.name }}</td>
+                        <td><a href="{{ url_for('category.form', category_id=category.id) }}">{{ category.name }}</a></td>
                         <td>{{ feeds_count.get(category.id, 0) }}</td>
                         <td>( <a href="{{ url_for('home', filter_='unread', category=category.id) }}">{{ unread_article_count.get(category.id, 0) }}</a> ) {{ article_count.get(category.id, 0) }}</td>
                         <td>
