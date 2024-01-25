@@ -1,0 +1,11 @@
+# Our security address
+Contact: mailto:cedric@cedricbonhomme.org
+
+# Our OpenPGP key
+Encryption: https://pgp.circl.lu/pks/lookup?op=get&search=0x55f5d60eefca3591008918e7a1cb94de57b7a70d
+
+# Our security policy
+Policy: https://github.com/cedricbonhomme/newspipe/security/policy
+
+# Our security acknowledgments page
+Acknowledgments: https://github.com/cedricbonhomme/newspipe/security/advisories

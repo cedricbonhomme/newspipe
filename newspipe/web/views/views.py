@@ -129,3 +129,9 @@ def robots():
 def humans():
     """Human dot txt page."""
     return render_template("humans.txt"), 200, {"Content-Type": "text/plain"}
+
+
+@current_app.route("/.well-known/security.txt", methods=["GET"])
+def security():
+    """security dot txt page (RFC 9116)."""
+    return render_template("security.txt"), 200, {"Content-Type": "text/plain"}
