@@ -9,7 +9,7 @@ homepage = "https://sr.ht/~cedric/newspipe"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-aiohttp = "^3.8.6"
+aiohttp = "^3.9.2"
 requests = "^2.31.0"
 chardet = "^4.0.0"
 requests-futures = "^1.0.0"
