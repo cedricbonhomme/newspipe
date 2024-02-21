@@ -52,8 +52,6 @@ Array.prototype.map.call(nodes, function(node) {
       var feed_id = node.parentNode.parentNode.parentNode.getAttribute("data-bs-feed");
       var filter = document.getElementById('filters').getAttribute("data-filter");
 
-      console.log("here");
-
       var data;
       if (node.classList.contains('fa-square-o')) {
           data = JSON.stringify({
@@ -81,7 +79,6 @@ Array.prototype.map.call(nodes, function(node) {
               node.classList.remove('fa-check-square-o');
               node.classList.add('fa-square-o');
           }
-          console.log(feed_id);
           change_unread_counter(feed_id, -1);
       }
 
