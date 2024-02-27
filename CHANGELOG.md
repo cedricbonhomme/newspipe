@@ -1,6 +1,23 @@
 Newspipe Changelog
 ==================
 
+## 11.0.0 (2024-02-27)
+
+### New
+
+- introduction of a dark theme;
+- the content of the articles can now be displayed on the main page, without page reload,
+  with the use of the Bootstrap collapsible element;
+- added .well-known/security.txt page.
+
+## Improvements
+
+- various improvements to the main page;
+- various improvements to the page to edit articles;
+- it is now possible to edit the description of feeds;
+- minimum Python version is now 3.10;
+
+
 ## 10.1.0 (2023-11-16)
 
 ## Improvements
