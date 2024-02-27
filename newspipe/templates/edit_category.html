@@ -1,6 +1,17 @@
 {% extends "layout.html" %}
 {% block head %}
 {{ super() }}
+<style>
+.optext {
+  background-color: #000 !important;
+}
+.multiselect-dropdown {
+  background-color: #343a40 !important;
+}
+.multiselect-dropdown-list {
+  background-color: #343a40 !important;
+}
+</style>
 <script src="{{ url_for('static', filename='js/multiselect-dropdown.js') }}" ></script>
 </style>
 {% endblock %}
