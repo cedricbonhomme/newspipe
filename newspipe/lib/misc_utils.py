@@ -97,7 +97,7 @@ def opened_w_error(filename, mode="r"):
 
 def fetch(id, feed_id=None):
     """
-    Fetch the feeds in a new processus.
+    Fetch the feeds in a new process.
     The default crawler ("asyncio") is launched with the manager.
     """
     env = os.environ.copy()
