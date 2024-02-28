@@ -95,11 +95,15 @@ def about_more():
     version = __version__.split("-")
     if len(version) == 1:
         newspipe_version = version[0]
-        version_url = f"https://git.sr.ht/~cedric/newspipe/refs/{version[0]}"
+        version_url = (
+            "https://github.com/cedricbonhomme/newspipe/releases/tag/{}".format(
+                version[0]
+            )
+        )
     else:
         newspipe_version = f"{version[0]} - {version[2][1:]}"
-        version_url = "https://git.sr.ht/~cedric/newspipe/commit/{}".format(
-            version[2][1:]
+        version_url = (
+            f"https://github.com/cedricbonhomme/newspipe/commits/{version[2][1:]}"
         )
 
     talisman._parse_policy(talisman.content_security_policy)

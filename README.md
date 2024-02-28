@@ -4,7 +4,7 @@
 
 ## Presentation
 
-[Newspipe](https://sr.ht/~cedric/newspipe) is a web news aggregator.
+[Newspipe](https://github.com/cedricbonhomme/newspipe) is a web news aggregator.
 
 ![Newspipe Home page](docs/static/newspipe_home-page.png "Newspipe Home page")
 
@@ -13,17 +13,6 @@ Newspipe is written in Python. The core technologies are
 [asyncio](https://www.python.org/dev/peps/pep-3156/) and
 [SQLAlchemy](http://www.sqlalchemy.org).
 
-For reporting issues, visit the tracker here:
-https://todo.sr.ht/~cedric/newspipe
-
-For contributions, use the mailing list to send your patches:
-https://lists.sr.ht/~cedric/newspipe
-
-The documentation is here:
-https://man.sr.ht/~cedric/newspipe
-
-The official instance is here:
-https://www.newspipe.org
 
 ## Main features
 
@@ -45,7 +34,7 @@ Assuming you have already installed ``git``, ``poetry``, ``npm``,  and
 ``Python >= 3.10``, you just have to do the following:
 
 ```bash
-$ git clone https://git.sr.ht/~cedric/newspipe
+$ git clone https://github.com/cedricbonhomme/newspipe
 $ cd newspipe/
 $ npm ci
 $ poetry install --no-dev
@@ -82,7 +71,7 @@ For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 
 ## License
 
-[Newspipe](https://sr.ht/~cedric/newspipe) is under the
+[Newspipe](https://github.com/cedricbonhomme/newspipe) is under the
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 

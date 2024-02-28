@@ -1,6 +1,6 @@
 image: ubuntu/22.04
 sources:
-  - https://git.sr.ht/~cedric/newspipe
+  - https://github.com/cedricbonhomme/newspipe
 packages:
   - curl
   - build-essential

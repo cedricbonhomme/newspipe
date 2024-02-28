@@ -5,7 +5,7 @@ description = "Newspipe is a web news aggregator."
 authors = ["Cédric Bonhomme <cedric@cedricbonhomme.org>"]
 license = "AGPL-3.0-or-later"
 
-homepage = "https://sr.ht/~cedric/newspipe"
+homepage = "https://github.com/cedricbonhomme/newspipe"
 
 [tool.poetry.dependencies]
 python = "^3.10"
