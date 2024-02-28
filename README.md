@@ -41,7 +41,6 @@ $ poetry install --no-dev
 $ poetry shell
 $ pybabel compile -d newspipe/translations
 $ export NEWSPIPE_CONFIG=sqlite.py
-$ export FLASK_APP=runserver.py
 $ export FLASK_DEBUG=1
 $ flask db_init
 $ flask create_admin --nickname <nickname> --password <password>
