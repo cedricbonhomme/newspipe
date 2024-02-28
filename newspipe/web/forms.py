@@ -134,7 +134,6 @@ class SigninForm(RedirectForm):
         lazy_gettext("Password"),
         [
             validators.DataRequired(lazy_gettext("Please enter a password.")),
-            validators.Length(min=6, max=500),
         ],
     )
     submit = SubmitField(lazy_gettext("Log In"))
