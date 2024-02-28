@@ -43,7 +43,6 @@ $ pybabel compile -d newspipe/translations
 $ export NEWSPIPE_CONFIG=sqlite.py
 $ export FLASK_APP=runserver.py
 $ export FLASK_DEBUG=1
-$ flask db_create
 $ flask db_init
 $ flask create_admin --nickname <nickname> --password <password>
 $ flask run
@@ -64,6 +63,9 @@ $ sudo apt-get install postgresql
 $ cp instance/config.py instance/postgresql.py
 $ vim instance/postgresql.py # customize it
 $ export NEWSPIPE_CONFIG=postgresql.py
+$ flask db_create
+$ flask db_init
+...
 ```
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
