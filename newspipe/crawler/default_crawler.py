@@ -153,7 +153,7 @@ async def insert_articles(queue, nḅ_producers=1):
 
 async def retrieve_feed(queue, users, feed_id=None):
     """
-    Launch the processus.
+    Launch the process.
     """
     for user in users:
         logger.info(f"Starting to retrieve feeds for {user.nickname}")

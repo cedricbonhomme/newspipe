@@ -7,7 +7,7 @@ from flask_login import login_required
 
 def async_maker(f):
     """
-    This decorator enables to launch a task (for examle sending an email or
+    This decorator enables to launch a task (for example sending an email or
     indexing the database) in background.
     This prevent the server to freeze.
     """

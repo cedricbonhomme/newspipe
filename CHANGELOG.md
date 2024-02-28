@@ -45,7 +45,7 @@ Newspipe Changelog
 
 - major improvements to the categories page;
 - improved displaying of numbers with localization;
-- various peformance improvements.
+- various performance improvements.
 
 
 ### Fixes
@@ -748,7 +748,7 @@ This release fixes a major bug introduced with the version 0.9.7 of SQLAlchemy
 ## 1.9 (2010-09-02)
 
     The feedgetter module was improved. More details about articles are stored
-    in the database when possile. An attempt is made to get the whole article
+    in the database when possible. An attempt is made to get the whole article
     (a_feed['entries'][i].content[j].value), and in the event of failure,
     the description/summary is used (a_feed['entries'][i].description).
 
