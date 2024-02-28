@@ -80,7 +80,7 @@ def to_hash(text):
 
 def clear_string(data):
     """
-    Clear a string by removing HTML tags, HTML special caracters
+    Clear a string by removing HTML tags, HTML special characters
     and consecutive white spaces (more that one).
     """
     p = re.compile("<[^>]+>")  # HTML tags
