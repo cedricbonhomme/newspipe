@@ -75,7 +75,7 @@ For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 [GNU Affero General Public License version 3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 
-## Donation
+## Donations
 
 If you wish and if you like Newspipe, you can donate:
 
