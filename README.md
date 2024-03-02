@@ -16,20 +16,19 @@ Newspipe is written in Python. The core technologies are
 
 ## Main features
 
-* multiple users can use a Newspipe instance;
-* an API to manage feeds (you can connect your own crawler);
-* data liberation: export and import your account with a JSON file;
-* export and import feeds with OPML files;
-* search and favorite articles;
-* detection of inactive feeds;
+* multiple users can use a Newspipe instance.
+* an API to manage feeds (you can connect your own crawler).
+* data liberation: export and import your account with a JSON file.
+* export and import feeds with OPML files.
+* search and favorite articles.
+* detection of inactive feeds.
 * management of bookmarks (with import from Pinboard).
-* Optional ldap authentication
+* optional ldap authentication.
 
 
 ## Deployment
 
 Newspipe is really easy to deploy.
-
 Assuming you have already installed ``git``, ``poetry``, ``npm``,  and
 ``Python >= 3.10``, you just have to do the following:
 
@@ -79,3 +78,9 @@ For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 ## Contact
 
 [Cédric Bonhomme](https://www.cedricbonhomme.org)
+
+If you wish and if you like Newspipe, you can donate:
+
+![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)
+
+Thank you !
