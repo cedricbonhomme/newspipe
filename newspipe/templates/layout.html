@@ -11,8 +11,7 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
-    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}" /> -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dark.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css') }}" />
     <!-- JavaScript -->
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -121,6 +120,7 @@
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                             <a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a>
                             <a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a>
+                            <a class="dropdown-item" href="#" id="btnThemeSwitch">Light theme</a>
                             {% if current_user.is_admin %}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url_for('admin.dashboard') }}">{{ _('Dashboard') }}</a>
@@ -154,5 +154,38 @@
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/config.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/feed.js') }}"></script>
+    <script>
+      function getCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1,c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+      }
+
+      if (getCookie("theme") == null) {
+          document.cookie = "theme=dark; path=/";
+      }
+      document.documentElement.setAttribute('data-bs-theme', getCookie("theme"));
+      document.getElementById('btnThemeSwitch').textContent = (getCookie("theme") == 'dark' ? 'Light' : 'Dark').concat(' theme');
+
+      document.addEventListener("DOMContentLoaded", function() {
+          document.getElementById('btnThemeSwitch').addEventListener('click',()=>{
+              if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+                  document.documentElement.setAttribute('data-bs-theme','light')
+                  document.getElementById('btnThemeSwitch').textContent = 'Dark theme';
+                  document.cookie = "theme=light; path=/";
+              }
+              else {
+                  document.documentElement.setAttribute('data-bs-theme','dark');
+                  document.getElementById('btnThemeSwitch').textContent = 'Light theme';
+                  document.cookie = "theme=dark; path=/";
+              }
+          })
+      });
+  </script>
   </body>
 </html>

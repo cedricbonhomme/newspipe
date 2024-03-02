@@ -6,14 +6,20 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-color: rgb(246, 248, 250);
 }
 img {
     padding: 2px;
 }
-a {
-    color: #3572B0;
+
+a[data-theme="dark"] {
+
+  color: #ffffff;
 }
+a[data-theme="light"] {
+  color: #000000;
+}
+
+
 
 #sidebar {
     overflow: auto;
@@ -28,42 +34,11 @@ a {
   flex-wrap: nowrap; /* assumes you only want one row */
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color:
-    rgb(255, 255, 255, 1);
+.nav-link[data-theme="dark"] {
+  color: white;
 }
-
-.bg-newspipe-blue {
-    /* background-color: #0082c9; */
-    background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
-}
-.btn-primary {
-    background-color: #0082c9;
-    opacity: 1;
-    color: white;
-}
-.btn-secondary {
-    background-color: #0082c9;
-    opacity: 0.6;
-    color: white;
-}
-
-.btn-outline-primary {
-    border-color: #0082c9;
-    color: #0082c9;
-}
-
-.bg-primary {
-    background-color: #0082c9 !important;
-    opacity: 1;
-    color: white;
-    text-align: center;
-}
-
-.badge-light {
-    background-color: rgb(246, 248, 250);
-    opacity: 1;
-    color: #0082c9 !important;
+.nav-link[data-theme="white"] {
+  color: rgb(0, 0, 0);
 }
 
 /* Main table for the list of news */
@@ -83,10 +58,12 @@ a {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: #006FBA;
 }
-.footer a{
-    color: #FFFFFF;
+.footer a[data-theme="dark"]{
+  color: #FFFFFF;
+}
+.footer a[data-theme="white"]{
+  color: #000000;
 }
 
 .input-group-inline {

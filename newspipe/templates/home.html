@@ -56,7 +56,7 @@
             <button class="btn btn-primary btn-sm pull-right" role="button" data-bs-toggle="collapse" data-bs-target="#collapse-noCategory" aria-controls="collapse-noCategory">
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
-            <span class="align-middle"><a class="text-white fs-6 text-decoration-none" href="{{ gen_url(category=0) }}">No category</a></<span>
+            <span class="align-middle"><a class="fs-6 text-decoration-none" href="{{ gen_url(category=0) }}">No category</a></<span>
         </div>
         <div class="collapse show" id="collapse-noCategory">
         {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id  %}
@@ -90,7 +90,7 @@
         {% for fid, feed in feeds.items() if not fid in unread %}
             <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                 {% if in_error.get(fid, 0) > 0 %}
-                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning text-dark pull-right" title="Some errors occurred while trying to retrieve that feed.">{{ in_error[fid] }}</span>
+                    <span style="background-color: {{ "red" if in_error[fid] > 2 else "orange" }} ;" class="badge bg-warning pull-right" title="Some errors occurred while trying to retrieve that feed.">{{ in_error[fid] }}</span>
                 {% endif %}
                 {% if feed_id == fid %}<b>{% endif %}
                     <img src="{{ url_for('icon.icon', url=feeds[fid].icon_url) }}" width="16px">
