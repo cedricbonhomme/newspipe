@@ -24,7 +24,7 @@ Newspipe is written in Python. The core technologies are
 * detection of inactive feeds.
 * management of bookmarks (with import from Pinboard).
 * optional ldap authentication.
-* user interface available with a light and a dark theme.
+* user interface available with a light theme and a dark theme.
 
 
 ## Deployment
