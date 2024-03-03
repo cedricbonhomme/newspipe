@@ -24,6 +24,7 @@ Newspipe is written in Python. The core technologies are
 * detection of inactive feeds.
 * management of bookmarks (with import from Pinboard).
 * optional ldap authentication.
+* user interface available with a light and a dark theme.
 
 
 ## Deployment
@@ -44,13 +45,7 @@ $ export FLASK_DEBUG=1
 $ flask db_init
 $ flask create_admin --nickname <nickname> --password <password>
 $ flask run
- * Serving Flask app "runserver" (lazy loading)
- * Environment: development
  * Debug mode: on
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 221-873-938
 ```
 
 If you want to use PostgreSQL you can customize
