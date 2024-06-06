@@ -33,6 +33,6 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
   - repo: https://github.com/pypa/pip-audit
-    rev: v2.6.1
+    rev: v2.7.3
     hooks:
       -   id: pip-audit
