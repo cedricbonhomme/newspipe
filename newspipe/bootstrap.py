@@ -12,6 +12,7 @@ from flask_babel import format_datetime
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
+from flask_wtf.csrf import CSRFProtect
 
 
 def set_logging(
@@ -87,12 +88,13 @@ if "PREFIX" in application.config:
 db = SQLAlchemy(application)
 migrate = Migrate(application, db)
 
-
 # CSP and headers configurations
 talisman = Talisman(
     application, content_security_policy=application.config["CONTENT_SECURITY_POLICY"]
 )
 
+# Enable CSRF protection globally
+csrf = CSRFProtect(application)
 
 # i18n and l10n support
 babel = Babel(application)
