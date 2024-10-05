@@ -2,6 +2,7 @@ from flask import current_app
 from flask_restful import Api
 
 from newspipe.bootstrap import application
+from newspipe.bootstrap import csrf
 from newspipe.controllers.feed import DEFAULT_LIMIT
 from newspipe.controllers.feed import DEFAULT_MAX_ERROR
 from newspipe.controllers.feed import FeedController
@@ -38,7 +39,7 @@ class FetchableFeedAPI(PyAggAbstractResource):
         return result or None, 200 if result else 204
 
 
-api = Api(current_app, prefix=application.config["API_ROOT"])
+api = Api(current_app, prefix=application.config["API_ROOT"], decorators=[csrf.exempt])
 
 api.add_resource(FeedNewAPI, "/feed", endpoint="feed_new.json")
 api.add_resource(FeedAPI, "/feed/<int:obj_id>", endpoint="feed.json")

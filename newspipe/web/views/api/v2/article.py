@@ -5,6 +5,7 @@ from flask import current_app
 from flask_restful import Api
 
 from newspipe.bootstrap import application
+from newspipe.bootstrap import csrf
 from newspipe.controllers import ArticleController
 from newspipe.web.views.api.v2.common import PyAggAbstractResource
 from newspipe.web.views.api.v2.common import PyAggResourceExisting
@@ -48,7 +49,7 @@ class ArticlesChallenge(PyAggAbstractResource):
         return result or None, 200 if result else 204
 
 
-api = Api(current_app, prefix=application.config["API_ROOT"])
+api = Api(current_app, prefix=application.config["API_ROOT"], decorators=[csrf.exempt])
 
 api.add_resource(ArticleNewAPI, "/article", endpoint="article_new.json")
 api.add_resource(ArticleAPI, "/article/<int:obj_id>", endpoint="article.json")
