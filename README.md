@@ -1,7 +1,5 @@
 # Newspipe
 
-[![builds.sr.ht status](https://builds.sr.ht/~cedric/newspipe.svg)](https://builds.sr.ht/~cedric/newspipe)
-
 ## Presentation
 
 [Newspipe](https://github.com/cedricbonhomme/newspipe) is a web news aggregator.
