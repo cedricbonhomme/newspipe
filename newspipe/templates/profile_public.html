@@ -5,16 +5,16 @@
     <div class="row">
         <div class="col-md-12">
             <p>
-                <span class="fa fa-clock-o" aria-hidden="true"></span>&nbsp;
+                <span class="bi bi-clock-o" aria-hidden="true"></span>&nbsp;
                 {{ _('Member since') }}: {{ user.date_created | datetime }}
             </p>
             <p>
-                <span class="fa fa-clock-o" aria-hidden="true"></span>&nbsp;
+                <span class="bi bi-clock-o" aria-hidden="true"></span>&nbsp;
                 {{ _('Last seen') }}: {{ user.last_seen | datetime }}
             </p>
             {% if user.webpage %}
             <p>
-                <span class="fa fa-home" aria-hidden="true"></span>&nbsp;
+                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
                 {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a>
             </p>
             {% endif %}

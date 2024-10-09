@@ -19,10 +19,10 @@
   <h1>{{ _('History') }}</h1>
 
   {% if month != None %}
-  <h2><a href="{{ url_for("articles.history", year=year) }}"><span class="fa fa-chevron-left" aria-hidden="true"></span> {{ year }}</a></h2>
+  <h2><a href="{{ url_for("articles.history", year=year) }}"><span class="bi bi-chevron-left" aria-hidden="true"></span> {{ year }}</a></h2>
   <h3>{{ month | month_name }}</h3>
   {% elif year != None %}
-  <h2><a href="{{ url_for("articles.history") }}"><span class="fa fa-chevron-left" aria-hidden="true"></span>&nbsp{{ _('all years') }}</a></h2>
+  <h2><a href="{{ url_for("articles.history") }}"><span class="bi bi-chevron-left" aria-hidden="true"></span>&nbsp{{ _('all years') }}</a></h2>
   <h3>{{ year }}</h3>
   {% endif %}
 

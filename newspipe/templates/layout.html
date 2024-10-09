@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/fork-awesome/css/fork-awesome.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap-icons/font/bootstrap-icons.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css') }}" />
     <!-- JavaScript -->
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
@@ -49,11 +49,11 @@
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('fetch') }}" title="{{  _('Fetch') }}"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{  _('Fetch') }}</a>
+                            <a class="nav-link" href="{{ url_for('fetch') }}" title="{{  _('Fetch') }}"><i class="bi bi-download" aria-hidden="true"></i>&nbsp;{{  _('Fetch') }}</a>
                         </li>
                     {% endif %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRSS" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-rss" aria-hidden="true"></i>&nbsp;{{ _('Feeds') }}</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRSS" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-rss" aria-hidden="true"></i>&nbsp;{{ _('Feeds') }}</a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownRSS" style="min-width: 300px;">
                               <a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a>
                               <a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a>
@@ -65,14 +65,14 @@
                                 <div class="input-group">
                                       <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
                                       <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
-                                      <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                      <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
                                  </div>
                               </form>
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategory" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{{ _('Categories') }}</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategory" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-tag" aria-hidden="true"></i>&nbsp;{{ _('Categories') }}</a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownCategory" style="min-width: 250px;">
                             <a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a>
                             <div class="dropdown-divider"></div>
@@ -81,14 +81,14 @@
                                 <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new category') }}</label>
                                 <div class="input-group">
                                     <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
                                 </div>
                             </form>
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBookmark" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;{{ _('Bookmarks') }}</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBookmark" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bookmark" aria-hidden="true"></i>&nbsp;{{ _('Bookmarks') }}</a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBookmark">
                             <li><a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a new bookmark') }}</a></li>
@@ -96,7 +96,7 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></i>&nbsp;{{ _('Search') }}</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search" aria-hidden="true"></i></i>&nbsp;{{ _('Search') }}</a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownSearch">
                             <form class="px-4 py-3" action="{{ url_for('home') }}" method="GET">
                                 <div class="mb-3">
@@ -116,7 +116,7 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person" aria-hidden="true"></i></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                             <a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a>
                             <a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a>
