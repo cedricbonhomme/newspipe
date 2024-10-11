@@ -41,9 +41,9 @@
                         </a></li>
                         <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}"><span class="nav-link">
                             <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="bi bi-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
-                            <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                            <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="bi bi-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                            <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="bi bi-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                            <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
+                            <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="bi bi-square" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
+                            <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="bi bi-check" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                         </span></li>
                     {% endfor %}
                     </div>
@@ -70,9 +70,9 @@
             </a></li>
             <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}"><span class="nav-link">
                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
-                <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-square-o" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-square" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
             </span></li>
         {% endfor %}
         </div>
@@ -140,9 +140,9 @@
                         <tr>
                             <th scope="col">
                                 {% if feed_id %}
-                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="bi bi-check-square-o" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="bi bi-square" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                                 {% else %}
-                                    <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="bi bi-check-square-o" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
+                                    <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="bi bi-check" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
                                 {% endif%}
                             </th>
                             {% if not feed_id %}
@@ -157,9 +157,9 @@
                         <tr data-article="{{ article.id }}" data-bs-feed="{{ article.feed_id }}">
                             <th scope="row">
                                 {% if article.readed %}
-                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-square-o readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-square readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>
                                 {% else %}
-                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-check-square-o readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></button>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-check readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></button>
                                 {% endif %}
                                 {% if article.like %}
                                     <button type="button" class="btn btn-link btn-xs"><i class="bi bi-star like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></button>
