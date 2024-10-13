@@ -53,7 +53,7 @@ Array.prototype.map.call(nodes, function(node) {
       var filter = document.getElementById('filters').getAttribute("data-filter");
 
       var data;
-      if (node.classList.contains('fa-square-o')) {
+      if (node.classList.contains('bi-envelope-open')) {
           data = JSON.stringify({
               readed: false
           })
@@ -63,8 +63,8 @@ Array.prototype.map.call(nodes, function(node) {
           else {
               // here, filter == "all"
               // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "bold" );
-              node.classList.remove('fa-square-o');
-              node.classList.add('fa-check-square-o');
+              node.classList.remove('bi-envelope-open');
+              node.classList.add('bi-envelope');
           }
           change_unread_counter(feed_id, 1);
       }
@@ -76,8 +76,8 @@ Array.prototype.map.call(nodes, function(node) {
           else {
               // here, filter == "all"
               // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "normal" );
-              node.classList.remove('fa-check-square-o');
-              node.classList.add('fa-square-o');
+              node.classList.remove('bi-envelope');
+              node.classList.add('bi-envelope-open');
           }
           change_unread_counter(feed_id, -1);
       }
@@ -139,18 +139,18 @@ Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
       var article_id = node.parentNode.parentNode.parentNode.getAttribute('data-article');
       var data;
-      if (node.classList.contains("fa-star")) {
+      if (node.classList.contains("bi-star-fill")) {
           data = JSON.stringify({like: false});
-          node.classList.remove('fa-star');
-          node.classList.add('fa-star-o');
+          node.classList.remove('bi-star-fill');
+          node.classList.add('bi-star');
           if(window.location.pathname.indexOf('/favorites') != -1) {
               node.parentNode.parentNode.parentNode.remove();
           }
       }
       else {
           data = JSON.stringify({like: true})
-          node.classList.remove('fa-star-o');
-          node.classList.add('fa-star');
+          node.classList.remove('bi-star');
+          node.classList.add('bi-star-fill');
       }
 
       // sends the updates to the server
