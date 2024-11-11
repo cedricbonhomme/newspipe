@@ -43,7 +43,7 @@
                             <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="bi bi-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                             <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                             <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                            <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="bi bi-envelope-open" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                            <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                         </span></li>
                     {% endfor %}
                     </div>
@@ -72,7 +72,7 @@
                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-envelope-open" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
             </span></li>
         {% endfor %}
         </div>
@@ -101,7 +101,7 @@
                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil-square-o" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
                 <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-envelope-open" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
             </span></li>
         {% endfor %}
         </div>
@@ -140,7 +140,7 @@
                         <tr>
                             <th scope="col">
                                 {% if feed_id %}
-                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="bi bi-envelope-open" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
                                 {% else %}
                                     <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="bi bi-envelope-open" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
                                 {% endif%}
@@ -159,7 +159,7 @@
                                 {% if article.readed %}
                                     <button type="button" class="btn btn-link btn-xs"><i class="bi bi-envelope-open readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>
                                 {% else %}
-                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-envelope readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></button>
+                                    <button type="button" class="btn btn-link btn-xs"><i class="bi bi-check-lg readed" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></button>
                                 {% endif %}
                                 {% if article.like %}
                                     <button type="button" class="btn btn-link btn-xs"><i class="bi bi-star-fill like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></button>
@@ -174,10 +174,10 @@
                             </td>
                             {% endif %}
                             <td {%if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(70, False, '…') }}</a>
+                                <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" article-id="{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(70, False, '…') }}</a>
                                 <div class="collapse" id="collapse-{{ article.id}}">
-                                  <div class="card card-body col-md-10 overflow-auto">
-                                    {{ article.content | safe }}
+                                  <div class="card card-body col-md-10 overflow-auto" >
+                                    <span content-id="{{ article.id}}"></span>
                                     <hr />
                                     <a href="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">Open article in a new page.</a>
                                   </div>
@@ -194,4 +194,36 @@
     </div>
 {% endif %}
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("click", async function (event) {
+    // Check if the clicked element has the 'article-id' attribute
+    if (event.target.hasAttribute("article-id")) {
+        // Get the article ID from the attribute
+        const articleId = event.target.getAttribute("article-id");
+
+        try {
+            // Make a GET request to fetch the article content
+            const response = await fetch(`/api/v2.0/article/${articleId}`);
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch article content");
+            }
+
+            const data = await response.json();
+
+            // Set the content
+            if (data.content) {
+              const element = document.querySelector(`[content-id="${articleId}"]`);
+              element.innerHTML = data.content;
+            } else {
+                console.error("Content key not found in the response data.");
+            }
+        } catch (error) {
+            console.error("Error fetching article content:", error);
+        }
+    }
+  });
+  });
+</script>
 {% endblock %}
