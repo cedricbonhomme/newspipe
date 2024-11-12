@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import logging
+import re
 from datetime import date
 from datetime import datetime
 
@@ -12,6 +13,8 @@ from newspipe.bootstrap import application
 from newspipe.bootstrap import db
 from newspipe.controllers import ArticleController
 from newspipe.controllers import UserController
+from newspipe.lib.utils import push_sighting_to_vulnerability_lookup
+from newspipe.lib.utils import remove_case_insensitive_duplicates
 
 # from sqlalchemy import create_engine
 # from sqlalchemy import text
@@ -128,6 +131,35 @@ def delete_read_articles():
         except Exception:
             db.session.rollback()
     print("Read articles deleted.")
+
+
+@application.cli.command("find_vulnerabilities")
+def find_vulnerabilities():
+    "Find vulnerabilities in articles."
+    vulnerability_pattern = re.compile(
+        r"\b(CVE-\d{4}-\d{4,})\b"  # CVE pattern
+        r"|\b(GHSA-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4})\b"  # GHSA pattern
+        r"|\b(PYSEC-\d{4}-\d{2,5})\b"  # PYSEC pattern
+        r"|\b(GSD-\d{4}-\d{4,5})\b"  # GSD pattern
+        r"|\b(wid-sec-w-\d{4}-\d{4})\b"  # CERT-Bund pattern
+        r"|\b(cisco-sa-\d{8}-[a-zA-Z0-9]+)\b"  # CISCO pattern
+        r"|\b(RHSA-\d{4}:\d{4})\b",  # RedHat pattern
+        re.IGNORECASE,
+    )
+    filter = {}
+    filter["user_id"] = 1
+    # filter["readed"] = True
+    filter["retrieved_date__gt"] = date.today() - relativedelta(days=1)
+    articles = ArticleController().read(**filter).limit(5000)
+    for article in articles:
+        matches = vulnerability_pattern.findall(article.content + article.title)
+        vulnerability_ids = [
+            match for match_tuple in matches for match in match_tuple if match
+        ]
+        vulnerability_ids = remove_case_insensitive_duplicates(vulnerability_ids)
+        if vulnerability_ids:
+            push_sighting_to_vulnerability_lookup(article.link, vulnerability_ids)
+    print("Detection of vulnerabilities done.")
 
 
 @application.cli.command("fetch_asyncio")

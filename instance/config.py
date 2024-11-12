@@ -93,3 +93,7 @@ LDAP_BIND_PASSWORD = "examplepassword"
 LDAP_FILTER = (
     "(memberOf=cn=newspipe-users,cn=groups,cn=accounts,dc=ipa,dc=internal,dc=com)"
 )
+
+# Vulnerability Lookup
+VULNERABILITY_LOOKUP_BASE_URL = "https://vulnerability.circl.lu/api/"
+VULNERABILITY_AUTH_TOKEN = ""

@@ -29,6 +29,7 @@ def register_commands(app):
     app.cli.add_command(commands.db_create)
     app.cli.add_command(commands.fetch_asyncio)
     app.cli.add_command(commands.create_admin)
+    app.cli.add_command(commands.find_vulnerabilities)
 
 
 with application.app_context():

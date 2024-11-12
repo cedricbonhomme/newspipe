@@ -3,6 +3,7 @@ import re
 import types
 import urllib
 from hashlib import md5
+from urllib.parse import urljoin
 from urllib.parse import urlparse
 
 import requests
@@ -104,3 +105,40 @@ def newspipe_get(url, **kwargs):
     }
     request_kwargs.update(kwargs)
     return requests.get(url, **request_kwargs)
+
+
+def remove_case_insensitive_duplicates(input_list):
+    """Remove duplicates in a list, ignoring case.
+    This approach preserves the last occurrence of each unique item based on
+    lowercase equivalence. The dictionary keys are all lowercase to ensure
+    case-insensitive comparison, while the original case is preserved in the output.
+    """
+    return list({item.lower(): item for item in input_list}.values())
+
+
+def push_sighting_to_vulnerability_lookup(article_uri, vulnerability_ids):
+    """Create a sighting from an incoming article and push it to the Vulnerability Lookup instance."""
+    print("Pushing sighting to Vulnerability Lookup...")
+    headers_json = {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "X-API-KEY": f"{application.config['VULNERABILITY_AUTH_TOKEN']}",
+    }
+    for vuln in vulnerability_ids:
+        sighting = {"type": "seen", "source": article_uri, "vulnerability": vuln}
+        try:
+            r = requests.post(
+                urljoin(
+                    application.config["VULNERABILITY_LOOKUP_BASE_URL"], "sighting/"
+                ),
+                json=sighting,
+                headers=headers_json,
+            )
+            if r.status_code not in (200, 201):
+                print(
+                    f"Error when sending POST request to the Vulnerability Lookup server: {r.reason}"
+                )
+        except requests.exceptions.ConnectionError as e:
+            print(
+                f"Error when sending POST request to the Vulnerability Lookup server:\n{e}"
+            )
