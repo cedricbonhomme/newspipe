@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
   <head>
     {% block head %}
     <meta charset="utf-8">
@@ -15,6 +15,24 @@
     <!-- JavaScript -->
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <script>
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+
+      if (getCookie("theme") == null) {
+        document.cookie = "theme=light; path=/; SameSite=Strict";
+      }
+      document.documentElement.setAttribute('data-bs-theme', getCookie("theme"));
+    </script>
     {% endblock %}
   </head>
   <body>
@@ -151,41 +169,33 @@
     {% block content %}{% endblock %}
 
     <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+      if (getCookie("theme") == 'light') {
+        document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-off" viewBox="0 0 16 16"><path d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/></svg>';
+        document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to dark theme.');
+      } else {
+        document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16"><path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/></svg>';
+        document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to light theme.');
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('btnThemeSwitch').addEventListener('click',()=>{
+          if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+            document.documentElement.setAttribute('data-bs-theme','light')
+            document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-off" viewBox="0 0 16 16"><path d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/></svg>';
+            document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to dark theme.');
+            document.cookie = "theme=light; path=/; SameSite=Strict";
+          }
+          else {
+            document.documentElement.setAttribute('data-bs-theme','dark');
+            document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16"><path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/></svg>';
+            document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to light theme.');
+            document.cookie = "theme=dark; path=/; SameSite=Strict";
+          }
+        })
+      });
+    </script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/config.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/feed.js') }}"></script>
-    <script>
-      function getCookie(name) {
-          var nameEQ = name + "=";
-          var ca = document.cookie.split(';');
-          for(var i=0;i < ca.length;i++) {
-              var c = ca[i];
-              while (c.charAt(0)==' ') c = c.substring(1,c.length);
-              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-          }
-          return null;
-      }
-
-      if (getCookie("theme") == null) {
-          document.cookie = "theme=dark; path=/";
-      }
-      document.documentElement.setAttribute('data-bs-theme', getCookie("theme"));
-      document.getElementById('btnThemeSwitch').textContent = (getCookie("theme") == 'dark' ? 'Light' : 'Dark').concat(' theme');
-
-      document.addEventListener("DOMContentLoaded", function() {
-          document.getElementById('btnThemeSwitch').addEventListener('click',()=>{
-              if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
-                  document.documentElement.setAttribute('data-bs-theme','light')
-                  document.getElementById('btnThemeSwitch').textContent = 'Dark theme';
-                  document.cookie = "theme=light; path=/";
-              }
-              else {
-                  document.documentElement.setAttribute('data-bs-theme','dark');
-                  document.getElementById('btnThemeSwitch').textContent = 'Light theme';
-                  document.cookie = "theme=dark; path=/";
-              }
-          })
-      });
-  </script>
   </body>
 </html>
