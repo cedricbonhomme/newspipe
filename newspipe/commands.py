@@ -158,7 +158,7 @@ def find_vulnerabilities():
         ]
         vulnerability_ids = remove_case_insensitive_duplicates(vulnerability_ids)
         if vulnerability_ids:
-            push_sighting_to_vulnerability_lookup(article.link, vulnerability_ids)
+            push_sighting_to_vulnerability_lookup(article, vulnerability_ids)
     print("Detection of vulnerabilities done.")
 
 

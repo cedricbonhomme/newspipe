@@ -116,7 +116,7 @@ def remove_case_insensitive_duplicates(input_list):
     return list({item.lower(): item for item in input_list}.values())
 
 
-def push_sighting_to_vulnerability_lookup(article_uri, vulnerability_ids):
+def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
     """Create a sighting from an incoming article and push it to the Vulnerability Lookup instance."""
     print("Pushing sighting to Vulnerability Lookup...")
     headers_json = {
@@ -125,7 +125,12 @@ def push_sighting_to_vulnerability_lookup(article_uri, vulnerability_ids):
         "X-API-KEY": f"{application.config['VULNERABILITY_AUTH_TOKEN']}",
     }
     for vuln in vulnerability_ids:
-        sighting = {"type": "seen", "source": article_uri, "vulnerability": vuln}
+        sighting = {
+            "type": "seen",
+            "source": article.link,
+            "vulnerability": vuln,
+            "creation_timestamp": article.date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        }
         try:
             r = requests.post(
                 urljoin(
