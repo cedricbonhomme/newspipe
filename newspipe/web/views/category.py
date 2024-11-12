@@ -1,3 +1,4 @@
+from flask import abort
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -31,6 +32,22 @@ def list_():
         unread_article_count=art_contr.count_by_category(readed=False),
         article_count=art_contr.count_by_category(),
     )
+
+
+@category_bp.route("/<int:category_id>", methods=["GET"])
+def get(category_id=0):
+    """
+    Display public feeds of a category.
+    """
+    category = CategoryController().get(id=category_id)
+    if not category:
+        return abort(404)
+    filters = {}
+    filters["private"] = False
+    filters["category_id"] = category_id
+    feeds = FeedController().read(**filters)
+
+    return render_template("category_public.html", category=category, feeds=feeds)
 
 
 @category_bp.route("/create", methods=["GET"])
