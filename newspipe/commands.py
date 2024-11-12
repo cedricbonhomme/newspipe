@@ -134,8 +134,10 @@ def delete_read_articles():
 
 
 @application.cli.command("find_vulnerabilities")
-def find_vulnerabilities():
-    "Find vulnerabilities in articles."
+@click.option("--user-id", required=True, help="Id of the user")
+@click.option("--category-id", required=True, help="Id of the category")
+def find_vulnerabilities(user_id=None, category_id=None):
+    "Find vulnerabilities in articles from the specified category of a user."
     vulnerability_pattern = re.compile(
         r"\b(CVE-\d{4}-\d{4,})\b"  # CVE pattern
         r"|\b(GHSA-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4})\b"  # GHSA pattern
@@ -147,8 +149,8 @@ def find_vulnerabilities():
         re.IGNORECASE,
     )
     filter = {}
-    filter["user_id"] = 1
-    # filter["readed"] = True
+    filter["user_id"] = user_id
+    filter["category_id"] = category_id
     filter["retrieved_date__gt"] = date.today() - relativedelta(days=1)
     articles = ArticleController().read(**filter).limit(5000)
     for article in articles:
@@ -164,7 +166,7 @@ def find_vulnerabilities():
 
 @application.cli.command("fetch_asyncio")
 @click.option("--user-id", default=None, help="Id of the user")
-@click.option("--feed-id", default=None, help="If of the feed")
+@click.option("--feed-id", default=None, help="Id of the feed")
 def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
     import asyncio
