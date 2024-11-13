@@ -3,6 +3,7 @@ import logging
 import re
 from datetime import date
 from datetime import datetime
+from typing import Union
 
 import click
 from dateutil.relativedelta import relativedelta
@@ -12,6 +13,7 @@ import newspipe.models
 from newspipe.bootstrap import application
 from newspipe.bootstrap import db
 from newspipe.controllers import ArticleController
+from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
 from newspipe.lib.utils import push_sighting_to_vulnerability_lookup
 from newspipe.lib.utils import remove_case_insensitive_duplicates
@@ -136,7 +138,7 @@ def delete_read_articles():
 @application.cli.command("find_vulnerabilities")
 @click.option("--user-id", required=True, help="Id of the user")
 @click.option("--category-id", required=True, help="Id of the category")
-def find_vulnerabilities(user_id=None, category_id=None):
+def find_vulnerabilities(user_id: int = 0, category_id: int = 0):
     "Find vulnerabilities in articles from the specified category of a user."
     vulnerability_pattern = re.compile(
         r"\b(CVE-\d{4}-\d{4,})\b"  # CVE pattern
@@ -148,9 +150,11 @@ def find_vulnerabilities(user_id=None, category_id=None):
         r"|\b(RHSA-\d{4}:\d{4})\b",  # RedHat pattern
         re.IGNORECASE,
     )
-    filter = {}
+
+    feeds = FeedController().read(**{"category_id": category_id}).all()
+    filter: dict[str, Union[int, list[int], date]] = {}
     filter["user_id"] = user_id
-    filter["category_id"] = category_id
+    filter["feed_id__in"] = [feed.id for feed in feeds]
     filter["retrieved_date__gt"] = date.today() - relativedelta(days=1)
     articles = ArticleController().read(**filter).limit(5000)
     for article in articles:
