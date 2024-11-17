@@ -1,6 +1,31 @@
 Newspipe Changelog
 ==================
 
+## 11.1.0 (2024-11-17)
+
+### New
+
+- The home page now dynamically loads article content only when it becomes visible, optimizing performance and reducing initial load times.
+- A new command is designed to detect various types of security advisories—such as CVEs, GHSAs, PySec, CSAF reports, and more—within articles from a specified category. The extracted advisory data is automatically transmitted to the Vulnerability-Lookup API as sightings.
+- Added a way to view a collection of feeds without requiring a user identifier.
+
+## Improvements
+
+- Improved LDAP documentation.
+- Various enhancements to the dark and light themes.
+- Multiple improvements to the main page.
+- Updated all icons and removed any superfluous ones.
+- Enabled CSRF protection globally.
+- Updated Python and JavaScript dependencies.
+- Updated French translations.
+- Enhanced light/dark theme switching for a seamless transition without flickering.
+
+## Fixes
+
+- Fixed the creation of categories via the main menu.
+- Addressed various minor graphical issues related to Bootstrap 5.
+
+
 ## 11.0.0 (2024-02-27)
 
 ### New
