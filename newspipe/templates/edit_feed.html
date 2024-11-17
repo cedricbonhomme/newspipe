@@ -31,7 +31,10 @@
               </div>
               <div class="col-md-6">
                   <label for="{{ form.category_id.id }}" class="col control-label">{{ form.category_id.label }}</label>
+                  <div class="input-group">
                   {{ form.category_id(class_="form-control", placeholder=_('Optional')) }}
+                  <a type="submit" class="btn btn-primary" href="{{ url_for('category.form') }}" title="Create a new category" alt="Create a new category"><i class="bi bi-plus" aria-hidden="true"></i></a>
+                  </div>
                   {% for error in form.category_id.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
               </div>
           </div>
