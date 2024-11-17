@@ -60,7 +60,7 @@
             <button class="btn btn-primary btn-sm float-end" role="button" data-bs-toggle="collapse" data-bs-target="#collapse-noCategory" aria-controls="collapse-noCategory">
                 <i class="bi bi-chevron-down" aria-hidden="true"></i>
             </button>
-            <span class="align-middle"><a class="text-white fs-6 text-decoration-none category-menu" href="{{ gen_url(category=0) }}">No category</a></<span>
+            <span class="align-middle"><a class="text-white fs-6 text-decoration-none" href="{{ gen_url(category=0) }}">No category</a></<span>
         </div>
         <div class="collapse show" id="collapse-noCategory">
         {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id  %}
