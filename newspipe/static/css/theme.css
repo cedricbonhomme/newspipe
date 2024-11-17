@@ -19,7 +19,36 @@ a[data-theme="light"] {
   color: #000000;
 }
 
+/* Button colors */
+.btn-primary {
+  background-color: #446d80;
+  border-color: #446d80 !important;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #8fb4c5;
+  border-color: #8fb4c5 !important;
+  color: white;
+}
+.btn-outline-primary {
+  border-color: #006FBA;
+  color: #006FBA;
+}
+.btn-secondary {
+  background-color: #006FBA;
+  color: white;
+}
+.btn-default {
+  background-color: #006FBA;
+  color: white;
+}
 
+
+.bg-primary {
+  background-color: #446d80 !important;
+  border-color: #446d80 !important;
+  color: white;
+}
 
 #sidebar {
     overflow: auto;

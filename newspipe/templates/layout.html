@@ -89,9 +89,9 @@
                               <a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a new feed') }}</a>
                               <form class="px-4 py-3" action="{{ url_for('feed.bookmarklet') }}">
                                 <div class="input-group">
-                                      <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
+                                      <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
                                       <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
-                                      <button type="submit" class="btn btn-primary"></button>
+                                      <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
                                  </div>
                               </form>
                         </div>
@@ -104,10 +104,11 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a new category') }}</a>
                             <form class="px-4 py-3" action="{{ url_for('category.form') }}" method="POST" name="category">
-                                <label class="sr-only" for="inlineFormInputGroupAPIKey">{{ _('Add a new category') }}</label>
+                                <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a new category') }}</label>
                                 <div class="input-group">
-                                    <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
+                                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                  <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
+                                  <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -123,10 +124,11 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Search') }}</a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownSearch">
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownSearch" style="width: 400px;">
                             <form class="px-4 py-3" action="{{ url_for('home') }}" method="GET">
-                                <div class="mb-3">
+                                <div class="mb-3 input-group">
                                     <input class="form-control" name="query" type="text" placeholder="{{_('Query')}}" required="required"/>
+                                    <button type="submit" class="btn btn-primary">OK</button>
                                 </div>
                                 <div class="mb-3">
                                     <input type="checkbox" class="form-check-input" id="checkTitle" name="search_title" checked>
@@ -136,7 +138,7 @@
                                     <input type="checkbox" class="form-check-input" id="checkContent" name="search_content">
                                     <label class="form-check-label" for="checkContent">Search in content</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary">OK</button>
+
                             </form>
                         </div>
                     </li>
