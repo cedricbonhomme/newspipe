@@ -67,7 +67,7 @@
 
     {% if action == _('Add a new bookmark') %}
         <div class="row">
-            <div class="col-md-6 pull-right">
+            <div class="col-md-6 float-end">
                 <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
                 {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Bookmark this page using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)+"&title="+document.title' % url_for('bookmark.bookmarklet', _external=True)) }}
             </div>
