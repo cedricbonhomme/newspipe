@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='npm_components/luxon/build/global/luxon.min.js') }}"></script>
+{% endblock %}
 {% block content %}
 <style>
     li.feed-commands {display: none; text-align: right;}
@@ -187,7 +191,7 @@
                                   </div>
                                 </div>
                             </td>
-                            <td class="date">{{ article.date | datetime(format='short') }}</td>
+                            <td class="datetime" title="{{ article.date | datetime }}">{{ article.date | datetimeformat }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -201,33 +205,39 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("click", async function (event) {
-    // Check if the clicked element has the 'article-id' attribute
-    if (event.target.hasAttribute("article-id")) {
-        // Get the article ID from the attribute
-        const articleId = event.target.getAttribute("article-id");
+      // Check if the clicked element has the 'article-id' attribute
+      if (event.target.hasAttribute("article-id")) {
+          // Get the article ID from the attribute
+          const articleId = event.target.getAttribute("article-id");
 
-        try {
-            // Make a GET request to fetch the article content
-            const response = await fetch(`/api/v2.0/article/${articleId}`);
+          try {
+              // Make a GET request to fetch the article content
+              const response = await fetch(`/api/v2.0/article/${articleId}`);
 
-            if (!response.ok) {
-                throw new Error("Failed to fetch article content");
-            }
+              if (!response.ok) {
+                  throw new Error("Failed to fetch article content");
+              }
 
-            const data = await response.json();
+              const data = await response.json();
 
-            // Set the content
-            if (data.content) {
-              const element = document.querySelector(`[content-id="${articleId}"]`);
-              element.innerHTML = data.content;
-            } else {
-                console.error("Content key not found in the response data.");
-            }
-        } catch (error) {
-            console.error("Error fetching article content:", error);
-        }
-    }
-  });
+              // Set the content
+              if (data.content) {
+                const element = document.querySelector(`[content-id="${articleId}"]`);
+                element.innerHTML = data.content;
+              } else {
+                  console.error("Content key not found in the response data.");
+              }
+          } catch (error) {
+              console.error("Error fetching article content:", error);
+          }
+      }
+    });
+
+    var DateTime = luxon.DateTime;
+    elements = document.getElementsByClassName("datetime");
+    Array.prototype.forEach.call(elements, function(element) {
+      element.textContent = DateTime.fromISO(element.textContent).toRelative();
+    });
   });
 </script>
 {% endblock %}

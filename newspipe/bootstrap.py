@@ -125,7 +125,7 @@ def month_name(month_number):
     return calendar.month_name[month_number]
 
 
-def datetimeformat(value, format="%Y-%m-%d %H:%M"):
+def datetimeformat(value, format="%Y-%m-%dT%H:%M"):
     return value.strftime(format)
 
 
