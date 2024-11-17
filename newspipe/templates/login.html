@@ -2,9 +2,8 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>{{ _('Log In') }}</h2>
-            <form action="{{ url_for('login') }}" method="post">
+        <div class="col-md-4">
+            <form class="form-control" action="{{ url_for('login') }}" method="post">
                 {{ form.hidden_tag() }}
                 <div class="input-group mb-3">
                 {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
@@ -18,9 +17,9 @@
                 {% for message in form.password.errors %}
                     <div class="alert alert-warning" role="alert">{{ message }}</div>
                 {% endfor %}
-                {{ form.submit(class_="btn btn-primary") }}
-                {% if self_registration %}<a href="{{ prefix() }}/signup" class="btn btn-secondary">{{ _('Sign up') }}</a>{% endif %}
+                {{ form.submit(class_="btn btn-primary form-control") }}
             </form>
+            {% if self_registration %}<p><a href="{{ prefix() }}/signup">{{ _('Sign up') }}</a></p>{% endif %}
         </div>
     </div>
 </div><!-- /.container -->

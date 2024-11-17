@@ -2,27 +2,25 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>{{ _('Sign Up') }}</h2>
-            <form action="" method="post" name="save">
+        <div class="col-md-4">
+            <form class="form-control" action="" method="post" name="save">
                 {{ form.hidden_tag() }}
-                <div class="input-group mb-3">
+                <div class="mb-3">
                     {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
-                    <span class="input-group-text">{{ _('Letters, numbers, dots and underscores only.') }}</span>
+                    <span>{{ _('Letters, numbers, dots and underscores only.') }}</span>
                 </div>
                 {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                <div class="input-group mb-3">
+                <div class="mb-3">
                     {{ form.email(class_="form-control", placeholder=_('Your email')) }}
-                    <span class="input-group-text">{{ _("Only for account activation. Your email won't be stored.") }}</span>
+                    <span>{{ _("Only for account activation. Your email won't be stored.") }}</span>
                 </div>
                 {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                <div class="input-group mb-3">
+                <div class="mb-3">
                     {{ form.password(class_="form-control", placeholder=_('Your password')) }}
-                    <span class="input-group-text">{{ _('Minimum 20 characters.') }}</span>
+                    <span>{{ _('Minimum 20 characters.') }}</span>
                 </div>
                 {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                <br />
-                {{ form.submit(class_="btn btn-primary") }}
+                {{ form.submit(class_="btn btn-primary form-control") }}
             </form>
         </div>
     </div>
