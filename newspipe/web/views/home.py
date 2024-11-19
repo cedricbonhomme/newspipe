@@ -151,9 +151,9 @@ def _articles_to_json(articles, fd_hash=None):
     fd_hash = {
         feed.id: {
             "title": feed.title,
-            "icon_url": url_for("icon.icon", url=feed.icon_url)
-            if feed.icon_url
-            else None,
+            "icon_url": (
+                url_for("icon.icon", url=feed.icon_url) if feed.icon_url else None
+            ),
         }
         for feed in FeedController(current_user.id).read()
     }

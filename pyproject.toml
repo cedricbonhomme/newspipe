@@ -34,6 +34,7 @@ flask-talisman = "^1.1.0"
 feedparser = "^6.0.11"
 mypy = "^1.13.0"
 ldap3 = "^2.9.1"
+pyvulnerabilitylookup = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]
 sqlalchemy-schemadisplay = "^1.3"

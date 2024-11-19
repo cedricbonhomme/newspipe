@@ -88,5 +88,5 @@ LDAP_FILTER = (
 )
 
 
-VULNERABILITY_LOOKUP_BASE_URL = "https://vulnerability.circl.lu/api/"
+VULNERABILITY_LOOKUP_BASE_URL = "https://vulnerability.circl.lu/"
 VULNERABILITY_AUTH_TOKEN = ""

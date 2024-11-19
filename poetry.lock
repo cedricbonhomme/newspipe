@@ -2048,6 +2048,23 @@ files = [
 tokenize-rt = ">=6.1.0"
 
 [[package]]
+name = "pyvulnerabilitylookup"
+version = "2.1.0"
+description = "Python CLI and module for Vulnerability Lookup"
+optional = false
+python-versions = "<4.0,>=3.10"
+files = [
+    {file = "pyvulnerabilitylookup-2.1.0-py3-none-any.whl", hash = "sha256:03ceb06363e280ba0a695b1e1688567d7aa7a73fbfc8af0561902f0ccba136dd"},
+    {file = "pyvulnerabilitylookup-2.1.0.tar.gz", hash = "sha256:d2b8989e136ae478db4502731f2e52a45987e8f2ba71250f2116ec32878d0d7e"},
+]
+
+[package.dependencies]
+requests = ">=2.32.3,<3.0.0"
+
+[package.extras]
+docs = ["Sphinx (>=8.1.3,<9.0.0)"]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.2"
 description = "YAML parser and emitter for Python"
@@ -2575,4 +2592,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "62d1a2414bf5d36e93207924d9e1d881e2f4834914f92e60ba6cab7a5c5eafbb"
+content-hash = "090667e52952f3834e68d4ca696ffcd9603c1f1bc3832f32f370328f070eb8ef"

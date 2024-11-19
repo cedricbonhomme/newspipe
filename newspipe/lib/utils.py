@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 import requests
 from flask import request
 from flask import url_for
+from pyvulnerabilitylookup import PyVulnerabilityLookup
 
 from newspipe.bootstrap import application
 
@@ -119,31 +120,24 @@ def remove_case_insensitive_duplicates(input_list):
 def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
     """Create a sighting from an incoming article and push it to the Vulnerability Lookup instance."""
     print("Pushing sighting to Vulnerability Lookup...")
-    headers_json = {
-        "Content-Type": "application/json",
-        "accept": "application/json",
-        "X-API-KEY": f"{application.config['VULNERABILITY_AUTH_TOKEN']}",
-    }
+    vuln_lookup = PyVulnerabilityLookup(
+        application.config["VULNERABILITY_LOOKUP_BASE_URL"],
+        token=application.config["VULNERABILITY_AUTH_TOKEN"],
+    )
+
     for vuln in vulnerability_ids:
+        # Create the sighting
         sighting = {
             "type": "seen",
             "source": article.link,
             "vulnerability": vuln,
-            "creation_timestamp": article.date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "creation_timestamp": article.date,
         }
+
+        # Post the JSON to Vulnerability Lookup
         try:
-            r = requests.post(
-                urljoin(
-                    application.config["VULNERABILITY_LOOKUP_BASE_URL"], "sighting/"
-                ),
-                json=sighting,
-                headers=headers_json,
-            )
-            if r.status_code not in (200, 201):
-                print(
-                    f"Error when sending POST request to the Vulnerability Lookup server: {r.reason}"
-                )
-        except requests.exceptions.ConnectionError as e:
+            vuln_lookup.create_sighting(sighting=sighting)
+        except Exception as e:
             print(
                 f"Error when sending POST request to the Vulnerability Lookup server:\n{e}"
             )
