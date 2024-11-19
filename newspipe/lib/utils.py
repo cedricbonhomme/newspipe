@@ -3,7 +3,6 @@ import re
 import types
 import urllib
 from hashlib import md5
-from urllib.parse import urljoin
 from urllib.parse import urlparse
 
 import requests
@@ -136,7 +135,9 @@ def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
 
         # Post the JSON to Vulnerability Lookup
         try:
-            vuln_lookup.create_sighting(sighting=sighting)
+            r = vuln_lookup.create_sighting(sighting=sighting)
+            if "message" in r:
+                print(r["message"])
         except Exception as e:
             print(
                 f"Error when sending POST request to the Vulnerability Lookup server:\n{e}"
