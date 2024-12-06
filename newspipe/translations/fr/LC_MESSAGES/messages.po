@@ -46,7 +46,7 @@ msgid ""
 "Found a bug? Report it <a href=\"https://github.com/cedricbonhomme/newspipe/"
 "issues\">here</a>."
 msgstr ""
-"Vous avez trouvé un bug? Signalez-le <a href=\"https://github.com/"
+"Vous avez trouvé un bug ? Signalez-le <a href=\"https://github.com/"
 "cedricbonhomme/newspipe/issues\">ici</a>."
 
 #: newspipe/templates/about.html:13
@@ -92,7 +92,7 @@ msgstr ""
 
 #: newspipe/templates/about_more.html:6
 msgid "Information about this instance"
-msgstr "Information about this instance"
+msgstr "Information sur cette instance"
 
 #: newspipe/templates/about_more.html:8
 msgid "Newspipe version"
@@ -112,7 +112,7 @@ msgstr "Nombre d'utilisateurs"
 
 #: newspipe/templates/about_more.html:12
 msgid "Content Security Policy"
-msgstr ""
+msgstr "Politique de sécurité du contenu"
 
 #: newspipe/templates/article.html:8 newspipe/templates/article_pub.html:7
 msgid "from"
@@ -192,7 +192,7 @@ msgstr "Vous allez supprimer cette catégorie."
 
 #: newspipe/templates/categories.html:56
 msgid "Loading..."
-msgstr ""
+msgstr "Chargement..."
 
 #: newspipe/templates/category_public.html:12
 #: newspipe/templates/feed_list.html:8
@@ -246,7 +246,7 @@ msgstr "Importez les marque-pages depuis Pinboard"
 
 #: newspipe/templates/edit_feed.html:29
 msgid "Will be retrieved automatically but you can specify a custom title."
-msgstr ""
+msgstr "Sera récupéré automatiquement, mais vous pouvez spécifier un titre personnalisé."
 
 #: newspipe/templates/edit_feed.html:34
 msgid "Optional"
@@ -258,7 +258,7 @@ msgstr "Description du flux."
 
 #: newspipe/templates/edit_feed.html:54
 msgid "If unchecked, this feed won't be retrieved by the aggregator."
-msgstr ""
+msgstr "Si décoché, ce flux ne sera pas récupéré par l'agrégateur"
 
 #: newspipe/templates/edit_feed.html:61
 #, python-format
@@ -272,7 +272,7 @@ msgstr ""
 
 #: newspipe/templates/edit_feed.html:62
 msgid "Check this box if there is a private token in the link of the feed."
-msgstr "Cochez cette case si il ya un token privé dans le lien du flux."
+msgstr "Cochez cette case s'il y a un jeton privé dans le lien du flux."
 
 #: newspipe/templates/edit_feed.html:71
 msgid "Filters"
@@ -280,11 +280,11 @@ msgstr "Filtres"
 
 #: newspipe/templates/edit_feed.html:73
 msgid "Here you can define actions to perform on newly retrieved items."
-msgstr ""
+msgstr "Ici vous pouvez définir des actions à réaliser sur les nouveaux items récupérés."
 
 #: newspipe/templates/edit_feed.html:90
 msgid "simple match"
-msgstr "correspondance exact"
+msgstr "correspondance exacte"
 
 #: newspipe/templates/edit_feed.html:91
 msgid "regex"
@@ -292,7 +292,7 @@ msgstr "expression régulière"
 
 #: newspipe/templates/edit_feed.html:99
 msgid "match"
-msgstr "correspond"
+msgstr "correspond à"
 
 #: newspipe/templates/edit_feed.html:100
 msgid "no match"
@@ -343,7 +343,7 @@ msgstr "Adresse du site"
 
 #: newspipe/templates/feed.html:29
 msgid "Last download:"
-msgstr "Dernier téléchargement:"
+msgstr "Dernier téléchargement :"
 
 #: newspipe/templates/feed.html:33
 msgid ""
@@ -372,7 +372,7 @@ msgstr ""
 
 #: newspipe/templates/feed.html:40
 msgid "Here's the last error encountered while retrieving this feed:"
-msgstr "Voici la dernière erreur survenue lors de la récupération ce flux:"
+msgstr "Voici la dernière erreur survenue lors de la récupération ce flux :"
 
 #: newspipe/templates/feed.html:44
 msgid "The last article was posted"
@@ -408,7 +408,7 @@ msgstr "Statut"
 
 #: newspipe/templates/feed_list.html:10
 msgid "Category"
-msgstr "Categories"
+msgstr "Catégories"
 
 #: newspipe/templates/feed_list.html:21
 msgid "Feed enabled"
@@ -449,7 +449,7 @@ msgstr "toutes les années"
 
 #: newspipe/templates/history.html:33
 msgid "Loading…"
-msgstr ""
+msgstr "Chargement..."
 
 #: newspipe/templates/home.html:16
 msgid "You don't have any feeds."
@@ -457,7 +457,7 @@ msgstr "Vous n'avez pas de flux."
 
 #: newspipe/templates/home.html:17
 msgid "Add some"
-msgstr "Ajoutez en"
+msgstr "Ajoutez-en"
 
 #: newspipe/templates/home.html:17
 msgid "or"
@@ -496,7 +496,7 @@ msgstr "Lus"
 
 #: newspipe/templates/home.html:125
 msgid "Unread"
-msgstr "Non lu"
+msgstr "Non lus"
 
 #: newspipe/templates/home.html:128
 msgid "Liked"
@@ -550,7 +550,7 @@ msgstr "Site ou adresse de flux"
 
 #: newspipe/templates/layout.html:101 newspipe/templates/layout.html:103
 msgid "Categories"
-msgstr "Categories"
+msgstr "Catégories"
 
 #: newspipe/templates/layout.html:105 newspipe/templates/layout.html:107
 msgid "Add a new category"
@@ -635,7 +635,7 @@ msgstr "Vous avez"
 
 #: newspipe/templates/management.html:12
 msgid "categories"
-msgstr "categories"
+msgstr "catégories"
 
 #: newspipe/templates/management.html:13
 msgid "You are going to delete old articles."
@@ -664,7 +664,7 @@ msgstr "Exporter le compte Newspipe au format JSON."
 
 #: newspipe/templates/management.html:56
 msgid "Import feeds from OPML (*.xml or *.opml)."
-msgstr "Import en lot via un fichier OPML."
+msgstr "Import les flux via un fichier OPML."
 
 #: newspipe/templates/management.html:64
 msgid "Export feeds to OPML."
@@ -680,7 +680,7 @@ msgstr "marque-pages"
 
 #: newspipe/templates/management.html:91
 msgid "Export your bookmarks to JSON"
-msgstr "Exporter les bookmarks au format JSON"
+msgstr "Exporter vos marque-pages au format JSON"
 
 #: newspipe/templates/management.html:92
 msgid "You are going to delete all bookmarks."
@@ -761,7 +761,7 @@ msgstr "Pseudonyme"
 
 #: newspipe/templates/admin/dashboard.html:12
 msgid "External auth"
-msgstr ""
+msgstr "Authentification externe"
 
 #: newspipe/templates/admin/dashboard.html:32
 msgid "Edit this user"
@@ -769,7 +769,7 @@ msgstr "Éditer cet utilisateur"
 
 #: newspipe/templates/admin/dashboard.html:35
 msgid "Disable this account"
-msgstr "Désactiver ce comptes"
+msgstr "Désactiver ce compte"
 
 #: newspipe/templates/admin/dashboard.html:35
 msgid "Enable this account"
@@ -810,7 +810,7 @@ msgstr "Mot de passe"
 
 #: newspipe/web/forms.py:78 newspipe/web/forms.py:136
 msgid "Please enter a password."
-msgstr "S'il vous plaît entrer un mot de passe."
+msgstr "Entrez un mot de passe svp."
 
 #: newspipe/web/forms.py:92
 msgid ""
@@ -856,7 +856,7 @@ msgstr "Les mots de passe ne sont pas identiques."
 
 #: newspipe/web/forms.py:275
 msgid "Password must be between 20 and 500 characters."
-msgstr ""
+msgstr "Le mot de passe doit être entre 20 et 500 caractères"
 
 #: newspipe/web/forms.py:296
 msgid "Feed link"
@@ -912,7 +912,7 @@ msgstr "Objet"
 
 #: newspipe/web/forms.py:339
 msgid "Please enter a subject."
-msgstr "S'il vous plaît entrer un objet."
+msgstr "Entrez un objet svp."
 
 #: newspipe/web/forms.py:342
 msgid "Message"
@@ -920,7 +920,7 @@ msgstr "Message"
 
 #: newspipe/web/forms.py:343
 msgid "Please enter a content."
-msgstr "S'il vous plaît entrer un contenu."
+msgstr "Entrez un contenu svp."
 
 #: newspipe/web/forms.py:345
 msgid "Send"
@@ -954,7 +954,7 @@ msgstr "Utilisateur %(nick)s supprimé avec succès"
 #, python-format
 msgid "An error occurred while trying to delete a user: %(error)s"
 msgstr ""
-"Une erreur est apparue lors de la suppression de l'utilisateur: %(error)s"
+"Une erreur est apparue lors de la suppression de l'utilisateur : %(error)s"
 
 #: newspipe/web/views/admin.py:148
 msgid "This user does not exist."
@@ -973,7 +973,7 @@ msgstr "Article %(article_title)s supprimé"
 #: newspipe/web/views/article.py:138
 #, python-format
 msgid "%(count)d articles deleted"
-msgstr "%(count)d  articles supprimés"
+msgstr "%(count)d articles supprimés"
 
 #: newspipe/web/views/article.py:157
 msgid "Error when exporting articles."
@@ -1002,11 +1002,11 @@ msgstr "Marque-pages supprimés avec succès."
 
 #: newspipe/web/views/bookmark.py:220
 msgid "Couldn't add bookmark: url missing."
-msgstr "Impossible d'ajouter le marque-page: URL manquante."
+msgstr "Impossible d'ajouter le marque-page : URL manquante."
 
 #: newspipe/web/views/bookmark.py:230
 msgid "Couldn't add bookmark: bookmark already exists."
-msgstr "Impossible d'ajouter le marque-page: l'URL existe déjà."
+msgstr "Impossible d'ajouter le marque-page : l'URL existe déjà."
 
 #: newspipe/web/views/bookmark.py:255
 #, python-format
@@ -1027,7 +1027,7 @@ msgstr "Éditer la catégorie"
 
 #: newspipe/web/views/category.py:99
 msgid "Couldn't add category: already exists."
-msgstr "Impossible d'ajouter la catégorie: le catégorie existe déjà."
+msgstr "Impossible d'ajouter la catégorie : la catégorie existe déjà."
 
 #: newspipe/web/views/category.py:114
 #, python-format
@@ -1056,11 +1056,11 @@ msgstr "Flux %(feed_title)r mis à jour avec succès."
 
 #: newspipe/web/views/feed.py:155
 msgid "Couldn't add feed: url missing."
-msgstr "Impossible d'ajouter le flux: URL manquante."
+msgstr "Impossible d'ajouter le flux : URL manquante."
 
 #: newspipe/web/views/feed.py:160 newspipe/web/views/feed.py:251
 msgid "Couldn't add feed: feed already exists."
-msgstr "Impossible d'ajouter le flux: le flux existe déjà."
+msgstr "Impossible d'ajouter le flux : le flux existe déjà."
 
 #: newspipe/web/views/feed.py:174
 msgid ""
@@ -1118,7 +1118,7 @@ msgstr "L'auto-enregistrement est désactivé."
 #: newspipe/web/views/session_mgmt.py:131
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
-msgstr "Problème lors de l'envoi d'email d'activation: %(error)s"
+msgstr "Problème lors de l'envoi d'email d'activation : %(error)s"
 
 #: newspipe/web/views/session_mgmt.py:139
 msgid "Your account has been created. Check your mail to confirm it."
