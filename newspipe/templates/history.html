@@ -59,12 +59,12 @@
     var months = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
 
-    // Function to generate gradient shades of blue
+    // Function to generate a smoother gradient of blue shades
     function generateBlueGradient(count) {
       let colors = [];
       for (let i = 0; i < count; i++) {
-        let opacity = 0.4 + (0.5 * i) / count; // Vary opacity between 0.4 and 0.9
-        colors.push(`rgba(0, 123, 255, ${opacity})`);
+        let lightness = 0.1 + (0.9 * i) / count; // Vary lightness between 0.6 and 1.0
+        colors.push(`rgba(0, 123, 255, ${lightness})`); // Smooth transition from light to dark blue
       }
       return colors;
     }
@@ -87,7 +87,7 @@
           var labels = Object.keys(result);
         }
 
-        // Generate gradient colors based on the number of data points
+        // Generate the refined blue gradient based on the number of data points
         var colors = generateBlueGradient(Object.keys(result).length);
 
         var ctx = document.getElementById("stats-history").getContext('2d');
