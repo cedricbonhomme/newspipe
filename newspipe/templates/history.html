@@ -129,17 +129,33 @@
               }
             },
             responsive: true,
-            scales: {
-              x: {
-                display: true,
-              },
-              y: {
-                display: true,
-                beginAtZero: true,
+            onClick: function(evt, elements) {
+              const points = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+              if (points.length) {
+                const firstPoint = points[0];
+                var label = myChart.data.labels[firstPoint.index];
+                var value = myChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+
+                // Redirect based on the label (month or year)
+                if (months.includes(label)) {
+                  const the_month = months.indexOf(label) + 1;
+                  window.location = `${window.location}/${the_month}`;
+                } else {
+                  window.location = `${window.location}/${label}`;
+                }
               }
             }
           },
-          plugins: [ChartDataLabels] // Enable the Data Labels Plugin
+          scales: {
+            x: {
+              display: true,
+            },
+            y: {
+              display: true,
+              beginAtZero: true,
+            }
+          },
+          plugins: [ChartDataLabels] // Ensure Data Labels Plugin is applied
         });
       }).catch((error) => {
         console.error('Error:', error);
