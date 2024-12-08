@@ -59,14 +59,15 @@
     var months = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
 
-    // Function to generate colors with darker shades for higher values
+    // Function to generate colors with less darkness for higher values
     function generateBlueGradient(values) {
       const maxVal = Math.max(...values); // Find the maximum value for scaling
       let colors = [];
       values.forEach(value => {
         let intensity = 1 - value / maxVal; // Inverse intensity (lower value = lighter)
-        let blue = Math.floor(255 * intensity); // Map to blue intensity (0-255)
-        colors.push(`rgba(0, ${Math.min(150, blue)}, ${blue}, 1)`); // Darker as value increases
+        let blue = Math.floor(200 + 55 * intensity); // Map blue to range 200-255 (lighter tones)
+        let green = Math.floor(100 + 55 * intensity); // Adjust green for a slightly lighter feel
+        colors.push(`rgba(0, ${green}, ${blue}, 1)`); // Less dark for higher values
       });
       return colors;
     }
