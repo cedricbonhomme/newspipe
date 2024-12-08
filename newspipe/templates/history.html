@@ -2,6 +2,7 @@
 {% block head %}
 {{ super() }}
 <script src="{{ url_for('static', filename='npm_components/chart.js/dist/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='npm_components/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js') }}"></script>
 <style>
   .chart-container {
     display: block;
@@ -111,34 +112,34 @@
               title: {
                 display: true,
                 text: 'Number of aggregated articles'
+              },
+              // Data Labels Plugin Configuration
+              datalabels: {
+                display: true,
+                align: 'end', // Position above the bar
+                anchor: 'end', // Keeps it above the bar
+                color: '#000', // Black text color
+                font: {
+                  size: 10, // Font size for labels
+                  weight: 'bold',
+                },
+                formatter: function(value) {
+                  return value.toLocaleString(); // Format values with commas
+                },
               }
             },
             responsive: true,
-            onClick: function(evt) {
-              const points = myChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
-              if (points.length) {
-                const firstPoint = points[0];
-                var label = myChart.data.labels[firstPoint.index];
-                var value = myChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-
-                if (months.includes(label)) {
-                  the_month = months.indexOf(label)+1;
-                  window.location = window.location + "/" + the_month;
-                } else {
-                  window.location = window.location + "/" + label;
-                }
+            scales: {
+              x: {
+                display: true,
+              },
+              y: {
+                display: true,
+                beginAtZero: true,
               }
             }
           },
-          scales: {
-            x: {
-              display: true,
-            },
-            y: {
-              display: true,
-              beginAtZero: true,
-            }
-          }
+          plugins: [ChartDataLabels] // Enable the Data Labels Plugin
         });
       }).catch((error) => {
         console.error('Error:', error);
