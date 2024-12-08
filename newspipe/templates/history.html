@@ -59,18 +59,20 @@
     var months = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
 
-    // Function to generate a smoother gradient of blue shades
-    function generateBlueGradient(count) {
+    // Function to generate colors with darker shades for higher values
+    function generateBlueGradient(values) {
+      const maxVal = Math.max(...values); // Find the maximum value for scaling
       let colors = [];
-      for (let i = 0; i < count; i++) {
-        let lightness = 0.1 + (0.9 * i) / count; // Vary lightness between 0.6 and 1.0
-        colors.push(`rgba(0, 123, 255, ${lightness})`); // Smooth transition from light to dark blue
-      }
+      values.forEach(value => {
+        let intensity = 1 - value / maxVal; // Inverse intensity (lower value = lighter)
+        let blue = Math.floor(255 * intensity); // Map to blue intensity (0-255)
+        colors.push(`rgba(0, ${Math.min(150, blue)}, ${blue}, 1)`); // Darker as value increases
+      });
       return colors;
     }
 
-    var period = window.location.pathname.split("/history")[1]
-    if (period == null){
+    var period = window.location.pathname.split("/history")[1];
+    if (period == null) {
       period = "";
     }
 
@@ -87,8 +89,9 @@
           var labels = Object.keys(result);
         }
 
-        // Generate the refined blue gradient based on the number of data points
-        var colors = generateBlueGradient(Object.keys(result).length);
+        // Generate colors based on Y-axis values
+        var values = Object.values(result);
+        var colors = generateBlueGradient(values);
 
         var ctx = document.getElementById("stats-history").getContext('2d');
         var myChart = new Chart(ctx, {
@@ -97,7 +100,7 @@
             labels: labels,
             datasets: [{
               label: 'Number of aggregated articles',
-              data: Object.values(result),
+              data: values,
               borderWidth: 1,
               backgroundColor: colors
             }],
