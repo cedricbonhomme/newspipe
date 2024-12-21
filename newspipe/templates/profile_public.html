@@ -15,7 +15,7 @@
             {% if user.webpage %}
             <p>
                 <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}">{{ user.webpage | safe }}</a>
+                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}" rel="noopener noreferrer" target="_blank">{{ user.webpage | safe }}</a>
             </p>
             {% endif %}
         </div>
@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-5">
             {% if user.bio %}
-                <p align="justify">{{ user.bio }}</p>
+                <p>{{ user.bio }}</p>
             {% endif %}
         </div>
         <div class="col-md-6 float-end"></div>
