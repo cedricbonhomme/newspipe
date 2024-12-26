@@ -177,6 +177,9 @@ def profile():
                         "is_public_profile": form.is_public_profile.data,
                         "bio": form.bio.data,
                         "webpage": form.webpage.data,
+                        "mastodon": form.mastodon.data,
+                        "github": form.github.data,
+                        "linkedin": form.linkedin.data,
                     },
                 )
             except Exception as error:

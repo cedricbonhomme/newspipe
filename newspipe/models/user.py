@@ -53,6 +53,9 @@ class User(db.Model, UserMixin, RightMixin):
     is_public_profile = db.Column(db.Boolean(), default=False)
     bio = db.Column(db.String(5000), default="")
     webpage = db.Column(db.String(), default="")
+    mastodon = db.Column(db.String(500), default="")
+    github = db.Column(db.String(39), default="")
+    linkedin = db.Column(db.String(30), default="")
 
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -94,16 +97,36 @@ class User(db.Model, UserMixin, RightMixin):
     def make_valid_nickname(nickname):
         return re.sub("[^a-zA-Z0-9_-]", "", nickname)
 
-    @validates("bio")
-    def validates_bio(self, key, value):
-        assert len(value) <= 5000, AssertionError("maximum length for bio: 5000")
-        return value.strip()
-
     def get_id(self):
         """
         Return the id of the user.
         """
         return self.id
+
+    @validates("bio")
+    def validates_bio(self, key, value):
+        assert len(value) <= 5000, AssertionError("maximum length for bio: 5000")
+        return value.strip()
+
+    @validates("github")
+    def validates_github(self, key: str, value: str) -> str:
+        assert 0 <= len(value) <= 39, AssertionError("Maximum length for GitHub: 39")
+        if value.strip():
+            github_regex = r"^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$"
+            assert re.match(github_regex, value) is not None, AssertionError(
+                "Invalid GitHub username."
+            )
+        return value
+
+    @validates("linkedin")
+    def validates_linkedin(self, key: str, value: str) -> str:
+        assert 0 <= len(value) <= 30, AssertionError("Maximum length for LinkedIn: 30")
+        if value.strip():
+            linkedin_regex = r"^[a-zA-Z\d](?:[a-zA-Z\d-]{0,28}[a-zA-Z\d])?$"
+            assert re.match(linkedin_regex, value) is not None, AssertionError(
+                "Invalid LinkedIn username."
+            )
+        return value
 
     def check_password(self, password):
         """

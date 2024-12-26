@@ -15,7 +15,25 @@
             {% if user.webpage %}
             <p>
                 <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}" rel="noopener noreferrer" target="_blank">{{ user.webpage | safe }}</a>
+                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.webpage | safe }}</a>
+            </p>
+            {% endif %}
+            {% if user.mastodon %}
+            <p>
+                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
+                {{ _('Mastodon') }}: <a href="{{ user.mastodon | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.mastodon | safe }}</a>
+            </p>
+            {% endif %}
+            {% if user.github %}
+            <p>
+                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
+                {{ _('GitHub') }}: <a href="https://github.com/{{ user.github }}" rel="noopener noreferrer me" target="_blank">https://github.com/{{ user.github }}</a>
+            </p>
+            {% endif %}
+            {% if user.linkedin %}
+            <p>
+                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
+                {{ _('LinkedIn') }}: <a href="https://www.linkedin.com/in/{{ user.linkedin | safe }}" rel="noopener noreferrer me" target="_blank">https://www.linkedin.com/in/{{ user.linkedin }}</a>
             </p>
             {% endif %}
         </div>

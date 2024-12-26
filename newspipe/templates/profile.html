@@ -18,16 +18,21 @@
             <form action="" method="post" name="save">
                 <div class="row">
                     {{ form.hidden_tag() }}
-
                     <div class="col">
                         {{ form.nickname.label }}
-                        {% if nick_disabled %}{{ form.nickname(class_="form-control", disabled=True) }}{% else %}{{ form.nickname(class_="form-control") }}{% endif %} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        {% if nick_disabled %}
+                          {{ form.nickname(class_="form-control", disabled=True) }}
+                        {% else %}
+                          {{ form.nickname(class_="form-control") }}
+                        {% endif %}
+                        {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                        {% if not user.external_auth %}{{ form.password.label }}
-                        {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-
-                        {{ form.password_conf.label }}
-                        {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}{% else%}{% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}No password management for auth type {{  user.external_auth }}{% endif %}
+                        {% if not user.external_auth %}
+                          {{ form.password.label }}
+                          {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                          {{ form.password_conf.label }}
+                          {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}{% else%}{% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}No password management for auth type {{  user.external_auth }}
+                        {% endif %}
                     </div>
 
                     <div class="col">
@@ -37,6 +42,17 @@
                         {{ form.webpage.label }}
                         {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
+                        {{ form.mastodon.label }}
+                        {{ form.mastodon(class_="form-control") }} {% for error in form.mastodon.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.github.label }}
+                        {{ form.github(class_="form-control") }} {% for error in form.github.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+                        {{ form.linkedin.label }}
+                        {{ form.linkedin(class_="form-control") }} {% for error in form.linkedin.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    </div>
+                </div>
+                <div class="row">
                         <div class="form-check">
                         {{ form.is_public_profile.label }}
                         {{ form.is_public_profile(class_="form-check-input") }}
@@ -50,7 +66,6 @@
                         <p>{{ _('Uncheck if you are using your own crawler.') }}</p>
                         {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                         </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col">

@@ -274,7 +274,7 @@ def export():
     bookmarks = export_bookmarks(current_user)
     response = make_response(bookmarks)
     response.mimetype = "application/json"
-    response.headers["Content-Disposition"] = (
-        "attachment; filename=newspipe_bookmarks_export.json"
-    )
+    response.headers[
+        "Content-Disposition"
+    ] = "attachment; filename=newspipe_bookmarks_export.json"
     return response

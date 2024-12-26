@@ -260,6 +260,15 @@ class ProfileForm(FlaskForm):
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     bio = TextAreaField(lazy_gettext("Bio"))
     webpage = URLField(lazy_gettext("Webpage"))
+    mastodon = StringField(
+        "Mastodon", default="", validators=[validators.Length(min=0, max=100)]
+    )
+    github = StringField(
+        "GitHub username", default="", validators=[validators.Length(min=0, max=39)]
+    )
+    linkedin = StringField(
+        "LinkedIn username", default="", validators=[validators.Length(min=0, max=30)]
+    )
     is_public_profile = BooleanField(lazy_gettext("Public profile"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
