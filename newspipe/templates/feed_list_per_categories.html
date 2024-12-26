@@ -1,18 +1,18 @@
 <div class="row">
-    <div class="col-md-8">
-        <form class="form-inline">
-            <div class="form-group">
-                <label>Filter per category</label>
-                <select class="form-control" id="category-select" name="category_id">
-                <option  value="0">All</option>
-                {% for category in user.categories %}
-                    <option value="{{category.id}}" {% if category.id==selected_category_id %}selected{% endif %}>{{ category.name }}</option>
-                {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-primary mb-2">OK</button>
-            </div>
-        </form>
-    </div>
+  <div class="col-md-6">
+    <form>
+      <label>Filter per category</label>
+      <div class="input-group">
+        <select class="form-control" id="category-select" name="category_id">
+          <option  value="0">All</option>
+          {% for category in user.categories %}
+            <option value="{{category.id}}" {% if category.id==selected_category_id %}selected{% endif %}>{{ category.name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">OK</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <br />

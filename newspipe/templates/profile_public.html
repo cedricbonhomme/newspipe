@@ -1,52 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h1>{{ user.nickname }} / <a href="{{ url_for('user.user_stream', nickname=user.nickname) }}">stream</a></h1>
-    <div class="row">
-        <div class="col-md-12">
-            <p>
-                <span class="bi bi-clock-o" aria-hidden="true"></span>&nbsp;
-                {{ _('Member since') }}: {{ user.date_created | datetime }}
-            </p>
-            <p>
-                <span class="bi bi-clock-o" aria-hidden="true"></span>&nbsp;
-                {{ _('Last seen') }}: {{ user.last_seen | datetime }}
-            </p>
-            {% if user.webpage %}
-            <p>
-                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('Webpage') }}: <a href="{{ user.webpage | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.webpage | safe }}</a>
-            </p>
-            {% endif %}
-            {% if user.mastodon %}
-            <p>
-                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('Mastodon') }}: <a href="{{ user.mastodon | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.mastodon | safe }}</a>
-            </p>
-            {% endif %}
-            {% if user.github %}
-            <p>
-                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('GitHub') }}: <a href="https://github.com/{{ user.github }}" rel="noopener noreferrer me" target="_blank">https://github.com/{{ user.github }}</a>
-            </p>
-            {% endif %}
-            {% if user.linkedin %}
-            <p>
-                <span class="bi bi-home" aria-hidden="true"></span>&nbsp;
-                {{ _('LinkedIn') }}: <a href="https://www.linkedin.com/in/{{ user.linkedin | safe }}" rel="noopener noreferrer me" target="_blank">https://www.linkedin.com/in/{{ user.linkedin }}</a>
-            </p>
-            {% endif %}
-        </div>
+  <h1>{{ user.nickname }} / <a href="{{ url_for('user.user_stream', nickname=user.nickname) }}">stream</a></h1>
+  <div class="row">
+    <div class="col-md-6">
+      <p>
+        <i class="bi bi-calendar-event"></i>&nbsp;{{ _('Member since') }}: {{ user.date_created | datetime }}
+      </p>
+      <p>
+        <i class="bi bi-clock"></i>&nbsp;{{ _('Last seen') }}: {{ user.last_seen | datetime }}
+      </p>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            {% if user.bio %}
-                <p>{{ user.bio }}</p>
-            {% endif %}
-        </div>
-        <div class="col-md-6 float-end"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      {% if user.bio %}
+        <h3>Bio</h3>
+        <p>{{ user.bio }}</p>
+      {% endif %}
     </div>
-
+    <div class="col-md-6">
+        <ul class="list-group">
+          {% if user.webpage %}<li class="list-group-item"><i class="bi bi-globe" aria-hidden="true"></i> <a href="{{ user.webpage | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.webpage | safe }}</a></li>{% endif %}
+          {% if user.mastodon %}<li class="list-group-item"><i class="bi bi-mastodon" aria-hidden="true"></i> <a href="{{ user.mastodon | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.mastodon | safe }}</a></li>{% endif %}
+          {% if user.github %}<li class="list-group-item"><i class="bi bi-github" aria-hidden="true"></i> <a href="https://github.com/{{ user.github }}" rel="noopener noreferrer me" target="_blank">https://github.com/{{ user.github }}</a></li>{% endif %}
+          {% if user.linkedin %}<li class="list-group-item"><i class="bi bi-linkedin" aria-hidden="true"></i> <a href="https://www.linkedin.com/in/{{ user.linkedin | safe }}" rel="noopener noreferrer me" target="_blank">https://www.linkedin.com/in/{{ user.linkedin }}</a></li>{% endif %}
+        </ul>
+    </div>
+  </div>
     <h2>{{ _('Feeds') }}</h2>
     <div class="row">
         <div class="col-md-12">
