@@ -3,7 +3,7 @@ Newspipe Changelog
 
 ## 11.2.0 (2024-12-27)
 
-## Improvements
+### Improvements
 
 - The bookmarks page is now more privacy-aware and prevents the tracking of the user (1d8d48a5).
 - Improved the layout of the bookmarks page for better usability (ca6d8922).
@@ -11,7 +11,7 @@ Newspipe Changelog
 - Updated the history page chart to use a single hue variant (blue) for a cleaner visual experience (bdf0198a).
 - Improved translations (57d7a34e).
 
-## Fixes
+### Fixes
 
 - Fixed a bug when importing an account and exporting an account to OPML (df91420d).
 
