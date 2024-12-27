@@ -4,15 +4,14 @@
     <div class="row">
         <div class="col">
             <form class="form-inline">
-                <div class="form-group">
-                    <label>Filter per category</label>&nbsp;
+                <div class="input-group">
                     <select class="form-control" id="category-select" name="category_id">
                         <option  value="0">All</option>
                         {% for cur_category in user.categories %}
                             <option value="{{cur_category.id}}" {% if cur_category.id==category.id %}selected{% endif %}>{{ cur_category.name }}</option>
                         {% endfor %}
                     </select>
-                    &nbsp;<button type="submit" class="btn btn-primary">OK</button>
+                    <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
         </div>

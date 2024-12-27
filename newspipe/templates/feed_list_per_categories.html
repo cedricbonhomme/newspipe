@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-md-6">
     <form>
-      <label>Filter per category</label>
       <div class="input-group">
         <select class="form-control" id="category-select" name="category_id">
           <option  value="0">All</option>
@@ -9,7 +8,7 @@
             <option value="{{category.id}}" {% if category.id==selected_category_id %}selected{% endif %}>{{ category.name }}</option>
           {% endfor %}
         </select>
-        <button type="submit" class="btn btn-primary">OK</button>
+        <button type="submit" class="btn btn-primary">Filter</button>
       </div>
     </form>
   </div>

@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-6">
+    <div class="row d-flex justify-content-center">
+        <div class="col-auto me-auto">
             {{ pagination.info }}
         </div>
-        <div class="col-6 text-right">
+        <div class="col-auto">
             {% if current_user.is_authenticated %}
                 <a class="text-muted" href="{{ url_for('bookmarks.list_') }}">all</a>&nbsp;⸱&nbsp;
                 <a class="text-muted" href="{{ url_for('bookmarks.list_') + 'private' }}">private</a>&nbsp;⸱&nbsp;
@@ -16,7 +16,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-6">
+        <div class="col-auto me-auto">
             {% if tag %}
                 <i class="bi bi-tag" aria-hidden="true"></i>&nbsp;&nbsp;{{ tag }}
             {% endif %}
@@ -25,7 +25,7 @@
                 <i class="bi bi-search" aria-hidden="true"></i>&nbsp;&nbsp;{{ query }}
             {% endif %}
         </div>
-        <div class="col-6 text-right float-end">
+        <div class="col-auto">
             <form method="GET">
                 <div class="form-row align-items-center float-end">
                     <div class="col-auto">
