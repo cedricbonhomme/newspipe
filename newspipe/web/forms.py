@@ -338,7 +338,7 @@ class BookmarkForm(FlaskForm):
     )
     tags = StringField(lazy_gettext("Tags"))
     to_read = BooleanField(lazy_gettext("To read"), default=False)
-    shared = BooleanField(lazy_gettext("Shared"), default=False)
+    shared = BooleanField(lazy_gettext("Shared"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
 
