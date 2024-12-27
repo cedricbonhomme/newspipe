@@ -121,7 +121,7 @@ def list_(per_page, status="all"):
 @login_required
 def form(bookmark_id=None):
     "Form to create/edit bookmarks."
-    action = gettext("Add a new bookmark")
+    action = gettext("Add a bookmark")
     head_titles = [action]
     if bookmark_id is None:
         return render_template(
