@@ -318,7 +318,13 @@ class AddFeedForm(FlaskForm):
 
 
 class CategoryForm(FlaskForm):
-    name = StringField(lazy_gettext("Category name"))
+    name = StringField(
+        lazy_gettext("Category name"),
+        [
+            validators.Length(min=2, max=30),
+            validators.InputRequired("Please enter a category name."),
+        ],
+    )
     feeds = SelectMultipleField(lazy_gettext("Feeds in this category"), coerce=int)
     submit = SubmitField(lazy_gettext("Save"))
 

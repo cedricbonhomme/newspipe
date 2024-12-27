@@ -1,86 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h3>{{ action }}</h3>
-            <form action="" method="post" name="save" class="form-horizontal">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <label for="{{ form.href.id }}" class="col-sm-3 control-label">{{ form.href.label }}</label>
-                    <div class="col-sm-9">
-                        {{ form.href(class_="form-control", size="100%") }}
-                    </div>
-                    {% for error in form.href.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
+  <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+          <h3>{{ action }}</h3>
+          <form action="" method="post" name="save" class="form-horizontal">
+              {{ form.hidden_tag() }}
+              <label for="{{ form.href.id }}" class="control-label">{{ form.href.label }}</label>
+              {{ form.href(class_="form-control", size="100%") }}
+              {% for error in form.href.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                <div class="form-group">
-                    <label for="{{ form.title.id }}" class="col-sm-3 control-label">{{ form.title.label }}</label>
-                    <div class="col-sm-9">
-                        {{ form.title(class_="form-control", size="100%") }}
-                    </div>
-                    {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
+              <label for="{{ form.title.id }}" class="control-label">{{ form.title.label }}</label>
+              {{ form.title(class_="form-control", size="100%") }}
+              {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                <div class="form-group">
-                    <label for="{{ form.description.id }}" class="col-sm-3 control-label">{{ form.description.label }}</label>
-                    <div class="col-sm-9">
-                        {{ form.description(class_="form-control", size="100%") }}
-                    </div>
-                    {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
+              <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
+              {{ form.description(class_="form-control", size="100%") }}
+              {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                <div class="form-group">
-                    <label for="{{ form.tags.id }}" class="col-sm-3 control-label">{{ form.tags.label }}</label>
-                    <div class="col-sm-9">
-                        {{ form.tags(class_="form-control", size="100%") }}
-                    </div>
-                    {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                </div>
+              <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
+              {{ form.tags(class_="form-control", size="100%") }}
+              {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-                <div class="form-group">
-                    <label for="{{ form.shared.id }}" class="col-sm-3 control-label">{{ form.shared.label }}</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            {{ form.shared(class_="checkbox",  style="margin-left: 0px;") }}
-                        </div>
-                    </div>
-                </div>
+              <label for="{{ form.shared.id }}" class="control-label">{{ form.shared.label }}</label>
+              <div class="checkbox">
+                {{ form.shared(class_="checkbox",  style="margin-left: 0px;") }}
+              </div>
 
-                <div class="form-group">
-                    <label for="{{ form.to_read.id }}" class="col-sm-3 control-label">{{ form.to_read.label }}</label>
-                    <div class="col-sm-9">
-                        <div class="checkbox">
-                            {{ form.to_read(class_="checkbox",  style="margin-left: 0px;") }}
-                        </div>
-                    </div>
-                </div>
+              <div class="form-group">
+                  <label for="{{ form.to_read.id }}" class="control-label">{{ form.to_read.label }}</label>
+                  <div class="checkbox">
+                    {{ form.to_read(class_="checkbox",  style="margin-left: 0px;") }}
+                  </div>
+              </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
-                        {{ form.submit(class_="btn btn-primary") }}
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+              {{ form.submit(class_="btn btn-primary form-control") }}
+          </form>
+      </div>
+  </div>
 
     {% if action == _('Add a new bookmark') %}
-        <div class="row">
-            <div class="col-md-6 float-end">
-                <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
-                {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Bookmark this page using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)+"&title="+document.title' % url_for('bookmark.bookmarklet', _external=True)) }}
-            </div>
-            <div class="col-md-6">
-                <form action="{{ url_for('bookmark.import_pinboard') }}" method="post" id="formImportPinboard" enctype="multipart/form-data">
-                    <p>{{ _('Import bookmarks from Pinboard') }} (*.json)</p>
-                    <span>
-                        <input type="file" name="jsonfile" />
-                        <br />
-                        <button class="btn btn-primary" type="submit">OK</button>
-                    </span>
-                </form>
-            </div>
+        <div class="row d-flex justify-content-center pt-4">
+          <div class="col-md-6 float-end">
+            <hr />
+            <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
+            {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Bookmark this page using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)+"&title="+document.title' % url_for('bookmark.bookmarklet', _external=True)) }}
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center pt-4">
+          <div class="col-md-6">
+            <hr />
+            <form action="{{ url_for('bookmark.import_pinboard') }}" method="post" id="formImportPinboard" enctype="multipart/form-data">
+                <p>{{ _('Import bookmarks from Pinboard') }} (*.json)</p>
+                <span>
+                  <input type="file" name="jsonfile" />
+                  <button class="btn btn-primary" type="submit">OK</button>
+                </span>
+            </form>
+          </div>
         </div>
     {% endif %}
 </div><!-- /.container -->

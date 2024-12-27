@@ -2,14 +2,14 @@
 {% block head %}
 {{ super() }}
 <style>
-.optext {
-  background-color: #000 !important;
+.optext[data-theme="dark"] {
+  background-color: white !important;
 }
-.multiselect-dropdown {
-  background-color: #343a40 !important;
+.multiselect-dropdown[data-theme="dark"] {
+  background-color: white !important;
 }
-.multiselect-dropdown-list {
-  background-color: #343a40 !important;
+.multiselect-dropdown-list[data-theme="dark"] {
+  background-color: white !important;
 }
 </style>
 <script src="{{ url_for('static', filename='js/multiselect-dropdown.js') }}" ></script>
@@ -17,31 +17,22 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="well">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6">
         <h3>{{ action }}</h3>
         <form action="" method="post" name="save" class="form-horizontal">
             {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="{{ form.name.id }}" class="col-sm-3 control-label">{{ form.name.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.name(class_="form-control", size="100%") }}
-                </div>
-                {% for error in form.name.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-            <br />
-            <div class="form-group">
-                <label for="{{ form.name.id }}" class="col-sm-3 control-label">{{ form.feeds.label }}</label>
-                <div class="col-sm-9">
-                    {{ form.feeds(class_="form-control", size="100%") }}
-                </div>
-                {% for error in form.feeds.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    {{ form.submit(class_="btn btn-primary") }}
-                </div>
-            </div>
+            <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
+            {{ form.name(class_="form-control", size="100%") }}
+            {% for error in form.name.errors %}<span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            <label for="{{ form.name.id }}" class=control-label">{{ form.feeds.label }}</label>
+            {{ form.feeds(class_="form-control", size="100%") }}
+            {% for error in form.feeds.errors %}<span style="color: red;">{{ error }}<br /></span>{% endfor %}
+
+            {{ form.submit(class_="btn btn-primary form-control mt-2") }}
         </form>
     </div>
+  </div>
 </div><!-- /.container -->
 {% endblock %}
