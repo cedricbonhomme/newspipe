@@ -34,8 +34,9 @@
                     <h5>{{ _('Import') }}</h5>
                     <p>{{ _('Import a Newspipe account (*.json).') }}</p>
                     <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
-                        <input type="file" name="jsonfile" />
-                        <button class="btn btn-primary" type="submit">OK</button>
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                      <input type="file" name="jsonfile" />
+                      <button class="btn btn-primary" type="submit">OK</button>
                     </form>
                 </div>
                 <div class="col">
@@ -55,8 +56,9 @@
                     <h5>{{ _('Import') }}</h5>
                     <p>{{ _('Import feeds from OPML (*.xml or *.opml).') }}</p>
                     <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
-                        <input type="file" name="opmlfile" />
-                        <button class="btn btn-primary" type="submit">OK</button>
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                      <input type="file" name="opmlfile" />
+                      <button class="btn btn-primary" type="submit">OK</button>
                     </form>
                 </div>
                 <div class="col">

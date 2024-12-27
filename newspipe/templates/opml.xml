@@ -8,6 +8,7 @@
         <ownerName>{{ user.nickname }}</ownerName>
     </head>
     <body>
-    {% for feed in feeds %}    <outline title="{{ feed.title|escape }}" text="{{ feed.title|escape }}" description="{{ feed.description|escape }}" {% if feed.category_id != None %}category="/{{ categories[feed.category_id].name }}"{% endif %} xmlUrl="{{ feed.link|escape }}" htmlUrl="{{ feed.site_link|escape }}" />
+    {% for feed in feeds %}
+        <outline title="{{ feed.title|escape }}" text="{{ feed.title|escape }}" description="{{ feed.description|escape }}" {% if feed['category_id'] != None %}category="/{{ categories[feed.category_id].name }}"{% endif %} xmlUrl="{{ feed.link|escape }}" htmlUrl="{{ feed.site_link|escape }}" />
     {% endfor %}</body>
 </opml>
