@@ -5,7 +5,7 @@
         <form action="" method="POST" name="save">
             {{ form.hidden_tag() }}
             <p>Enter the URL of the website or the URL of the feed (RSS/ATOM).</p>
-            <div class="row row-cols-md-auto g-2 align-items-center">
+            <div class="row">
                 <div class="col-md-6">
                     <label for="{{ form.site_link.id }}" class="col-sm-3 control-label">{{ form.site_link.label }}</label>
                     {{ form.site_link(class_="form-control", size="100%") }}
@@ -16,14 +16,14 @@
                     {{ form.link(class_="form-control", size="100%") }}
                     {% for error in form.link.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
                 </div>
-                <div class="col-md-12">
+                <div class="col pt-2">
                     {{ form.submit(class_="btn btn-primary") }}
                 </div>
             </div>
 
             <hr />
 
-            <div class="row row-cols-md-auto g-2 align-items-center">
+            <div class="row">
               <div class="col-md-6">
                   <label for="{{ form.title.id }}" class="col control-label">{{ form.title.label }}</label>
                   {{ form.title(class_="form-control", size="100%", placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
@@ -39,8 +39,8 @@
               </div>
           </div>
 
-          <div class="row row-cols-md-auto g-2 align-items-center">
-            <div class="col">
+          <div class="row pt-2">
+            <div class="col-md-6">
                 <label for="{{ form.description.id }}" class="col control-label">{{ form.description.label }}</label>
                 {{ form.description(class_="form-control", size="100%", placeholder=_('Description of the feed.')) }}
                 {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
@@ -49,7 +49,7 @@
 
             <br />
 
-            <div class="row row-cols-md-auto g-2 align-items-center">
+            <div class="row">
                 <div class="col-md-6">
                     <label for="{{ form.enabled.id }}" class="form-check-label">{{ form.enabled.label }}</label>
                     {{ form.enabled(class_="form-check-input",  style="margin-left: 0px;") }}
