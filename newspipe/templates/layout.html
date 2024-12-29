@@ -4,7 +4,7 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Newspipe - A web news reader." />
+    <meta name="description" content="Newspipe - A news reader." />
     <meta name="author" content="" />
     <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
@@ -86,10 +86,10 @@
                               <a class="dropdown-item" href="{{ url_for('popular') }}">{{ _('Popular') }}</a>
                               <a class="dropdown-item" href="{{ url_for('articles.history') }}">{{ _('History') }}</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a new feed') }}</a>
+                              <a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a feed') }}</a>
                               <form class="px-4 py-3" action="{{ url_for('feed.bookmarklet') }}">
                                 <div class="input-group">
-                                      <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a new feed') }}</label>
+                                      <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a feed') }}</label>
                                       <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
                                       <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
                                  </div>
@@ -102,9 +102,9 @@
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownCategory" style="min-width: 250px;">
                             <a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a new category') }}</a>
+                            <a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a category') }}</a>
                             <form class="px-4 py-3" action="{{ url_for('category.form') }}" method="POST" name="category">
-                                <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a new category') }}</label>
+                                <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a category') }}</label>
                                 <div class="input-group">
                                   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                                   <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
@@ -118,7 +118,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBookmark" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Bookmarks') }}</a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBookmark">
                             <li><a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a new bookmark') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a bookmark') }}</a></li>
                         </ul>
                     </li>
 

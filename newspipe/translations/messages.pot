@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-27 19:45+0100\n"
+"POT-Creation-Date: 2024-12-29 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "About"
 msgstr ""
 
 #: newspipe/templates/about.html:8
-msgid "Newspipe is a news aggregator platform."
+msgid "Newspipe is a news reader."
 msgstr ""
 
 #: newspipe/templates/about.html:9
@@ -150,7 +150,7 @@ msgid "Name"
 msgstr ""
 
 #: newspipe/templates/categories.html:32 newspipe/templates/layout.html:82
-#: newspipe/templates/layout.html:84 newspipe/templates/management.html:50
+#: newspipe/templates/layout.html:84 newspipe/templates/management.html:51
 #: newspipe/templates/profile_public.html:31
 msgid "Feeds"
 msgstr ""
@@ -183,16 +183,16 @@ msgstr ""
 
 #: newspipe/templates/category_public.html:12
 #: newspipe/templates/feed_list.html:8
-#: newspipe/templates/feed_list_per_categories.html:25
+#: newspipe/templates/feed_list_per_categories.html:24
 #: newspipe/templates/feed_list_simple.html:7
-#: newspipe/templates/user_stream.html:48 newspipe/web/forms.py:304
+#: newspipe/templates/user_stream.html:47 newspipe/web/forms.py:304
 #: newspipe/web/forms.py:341
 msgid "Title"
 msgstr ""
 
 #: newspipe/templates/category_public.html:13
 #: newspipe/templates/feed_list.html:9
-#: newspipe/templates/feed_list_per_categories.html:26
+#: newspipe/templates/feed_list_per_categories.html:25
 #: newspipe/templates/feed_list_simple.html:8
 msgid "Site"
 msgstr ""
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Delete all in this column"
 msgstr ""
 
-#: newspipe/templates/edit_bookmark.html:42 newspipe/templates/layout.html:121
+#: newspipe/templates/edit_bookmark.html:42
 msgid "Add a new bookmark"
 msgstr ""
 
@@ -512,7 +512,8 @@ msgid "Popular"
 msgstr ""
 
 #: newspipe/templates/layout.html:89 newspipe/templates/layout.html:92
-msgid "Add a new feed"
+#: newspipe/web/views/feed.py:211
+msgid "Add a feed"
 msgstr ""
 
 #: newspipe/templates/layout.html:93
@@ -524,7 +525,8 @@ msgid "Categories"
 msgstr ""
 
 #: newspipe/templates/layout.html:105 newspipe/templates/layout.html:107
-msgid "Add a new category"
+#: newspipe/web/views/category.py:58
+msgid "Add a category"
 msgstr ""
 
 #: newspipe/templates/layout.html:110 newspipe/web/forms.py:322
@@ -534,6 +536,10 @@ msgstr ""
 #: newspipe/templates/layout.html:118 newspipe/templates/layout.html:120
 #: newspipe/web/views/bookmark.py:58
 msgid "Bookmarks"
+msgstr ""
+
+#: newspipe/templates/layout.html:121 newspipe/web/views/bookmark.py:124
+msgid "Add a bookmark"
 msgstr ""
 
 #: newspipe/templates/layout.html:126
@@ -600,7 +606,7 @@ msgstr ""
 msgid "unread articles"
 msgstr ""
 
-#: newspipe/templates/management.html:12 newspipe/templates/management.html:90
+#: newspipe/templates/management.html:12 newspipe/templates/management.html:92
 msgid "You have"
 msgstr ""
 
@@ -616,7 +622,7 @@ msgstr ""
 msgid "Delete articles older than 10 weeks"
 msgstr ""
 
-#: newspipe/templates/management.html:34 newspipe/templates/management.html:55
+#: newspipe/templates/management.html:34 newspipe/templates/management.html:56
 msgid "Import"
 msgstr ""
 
@@ -624,40 +630,40 @@ msgstr ""
 msgid "Import a Newspipe account (*.json)."
 msgstr ""
 
-#: newspipe/templates/management.html:42 newspipe/templates/management.html:44
-#: newspipe/templates/management.html:63 newspipe/templates/management.html:80
+#: newspipe/templates/management.html:43 newspipe/templates/management.html:45
+#: newspipe/templates/management.html:65 newspipe/templates/management.html:82
 msgid "Export"
 msgstr ""
 
-#: newspipe/templates/management.html:43
+#: newspipe/templates/management.html:44
 msgid "Export your newspipe account to JSON."
 msgstr ""
 
-#: newspipe/templates/management.html:56
+#: newspipe/templates/management.html:57
 msgid "Import feeds from OPML (*.xml or *.opml)."
 msgstr ""
 
-#: newspipe/templates/management.html:64
+#: newspipe/templates/management.html:66
 msgid "Export feeds to OPML."
 msgstr ""
 
-#: newspipe/templates/management.html:88
+#: newspipe/templates/management.html:90
 msgid "Your bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:90
+#: newspipe/templates/management.html:92
 msgid "bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:91
+#: newspipe/templates/management.html:93
 msgid "Export your bookmarks to JSON"
 msgstr ""
 
-#: newspipe/templates/management.html:92
+#: newspipe/templates/management.html:94
 msgid "You are going to delete all bookmarks."
 msgstr ""
 
-#: newspipe/templates/management.html:92
+#: newspipe/templates/management.html:94
 msgid "Delete all bookmarks"
 msgstr ""
 
@@ -712,7 +718,7 @@ msgstr ""
 msgid "Minimum 20 characters."
 msgstr ""
 
-#: newspipe/templates/user_stream.html:49
+#: newspipe/templates/user_stream.html:48
 msgid "Published at"
 msgstr ""
 
@@ -942,10 +948,6 @@ msgstr ""
 msgid "Error when exporting articles."
 msgstr ""
 
-#: newspipe/web/views/bookmark.py:124
-msgid "Add a bookmark"
-msgstr ""
-
 #: newspipe/web/views/bookmark.py:134
 msgid "Edit bookmark"
 msgstr ""
@@ -982,10 +984,6 @@ msgstr ""
 
 #: newspipe/web/views/bookmark.py:262
 msgid "Error when importing bookmarks."
-msgstr ""
-
-#: newspipe/web/views/category.py:58
-msgid "Add a category"
 msgstr ""
 
 #: newspipe/web/views/category.py:70
@@ -1045,10 +1043,6 @@ msgstr ""
 
 #: newspipe/web/views/feed.py:202
 msgid "Feed successfully updated."
-msgstr ""
-
-#: newspipe/web/views/feed.py:211
-msgid "Add a feed"
 msgstr ""
 
 #: newspipe/web/views/feed.py:223
@@ -1136,3 +1130,4 @@ msgstr ""
 #: newspipe/web/views/views.py:38
 msgid "Forbidden."
 msgstr ""
+
