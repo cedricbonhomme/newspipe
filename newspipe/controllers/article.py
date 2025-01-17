@@ -130,3 +130,15 @@ class ArticleController(AbstractController):
 
     def read_ordered(self, **filters):
         return super().read(**filters).order_by(Article.date.desc())
+
+    def get_date_statistics(self, **filters):
+        return (
+            super()
+            .read(**filters)
+            .with_entities(
+                func.min(Article.date).label("min_date"),
+                func.max(Article.date).label("max_date"),
+                func.count(Article.id).label("total_articles"),
+            )
+            .first()
+        )

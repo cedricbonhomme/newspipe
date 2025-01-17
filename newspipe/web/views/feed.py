@@ -53,12 +53,12 @@ def feeds():
 
 
 def feed_view(feed_id=None, user_id=None):
+    """Display various information about a fedd."""
     feed = FeedController(user_id).get(id=feed_id)
     category = None
     if feed.category_id:
         category = CategoryController(user_id).get(id=feed.category_id)
-    filters = {}
-    filters["feed_id"] = feed_id
+    filters = {"feed_id": feed_id}
     articles = ArticleController(user_id).read_light(**filters)
 
     # Server-side pagination
@@ -72,16 +72,20 @@ def feed_view(feed_id=None, user_id=None):
         per_page=per_page,
     )
 
+    # Optimized date statistics calculation
     try:
-        last_article = ArticleController(user_id).get_newest(**filters).date
-        first_article = ArticleController(user_id).get_oldest(**filters).date
+        stats = ArticleController(user_id).get_date_statistics(**filters)
+        first_article = stats.min_date or datetime.fromtimestamp(0)
+        last_article = stats.max_date or datetime.fromtimestamp(0)
+        total_articles = stats.total_articles or 0
+
         delta = last_article - first_article
-        average = round(articles.count() / abs(delta.days), 2)
+        average = round(total_articles / abs(delta.days), 2) if delta.days > 0 else 0
     except Exception:
-        last_article = datetime.fromtimestamp(0)
-        first_article = datetime.fromtimestamp(0)
+        first_article = last_article = datetime.fromtimestamp(0)
         delta = last_article - first_article
         average = 0
+
     elapsed = datetime.now() - last_article
 
     return render_template(
