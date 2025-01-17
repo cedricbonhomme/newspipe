@@ -60,7 +60,7 @@
                   <tbody>
                   {% for article in articles %}
                       <tr>
-                          <td><a href="{{ url_for("article.article_pub", article_id=article.id) }}">{{ article.title }}</a></td>
+                          <td><a href="{{ url_for('article.article_pub', article_id=article.id) }}">{{ article.title }}</a></td>
                           <td>{{ article.date | datetime }}</td>
                       </tr>
                   {% endfor %}
