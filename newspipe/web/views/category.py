@@ -1,16 +1,8 @@
-from flask import abort
-from flask import Blueprint
-from flask import flash
-from flask import redirect
-from flask import render_template
-from flask import url_for
+from flask import Blueprint, abort, flash, redirect, render_template, url_for
 from flask_babel import gettext
-from flask_login import current_user
-from flask_login import login_required
+from flask_login import current_user, login_required
 
-from newspipe.controllers import ArticleController
-from newspipe.controllers import CategoryController
-from newspipe.controllers import FeedController
+from newspipe.controllers import ArticleController, CategoryController, FeedController
 from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.forms import CategoryForm
 from newspipe.web.lib.view_utils import etag_match

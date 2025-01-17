@@ -1,23 +1,21 @@
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
-from flask import Blueprint
-from flask import flash
-from flask import make_response
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import url_for
+from flask import (
+    Blueprint,
+    flash,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_babel import gettext
-from flask_login import current_user
-from flask_login import login_required
+from flask_login import current_user, login_required
 
 from newspipe.bootstrap import db
-from newspipe.controllers import ArticleController
-from newspipe.controllers import UserController
+from newspipe.controllers import ArticleController, UserController
 from newspipe.lib.data import export_json
-from newspipe.lib.utils import clear_string
-from newspipe.lib.utils import safe_redirect_url
+from newspipe.lib.utils import clear_string, safe_redirect_url
 from newspipe.web.lib.view_utils import etag_match
 
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
