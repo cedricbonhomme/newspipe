@@ -14,7 +14,7 @@ license = "AGPL-3.0-or-later"
 readme = "README.md"
 keywords = ["Newspipe", "RSS", "Atom", "Aggregator", "News"]
 
-requires-python = "^3.10"
+requires-python = ">=3.10,<4.0"
 dependencies = [
     "pyvulnerabilitylookup (>=2.2.0)",
     "aiohttp (>=3.11.2)",
