@@ -49,6 +49,7 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/cedricbonhomme/newspipe"
 Repository = "https://github.com/cedricbonhomme/newspipe"
+Changelog = "https://github.com/cedricbonhomme/newspipe/blob/master/CHANGELOG.md"
 
 
 [tool.poetry.group.dev.dependencies]
