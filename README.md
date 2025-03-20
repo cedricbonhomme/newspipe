@@ -35,7 +35,7 @@ Assuming you have already installed ``git``, ``poetry``, ``npm``,  and
 $ git clone https://github.com/cedricbonhomme/newspipe
 $ cd newspipe/
 $ npm ci
-$ poetry install --no-dev
+$ poetry install
 $ poetry shell
 $ pybabel compile -d newspipe/translations
 $ export NEWSPIPE_CONFIG=sqlite.py
