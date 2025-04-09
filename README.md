@@ -60,6 +60,25 @@ $ flask db_init
 
 For production you can use [Gunicorn](https://gunicorn.org) or ``mod_wsgi``.
 
+### Updates and migrations
+
+```bash
+$ cd newspipe/
+$ git pull origin master
+$ poetry install
+$ poetry run flask db upgrade
+$ poetry run pybabel compile -d newspipe/translations
+```
+
+## Retrieving feeds automatically
+
+A dedicated Flask command is available to run the RSS/Atom feed importer.
+You can schedule it using a cron job, for example:
+
+```bash
+0 */3 * * * poetry run flask fetch_asyncio
+```
+
 
 ## License
 
