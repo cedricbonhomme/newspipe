@@ -79,6 +79,11 @@ You can schedule it using a cron job, for example:
 0 */3 * * * poetry run flask fetch_asyncio
 ```
 
+When using cron it is usally best to be more precise with the command location, for example:
+
+```bash
+0 */3 * * * FLASK_APP=app.py /home/cedric/.cache/pypoetry/virtualenvs/newspipe-19mdZ4UL-py3.12/bin/flask fetch_asyncio
+```
 
 ## License
 
