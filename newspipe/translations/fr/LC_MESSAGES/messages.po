@@ -49,14 +49,6 @@ msgstr ""
 "Vous avez trouvé un bug ? Signalez-le <a href=\"https://github.com/"
 "cedricbonhomme/newspipe/issues\">ici</a>."
 
-#: newspipe/templates/about.html:13
-msgid ""
-"A documentation is available <a href=\"https://man.sr.ht/~cedric/newspipe\" "
-"rel=\"noopener noreferrer\" target=\"_blank\">here</a>."
-msgstr ""
-"Une documentation est disponible <a href=\"https://man.sr.ht/~cedric/"
-"newspipe\">ici</a>."
-
 #: newspipe/templates/about.html:14
 msgid "More information"
 msgstr "Plus d'informations"

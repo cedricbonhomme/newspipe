@@ -43,13 +43,6 @@ msgid ""
 "href=\"https://github.com/cedricbonhomme/newspipe/issues\">here</a>."
 msgstr ""
 
-#: newspipe/templates/about.html:13
-msgid ""
-"A documentation is available <a "
-"href=\"https://man.sr.ht/~cedric/newspipe\" rel=\"noopener noreferrer\" "
-"target=\"_blank\">here</a>."
-msgstr ""
-
 #: newspipe/templates/about.html:14
 msgid "More information"
 msgstr ""
@@ -1130,4 +1123,3 @@ msgstr ""
 #: newspipe/web/views/views.py:38
 msgid "Forbidden."
 msgstr ""
-
