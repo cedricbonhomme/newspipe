@@ -1,26 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <div class="well">
-        <form method=get action="{{ url_for("feeds.inactives") }}">
-            <p>{{ _('Days of inactivity') }}:</p>
-            <input type="number" name="nb_days" class="form-control" value="{{ nb_days }}" min="0" max="1000000" step="1" size="4" style="text-align: center" />
-        </form>
-        <br />
-        {% if inactives != [] %}
-            <ul class="list-group">
-            {% for feed, delta in inactives %}
-                <li class="list-group-item">
-                    <a href="{{ url_for('feed.feed', feed_id=feed.id) }}">
-                        {% if feed.icon %}<img src="{{ url_for('feed.icon', feed_id=feed.id) }}" width="16px" />{% endif %}
-                        {{ feed.title }}
-                    </a> - {{ delta.days }} {{ _('days') }}
-                </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>{{ _('No inactive feeds.') }}<p>
-        {% endif %}
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title h5 mb-3">{{ _('Inactive feeds') }}</h2>
+
+            <form method="get" action="{{ url_for('feeds.inactives') }}" class="row g-3 align-items-center mb-4">
+                <div class="col-auto">
+                    <label for="nb_days" class="col-form-label">{{ _('Days of inactivity') }}:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="number"
+                           id="nb_days"
+                           name="nb_days"
+                           class="form-control text-center"
+                           value="{{ nb_days }}"
+                           min="0" max="1000000" step="1" size="4" />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">{{ _('Filter') }}</button>
+                </div>
+            </form>
+
+            {% if inactives %}
+                <ul class="list-group list-group-flush">
+                {% for feed, delta in inactives %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{{ url_for('feed.feed', feed_id=feed.id) }}" class="fw-semibold text-decoration-none">
+                                {% if feed.icon %}
+                                    <img src="{{ url_for('feed.icon', feed_id=feed.id) }}" alt="icon" width="16" height="16" class="me-2">
+                                {% endif %}
+                                {{ feed.title }}
+                            </a>
+                        </div>
+                        <span class="badge bg-secondary">{{ delta.days }} {{ _('days') }}</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted fst-italic">{{ _('No inactive feeds.') }}</p>
+            {% endif %}
+        </div>
     </div>
 </div><!-- /.container -->
 {% endblock %}
