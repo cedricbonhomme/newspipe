@@ -1,17 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <p><h1>{{ _('Duplicates in the feed') }} <a href="{{ prefix() }}/feed/{{ feed.id }}">{{ feed.title }}</a>.</h1><p>
+<div class="container my-4">
+    <h1 class="mb-4">
+        {{ _('Duplicates in the feed') }}
+        <a href="{{ prefix() }}/feed/{{ feed.id }}" class="text-decoration-none">
+            {{ feed.title }}
+        </a>
+    </h1>
+
     <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
                 <tr>
-                    <th>#</th>
-                    <th align="center">
-                        <span class="delete-all btn btn-primary">{{ _('Delete all in this column') }}</span>
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col" class="text-center">
+                        <button type="button" class="delete-all btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> {{ _('Delete all in this column') }}
+                        </button>
                     </th>
-                    <th align="center">
-                        <span class="delete-all btn btn-primary">{{ _('Delete all in this column') }}</span>
+                    <th scope="col" class="text-center">
+                        <button type="button" class="delete-all btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> {{ _('Delete all in this column') }}
+                        </button>
                     </th>
                 </tr>
             </thead>
@@ -19,8 +29,26 @@
             {% for pair in duplicates %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td id="{{ pair[0].id }}"><a href="{{ url_for("article.delete", article_id=pair[0].id) }}"><i class="bi bi-trash" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="{{ prefix() }}/article/{{ pair[0].id }}">{{ pair[0].title }}</a> ({{ pair[0].retrieved_date }})</td>
-                    <td id="{{ pair[1].id }}"><a href="{{ url_for("article.delete", article_id=pair[1].id) }}"><i class="bi bi-trash" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>&nbsp;<a href="{{ prefix() }}/article/{{ pair[1].id }}">{{ pair[1].title }}</a> ({{ pair[1].retrieved_date }})</td>
+                    <td id="{{ pair[0].id }}">
+                        <a href="{{ url_for('article.delete', article_id=pair[0].id) }}"
+                           class="text-danger me-2 text-decoration-none" title="{{ _('Delete this article') }}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                        <a href="{{ prefix() }}/article/{{ pair[0].id }}" class="fw-semibold text-decoration-none">
+                            {{ pair[0].title }}
+                        </a>
+                        <small class="text-muted">({{ pair[0].retrieved_date }})</small>
+                    </td>
+                    <td id="{{ pair[1].id }}">
+                        <a href="{{ url_for('article.delete', article_id=pair[1].id) }}"
+                           class="text-danger me-2 text-decoration-none" title="{{ _('Delete this article') }}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                        <a href="{{ prefix() }}/article/{{ pair[1].id }}" class="fw-semibold text-decoration-none">
+                            {{ pair[1].title }}
+                        </a>
+                        <small class="text-muted">({{ pair[1].retrieved_date }})</small>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -174,16 +174,25 @@ Array.prototype.map.call(nodes, function(node) {
 
     // Delete all duplicate articles (used in the page /duplicates)
     var nodes = document.getElementsByClassName('delete-all');
-    Array.prototype.map.call(nodes, function(node) {
-        node.onclick = function() {
+    Array.prototype.forEach.call(nodes, function(node) {
+      node.onclick = function() {
         var data = [];
 
-        var columnNo = node.parentNode.index();
-        node.closest("table")
-            .find("tr td:nth-child(" + (columnNo+1) + ")")
-            .each(function(line, column) {
-                data.push(parseInt(column.id));
-            }).remove();
+        // get the column index of the header cell
+        var th = node.closest("th");
+        var columnNo = Array.prototype.indexOf.call(th.parentNode.children, th);
+
+        // select all rows of the table body
+        var table = node.closest("table");
+        var rows = table.querySelectorAll("tbody tr");
+
+        rows.forEach(function(row) {
+          var cell = row.children[columnNo];
+          if (cell && cell.id) {
+            data.push(parseInt(cell.id));
+            row.removeChild(cell); // remove just the cell
+          }
+        });
 
         data = JSON.stringify(data);
 
@@ -198,6 +207,6 @@ Array.prototype.map.call(nodes, function(node) {
           console.log("Request complete! response:", res);
         }).catch((error) => {
           console.error('Error:', error);
-        });;
+        });
       }
-  });
+    });
