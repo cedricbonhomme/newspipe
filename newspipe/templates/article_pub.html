@@ -1,23 +1,57 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container" data-article="{{ article.id }}">
-    <div class="row">
-        <div class="col">
-            <h2><a href="{{ article.link  }}" rel="noopener noreferrer" target="_blank">{{ article.title|safe }}</a></h2>
-            <h3>{{ _('from') }} <a href="{{ url_for('feed.feed_pub', feed_id=article.source.id) }}">{{ article.source.title }}</a></h3>
-            <h6>{{ article.date | datetime }}</h6>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
+<div class="container my-4" data-article="{{ article.id }}">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+          <!-- Article Header -->
+          <h2 class="card-title mb-2">
+            <a href="{{ article.link }}" rel="noopener noreferrer" target="_blank" class="text-decoration-none text-dark">
+              {{ article.title|safe }}
+            </a>
+          </h2>
+          <h6 class="text-muted mb-3">
+            {{ _('from') }}
+            <a href="{{ url_for('feed.feed_pub', feed_id=article.source.id) }}" class="text-decoration-none">
+              {{ article.source.title }}
+            </a>
+            &nbsp;·&nbsp;
+            <small>{{ article.date | datetime }}</small>
+          </h6>
+
+          <!-- Article Content -->
+          <div class="article-content mb-4">
             {{ article.content | safe }}
+          </div>
+
+          <!-- Share Section -->
+          <div class="d-flex justify-content-end gap-3 border-top pt-3">
+            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link }}&description={{ article.title }}"
+               rel="noopener noreferrer" target="_blank"
+               class="text-decoration-none" title="{{ _('Share on') }} Pinboard">
+              <img src="{{ url_for('static', filename='img/pinboard.png') }}" alt="Pinboard" width="20">
+            </a>
+            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}"
+               rel="noopener noreferrer" target="_blank"
+               class="text-decoration-none" title="{{ _('Share on') }} Reddit">
+              <img src="{{ url_for('static', filename='img/reddit.png') }}" alt="Reddit" width="20">
+            </a>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" /></a>
-            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/reddit.png') }}" title="{{ _('Share on') }} reddit" /></a>
-        <div class="col">
-    </div>
-</div><!-- /.container -->
+  </div>
+</div>
+
+<style>
+.article-content {
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+.article-content img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
 {% endblock %}

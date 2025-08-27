@@ -216,7 +216,7 @@
                         </thead>
                         <tbody>
                             {% for article in articles %}
-                            <tr data-article="{{ article.id }}" data-bs-feed="{{ article.feed_id }}">
+                            <tr class="article" data-article="{{ article.id }}" data-bs-feed="{{ article.feed_id }}">
                                 <th scope="row">
                                     {% if article.readed %}
                                         <button type="button" class="btn btn-link btn-xs"><i class="bi bi-envelope-open readed" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i></button>

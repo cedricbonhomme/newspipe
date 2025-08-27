@@ -101,7 +101,7 @@
                         {% for article in articles %}
                             <tr>
                                 <td>
-                                    <a href="{{ url_for('article.article_pub', article_id=article.id) }}">
+                                    <a href="{% if current_user.is_authenticated and current_user.id == feed.user_id%}{{ url_for('article.article', article_id=article.id) }}{% else %}{{ url_for('article.article_pub', article_id=article.id) }}{% endif %}">
                                         {{ article.title }}
                                     </a>
                                 </td>

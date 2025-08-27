@@ -137,7 +137,9 @@ Array.prototype.map.call(nodes, function(node) {
 var nodes = document.getElementsByClassName('like');
 Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
-      var article_id = node.parentNode.parentNode.parentNode.getAttribute('data-article');
+      const container = document.querySelector(".article");
+      const article_id = container.getAttribute("data-article");
+      console.log(article_id);
       var data;
       if (node.classList.contains("bi-star-fill")) {
           data = JSON.stringify({like: false});

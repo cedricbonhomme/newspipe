@@ -1,37 +1,89 @@
 {% extends "layout.html" %}
 {% block content %}
-<br />
-<div class="container">
-    <div class="row" data-article="{{ article.id }}" id="filters" data-filter="{{ filter_ }}">
-        <div class="col-md-8">
-            <h2><a href="{{ article.link  }}" rel="noopener noreferrer" target="_blank">{{ article.title|safe }}</a></h2>
-            <h3>{{ _('from') }} <a href="{{ prefix() }}/feed/{{ article.source.id }}">{{ article.source.title }}</a></h3>
-            <a href="{{ url_for("article.delete", article_id=article.id) }}"><i class="bi bi-trash delete" aria-hidden="true" title="{{ _('Delete this article') }}"></i></a>
-            {% if article.like %}
-                <a href="#"><i class="bi bi-star-fill like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i></a>
-            {% else %}
-                <a href="#"><i class="bi bi-star like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></a>
-            {% endif %}
-            {% if article.readed %}
-                <a href="#"><i class="bi bi-square-o readed-article-page" title="{{ _('Mark this article as unread') }}"></i></a>
-            {% else %}
-                <a href="#"><i class="bi bi-check-square-o readed-article-page" aria-hidden="true" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i></a>
-            {% endif %}
-            <h6>{{ article.date | datetime }}</h6>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-md-8">
+<div class="container my-4 article" data-article="{{ article.id }}" id="filters" data-filter="{{ filter_ }}">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+          <!-- Article Header -->
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h2 class="card-title mb-1">
+                <a href="{{ article.link }}" rel="noopener noreferrer" target="_blank" class="text-decoration-none text-dark">
+                  {{ article.title|safe }}
+                </a>
+              </h2>
+              <h6 class="text-muted mb-2">
+                {{ _('from') }}
+                <a href="{{ prefix() }}/feed/{{ article.source.id }}" class="text-decoration-none">
+                  {{ article.source.title }}
+                </a>
+                &nbsp;·&nbsp;
+                <small>{{ article.date | datetime }}</small>
+              </h6>
+            </div>
+
+            <!-- Action Icons -->
+            <div class="ms-3">
+              <a href="{{ url_for("article.delete", article_id=article.id) }}" class="text-muted me-2 text-decoration-none">
+                <i class="bi bi-trash" aria-hidden="true" title="{{ _('Delete this article') }}"></i>
+              </a>
+
+              {% if article.like %}
+                <a href="#" class="text-warning me-2 text-decoration-none">
+                  <i class="bi bi-star-fill like" aria-hidden="true" title="{{ _('One of your favorites') }}"></i>
+                </a>
+              {% else %}
+                <a href="#" class="text-muted me-2 text-decoration-none">
+                  <i class="bi bi-star like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i>
+                </a>
+              {% endif %}
+
+              {% if article.readed %}
+                <a href="#" class="text-muted text-decoration-none">
+                  <i class="bi bi-square readed-article-page" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i>
+                </a>
+              {% else %}
+                <a href="#" class="text-success text-decoration-none">
+                  <i class="bi bi-check-square readed-article-page" aria-hidden="true" title="{{ _('Mark this article as read') }}"></i>
+                </a>
+              {% endif %}
+            </div>
+
+          </div>
+
+          <!-- Article Content -->
+          <div class="article-content mb-4">
             {{ article.content | safe }}
+          </div>
+
+          <!-- Share Section -->
+          <div class="d-flex justify-content-end gap-3 border-top pt-3">
+            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link }}&description={{ article.title }}"
+               rel="noopener noreferrer" target="_blank"
+               class="text-decoration-none" title="{{ _('Share on') }} Pinboard">
+              <img src="{{ url_for('static', filename='img/pinboard.png') }}" alt="Pinboard" width="20">
+            </a>
+            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}"
+               rel="noopener noreferrer" target="_blank"
+               class="text-decoration-none" title="{{ _('Share on') }} Reddit">
+              <img src="{{ url_for('static', filename='img/reddit.png') }}" alt="Reddit" width="20">
+            </a>
+          </div>
         </div>
+      </div>
     </div>
-    <br />
-    <div class="row">
-        <div class="col-md-8">
-            <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link  }}&description={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/pinboard.png') }}" title="{{ _('Share on') }} Pinboard" /></a>
-            <a href="https://reddit.com/submit?url={{ article.link }}&title={{ article.title }}" rel="noopener noreferrer" target="_blank"><img src="{{ url_for('static', filename='img/reddit.png') }}" title="{{ _('Share on') }} reddit" /></a>
-        </div>
-    </div>
-</div><!-- /.container -->
+  </div>
+</div>
+
+<style>
+.article-content {
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+.article-content img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
 {% endblock %}
