@@ -1,31 +1,53 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ _('Popular feeds') }}</h1>
-            <a href="{{ url_for('popular', nb_days='all')  }}">all</a>&nbsp;&#8231;&nbsp;<a href="{{ url_for('popular', nb_days=365)  }}">last year</a>&nbsp;&#8231;&nbsp;<a href="{{ url_for('popular', nb_days=31)  }}">last month</a>
+<div class="container my-4">
+    <div class="row mb-3">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">
+                <i class="bi bi-stars me-2"></i>{{ _('Popular feeds') }}
+            </h1>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Time filter">
+                <a href="{{ url_for('popular', nb_days='all') }}" class="btn btn-outline-primary">
+                    {{ _('All') }}
+                </a>
+                <a href="{{ url_for('popular', nb_days=365) }}" class="btn btn-outline-primary">
+                    {{ _('Last year') }}
+                </a>
+                <a href="{{ url_for('popular', nb_days=31) }}" class="btn btn-outline-primary">
+                    {{ _('Last month') }}
+                </a>
+            </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col">
-            <ul class="list-group">
-            {% for feed in popular %}
-                {% if feed[0] != 'None' %}
-                    <li class="list-group-item d-flex justify-content-between">
-                        <a href="{{ feed[0] }}">{{ feed[0] }}</a>
-                        <div>
-                            <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}">
-                                <span class="bi bi-plus text-muted" aria-hidden="true" title="follow this feed"></span>
-                                <span class="text-muted">{{ _('add this feed') }}</span>
+            {% if popular %}
+                <ul class="list-group list-group-flush">
+                {% for feed in popular %}
+                    {% if feed[0] != 'None' %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ feed[0] }}" class="text-decoration-none text-truncate me-3" style="max-width: 65%;">
+                                <i class="bi bi-rss text-warning me-1" rel="noopener noreferrer" target="_blank"></i>{{ feed[0] }}
                             </a>
-                            &nbsp;
-                            <span class="badge badge-light rounded-pill">{{ feed[1] }}</span>
-                        </div>
-                    </li>
-                {% endif %}
-            {% endfor %}
-            </ul>
+                            <div class="d-flex align-items-center">
+                                <a href="{{ url_for('feed.bookmarklet', url=feed[0]) }}"
+                                   class="btn btn-sm btn-outline-secondary me-2"
+                                   title="{{ _('Follow this feed') }}">
+                                    <i class="bi bi-plus-lg me-1"></i>{{ _('Add') }}
+                                </a>
+                                <span class="badge rounded-pill bg-secondary">{{ feed[1] }}</span>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <div>{{ _('No popular feeds available.') }}</div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div><!-- /.container -->

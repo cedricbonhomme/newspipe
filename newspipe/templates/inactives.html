@@ -3,22 +3,26 @@
 <div class="container my-4">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h2 class="card-title h5 mb-3">{{ _('Inactive feeds') }}</h2>
+            <h2 class="card-title h5 mb-4">
+                <i class="bi bi-bell-slash me-2"></i>{{ _('Inactive feeds') }}
+            </h2>
 
-            <form method="get" action="{{ url_for('feeds.inactives') }}" class="row g-3 align-items-center mb-4">
-                <div class="col-auto">
+            <form method="get" action="{{ url_for('feeds.inactives') }}" class="row g-2 align-items-center mb-4">
+                <div class="col-sm-auto">
                     <label for="nb_days" class="col-form-label">{{ _('Days of inactivity') }}:</label>
                 </div>
-                <div class="col-auto">
+                <div class="col-sm-auto">
                     <input type="number"
                            id="nb_days"
                            name="nb_days"
                            class="form-control text-center"
                            value="{{ nb_days }}"
-                           min="0" max="1000000" step="1" size="4" />
+                           min="0" max="1000000" step="1" size="6" />
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">{{ _('Filter') }}</button>
+                <div class="col-sm-auto">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-filter-circle me-1"></i>{{ _('Filter') }}
+                    </button>
                 </div>
             </form>
 
@@ -26,20 +30,32 @@
                 <ul class="list-group list-group-flush">
                 {% for feed, delta in inactives %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <a href="{{ url_for('feed.feed', feed_id=feed.id) }}" class="fw-semibold text-decoration-none">
-                                {% if feed.icon %}
-                                    <img src="{{ url_for('feed.icon', feed_id=feed.id) }}" alt="icon" width="16" height="16" class="me-2">
-                                {% endif %}
+                        <div class="d-flex align-items-center">
+                            {% if feed.icon %}
+                                <img src="{{ url_for('feed.icon', feed_id=feed.id) }}"
+                                     alt="icon"
+                                     width="20"
+                                     height="20"
+                                     class="me-2 rounded">
+                            {% else %}
+                                <i class="bi bi-rss me-2 text-muted"></i>
+                            {% endif %}
+                            <a href="{{ url_for('feed.feed', feed_id=feed.id) }}"
+                               class="fw-semibold text-decoration-none">
                                 {{ feed.title }}
                             </a>
                         </div>
-                        <span class="badge bg-secondary">{{ delta.days }} {{ _('days') }}</span>
+                        <span class="badge rounded-pill bg-secondary">
+                            {{ delta.days }} {{ _('days') }}
+                        </span>
                     </li>
                 {% endfor %}
                 </ul>
             {% else %}
-                <p class="text-muted fst-italic">{{ _('No inactive feeds.') }}</p>
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <div>{{ _('No inactive feeds.') }}</div>
+                </div>
             {% endif %}
         </div>
     </div>
