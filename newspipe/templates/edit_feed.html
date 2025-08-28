@@ -2,7 +2,16 @@
 {% from "macros.html" import filter_row %}
 {% block content %}
 <div class="container my-4">
-    <h3 class="mb-4">{{ action }}</h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="mb-0">{{ action }}</h3>
+        {% if feed %}
+            <a href="{{ url_for('feed.feed', feed_id=feed.id) }}"
+              class="btn btn-sm btn-outline-primary me-2"
+              title="{{ _('View feed') }}">
+                <i class="bi bi-eye"></i>
+            </a>
+        {% endif %}
+    </div>
 
     <form action="" method="POST" name="save" novalidate>
         {{ form.hidden_tag() }}
