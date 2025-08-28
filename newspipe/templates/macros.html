@@ -1,0 +1,41 @@
+{% macro filter_row(filter_=None) %}
+<div class="row g-2 align-items-center mb-2 filter-row">
+    <div class="col-auto">
+        <button type="button" class="btn btn-outline-danger del-feed-filter-row">-</button>
+    </div>
+    <div class="col">
+        <select name="type" class="form-select">
+            <option value="simple match" {% if filter_ and filter_.get("type") == "simple match" %}selected{% endif %}>
+                {{ _("simple match") }}
+            </option>
+            <option value="regex" {% if filter_ and filter_.get("type") == "regex" %}selected{% endif %}>
+                {{ _("regex") }}
+            </option>
+        </select>
+    </div>
+    <div class="col">
+        <input type="text" class="form-control" name="pattern"
+               value="{% if filter_ %}{{ filter_.get('pattern') }}{% endif %}">
+    </div>
+    <div class="col">
+        <select name="action_on" class="form-select">
+            <option value="match" {% if filter_ and filter_.get("action on") == "match" %}selected{% endif %}>
+                {{ _("match") }}
+            </option>
+            <option value="no match" {% if filter_ and filter_.get("action on") == "no match" %}selected{% endif %}>
+                {{ _("no match") }}
+            </option>
+        </select>
+    </div>
+    <div class="col">
+        <select name="action" class="form-select">
+            <option value="mark as read" {% if filter_ and filter_.get("action") == "mark as read" %}selected{% endif %}>
+                {{ _("mark as read") }}
+            </option>
+            <option value="mark as favorite" {% if filter_ and filter_.get("action") == "mark as favorite" %}selected{% endif %}>
+                {{ _("mark as favorite") }}
+            </option>
+        </select>
+    </div>
+</div>
+{% endmacro %}

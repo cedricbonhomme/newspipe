@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <h1>{{ _('You are subscribed to %(feed_count)d feeds.', feed_count=feeds.count()) }} <a href="{{ url_for('feed.form') }}">{{ _('Add') }}</a> {{ _('a feed') }}.</h1>
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">
+            {{ _('You are subscribed to %(feed_count)d feeds.', feed_count=feeds.count()) }}
+        </h1>
+        <a href="{{ url_for('feed.form') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> {{ _('Add a feed') }}
+        </a>
+    </div>
     {% include "feed_list.html" %}
-</div><!-- /.container -->
+</div>
 {% endblock %}

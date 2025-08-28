@@ -1,44 +1,117 @@
-{% if feeds.count() != 0 %}
+{% if feeds.count() > 0 %}
 <div class="table-responsive">
-    <table id="table-feeds" class="table table-striped">
-        <thead>
+    <table id="table-feeds" class="table table-striped align-middle">
+        <thead class="table-light">
             <tr>
-                <th>#</th>
-                <th>{{ _('Status') }}</th>
-                <th>{{ _('Title') }}</th>
-                <th>{{ _('Site') }}</th>
-                <th>{{ _('Category') }}</th>
-                <th>{{ _('Articles') }}</th>
-                <th>{{ _('Actions') }}</th>
+                <th scope="col">#</th>
+                <th scope="col">{{ _('Status') }}</th>
+                <th scope="col">{{ _('Title') }}</th>
+                <th scope="col">{{ _('Site') }}</th>
+                <th scope="col">{{ _('Category') }}</th>
+                <th scope="col">{{ _('Articles') }}</th>
+                <th scope="col">{{ _('Actions') }}</th>
             </tr>
         </thead>
         <tbody>
         {% for feed in feeds %}
-            <tr {% if not feed.enabled  %}class="warning"{% endif %}>
+            <tr class="{% if not feed.enabled %}table-warning{% endif %}">
                 <td>{{ loop.index }}</td>
                 <td>
-                    {% if feed.enabled  %}
-                        <i class="bi bi-eye" aria-hidden="true" title="{{ _('Feed enabled') }}"></i>
+                    {% if feed.enabled %}
+                        <i class="bi bi-eye text-success" title="{{ _('Feed enabled') }}" aria-label="{{ _('Feed enabled') }}"></i>
                     {% else %}
-                        <i class="bi bi-eye-slash" aria-hidden="true" title="{{ _('Feed disabled') }}"></i>
+                        <i class="bi bi-eye-slash text-muted" title="{{ _('Feed disabled') }}" aria-label="{{ _('Feed disabled') }}"></i>
                     {% endif %}
                     {% if feed.error_count >= application.config['DEFAULT_MAX_ERROR'] %}
-                        <i class="bi bi-exclamation" aria-hidden="true" title="{{ _('Feed encountered too much errors.') }}"></i>
+                        <i class="bi bi-exclamation-triangle text-danger ms-1"
+                           title="{{ _('Feed encountered too many errors.') }}"
+                           aria-label="{{ _('Feed encountered too many errors.') }}"></i>
                     {% endif %}
                 </td>
-                <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />&nbsp;{% endif %}<a href="{{ url_for('feed.feed', feed_id=feed.id) }}">{{ feed.title }}</a></td>
-                <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
-                <td>{% if None != feed.category_id and feed.category_id > 0 %}<a href="{{ url_for('category.form', category_id=feed.category_id) }}">{{ categories[feed.category_id] }}</a>{% endif %}
-                </td>
-                <td>( {{ unread_article_count.get(feed.id, 0) }} ) {{ article_count.get(feed.id, 0) }}</td>
                 <td>
-                    <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                    <a href="{{ url_for('feed.duplicates', feed_id=feed.id) }}"><i class="bi bi-book" aria-hidden="true" title="{{ _('Duplicate articles') }}"></i></a>
-                    <a href="{{ url_for('feed.delete', feed_id=feed.id) }}"><i class="bi bi-trash aria-hidden="true" title="{{ _('Delete this feed') }}" onclick="return confirm('{{ _('You are going to delete this feed.') }}');"></i></a>
+                    {% if feed.icon_url %}
+                        <img src="{{ url_for('icon.icon', url=feed.icon_url) }}" alt="icon" width="16" class="me-1">
+                    {% endif %}
+                    <a href="{{ url_for('feed.feed', feed_id=feed.id) }}">{{ feed.title }}</a>
+                </td>
+                <td>
+                    <a href="{{ feed.site_link }}" target="_blank" rel="noopener">
+                        {{ feed.site_link }}
+                    </a>
+                </td>
+                <td>
+                    {% if feed.category_id %}
+                        <a href="{{ url_for('category.form', category_id=feed.category_id) }}">
+                            {{ categories[feed.category_id] }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="text-muted">({{ unread_article_count.get(feed.id, 0) }})</span>
+                    {{ article_count.get(feed.id, 0) }}
+                </td>
+                <td>
+                    <a href="{{ url_for('feed.form', feed_id=feed.id) }}" class="text-decoration-none me-2">
+                        <i class="bi bi-pencil" title="{{ _('Edit this feed') }}" aria-label="{{ _('Edit this feed') }}"></i>
+                    </a>
+                    <a href="{{ url_for('feed.duplicates', feed_id=feed.id) }}" class="text-decoration-none me-2">
+                        <i class="bi bi-book" title="{{ _('Duplicate articles') }}" aria-label="{{ _('Duplicate articles') }}"></i>
+                    </a>
+                    <a href="#"
+                       class="text-danger text-decoration-none"
+                       data-bs-toggle="modal"
+                       data-bs-target="#deleteFeedModal"
+                       data-feed-id="{{ feed.id }}"
+                       data-feed-title="{{ feed.title }}">
+                        <i class="bi bi-trash" title="{{ _('Delete this feed') }}" aria-label="{{ _('Delete this feed') }}"></i>
+                    </a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deleteFeedModal" tabindex="-1" aria-labelledby="deleteFeedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteFeedModalLabel">{{ _('Confirm deletion') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ _('You are going to delete the feed:') }} <strong id="feedTitle"></strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
+        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">
+          <i class="bi bi-trash"></i> {{ _('Delete') }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var deleteModal = document.getElementById("deleteFeedModal");
+    deleteModal.addEventListener("show.bs.modal", function (event) {
+        var button = event.relatedTarget;
+        var feedId = button.getAttribute("data-feed-id");
+        var feedTitle = button.getAttribute("data-feed-title");
+
+        // Update modal content
+        var feedTitleElem = deleteModal.querySelector("#feedTitle");
+        var confirmBtn = deleteModal.querySelector("#confirmDeleteBtn");
+
+        feedTitleElem.textContent = feedTitle;
+        confirmBtn.href = "{{ url_for('feed.delete', feed_id=0) }}".replace("0", feedId);
+    });
+});
+</script>
+{% else %}
+<div class="alert alert-info">
+    {{ _('You have no feeds yet. Start by adding one!') }}
 </div>
 {% endif %}
