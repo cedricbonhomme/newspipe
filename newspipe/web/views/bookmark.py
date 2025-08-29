@@ -100,7 +100,7 @@ def list_(per_page, status="all"):
     pagination = Pagination(
         page=page,
         total=bookmarks.count(),
-        css_framework="bootstrap4",
+        css_framework="bootstrap5",
         search=False,
         record_name="bookmarks",
         per_page=per_page,
@@ -274,7 +274,7 @@ def export():
     bookmarks = export_bookmarks(current_user)
     response = make_response(bookmarks)
     response.mimetype = "application/json"
-    response.headers["Content-Disposition"] = (
-        "attachment; filename=newspipe_bookmarks_export.json"
-    )
+    response.headers[
+        "Content-Disposition"
+    ] = "attachment; filename=newspipe_bookmarks_export.json"
     return response

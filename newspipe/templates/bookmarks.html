@@ -34,10 +34,14 @@
             {% endif %}
         </div>
         <div class="col-auto">
-            <form method="get" class="d-flex">
-                <input type="text" name="query" class="form-control form-control-sm me-2" placeholder="{{ _('Search bookmarks...') }}">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <i class="bi bi-search me-1"></i>{{ _('Search') }}
+            <form method="get" class="input-group input-group-sm">
+                <input type="text"
+                      name="query"
+                      class="form-control"
+                      placeholder="{{ _('Search bookmarks...') }}"
+                      style="max-width: 200px;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i>
                 </button>
             </form>
         </div>
@@ -45,8 +49,10 @@
 
     <!-- Pagination links (top) -->
     <div class="row mb-3">
-        <div class="col-12">
-            {{ pagination.links }}
+        <div class="col">
+            <div class="d-flex overflow-auto" style="white-space: nowrap;">
+                {{ pagination.links }}
+            </div>
         </div>
     </div>
 
@@ -111,8 +117,10 @@
 
     <!-- Pagination links (bottom) -->
     <div class="row mt-3">
-        <div class="col-12">
-            {{ pagination.links }}
+        <div class="col">
+            <div class="d-flex overflow-auto" style="white-space: nowrap;">
+                {{ pagination.links }}
+            </div>
         </div>
     </div>
 
