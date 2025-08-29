@@ -334,7 +334,7 @@ class CategoryForm(FlaskForm):
 
 
 class BookmarkForm(FlaskForm):
-    href = StringField(
+    href = URLField(
         lazy_gettext("URL"),
         [validators.DataRequired(lazy_gettext("Please enter an URL."))],
     )
