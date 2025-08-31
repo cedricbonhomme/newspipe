@@ -4,121 +4,155 @@
 
     <!-- Feed Header -->
     <div class="card shadow-sm mb-4">
-        <div class="card-body d-flex align-items-center justify-content-between">
-            <div>
-                <h3 class="d-flex align-items-center mb-2">
-                    <img src="{{ url_for('icon.icon', url=feed.icon_url) }}"
-                         alt="Feed icon" class="me-2 rounded" width="32" height="32">
-                    {{ feed.title }}
-                </h3>
-                {% if feed.description %}
-                    <p class="text-muted mb-0">{{ feed.description }}</p>
-                {% endif %}
-            </div>
-            {% if current_user.is_authenticated %}
-                <div class="ms-3">
-                    <a href="{{ url_for('feed.form', feed_id=feed.id) }}" class="btn btn-sm btn-outline-primary me-2" title="{{ _('Edit this feed') }}">
-                        <i class="bi bi-pencil"></i>
-                    </a>
-                    <a href="{{ url_for('feed.delete', feed_id=feed.id) }}"
-                       class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('{{ _('You are going to delete this feed.') }}');"
-                       title="{{ _('Delete this feed') }}">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                </div>
-            {% endif %}
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <img src="{{ url_for('icon.icon', url=feed.icon_url) }}"
+              alt="Feed icon" class="me-2 rounded" width="32" height="32">
+          <h4 class="mb-0">{{ feed.title }}</h4>
         </div>
+        {% if current_user.is_authenticated %}
+        <div class="ms-3">
+          <a href="{{ url_for('feed.form', feed_id=feed.id) }}"
+            class="btn btn-sm btn-outline-primary me-2"
+            title="{{ _('Edit this feed') }}">
+            <i class="bi bi-pencil"></i>
+          </a>
+          <a href="{{ url_for('feed.delete', feed_id=feed.id) }}"
+            class="btn btn-sm btn-outline-danger"
+            onclick="return confirm('{{ _('You are going to delete this feed.') }}');"
+            title="{{ _('Delete this feed') }}">
+            <i class="bi bi-trash"></i>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      {% if feed.description %}
+      <div class="card-body">
+        <p class="text-muted mb-0">
+          <i class="bi bi-text-paragraph me-1"></i>{{ feed.description }}
+        </p>
+      </div>
+      {% endif %}
     </div>
 
     <!-- Feed Details -->
     <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <p class="mb-2">
-                {{ _('This feed contains') }} <b>{{ feed.articles.all()|count }}</b> {{ _('articles') }}.
-            </p>
-            {% if category %}
-                <p class="mb-2">
-                    {{ _('This feed is in the category %(category_name)s', category_name=category.name) }}
-                </p>
-            {% endif %}
-            <p class="mb-2">
-                {{ _('Address of the feed') }}:
-                <a href="{{ feed.link }}" target="_blank" rel="noopener noreferrer">{{ feed.link }}</a>
-            </p>
-            {% if feed.site_link %}
-                <p class="mb-2">
-                    {{ _('Address of the site') }}:
-                    <a href="{{ feed.site_link }}" target="_blank" rel="noopener noreferrer">{{ feed.site_link }}</a>
-                </p>
-            {% endif %}
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-info-circle me-1"></i> {{ _('Feed details') }}</h5>
+      </div>
+      <div class="card-body">
 
-            {% if feed.last_retrieved %}
-                <p class="mb-2">
-                    {{ _("Last download:") }} {{ feed.last_retrieved | datetime }}
-                </p>
-            {% endif %}
+        <!-- General info -->
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ _('Articles') }}</span>
+            <span class="fw-bold">{{ feed.articles.all()|count }}</span>
+          </li>
+          {% if category %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ _('Category') }}</span>
+            <span class="badge bg-info text-dark">{{ category.name }}</span>
+          </li>
+          {% endif %}
+          {% if feed.private %}
+          <li class="list-group-item">
+            <span class="badge bg-secondary"><i class="bi bi-lock-fill me-1"></i>{{ _('Private feed') }}</span>
+          </li>
+          {% endif %}
+          {% if not feed.enabled %}
+          <li class="list-group-item">
+            <span class="badge bg-warning text-dark"><i class="bi bi-eye-slash me-1"></i>{{ _('Not monitored') }}</span>
+          </li>
+          {% endif %}
+        </ul>
 
-            {% if feed.error_count >= application.config['DEFAULT_MAX_ERROR'] %}
-                <div class="alert alert-danger">
-                    <strong>{{ _("That feed has encountered too much consecutive errors and won't be retrieved anymore.") }}</strong><br>
-                    {{ _("You can click <a href='%(reset_error_url)s'>here</a> to reset the error count and reactivate the feed.", reset_error_url=url_for("feed.reset_errors", feed_id=feed.id)) | safe }}
-                </div>
-            {% elif feed.error_count > 0 %}
-                <div class="alert alert-warning">
-                    {{ _("The download of this feed has encountered some problems. However its error counter will be reinitialized at the next successful retrieving.") }}
-                </div>
-            {% endif %}
-
-            {% if feed.last_error %}
-                <p class="mb-2">
-                    {{ _("Here's the last error encountered while retrieving this feed:") }}
-                </p>
-                <pre class="bg-light p-2 border rounded">{{ feed.last_error }}</pre>
-            {% endif %}
-
-            {% if feed.articles.all()|count > 0 %}
-                <p class="mt-3 mb-0">
-                    {{ _('The last article was posted') }} {{ elapsed.days }} {{ _('day(s) ago.') }}<br>
-                    {{ _('Daily average') }}: {{ average }}, {{ _('between the') }} {{ first_post_date | datetime }} {{ _('and the') }} {{ end_post_date | datetime }}.
-                </p>
-            {% endif %}
+        <!-- Links -->
+        <div class="mb-3">
+          <p class="mb-1"><i class="bi bi-rss me-1"></i> {{ _('Feed address') }}:</p>
+          <a href="{{ feed.link }}" target="_blank" rel="noopener noreferrer">{{ feed.link }}</a>
+          {% if feed.site_link %}
+            <p class="mt-2 mb-1"><i class="bi bi-globe me-1"></i> {{ _('Site address') }}:</p>
+            <a href="{{ feed.site_link }}" target="_blank" rel="noopener noreferrer">{{ feed.site_link }}</a>
+          {% endif %}
         </div>
+
+        <!-- Retrieval info -->
+        {% if feed.last_retrieved %}
+        <p class="mb-2 text-muted">
+          <i class="bi bi-clock-history me-1"></i> {{ _("Last download:") }} {{ feed.last_retrieved | datetime }}
+        </p>
+        {% endif %}
+
+        <!-- Errors -->
+        {% if feed.error_count >= application.config['DEFAULT_MAX_ERROR'] %}
+          <div class="alert alert-danger">
+            <strong>{{ _("This feed has too many consecutive errors and won't be retrieved anymore.") }}</strong><br>
+            {{ _("Click <a href='%(reset_error_url)s'>here</a> to reset the error count and reactivate the feed.", reset_error_url=url_for("feed.reset_errors", feed_id=feed.id)) | safe }}
+          </div>
+        {% elif feed.error_count > 0 %}
+          <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+            {{ _("This feed encountered some problems. The error counter will reset on the next successful retrieval.") }}
+          </div>
+        {% endif %}
+
+        {% if feed.last_error %}
+        <div class="mb-3">
+          <p class="mb-1"><i class="bi bi-bug-fill me-1"></i> {{ _("Last error:") }}</p>
+          <pre class="bg-light p-2 border rounded small">{{ feed.last_error }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- Statistics -->
+        {% if feed.articles.all()|count > 0 %}
+        <div class="border-top pt-3 mt-3">
+          <p class="mb-0">
+            <i class="bi bi-calendar-event me-1"></i>
+            {{ _('Last article posted') }} {{ elapsed.days }} {{ _('day(s) ago.') }}<br>
+            <i class="bi bi-bar-chart me-1"></i>
+            {{ _('Daily average') }}: {{ average }},
+            {{ _('between') }} {{ first_post_date | datetime }} {{ _('and') }} {{ end_post_date | datetime }}.
+          </p>
+        </div>
+        {% endif %}
+
+      </div>
     </div>
+
 
     <!-- Articles Table -->
     <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="table-articles" class="table table-striped align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>{{ _('Article') }}</th>
-                            <th>{{ _('Date') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for article in articles %}
-                            <tr>
-                                <td>
-                                    <a href="{% if current_user.is_authenticated and current_user.id == feed.user_id%}{{ url_for('article.article', article_id=article.id) }}{% else %}{{ url_for('article.article_pub', article_id=article.id) }}{% endif %}">
-                                        {{ article.title }}
-                                    </a>
-                                </td>
-                                <td>{{ article.date | datetime }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+      <div class="card-header d-flex align-items-center">
+        <i class="bi bi-journal-text me-2"></i>
+        <h5 class="mb-0">{{ _('Articles') }}</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="table-articles" class="table table-striped align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>{{ _('Article') }}</th>
+                <th>{{ _('Date') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for article in articles %}
+              <tr>
+                <td>
+                  <a href="{% if current_user.is_authenticated and current_user.id == feed.user_id%}{{ url_for('article.article', article_id=article.id) }}{% else %}{{ url_for('article.article_pub', article_id=article.id) }}{% endif %}">
+                    {{ article.title }}
+                  </a>
+                </td>
+                <td>{{ article.date | datetime }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="row">
-        <div class="col-md-8 offset-md-2 text-center">
-            {{ pagination.links }}
+        <div class="card-body text-center">
+          {{ pagination.links }}
         </div>
+      </div>
     </div>
 
 </div><!-- /.container -->
