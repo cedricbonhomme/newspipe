@@ -3,32 +3,27 @@
   <head>
     {% block head %}
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Newspipe - A news reader." />
-    <meta name="author" content="" />
     <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
-    <link rel="shortcut icon" href="{{ url_for("static", filename="img/favicon.ico") }}" />
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='npm_components/bootstrap-icons/font/bootstrap-icons.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme.css') }}" />
-    <!-- JavaScript -->
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+
+    <!-- Bootstrap & Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='npm_components/bootstrap-icons/font/bootstrap-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+
+    <script src="{{ url_for('static', filename='npm_components/@popperjs/core/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='npm_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
     <script>
       function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-        }
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
         return null;
       }
-
-      if (getCookie("theme") == null) {
+      if (!getCookie("theme")) {
         document.cookie = "theme=light; path=/; SameSite=Strict";
       }
       document.documentElement.setAttribute('data-bs-theme', getCookie("theme"));
@@ -37,174 +32,171 @@
   </head>
   <body>
     {% block menu %}
-    <nav class="navbar navbar-expand-lg ">
-       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ prefix() }}/">Newspipe</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-body shadow-sm sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="{{ prefix() }}/">Newspipe</a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        {% block menu_links %}
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <ul class="navbar-nav mr-auto w-100 justify-content-center">
-                <li class="nav-item">
-                {% block messages %}
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                    <a type="button" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                {% endblock %}
-                </li>
-            </ul>
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse" id="navbarMain">
 
-            <ul class="navbar-nav mr-auto w-100 justify-content-end">
-                <li class="nav-item">
-                    <a class="nav-link" id="btnThemeSwitch" href="#" title="Switch to dark theme">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
-                        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                      </svg>
-                    </a>
-                </li>
-                {% if current_user.is_authenticated %}
-                    {% if current_user.is_admin %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('fetch') }}" title="{{  _('Fetch') }}">{{  _('Fetch') }}</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRSS" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Feeds') }}</a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownRSS" style="min-width: 300px;">
-                              <a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a>
-                              <a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a>
-                              <a class="dropdown-item" href="{{ url_for('popular') }}">{{ _('Popular') }}</a>
-                              <a class="dropdown-item" href="{{ url_for('articles.history') }}">{{ _('History') }}</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a feed') }}</a>
-                              <form class="px-4 py-3" action="{{ url_for('feed.bookmarklet') }}">
-                                <div class="input-group">
-                                      <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a feed') }}</label>
-                                      <input class="form-control" name="url" type="url" placeholder="{{_('Site or feed url')}}" required="required"/>
-                                      <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
-                                 </div>
-                              </form>
-                        </div>
-                    </li>
+          <!-- Flash messages -->
+          <div class="w-100">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} alert-dismissible fade show mb-0 py-2 small" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategory" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Categories') }}</a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownCategory" style="min-width: 250px;">
-                            <a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a category') }}</a>
-                            <form class="px-4 py-3" action="{{ url_for('category.form') }}" method="POST" name="category">
-                                <label class="visually-hidden" for="inlineFormInputGroupAPIKey">{{ _('Add a category') }}</label>
-                                <div class="input-group">
-                                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                                  <input class="form-control" name="name" type="text" placeholder="{{_('Category name')}}" required="required"/>
-                                  <button type="submit" class="btn btn-primary"><i class="bi bi-plus" aria-hidden="true"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </li>
+          <!-- Right side menu -->
+          <ul class="navbar-nav ms-auto align-items-center">
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBookmark" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Bookmarks') }}</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBookmark">
-                            <li><a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a bookmark') }}</a></li>
-                        </ul>
-                    </li>
+            <!-- Theme switch -->
+            <li class="nav-item">
+              <a class="nav-link" id="btnThemeSwitch" href="#" role="button" title="{{ _('Switch theme') }}"></a>
+            </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Search') }}</a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownSearch" style="width: 400px;">
-                            <form class="px-4 py-3" action="{{ url_for('home') }}" method="GET">
-                                <div class="mb-3 input-group">
-                                    <input class="form-control" name="query" type="text" placeholder="{{_('Query')}}" required="required"/>
-                                    <button type="submit" class="btn btn-primary">OK</button>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="checkbox" class="form-check-input" id="checkTitle" name="search_title" checked>
-                                    <label class="form-check-label" for="checkTitle">Search in title</label>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="checkbox" class="form-check-input" id="checkContent" name="search_content">
-                                    <label class="form-check-label" for="checkContent">Search in content</label>
-                                </div>
+            {% if current_user.is_authenticated %}
+              {% if current_user.is_admin %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('fetch') }}">{{ _('Fetch') }}</a>
+              </li>
+              {% endif %}
 
-                            </form>
-                        </div>
-                    </li>
+              <!-- Feeds -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navFeeds" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Feeds') }}</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navFeeds">
+                  <li><a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('popular') }}">{{ _('Popular') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('articles.history') }}">{{ _('History') }}</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('feed.form') }}">{{ _('Add a feed') }}</a></li>
+                  <li>
+                    <form class="px-3 py-2" action="{{ url_for('feed.bookmarklet') }}">
+                      <div class="input-group input-group-sm">
+                        <input class="form-control" name="url" type="url" placeholder="{{ _('Site or feed URL') }}" required>
+                        <button class="btn btn-primary"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-                            <a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a>
-                            <a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a>
-                            {% if current_user.is_admin %}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ url_for('admin.dashboard') }}">{{ _('Dashboard') }}</a>
-                                <div class="dropdown-divider"></div>
-                            {% endif %}
-                            <a class="dropdown-item" href="{{ url_for('about') }}">{{ _('About') }}</a>
-                            <a class="dropdown-item" href="{{ url_for('logout') }}" title="{{ _('Logout') }}">Logout</a>
-                        </div>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('bookmarks.list_') }}" title="{{  _('Recent bookmarks') }}">{{  _('Recent bookmarks') }}</a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link" href="{{ url_for('popular') }}" title="{{  _('Popular feeds') }}">{{  _('Popular feeds') }}</a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link" href="{{ url_for('about') }}" title="{{  _('About') }}">{{  _('About') }}</a>
-                   </li>
-                {% endif %}
-            </ul>
+              <!-- Categories -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Categories') }}</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navCategories">
+                  <li><a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('category.form') }}">{{ _('Add a category') }}</a></li>
+                  <li>
+                    <form class="px-3 py-2" action="{{ url_for('category.form') }}" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <div class="input-group input-group-sm">
+                        <input class="form-control" name="name" type="text" placeholder="{{ _('Category name') }}" required>
+                        <button class="btn btn-primary"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Bookmarks -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navBookmarks" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Bookmarks') }}</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navBookmarks">
+                  <li><a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a bookmark') }}</a></li>
+                </ul>
+              </li>
+
+              <!-- Search -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Search') }}</a>
+                <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 300px;" aria-labelledby="navSearch">
+                  <form action="{{ url_for('home') }}" method="GET">
+                    <div class="input-group mb-2">
+                      <input class="form-control" name="query" type="text" placeholder="{{ _('Query') }}" required>
+                      <button class="btn btn-primary">OK</button>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkTitle" name="search_title" checked>
+                      <label class="form-check-label" for="checkTitle">{{ _('Search in title') }}</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkContent" name="search_content">
+                      <label class="form-check-label" for="checkContent">{{ _('Search in content') }}</label>
+                    </div>
+                  </form>
+                </div>
+              </li>
+
+              <!-- User -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navUser">
+                  <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a></li>
+                  {% if current_user.is_admin %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}">{{ _('Dashboard') }}</a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('about') }}">{{ _('About') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('bookmarks.list_') }}">{{ _('Recent bookmarks') }}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('popular') }}">{{ _('Popular feeds') }}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">{{ _('About') }}</a></li>
+            {% endif %}
+          </ul>
         </div>
-        {% endblock %}
       </div>
     </nav>
     {% endblock %}
 
     {% block content %}{% endblock %}
 
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Theme switch script -->
     <script>
-      if (getCookie("theme") == 'light') {
-        document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/></svg>';
-        document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to dark theme');
-      } else {
-        document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sun-fill" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>';
-        document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to light theme');
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        document.cookie = `theme=${theme}; path=/; SameSite=Strict`;
+        document.getElementById('btnThemeSwitch').innerHTML =
+          theme === 'light'
+            ? '<i class="bi bi-moon-stars-fill"></i>'
+            : '<i class="bi bi-sun-fill"></i>';
       }
-      document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('btnThemeSwitch').addEventListener('click',()=>{
-          if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
-            document.documentElement.setAttribute('data-bs-theme','light')
-            document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/></svg>';
-            document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to dark theme');
-            document.cookie = "theme=light; path=/; SameSite=Strict";
-          }
-          else {
-            document.documentElement.setAttribute('data-bs-theme','dark');
-            document.getElementById('btnThemeSwitch').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sun-fill" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>';
-            document.getElementById('btnThemeSwitch').setAttribute('title', 'Switch to light theme');
-            document.cookie = "theme=dark; path=/; SameSite=Strict";
-          }
-        })
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const theme = getCookie("theme") || 'light';
+        setTheme(theme);
+        document.getElementById('btnThemeSwitch').addEventListener('click', e => {
+          e.preventDefault();
+          setTheme(document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light');
+        });
       });
     </script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/config.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/articles.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/feed.js') }}"></script>
+
+    <!-- App scripts -->
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/articles.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/feed.js') }}"></script>
   </body>
 </html>

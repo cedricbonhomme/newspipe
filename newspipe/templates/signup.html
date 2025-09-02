@@ -1,28 +1,56 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-4">
-            <form class="form-control" action="" method="post" name="save">
-                {{ form.hidden_tag() }}
-                <div class="mb-3">
-                    {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
-                    <span>{{ _('Letters, numbers, dots and underscores only.') }}</span>
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">{{ _('Sign up') }}</h3>
+                    <form action="" method="post" name="save" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Nickname field -->
+                        <div class="mb-3">
+                            {{ form.nickname.label(class_="form-label") }}
+                            {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
+                            <div class="form-text">{{ _('Letters, numbers, dots and underscores only.') }}</div>
+                            {% for error in form.nickname.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Email field -->
+                        <div class="mb-3">
+                            {{ form.email.label(class_="form-label") }}
+                            {{ form.email(class_="form-control", placeholder=_('Your email')) }}
+                            <div class="form-text">{{ _("Only for account activation. Your email won't be stored.") }}</div>
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password field -->
+                        <div class="mb-3">
+                            {{ form.password.label(class_="form-label") }}
+                            {{ form.password(class_="form-control", placeholder=_('Your password')) }}
+                            <div class="form-text">{{ _('Minimum 20 characters.') }}</div>
+                            {% for error in form.password.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid mb-3">
+                            {{ form.submit(class_="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+
+                    <p class="text-center mt-3">
+                        <a href="{{ url_for('login') }}">{{ _('Already have an account? Log in') }}</a>
+                    </p>
                 </div>
-                {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                <div class="mb-3">
-                    {{ form.email(class_="form-control", placeholder=_('Your email')) }}
-                    <span>{{ _("Only for account activation. Your email won't be stored.") }}</span>
-                </div>
-                {% for error in form.email.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                <div class="mb-3">
-                    {{ form.password(class_="form-control", placeholder=_('Your password')) }}
-                    <span>{{ _('Minimum 20 characters.') }}</span>
-                </div>
-                {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                {{ form.submit(class_="btn btn-primary form-control") }}
-            </form>
+            </div>
         </div>
     </div>
-</div><!-- /.container -->
+</div>
 {% endblock %}

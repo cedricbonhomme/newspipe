@@ -123,7 +123,7 @@ class SigninForm(RedirectForm):
     Sign in form (connection to newspipe).
     """
 
-    nickmane = StringField(
+    nickname = StringField(
         "Nickname",
         [
             validators.Length(min=3, max=35),
@@ -156,27 +156,27 @@ class SigninForm(RedirectForm):
             try:
                 # this returns False if invalid username or password.
                 ldapuser = ucontrldap.check_password(
-                    user=self.nickmane.data,
+                    user=self.nickname.data,
                     password=self.password.data,
                     config=application.config,
                 )
                 if ldapuser:
-                    self.nickmane.errors.append(
-                        f"validated ldap user {self.nickmane.data}"
+                    self.nickname.errors.append(
+                        f"validated ldap user {self.nickname.data}"
                     )
                 else:
-                    # self.nickmane.errors.append(f"Invalid username or password.")
+                    # self.nickname.errors.append(f"Invalid username or password.")
                     raise NotFound
             except NotFound:
                 pass  # just assume the user is trying a local account
         ucontr = UserController()
         try:
-            user = ucontr.get(nickname=self.nickmane.data)
+            user = ucontr.get(nickname=self.nickname.data)
         except NotFound:
             if ldap_enabled and ldapuser:
                 try:
                     user = ucontr.create(
-                        nickname=self.nickmane.data,
+                        nickname=self.nickname.data,
                         password="",
                         automatic_crawling=True,
                         is_admin=False,
@@ -187,16 +187,16 @@ class SigninForm(RedirectForm):
                         validated = True
                         self.user = user
                 except Exception:
-                    self.nickmane.errors.append(
-                        f"Unable to provision user for valid ldap user {self.nickmane.data}"
+                    self.nickname.errors.append(
+                        f"Unable to provision user for valid ldap user {self.nickname.data}"
                     )
                     validated = False
             else:
-                self.nickmane.errors.append("Wrong nickname")
+                self.nickname.errors.append("Wrong nickname")
                 validated = False
         else:
             if not user.is_active:
-                self.nickmane.errors.append("Account not active")
+                self.nickname.errors.append("Account not active")
                 validated = False
             # must short-circuit the password check for ldap users
             if not ldapuser:

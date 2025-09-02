@@ -1,17 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>{{ _('Information about this instance') }}</h2>
-            <ul class="list-group">
-                <li class="list-group-item">{{ _('Newspipe version') }}: <em><a href="{{ version_url }}">{{newspipe_version}}</a></em></li>
-                <li class="list-group-item">{{ _('Python version') }}: <em>{{python_version}}</em></li>
-                <li class="list-group-item">{{ _('Registration') }}: <em>{{registration}}</em></li>
-                <li class="list-group-item">{{ _('Number of users') }}: <em>{{nb_users}}</em></li>
-                <li class="list-group-item">{{ _('Content Security Policy') }}: <em>{{content_security_policy}}</em></li>
-            </ul>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body p-4">
+          <h2 class="mb-4 text-center">{{ _('Information about this instance') }}</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ _('Newspipe version') }}</span>
+              <em><a href="{{ version_url }}" target="_blank">{{ newspipe_version }}</a></em>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ _('Python version') }}</span>
+              <em>{{ python_version }}</em>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ _('Registration') }}</span>
+              <em>{{ registration }}</em>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ _('Number of users') }}</span>
+              <em>{{ nb_users }}</em>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ _('Content Security Policy') }}</span>
+              <em class="text-truncate" style="max-width: 60%;">{{ content_security_policy }}</em>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-</div><!-- /.container -->
+  </div>
+</div>
 {% endblock %}

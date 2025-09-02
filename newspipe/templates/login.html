@@ -1,26 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-4">
-            <form class="form-control" action="{{ url_for('login') }}" method="post">
-                {{ form.hidden_tag() }}
-                <div class="input-group mb-3">
-                {{ form.nickmane(class_="form-control", placeholder=_('Your nickname')) }}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">{{ _('Login') }}</h3>
+                    <form action="{{ url_for('login') }}" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Nickname field -->
+                        <div class="mb-3">
+                            {{ form.nickname.label(class_="form-label") }}
+                            {{ form.nickname(class_="form-control", placeholder=_('Your nickname')) }}
+                            {% for message in form.nickname.errors %}
+                                <div class="invalid-feedback d-block">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password field -->
+                        <div class="mb-3">
+                            {{ form.password.label(class_="form-label") }}
+                            {{ form.password(class_="form-control", placeholder=_('Your password')) }}
+                            {% for message in form.password.errors %}
+                                <div class="invalid-feedback d-block">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid mb-3">
+                            {{ form.submit(class_="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+
+                    {% if self_registration %}
+                        <p class="text-center mt-3">
+                            <a href="{{ prefix() }}/signup">{{ _('Sign up') }}</a>
+                        </p>
+                    {% endif %}
                 </div>
-                {% for message in form.nickmane.errors %}
-                    <div class="alert alert-warning" role="alert">{{ message }}</div>
-                {% endfor %}
-                <div class="input-group mb-3">
-                {{ form.password(class_="form-control", placeholder=_('Your password')) }}
-                </div>
-                {% for message in form.password.errors %}
-                    <div class="alert alert-warning" role="alert">{{ message }}</div>
-                {% endfor %}
-                {{ form.submit(class_="btn btn-primary form-control") }}
-            </form>
-            {% if self_registration %}<p><a href="{{ prefix() }}/signup">{{ _('Sign up') }}</a></p>{% endif %}
+            </div>
         </div>
     </div>
-</div><!-- /.container -->
+</div>
 {% endblock %}
