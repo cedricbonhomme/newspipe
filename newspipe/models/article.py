@@ -35,6 +35,7 @@ from newspipe.models.right_mixin import RightMixin
 
 class Article(db.Model, RightMixin):
     "Represent an article from a feed."
+
     id = db.Column(db.Integer(), primary_key=True)
     entry_id = db.Column(db.String(), nullable=False)
     link = db.Column(db.String())
