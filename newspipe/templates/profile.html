@@ -1,86 +1,157 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <h2>{{ _('Your Profile') }}</h2>
-    <div class="row">
-        <div class="col">
-            <p>{{ _('Member since') }}: {{ user.date_created  | datetime }}.</p>
-            <p>{{ _('Last seen') }}: {{ user.last_seen  | datetime }}.</p>
+<div class="container my-4">
+    <h2 class="mb-4">{{ _('Your Profile') }}</h2>
+
+    <!-- Profile metadata -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-1"><strong>{{ _('Member since') }}:</strong> {{ user.date_created | datetime }}</p>
+            <p class="mb-0"><strong>{{ _('Last seen') }}:</strong> {{ user.last_seen | datetime }}</p>
         </div>
     </div>
+
+    <!-- Edit profile -->
     <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">{{ _('Edit your profile') }}</h5>
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <h3>Edit your profile</h3>
-                </div>
-            </div>
             <form action="" method="post" name="save">
+                {{ form.hidden_tag() }}
                 <div class="row">
-                    {{ form.hidden_tag() }}
-                    <div class="col">
-                        {{ form.nickname.label }}
-                        {% if nick_disabled %}
-                          {{ form.nickname(class_="form-control", disabled=True) }}
-                        {% else %}
-                          {{ form.nickname(class_="form-control") }}
-                        {% endif %}
-                        {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            {{ form.nickname.label(class="form-label") }}
+                            {% if nick_disabled %}
+                              {{ form.nickname(class_="form-control", disabled=True) }}
+                            {% else %}
+                              {{ form.nickname(class_="form-control") }}
+                            {% endif %}
+                            {% for error in form.nickname.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
                         {% if not user.external_auth %}
-                          {{ form.password.label }}
-                          {{ form.password(class_="form-control") }} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                          {{ form.password_conf.label }}
-                          {{ form.password_conf(class_="form-control") }} {% for error in form.password_conf.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}{% else%}{% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}No password management for auth type {{  user.external_auth }}
+                          <div class="mb-3">
+                              {{ form.password.label(class="form-label") }}
+                              {{ form.password(class_="form-control") }}
+                              {% for error in form.password.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                              {% endfor %}
+                          </div>
+
+                          <div class="mb-3">
+                              {{ form.password_conf.label(class="form-label") }}
+                              {{ form.password_conf(class_="form-control") }}
+                              {% for error in form.password_conf.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          <div class="alert alert-info">
+                              {{ _('No password management for auth type %(auth)s.', auth=user.external_auth) }}
+                          </div>
                         {% endif %}
                     </div>
 
-                    <div class="col">
-                        {{ form.bio.label }}
-                        {{ form.bio(class_="form-control") }} {% for error in form.bio.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            {{ form.bio.label(class="form-label") }}
+                            {{ form.bio(class_="form-control") }}
+                            {% for error in form.bio.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
-                        {{ form.webpage.label }}
-                        {{ form.webpage(class_="form-control") }} {% for error in form.webpage.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <!-- Webpage -->
+                        <div class="mb-3">
+                            {{ form.webpage.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                {{ form.webpage(class_="form-control") }}
+                            </div>
+                            {% for error in form.webpage.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
-                        {{ form.mastodon.label }}
-                        {{ form.mastodon(class_="form-control") }} {% for error in form.mastodon.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <!-- Mastodon -->
+                        <div class="mb-3">
+                            {{ form.mastodon.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-mastodon"></i></span>
+                                {{ form.mastodon(class_="form-control") }}
+                            </div>
+                            {% for error in form.mastodon.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
-                        {{ form.github.label }}
-                        {{ form.github(class_="form-control") }} {% for error in form.github.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <!-- GitHub -->
+                        <div class="mb-3">
+                            {{ form.github.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-github"></i></span>
+                                {{ form.github(class_="form-control") }}
+                            </div>
+                            {% for error in form.github.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
-                        {{ form.linkedin.label }}
-                        {{ form.linkedin(class_="form-control") }} {% for error in form.linkedin.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        <!-- LinkedIn -->
+                        <div class="mb-3">
+                            {{ form.linkedin.label(class="form-label") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-linkedin"></i></span>
+                                {{ form.linkedin(class_="form-control") }}
+                            </div>
+                            {% for error in form.linkedin.errors %}
+                              <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                        <div class="form-check">
-                        {{ form.is_public_profile.label }}
+
+                <!-- Settings -->
+                <div class="mt-3">
+                    <div class="form-check mb-3">
                         {{ form.is_public_profile(class_="form-check-input") }}
-                        <p>{{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname) ) }}</p>
-                        {% for error in form.is_public_profile.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+                        {{ form.is_public_profile.label(class="form-check-label") }}
+                        <div class="form-text">
+                            {{ _('Your profile will be available <a href="%(url)s">here</a>.', url=url_for('user.profile_public', nickname=user.nickname))|safe }}
                         </div>
-
-                        <div class="form-check">
-                        {{ form.automatic_crawling.label }}
-                        {{ form.automatic_crawling(class_="form-check-input") }}
-                        <p>{{ _('Uncheck if you are using your own crawler.') }}</p>
-                        {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
-                        </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <br />
-                        {{ form.submit(class_="btn btn-primary") }}
+                        {% for error in form.is_public_profile.errors %}
+                          <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
                     </div>
+
+                    <div class="form-check mb-3">
+                        {{ form.automatic_crawling(class_="form-check-input") }}
+                        {{ form.automatic_crawling.label(class="form-check-label") }}
+                        <div class="form-text">{{ _('Uncheck if you are using your own crawler.') }}</div>
+                        {% for error in form.automatic_crawling.errors %}
+                          <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="mt-4">
+                    {{ form.submit(class_="btn btn-primary") }}
                 </div>
             </form>
         </div>
     </div>
-    <br />
-    <div class="row">
-        <div class="col">
-            <a href="{{ url_for('user.delete_account') }}" class="btn btn-warning" onclick="return confirm('{{ _('You are going to delete your account.') }}');">{{ _('Delete your account') }}</a>
-        </div>
-   </div>
-</div><!-- /.container -->
+
+    <!-- Danger zone -->
+    <div class="mt-4">
+        <a href="{{ url_for('user.delete_account') }}" class="btn btn-danger"
+           onclick="return confirm('{{ _('You are going to delete your account.') }}');">
+            <i class="bi bi-exclamation-triangle-fill"></i> {{ _('Delete your account') }}
+        </a>
+    </div>
+</div>
 {% endblock %}

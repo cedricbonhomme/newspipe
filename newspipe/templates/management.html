@@ -1,101 +1,130 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <br />
-    <div class="card">
+<div class="container my-4">
+
+    <!-- Subscriptions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">{{ _('Your subscriptions') }}</h4>
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <h2>{{ _('Your subscriptions') }}</h2>
-                    <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="{{ prefix() }}/feeds">{{ _('feeds') }}</a>. <a href="{{ url_for('feed.form') }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
-                    <p>{{ nb_articles | numberformat }} {{ _('articles are stored in the database with') }} {{ nb_unread_articles | numberformat }} {{ _('unread articles') }}.</p>
-                    <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for('categories.list_')}}">{{ _('categories') }}</a>.</p>
-                    <a href="{{ url_for('articles.expire', weeks=10) }}" class="btn btn-primary" onclick="return confirm('{{ _('You are going to delete old articles.') }}');">{{ _('Delete articles older than 10 weeks') }}</a>
-                </div>
-            </div>
+            <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="{{ prefix() }}/feeds">{{ _('feeds') }}</a>.
+               <a href="{{ url_for('feed.form') }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
+            <p>{{ nb_articles | numberformat }} {{ _('articles are stored in the database with') }}
+               {{ nb_unread_articles | numberformat }} {{ _('unread articles') }}.</p>
+            <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for('categories.list_')}}">{{ _('categories') }}</a>.</p>
+            <a href="{{ url_for('articles.expire', weeks=10) }}" class="btn btn-warning"
+               onclick="return confirm('{{ _('You are going to delete old articles.') }}');">
+               <i class="bi bi-trash-fill"></i> {{ _('Delete articles older than 10 weeks') }}
+            </a>
         </div>
     </div>
-    <br />
-    <div class="card">
+
+    <!-- Data management -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">{{ _('Your data') }}</h4>
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <h2>{{ _('Your data') }}</h2>
-                    <br />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h3>{{ _('Articles') }}</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h5>{{ _('Import') }}</h5>
-                    <p>{{ _('Import a Newspipe account (*.json).') }}</p>
-                    <form action="" method="post" id="formImportJSON" enctype="multipart/form-data">
-                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                      <input type="file" name="jsonfile" />
-                      <button class="btn btn-primary" type="submit">OK</button>
-                    </form>
-                </div>
-                <div class="col">
-                    <h5>{{ _('Export') }}</h5>
-                    <p>{{ _('Export your newspipe account to JSON.') }}</p>
-                    <a href="{{ url_for('articles.export') }}" class="btn btn-primary">{{ _('Export') }}</a>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col">
-                    <h3 id="import">{{ _('Feeds') }}</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h5>{{ _('Import') }}</h5>
-                    <p>{{ _('Import feeds from OPML (*.xml or *.opml).') }}</p>
-                    <form action="" method="post" id="formImportOPML" enctype="multipart/form-data">
-                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                      <input type="file" name="opmlfile" />
-                      <button class="btn btn-primary" type="submit">OK</button>
-                    </form>
-                </div>
-                <div class="col">
-                    <h5>{{ _('Export') }}</h5>
-                    <p>{{ _('Export feeds to OPML.') }}</p>
-                    <form class="form" action="{{ url_for('feeds.export') }}" method="GET" id="formExportOPML">
-                        <div class="form-group">
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" name="includedisabled" checked />
-                              <label class="form-check-label">Include disabled feeds</label>
-                            </div>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" name="includeexceedederrorcount" checked />
-                              <label class="form-check-label" title="Newspipe encountered too much problems when retrieving these feeds.">Include dead feeds</label>
-                            </div>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" name="includeprivate" checked />
-                              <label class="form-check-label">Include private feeds</label>
-                            </div>
+
+            <div class="row g-4">
+
+                <!-- Articles Import -->
+                <div class="col-md-6">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-upload display-4 mb-2"></i>
+                            <h5 class="card-title">{{ _('Import Articles') }}</h5>
+                            <p class="card-text">{{ _('Import a Newspipe account (*.json).') }}</p>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="input-group">
+                                    <input type="file" name="jsonfile" class="form-control">
+                                    <button class="btn btn-primary" type="submit">{{ _('OK') }}</button>
+                                </div>
+                            </form>
                         </div>
-                        <button class="btn btn-primary" type="submit">{{ _('Export') }}</button>
-                    </form>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-12">
-                    <br />
-                    <h2>{{ _('Your bookmarks') }}</h2>
-                    <div class="col">
-                      <p>{{ _('You have') }} {{ nb_bookmarks | numberformat }} <a href="{{ url_for('bookmarks.list_')}}">{{ _('bookmarks') }}</a>.</p>
-                      <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary">{{ _('Export your bookmarks to JSON') }}</a>
-                      <a href="{{ url_for('bookmarks.delete_all') }}" class="btn btn-primary" onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">{{ _('Delete all bookmarks') }}</a>
                     </div>
                 </div>
-            </div>
+
+                <!-- Articles Export -->
+                <div class="col-md-6">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-download display-4 mb-2"></i>
+                            <h5 class="card-title">{{ _('Export Articles') }}</h5>
+                            <p class="card-text">{{ _('Export your newspipe account to JSON.') }}</p>
+                            <a href="{{ url_for('articles.export') }}" class="btn btn-primary"><i class="bi bi-download"></i> {{ _('Export') }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feeds Import -->
+                <div class="col-md-6">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-upload display-4 mb-2"></i>
+                            <h5 class="card-title">{{ _('Import Feeds') }}</h5>
+                            <p class="card-text">{{ _('Import feeds from OPML (*.xml or *.opml).') }}</p>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="input-group">
+                                    <input type="file" name="opmlfile" class="form-control">
+                                    <button class="btn btn-primary" type="submit">{{ _('OK') }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feeds Export -->
+                <div class="col-md-6">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-download display-4 mb-2"></i>
+                            <h5 class="card-title">{{ _('Export Feeds') }}</h5>
+                            <p class="card-text">{{ _('Export feeds to OPML.') }}</p>
+                            <form action="{{ url_for('feeds.export') }}" method="GET">
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" name="includedisabled" checked>
+                                    <label class="form-check-label">{{ _('Include disabled feeds') }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" name="includeexceedederrorcount" checked>
+                                    <label class="form-check-label" title="{{ _('Newspipe encountered too many problems when retrieving these feeds.') }}">
+                                        {{ _('Include dead feeds') }}
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" name="includeprivate" checked>
+                                    <label class="form-check-label">{{ _('Include private feeds') }}</label>
+                                </div>
+                                <button class="btn btn-primary" type="submit"><i class="bi bi-download"></i> {{ _('Export') }}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookmarks -->
+                <div class="col-md-12">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-bookmark-fill display-4 mb-2"></i>
+                            <h5 class="card-title">{{ _('Your Bookmarks') }}</h5>
+                            <p class="card-text">{{ _('You have') }} {{ nb_bookmarks | numberformat }} <a href="{{ url_for('bookmarks.list_')}}">{{ _('bookmarks') }}</a>.</p>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary"><i class="bi bi-download"></i> {{ _('Export JSON') }}</a>
+                                <a href="{{ url_for('bookmarks.delete_all') }}" class="btn btn-danger"
+                                   onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">
+                                   <i class="bi bi-trash-fill"></i> {{ _('Delete all') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /.row g-4 -->
         </div>
-    </div>
-</div><!-- /.container -->
+    </div> <!-- /.card -->
+</div> <!-- /.container -->
 {% endblock %}
