@@ -44,20 +44,6 @@
         <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarMain">
 
-          <!-- Flash messages -->
-          <div class="w-100">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show mb-0 py-2 small" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-          </div>
-
           <!-- Right side menu -->
           <ul class="navbar-nav ms-auto align-items-center">
 
@@ -173,6 +159,29 @@
 
     {% block content %}{% endblock %}
 
+
+    <!-- Toast container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="toast align-items-center text-bg-{{ 'danger' if category == 'error' else category }} border-0 mb-2"
+                role="alert" aria-live="assertive" aria-atomic="true"
+                data-bs-delay="4000" data-bs-autohide="true">
+              <div class="d-flex">
+                <div class="toast-body">
+                  {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+
     <!-- Theme switch script -->
     <script>
       function setTheme(theme) {
@@ -190,6 +199,12 @@
         document.getElementById('btnThemeSwitch').addEventListener('click', e => {
           e.preventDefault();
           setTheme(document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light');
+        });
+
+        const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        toastElList.forEach(toastEl => {
+          const toast = new bootstrap.Toast(toastEl);
+          toast.show();
         });
       });
     </script>
