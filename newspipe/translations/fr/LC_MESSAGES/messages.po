@@ -884,8 +884,6 @@ msgid "No popular feeds available."
 msgstr "Aucun flux populaire disponible."
 
 #: newspipe/templates/profile.html:4
-#, fuzzy
-#| msgid "Edit your profile"
 msgid "Your Profile"
 msgstr "Votre profil"
 

@@ -124,7 +124,7 @@ class SigninForm(RedirectForm):
     """
 
     nickname = StringField(
-        "Nickname",
+        lazy_gettext("Nickname"),
         [
             validators.Length(min=3, max=35),
             validators.DataRequired(lazy_gettext("Please enter your nickname.")),
