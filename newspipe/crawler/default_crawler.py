@@ -27,6 +27,7 @@ __license__ = "AGPLv3"
 import asyncio
 import io
 import logging
+import os
 from datetime import datetime, timedelta, timezone
 
 import aiohttp
@@ -39,11 +40,28 @@ from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
 
 # from newspipe.lib.utils import newspipe_get
 
-logger = logging.getLogger(__name__)
+# Ensure log directory exists
+log_dir = os.path.join(os.path.dirname(__file__), "..", "var")
+os.makedirs(log_dir, exist_ok=True)
+
+crawler_log_path = os.path.join(log_dir, "crawler.log")
+
+crawler_logger = logging.getLogger("newspipe.crawler")
+if not crawler_logger.hasHandlers():  # avoid duplicates if re-imported
+    handler = logging.FileHandler(crawler_log_path, encoding="utf-8")
+    formatter = logging.Formatter(
+        "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    handler.setFormatter(formatter)
+    crawler_logger.addHandler(handler)
+    crawler_logger.setLevel(logging.INFO)
+
+
+logger = logging.getLogger("newspipe.crawler")
+
 
 sem = asyncio.Semaphore(10)  # max concurrent requests
-
-logger = logging.getLogger(__name__)
 
 
 async def parse_feed(user, feed, session, timeout=10):
@@ -56,6 +74,7 @@ async def parse_feed(user, feed, session, timeout=10):
             logger.info(f"Retrieving feed {feed.link}")
             async with session.get(feed.link, timeout=timeout) as resp:
                 if resp.status != 200:
+                    logger.error(f"Error when retrieving feed {feed.link}")
                     up_feed["last_error"] = f"HTTP {resp.status}"
                     up_feed["error_count"] = feed.error_count + 1
                     await asyncio.to_thread(
