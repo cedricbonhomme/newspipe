@@ -52,7 +52,7 @@
 
                     <div class="collapse show" id="collapse-{{ catid }}" data-parent="#accordion-{{ catid }}">
                         {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
-                            <li class="nav-item feed-menu {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}">
+                            <li class="nav-item feed-menu" data-bs-feed="{{ feed.id }}">
                                 <a class="nav-link" href="{{ gen_url(feed=feed.id, category=0) }}">
                                     {% if in_error.get(feed.id, 0) > 0 %}
                                         <span style="background-color: {{ 'red' if in_error[feed.id] > 2 else 'orange' }};"
@@ -67,7 +67,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item feed-commands {% if in_error.get(feed.id, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ feed.id }}">
+                            <li class="nav-item feed-commands" data-bs-feed="{{ feed.id }}">
                                 <span class="nav-link">
                                     <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                     <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
@@ -94,7 +94,7 @@
 
                 <div class="collapse show" id="collapse-noCategory">
                     {% for fid, nbunread in unread|dictsort(by='value')|reverse if not feeds[fid].category_id %}
-                        <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}">
+                        <li class="nav-item feed-menu" data-bs-feed="{{ fid }}">
                             <a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                                 {% if in_error.get(fid, 0) > 0 %}
                                     <span style="background-color: {{ 'red' if in_error[fid] > 2 else 'orange' }};"
@@ -109,7 +109,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}">
+                        <li class="nav-item feed-commands" data-bs-feed="{{ fid }}">
                             <span class="nav-link">
                                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
@@ -135,7 +135,7 @@
 
                 <div class="collapse" id="collapse-unread">
                     {% for fid, feed in feeds.items() if not fid in unread %}
-                        <li class="nav-item feed-menu {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}">
+                        <li class="nav-item feed-menu" data-bs-feed="{{ fid }}">
                             <a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                                 {% if in_error.get(fid, 0) > 0 %}
                                     <span style="background-color: {{ 'red' if in_error[fid] > 2 else 'orange' }};"
@@ -151,7 +151,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item feed-commands {% if in_error.get(fid, 0) > 0 %}d-none{% endif %}" data-bs-feed="{{ fid }}">
+                        <li class="nav-item feed-commands" data-bs-feed="{{ fid }}">
                             <span class="nav-link">
                                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
