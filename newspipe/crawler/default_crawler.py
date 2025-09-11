@@ -47,7 +47,14 @@ os.makedirs(log_dir, exist_ok=True)
 crawler_log_path = os.path.join(log_dir, "crawler.log")
 
 crawler_logger = logging.getLogger("newspipe.crawler")
-if not crawler_logger.hasHandlers():  # avoid duplicates if re-imported
+
+# Add our file handler only if it's not already there
+if not any(
+    isinstance(h, logging.FileHandler)
+    and os.path.abspath(getattr(h, "baseFilename", ""))
+    == os.path.abspath(crawler_log_path)
+    for h in crawler_logger.handlers
+):
     handler = logging.FileHandler(crawler_log_path, encoding="utf-8")
     formatter = logging.Formatter(
         "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -55,16 +62,19 @@ if not crawler_logger.hasHandlers():  # avoid duplicates if re-imported
     )
     handler.setFormatter(formatter)
     crawler_logger.addHandler(handler)
-    crawler_logger.setLevel(logging.INFO)
 
+crawler_logger.setLevel(logging.INFO)
+# Prevent logs from bubbling up into the global newspipe.log
+crawler_logger.propagate = False
 
-logger = logging.getLogger("newspipe.crawler")
+# convenience alias for module-level logging
+logger = crawler_logger
 
 
 sem = asyncio.Semaphore(10)  # max concurrent requests
 
 
-async def parse_feed(user, feed, session, timeout=10):
+async def parse_feed(feed, session, timeout=10):
     """Fetch and parse a feed asynchronously; update DB, return list of articles."""
     async with sem:
         up_feed = {"last_retrieved": datetime.now(timezone.utc)}
@@ -119,7 +129,9 @@ async def parse_feed(user, feed, session, timeout=10):
 
 async def parse_feed_with_user(user, feed, session):
     """Wrapper to include user and feed with articles for queue."""
-    articles = await parse_feed(user, feed, session)
+    articles = await parse_feed(
+        feed, session, application.config.get("CRAWLER_TIMEOUT", 10)
+    )
     return (user, feed, articles)
 
 
@@ -175,7 +187,14 @@ async def retrieve_feed(queue, users, feed_id=None, num_workers=1):
     """Retrieve feeds for all users concurrently, push (user, feed, articles) to queue."""
     now = datetime.now(timezone.utc)
 
-    async with aiohttp.ClientSession() as session:
+    headers = {
+        "User-Agent": application.config.get(
+            "CRAWLER_USER_AGENT",
+            "Newspipe (https://github.com/cedricbonhomme/newspipe)",
+        )
+    }
+
+    async with aiohttp.ClientSession(headers=headers) as session:
         tasks = []
 
         for user in users:

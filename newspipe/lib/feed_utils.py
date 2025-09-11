@@ -46,7 +46,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     requests_kwargs = {
         "headers": {"User-Agent": application.config["CRAWLER_USER_AGENT"]},
         "timeout": application.config["CRAWLER_TIMEOUT"],
-        "verify": False,
+        "verify": True,
     }
     if url is None and fp_parsed is not None:
         url = fp_parsed.get("url")
