@@ -113,8 +113,6 @@ msgstr "depuis"
 
 #: newspipe/templates/article.html:29 newspipe/templates/duplicates.html:34
 #: newspipe/templates/duplicates.html:44
-#, fuzzy
-#| msgid "Delete all"
 msgid "Delete this article"
 msgstr "Supprimer cet article"
 
@@ -127,14 +125,10 @@ msgid "Click if you like this article"
 msgstr "Cliquez si vous aimez cet article"
 
 #: newspipe/templates/article.html:44 newspipe/templates/home.html:222
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "Mark this article as unread"
 msgstr "Marquer cet article comme non lu"
 
 #: newspipe/templates/article.html:48 newspipe/templates/home.html:224
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "Mark this article as read"
 msgstr "Marquer cet article comme lu"
 
@@ -218,8 +212,6 @@ msgid "Edit this category"
 msgstr "Modifier cette catégorie"
 
 #: newspipe/templates/categories.html:46
-#, fuzzy
-#| msgid "Create a new category"
 msgid "Delete this category"
 msgstr "Supprimer cette catégorie"
 
@@ -277,14 +269,10 @@ msgstr ""
 "rel=\"bookmark\">Ajouter cette page à mes marque-pages avec Newspipe</a>"
 
 #: newspipe/templates/edit_bookmark.html:54
-#, fuzzy
-#| msgid "No bookmarks found."
 msgid "Import bookmarks from Pinboard"
 msgstr "Importer les marque-pages depuis Pinboard"
 
 #: newspipe/templates/edit_feed.html:10
-#, fuzzy
-#| msgid "Inactive feeds"
 msgid "View feed"
 msgstr "Voir le flux"
 
@@ -326,8 +314,6 @@ msgid "Check this box if there is a private token in the link of the feed."
 msgstr "Cochez cette case si le lien du flux contient un jeton privé."
 
 #: newspipe/templates/edit_feed.html:106
-#, fuzzy
-#| msgid "Filter"
 msgid "Filters"
 msgstr "Filtres"
 
@@ -342,8 +328,6 @@ msgstr "Ajouter un filtre"
 #: newspipe/templates/feed.html:17 newspipe/templates/feed_list.html:55
 #: newspipe/templates/home.html:73 newspipe/templates/home.html:115
 #: newspipe/templates/home.html:157
-#, fuzzy
-#| msgid "Follow this feed"
 msgid "Edit this feed"
 msgstr "Modifier ce flux"
 
@@ -352,14 +336,10 @@ msgid "You are going to delete this feed."
 msgstr "Vous êtes sur le point de supprimer ce flux."
 
 #: newspipe/templates/feed.html:23 newspipe/templates/feed_list.html:66
-#, fuzzy
-#| msgid "Follow this feed"
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
 
 #: newspipe/templates/feed.html:41
-#, fuzzy
-#| msgid "Feed address"
 msgid "Feed details"
 msgstr "Détails du flux"
 
@@ -368,8 +348,6 @@ msgid "Category"
 msgstr "Catégorie"
 
 #: newspipe/templates/feed.html:59
-#, fuzzy
-#| msgid "Include private feeds"
 msgid "Private feed"
 msgstr "Flux privé"
 
@@ -496,8 +474,6 @@ msgstr "Vous êtes abonné à %(feed_count)d flux."
 
 #: newspipe/templates/feeds.html:9 newspipe/templates/layout.html:71
 #: newspipe/web/views/feed.py:215
-#, fuzzy
-#| msgid "Add filter"
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
@@ -506,8 +482,6 @@ msgid "History"
 msgstr "Historique"
 
 #: newspipe/templates/history.html:26
-#, fuzzy
-#| msgid "Last year"
 msgid "all years"
 msgstr "toutes les années"
 
@@ -547,15 +521,11 @@ msgstr "Détails"
 
 #: newspipe/templates/home.html:74 newspipe/templates/home.html:116
 #: newspipe/templates/home.html:158
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "Mark this feed as unread"
 msgstr "Marquer ce flux comme non lu"
 
 #: newspipe/templates/home.html:75 newspipe/templates/home.html:117
 #: newspipe/templates/home.html:159 newspipe/templates/home.html:201
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "Mark this feed as read"
 msgstr "Marquer ce flux comme lu"
 
@@ -572,8 +542,6 @@ msgid "Liked"
 msgstr "Favoris"
 
 #: newspipe/templates/home.html:204
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "Mark all as read"
 msgstr "Tout marquer comme lu"
 
@@ -598,8 +566,6 @@ msgid "days"
 msgstr "jours"
 
 #: newspipe/templates/inactives.html:57
-#, fuzzy
-#| msgid "Inactive feeds"
 msgid "No inactive feeds."
 msgstr "Aucun flux inactif."
 
@@ -616,8 +582,6 @@ msgid "Fetch"
 msgstr "Récupérer"
 
 #: newspipe/templates/layout.html:67
-#, fuzzy
-#| msgid "Inactive feeds"
 msgid "Inactive"
 msgstr "Inactifs"
 
@@ -634,8 +598,6 @@ msgid "Categories"
 msgstr "Catégories"
 
 #: newspipe/templates/layout.html:89 newspipe/web/views/category.py:50
-#, fuzzy
-#| msgid "Create a new category"
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
 
@@ -689,8 +651,6 @@ msgid "Recent bookmarks"
 msgstr "Marque-pages récents"
 
 #: newspipe/templates/layout.html:151 newspipe/templates/popular.html:7
-#, fuzzy
-#| msgid "No popular feeds available."
 msgid "Popular feeds"
 msgstr "Flux populaires"
 
@@ -728,8 +688,6 @@ msgid "no match"
 msgstr "ne correspond pas"
 
 #: newspipe/templates/macros.html:33
-#, fuzzy
-#| msgid "Mark all as unread"
 msgid "mark as read"
 msgstr "marquer comme lu"
 
@@ -754,8 +712,6 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: newspipe/templates/management.html:12
-#, fuzzy
-#| msgid "Inactive feeds"
 msgid "a feed"
 msgstr "un flux"
 
@@ -804,8 +760,6 @@ msgid "Export your newspipe account to JSON."
 msgstr "Exporter votre compte Newspipe en JSON."
 
 #: newspipe/templates/management.html:57 newspipe/templates/management.html:102
-#, fuzzy
-#| msgid "Export JSON"
 msgid "Export"
 msgstr "Exporter"
 
@@ -818,8 +772,6 @@ msgid "Import feeds from OPML (*.xml or *.opml)."
 msgstr "Importer des flux depuis un fichier OPML (*.xml ou *.opml)."
 
 #: newspipe/templates/management.html:85
-#, fuzzy
-#| msgid "Export JSON"
 msgid "Export Feeds"
 msgstr "Exporter les flux"
 
@@ -844,14 +796,10 @@ msgid "Include private feeds"
 msgstr "Inclure les flux privés"
 
 #: newspipe/templates/management.html:113
-#, fuzzy
-#| msgid "No bookmarks found."
 msgid "Your Bookmarks"
 msgstr "Vos Marque-pages"
 
 #: newspipe/templates/management.html:114
-#, fuzzy
-#| msgid "No bookmarks found."
 msgid "bookmarks"
 msgstr "marque-pages"
 
@@ -894,8 +842,6 @@ msgstr "Membre depuis"
 
 #: newspipe/templates/admin/dashboard.html:17
 #: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:11
-#, fuzzy
-#| msgid "Last year"
 msgid "Last seen"
 msgstr "Dernière connexion"
 
@@ -1086,8 +1032,6 @@ msgid "Category of the feed"
 msgstr "Catégorie du flux"
 
 #: newspipe/web/forms.py:328
-#, fuzzy
-#| msgid "Create a new category"
 msgid "Feeds in this category"
 msgstr "Flux dans cette catégorie"
 
@@ -1124,8 +1068,6 @@ msgid "Message"
 msgstr "Message"
 
 #: newspipe/web/forms.py:358
-#, fuzzy
-#| msgid "Search in content"
 msgid "Please enter a content."
 msgstr "Veuillez entrer un contenu."
 
@@ -1285,8 +1227,6 @@ msgid "Feed successfully updated."
 msgstr "Le flux a été mis à jour avec succès."
 
 #: newspipe/web/views/feed.py:227
-#, fuzzy
-#| msgid "Edit"
 msgid "Edit feed"
 msgstr "Modifier le flux"
 
