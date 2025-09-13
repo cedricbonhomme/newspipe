@@ -1,15 +1,18 @@
 import logging
 from collections import Counter
+from datetime import datetime
 
 import sqlalchemy
+from sqlalchemy import asc
+from sqlalchemy import desc
 from sqlalchemy import func
 
+from .abstract import AbstractController
 from newspipe.bootstrap import db
-from newspipe.controllers import CategoryController, FeedController
+from newspipe.controllers import CategoryController
+from newspipe.controllers import FeedController
 from newspipe.lib.article_utils import process_filters
 from newspipe.models import Article
-
-from .abstract import AbstractController
 
 logger = logging.getLogger(__name__)
 
@@ -132,13 +135,38 @@ class ArticleController(AbstractController):
         return super().read(**filters).order_by(Article.date.desc())
 
     def get_date_statistics(self, **filters):
-        return (
-            super()
-            .read(**filters)
-            .with_entities(
-                func.min(Article.date).label("min_date"),
-                func.max(Article.date).label("max_date"),
-                func.count(Article.id).label("total_articles"),
-            )
-            .first()
+        query = super().read(**filters)
+
+        # Total articles
+        total_articles = query.with_entities(func.count(Article.id)).scalar() or 0
+
+        # Earliest article (min date) using index-only scan
+        min_date = (
+            query.order_by(asc(Article.date))
+            .limit(1)
+            .with_entities(Article.date)
+            .scalar()
         )
+
+        # Latest article (max date) using index-only scan
+        max_date = (
+            query.order_by(desc(Article.date))
+            .limit(1)
+            .with_entities(Article.date)
+            .scalar()
+        )
+
+        # Fallback if table is empty
+        if min_date is None:
+            min_date = max_date = datetime.fromtimestamp(0)
+
+        # Return object-like interface
+        class Stats:
+            pass
+
+        stats = Stats()
+        stats.min_date = min_date
+        stats.max_date = max_date
+        stats.total_articles = total_articles
+
+        return stats
