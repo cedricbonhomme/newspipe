@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-10 22:23+0200\n"
+"POT-Creation-Date: 2025-09-13 18:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -880,7 +880,8 @@ msgid "Registered users"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:15 newspipe/web/forms.py:61
-#: newspipe/web/forms.py:228 newspipe/web/forms.py:254
+#: newspipe/web/forms.py:127 newspipe/web/forms.py:228
+#: newspipe/web/forms.py:254
 msgid "Nickname"
 msgstr ""
 
@@ -912,7 +913,7 @@ msgstr ""
 msgid "You are going to delete this account."
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:68 newspipe/web/views/admin.py:46
+#: newspipe/templates/admin/dashboard.html:68 newspipe/web/views/admin.py:56
 msgid "Add a new user"
 msgstr ""
 
@@ -1049,42 +1050,50 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: newspipe/web/views/admin.py:41
+#: newspipe/web/views/admin.py:51
 #, python-format
 msgid "Edit the user <i>%(nick)s</i>"
 msgstr ""
 
-#: newspipe/web/views/admin.py:74
+#: newspipe/web/views/admin.py:84
 msgid "Some errors were found"
 msgstr ""
 
-#: newspipe/web/views/admin.py:89 newspipe/web/views/user.py:188
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:188
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
 
-#: newspipe/web/views/admin.py:101
+#: newspipe/web/views/admin.py:111
 #, python-format
 msgid "User %(nick)s successfully created"
 msgstr ""
 
-#: newspipe/web/views/admin.py:116
+#: newspipe/web/views/admin.py:126
 #, python-format
 msgid "User %(nick)s successfully deleted"
 msgstr ""
 
-#: newspipe/web/views/admin.py:121
+#: newspipe/web/views/admin.py:131
 #, python-format
 msgid "An error occurred while trying to delete a user: %(error)s"
 msgstr ""
 
-#: newspipe/web/views/admin.py:141
+#: newspipe/web/views/admin.py:151
 msgid "This user does not exist."
 msgstr ""
 
-#: newspipe/web/views/admin.py:147
+#: newspipe/web/views/admin.py:157
 #, python-format
 msgid "User %(nickname)s successfully %(is_active)s"
+msgstr ""
+
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:115
+msgid "Fetching articles…"
+msgstr ""
+
+#: newspipe/web/views/admin.py:180
+msgid "The manual retrieving of news is only available for administrator."
 msgstr ""
 
 #: newspipe/web/views/article.py:74
@@ -1210,14 +1219,6 @@ msgstr ""
 #: newspipe/web/views/feed.py:337
 #, python-brace-format
 msgid "No duplicates in the feed \"{}\"."
-msgstr ""
-
-#: newspipe/web/views/home.py:214 newspipe/web/views/user.py:115
-msgid "Fetching articles…"
-msgstr ""
-
-#: newspipe/web/views/home.py:228
-msgid "The manual retrieving of news is only available for administrator."
 msgstr ""
 
 #: newspipe/web/views/session_mgmt.py:112

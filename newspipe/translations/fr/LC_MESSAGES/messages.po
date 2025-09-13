@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
 "POT-Creation-Date: 2025-09-10 22:23+0200\n"
-"PO-Revision-Date: 2025-09-10 22:24+0200\n"
+"PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -29,10 +29,11 @@ msgstr "Newspipe est un lecteur de nouvelles."
 
 #: newspipe/templates/about.html:11
 msgid ""
-"This software is released under the AGPLv3 license. You are welcome to copy, "
-"modify, or redistribute the"
-msgstr "Ce logiciel est publié sous licence AGPLv3. Vous pouvez le copier, le "
-"modifier ou le redistribuer"
+"This software is released under the AGPLv3 license. You are welcome to copy, modify, or "
+"redistribute the"
+msgstr ""
+"Ce logiciel est publié sous licence AGPLv3. Vous pouvez le copier, le modifier ou le "
+"redistribuer"
 
 #: newspipe/templates/about.html:13
 msgid "according to the"
@@ -68,20 +69,20 @@ msgstr "Contact"
 
 #: newspipe/templates/about.html:37
 msgid ""
-"You can subscribe to new feeds with a bookmarklet. Drag the following button "
-"to your browser bookmarks:"
+"You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser "
+"bookmarks:"
 msgstr ""
-"Vous pouvez vous abonner à de nouveaux flux grâce à un 'bookmarklet'. Faites "
-"glisser le bouton suivant vers les favoris de votre navigateur :"
+"Vous pouvez vous abonner à de nouveaux flux grâce à un 'bookmarklet'. Faites glisser le "
+"bouton suivant vers les favoris de votre navigateur :"
 
 #: newspipe/templates/about.html:40
 #, python-format
 msgid ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
-"rel=\"bookmark\">Subscribe to this feed using Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark\">Subscribe to this feed "
+"using Newspipe</a>"
 msgstr ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
-"rel=\"bookmark\">S'abonner à ce flux avec Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark\">S'abonner à ce flux "
+"avec Newspipe</a>"
 
 #: newspipe/templates/about_more.html:8
 msgid "Information about this instance"
@@ -133,8 +134,7 @@ msgid "Mark this article as read"
 msgstr "Marquer cet article comme lu"
 
 #: newspipe/templates/article.html:64 newspipe/templates/article.html:69
-#: newspipe/templates/article_pub.html:32
-#: newspipe/templates/article_pub.html:37
+#: newspipe/templates/article_pub.html:32 newspipe/templates/article_pub.html:37
 msgid "Share on"
 msgstr "Partager sur"
 
@@ -177,12 +177,9 @@ msgstr "Aucun marque-page trouvé."
 
 #: newspipe/templates/categories.html:19
 #, python-format
-msgid ""
-"You have %(categories)d categories &middot; %(start_link)sAdd%(end_link)s a "
-"category"
+msgid "You have %(categories)d categories &middot; %(start_link)sAdd%(end_link)s a category"
 msgstr ""
-"Vous avez %(categories)d catégories &middot; %(start_link)sAjouter%(end_link)s une "
-"catégorie"
+"Vous avez %(categories)d catégories &middot; %(start_link)sAjouter%(end_link)s une catégorie"
 
 #: newspipe/templates/categories.html:22 newspipe/templates/home.html:91
 msgid "No category"
@@ -202,8 +199,8 @@ msgstr "Flux"
 msgid "Articles"
 msgstr "Articles"
 
-#: newspipe/templates/admin/dashboard.html:19
-#: newspipe/templates/categories.html:34 newspipe/templates/feed_list.html:12
+#: newspipe/templates/admin/dashboard.html:19 newspipe/templates/categories.html:34
+#: newspipe/templates/feed_list.html:12
 msgid "Actions"
 msgstr "Actions"
 
@@ -223,17 +220,14 @@ msgstr "Vous êtes sur le point de supprimer cette catégorie."
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: newspipe/templates/category_public.html:12
-#: newspipe/templates/feed_list.html:8
+#: newspipe/templates/category_public.html:12 newspipe/templates/feed_list.html:8
 #: newspipe/templates/feed_list_per_categories.html:24
-#: newspipe/templates/feed_list_simple.html:7
-#: newspipe/templates/user_stream.html:47 newspipe/web/forms.py:304
-#: newspipe/web/forms.py:341
+#: newspipe/templates/feed_list_simple.html:7 newspipe/templates/user_stream.html:47
+#: newspipe/web/forms.py:304 newspipe/web/forms.py:341
 msgid "Title"
 msgstr "Titre"
 
-#: newspipe/templates/category_public.html:13
-#: newspipe/templates/feed_list.html:9
+#: newspipe/templates/category_public.html:13 newspipe/templates/feed_list.html:9
 #: newspipe/templates/feed_list_per_categories.html:25
 #: newspipe/templates/feed_list_simple.html:8
 msgid "Site"
@@ -253,20 +247,20 @@ msgstr "Ajouter un nouveau marque-page"
 
 #: newspipe/templates/edit_bookmark.html:46
 msgid ""
-"You can add a bookmark with a bookmarklet. Drag the following button to your "
-"browser bookmarks."
+"You can add a bookmark with a bookmarklet. Drag the following button to your browser "
+"bookmarks."
 msgstr ""
-"Vous pouvez ajouter un marque-page grâce à un 'bookmarklet'. Faites glisser le bouton "
-"suivant vers les favoris de votre navigateur."
+"Vous pouvez ajouter un marque-page grâce à un 'bookmarklet'. Faites glisser le bouton suivant "
+"vers les favoris de votre navigateur."
 
 #: newspipe/templates/edit_bookmark.html:47
 #, python-format
 msgid ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
-"rel=\"bookmark\">Bookmark this page using Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark\">Bookmark this page "
+"using Newspipe</a>"
 msgstr ""
-"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
-"rel=\"bookmark\">Ajouter cette page à mes marque-pages avec Newspipe</a>"
+"<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" rel=\"bookmark\">Ajouter cette page à "
+"mes marque-pages avec Newspipe</a>"
 
 #: newspipe/templates/edit_bookmark.html:54
 msgid "Import bookmarks from Pinboard"
@@ -302,12 +296,8 @@ msgstr "Si décoché, ce flux ne sera plus récupéré."
 
 #: newspipe/templates/edit_feed.html:96
 #, python-format
-msgid ""
-"If checked, this feed won't be listed on <a href='%(url)s'>your profile "
-"page</a>."
-msgstr ""
-"Si coché, ce flux ne sera pas listé sur <a href='%(url)s'>votre page de "
-"profil</a>."
+msgid "If checked, this feed won't be listed on <a href='%(url)s'>your profile page</a>."
+msgstr "Si coché, ce flux ne sera pas listé sur <a href='%(url)s'>votre page de profil</a>."
 
 #: newspipe/templates/edit_feed.html:98
 msgid "Check this box if there is a private token in the link of the feed."
@@ -368,27 +358,24 @@ msgid "Last download:"
 msgstr "Dernier téléchargement :"
 
 #: newspipe/templates/feed.html:89
-msgid ""
-"This feed has too many consecutive errors and won't be retrieved anymore."
-msgstr ""
-"Ce flux a trop d'erreurs consécutives et ne sera plus récupéré."
+msgid "This feed has too many consecutive errors and won't be retrieved anymore."
+msgstr "Ce flux a trop d'erreurs consécutives et ne sera plus récupéré."
 
 #: newspipe/templates/feed.html:90
 #, python-format
 msgid ""
-"Click <a href='%(reset_error_url)s'>here</a> to reset the error count and "
-"reactivate the feed."
+"Click <a href='%(reset_error_url)s'>here</a> to reset the error count and reactivate the feed."
 msgstr ""
-"Cliquez <a href='%(reset_error_url)s'>ici</a> pour réinitialiser le compteur "
-"d'erreurs et réactiver le flux."
+"Cliquez <a href='%(reset_error_url)s'>ici</a> pour réinitialiser le compteur d'erreurs et "
+"réactiver le flux."
 
 #: newspipe/templates/feed.html:95
 msgid ""
-"This feed encountered some problems. The error counter will reset on the "
-"next successful retrieval."
+"This feed encountered some problems. The error counter will reset on the next successful "
+"retrieval."
 msgstr ""
-"Ce flux a rencontré quelques problèmes. Le compteur d'erreurs sera réinitialisé à "
-"la prochaine récupération réussie."
+"Ce flux a rencontré quelques problèmes. Le compteur d'erreurs sera réinitialisé à la "
+"prochaine récupération réussie."
 
 #: newspipe/templates/feed.html:101
 msgid "Last error:"
@@ -462,8 +449,7 @@ msgstr "Annuler"
 msgid "You have no feeds yet. Start by adding one!"
 msgstr "Vous n'avez pas encore de flux. Commencez par en ajouter un !"
 
-#: newspipe/templates/feed_list_per_categories.html:26
-#: newspipe/templates/home.html:211
+#: newspipe/templates/feed_list_per_categories.html:26 newspipe/templates/home.html:211
 msgid "Feed"
 msgstr "Flux"
 
@@ -487,7 +473,7 @@ msgstr "toutes les années"
 
 #: newspipe/templates/history.html:34
 msgid "Loading…"
-msgstr "Chargement..."
+msgstr "Chargement…"
 
 #: newspipe/templates/home.html:19
 msgid "You don't have any feeds."
@@ -666,8 +652,7 @@ msgstr "Votre pseudonyme"
 msgid "Your password"
 msgstr "Votre mot de passe"
 
-#: newspipe/templates/login.html:38 newspipe/templates/signup.html:8
-#: newspipe/web/forms.py:82
+#: newspipe/templates/login.html:38 newspipe/templates/signup.html:8 newspipe/web/forms.py:82
 msgid "Sign up"
 msgstr "S'inscrire"
 
@@ -840,8 +825,8 @@ msgstr "Votre profil"
 msgid "Member since"
 msgstr "Membre depuis"
 
-#: newspipe/templates/admin/dashboard.html:17
-#: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:11
+#: newspipe/templates/admin/dashboard.html:17 newspipe/templates/profile.html:10
+#: newspipe/templates/profile_public.html:11
 msgid "Last seen"
 msgstr "Dernière connexion"
 
@@ -899,8 +884,8 @@ msgstr "Publié le"
 msgid "Registered users"
 msgstr "Utilisateurs inscrits"
 
-#: newspipe/templates/admin/dashboard.html:15 newspipe/web/forms.py:61
-#: newspipe/web/forms.py:228 newspipe/web/forms.py:254
+#: newspipe/templates/admin/dashboard.html:15 newspipe/web/forms.py:61 newspipe/web/forms.py:228
+#: newspipe/web/forms.py:254
 msgid "Nickname"
 msgstr "Pseudonyme"
 
@@ -945,12 +930,10 @@ msgid "Email"
 msgstr "Courriel"
 
 #: newspipe/web/forms.py:70
-msgid ""
-"Please enter your email address (only for account activation, won't be "
-"stored)."
+msgid "Please enter your email address (only for account activation, won't be stored)."
 msgstr ""
-"Veuillez entrer votre adresse courriel (uniquement pour l'activation du compte, "
-"ne sera pas stockée)."
+"Veuillez entrer votre adresse courriel (uniquement pour l'activation du compte, ne sera pas "
+"stockée)."
 
 #: newspipe/web/forms.py:76 newspipe/web/forms.py:134 newspipe/web/forms.py:231
 #: newspipe/web/forms.py:258 newspipe/web/forms.py:259
@@ -963,11 +946,10 @@ msgstr "Veuillez entrer un mot de passe."
 
 #: newspipe/web/forms.py:93
 msgid ""
-"This nickname has invalid characters. Please use letters, numbers, dash and "
-"underscores only."
+"This nickname has invalid characters. Please use letters, numbers, dash and underscores only."
 msgstr ""
-"Ce pseudonyme contient des caractères invalides. Veuillez utiliser uniquement "
-"des lettres, des chiffres, des tirets et des tirets bas."
+"Ce pseudonyme contient des caractères invalides. Veuillez utiliser uniquement des lettres, "
+"des chiffres, des tirets et des tirets bas."
 
 #: newspipe/web/forms.py:139
 msgid "Log In"
@@ -977,19 +959,17 @@ msgstr "Se connecter"
 msgid "Automatic crawling"
 msgstr "Récupération automatique"
 
-#: newspipe/web/forms.py:233 newspipe/web/forms.py:273
-#: newspipe/web/forms.py:309 newspipe/web/forms.py:329
-#: newspipe/web/forms.py:348
+#: newspipe/web/forms.py:233 newspipe/web/forms.py:273 newspipe/web/forms.py:309
+#: newspipe/web/forms.py:329 newspipe/web/forms.py:348
 msgid "Save"
 msgstr "Enregistrer"
 
 #: newspipe/web/forms.py:240 newspipe/web/forms.py:294
 msgid ""
-"This nickname has invalid characters. Please use letters, numbers, dots and "
-"underscores only."
+"This nickname has invalid characters. Please use letters, numbers, dots and underscores only."
 msgstr ""
-"Ce pseudonyme contient des caractères invalides. Veuillez utiliser uniquement "
-"des lettres, des chiffres, des points et des tirets bas."
+"Ce pseudonyme contient des caractères invalides. Veuillez utiliser uniquement des lettres, "
+"des chiffres, des points et des tirets bas."
 
 #: newspipe/web/forms.py:261
 msgid "Bio"
@@ -1208,11 +1188,11 @@ msgstr "Impossible d'ajouter le flux : le flux existe déjà."
 
 #: newspipe/web/views/feed.py:179
 msgid ""
-"Couldn't find a feed url, you'll need to find a Atom or RSS link manually "
-"and reactivate this feed"
+"Couldn't find a feed url, you'll need to find a Atom or RSS link manually and reactivate this "
+"feed"
 msgstr ""
-"Impossible de trouver l'URL du flux, vous devrez trouver un lien Atom ou RSS "
-"manuellement et réactiver ce flux"
+"Impossible de trouver l'URL du flux, vous devrez trouver un lien Atom ou RSS manuellement et "
+"réactiver ce flux"
 
 #: newspipe/web/views/feed.py:185
 msgid "Feed was successfully created."
@@ -1220,7 +1200,7 @@ msgstr "Le flux a été créé avec succès."
 
 #: newspipe/web/views/feed.py:188 newspipe/web/views/feed.py:313
 msgid "Fetching articles for the new feed…"
-msgstr "Récupération des articles pour le nouveau flux..."
+msgstr "Récupération des articles pour le nouveau flux…"
 
 #: newspipe/web/views/feed.py:206
 msgid "Feed successfully updated."
@@ -1242,7 +1222,7 @@ msgstr "Aucun doublon dans le flux « {} »."
 
 #: newspipe/web/views/home.py:214 newspipe/web/views/user.py:115
 msgid "Fetching articles…"
-msgstr "Récupération des articles..."
+msgstr "Récupération des articles…"
 
 #: newspipe/web/views/home.py:228
 msgid "The manual retrieving of news is only available for administrator."
@@ -1265,8 +1245,7 @@ msgstr "Votre compte a été créé. Vérifiez votre courriel pour le confirmer.
 msgid "You must set your profile to public."
 msgstr "Vous devez rendre votre profil public."
 
-#: newspipe/web/views/user.py:108 newspipe/web/views/user.py:122
-#: newspipe/web/views/user.py:130
+#: newspipe/web/views/user.py:108 newspipe/web/views/user.py:122 newspipe/web/views/user.py:130
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
