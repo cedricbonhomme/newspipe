@@ -5,22 +5,16 @@ import pytz
 from babel.dates import format_datetime
 from babel.dates import format_timedelta
 from flask import current_app
-from flask import flash
-from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
 from flask_babel import get_locale
-from flask_babel import gettext
 from flask_login import current_user
 from flask_login import login_required
 
-from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
-from newspipe.lib import misc_utils
-from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.views.common import jsonify
 
@@ -209,28 +203,3 @@ def mark_all_as_read():
     processed_articles = _articles_to_json(acontr.read_light(**filters))
     acontr.update(filters, {"readed": True})
     return processed_articles
-
-
-@current_app.route("/fetch", methods=["GET"])
-@current_app.route("/fetch/<int:feed_id>", methods=["GET"])
-@login_required
-def fetch(feed_id=None):
-    """
-    Triggers the download of news.
-    News are downloaded in a separated process.
-    """
-    if application.config["CRAWLING_METHOD"] == "default" and current_user.is_admin:
-        misc_utils.fetch(current_user.id, feed_id)
-        flash(gettext("Fetching articles…"), "info")
-    else:
-        flash(
-            gettext(
-                "The manual retrieving of news is only available for administrator."
-            ),
-            "info",
-        )
-    url = safe_redirect_url()
-    if url:
-        return redirect(url)
-    else:
-        return "Error"

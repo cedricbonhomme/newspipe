@@ -1,11 +1,21 @@
 from datetime import datetime
 
-from flask import Blueprint, flash, redirect, render_template, url_for
-from flask_babel import format_timedelta, gettext
-from flask_login import current_user, login_required
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import url_for
+from flask_babel import format_timedelta
+from flask_babel import gettext
+from flask_login import current_user
+from flask_login import login_required
 
+from newspipe.bootstrap import application
 from newspipe.controllers import UserController
-from newspipe.web.forms import InformationMessageForm, UserForm
+from newspipe.lib import misc_utils
+from newspipe.lib.utils import safe_redirect_url
+from newspipe.web.forms import InformationMessageForm
+from newspipe.web.forms import UserForm
 from newspipe.web.views.common import admin_permission
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -150,3 +160,29 @@ def toggle_user(user_id=None):
         )
     flash(message, "success")
     return redirect(url_for("admin.dashboard"))
+
+
+@admin_bp.route("/fetch", methods=["GET"])
+@admin_bp.route("/fetch/<int:feed_id>", methods=["GET"])
+@login_required
+@admin_permission.require(http_exception=403)
+def fetch(feed_id=None):
+    """
+    Triggers the download of news.
+    News are downloaded in a separated process.
+    """
+    if application.config["CRAWLING_METHOD"] == "default":
+        misc_utils.fetch(current_user.id, feed_id)
+        flash(gettext("Fetching articles…"), "info")
+    else:
+        flash(
+            gettext(
+                "The manual retrieving of news is only available for administrator."
+            ),
+            "info",
+        )
+    url = safe_redirect_url()
+    if url:
+        return redirect(url)
+    else:
+        return "Error"
