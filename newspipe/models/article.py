@@ -26,7 +26,7 @@ __license__ = "GPLv3"
 
 from datetime import datetime
 
-# from sqlalchemy import Index, ForeignKeyConstraint
+from sqlalchemy import Index
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from newspipe.bootstrap import db
@@ -62,17 +62,18 @@ class Article(db.Model, RightMixin):
     )
     tags = association_proxy("tag_objs", "text")
 
-    # __table_args__ = (
-    #     ForeignKeyConstraint([user_id], ["user.id"], ondelete="CASCADE"),
-    #     ForeignKeyConstraint([feed_id], ["feed.id"], ondelete="CASCADE"),
-    #     ForeignKeyConstraint([category_id], ["category.id"], ondelete="CASCADE"),
-    #     Index("ix_article_eid_cid_uid", user_id, category_id, entry_id),
-    #     Index("ix_article_retrdate", retrieved_date),
-    #     Index("user_id"),
-    #     Index("user_id", "category_id"),
-    #     Index("user_id", "feed_id"),
-    #     Index("ix_article_uid_fid_eid", user_id, feed_id, entry_id),
-    # )
+    __table_args__ = (
+        #     ForeignKeyConstraint([user_id], ["user.id"], ondelete="CASCADE"),
+        #     ForeignKeyConstraint([feed_id], ["feed.id"], ondelete="CASCADE"),
+        #     ForeignKeyConstraint([category_id], ["category.id"], ondelete="CASCADE"),
+        #     Index("ix_article_eid_cid_uid", user_id, category_id, entry_id),
+        #     Index("ix_article_retrdate", retrieved_date),
+        #     Index("user_id"),
+        #     Index("user_id", "category_id"),
+        #     Index("user_id", "feed_id"),
+        #     Index("ix_article_uid_fid_eid", user_id, feed_id, entry_id),
+        Index("ix_article_feed_date", "feed_id", "date"),
+    )
 
     # api whitelists
     @staticmethod

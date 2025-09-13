@@ -137,7 +137,7 @@ def delete(feed_id=None):
     return redirect(url_for("home"))
 
 
-@feed_bp.route("/reset_errors/<int:feed_id>", methods=["GET", "POST"])
+@feed_bp.route("/reset_errors/<int:feed_id>", methods=["GET"])
 @login_required
 def reset_errors(feed_id):
     feed_contr = FeedController(current_user.id)
