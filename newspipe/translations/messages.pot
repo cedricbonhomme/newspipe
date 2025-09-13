@@ -1216,10 +1216,8 @@ msgstr ""
 msgid "Fetching articles…"
 msgstr ""
 
-#: newspipe/web/views/home.py:218
-msgid ""
-"The manual retrieving of news is only available for administrator, on the"
-" Heroku platform."
+#: newspipe/web/views/home.py:228
+msgid "The manual retrieving of news is only available for administrator."
 msgstr ""
 
 #: newspipe/web/views/session_mgmt.py:112
@@ -1284,4 +1282,3 @@ msgstr ""
 #: newspipe/web/views/views.py:30
 msgid "Forbidden."
 msgstr ""
-

@@ -1244,13 +1244,9 @@ msgstr "Aucun doublon dans le flux « {} »."
 msgid "Fetching articles…"
 msgstr "Récupération des articles..."
 
-#: newspipe/web/views/home.py:218
-msgid ""
-"The manual retrieving of news is only available for administrator, on the "
-"Heroku platform."
-msgstr ""
-"La récupération manuelle des nouvelles est uniquement disponible pour l'administrateur, "
-"sur la plateforme Heroku."
+#: newspipe/web/views/home.py:228
+msgid "The manual retrieving of news is only available for administrator."
+msgstr "La récupération manuelle des nouvelles est uniquement disponible pour l'administrateur."
 
 #: newspipe/web/views/session_mgmt.py:112
 msgid "Self-registration is disabled."
