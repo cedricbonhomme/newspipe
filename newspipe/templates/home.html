@@ -55,7 +55,7 @@
                             <li class="nav-item feed-menu" data-bs-feed="{{ feed.id }}">
                                 <a class="nav-link" href="{{ gen_url(feed=feed.id, category=0) }}">
                                     {% if in_error.get(feed.id, 0) > 0 %}
-                                        <span class="badge float-end {{ 'bg-danger' if in_error[fid] > 3 else 'bg-warning text-dark' }}"
+                                        <span class="badge float-end {{ 'bg-danger' if in_error[feed.id] > 3 else 'bg-warning text-dark' }}"
                                               title="{{ _('Some errors occurred while trying to retrieve that feed.') }}">
                                             {{ in_error[feed.id] }}
                                         </span>
