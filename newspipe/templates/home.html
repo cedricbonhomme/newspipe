@@ -55,8 +55,7 @@
                             <li class="nav-item feed-menu" data-bs-feed="{{ feed.id }}">
                                 <a class="nav-link" href="{{ gen_url(feed=feed.id, category=0) }}">
                                     {% if in_error.get(feed.id, 0) > 0 %}
-                                        <span style="background-color: {{ 'red' if in_error[feed.id] > 2 else 'orange' }};"
-                                              class="badge bg-danger float-end"
+                                        <span class="badge float-end {{ 'bg-danger' if in_error[fid] > 3 else 'bg-warning text-dark' }}"
                                               title="{{ _('Some errors occurred while trying to retrieve that feed.') }}">
                                             {{ in_error[feed.id] }}
                                         </span>
@@ -97,8 +96,7 @@
                         <li class="nav-item feed-menu" data-bs-feed="{{ fid }}">
                             <a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                                 {% if in_error.get(fid, 0) > 0 %}
-                                    <span style="background-color: {{ 'red' if in_error[fid] > 2 else 'orange' }};"
-                                          class="badge bg-warning text-dark float-end"
+                                    <span class="badge float-end {{ 'bg-danger' if in_error[fid] > 3 else 'bg-warning text-dark' }}"
                                           title="{{ _('Some errors occurred while trying to retrieve that feed.') }}">
                                         {{ in_error[fid] }}
                                     </span>
@@ -138,8 +136,7 @@
                         <li class="nav-item feed-menu" data-bs-feed="{{ fid }}">
                             <a class="nav-link" href="{{ gen_url(feed=fid, category=0) }}">
                                 {% if in_error.get(fid, 0) > 0 %}
-                                    <span style="background-color: {{ 'red' if in_error[fid] > 2 else 'orange' }};"
-                                          class="badge bg-warning float-end"
+                                    <span class="badge float-end {{ 'bg-danger' if in_error[fid] > 3 else 'bg-warning text-dark' }}"
                                           title="{{ _('Some errors occurred while trying to retrieve that feed.') }}">
                                         {{ in_error[fid] }}
                                     </span>
