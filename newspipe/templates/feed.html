@@ -51,7 +51,7 @@
           {% if category %}
           <li class="list-group-item d-flex justify-content-between">
             <span>{{ _('Category') }}</span>
-            <span class="badge bg-info text-dark">{{ category.name }}</span>
+            <span class="badge bg-info text-dark"><a href="{{ url_for('category.get', category_id=category.id) }}">{{ category.name }}</a></span>
           </li>
           {% endif %}
           {% if feed.private %}
