@@ -1,30 +1,72 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <h1>Collection: {{ category.name }}</h1>
-    <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table id="table-feeds" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{{ _('Title') }}</th>
-                        <th>{{ _('Site') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for feed in feeds %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{% if feed.icon_url %}<img src="{{ url_for('icon.icon', url=feed.icon_url) }}" width="16px" />&nbsp;{% endif %} <a href="{{ url_for('feed.feed_pub', feed_id=feed.id) }}">{{ feed.title }}</a></td>
-                        <td><a href="{{ feed.site_link }}">{{ feed.site_link }}</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        </div>
+<div class="container my-4">
+
+  <!-- Category Header -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h4 class="mb-0">
+        <i class="bi bi-folder2-open me-2"></i>
+        {{ _('Category') }}: <span class="fw-light">{{ category.name }}</span>
+      </h4>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('category.form', category_id=category.id) }}"
+           class="btn btn-sm btn-outline-primary"
+           title="{{ _('Edit this category') }}">
+          <i class="bi bi-pencil"></i>
+        </a>
+      {% endif %}
     </div>
+    <div class="card-body">
+      <p class="text-muted mb-0">
+        {{ _('This category contains') }} <strong>{{ feeds.count() }}</strong> {{ _('feed(s).') }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Feeds List -->
+  {% if feeds %}
+    <div class="row">
+      {% for feed in feeds %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex align-items-center mb-2">
+              {% if feed.icon_url %}
+                <img src="{{ url_for('icon.icon', url=feed.icon_url) }}"
+                     alt="icon" class="me-2 rounded" width="24" height="24">
+              {% else %}
+                <i class="bi bi-rss text-warning me-2"></i>
+              {% endif %}
+              <h5 class="card-title mb-0 flex-grow-1 text-truncate">
+                <a href="{{ url_for('feed.feed', feed_id=feed.id) }}">
+                  {{ feed.title }}
+                </a>
+              </h5>
+            </div>
+            <p class="card-text small text-muted text-truncate">
+              <i class="bi bi-globe me-1"></i>
+              <a href="{{ feed.site_link }}" target="_blank" rel="noopener noreferrer">
+                {{ feed.site_link }}
+              </a>
+            </p>
+            <div class="mt-auto">
+              <a href="{{ url_for('feed.feed', feed_id=feed.id) }}"
+                 class="btn btn-sm btn-outline-secondary">
+                {{ _('View feed') }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      <i class="bi bi-info-circle me-1"></i>
+      {{ _('No feeds available in this category.') }}
+    </div>
+  {% endif %}
+
 </div><!-- /.container -->
 {% endblock %}
