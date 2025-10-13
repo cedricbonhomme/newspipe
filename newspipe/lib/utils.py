@@ -1,11 +1,16 @@
 import logging
 import re
 import types
-import urllib
 from hashlib import md5
+from urllib.parse import parse_qs
+from urllib.parse import SplitResult
+from urllib.parse import urlencode
 from urllib.parse import urlparse
+from urllib.parse import urlsplit
+from urllib.parse import urlunparse
+from urllib.parse import urlunsplit
 
-import requests
+import requests  # type: ignore[import-untyped]
 from flask import request
 from flask import url_for
 from pyvulnerabilitylookup import PyVulnerabilityLookup
@@ -39,17 +44,18 @@ def try_keys(dico, *keys):
 
 
 def rebuild_url(url, base_split):
-    split = urllib.parse.urlsplit(url)
+    split = urlsplit(url)
     if split.scheme and split.netloc:
-        return url  # url is fine
-    new_split = urllib.parse.SplitResult(
+        return url  # URL is already complete
+
+    new_split = SplitResult(
         scheme=split.scheme or base_split.scheme,
         netloc=split.netloc or base_split.netloc,
         path=split.path,
         query="",
         fragment="",
     )
-    return urllib.parse.urlunsplit(new_split)
+    return urlunsplit(new_split)
 
 
 def try_get_icon_url(url, *splits):
@@ -96,6 +102,26 @@ def safe_redirect_url(default="home"):
     return None
 
 
+def remove_utm_parameters(url: str) -> str:
+    # Parse the URL
+    parsed_url = urlparse(url)
+
+    # Parse query parameters
+    query_params = parse_qs(parsed_url.query)
+
+    # Remove all UTM parameters
+    utm_keys = [key for key in query_params if key.startswith("utm_")]
+    for key in utm_keys:
+        del query_params[key]
+
+    # Rebuild the query string without UTM parameters
+    new_query = urlencode(query_params, doseq=True)
+
+    # Rebuild and return the URL without UTM parameters
+    new_url = urlunparse(parsed_url._replace(query=new_query))
+    return new_url
+
+
 def newspipe_get(url, **kwargs):
     request_kwargs = {
         "verify": False,
@@ -128,7 +154,7 @@ def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
         # Create the sighting
         sighting = {
             "type": "seen",
-            "source": article.link,
+            "source": remove_utm_parameters(article.link),
             "vulnerability": vuln,
             "creation_timestamp": article.date,
         }
