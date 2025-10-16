@@ -27,7 +27,7 @@ __license__ = "GPLv3"
 from newspipe.bootstrap import db
 
 
-class Role(db.Model):
+class Role(db.Model):  # type: ignore[name-defined]
     """
     Represent a role.
     """

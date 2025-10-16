@@ -30,10 +30,11 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 
 from newspipe.bootstrap import db
+from newspipe.lib.sanitizers import sanitize_text
 from newspipe.models.right_mixin import RightMixin
 
 
-class Bookmark(db.Model, RightMixin):
+class Bookmark(db.Model, RightMixin):  # type: ignore[name-defined]
     """
     Represent a bookmark.
     """
@@ -56,13 +57,25 @@ class Bookmark(db.Model, RightMixin):
     )
     tags_proxy = association_proxy("tags", "text")
 
-    @validates("description")
-    def validates_title(self, key, value):
+    @validates("href")
+    def validates_href(self, key, value):
         return str(value).strip()
 
-    @validates("extended")
+    @validates("title")
+    def validates_title(self, key, value):
+        value = value.strip()
+        assert 3 <= len(value) <= 50, AssertionError("Maximum length for title: 50")
+        cleaned = sanitize_text(value)
+        return cleaned
+
+    @validates("description")
     def validates_description(self, key, value):
-        return str(value).strip()
+        value = value.strip()
+        assert 3 <= len(value) <= 50, AssertionError(
+            "Maximum length for description: 250"
+        )
+        cleaned = sanitize_text(value)
+        return cleaned
 
     def __repr__(self):
         return "<Bookmark %r>" % (self.href)

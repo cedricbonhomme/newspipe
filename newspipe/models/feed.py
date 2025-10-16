@@ -30,11 +30,12 @@ from sqlalchemy import ForeignKeyConstraint, Index, desc
 from sqlalchemy.orm import validates
 
 from newspipe.bootstrap import db
+from newspipe.lib.sanitizers import sanitize_text
 from newspipe.models.article import Article
 from newspipe.models.right_mixin import RightMixin
 
 
-class Feed(db.Model, RightMixin):
+class Feed(db.Model, RightMixin):  # type: ignore[name-defined]
     """
     Represent a feed.
     """
@@ -104,11 +105,15 @@ class Feed(db.Model, RightMixin):
 
     @validates("title")
     def validates_title(self, key, value):
-        return str(value).strip()
+        value = value.strip()
+        cleaned = sanitize_text(value)
+        return cleaned
 
     @validates("description")
     def validates_description(self, key, value):
-        return str(value).strip()
+        value = value.strip()
+        cleaned = sanitize_text(value)
+        return cleaned
 
     def __repr__(self):
         return "<Feed %r>" % (self.title)

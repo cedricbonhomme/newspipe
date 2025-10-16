@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 from sqlalchemy import Index
+from sqlalchemy.orm import validates
 
 from newspipe.bootstrap import db
+from newspipe.lib.sanitizers import sanitize_text
 from newspipe.models.right_mixin import RightMixin
 
 
-class Category(db.Model, RightMixin):
+class Category(db.Model, RightMixin):  # type: ignore[name-defined]
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String())
 
@@ -25,3 +27,10 @@ class Category(db.Model, RightMixin):
     @staticmethod
     def _fields_base_write():
         return {"name"}
+
+    @validates("name")
+    def validates_name(self, key: str, value: str) -> str:
+        assert 3 <= len(value) <= 20, AssertionError("Maximum length for name: 20")
+        value = value.strip()
+        cleaned = sanitize_text(value)
+        return cleaned
