@@ -1,33 +1,36 @@
 import logging
 from datetime import datetime
+from datetime import timezone
 
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import current_app
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import session
+from flask import url_for
 from flask_babel import gettext
-from flask_login import LoginManager, current_user, login_required, logout_user
-from flask_principal import (
-    AnonymousIdentity,
-    Principal,
-    UserNeed,
-    identity_changed,
-    identity_loaded,
-    session_identity_loader,
-)
+from flask_login import current_user
+from flask_login import login_required
+from flask_login import LoginManager
+from flask_login import logout_user
+from flask_principal import AnonymousIdentity
+from flask_principal import identity_changed
+from flask_principal import identity_loaded
+from flask_principal import Principal
+from flask_principal import session_identity_loader
+from flask_principal import UserNeed
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash
 
 from newspipe.bootstrap import application
 from newspipe.controllers import UserController
 from newspipe.notifications import notifications
-from newspipe.web.forms import SigninForm, SignupForm
-from newspipe.web.views.common import admin_role, api_role, login_user_bundle
+from newspipe.web.forms import SigninForm
+from newspipe.web.forms import SignupForm
+from newspipe.web.views.common import admin_role
+from newspipe.web.views.common import api_role
+from newspipe.web.views.common import login_user_bundle
 
 Principal(current_app)
 # Create a permission with a single Need, in this case a RoleNeed.
@@ -41,8 +44,8 @@ login_manager.login_message = ""
 logger = logging.getLogger(__name__)
 
 
-@identity_loaded.connect_via(current_app._get_current_object())
-def on_identity_loaded(sender, identity):
+@identity_loaded.connect_via(current_app._get_current_object())  # type: ignore
+def on_identity_loaded(sender, identity) -> None:
     # Set the identity user object
     identity.user = current_user
 
@@ -65,23 +68,22 @@ def load_user(user_id):
         pass
 
 
-@current_app.before_request
-def before_request():
-    if current_user.is_authenticated:
-        UserController(current_user.id).update(
-            {"id": current_user.id}, {"last_seen": datetime.utcnow()}
-        )
-
-
 @current_app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
+
     form = SigninForm()
-    # if form.validate_on_submit():
+
     if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
         login_user_bundle(form.user)
+
+        UserController(current_user.id).update(
+            {"id": current_user.id}, {"last_seen": datetime.now(timezone.utc)}
+        )
+
         return form.redirect("home")
+
     return render_template(
         "login.html",
         form=form,
