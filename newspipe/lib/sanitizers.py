@@ -1,6 +1,7 @@
 import bleach  # type: ignore[import-untyped]
 
-from newspipe.lib.constants import ALLOWED_ATTRIBUTES, ALLOWED_TAGS
+from newspipe.lib.constants import ALLOWED_ATTRIBUTES
+from newspipe.lib.constants import ALLOWED_TAGS
 
 
 def sanitize_html_fragment(raw_html: str) -> str:

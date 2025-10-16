@@ -43,6 +43,7 @@ dependencies = [
     "mypy (>=1.13.0)",
     "ldap3 (>=2.9.1)",
     "pyvulnerabilitylookup (>=2.2.0)",
+    "bleach (>=6.2.0,<7.0.0)",
 ]
 
 
