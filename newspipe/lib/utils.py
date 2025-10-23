@@ -142,7 +142,7 @@ def remove_case_insensitive_duplicates(input_list):
     return list({item.lower(): item for item in input_list}.values())
 
 
-def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
+def push_sighting_to_vulnerability_lookup(article, vulnerability_ids, sighting_type):
     """Create a sighting from an incoming article and push it to the Vulnerability Lookup instance."""
     print("Pushing sighting to Vulnerability Lookup...")
     vuln_lookup = PyVulnerabilityLookup(
@@ -153,7 +153,7 @@ def push_sighting_to_vulnerability_lookup(article, vulnerability_ids):
     for vuln in vulnerability_ids:
         # Create the sighting
         sighting = {
-            "type": "seen",
+            "type": sighting_type,
             "source": remove_utm_parameters(article.link),
             "vulnerability": vuln,
             "creation_timestamp": article.date,

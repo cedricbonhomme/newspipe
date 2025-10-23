@@ -138,7 +138,10 @@ def delete_read_articles():
 @application.cli.command("find_vulnerabilities")
 @click.option("--user-id", required=True, help="Id of the user")
 @click.option("--category-id", required=True, help="Id of the category")
-def find_vulnerabilities(user_id: int = 0, category_id: int = 0):
+@click.option("--sighting-type", default="seen", help="Type of the sighting")
+def find_vulnerabilities(
+    user_id: int = 0, category_id: int = 0, sighting_type: str = "seen"
+):
     "Find vulnerabilities in articles from the specified category of a user."
     vulnerability_pattern = re.compile(
         r"\b(CVE-\d{4}-\d{4,})\b"  # CVE pattern
@@ -164,7 +167,9 @@ def find_vulnerabilities(user_id: int = 0, category_id: int = 0):
         ]
         vulnerability_ids = remove_case_insensitive_duplicates(vulnerability_ids)
         if vulnerability_ids:
-            push_sighting_to_vulnerability_lookup(article, vulnerability_ids)
+            push_sighting_to_vulnerability_lookup(
+                article, vulnerability_ids, sighting_type
+            )
     print("Detection of vulnerabilities done.")
 
 
