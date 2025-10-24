@@ -34,14 +34,22 @@ function change_unread_counter(feed_id, increment) {
 
 
 // Mark an article as read when it is opened in a new tab
-document.getElementsByClassName('open-article').onclick = function fun() {
-  var feed_id = $(this).parentNode.parentNode.attr("data-bs-feed");
-  var filter = $('#filters').attr("data-filter");
-  if (filter == "unread") {
-    $(this).parentNode.parentNode.remove();
-    change_unread_counter(feed_id, -1);
-  }
-};
+document.querySelectorAll(".open-article").forEach(el => {
+  el.addEventListener("click", function() {
+    const feedContainer = this.closest("[data-bs-feed]");
+    if (!feedContainer) return;
+
+    const feed_id = feedContainer.dataset.bsFeed;
+    if (!/^[0-9a-fA-F-]+$/.test(feed_id)) return;
+    const filterEl = document.getElementById("filters");
+    const filter = filterEl ? filterEl.dataset.filter : null;
+
+    if (filter === "unread") {
+      feedContainer.remove();
+      change_unread_counter(feed_id, -1);
+    }
+  });
+});
 
 
 // Mark an article as read or unread from the home page
