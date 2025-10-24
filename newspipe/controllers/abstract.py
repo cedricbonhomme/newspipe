@@ -95,34 +95,94 @@ class AbstractController:
             )
         return obj
 
-    def create(self, **attrs):
-        assert attrs, "attributes to update must not be empty"
+    def create(self, commit=True, validate=True, **attrs):
+        """
+        Create a new ORM object.
+
+        :param commit: whether to flush and commit after adding the object
+        :param validate: whether to rely on SQLAlchemy validators (@validates)
+        :param attrs: attributes to initialize the object with
+        """
+        assert attrs, "attributes to create must not be empty"
+
+        # Inject user_id if controller is scoped to a user
         if self._user_id_key is not None and self._user_id_key not in attrs:
             attrs[self._user_id_key] = self.user_id
+
         assert (
             self._user_id_key is None
             or self._user_id_key in attrs
             or self.user_id is None
         ), "You must provide user_id one way or another"
 
+        # Instantiate ORM object (this triggers validators on init)
         obj = self._db_cls(**attrs)
+
+        # If validators are disabled, manually insert without object construction
+        if not validate:
+            # Use the table directly for a fast insert (no ORM events)
+            db.session.execute(db.insert(self._db_cls.__table__).values(**attrs))
+            if commit:
+                db.session.flush()
+                db.session.commit()
+            # Refetch ORM instance if needed
+            return (
+                db.session.query(self._db_cls).order_by(self._db_cls.id.desc()).first()
+            )
+
+        # Normal ORM path (validates, sanitizes, etc.)
         db.session.add(obj)
-        db.session.flush()
-        db.session.commit()
+        if commit:
+            db.session.flush()
+            db.session.commit()
+
         return obj
 
     def read(self, **filters):
         return self._get(**filters)
 
-    def update(self, filters, attrs, return_objs=False, commit=True):
+    def update(self, filters, attrs, return_objs=False, commit=True, validate=True):
+        """
+        Update one or more ORM objects.
+
+        :param filters: dict of filters to locate objects
+        :param attrs: dict of attributes to update
+        :param return_objs: whether to return ORM objects instead of count
+        :param commit: whether to flush and commit at the end
+        :param validate: if True, trigger SQLAlchemy validators (@validates)
+        """
         assert attrs, "attributes to update must not be empty"
-        result = self._get(**filters).update(attrs, synchronize_session=False)
+
+        query = self._get(**filters)
+
+        # Detect if filters uniquely identify a single record
+        # e.g., {"id": 123}, {"uuid": "..."} — you can extend the list if needed
+        single_object = "id" in filters or "uuid" in filters
+
+        if validate:
+            # Fetch only one object when possible
+            objs = [query.first()] if single_object else query.all()
+            objs = [obj for obj in objs if obj is not None]
+            if not objs:
+                return [] if return_objs else 0
+
+            for obj in objs:
+                for key, value in attrs.items():
+                    # Avoid triggering validators unnecessarily
+                    if getattr(obj, key) != value:
+                        setattr(obj, key, value)
+
+            result = objs
+        else:
+            # Fast path — bypass ORM (no validators)
+            updated = query.update(attrs, synchronize_session=False)
+            result = self._get(**filters).all() if return_objs else updated
+
         if commit:
             db.session.flush()
             db.session.commit()
-        if return_objs:
-            return self._get(**filters)
-        return result
+
+        return result if return_objs else len(result)
 
     def delete(self, obj_id):
         obj = self.get(id=obj_id)
