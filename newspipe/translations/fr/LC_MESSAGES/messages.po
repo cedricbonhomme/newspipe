@@ -1,7 +1,7 @@
 # French translations for Newspipe.
-# Copyright (C) 2014-2025 Cédric Bonhomme
+# Copyright (C) 2014-2026 Cédric Bonhomme
 # This file is distributed under the same license as the Newspipe project.
-# Cédric Bonhomme <cedric@cedricbonhomme.org>, 2014-2025.
+# Cédric Bonhomme <cedric@cedricbonhomme.org>, 2014-2026.
 #
 msgid ""
 msgstr ""

@@ -1,6 +1,6 @@
 /*!
 * Newspipe - A web news aggregator.
-* Copyright (C) 2010-2025 Cédric Bonhomme - https://www.cedricbonhomme.org
+* Copyright (C) 2010-2026 Cédric Bonhomme - https://www.cedricbonhomme.org
 *
 * For more information: https://github.com/cedricbonhomme/newspipe
 *
