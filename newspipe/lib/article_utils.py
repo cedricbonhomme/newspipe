@@ -15,6 +15,8 @@ from dateutil.parser._parser import ParserError
 from requests.exceptions import MissingSchema
 
 from newspipe.bootstrap import application
+from newspipe.lib.sanitizers import sanitize_html_fragment
+from newspipe.lib.sanitizers import sanitize_text
 from newspipe.lib.utils import newspipe_get
 
 logger = logging.getLogger(__name__)
@@ -83,12 +85,12 @@ def get_article_content(entry):
         content = entry["content"][0]["value"]
     elif entry.get("summary"):
         content = entry["summary"]
-    return content
+    return sanitize_html_fragment(content)
 
 
 async def get_article_details(entry, fetch=True):
     article_link = entry.get("link")
-    article_title = html.unescape(entry.get("title", ""))
+    article_title = sanitize_text(html.unescape(entry.get("title", "")))
     if (
         fetch
         and application.config["CRAWLER_RESOLVE_ARTICLE_URL"]
