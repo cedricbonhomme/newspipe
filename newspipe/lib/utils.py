@@ -5,6 +5,7 @@ from hashlib import md5
 from urllib.parse import parse_qs
 from urllib.parse import SplitResult
 from urllib.parse import urlencode
+from urllib.parse import urljoin
 from urllib.parse import urlparse
 from urllib.parse import urlsplit
 from urllib.parse import urlunparse
@@ -16,6 +17,7 @@ from flask import url_for
 from pyvulnerabilitylookup import PyVulnerabilityLookup
 
 from newspipe.bootstrap import application
+from newspipe.lib.url_validation import validate_url
 
 logger = logging.getLogger(__name__)
 
@@ -122,15 +124,30 @@ def remove_utm_parameters(url: str) -> str:
     return new_url
 
 
+_MAX_REDIRECTS = 10
+
+
 def newspipe_get(url, **kwargs):
+    validate_url(url)
     request_kwargs = {
         "verify": False,
-        "allow_redirects": True,
         "timeout": application.config["CRAWLER_TIMEOUT"],
         "headers": {"User-Agent": application.config["CRAWLER_USER_AGENT"]},
     }
     request_kwargs.update(kwargs)
-    return requests.get(url, **request_kwargs)
+    request_kwargs["allow_redirects"] = False
+
+    response = requests.get(url, **request_kwargs)
+    for _ in range(_MAX_REDIRECTS):
+        if not (response.is_redirect or response.is_permanent_redirect):
+            break
+        location = response.headers.get("Location")
+        if not location:
+            break
+        url = urljoin(response.url, location)
+        validate_url(url)
+        response = requests.get(url, **request_kwargs)
+    return response
 
 
 def remove_case_insensitive_duplicates(input_list):

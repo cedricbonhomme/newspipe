@@ -25,6 +25,8 @@ from newspipe.controllers import UserController
 from newspipe.lib import misc_utils
 from newspipe.lib import utils
 from newspipe.lib.feed_utils import construct_feed_from
+from newspipe.lib.url_validation import SSRFError
+from newspipe.lib.url_validation import validate_url
 from newspipe.web.forms import AddFeedForm
 from newspipe.web.lib.view_utils import etag_match
 
@@ -159,6 +161,12 @@ def bookmarklet():
         flash(gettext("Couldn't add feed: url missing."), "error")
         raise BadRequest("url is missing")
 
+    try:
+        validate_url(url)
+    except SSRFError:
+        flash(gettext("This URL is not allowed."), "danger")
+        return redirect(url_for("home"))
+
     feed_exists = list(feed_contr.read(__or__={"link": url, "site_link": url}))
     if feed_exists:
         flash(gettext("Couldn't add feed: feed already exists."), "warning")
@@ -287,6 +295,11 @@ def process_form(feed_id=None):
 
     # Create a new feed
     url = form.site_link.data if form.site_link.data else form.link.data
+    try:
+        validate_url(url)
+    except SSRFError:
+        flash(gettext("This URL is not allowed."), "danger")
+        return redirect(url_for("home"))
     try:
         feed = construct_feed_from(url)
     except requests.exceptions.ConnectionError:
