@@ -1,6 +1,14 @@
 Newspipe Changelog
 ==================
 
+## 11.2.1 (2026-03-26)
+
+### Fixes
+
+- Fixed a stored XSS vulnerability via RSS feed titles and content. Titles are now stripped of HTML on ingestion and auto-escaped on rendering. Article content is sanitized through an HTML allowlist. Reported by fyrepaw13.
+- Fixed an SSRF vulnerability in feed creation endpoints. User-supplied URLs are now validated to allow only http/https schemes and block requests to private/internal IP ranges, with redirect destinations re-validated at each hop. Reported by fyrepaw13.
+
+
 ## 11.2.0 (2024-12-27)
 
 ### Improvements
