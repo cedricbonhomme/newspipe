@@ -113,7 +113,7 @@ def process_user_form(user_id=None):
     return redirect(url_for("admin.user_form", user_id=user.id))
 
 
-@admin_bp.route("/delete_user/<int:user_id>", methods=["GET"])
+@admin_bp.route("/delete_user/<int:user_id>", methods=["POST"])
 @login_required
 @admin_permission.require(http_exception=403)
 def delete_user(user_id=None):
@@ -136,7 +136,7 @@ def delete_user(user_id=None):
     return redirect(url_for("admin.dashboard"))
 
 
-@admin_bp.route("/toggle_user/<int:user_id>", methods=["GET"])
+@admin_bp.route("/toggle_user/<int:user_id>", methods=["POST"])
 @login_required
 @admin_permission.require()
 def toggle_user(user_id=None):

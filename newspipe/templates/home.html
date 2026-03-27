@@ -70,8 +70,14 @@
                                 <span class="nav-link">
                                     <a href="{{ prefix() }}/feed/{{ feed.id }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                     <a href="{{ url_for('feed.form', feed_id=feed.id) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                                    <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                                    <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                    <form action="{{ url_for('article.mark_as', new_value='unread', feed_id=feed.id) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-link p-0"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></button>
+                                    </form>
+                                    <form action="{{ url_for('article.mark_as', new_value='read', feed_id=feed.id) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-link p-0"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></button>
+                                    </form>
                                 </span>
                             </li>
                         {% endfor %}
@@ -111,8 +117,14 @@
                             <span class="nav-link">
                                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                <form action="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-link p-0"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></button>
+                                </form>
+                                <form action="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-link p-0"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></button>
+                                </form>
                             </span>
                         </li>
                     {% endfor %}
@@ -152,8 +164,14 @@
                             <span class="nav-link">
                                 <a href="{{ prefix() }}/feed/{{ fid }}"><i class="bi bi-info-lg" aria-hidden="true" title="{{ _('Details') }}"></i></a>
                                 <a href="{{ url_for('feed.form', feed_id=fid) }}"><i class="bi bi-pencil" aria-hidden="true" title="{{ _('Edit this feed') }}"></i></a>
-                                <a href="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></a>
-                                <a href="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                <form action="{{ url_for('article.mark_as', new_value='unread', feed_id=fid) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-link p-0"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark this feed as unread') }}"></i></button>
+                                </form>
+                                <form action="{{ url_for('article.mark_as', new_value='read', feed_id=fid) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-link p-0"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></button>
+                                </form>
                             </span>
                         </li>
                     {% endfor %}
@@ -195,12 +213,21 @@
                             <tr>
                                 <th scope="col">
                                     {% if feed_id %}
-                                        <a href="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></a>
+                                        <form action="{{ url_for('article.mark_as', new_value='read', feed_id=feed_id) }}" method="post" class="d-inline">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-link p-0"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark this feed as read') }}"></i></button>
+                                        </form>
                                     {% else %}
                                         {% if filter_ == 'unread' %}
-                                            <a href="{{ url_for('article.mark_as', new_value='read') }}"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></a>
+                                            <form action="{{ url_for('article.mark_as', new_value='read') }}" method="post" class="d-inline">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-link p-0"><i class="bi bi-check-lg" aria-hidden="true" title="{{ _('Mark all as read') }}"></i></button>
+                                            </form>
                                         {% elif filter_ == 'read'  %}
-                                            <a href="{{ url_for('article.mark_as', new_value='unread') }}"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark all as unread') }}"></i></a>
+                                            <form action="{{ url_for('article.mark_as', new_value='unread') }}" method="post" class="d-inline">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-link p-0"><i class="bi bi-envelope" aria-hidden="true" title="{{ _('Mark all as unread') }}"></i></button>
+                                            </form>
                                         {% endif %}
                                     {% endif %}
                                 </th>

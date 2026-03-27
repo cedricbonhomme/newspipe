@@ -148,10 +148,13 @@
 
     <!-- Danger zone -->
     <div class="mt-4">
-        <a href="{{ url_for('user.delete_account') }}" class="btn btn-danger"
-           onclick="return confirm('{{ _('You are going to delete your account.') }}');">
-            <i class="bi bi-exclamation-triangle-fill"></i> {{ _('Delete your account') }}
-        </a>
+        <form action="{{ url_for('user.delete_account') }}" method="post" class="d-inline"
+              onsubmit="return confirm('{{ _('You are going to delete your account.') }}');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-exclamation-triangle-fill"></i> {{ _('Delete your account') }}
+            </button>
+        </form>
     </div>
 </div>
 {% endblock %}

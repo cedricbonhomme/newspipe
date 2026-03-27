@@ -30,20 +30,24 @@
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td id="{{ pair[0].id }}">
-                        <a href="{{ url_for('article.delete', article_id=pair[0].id) }}"
-                           class="text-danger me-2 text-decoration-none" title="{{ _('Delete this article') }}">
-                            <i class="bi bi-trash"></i>
-                        </a>
+                        <form action="{{ url_for('article.delete', article_id=pair[0].id) }}" method="post" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-link text-danger me-2 text-decoration-none p-0" title="{{ _('Delete this article') }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                         <a href="{{ prefix() }}/article/{{ pair[0].id }}" class="fw-semibold text-decoration-none">
                             {{ pair[0].title }}
                         </a>
                         <small class="text-muted">({{ pair[0].retrieved_date }})</small>
                     </td>
                     <td id="{{ pair[1].id }}">
-                        <a href="{{ url_for('article.delete', article_id=pair[1].id) }}"
-                           class="text-danger me-2 text-decoration-none" title="{{ _('Delete this article') }}">
-                            <i class="bi bi-trash"></i>
-                        </a>
+                        <form action="{{ url_for('article.delete', article_id=pair[1].id) }}" method="post" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-link text-danger me-2 text-decoration-none p-0" title="{{ _('Delete this article') }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                         <a href="{{ prefix() }}/article/{{ pair[1].id }}" class="fw-semibold text-decoration-none">
                             {{ pair[1].title }}
                         </a>

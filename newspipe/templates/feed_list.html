@@ -85,9 +85,12 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
-        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">
-          <i class="bi bi-trash"></i> {{ _('Delete') }}
-        </a>
+        <form id="deleteFeedForm" method="post" action="#">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> {{ _('Delete') }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -103,10 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update modal content
         var feedTitleElem = deleteModal.querySelector("#feedTitle");
-        var confirmBtn = deleteModal.querySelector("#confirmDeleteBtn");
+        var deleteForm = deleteModal.querySelector("#deleteFeedForm");
 
         feedTitleElem.textContent = feedTitle;
-        confirmBtn.href = "{{ url_for('feed.delete', feed_id=0) }}".replace("0", feedId);
+        deleteForm.action = "{{ url_for('feed.delete', feed_id=0) }}".replace("0", feedId);
     });
 });
 </script>

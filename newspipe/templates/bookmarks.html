@@ -97,9 +97,12 @@
                                     <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}" class="text-muted me-2">
                                         <i class="bi bi-pencil"></i> {{ _('Edit') }}
                                     </a>
-                                    <a href="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}" class="text-muted">
-                                        <i class="bi bi-trash"></i> {{ _('Delete') }}
-                                    </a>
+                                    <form action="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-link text-muted p-0">
+                                            <i class="bi bi-trash"></i> {{ _('Delete') }}
+                                        </button>
+                                    </form>
                                 {% endif %}
                             </div>
                         </div>

@@ -65,7 +65,7 @@ def article_pub(article_id=None):
     )
 
 
-@article_bp.route("/delete/<int:article_id>", methods=["GET"])
+@article_bp.route("/delete/<int:article_id>", methods=["POST"])
 @login_required
 def delete(article_id=None):
     """
@@ -93,8 +93,8 @@ def history(year=None, month=None):
     )
 
 
-@article_bp.route("/mark_as/<string:new_value>", methods=["GET"])
-@article_bp.route("/mark_as/<string:new_value>/feed/<int:feed_id>", methods=["GET"])
+@article_bp.route("/mark_as/<string:new_value>", methods=["POST"])
+@article_bp.route("/mark_as/<string:new_value>/feed/<int:feed_id>", methods=["POST"])
 @login_required
 def mark_as(new_value="read", feed_id=None, article_id=None):
     """
@@ -119,14 +119,14 @@ def mark_as(new_value="read", feed_id=None, article_id=None):
     return redirect(url_for("home"))
 
 
-@articles_bp.route("/expire_articles", methods=["GET"])
+@articles_bp.route("/expire_articles", methods=["POST"])
 @login_required
 def expire():
     """
     Delete articles older than the given number of weeks.
     """
     current_time = datetime.utcnow()
-    weeks_ago = current_time - timedelta(int(request.args.get("weeks", 10)))
+    weeks_ago = current_time - timedelta(int(request.form.get("weeks", 10)))
     art_contr = ArticleController(current_user.id)
 
     query = art_contr.read(

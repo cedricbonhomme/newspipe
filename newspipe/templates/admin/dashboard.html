@@ -44,19 +44,27 @@
                             </a>
                             {% if user.id != current_user.id %}
                                 {% if user.is_active %}
-                                    <a href="{{ url_for('admin.toggle_user', user_id=user.id) }}" class="btn btn-sm btn-outline-warning" title="{{ _('Disable this account') }}">
-                                        <i class="bi bi-ban"></i>
-                                    </a>
+                                    <form action="{{ url_for('admin.toggle_user', user_id=user.id) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="{{ _('Disable this account') }}">
+                                            <i class="bi bi-ban"></i>
+                                        </button>
+                                    </form>
                                 {% else %}
-                                    <a href="{{ url_for('admin.toggle_user', user_id=user.id) }}" class="btn btn-sm btn-outline-success" title="{{ _('Enable this account') }}">
-                                        <i class="bi bi-check"></i>
-                                    </a>
+                                    <form action="{{ url_for('admin.toggle_user', user_id=user.id) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-success" title="{{ _('Enable this account') }}">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </form>
                                 {% endif %}
-                                <a href="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-sm btn-outline-danger"
-                                   title="{{ _('Delete this user') }}"
-                                   onclick="return confirm('{{ _('You are going to delete this account.') }}');">
-                                   <i class="bi bi-trash"></i>
-                                </a>
+                                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="post" class="d-inline"
+                                      onsubmit="return confirm('{{ _('You are going to delete this account.') }}');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="{{ _('Delete this user') }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             {% endif %}
                         </td>
                     </tr>

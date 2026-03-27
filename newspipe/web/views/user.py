@@ -205,7 +205,7 @@ def profile():
         )
 
 
-@user_bp.route("/delete_account", methods=["GET"])
+@user_bp.route("/delete_account", methods=["POST"])
 @login_required
 def delete_account():
     """

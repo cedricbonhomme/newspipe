@@ -182,7 +182,7 @@ def process_form(bookmark_id=None):
     return redirect(url_for("bookmark.form", bookmark_id=new_bookmark.id))
 
 
-@bookmark_bp.route("/delete/<int:bookmark_id>", methods=["GET"])
+@bookmark_bp.route("/delete/<int:bookmark_id>", methods=["POST"])
 @login_required
 def delete(bookmark_id=None):
     "Delete a bookmark."
@@ -197,7 +197,7 @@ def delete(bookmark_id=None):
     return redirect(url_for("bookmarks.list_"))
 
 
-@bookmarks_bp.route("/delete", methods=["GET"])
+@bookmarks_bp.route("/delete", methods=["POST"])
 @login_required
 def delete_all():
     "Delete all bookmarks."

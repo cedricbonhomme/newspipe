@@ -136,7 +136,7 @@ def process_form(category_id=None):
     return redirect(url_for("category.form", category_id=new_category.id))
 
 
-@category_bp.route("/delete/<int:category_id>", methods=["GET"])
+@category_bp.route("/delete/<int:category_id>", methods=["POST"])
 @login_required
 def delete(category_id=None):
     category = CategoryController(current_user.id).delete(category_id)

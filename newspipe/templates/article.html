@@ -25,9 +25,12 @@
 
             <!-- Action Icons -->
             <div class="ms-3">
-              <a href="{{ url_for("article.delete", article_id=article.id) }}" class="text-muted me-2 text-decoration-none">
-                <i class="bi bi-trash" aria-hidden="true" title="{{ _('Delete this article') }}"></i>
-              </a>
+              <form action="{{ url_for('article.delete', article_id=article.id) }}" method="post" class="d-inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-link text-muted me-2 text-decoration-none p-0">
+                  <i class="bi bi-trash" aria-hidden="true" title="{{ _('Delete this article') }}"></i>
+                </button>
+              </form>
 
               {% if article.like %}
                 <a href="#" class="text-warning me-2 text-decoration-none">

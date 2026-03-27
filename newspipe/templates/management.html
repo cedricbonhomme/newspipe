@@ -13,10 +13,14 @@
             <p>{{ nb_articles | numberformat }} {{ _('articles are stored in the database with') }}
                {{ nb_unread_articles | numberformat }} {{ _('unread articles') }}.</p>
             <p>{{ _('You have') }} {{ nb_categories }} <a href="{{ url_for('categories.list_')}}">{{ _('categories') }}</a>.</p>
-            <a href="{{ url_for('articles.expire', weeks=10) }}" class="btn btn-warning"
-               onclick="return confirm('{{ _('You are going to delete old articles.') }}');">
-               <i class="bi bi-trash-fill"></i> {{ _('Delete articles older than 10 weeks') }}
-            </a>
+            <form action="{{ url_for('articles.expire') }}" method="post" class="d-inline"
+                  onsubmit="return confirm('{{ _('You are going to delete old articles.') }}');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="weeks" value="10">
+                <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-trash-fill"></i> {{ _('Delete articles older than 10 weeks') }}
+                </button>
+            </form>
         </div>
     </div>
 
@@ -114,10 +118,13 @@
                             <p class="card-text">{{ _('You have') }} {{ nb_bookmarks | numberformat }} <a href="{{ url_for('bookmarks.list_')}}">{{ _('bookmarks') }}</a>.</p>
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
                                 <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary"><i class="bi bi-download"></i> {{ _('Export JSON') }}</a>
-                                <a href="{{ url_for('bookmarks.delete_all') }}" class="btn btn-danger"
-                                   onclick="return confirm('{{ _('You are going to delete all bookmarks.') }}');">
-                                   <i class="bi bi-trash-fill"></i> {{ _('Delete all') }}
-                                </a>
+                                <form action="{{ url_for('bookmarks.delete_all') }}" method="post" class="d-inline"
+                                      onsubmit="return confirm('{{ _('You are going to delete all bookmarks.') }}');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash-fill"></i> {{ _('Delete all') }}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,11 @@
                         <td>( <a href="{{ url_for('home', filter_='unread', category=category.id) }}">{{ unread_article_count.get(category.id, 0) }}</a> ) {{ article_count.get(category.id, 0) }}</td>
                         <td>
                             <a href="{{ url_for('category.form', category_id=category.id) }}"><i class="bi bi-pencil" aria-hidden="true" title='{{ _("Edit this category") }}'></i></a>
-                            <a href="{{ url_for('category.delete', category_id=category.id) }}"><i class="bi bi-trash" aria-hidden="true" title='{{ _("Delete this category") }}' onclick="return confirm('{{ _('You are going to delete this category.') }}');"></i></a>
+                            <form action="{{ url_for('category.delete', category_id=category.id) }}" method="post" class="d-inline"
+                                  onsubmit="return confirm('{{ _('You are going to delete this category.') }}');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-link p-0"><i class="bi bi-trash" aria-hidden="true" title='{{ _("Delete this category") }}'></i></button>
+                            </form>
                         </td>
                 </tr>
                 {% endfor %}

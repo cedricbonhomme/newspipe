@@ -17,12 +17,13 @@
             title="{{ _('Edit this feed') }}">
             <i class="bi bi-pencil"></i>
           </a>
-          <a href="{{ url_for('feed.delete', feed_id=feed.id) }}"
-            class="btn btn-sm btn-outline-danger"
-            onclick="return confirm('{{ _('You are going to delete this feed.') }}');"
-            title="{{ _('Delete this feed') }}">
-            <i class="bi bi-trash"></i>
-          </a>
+          <form action="{{ url_for('feed.delete', feed_id=feed.id) }}" method="post" class="d-inline"
+                onsubmit="return confirm('{{ _('You are going to delete this feed.') }}');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-sm btn-outline-danger" title="{{ _('Delete this feed') }}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
         </div>
         {% endif %}
       </div>
@@ -87,7 +88,10 @@
         {% if feed.error_count >= application.config['DEFAULT_MAX_ERROR'] %}
           <div class="alert alert-danger">
             <strong>{{ _("This feed has too many consecutive errors and won't be retrieved anymore.") }}</strong><br>
-            {{ _("Click <a href='%(reset_error_url)s'>here</a> to reset the error count and reactivate the feed.", reset_error_url=url_for("feed.reset_errors", feed_id=feed.id)) | safe }}
+            <form action="{{ url_for('feed.reset_errors', feed_id=feed.id) }}" method="post" class="d-inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-danger mt-2">{{ _("Reset the error count and reactivate the feed") }}</button>
+            </form>
           </div>
         {% elif feed.error_count > 0 %}
           <div class="alert alert-warning">

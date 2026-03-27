@@ -126,7 +126,7 @@ def feed_pub(feed_id=None):
     return feed_view(feed_id, None)
 
 
-@feed_bp.route("/delete/<feed_id>", methods=["GET"])
+@feed_bp.route("/delete/<feed_id>", methods=["POST"])
 @login_required
 def delete(feed_id=None):
     feed_contr = FeedController(current_user.id)
@@ -139,7 +139,7 @@ def delete(feed_id=None):
     return redirect(url_for("home"))
 
 
-@feed_bp.route("/reset_errors/<int:feed_id>", methods=["GET"])
+@feed_bp.route("/reset_errors/<int:feed_id>", methods=["POST"])
 @login_required
 def reset_errors(feed_id):
     feed_contr = FeedController(current_user.id)
@@ -197,14 +197,14 @@ def bookmarklet():
     return redirect(url_for("feed.form", feed_id=feed.id))
 
 
-@feed_bp.route("/update/<action>/<int:feed_id>", methods=["GET", "POST"])
-@feeds_bp.route("/update/<action>", methods=["GET", "POST"])
+@feed_bp.route("/update/<action>/<int:feed_id>", methods=["POST"])
+@feeds_bp.route("/update/<action>", methods=["POST"])
 @login_required
 def update(action, feed_id=None):
     readed = action == "read"
     filters = {"readed__ne": readed}
 
-    nb_days = request.args.get("nb_days", 0, type=int)
+    nb_days = request.form.get("nb_days", 0, type=int)
     if nb_days != 0:
         filters["date__lt"] = datetime.now() - timedelta(days=nb_days)
 
