@@ -1,6 +1,13 @@
 Newspipe Changelog
 ==================
 
+## 11.2.2 (2026-03-27)
+
+### Fixes
+
+- Fixed a stored XSS vulnerability via the REST API article update endpoint. The API request parser now enforces the role-based field allowlist, preventing writes to non-whitelisted fields such as `content`. Article content and titles are additionally sanitized at the model level via SQLAlchemy validators. Reported by fyrepaw13.
+
+
 ## 11.2.1 (2026-03-26)
 
 ### Fixes
