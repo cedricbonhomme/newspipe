@@ -28,8 +28,11 @@ from datetime import datetime
 
 from sqlalchemy import Index
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
 
 from newspipe.bootstrap import db
+from newspipe.lib.sanitizers import sanitize_html_fragment
+from newspipe.lib.sanitizers import sanitize_text
 from newspipe.models.right_mixin import RightMixin
 
 
@@ -97,6 +100,18 @@ class Article(db.Model, RightMixin):
     @staticmethod
     def _fields_api_write():
         return {"tags"}
+
+    @validates("content")
+    def validate_content(self, key, value):
+        if value:
+            return sanitize_html_fragment(value)
+        return value
+
+    @validates("title")
+    def validate_title(self, key, value):
+        if value:
+            return sanitize_text(value)
+        return value
 
     def __repr__(self):
         return (
