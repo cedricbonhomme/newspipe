@@ -144,10 +144,14 @@ Array.prototype.map.call(nodes, function(node) {
       const article_id = node.closest("[data-article]").getAttribute("data-article");
       console.log(article_id);
       var data;
+      var parent = node.parentNode;
       if (node.classList.contains("bi-star-fill")) {
           data = JSON.stringify({like: false});
           node.classList.remove('bi-star-fill');
           node.classList.add('bi-star');
+          if (parent.classList.contains('text-warning')) {
+              parent.classList.replace('text-warning', 'text-muted');
+          }
           if(window.location.pathname.indexOf('/favorites') != -1) {
               node.parentNode.parentNode.parentNode.remove();
           }
@@ -156,6 +160,9 @@ Array.prototype.map.call(nodes, function(node) {
           data = JSON.stringify({like: true})
           node.classList.remove('bi-star');
           node.classList.add('bi-star-fill');
+          if (parent.classList.contains('text-muted')) {
+              parent.classList.replace('text-muted', 'text-warning');
+          }
       }
 
       // sends the updates to the server
