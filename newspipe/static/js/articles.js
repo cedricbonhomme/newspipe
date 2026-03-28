@@ -69,10 +69,8 @@ Array.prototype.map.call(nodes, function(node) {
               node.parentNode.parentNode.parentNode.remove();
           }
           else {
-              // here, filter == "all"
-              // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "bold" );
               node.classList.remove('bi-envelope-open');
-              node.classList.add('bi-envelope');
+              node.classList.add('bi-check-lg');
           }
           change_unread_counter(feed_id, 1);
       }
@@ -82,9 +80,7 @@ Array.prototype.map.call(nodes, function(node) {
               node.parentNode.parentNode.parentNode.remove();
           }
           else {
-              // here, filter == "all"
-              // node.parentNode.parentNode.parentNode.children("td:nth-child(2)").css( "font-weight", "normal" );
-              node.classList.remove('bi-envelope');
+              node.classList.remove('bi-check-lg');
               node.classList.add('bi-envelope-open');
           }
           change_unread_counter(feed_id, -1);
@@ -145,8 +141,7 @@ Array.prototype.map.call(nodes, function(node) {
 var nodes = document.getElementsByClassName('like');
 Array.prototype.map.call(nodes, function(node) {
     node.onclick = function() {
-      const container = document.querySelector(".article");
-      const article_id = container.getAttribute("data-article");
+      const article_id = node.closest("[data-article]").getAttribute("data-article");
       console.log(article_id);
       var data;
       if (node.classList.contains("bi-star-fill")) {
