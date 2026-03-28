@@ -2,24 +2,24 @@ ci:
   autoupdate_schedule: monthly
 repos:
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args: ["--py37-plus"]
   - repo: https://github.com/asottile/reorder-python-imports
-    rev: v3.12.0
+    rev: v3.16.0
     hooks:
       - id: reorder-python-imports
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 26.3.1
     hooks:
       - id: black
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.13.0
+    rev: 1.20.0
     hooks:
       - id: blacken-docs
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         additional_dependencies:
@@ -33,6 +33,6 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
   - repo: https://github.com/pypa/pip-audit
-    rev: v2.7.3
+    rev: v2.10.0
     hooks:
       -   id: pip-audit

@@ -45,7 +45,6 @@ from newspipe.lib.utils import clear_string
 
 from urllib.parse import parse_qs, urljoin, urlparse, urlunparse
 
-
 logger = logging.getLogger(__name__)
 
 ALLOWED_EXTENSIONS = {"xml", "opml", "json"}

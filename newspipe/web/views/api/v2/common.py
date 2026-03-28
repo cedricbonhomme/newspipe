@@ -18,6 +18,7 @@ routes :
     DELETE resources
         -> to delete several
 """
+
 import logging
 from functools import wraps
 
