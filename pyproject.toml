@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "Newspipe"
-version = "11.2.2"
+version = "11.3.0"
 description = "Newspipe is a web news aggregator."
 authors = [
     {name = "Cédric Bonhomme", email = "cedric@cedricbonhomme.org"}

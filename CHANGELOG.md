@@ -1,6 +1,13 @@
 Newspipe Changelog
 ==================
 
+## 11.3.0 (2026-03-28)
+
+### Improvements
+
+- Converted all state-changing GET routes (delete, toggle, mark-as-read, expire) to POST requests with CSRF token protection. Updated all corresponding Jinja2 templates to use forms instead of plain links.
+
+
 ## 11.2.2 (2026-03-27)
 
 ### Fixes
