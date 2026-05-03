@@ -172,6 +172,7 @@ def push_sighting_to_vulnerability_lookup(article, vulnerability_ids, sighting_t
         sighting = {
             "type": sighting_type,
             "source": remove_utm_parameters(article.link),
+            "content": article.content,
             "vulnerability": vuln,
             "creation_timestamp": article.date,
         }
