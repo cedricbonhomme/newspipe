@@ -30,7 +30,7 @@
         <div id="sidebar" class="col-2 d-none d-lg-block" style="min-height: 0;">
             <a class="nav-link pb-1" href="{{ gen_url(feed=0, category=0) }}">
                 {% if not feed_id %}<b>{% endif %}{{ _('All feeds') }}{% if not feed_id %}</b>{% endif %}
-                <span id="total-unread" class="badge bg-secondary float-end">{% if nb_unread is defined and nb_unread > 1000 %}…{% endif %}&nbsp;{{ articles.__len__() }}</span>
+                <span id="total-unread" class="badge bg-secondary float-end">{{ nb_unread }}</span>
             </a>
 
             {# Categories: match original behavior — list only feeds that have unread (feed.id in unread.keys()) #}
@@ -195,14 +195,6 @@
                     <li id="tab-liked" class="px-5 nav-item">
                         <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}"><i class="bi bi-star-fill" aria-hidden="true"></i>&nbsp;{{ _('Liked') }}</a>
                     </li>
-                    <li id="tab-nbdisplay" class="px-5 nav-item d-none d-lg-block">
-                        <div id="nbdisplay">
-                            <a href="{{ gen_url(limit=10) }}" class="badge {% if limit == 10 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(10) }}</a>
-                            <a href="{{ gen_url(limit=100) }}" class="badge {% if limit == 100 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(100) }}</a>
-                            <a href="{{ gen_url(limit=1000) }}" class="badge {% if limit == 1000 %}bg-primary{% else %}bg-secondary{% endif %}">{{ _(1000) }}</a>
-                            <a href="{{ gen_url(limit='all') }}" class="badge {% if limit == 'all' %}bg-primary{% else %}bg-secondary{% endif %}">{{ _('All') }}</a>
-                        </div>
-                    </li>
                 </ul>
             </div>
 
@@ -274,6 +266,11 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <div id="scroll-sentinel" class="text-center py-3">
+                        <div id="scroll-spinner" class="spinner-border spinner-border-sm d-none" role="status">
+                            <span class="visually-hidden">{{ _('Loading…') }}</span>
+                        </div>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -310,6 +307,172 @@
         element.textContent = DateTime.fromISO(element.textContent).toRelative();
       } catch(e) { /* ignore parse errors */ }
     });
+
+    // --- Infinite scroll ---------------------------------------------------
+    const tbody = document.querySelector("table tbody");
+    const sentinel = document.getElementById("scroll-sentinel");
+    const spinner = document.getElementById("scroll-spinner");
+    if (tbody && sentinel) {
+      const endpoint = {{ url_for('home_articles') | tojson }};
+      const showFeedCol = {{ (not feed_id) | tojson }};
+      const currentFilter = {{ filter_ | tojson }};
+      const I18N = {
+        markRead: {{ _('Mark this article as read') | tojson }},
+        markUnread: {{ _('Mark this article as unread') | tojson }},
+        favorite: {{ _('One of your favorites') | tojson }},
+        like: {{ _('Click if you like this article') | tojson }},
+        openInPage: {{ _('Open article in a new page.') | tojson }},
+      };
+
+      let nextOffset = {{ articles | count }};
+      let hasMore = {{ (articles | count >= per_page) | tojson }};
+      let loading = false;
+
+      function truncate(str, n) {
+        str = str || "";
+        return str.length > n ? str.slice(0, n) + "…" : str;
+      }
+
+      function sentinelVisible() {
+        const rect = sentinel.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < vh + 300;
+      }
+
+      function buildArticleRow(art) {
+        const tr = document.createElement("tr");
+        tr.className = "article";
+        tr.dataset.article = art.id;
+        tr.setAttribute("data-bs-feed", art.feed_id);
+
+        // status cell (read / like toggles, handled by articles.js delegation)
+        const th = document.createElement("th");
+        th.scope = "row";
+        const readBtn = document.createElement("button");
+        readBtn.type = "button";
+        readBtn.className = "btn btn-link btn-xs";
+        const readIcon = document.createElement("i");
+        readIcon.className = art.readed ? "bi bi-envelope-open readed" : "bi bi-check-lg readed";
+        readIcon.setAttribute("aria-hidden", "true");
+        readIcon.title = art.readed ? I18N.markUnread : I18N.markRead;
+        readBtn.appendChild(readIcon);
+        th.appendChild(readBtn);
+        const likeBtn = document.createElement("button");
+        likeBtn.type = "button";
+        likeBtn.className = "btn btn-link btn-xs";
+        const likeIcon = document.createElement("i");
+        likeIcon.className = art.like ? "bi bi-star-fill like" : "bi bi-star like";
+        likeIcon.setAttribute("aria-hidden", "true");
+        likeIcon.title = art.like ? I18N.favorite : I18N.like;
+        likeBtn.appendChild(likeIcon);
+        th.appendChild(likeBtn);
+        tr.appendChild(th);
+
+        // feed cell (only when not viewing a single feed)
+        if (showFeedCol) {
+          const td = document.createElement("td");
+          const img = document.createElement("img");
+          img.src = art.icon_url;
+          img.width = 16;
+          img.alt = "";
+          td.appendChild(img);
+          td.appendChild(document.createTextNode(" "));
+          const a = document.createElement("a");
+          a.href = art.redirect_url;
+          a.rel = "noopener noreferrer";
+          a.target = "_blank";
+          a.title = art.feed_title;
+          a.textContent = truncate(art.feed_title, 20);
+          td.appendChild(a);
+          tr.appendChild(td);
+        }
+
+        // title cell
+        const tdTitle = document.createElement("td");
+        if (currentFilter === "all" && !art.readed) {
+          tdTitle.style.fontWeight = "bold";
+        }
+        const titleLink = document.createElement("a");
+        titleLink.setAttribute("data-bs-toggle", "collapse");
+        titleLink.href = "#collapse-" + art.id;
+        titleLink.setAttribute("article-id", art.id);
+        titleLink.title = art.title;
+        titleLink.textContent = truncate(art.title, 70);
+        tdTitle.appendChild(titleLink);
+        const collapse = document.createElement("div");
+        collapse.className = "collapse";
+        collapse.id = "collapse-" + art.id;
+        const card = document.createElement("div");
+        card.className = "card card-body col-md-10 overflow-auto";
+        const span = document.createElement("span");
+        span.setAttribute("content-id", art.id);
+        card.appendChild(span);
+        card.appendChild(document.createElement("hr"));
+        const openLink = document.createElement("a");
+        openLink.href = art.article_url;
+        openLink.title = art.title;
+        openLink.textContent = I18N.openInPage;
+        card.appendChild(openLink);
+        collapse.appendChild(card);
+        tdTitle.appendChild(collapse);
+        tr.appendChild(tdTitle);
+
+        // date cell
+        const tdDate = document.createElement("td");
+        tdDate.className = "datetime";
+        tdDate.title = art.date_title;
+        try {
+          tdDate.textContent = DateTime.fromISO(art.date_iso).toRelative();
+        } catch (e) {
+          tdDate.textContent = art.date_iso;
+        }
+        tr.appendChild(tdDate);
+
+        return tr;
+      }
+
+      async function loadMore() {
+        if (loading || !hasMore) return;
+        loading = true;
+        if (spinner) spinner.classList.remove("d-none");
+        try {
+          const params = new URLSearchParams(window.location.search);
+          params.set("offset", nextOffset);
+          const resp = await fetch(endpoint + "?" + params.toString());
+          if (!resp.ok) throw new Error("Failed to load more articles");
+          const data = await resp.json();
+          const frag = document.createDocumentFragment();
+          data.articles.forEach(function (art) {
+            frag.appendChild(buildArticleRow(art));
+          });
+          tbody.appendChild(frag);
+          nextOffset += data.articles.length;
+          hasMore = data.has_more;
+        } catch (e) {
+          console.error(e);
+          hasMore = false; // stop trying after an error
+        } finally {
+          loading = false;
+          if (spinner) spinner.classList.add("d-none");
+          if (!hasMore) {
+            sentinel.classList.add("d-none");
+            if (observer) observer.disconnect();
+          } else if (sentinelVisible()) {
+            // viewport not filled yet (sentinel stays intersecting, so the
+            // observer won't re-fire) — keep loading until it scrolls away.
+            loadMore();
+          }
+        }
+      }
+
+      let observer = null;
+      if (hasMore && "IntersectionObserver" in window) {
+        observer = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) loadMore();
+        }, { rootMargin: "300px" });
+        observer.observe(sentinel);
+      }
+    }
   });
 </script>
 {% endblock %}

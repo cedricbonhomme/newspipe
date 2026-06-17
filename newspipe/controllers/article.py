@@ -132,7 +132,9 @@ class ArticleController(AbstractController):
         )
 
     def read_ordered(self, **filters):
-        return super().read(**filters).order_by(Article.date.desc())
+        # id is a stable tiebreaker so paginated offsets don't skip/duplicate
+        # rows when several articles share the same date.
+        return super().read(**filters).order_by(Article.date.desc(), Article.id.desc())
 
     def get_date_statistics(self, **filters):
         query = super().read(**filters)

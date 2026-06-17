@@ -52,53 +52,55 @@ document.querySelectorAll(".open-article").forEach(el => {
 });
 
 
-// Mark an article as read or unread from the home page
-var nodes = document.getElementsByClassName('readed');
-Array.prototype.map.call(nodes, function(node) {
-    node.onclick = function() {
-      var article_id = node.parentNode.parentNode.parentNode.getAttribute("data-article");
-      var feed_id = node.parentNode.parentNode.parentNode.getAttribute("data-bs-feed");
-      var filter = document.getElementById('filters').getAttribute("data-filter");
+// Mark an article as read or unread from the home page (event-delegated so it
+// also works for rows added by infinite scroll).
+document.addEventListener("click", function(event) {
+    var node = event.target.closest(".readed");
+    if (!node) return;
+    var row = node.closest("[data-article]");
+    if (!row) return;
+    var article_id = row.getAttribute("data-article");
+    var feed_id = row.getAttribute("data-bs-feed");
+    var filter = document.getElementById('filters').getAttribute("data-filter");
 
-      var data;
-      if (node.classList.contains('bi-envelope-open')) {
-          data = JSON.stringify({
-              readed: false
-          })
-          if (filter == "read") {
-              node.parentNode.parentNode.parentNode.remove();
-          }
-          else {
-              node.classList.remove('bi-envelope-open');
-              node.classList.add('bi-check-lg');
-          }
-          change_unread_counter(feed_id, 1);
-      }
-      else {
-          data = JSON.stringify({readed: true})
-          if (filter == "unread") {
-              node.parentNode.parentNode.parentNode.remove();
-          }
-          else {
-              node.classList.remove('bi-check-lg');
-              node.classList.add('bi-envelope-open');
-          }
-          change_unread_counter(feed_id, -1);
-      }
-
-      // sends the updates to the server
-      fetch(prefix + API_ROOT + "article/" + article_id, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: data
-      }).then(res => {
-        console.log("Request complete! response:", res);
-      }).catch((error) => {
-        console.error('Error:', error);
-      });;
+    var data;
+    if (node.classList.contains('bi-envelope-open')) {
+        data = JSON.stringify({
+            readed: false
+        })
+        if (filter == "read") {
+            row.remove();
+        }
+        else {
+            node.classList.remove('bi-envelope-open');
+            node.classList.add('bi-check-lg');
+        }
+        change_unread_counter(feed_id, 1);
     }
+    else {
+        data = JSON.stringify({readed: true})
+        if (filter == "unread") {
+            row.remove();
+        }
+        else {
+            node.classList.remove('bi-check-lg');
+            node.classList.add('bi-envelope-open');
+        }
+        change_unread_counter(feed_id, -1);
+    }
+
+    // sends the updates to the server
+    fetch(prefix + API_ROOT + "article/" + article_id, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });;
 });
 
 
@@ -137,47 +139,48 @@ Array.prototype.map.call(nodes, function(node) {
 
 
 
-// Like or unlike an article
-var nodes = document.getElementsByClassName('like');
-Array.prototype.map.call(nodes, function(node) {
-    node.onclick = function() {
-      const article_id = node.closest("[data-article]").getAttribute("data-article");
-      console.log(article_id);
-      var data;
-      var parent = node.parentNode;
-      if (node.classList.contains("bi-star-fill")) {
-          data = JSON.stringify({like: false});
-          node.classList.remove('bi-star-fill');
-          node.classList.add('bi-star');
-          if (parent.classList.contains('text-warning')) {
-              parent.classList.replace('text-warning', 'text-muted');
-          }
-          if(window.location.pathname.indexOf('/favorites') != -1) {
-              node.parentNode.parentNode.parentNode.remove();
-          }
-      }
-      else {
-          data = JSON.stringify({like: true})
-          node.classList.remove('bi-star');
-          node.classList.add('bi-star-fill');
-          if (parent.classList.contains('text-muted')) {
-              parent.classList.replace('text-muted', 'text-warning');
-          }
-      }
-
-      // sends the updates to the server
-      fetch(prefix + API_ROOT + "article/" + article_id, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: data
-      }).then(res => {
-        console.log("Request complete! response:", res);
-      }).catch((error) => {
-        console.error('Error:', error);
-      });;
+// Like or unlike an article (event-delegated so it also works for rows added
+// by infinite scroll).
+document.addEventListener("click", function(event) {
+    var node = event.target.closest(".like");
+    if (!node) return;
+    var row = node.closest("[data-article]");
+    if (!row) return;
+    const article_id = row.getAttribute("data-article");
+    var data;
+    var parent = node.parentNode;
+    if (node.classList.contains("bi-star-fill")) {
+        data = JSON.stringify({like: false});
+        node.classList.remove('bi-star-fill');
+        node.classList.add('bi-star');
+        if (parent.classList.contains('text-warning')) {
+            parent.classList.replace('text-warning', 'text-muted');
+        }
+        if(window.location.pathname.indexOf('/favorites') != -1) {
+            row.remove();
+        }
     }
+    else {
+        data = JSON.stringify({like: true})
+        node.classList.remove('bi-star');
+        node.classList.add('bi-star-fill');
+        if (parent.classList.contains('text-muted')) {
+            parent.classList.replace('text-muted', 'text-warning');
+        }
+    }
+
+    // sends the updates to the server
+    fetch(prefix + API_ROOT + "article/" + article_id, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });;
 });
 
 

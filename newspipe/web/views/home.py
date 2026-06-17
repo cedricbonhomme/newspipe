@@ -21,13 +21,14 @@ from newspipe.web.views.common import jsonify
 localize = pytz.utc.localize
 logger = logging.getLogger(__name__)
 
+# Number of articles loaded per page (initial render and infinite scroll).
+PER_PAGE = 50
+
 
 @current_app.route("/")
 @login_required
 def home():
     """Displays the home page of the connected user."""
-    filters = _get_filters(request.args)
-
     category_contr = CategoryController(current_user.id)
     art_contr = ArticleController(current_user.id)
     categories = {cat.id: cat for cat in category_contr.read().all()}
@@ -55,29 +56,13 @@ def home():
         for catid, category in categories.items()
     }
 
-    filter_ = request.args.get("filter_", "unread")
-    feed_id = int(request.args.get("feed", 0))
-    category_id = int(request.args.get("category", 0))
-    liked = int(request.args.get("liked", 0)) == 1
-    limit = request.args.get("limit", 1000)
+    filters, filter_, feed_id, category_id, liked = _articles_filters(request.args)
     query = request.args.get("query", "")
     search_title = request.args.get("search_title", "off")
     search_content = request.args.get("search_content", "off")
 
-    if filter_ in ["read", "unread"]:
-        filters["readed"] = filter_ == "read"
-    if feed_id:
-        filters["feed_id"] = feed_id
-    if category_id:
-        filters["category_id"] = category_id
-    if liked:
-        filters["like"] = int(liked) == 1
-
-    articles = art_contr.read_ordered(**filters)
-
-    if limit != "all":
-        limit = int(limit)
-        articles = articles.limit(limit)
+    # Only load the first page; the rest is fetched on demand via /home/articles.
+    articles = art_contr.read_ordered(**filters).limit(PER_PAGE).all()
 
     in_error = {
         feed.id: feed.error_count
@@ -86,7 +71,6 @@ def home():
 
     def gen_url(
         filter_=filter_,
-        limit=limit,
         feed=feed_id,
         category=category_id,
         liked=liked,
@@ -95,10 +79,9 @@ def home():
         search_content=search_content,
     ):
         return (
-            "?filter_=%s&limit=%s&feed=%d&category=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
+            "?filter_=%s&feed=%d&category=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
             % (
                 filter_,
-                limit,
                 feed,
                 category,
                 1 if liked else 0,
@@ -115,16 +98,84 @@ def home():
         feed_id=feed_id,
         category_id=category_id,
         filter_=filter_,
-        limit=limit,
+        per_page=PER_PAGE,
         feeds=feeds,
         categories=categories,
         feeds_by_cat=feeds_by_cat,
         unread_by_cat=unread_by_cat,
         liked=liked,
         unread=dict(unread),
-        articles=articles.all(),
+        articles=articles,
         in_error=in_error,
     )
+
+
+def _articles_filters(args):
+    """Build the article query filters from request args, shared by the home
+    page and the infinite-scroll endpoint."""
+    filters = _get_filters(args)
+    filter_ = args.get("filter_", "unread")
+    feed_id = int(args.get("feed", 0))
+    category_id = int(args.get("category", 0))
+    liked = int(args.get("liked", 0)) == 1
+
+    if filter_ in ("read", "unread"):
+        filters["readed"] = filter_ == "read"
+    if feed_id:
+        filters["feed_id"] = feed_id
+    if category_id:
+        filters["category_id"] = category_id
+    if liked:
+        filters["like"] = True
+
+    return filters, filter_, feed_id, category_id, liked
+
+
+@current_app.route("/home/articles")
+@login_required
+@jsonify
+def home_articles():
+    """Return a page of articles as JSON, used for infinite scrolling."""
+    art_contr = ArticleController(current_user.id)
+    filters, filter_, feed_id, _, _ = _articles_filters(request.args)
+
+    try:
+        offset = max(0, int(request.args.get("offset", 0)))
+    except (TypeError, ValueError):
+        offset = 0
+
+    articles = art_contr.read_ordered(**filters).offset(offset).limit(PER_PAGE).all()
+
+    locale = get_locale()
+    feeds = {feed.id: feed for feed in current_user.feeds}
+
+    items = []
+    for art in articles:
+        feed = feeds.get(art.feed_id)
+        items.append(
+            {
+                "id": art.id,
+                "feed_id": art.feed_id,
+                "readed": art.readed,
+                "like": art.like,
+                "title": art.title,
+                "bold": filter_ == "all" and not art.readed,
+                "date_iso": art.date.isoformat(),
+                "date_title": format_datetime(localize(art.date), locale=locale),
+                "feed_title": feed.title if feed else "",
+                "icon_url": url_for("icon.icon", url=feed.icon_url if feed else ""),
+                "redirect_url": url_for(
+                    "article.redirect_to_article", article_id=art.id
+                ),
+                "article_url": url_for("article.article", article_id=art.id),
+            }
+        )
+
+    return {
+        "articles": items,
+        "show_feed": feed_id == 0,
+        "has_more": len(articles) == PER_PAGE,
+    }
 
 
 def _get_filters(in_dict):
