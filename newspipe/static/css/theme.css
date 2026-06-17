@@ -1,121 +1,459 @@
+/*
+ * Newspipe theme — a calm, modern feed reader.
+ *
+ * Everything is driven by design tokens layered over Bootstrap's own --bs-*
+ * variables, so a single palette change cascades through the whole app and the
+ * structural markup / JS hooks (.readed, .like, .feed-menu, #total-unread, …)
+ * stay untouched.
+ */
+
+/* ---- Design tokens ------------------------------------------------------ */
+[data-bs-theme="light"] {
+  --np-bg: #eceff3;
+  --np-surface: #ffffff;
+  --np-surface-2: #f4f6f9;
+  --np-border: #e1e6ec;
+  --np-ink: #1a242e;
+  --np-muted: #687682;
+  --np-brand: #34657f;
+  --np-brand-strong: #284f63;
+  --np-accent: #1488a6;
+  --np-accent-rgb: 20, 136, 166;
+  --np-accent-soft: rgba(20, 136, 166, 0.10);
+  --np-like: #f0a500;
+
+  /* Map onto Bootstrap so components inherit the identity for free. */
+  --bs-body-bg: var(--np-bg);
+  --bs-body-color: var(--np-ink);
+  --bs-border-color: var(--np-border);
+  --bs-primary: var(--np-brand);
+  --bs-primary-rgb: 52, 101, 127;
+  --bs-link-color: var(--np-accent);
+  --bs-link-color-rgb: var(--np-accent-rgb);
+  --bs-link-hover-color: var(--np-brand-strong);
+  --bs-border-radius: 0.6rem;
+  --bs-emphasis-color: var(--np-ink);
+}
+
+[data-bs-theme="dark"] {
+  --np-bg: #0f151b;
+  --np-surface: #182029;
+  --np-surface-2: #1f2935;
+  --np-border: #2a3540;
+  --np-ink: #e6edf3;
+  --np-muted: #93a1ad;
+  --np-brand: #4d829b;
+  --np-brand-strong: #6ba0b8;
+  --np-accent: #3fb6d3;
+  --np-accent-rgb: 63, 182, 211;
+  --np-accent-soft: rgba(63, 182, 211, 0.14);
+  --np-like: #ffc043;
+
+  --bs-body-bg: var(--np-bg);
+  --bs-body-color: var(--np-ink);
+  --bs-border-color: var(--np-border);
+  --bs-primary: var(--np-brand);
+  --bs-primary-rgb: 77, 130, 155;
+  --bs-link-color: var(--np-accent);
+  --bs-link-color-rgb: var(--np-accent-rgb);
+  --bs-link-hover-color: var(--np-brand-strong);
+  --bs-border-radius: 0.6rem;
+  --bs-emphasis-color: var(--np-ink);
+}
+
+:root {
+  --np-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --np-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo,
+    Consolas, monospace;
+}
+
+/* ---- Base --------------------------------------------------------------- */
 html {
-    position: relative;
-    min-height: 100%;
-    font-size: 16px;
+  position: relative;
+  min-height: 100%;
+  font-size: 16px;
 }
+
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+  margin-bottom: 60px;
+  font-family: var(--np-sans);
+  background-color: var(--np-bg);
+  color: var(--np-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
 img {
-    padding: 2px;
+  padding: 2px;
 }
 
-a[data-theme="dark"] {
-
-  color: #ffffff;
+a {
+  text-decoration: none;
 }
-a[data-theme="light"] {
-  color: #000000;
+a:hover {
+  text-decoration: underline;
 }
 
-/* Button colors */
+:focus-visible {
+  outline: 2px solid var(--np-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  .btn,
+  .nav-link,
+  .feed-menu,
+  .badge,
+  .table > tbody > tr {
+    transition: background-color 0.15s ease, color 0.15s ease,
+      border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+}
+
+/* ---- Navbar ------------------------------------------------------------- */
+.navbar.bg-body {
+  background-color: var(--np-surface) !important;
+  border-bottom: 1px solid var(--np-border);
+  box-shadow: none;
+}
+
+.navbar-brand.fw-bold {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--np-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* A small "live feed" dot — the page's signature mark. */
+.navbar-brand.fw-bold::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--np-accent);
+  box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .navbar-brand.fw-bold::before {
+    animation: np-pulse 2.6s ease-out infinite;
+  }
+}
+@keyframes np-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(var(--np-accent-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0);
+  }
+}
+
+.navbar .nav-link {
+  color: var(--np-muted);
+  font-weight: 500;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--np-ink);
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+.btn {
+  --bs-btn-border-radius: 0.55rem;
+  font-weight: 500;
+}
 .btn-primary {
-  background-color: #446d80;
-  border-color: #446d80 !important;
-  color: white;
-}
-.btn-primary:hover {
-  background-color: #8fb4c5;
-  border-color: #8fb4c5 !important;
-  color: white;
+  --bs-btn-bg: var(--np-brand);
+  --bs-btn-border-color: var(--np-brand);
+  --bs-btn-hover-bg: var(--np-brand-strong);
+  --bs-btn-hover-border-color: var(--np-brand-strong);
+  --bs-btn-active-bg: var(--np-brand-strong);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
 }
 .btn-outline-primary {
-  border-color: #006FBA;
-  color: #006FBA;
+  --bs-btn-color: var(--np-accent);
+  --bs-btn-border-color: var(--np-accent);
+  --bs-btn-hover-bg: var(--np-accent);
+  --bs-btn-hover-border-color: var(--np-accent);
 }
 .btn-secondary {
-  background-color: #006FBA;
-  color: white;
-}
-.btn-default {
-  background-color: #006FBA;
-  color: white;
+  --bs-btn-bg: var(--np-accent);
+  --bs-btn-border-color: var(--np-accent);
+  --bs-btn-color: #fff;
 }
 
-
-.bg-primary {
-  background-color: #446d80 !important;
-  border-color: #446d80 !important;
-  color: white;
+.btn-group-xs > .btn,
+.btn-xs {
+  padding: 0.1rem 0.2rem;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 0.3rem;
 }
 
+/* ---- Cards / surfaces --------------------------------------------------- */
+.card {
+  --bs-card-bg: var(--np-surface);
+  --bs-card-border-color: var(--np-border);
+  --bs-card-border-radius: var(--bs-border-radius);
+}
+
+.dropdown-menu {
+  --bs-dropdown-bg: var(--np-surface);
+  --bs-dropdown-border-color: var(--np-border);
+  --bs-dropdown-border-radius: 0.7rem;
+  --bs-dropdown-link-hover-bg: var(--np-accent-soft);
+  --bs-dropdown-link-active-bg: var(--np-accent);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.25);
+  padding: 0.35rem;
+}
+.dropdown-item {
+  border-radius: 0.45rem;
+}
+
+.form-control,
+.form-select {
+  border-color: var(--np-border);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--np-accent);
+  box-shadow: 0 0 0 0.2rem var(--np-accent-soft);
+}
+
+/* ---- Sidebar ------------------------------------------------------------ */
 #sidebar {
-    overflow: auto;
-    max-height: 700px;
+  overflow: auto;
+  max-height: calc(100vh - 90px);
+  padding-right: 0.4rem;
 }
 
 #sidebar .nav li {
   list-style-type: none;
   padding: 0;
-  line-height: 1.0;
+  line-height: 1;
   flex-direction: row;
-  flex-wrap: nowrap; /* assumes you only want one row */
+  flex-wrap: nowrap;
 }
 
-.nav-link[data-theme="dark"] {
-  color: white;
+/* The top "All feeds" entry. */
+#sidebar > a.nav-link {
+  font-weight: 600;
+  color: var(--np-ink);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
 }
-.nav-link[data-theme="white"] {
-  color: rgb(0, 0, 0);
-}
-
-/* Main table for the list of news */
-
-.btn-group-xs > .btn, .btn-xs {
-  padding: 0;
-  font-size: 16px;
-  line-height: .09;
-  border-radius: 0;
+#sidebar > a.nav-link:hover {
+  background: var(--np-accent-soft);
 }
 
-/* Sticky footer */
+/* Category / section header bars. */
+#sidebar .bg-primary {
+  background: var(--np-brand) !important;
+  border: none !important;
+  border-radius: 0.55rem;
+  padding: 0.4rem 0.7rem;
+  margin: 0.85rem 0 0.35rem;
+}
+#sidebar .bg-primary .align-middle a,
+#sidebar .bg-primary .align-middle {
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* Ghost the collapse chevron inside the header bar. */
+#sidebar .bg-primary .btn-primary {
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-bg: rgba(255, 255, 255, 0.18);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-bg: rgba(255, 255, 255, 0.25);
+  padding: 0.1rem 0.35rem;
+}
+
+/* Feed rows. */
+#sidebar .feed-menu .nav-link {
+  color: var(--np-ink);
+  border-radius: 0.5rem;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.92rem;
+}
+#sidebar .feed-menu:hover .nav-link {
+  background: var(--np-accent-soft);
+  color: var(--np-accent);
+}
+
+/* Count pills — monospaced, the page's "data" voice. */
+#sidebar .badge.bg-secondary {
+  background: var(--np-surface-2) !important;
+  color: var(--np-muted);
+  font-family: var(--np-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  border: 1px solid var(--np-border);
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+}
+#total-unread.badge.bg-secondary {
+  background: var(--np-accent) !important;
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ---- Filter tabs (All / Read / Unread / Liked) -------------------------- */
+#filters .nav-tabs {
+  --bs-nav-tabs-border-color: var(--np-border);
+  border-bottom: 1px solid var(--np-border);
+  gap: 0.15rem;
+}
+#filters .nav-tabs .nav-link {
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--np-muted);
+  font-weight: 500;
+  border-radius: 0.4rem 0.4rem 0 0;
+  margin-bottom: -1px;
+}
+#filters .nav-tabs .nav-link:hover {
+  color: var(--np-ink);
+  background: var(--np-accent-soft);
+}
+#filters .nav-tabs .nav-link.active {
+  color: var(--np-accent);
+  background: transparent;
+  border-bottom-color: var(--np-accent);
+}
+
+/* ---- Article list ------------------------------------------------------- */
+/* Lift the list onto a soft surface card. */
+.table-responsive {
+  background: var(--np-surface);
+  border: 1px solid var(--np-border);
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-striped-bg: transparent;
+  margin-bottom: 0;
+  color: var(--np-ink);
+}
+
+.table thead th {
+  background: var(--np-surface-2);
+  color: var(--np-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--np-border);
+  padding: 0.6rem 0.75rem;
+}
+
+.table > tbody > tr {
+  border-color: var(--np-border);
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+  padding: 0.6rem 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--np-border);
+}
+.table > tbody > tr:last-child > td,
+.table > tbody > tr:last-child > th {
+  border-bottom: none;
+}
+.table > tbody > tr:hover > * {
+  background: var(--np-accent-soft);
+}
+
+/* Article title links read as content, not as plain hyperlinks. */
+tr.article td a[article-id] {
+  color: var(--np-ink);
+  font-weight: 500;
+}
+tr.article:hover td a[article-id] {
+  color: var(--np-accent);
+}
+
+/* Feed name + date in the quiet "metadata" voice. */
+tr.article td a[target="_blank"] {
+  color: var(--np-muted);
+  font-size: 0.85rem;
+}
+.datetime {
+  font-family: var(--np-mono);
+  font-size: 0.8rem;
+  color: var(--np-muted);
+  white-space: nowrap;
+}
+
+/* Status icons: read toggle is quiet, the favourite star is gold when set. */
+.readed {
+  color: var(--np-muted);
+}
+.readed:hover {
+  color: var(--np-accent);
+}
+.like {
+  color: var(--np-muted);
+}
+.like.bi-star-fill {
+  color: var(--np-like);
+}
+
+/* Infinite-scroll spinner. */
+#scroll-sentinel {
+  color: var(--np-muted);
+}
+
+/* ---- Toasts / alerts ---------------------------------------------------- */
+.alert {
+  border-radius: 0.6rem;
+}
+
+.input-group-inline {
+  min-width: 0;
+  width: 200px;
+  display: inline;
+}
+
+/* ---- Sticky footer ------------------------------------------------------ */
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 60px;
+  border-top: 1px solid var(--np-border);
+  color: var(--np-muted);
 }
-.footer a[data-theme="dark"]{
-  color: #FFFFFF;
+.footer a[data-theme="dark"] {
+  color: #ffffff;
 }
-.footer a[data-theme="white"]{
+.footer a[data-theme="white"] {
   color: #000000;
 }
 
-.input-group-inline {
-    min-width: 0;
-    width: 200px;
-    display: inline;
-}
-
-.alert {
-  margin-bottom: 1px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0px 15px;
-}
-
-.alert-message {
-    position: relative;
-    display: block;
-    z-index: 1001;
-}
-
-
-/*customization for Flask-Paginate*/
+/* Flask-Paginate */
 .pagination-page-info {
-    display: inline;
+  display: inline;
+}
+.page-link {
+  color: var(--np-accent);
+}
+.page-item.active .page-link {
+  background-color: var(--np-brand);
+  border-color: var(--np-brand);
 }
