@@ -44,6 +44,17 @@ def home():
         )
     }
 
+    # For each category, list only feeds with unread articles, sorted by
+    # number of unread articles (descending).
+    feeds_by_cat = {
+        catid: sorted(
+            (feed for feed in category.feeds if feed.id in unread),
+            key=lambda feed: unread[feed.id],
+            reverse=True,
+        )
+        for catid, category in categories.items()
+    }
+
     filter_ = request.args.get("filter_", "unread")
     feed_id = int(request.args.get("feed", 0))
     category_id = int(request.args.get("category", 0))
@@ -107,6 +118,7 @@ def home():
         limit=limit,
         feeds=feeds,
         categories=categories,
+        feeds_by_cat=feeds_by_cat,
         unread_by_cat=unread_by_cat,
         liked=liked,
         unread=dict(unread),

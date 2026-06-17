@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="collapse show" id="collapse-{{ catid }}" data-parent="#accordion-{{ catid }}">
-                        {% for feed in categories[catid].feeds if feed.id in unread.keys() %}
+                        {% for feed in feeds_by_cat[catid] %}
                             <li class="nav-item feed-menu" data-bs-feed="{{ feed.id }}">
                                 <a class="nav-link" href="{{ gen_url(feed=feed.id, category=0) }}">
                                     {% if in_error.get(feed.id, 0) > 0 %}
