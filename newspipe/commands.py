@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import html
 import logging
 import re
 from datetime import date
@@ -15,6 +16,8 @@ from newspipe.bootstrap import db
 from newspipe.controllers import ArticleController
 from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
+from newspipe.lib.constants import ALLOWED_TAGS
+from newspipe.lib.sanitizers import sanitize_html_fragment
 from newspipe.lib.utils import push_sighting_to_vulnerability_lookup
 from newspipe.lib.utils import remove_case_insensitive_duplicates
 
@@ -207,3 +210,69 @@ def fetch_asyncio(user_id=None, feed_id=None):
         end = datetime.now()
         loop.close()
         logger.info(f"Crawler finished in {(end - start).seconds} seconds.")
+
+
+# Matches an escaped opening/closing tag (e.g. "&lt;div&gt;", "&lt;/span&gt;")
+# for any tag now on the allow-list. Used to find articles whose content was
+# stored by an older, stricter sanitizer that escaped instead of kept the tag.
+_ESCAPED_TAG_RE = re.compile(
+    r"&lt;/?(?:" + "|".join(sorted(re.escape(tag) for tag in ALLOWED_TAGS)) + r")\b",
+    re.IGNORECASE,
+)
+
+
+@application.cli.command("resanitize_articles")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Report what would change without writing to the database.",
+)
+@click.option(
+    "--limit",
+    default=0,
+    type=int,
+    help="Maximum number of articles to update (0 = no limit).",
+)
+def resanitize_articles(dry_run: bool = False, limit: int = 0):
+    """Re-clean articles whose now-allowed HTML tags were escaped into text.
+
+    Older sanitizer rules escaped tags such as <div> or <span> into literal
+    "&lt;div&gt;" text that is now baked into stored content. This unescapes
+    that content and runs it back through the current sanitizer, recovering the
+    markup. Only articles containing escaped allow-listed tags are touched.
+    """
+    with application.app_context():
+        changed = 0
+        scanned = 0
+        articles = newspipe.models.Article.query.filter(
+            newspipe.models.Article.content.like("%&lt;%")
+        )
+        for article in articles:
+            content = article.content or ""
+            if not _ESCAPED_TAG_RE.search(content):
+                continue
+            scanned += 1
+            cleaned = sanitize_html_fragment(html.unescape(content))
+            if cleaned == content:
+                continue
+            changed += 1
+            if changed <= 5:
+                print(f"  [{article.id}] {article.title!r}")
+            if not dry_run:
+                article.content = cleaned
+                try:
+                    db.session.commit()
+                except Exception:
+                    db.session.rollback()
+                    changed -= 1
+            if limit and changed >= limit:
+                break
+
+        verb = "would be updated" if dry_run else "updated"
+        print(
+            f"{changed} article(s) {verb} "
+            f"({scanned} candidate(s) with escaped tags scanned)."
+        )
+        if dry_run:
+            print("Dry run: no changes were written.")

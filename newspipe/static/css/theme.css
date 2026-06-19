@@ -387,6 +387,38 @@ tr.article:hover td a[article-id] {
   color: var(--np-accent);
 }
 
+/* ---- Expanded article content ------------------------------------------- */
+/* Injected article HTML lives in span[content-id]. Give it a comfortable,
+   screen-proportional reading measure and keep media inside its bounds so
+   images can't overlap or force horizontal scroll. */
+[content-id] {
+  display: block;
+  max-width: 70ch;
+  margin: 0 auto;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+[content-id] img,
+[content-id] figure,
+[content-id] video,
+[content-id] iframe,
+[content-id] table {
+  max-width: 100%;
+  height: auto;
+}
+[content-id] img {
+  display: block;
+  margin: 0.5rem auto;
+}
+[content-id] figure {
+  margin: 1rem auto;
+}
+[content-id] pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Feed name + date in the quiet "metadata" voice. */
 tr.article td a[target="_blank"] {
   color: var(--np-muted);
