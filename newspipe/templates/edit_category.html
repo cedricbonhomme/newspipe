@@ -13,26 +13,40 @@
 }
 </style>
 <script src="{{ url_for('static', filename='js/multiselect-dropdown.js') }}" ></script>
-</style>
 {% endblock %}
 {% block content %}
-<div class="container">
-  <div class="row d-flex justify-content-center">
-    <div class="col-md-6">
-        <h3>{{ action }}</h3>
-        <form action="" method="post" name="save" class="form-horizontal">
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">{{ action }}</h3>
+          <form action="" method="post" name="save" novalidate>
             {{ form.hidden_tag() }}
-            <label for="{{ form.name.id }}" class="control-label">{{ form.name.label }}</label>
-            {{ form.name(class_="form-control", size="100%") }}
-            {% for error in form.name.errors %}<span style="color: red;">{{ error }}<br /></span>{% endfor %}
 
-            <label for="{{ form.name.id }}" class=control-label">{{ form.feeds.label }}</label>
-            {{ form.feeds(class_="form-control", size="100%") }}
-            {% for error in form.feeds.errors %}<span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.name.label(class_="form-label") }}
+              {{ form.name(class_="form-control") }}
+              {% for error in form.name.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
 
-            {{ form.submit(class_="btn btn-primary form-control mt-2") }}
-        </form>
+            <div class="mb-3">
+              {{ form.feeds.label(class_="form-label") }}
+              {{ form.feeds(class_="form-control") }}
+              {% for error in form.feeds.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="d-grid mb-3">
+              {{ form.submit(class_="btn btn-primary btn-lg") }}
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</div><!-- /.container -->
+</div>
 {% endblock %}
