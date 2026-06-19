@@ -11,6 +11,7 @@
 [data-bs-theme="light"] {
   --np-bg: #eceff3;
   --np-surface: #ffffff;
+  --np-surface-rgb: 255, 255, 255;
   --np-surface-2: #f4f6f9;
   --np-border: #e1e6ec;
   --np-ink: #1a242e;
@@ -38,6 +39,7 @@
 [data-bs-theme="dark"] {
   --np-bg: #0f151b;
   --np-surface: #182029;
+  --np-surface-rgb: 24, 32, 41;
   --np-surface-2: #1f2935;
   --np-border: #2a3540;
   --np-ink: #e6edf3;
@@ -114,10 +116,21 @@ a:hover {
 }
 
 /* ---- Navbar ------------------------------------------------------------- */
+/* A translucent, frosted bar that lets content scroll subtly beneath it. */
 .navbar.bg-body {
-  background-color: var(--np-surface) !important;
+  background-color: rgba(var(--np-surface-rgb), 0.82) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--np-border);
   box-shadow: none;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+/* Fallback for browsers without backdrop-filter: stay opaque. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .navbar.bg-body {
+    background-color: var(--np-surface) !important;
+  }
 }
 
 .navbar-brand.fw-bold {
@@ -155,13 +168,36 @@ a:hover {
   }
 }
 
+.navbar-nav {
+  gap: 0.1rem;
+}
 .navbar .nav-link {
   color: var(--np-muted);
   font-weight: 500;
+  border-radius: 0.55rem;
+  padding: 0.4rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 .navbar .nav-link:hover,
 .navbar .nav-link:focus {
   color: var(--np-ink);
+  background: var(--np-accent-soft);
+}
+/* Current section + open dropdown read as "active". */
+.navbar .nav-link.active,
+.navbar .nav-item.show > .nav-link {
+  color: var(--np-accent);
+  background: var(--np-accent-soft);
+}
+/* Slightly larger menu icons, optically aligned with their labels. */
+.navbar .nav-link > .bi {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.navbar .dropdown-toggle::after {
+  margin-left: 0.05rem;
 }
 
 /* ---- Buttons ------------------------------------------------------------ */

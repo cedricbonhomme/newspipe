@@ -55,13 +55,13 @@
             {% if current_user.is_authenticated %}
               {% if current_user.is_admin %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('admin.fetch') }}">{{ _('Fetch') }}</a>
+                <a class="nav-link" href="{{ url_for('admin.fetch') }}"><i class="bi bi-arrow-repeat"></i>{{ _('Fetch') }}</a>
               </li>
               {% endif %}
 
               <!-- Feeds -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navFeeds" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Feeds') }}</a>
+                <a class="nav-link dropdown-toggle {% if request.blueprint in ['feeds', 'feed'] %}active{% endif %}" href="#" id="navFeeds" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-rss"></i>{{ _('Feeds') }}</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navFeeds">
                   <li><a class="dropdown-item" href="{{ url_for('feeds.feeds') }}">{{ _('Feeds') }}</a></li>
                   <li><a class="dropdown-item" href="{{ url_for('feeds.inactives') }}">{{ _('Inactive') }}</a></li>
@@ -82,7 +82,7 @@
 
               <!-- Categories -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Categories') }}</a>
+                <a class="nav-link dropdown-toggle {% if request.blueprint in ['categories', 'category'] %}active{% endif %}" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-collection"></i>{{ _('Categories') }}</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navCategories">
                   <li><a class="dropdown-item" href="{{ url_for('categories.list_') }}">{{ _('Categories') }}</a></li>
                   <li><hr class="dropdown-divider"></li>
@@ -101,7 +101,7 @@
 
               <!-- Bookmarks -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navBookmarks" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Bookmarks') }}</a>
+                <a class="nav-link dropdown-toggle {% if request.blueprint in ['bookmarks', 'bookmark'] %}active{% endif %}" href="#" id="navBookmarks" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bookmarks"></i>{{ _('Bookmarks') }}</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navBookmarks">
                   <li><a class="dropdown-item" href="{{ url_for('bookmarks.list_') }}">{{ _('Bookmarks') }}</a></li>
                   <li><a class="dropdown-item" href="{{ url_for('bookmark.form') }}">{{ _('Add a bookmark') }}</a></li>
@@ -110,7 +110,7 @@
 
               <!-- Search -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Search') }}</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>{{ _('Search') }}</a>
                 <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 300px;" aria-labelledby="navSearch">
                   <form action="{{ url_for('home') }}" method="GET">
                     <div class="input-group mb-2">
@@ -131,8 +131,8 @@
 
               <!-- User -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person"></i>
+                <a class="nav-link dropdown-toggle {% if request.blueprint == 'user' %}active{% endif %}" href="#" id="navUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person-circle"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navUser">
                   <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a></li>
@@ -147,9 +147,9 @@
                 </ul>
               </li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('bookmarks.list_') }}">{{ _('Recent bookmarks') }}</a></li>
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('popular') }}">{{ _('Popular feeds') }}</a></li>
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">{{ _('About') }}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('bookmarks.list_') }}"><i class="bi bi-bookmarks"></i>{{ _('Recent bookmarks') }}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('popular') }}"><i class="bi bi-fire"></i>{{ _('Popular feeds') }}</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}"><i class="bi bi-info-circle"></i>{{ _('About') }}</a></li>
             {% endif %}
           </ul>
         </div>
