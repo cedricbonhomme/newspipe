@@ -1,21 +1,21 @@
 # Translations template for PROJECT.
-# Copyright (C) 2025 ORGANIZATION
+# Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-13 18:07+0200\n"
+"POT-Creation-Date: 2026-06-19 23:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: newspipe/templates/about.html:8 newspipe/templates/layout.html:145
 #: newspipe/templates/layout.html:152
@@ -105,35 +105,41 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: newspipe/templates/article.html:29 newspipe/templates/duplicates.html:34
-#: newspipe/templates/duplicates.html:44
+#: newspipe/templates/article.html:31 newspipe/templates/duplicates.html:35
+#: newspipe/templates/duplicates.html:47
 msgid "Delete this article"
 msgstr ""
 
-#: newspipe/templates/article.html:34 newspipe/templates/home.html:227
+#: newspipe/templates/article.html:37 newspipe/templates/home.html:243
+#: newspipe/templates/home.html:322
 msgid "One of your favorites"
 msgstr ""
 
-#: newspipe/templates/article.html:38 newspipe/templates/home.html:229
+#: newspipe/templates/article.html:41 newspipe/templates/home.html:245
+#: newspipe/templates/home.html:323
 msgid "Click if you like this article"
 msgstr ""
 
-#: newspipe/templates/article.html:44 newspipe/templates/home.html:222
+#: newspipe/templates/article.html:47 newspipe/templates/home.html:238
+#: newspipe/templates/home.html:321
 msgid "Mark this article as unread"
 msgstr ""
 
-#: newspipe/templates/article.html:48 newspipe/templates/home.html:224
+#: newspipe/templates/article.html:51 newspipe/templates/home.html:240
+#: newspipe/templates/home.html:320
 msgid "Mark this article as read"
 msgstr ""
 
-#: newspipe/templates/article.html:64 newspipe/templates/article.html:69
+#: newspipe/templates/article.html:67 newspipe/templates/article.html:72
 #: newspipe/templates/article_pub.html:32
 #: newspipe/templates/article_pub.html:37
 msgid "Share on"
 msgstr ""
 
-#: newspipe/templates/bookmarks.html:13 newspipe/templates/home.html:172
-#: newspipe/templates/home.html:188 newspipe/templates/popular.html:11
+#: newspipe/templates/bookmarks.html:13
+#: newspipe/templates/feed_list_per_categories.html:6
+#: newspipe/templates/home.html:187 newspipe/templates/popular.html:11
+#: newspipe/templates/user_stream.html:9
 msgid "All"
 msgstr ""
 
@@ -145,7 +151,7 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: newspipe/templates/bookmarks.html:16 newspipe/templates/home.html:178
+#: newspipe/templates/bookmarks.html:16 newspipe/templates/home.html:193
 msgid "Unread"
 msgstr ""
 
@@ -161,74 +167,81 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: newspipe/templates/bookmarks.html:101 newspipe/templates/feed_list.html:89
+#: newspipe/templates/bookmarks.html:103 newspipe/templates/feed_list.html:91
 msgid "Delete"
 msgstr ""
 
-#: newspipe/templates/bookmarks.html:112
+#: newspipe/templates/bookmarks.html:115
 msgid "No bookmarks found."
 msgstr ""
 
-#: newspipe/templates/categories.html:19
+#: newspipe/templates/categories.html:8
 #, python-format
 msgid ""
 "You have %(categories)d categories &middot; %(start_link)sAdd%(end_link)s"
 " a category"
 msgstr ""
 
-#: newspipe/templates/categories.html:22 newspipe/templates/home.html:91
+#: newspipe/templates/categories.html:10 newspipe/templates/home.html:96
 msgid "No category"
 msgstr ""
 
-#: newspipe/templates/categories.html:31
+#: newspipe/templates/categories.html:19
 msgid "Name"
 msgstr ""
 
-#: newspipe/templates/categories.html:32 newspipe/templates/layout.html:64
-#: newspipe/templates/layout.html:66 newspipe/templates/profile_public.html:31
+#: newspipe/templates/categories.html:20 newspipe/templates/layout.html:64
+#: newspipe/templates/layout.html:66 newspipe/templates/profile_public.html:29
 msgid "Feeds"
 msgstr ""
 
-#: newspipe/templates/categories.html:33 newspipe/templates/feed.html:48
-#: newspipe/templates/feed.html:127 newspipe/templates/feed_list.html:11
+#: newspipe/templates/categories.html:21 newspipe/templates/feed.html:49
+#: newspipe/templates/feed.html:131 newspipe/templates/feed_list.html:11
 msgid "Articles"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:19
-#: newspipe/templates/categories.html:34 newspipe/templates/feed_list.html:12
+#: newspipe/templates/categories.html:22 newspipe/templates/feed_list.html:12
 msgid "Actions"
 msgstr ""
 
-#: newspipe/templates/categories.html:45
+#: newspipe/templates/categories.html:33
+#: newspipe/templates/category_public.html:15
 msgid "Edit this category"
 msgstr ""
 
-#: newspipe/templates/categories.html:46
-msgid "Delete this category"
-msgstr ""
-
-#: newspipe/templates/categories.html:46
+#: newspipe/templates/categories.html:35
 msgid "You are going to delete this category."
 msgstr ""
 
-#: newspipe/templates/categories.html:56
+#: newspipe/templates/categories.html:37
+msgid "Delete this category"
+msgstr ""
+
+#: newspipe/templates/categories.html:48
 msgid "Loading..."
 msgstr ""
 
-#: newspipe/templates/category_public.html:12
-#: newspipe/templates/feed_list.html:8
-#: newspipe/templates/feed_list_per_categories.html:24
-#: newspipe/templates/feed_list_simple.html:7
-#: newspipe/templates/user_stream.html:47 newspipe/web/forms.py:304
-#: newspipe/web/forms.py:341
-msgid "Title"
+#: newspipe/templates/category_public.html:10 newspipe/templates/feed.html:54
+#: newspipe/templates/feed_list.html:10
+msgid "Category"
 msgstr ""
 
-#: newspipe/templates/category_public.html:13
-#: newspipe/templates/feed_list.html:9
-#: newspipe/templates/feed_list_per_categories.html:25
-#: newspipe/templates/feed_list_simple.html:8
-msgid "Site"
+#: newspipe/templates/category_public.html:22
+msgid "This category contains"
+msgstr ""
+
+#: newspipe/templates/category_public.html:22
+msgid "feed(s)."
+msgstr ""
+
+#: newspipe/templates/category_public.html:56
+#: newspipe/templates/edit_feed.html:10
+msgid "View feed"
+msgstr ""
+
+#: newspipe/templates/category_public.html:67
+msgid "No feeds available in this category."
 msgstr ""
 
 #: newspipe/templates/duplicates.html:5
@@ -239,29 +252,25 @@ msgstr ""
 msgid "Delete all in this column"
 msgstr ""
 
-#: newspipe/templates/edit_bookmark.html:42
+#: newspipe/templates/edit_bookmark.html:53
 msgid "Add a new bookmark"
 msgstr ""
 
-#: newspipe/templates/edit_bookmark.html:46
+#: newspipe/templates/edit_bookmark.html:56
 msgid ""
 "You can add a bookmark with a bookmarklet. Drag the following button to "
 "your browser bookmarks."
 msgstr ""
 
-#: newspipe/templates/edit_bookmark.html:47
+#: newspipe/templates/edit_bookmark.html:57
 #, python-format
 msgid ""
 "<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
 "rel=\"bookmark\">Bookmark this page using Newspipe</a>"
 msgstr ""
 
-#: newspipe/templates/edit_bookmark.html:54
+#: newspipe/templates/edit_bookmark.html:62
 msgid "Import bookmarks from Pinboard"
-msgstr ""
-
-#: newspipe/templates/edit_feed.html:10
-msgid "View feed"
 msgstr ""
 
 #: newspipe/templates/edit_feed.html:20
@@ -312,12 +321,12 @@ msgid "Add filter"
 msgstr ""
 
 #: newspipe/templates/feed.html:17 newspipe/templates/feed_list.html:55
-#: newspipe/templates/home.html:73 newspipe/templates/home.html:115
-#: newspipe/templates/home.html:157
+#: newspipe/templates/home.html:72 newspipe/templates/home.html:119
+#: newspipe/templates/home.html:166
 msgid "Edit this feed"
 msgstr ""
 
-#: newspipe/templates/feed.html:22
+#: newspipe/templates/feed.html:21
 msgid "You are going to delete this feed."
 msgstr ""
 
@@ -325,85 +334,92 @@ msgstr ""
 msgid "Delete this feed"
 msgstr ""
 
-#: newspipe/templates/feed.html:41
+#: newspipe/templates/feed.html:42
 msgid "Feed details"
 msgstr ""
 
-#: newspipe/templates/feed.html:53 newspipe/templates/feed_list.html:10
-msgid "Category"
-msgstr ""
-
-#: newspipe/templates/feed.html:59
+#: newspipe/templates/feed.html:60
 msgid "Private feed"
 msgstr ""
 
-#: newspipe/templates/feed.html:64
+#: newspipe/templates/feed.html:65
 msgid "Not monitored"
 msgstr ""
 
-#: newspipe/templates/feed.html:71
+#: newspipe/templates/feed.html:72
 msgid "Feed address"
 msgstr ""
 
-#: newspipe/templates/feed.html:74
+#: newspipe/templates/feed.html:75
 msgid "Site address"
 msgstr ""
 
-#: newspipe/templates/feed.html:82
+#: newspipe/templates/feed.html:83
 msgid "Last download:"
 msgstr ""
 
-#: newspipe/templates/feed.html:89
+#: newspipe/templates/feed.html:90
 msgid "This feed has too many consecutive errors and won't be retrieved anymore."
 msgstr ""
 
-#: newspipe/templates/feed.html:90
-#, python-format
-msgid ""
-"Click <a href='%(reset_error_url)s'>here</a> to reset the error count and"
-" reactivate the feed."
+#: newspipe/templates/feed.html:93
+msgid "Reset the error count and reactivate the feed"
 msgstr ""
 
-#: newspipe/templates/feed.html:95
+#: newspipe/templates/feed.html:99
 msgid ""
 "This feed encountered some problems. The error counter will reset on the "
 "next successful retrieval."
 msgstr ""
 
-#: newspipe/templates/feed.html:101
+#: newspipe/templates/feed.html:105
 msgid "Last error:"
 msgstr ""
 
-#: newspipe/templates/feed.html:111
+#: newspipe/templates/feed.html:115
 msgid "Last article posted"
 msgstr ""
 
-#: newspipe/templates/feed.html:111
+#: newspipe/templates/feed.html:115
 msgid "day(s) ago."
 msgstr ""
 
-#: newspipe/templates/feed.html:113
+#: newspipe/templates/feed.html:117
 msgid "Daily average"
 msgstr ""
 
-#: newspipe/templates/feed.html:114
+#: newspipe/templates/feed.html:118
 msgid "between"
 msgstr ""
 
-#: newspipe/templates/feed.html:114
+#: newspipe/templates/feed.html:118
 msgid "and"
 msgstr ""
 
-#: newspipe/templates/feed.html:134 newspipe/templates/home.html:213
+#: newspipe/templates/feed.html:138 newspipe/templates/home.html:229
 msgid "Article"
 msgstr ""
 
-#: newspipe/templates/feed.html:135 newspipe/templates/home.html:214
+#: newspipe/templates/feed.html:139 newspipe/templates/home.html:230
 msgid "Date"
 msgstr ""
 
 #: newspipe/templates/feed_list.html:7
 msgid "Status"
+msgstr ""
+
+#: newspipe/templates/feed_list.html:8
+#: newspipe/templates/feed_list_per_categories.html:22
+#: newspipe/templates/feed_list_simple.html:7
+#: newspipe/templates/user_stream.html:34 newspipe/web/forms.py:304
+#: newspipe/web/forms.py:341
+msgid "Title"
+msgstr ""
+
+#: newspipe/templates/feed_list.html:9
+#: newspipe/templates/feed_list_per_categories.html:23
+#: newspipe/templates/feed_list_simple.html:8
+msgid "Site"
 msgstr ""
 
 #: newspipe/templates/feed_list.html:21
@@ -438,12 +454,17 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: newspipe/templates/feed_list.html:115
+#: newspipe/templates/feed_list.html:118
 msgid "You have no feeds yet. Start by adding one!"
 msgstr ""
 
-#: newspipe/templates/feed_list_per_categories.html:26
-#: newspipe/templates/home.html:211
+#: newspipe/templates/feed_list_per_categories.html:11
+#: newspipe/templates/inactives.html:24 newspipe/templates/user_stream.html:14
+msgid "Filter"
+msgstr ""
+
+#: newspipe/templates/feed_list_per_categories.html:24
+#: newspipe/templates/home.html:227
 msgid "Feed"
 msgstr ""
 
@@ -453,7 +474,7 @@ msgid "You are subscribed to %(feed_count)d feeds."
 msgstr ""
 
 #: newspipe/templates/feeds.html:9 newspipe/templates/layout.html:71
-#: newspipe/web/views/feed.py:215
+#: newspipe/web/views/feed.py:223
 msgid "Add a feed"
 msgstr ""
 
@@ -465,7 +486,7 @@ msgstr ""
 msgid "all years"
 msgstr ""
 
-#: newspipe/templates/history.html:34
+#: newspipe/templates/history.html:34 newspipe/templates/home.html:271
 msgid "Loading…"
 msgstr ""
 
@@ -489,44 +510,48 @@ msgstr ""
 msgid "All feeds"
 msgstr ""
 
-#: newspipe/templates/home.html:60 newspipe/templates/home.html:102
-#: newspipe/templates/home.html:143
+#: newspipe/templates/home.html:59 newspipe/templates/home.html:106
+#: newspipe/templates/home.html:152
 msgid "Some errors occurred while trying to retrieve that feed."
 msgstr ""
 
-#: newspipe/templates/home.html:72 newspipe/templates/home.html:114
-#: newspipe/templates/home.html:156
+#: newspipe/templates/home.html:71 newspipe/templates/home.html:118
+#: newspipe/templates/home.html:165
 msgid "Details"
 msgstr ""
 
-#: newspipe/templates/home.html:74 newspipe/templates/home.html:116
-#: newspipe/templates/home.html:158
+#: newspipe/templates/home.html:75 newspipe/templates/home.html:122
+#: newspipe/templates/home.html:169
 msgid "Mark this feed as unread"
 msgstr ""
 
-#: newspipe/templates/home.html:75 newspipe/templates/home.html:117
-#: newspipe/templates/home.html:159 newspipe/templates/home.html:201
+#: newspipe/templates/home.html:79 newspipe/templates/home.html:126
+#: newspipe/templates/home.html:173 newspipe/templates/home.html:210
 msgid "Mark this feed as read"
 msgstr ""
 
-#: newspipe/templates/home.html:133
+#: newspipe/templates/home.html:143
 msgid "Nothing to read"
 msgstr ""
 
-#: newspipe/templates/home.html:175
+#: newspipe/templates/home.html:190
 msgid "Read"
 msgstr ""
 
-#: newspipe/templates/home.html:181
+#: newspipe/templates/home.html:196
 msgid "Liked"
 msgstr ""
 
-#: newspipe/templates/home.html:204
+#: newspipe/templates/home.html:216
 msgid "Mark all as read"
 msgstr ""
 
-#: newspipe/templates/home.html:206
+#: newspipe/templates/home.html:221
 msgid "Mark all as unread"
+msgstr ""
+
+#: newspipe/templates/home.html:324
+msgid "Open article in a new page."
 msgstr ""
 
 #: newspipe/templates/inactives.html:7
@@ -535,10 +560,6 @@ msgstr ""
 
 #: newspipe/templates/inactives.html:12
 msgid "Days of inactivity"
-msgstr ""
-
-#: newspipe/templates/inactives.html:24
-msgid "Filter"
 msgstr ""
 
 #: newspipe/templates/inactives.html:49
@@ -577,7 +598,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: newspipe/templates/layout.html:89 newspipe/web/views/category.py:50
+#: newspipe/templates/layout.html:89 newspipe/web/views/category.py:58
 msgid "Add a category"
 msgstr ""
 
@@ -614,7 +635,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: newspipe/templates/layout.html:139 newspipe/templates/management.html:26
+#: newspipe/templates/layout.html:139 newspipe/templates/management.html:30
 msgid "Your data"
 msgstr ""
 
@@ -703,7 +724,7 @@ msgstr ""
 msgid "unread articles"
 msgstr ""
 
-#: newspipe/templates/management.html:15 newspipe/templates/management.html:114
+#: newspipe/templates/management.html:15 newspipe/templates/management.html:118
 msgid "You have"
 msgstr ""
 
@@ -715,83 +736,83 @@ msgstr ""
 msgid "You are going to delete old articles."
 msgstr ""
 
-#: newspipe/templates/management.html:18
+#: newspipe/templates/management.html:21
 msgid "Delete articles older than 10 weeks"
 msgstr ""
 
-#: newspipe/templates/management.html:37
+#: newspipe/templates/management.html:41
 msgid "Import Articles"
 msgstr ""
 
-#: newspipe/templates/management.html:38
+#: newspipe/templates/management.html:42
 msgid "Import a Newspipe account (*.json)."
 msgstr ""
 
-#: newspipe/templates/management.html:43 newspipe/templates/management.html:73
+#: newspipe/templates/management.html:47 newspipe/templates/management.html:77
 msgid "OK"
 msgstr ""
 
-#: newspipe/templates/management.html:55
+#: newspipe/templates/management.html:59
 msgid "Export Articles"
 msgstr ""
 
-#: newspipe/templates/management.html:56
+#: newspipe/templates/management.html:60
 msgid "Export your newspipe account to JSON."
 msgstr ""
 
-#: newspipe/templates/management.html:57 newspipe/templates/management.html:102
+#: newspipe/templates/management.html:61 newspipe/templates/management.html:106
 msgid "Export"
 msgstr ""
 
-#: newspipe/templates/management.html:67
+#: newspipe/templates/management.html:71
 msgid "Import Feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:68
+#: newspipe/templates/management.html:72
 msgid "Import feeds from OPML (*.xml or *.opml)."
 msgstr ""
 
-#: newspipe/templates/management.html:85
+#: newspipe/templates/management.html:89
 msgid "Export Feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:86
+#: newspipe/templates/management.html:90
 msgid "Export feeds to OPML."
 msgstr ""
 
-#: newspipe/templates/management.html:90
+#: newspipe/templates/management.html:94
 msgid "Include disabled feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:94
+#: newspipe/templates/management.html:98
 msgid "Newspipe encountered too many problems when retrieving these feeds."
 msgstr ""
 
-#: newspipe/templates/management.html:95
+#: newspipe/templates/management.html:99
 msgid "Include dead feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:100
+#: newspipe/templates/management.html:104
 msgid "Include private feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:113
+#: newspipe/templates/management.html:117
 msgid "Your Bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:114
+#: newspipe/templates/management.html:118
 msgid "bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:116
+#: newspipe/templates/management.html:120
 msgid "Export JSON"
 msgstr ""
 
-#: newspipe/templates/management.html:118
+#: newspipe/templates/management.html:122
 msgid "You are going to delete all bookmarks."
 msgstr ""
 
-#: newspipe/templates/management.html:119
+#: newspipe/templates/management.html:125
 msgid "Delete all"
 msgstr ""
 
@@ -816,12 +837,12 @@ msgid "Your Profile"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:16 newspipe/templates/profile.html:9
-#: newspipe/templates/profile_public.html:8
+#: newspipe/templates/profile_public.html:9
 msgid "Member since"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:17
-#: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:11
+#: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:12
 msgid "Last seen"
 msgstr ""
 
@@ -847,8 +868,12 @@ msgstr ""
 msgid "You are going to delete your account."
 msgstr ""
 
-#: newspipe/templates/profile.html:153
+#: newspipe/templates/profile.html:155
 msgid "Delete your account"
+msgstr ""
+
+#: newspipe/templates/profile_public.html:15 newspipe/web/forms.py:261
+msgid "Bio"
 msgstr ""
 
 #: newspipe/templates/signup.html:16
@@ -871,7 +896,11 @@ msgstr ""
 msgid "Already have an account? Log in"
 msgstr ""
 
-#: newspipe/templates/user_stream.html:48
+#: newspipe/templates/user_stream.html:21
+msgid "Articles from the category"
+msgstr ""
+
+#: newspipe/templates/user_stream.html:35
 msgid "Published at"
 msgstr ""
 
@@ -897,24 +926,44 @@ msgstr ""
 msgid "Edit this user"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:47
+#: newspipe/templates/admin/dashboard.html:49
 msgid "Disable this account"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:51
+#: newspipe/templates/admin/dashboard.html:56
 msgid "Enable this account"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:56
-msgid "Delete this user"
-msgstr ""
-
-#: newspipe/templates/admin/dashboard.html:57
+#: newspipe/templates/admin/dashboard.html:62
 msgid "You are going to delete this account."
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:68 newspipe/web/views/admin.py:56
+#: newspipe/templates/admin/dashboard.html:64
+msgid "Delete this user"
+msgstr ""
+
+#: newspipe/templates/admin/dashboard.html:76 newspipe/web/views/admin.py:56
 msgid "Add a new user"
+msgstr ""
+
+#: newspipe/templates/errors/404.html:12
+msgid "Page Not Found"
+msgstr ""
+
+#: newspipe/templates/errors/404.html:13
+msgid "What you were looking for is just not there."
+msgstr ""
+
+#: newspipe/templates/errors/404.html:14 newspipe/templates/errors/500.html:14
+msgid "Go to the home page"
+msgstr ""
+
+#: newspipe/templates/errors/500.html:12
+msgid "Internal Server Error"
+msgstr ""
+
+#: newspipe/templates/errors/500.html:13
+msgid "Something bad just happened!"
 msgstr ""
 
 #: newspipe/web/forms.py:62 newspipe/web/forms.py:130 newspipe/web/forms.py:229
@@ -964,10 +1013,6 @@ msgstr ""
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
-msgstr ""
-
-#: newspipe/web/forms.py:261
-msgid "Bio"
 msgstr ""
 
 #: newspipe/web/forms.py:262
@@ -1059,7 +1104,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:188
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:194
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -1088,7 +1133,7 @@ msgstr ""
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr ""
 
-#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:115
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:121
 msgid "Fetching articles…"
 msgstr ""
 
@@ -1096,17 +1141,17 @@ msgstr ""
 msgid "The manual retrieving of news is only available for administrator."
 msgstr ""
 
-#: newspipe/web/views/article.py:74
+#: newspipe/web/views/article.py:76
 #, python-format
 msgid "Article %(article_title)s deleted"
 msgstr ""
 
-#: newspipe/web/views/article.py:136
+#: newspipe/web/views/article.py:138
 #, python-format
 msgid "%(count)d articles deleted"
 msgstr ""
 
-#: newspipe/web/views/article.py:155
+#: newspipe/web/views/article.py:157
 msgid "Error when exporting articles."
 msgstr ""
 
@@ -1148,138 +1193,142 @@ msgstr ""
 msgid "Error when importing bookmarks."
 msgstr ""
 
-#: newspipe/web/views/category.py:62
+#: newspipe/web/views/category.py:70
 msgid "Edit category"
 msgstr ""
 
-#: newspipe/web/views/category.py:91
+#: newspipe/web/views/category.py:99
 msgid "Couldn't add category: already exists."
 msgstr ""
 
-#: newspipe/web/views/category.py:107
+#: newspipe/web/views/category.py:115
 #, python-format
 msgid "Category %(cat_name)r successfully updated."
 msgstr ""
 
-#: newspipe/web/views/category.py:122
+#: newspipe/web/views/category.py:130
 #, python-format
 msgid "Category %(category_name)r successfully created."
 msgstr ""
 
-#: newspipe/web/views/category.py:137
+#: newspipe/web/views/category.py:145
 #, python-format
 msgid "Category %(category_name)s successfully deleted."
 msgstr ""
 
-#: newspipe/web/views/feed.py:134
+#: newspipe/web/views/feed.py:136
 #, python-format
 msgid "Feed %(feed_title)s successfully deleted."
 msgstr ""
 
-#: newspipe/web/views/feed.py:147 newspipe/web/views/feed.py:280
+#: newspipe/web/views/feed.py:149 newspipe/web/views/feed.py:288
 #, python-format
 msgid "Feed %(feed_title)r successfully updated."
 msgstr ""
 
-#: newspipe/web/views/feed.py:159
+#: newspipe/web/views/feed.py:161
 msgid "Couldn't add feed: url missing."
 msgstr ""
 
-#: newspipe/web/views/feed.py:164 newspipe/web/views/feed.py:255
+#: newspipe/web/views/feed.py:167 newspipe/web/views/feed.py:301
+msgid "This URL is not allowed."
+msgstr ""
+
+#: newspipe/web/views/feed.py:172 newspipe/web/views/feed.py:263
 msgid "Couldn't add feed: feed already exists."
 msgstr ""
 
-#: newspipe/web/views/feed.py:179
+#: newspipe/web/views/feed.py:187
 msgid ""
 "Couldn't find a feed url, you'll need to find a Atom or RSS link manually"
 " and reactivate this feed"
 msgstr ""
 
-#: newspipe/web/views/feed.py:185
+#: newspipe/web/views/feed.py:193
 msgid "Feed was successfully created."
 msgstr ""
 
-#: newspipe/web/views/feed.py:188 newspipe/web/views/feed.py:313
+#: newspipe/web/views/feed.py:196 newspipe/web/views/feed.py:326
 msgid "Fetching articles for the new feed…"
 msgstr ""
 
-#: newspipe/web/views/feed.py:206
+#: newspipe/web/views/feed.py:214
 msgid "Feed successfully updated."
 msgstr ""
 
-#: newspipe/web/views/feed.py:227
+#: newspipe/web/views/feed.py:235
 msgid "Edit feed"
 msgstr ""
 
-#: newspipe/web/views/feed.py:307
+#: newspipe/web/views/feed.py:320
 #, python-format
 msgid "Feed %(feed_title)r successfully created."
 msgstr ""
 
-#: newspipe/web/views/feed.py:337
+#: newspipe/web/views/feed.py:350
 #, python-brace-format
 msgid "No duplicates in the feed \"{}\"."
 msgstr ""
 
-#: newspipe/web/views/session_mgmt.py:112
+#: newspipe/web/views/session_mgmt.py:114
 msgid "Self-registration is disabled."
 msgstr ""
 
-#: newspipe/web/views/session_mgmt.py:130
+#: newspipe/web/views/session_mgmt.py:132
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr ""
 
-#: newspipe/web/views/session_mgmt.py:137
+#: newspipe/web/views/session_mgmt.py:139
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: newspipe/web/views/user.py:32 newspipe/web/views/user.py:57
+#: newspipe/web/views/user.py:38 newspipe/web/views/user.py:63
 msgid "You must set your profile to public."
 msgstr ""
 
-#: newspipe/web/views/user.py:108 newspipe/web/views/user.py:122
-#: newspipe/web/views/user.py:130
+#: newspipe/web/views/user.py:114 newspipe/web/views/user.py:128
+#: newspipe/web/views/user.py:136
 msgid "File not allowed."
 msgstr ""
 
-#: newspipe/web/views/user.py:114
+#: newspipe/web/views/user.py:120
 msgid "feeds imported."
 msgstr ""
 
-#: newspipe/web/views/user.py:117
+#: newspipe/web/views/user.py:123
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: newspipe/web/views/user.py:126
+#: newspipe/web/views/user.py:132
 msgid "Account imported."
 msgstr ""
 
-#: newspipe/web/views/user.py:128
+#: newspipe/web/views/user.py:134
 msgid "Impossible to import the account."
 msgstr ""
 
-#: newspipe/web/views/user.py:182
+#: newspipe/web/views/user.py:188
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr ""
 
-#: newspipe/web/views/user.py:209
+#: newspipe/web/views/user.py:215
 msgid "Your account has been deleted."
 msgstr ""
 
-#: newspipe/web/views/user.py:226
+#: newspipe/web/views/user.py:232
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: newspipe/web/views/user.py:228
+#: newspipe/web/views/user.py:234
 msgid "Impossible to confirm this account."
 msgstr ""
 
-#: newspipe/web/views/views.py:22
+#: newspipe/web/views/views.py:30
 msgid "Authentication required."
 msgstr ""
 
-#: newspipe/web/views/views.py:30
+#: newspipe/web/views/views.py:38
 msgid "Forbidden."
 msgstr ""
