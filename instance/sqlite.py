@@ -25,7 +25,8 @@ CONTENT_SECURITY_POLICY = {
     "default-src": "'self'",
     "img-src": "* data:",
     "media-src": [
-        "youtube.com",
+        "'self'",
+        "https:",
     ],
     "script-src": [
         "'self'",
