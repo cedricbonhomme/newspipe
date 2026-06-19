@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-06-19 23:22+0200\n"
+"POT-Creation-Date: 2026-06-20 00:01+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -18,16 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: newspipe/templates/about.html:8 newspipe/templates/layout.html:145
+#: newspipe/templates/about.html:12
+msgid "Because RSS still rocks."
+msgstr "Parce que le RSS, ça déchire toujours."
+
+#: newspipe/templates/about.html:20 newspipe/templates/layout.html:145
 #: newspipe/templates/layout.html:152
 msgid "About"
 msgstr "À propos"
 
-#: newspipe/templates/about.html:9
+#: newspipe/templates/about.html:21
 msgid "Newspipe is a news reader."
 msgstr "Newspipe est un lecteur de nouvelles."
 
-#: newspipe/templates/about.html:11
+#: newspipe/templates/about.html:23
 msgid ""
 "This software is released under the AGPLv3 license. You are welcome to "
 "copy, modify, or redistribute the"
@@ -35,39 +39,35 @@ msgstr ""
 "Ce logiciel est publié sous licence AGPLv3. Vous pouvez le copier, le "
 "modifier ou le redistribuer"
 
-#: newspipe/templates/about.html:13
+#: newspipe/templates/about.html:25
 msgid "according to the"
 msgstr "conformément à la"
 
-#: newspipe/templates/about.html:15
+#: newspipe/templates/about.html:27
 msgid "license."
 msgstr "licence."
 
-#: newspipe/templates/about.html:18
+#: newspipe/templates/about.html:30
 msgid "Found a bug? Report it"
 msgstr "Vous avez trouvé un bug ? Signalez-le"
 
-#: newspipe/templates/about.html:19
+#: newspipe/templates/about.html:31
 msgid "here"
 msgstr "ici"
 
-#: newspipe/templates/about.html:22
+#: newspipe/templates/about.html:34
 msgid "More information"
 msgstr "Plus d'informations"
 
-#: newspipe/templates/about.html:22
-msgid "about this instance."
-msgstr "sur cette instance."
-
-#: newspipe/templates/about.html:30
+#: newspipe/templates/about.html:44
 msgid "Help"
 msgstr "Aide"
 
-#: newspipe/templates/about.html:32
+#: newspipe/templates/about.html:46
 msgid "Contact"
 msgstr "Contact"
 
-#: newspipe/templates/about.html:37
+#: newspipe/templates/about.html:51
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following "
 "button to your browser bookmarks:"
@@ -75,7 +75,7 @@ msgstr ""
 "Vous pouvez vous abonner à de nouveaux flux grâce à un 'bookmarklet'. "
 "Faites glisser le bouton suivant vers les favoris de votre navigateur :"
 
-#: newspipe/templates/about.html:40
+#: newspipe/templates/about.html:54
 #, python-format
 msgid ""
 "<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
@@ -84,27 +84,31 @@ msgstr ""
 "<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
 "rel=\"bookmark\">S'abonner à ce flux avec Newspipe</a>"
 
-#: newspipe/templates/about_more.html:8
+#: newspipe/templates/about_more.html:9
 msgid "Information about this instance"
 msgstr "Informations sur cette instance"
 
-#: newspipe/templates/about_more.html:11
+#: newspipe/templates/about_more.html:12
+msgid "Back"
+msgstr "Retour"
+
+#: newspipe/templates/about_more.html:19
 msgid "Newspipe version"
 msgstr "Version de Newspipe"
 
-#: newspipe/templates/about_more.html:15
+#: newspipe/templates/about_more.html:23
 msgid "Python version"
 msgstr "Version de Python"
 
-#: newspipe/templates/about_more.html:19
+#: newspipe/templates/about_more.html:27
 msgid "Registration"
 msgstr "Inscription"
 
-#: newspipe/templates/about_more.html:23
+#: newspipe/templates/about_more.html:35
 msgid "Number of users"
 msgstr "Nombre d'utilisateurs"
 
-#: newspipe/templates/about_more.html:27
+#: newspipe/templates/about_more.html:44
 msgid "Content Security Policy"
 msgstr "Politique de sécurité du contenu"
 
@@ -1367,3 +1371,6 @@ msgstr "Authentification requise."
 #: newspipe/web/views/views.py:38
 msgid "Forbidden."
 msgstr "Accès refusé."
+
+#~ msgid "about this instance."
+#~ msgstr "sur cette instance."

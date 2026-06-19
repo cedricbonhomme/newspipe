@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-19 23:22+0200\n"
+"POT-Creation-Date: 2026-06-20 00:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,87 +17,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: newspipe/templates/about.html:8 newspipe/templates/layout.html:145
+#: newspipe/templates/about.html:12
+msgid "Because RSS still rocks."
+msgstr ""
+
+#: newspipe/templates/about.html:20 newspipe/templates/layout.html:145
 #: newspipe/templates/layout.html:152
 msgid "About"
 msgstr ""
 
-#: newspipe/templates/about.html:9
+#: newspipe/templates/about.html:21
 msgid "Newspipe is a news reader."
 msgstr ""
 
-#: newspipe/templates/about.html:11
+#: newspipe/templates/about.html:23
 msgid ""
 "This software is released under the AGPLv3 license. You are welcome to "
 "copy, modify, or redistribute the"
 msgstr ""
 
-#: newspipe/templates/about.html:13
+#: newspipe/templates/about.html:25
 msgid "according to the"
 msgstr ""
 
-#: newspipe/templates/about.html:15
+#: newspipe/templates/about.html:27
 msgid "license."
 msgstr ""
 
-#: newspipe/templates/about.html:18
+#: newspipe/templates/about.html:30
 msgid "Found a bug? Report it"
 msgstr ""
 
-#: newspipe/templates/about.html:19
+#: newspipe/templates/about.html:31
 msgid "here"
 msgstr ""
 
-#: newspipe/templates/about.html:22
+#: newspipe/templates/about.html:34
 msgid "More information"
 msgstr ""
 
-#: newspipe/templates/about.html:22
-msgid "about this instance."
-msgstr ""
-
-#: newspipe/templates/about.html:30
+#: newspipe/templates/about.html:44
 msgid "Help"
 msgstr ""
 
-#: newspipe/templates/about.html:32
+#: newspipe/templates/about.html:46
 msgid "Contact"
 msgstr ""
 
-#: newspipe/templates/about.html:37
+#: newspipe/templates/about.html:51
 msgid ""
 "You can subscribe to new feeds with a bookmarklet. Drag the following "
 "button to your browser bookmarks:"
 msgstr ""
 
-#: newspipe/templates/about.html:40
+#: newspipe/templates/about.html:54
 #, python-format
 msgid ""
 "<a class=\"btn btn-primary\" href=\"%(bookmarklet)s\" "
 "rel=\"bookmark\">Subscribe to this feed using Newspipe</a>"
 msgstr ""
 
-#: newspipe/templates/about_more.html:8
+#: newspipe/templates/about_more.html:9
 msgid "Information about this instance"
 msgstr ""
 
-#: newspipe/templates/about_more.html:11
-msgid "Newspipe version"
-msgstr ""
-
-#: newspipe/templates/about_more.html:15
-msgid "Python version"
+#: newspipe/templates/about_more.html:12
+msgid "Back"
 msgstr ""
 
 #: newspipe/templates/about_more.html:19
-msgid "Registration"
+msgid "Newspipe version"
 msgstr ""
 
 #: newspipe/templates/about_more.html:23
-msgid "Number of users"
+msgid "Python version"
 msgstr ""
 
 #: newspipe/templates/about_more.html:27
+msgid "Registration"
+msgstr ""
+
+#: newspipe/templates/about_more.html:35
+msgid "Number of users"
+msgstr ""
+
+#: newspipe/templates/about_more.html:44
 msgid "Content Security Policy"
 msgstr ""
 

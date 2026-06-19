@@ -1,45 +1,61 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container my-4">
+<div class="container my-5">
 
-    <!-- About Card -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h2 class="h4 mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>{{ _('About') }}</h2>
-            <p class="mb-2">{{ _('Newspipe is a news reader.') }}</p>
-            <p class="mb-2">
-                {{ _('This software is released under the AGPLv3 license. You are welcome to copy, modify, or redistribute the') }}
-                <a href="https://github.com/cedricbonhomme/newspipe" target="_blank" rel="noopener noreferrer">source code</a>
-                {{ _('according to the') }}
-                <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener noreferrer">Affero GPL</a>
-                {{ _('license.') }}
-            </p>
-            <p class="mb-2">
-                {{ _('Found a bug? Report it') }}
-                <a href="https://github.com/cedricbonhomme/newspipe/issues" target="_blank" rel="noopener noreferrer">{{ _('here') }}</a>.
-            </p>
-            <p class="mb-0">
-                <a href="{{ url_for('about_more') }}">{{ _('More information') }}</a> {{ _('about this instance.') }}
-            </p>
-        </div>
+    <!-- Hero -->
+    <div class="text-center mb-5">
+        <span class="d-inline-flex align-items-center justify-content-center rounded-circle"
+              style="width:4.5rem;height:4.5rem;background:var(--np-accent-soft);color:var(--np-accent);font-size:2rem;">
+            <i class="bi bi-rss"></i>
+        </span>
+        <h1 class="fw-bold mt-3 mb-1" style="letter-spacing:-0.02em;">Newspipe</h1>
+        <p class="text-muted mb-0">{{ _('Because RSS still rocks.') }}</p>
     </div>
 
-    <!-- Help Card -->
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="h4 mb-3"><i class="bi bi-life-preserver me-2 text-success"></i>{{ _('Help') }}</h2>
-            <p class="mb-2">
-                <i class="bi bi-envelope me-1"></i>{{ _('Contact') }}:
-                <a href="mailto:{{ contact }}">{{ contact }}</a>
-            </p>
-            <p class="mb-3">
-                <i class="bi bi-bookmark-heart me-1"></i>
-                {{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks:') }}
-            </p>
-            <div class="d-grid d-sm-inline">
-                {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>',
-                        bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)'
-                        % url_for('feed.bookmarklet', _external=True)) }}
+    <div class="row g-4 justify-content-center">
+        <!-- About Card -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>{{ _('About') }}</h2>
+                    <p>{{ _('Newspipe is a news reader.') }}</p>
+                    <p>
+                        {{ _('This software is released under the AGPLv3 license. You are welcome to copy, modify, or redistribute the') }}
+                        <a href="https://github.com/cedricbonhomme/newspipe" target="_blank" rel="noopener noreferrer">source code</a>
+                        {{ _('according to the') }}
+                        <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener noreferrer">Affero GPL</a>
+                        {{ _('license.') }}
+                    </p>
+                    <p class="mb-3">
+                        {{ _('Found a bug? Report it') }}
+                        <a href="https://github.com/cedricbonhomme/newspipe/issues" target="_blank" rel="noopener noreferrer">{{ _('here') }}</a>.
+                    </p>
+                    <a href="{{ url_for('about_more') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-info-square me-1"></i>{{ _('More information') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Card -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3"><i class="bi bi-life-preserver me-2 text-success"></i>{{ _('Help') }}</h2>
+                    <p>
+                        <i class="bi bi-envelope me-1 text-muted"></i>{{ _('Contact') }}:
+                        <a href="mailto:{{ contact }}">{{ contact }}</a>
+                    </p>
+                    <p class="mb-3">
+                        <i class="bi bi-bookmark-heart me-1 text-muted"></i>
+                        {{ _('You can subscribe to new feeds with a bookmarklet. Drag the following button to your browser bookmarks:') }}
+                    </p>
+                    <div class="d-grid d-sm-block">
+                        {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Subscribe to this feed using Newspipe</a>',
+                                bookmarklet='javascript:window.location="%s?url="+encodeURIComponent(document.location)'
+                                % url_for('feed.bookmarklet', _external=True)) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
