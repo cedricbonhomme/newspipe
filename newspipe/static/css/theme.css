@@ -205,6 +205,33 @@ a:hover {
   --bs-card-border-radius: var(--bs-border-radius);
 }
 
+/* List groups — lift onto the same soft surface card as the article list, so
+   bookmarks / inactives / popular / feed / history rows read as content, not
+   bare text on the page background. */
+.list-group {
+  --bs-list-group-bg: var(--np-surface);
+  --bs-list-group-color: var(--np-ink);
+  --bs-list-group-border-color: var(--np-border);
+  --bs-list-group-border-radius: var(--bs-border-radius);
+  --bs-list-group-action-hover-bg: var(--np-accent-soft);
+  --bs-list-group-action-hover-color: var(--np-ink);
+}
+/* Standalone lists (not flush-mounted inside a card) read as their own card. */
+.list-group:not(.list-group-flush) {
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+.list-group-item {
+  padding: 0.75rem 1rem;
+}
+.list-group-item + .list-group-item {
+  border-top-width: 1px;
+}
+.list-group-item:hover {
+  background: var(--np-accent-soft);
+}
+
 .dropdown-menu {
   --bs-dropdown-bg: var(--np-surface);
   --bs-dropdown-border-color: var(--np-border);

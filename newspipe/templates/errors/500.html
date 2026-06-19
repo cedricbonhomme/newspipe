@@ -3,10 +3,18 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<div class="container">
-    <div class="well">
-        <h1>Internal Server Error</h1>
-        <p>Something bad just happened! Go to the <a href="{{ url_for('home') }}">home page</a>.</p>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm rounded-3 text-center">
+        <div class="card-body p-5">
+          <i class="bi bi-exclamation-triangle display-4 text-muted d-block mb-3"></i>
+          <h1 class="h3 mb-3">{{ _('Internal Server Error') }}</h1>
+          <p class="text-muted mb-4">{{ _('Something bad just happened!') }}</p>
+          <a class="btn btn-primary" href="{{ url_for('home') }}">{{ _('Go to the home page') }}</a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

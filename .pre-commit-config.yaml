@@ -36,3 +36,4 @@ repos:
     rev: v2.10.0
     hooks:
       -   id: pip-audit
+          additional_dependencies: ["pip>=26.1.2"]

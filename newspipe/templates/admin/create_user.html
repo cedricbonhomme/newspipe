@@ -1,21 +1,39 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-  <h2>{{ message | safe }}</h2>
-  <form action="" method="post" name="saveprofileform" id="profileform">
-      {{ form.hidden_tag() }}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">{{ message | safe }}</h3>
+          <form action="" method="post" name="saveprofileform" id="profileform" novalidate>
+            {{ form.hidden_tag() }}
 
-      {{ form.nickname.label }}
-      {{ form.nickname(class_="form-control") }} {% for error in form.nickname.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.nickname.label(class_="form-label") }}
+              {{ form.nickname(class_="form-control") }}
+              {% for error in form.nickname.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-      {{ form.password.label }}
-      {% if pw_disabled %}{{ form.password(class_="form-control",disabled=True) }}{% else %}{{ form.password(class_="form-control") }}{% endif %} {% for error in form.password.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.password.label(class_="form-label") }}
+              {% if pw_disabled %}{{ form.password(class_="form-control", disabled=True) }}{% else %}{{ form.password(class_="form-control") }}{% endif %}
+              {% for error in form.password.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-      {{ form.automatic_crawling.label }}
-      {{ form.automatic_crawling(class_="form-check-input") }} {% for error in form.automatic_crawling.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="form-check mb-3">
+              {{ form.automatic_crawling(class_="form-check-input") }}
+              {{ form.automatic_crawling.label(class_="form-check-label") }}
+              {% for error in form.automatic_crawling.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-      <br />
-      {{ form.submit(class_="btn btn-primary") }}
-  </form>
+            <div class="d-grid mb-3">
+              {{ form.submit(class_="btn btn-primary btn-lg") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

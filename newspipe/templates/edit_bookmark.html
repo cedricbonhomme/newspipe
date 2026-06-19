@@ -1,64 +1,74 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-  <div class="row d-flex justify-content-center">
-      <div class="col-md-6">
-          <h3>{{ action }}</h3>
-          <form action="" method="post" name="save" class="form-horizontal">
-              {{ form.hidden_tag() }}
-              <label for="{{ form.href.id }}" class="control-label">{{ form.href.label }}</label>
-              {{ form.href(class_="form-control", size="100%") }}
-              {% for error in form.href.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">{{ action }}</h3>
+          <form action="" method="post" name="save" novalidate>
+            {{ form.hidden_tag() }}
 
-              <label for="{{ form.title.id }}" class="control-label">{{ form.title.label }}</label>
-              {{ form.title(class_="form-control", size="100%") }}
-              {% for error in form.title.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.href.label(class_="form-label") }}
+              {{ form.href(class_="form-control") }}
+              {% for error in form.href.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-              <label for="{{ form.description.id }}" class="control-label">{{ form.description.label }}</label>
-              {{ form.description(class_="form-control", size="100%") }}
-              {% for error in form.description.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.title.label(class_="form-label") }}
+              {{ form.title(class_="form-control") }}
+              {% for error in form.title.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-              <label for="{{ form.tags.id }}" class="control-label">{{ form.tags.label }}</label>
-              {{ form.tags(class_="form-control", size="100%") }}
-              {% for error in form.tags.errors %} <span style="color: red;">{{ error }}<br /></span>{% endfor %}
+            <div class="mb-3">
+              {{ form.description.label(class_="form-label") }}
+              {{ form.description(class_="form-control") }}
+              {% for error in form.description.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-              <label for="{{ form.shared.id }}" class="control-label">{{ form.shared.label }}</label>
-              <div class="checkbox">
-                {{ form.shared(class_="checkbox",  style="margin-left: 0px;") }}
-              </div>
+            <div class="mb-3">
+              {{ form.tags.label(class_="form-label") }}
+              {{ form.tags(class_="form-control") }}
+              {% for error in form.tags.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
 
-              <div class="form-group">
-                  <label for="{{ form.to_read.id }}" class="control-label">{{ form.to_read.label }}</label>
-                  <div class="checkbox">
-                    {{ form.to_read(class_="checkbox",  style="margin-left: 0px;") }}
-                  </div>
-              </div>
+            <div class="form-check mb-3">
+              {{ form.shared(class_="form-check-input") }}
+              {{ form.shared.label(class_="form-check-label") }}
+            </div>
 
-              {{ form.submit(class_="btn btn-primary form-control") }}
+            <div class="form-check mb-3">
+              {{ form.to_read(class_="form-check-input") }}
+              {{ form.to_read.label(class_="form-check-label") }}
+            </div>
+
+            <div class="d-grid mb-3">
+              {{ form.submit(class_="btn btn-primary btn-lg") }}
+            </div>
           </form>
+        </div>
       </div>
-  </div>
 
-    {% if action == _('Add a new bookmark') %}
-        <div class="row d-flex justify-content-center pt-4">
-          <div class="col-md-6 float-end">
-            <hr />
+      {% if action == _('Add a new bookmark') %}
+        <div class="card shadow-sm rounded-3 mt-4">
+          <div class="card-body p-4">
             <p>{{ _('You can add a bookmark with a bookmarklet. Drag the following button to your browser bookmarks.') }}</p>
             {{ _('<a class="btn btn-primary" href="%(bookmarklet)s" rel="bookmark">Bookmark this page using Newspipe</a>', bookmarklet='javascript:window.location="%s?href="+encodeURIComponent(document.location)+"&title="+document.title' % url_for('bookmark.bookmarklet', _external=True)) }}
-          </div>
-        </div>
-        <div class="row d-flex justify-content-center pt-4">
-          <div class="col-md-6">
-            <hr />
+
+            <hr class="my-4">
+
             <form action="{{ url_for('bookmark.import_pinboard') }}" method="post" id="formImportPinboard" enctype="multipart/form-data">
-                <p>{{ _('Import bookmarks from Pinboard') }} (*.json)</p>
-                <span>
-                  <input type="file" name="jsonfile" />
-                  <button class="btn btn-primary" type="submit">OK</button>
-                </span>
+              <label class="form-label">{{ _('Import bookmarks from Pinboard') }} (*.json)</label>
+              <div class="input-group">
+                <input type="file" name="jsonfile" class="form-control" />
+                <button class="btn btn-primary" type="submit">OK</button>
+              </div>
             </form>
           </div>
         </div>
-    {% endif %}
-</div><!-- /.container -->
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}
