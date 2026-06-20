@@ -20,6 +20,7 @@ def set_logging(
     log_level=logging.INFO,
     modules=(),
     log_format="%(asctime)s %(levelname)s %(message)s",
+    debug=False,
 ):
     if not modules:
         modules = (
@@ -30,21 +31,29 @@ def set_logging(
             "manager",
             "plugins",
         )
+    handlers = []
     if log_path:
         if not os.path.exists(os.path.dirname(log_path)):
             os.makedirs(os.path.dirname(log_path))
         if not os.path.exists(log_path):
             open(log_path, "w").close()
-        handler = logging.FileHandler(log_path)
-    else:
-        handler = logging.StreamHandler()
+        handlers.append(logging.FileHandler(log_path))
+    # In debug mode (or when no log file is configured) also log to the
+    # console so the development server output (werkzeug banner, request logs,
+    # "Detected change ... reloading", ...) stays visible in the terminal.
+    # Without this, attaching a FileHandler to the root logger silently
+    # redirects werkzeug's output to the log file and makes it look like the
+    # reloader is not working.
+    if debug or not handlers:
+        handlers.append(logging.StreamHandler())
     formater = logging.Formatter(log_format)
-    handler.setFormatter(formater)
+    for handler in handlers:
+        handler.setFormatter(formater)
+        handler.setLevel(log_level)
     for logger_name in modules:
         logger = logging.getLogger(logger_name)
-        logger.addHandler(handler)
-        for handler in logger.handlers:
-            handler.setLevel(log_level)
+        for handler in handlers:
+            logger.addHandler(handler)
         logger.setLevel(log_level)
 
 
@@ -74,7 +83,9 @@ else:
     except Exception:
         application.config.from_pyfile("sqlite.py", silent=False)
 
-set_logging(application.config["LOG_PATH"])
+set_logging(
+    application.config["LOG_PATH"], debug=application.config.get("DEBUG", False)
+)
 
 _prefix = ""
 if "PREFIX" in application.config:
