@@ -1,6 +1,27 @@
 Newspipe Changelog
 ==================
 
+## 12.0.0 (2026-06-20)
+
+### Improvements
+
+- Modernized the whole interface with a refined theme, including the main navigation menu and the about pages.
+- The home page now paginates the article list with infinite scroll.
+- Feeds within a category are now sorted by their number of unread articles.
+- Constrained the width of expanded article content and media for better readability.
+- The HTML sanitizer now allows structural and media tags while stripping unknown tags, and the Content Security Policy allows inline media from any HTTPS origin.
+- Added a `resanitize_articles` command to re-clean stored article HTML.
+- `push_sighting_to_vulnerability_lookup` now uses the content of the article when creating sightings.
+- Updated the translation catalog and added French translations.
+- Updated Python dependencies.
+
+### Fixes
+
+- Made article titles visible in the dark theme.
+- The development server output (werkzeug banner, request logs and reloader messages) is now visible on the console when running in debug mode.
+- Fixed the like and read/unread toggle buttons on the home and article pages.
+
+
 ## 11.3.0 (2026-03-28)
 
 ### Improvements
