@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-26 08:51+0200\n"
+"POT-Creation-Date: 2026-06-26 13:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,23 +114,23 @@ msgstr ""
 msgid "Delete this article"
 msgstr ""
 
-#: newspipe/templates/article.html:37 newspipe/templates/home.html:243
-#: newspipe/templates/home.html:322
+#: newspipe/templates/article.html:37 newspipe/templates/home.html:255
+#: newspipe/templates/home.html:385
 msgid "One of your favorites"
 msgstr ""
 
-#: newspipe/templates/article.html:41 newspipe/templates/home.html:245
-#: newspipe/templates/home.html:323
+#: newspipe/templates/article.html:41 newspipe/templates/home.html:257
+#: newspipe/templates/home.html:386
 msgid "Click if you like this article"
 msgstr ""
 
-#: newspipe/templates/article.html:47 newspipe/templates/home.html:238
-#: newspipe/templates/home.html:321
+#: newspipe/templates/article.html:47 newspipe/templates/home.html:250
+#: newspipe/templates/home.html:384
 msgid "Mark this article as unread"
 msgstr ""
 
-#: newspipe/templates/article.html:51 newspipe/templates/home.html:240
-#: newspipe/templates/home.html:320
+#: newspipe/templates/article.html:51 newspipe/templates/home.html:252
+#: newspipe/templates/home.html:383
 msgid "Mark this article as read"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgstr ""
 
 #: newspipe/templates/bookmarks.html:13
 #: newspipe/templates/feed_list_per_categories.html:6
-#: newspipe/templates/home.html:187 newspipe/templates/popular.html:11
+#: newspipe/templates/home.html:199 newspipe/templates/popular.html:11
 #: newspipe/templates/user_stream.html:9
 msgid "All"
 msgstr ""
@@ -155,7 +155,7 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: newspipe/templates/bookmarks.html:16 newspipe/templates/home.html:193
+#: newspipe/templates/bookmarks.html:16 newspipe/templates/home.html:205
 msgid "Unread"
 msgstr ""
 
@@ -186,7 +186,7 @@ msgid ""
 " a category"
 msgstr ""
 
-#: newspipe/templates/categories.html:10 newspipe/templates/home.html:96
+#: newspipe/templates/categories.html:10 newspipe/templates/home.html:108
 msgid "No category"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Articles"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:19
+#: newspipe/templates/admin/dashboard.html:23
 #: newspipe/templates/categories.html:22 newspipe/templates/feed_list.html:12
 msgid "Actions"
 msgstr ""
@@ -333,8 +333,8 @@ msgid "Add filter"
 msgstr ""
 
 #: newspipe/templates/feed.html:17 newspipe/templates/feed_list.html:55
-#: newspipe/templates/home.html:72 newspipe/templates/home.html:119
-#: newspipe/templates/home.html:166
+#: newspipe/templates/home.html:84 newspipe/templates/home.html:131
+#: newspipe/templates/home.html:178
 msgid "Edit this feed"
 msgstr ""
 
@@ -404,11 +404,11 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: newspipe/templates/feed.html:138 newspipe/templates/home.html:229
+#: newspipe/templates/feed.html:138 newspipe/templates/home.html:241
 msgid "Article"
 msgstr ""
 
-#: newspipe/templates/feed.html:139 newspipe/templates/home.html:230
+#: newspipe/templates/feed.html:139 newspipe/templates/home.html:242
 msgid "Date"
 msgstr ""
 
@@ -477,7 +477,7 @@ msgid "Filter"
 msgstr ""
 
 #: newspipe/templates/feed_list_per_categories.html:24
-#: newspipe/templates/home.html:227
+#: newspipe/templates/home.html:239
 msgid "Feed"
 msgstr ""
 
@@ -494,71 +494,75 @@ msgstr ""
 msgid "all years"
 msgstr ""
 
-#: newspipe/templates/history.html:34 newspipe/templates/home.html:271
+#: newspipe/templates/history.html:34 newspipe/templates/home.html:283
 msgid "Loading…"
 msgstr ""
 
-#: newspipe/templates/home.html:19
+#: newspipe/templates/home.html:31
 msgid "You don't have any feeds."
 msgstr ""
 
-#: newspipe/templates/home.html:21
+#: newspipe/templates/home.html:33
 msgid "Add some"
 msgstr ""
 
-#: newspipe/templates/home.html:22
+#: newspipe/templates/home.html:34
 msgid "or"
 msgstr ""
 
-#: newspipe/templates/home.html:23
+#: newspipe/templates/home.html:35
 msgid "upload an OPML file."
 msgstr ""
 
-#: newspipe/templates/home.html:32
+#: newspipe/templates/home.html:44
 msgid "All feeds"
 msgstr ""
 
-#: newspipe/templates/home.html:59 newspipe/templates/home.html:106
-#: newspipe/templates/home.html:152
+#: newspipe/templates/home.html:71 newspipe/templates/home.html:118
+#: newspipe/templates/home.html:164
 msgid "Some errors occurred while trying to retrieve that feed."
 msgstr ""
 
-#: newspipe/templates/home.html:71 newspipe/templates/home.html:118
-#: newspipe/templates/home.html:165
+#: newspipe/templates/home.html:83 newspipe/templates/home.html:130
+#: newspipe/templates/home.html:177
 msgid "Details"
 msgstr ""
 
-#: newspipe/templates/home.html:75 newspipe/templates/home.html:122
-#: newspipe/templates/home.html:169
+#: newspipe/templates/home.html:87 newspipe/templates/home.html:134
+#: newspipe/templates/home.html:181
 msgid "Mark this feed as unread"
 msgstr ""
 
-#: newspipe/templates/home.html:79 newspipe/templates/home.html:126
-#: newspipe/templates/home.html:173 newspipe/templates/home.html:210
+#: newspipe/templates/home.html:91 newspipe/templates/home.html:138
+#: newspipe/templates/home.html:185 newspipe/templates/home.html:222
 msgid "Mark this feed as read"
 msgstr ""
 
-#: newspipe/templates/home.html:143
+#: newspipe/templates/home.html:155
 msgid "Nothing to read"
 msgstr ""
 
-#: newspipe/templates/home.html:190
+#: newspipe/templates/home.html:202
 msgid "Read"
 msgstr ""
 
-#: newspipe/templates/home.html:196
+#: newspipe/templates/home.html:208
 msgid "Liked"
 msgstr ""
 
-#: newspipe/templates/home.html:216
+#: newspipe/templates/home.html:228
 msgid "Mark all as read"
 msgstr ""
 
-#: newspipe/templates/home.html:221
+#: newspipe/templates/home.html:233
 msgid "Mark all as unread"
 msgstr ""
 
-#: newspipe/templates/home.html:324
+#: newspipe/templates/home.html:296
+msgid "Select an article to read it here."
+msgstr ""
+
+#: newspipe/templates/home.html:303 newspipe/templates/home.html:387
 msgid "Open article in a new page."
 msgstr ""
 
@@ -848,12 +852,12 @@ msgstr ""
 msgid "Your Profile"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:16
+#: newspipe/templates/admin/dashboard.html:20
 #: newspipe/templates/profile.html:13 newspipe/templates/profile_public.html:9
 msgid "Member since"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:17
+#: newspipe/templates/admin/dashboard.html:21
 #: newspipe/templates/profile.html:17 newspipe/templates/profile_public.html:12
 msgid "Last seen"
 msgstr ""
@@ -928,42 +932,42 @@ msgstr ""
 msgid "Registered users"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:15 newspipe/web/forms.py:61
+#: newspipe/templates/admin/dashboard.html:10 newspipe/web/views/admin.py:56
+msgid "Add a new user"
+msgstr ""
+
+#: newspipe/templates/admin/dashboard.html:19 newspipe/web/forms.py:61
 #: newspipe/web/forms.py:127 newspipe/web/forms.py:228
 #: newspipe/web/forms.py:254
 msgid "Nickname"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:18
+#: newspipe/templates/admin/dashboard.html:22
 msgid "External auth"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:36
+#: newspipe/templates/admin/dashboard.html:38
 msgid "It's you!"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:42
+#: newspipe/templates/admin/dashboard.html:44
 msgid "Edit this user"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:49
+#: newspipe/templates/admin/dashboard.html:51
 msgid "Disable this account"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:56
+#: newspipe/templates/admin/dashboard.html:58
 msgid "Enable this account"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:62
+#: newspipe/templates/admin/dashboard.html:64
 msgid "You are going to delete this account."
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:64
+#: newspipe/templates/admin/dashboard.html:66
 msgid "Delete this user"
-msgstr ""
-
-#: newspipe/templates/admin/dashboard.html:76 newspipe/web/views/admin.py:56
-msgid "Add a new user"
 msgstr ""
 
 #: newspipe/templates/errors/404.html:12

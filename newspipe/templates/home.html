@@ -10,6 +10,18 @@
     li.feed-commands > span > a { margin-right: 10px; }
     li.feed-menu:hover + li.feed-commands,
     li.feed-commands:hover { display: block; }
+
+    /* Three-column reading layout (lg and up): the reading pane stays in view
+       while the article list scrolls. */
+    #reading-pane .reading-pane-sticky {
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+    #reading-pane-body :is(img, video, iframe, table) { max-width: 100%; height: auto; }
+    #reading-pane-body { overflow-wrap: break-word; }
+    tr.article.active { --bs-table-bg-state: var(--bs-primary-bg-subtle); }
 </style>
 
 <div class="container-fluid">
@@ -179,8 +191,8 @@
             </ul>
         </div>
 
-        <!-- Main content (kept modern & functional) -->
-        <div class="col-md-12 col-lg-10">
+        <!-- Article list (middle column) -->
+        <div class="col-12 col-lg-5">
             <div id="filters" data-filter="{{ filter_ }}">
                 <ul class="nav nav-tabs ml-auto">
                     <li id="tab-all" class="nav-item">
@@ -252,8 +264,8 @@
                                 </td>
                                 {% endif %}
                                 <td {% if filter_ == 'all' and article.readed == False %}style='font-weight:bold'{% endif %}>
-                                    <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" article-id="{{ article.id}}" title="{{ article.title }}">{{ article.title | truncate(70, False, '…') }}</a>
-                                    <div class="collapse" id="collapse-{{ article.id}}">
+                                    <a data-bs-toggle="collapse" href="#collapse-{{ article.id}}" article-id="{{ article.id}}" data-article-url="{{ prefix() }}/article/{{ article.id }}" title="{{ article.title }}">{{ article.title | truncate(70, False, '…') }}</a>
+                                    <div class="collapse d-lg-none" id="collapse-{{ article.id}}">
                                       <div class="card card-body col-md-10 overflow-auto" >
                                         <span content-id="{{ article.id}}"></span>
                                         <hr />
@@ -274,30 +286,81 @@
                 </div>
             {% endif %}
         </div>
+
+        <!-- Reading pane (right column, lg and up) -->
+        <div id="reading-pane" class="col-lg-5 d-none d-lg-block">
+            <div class="card shadow-sm rounded-3 reading-pane-sticky">
+                <div class="card-body p-4">
+                    <div id="reading-pane-placeholder" class="text-center text-muted py-5">
+                        <i class="bi bi-book display-4 d-block mb-3"></i>
+                        <p class="mb-0">{{ _('Select an article to read it here.') }}</p>
+                    </div>
+                    <article id="reading-pane-content" class="d-none">
+                        <h2 id="reading-pane-title" class="h4 mb-3"></h2>
+                        <div id="reading-pane-body"></div>
+                        <hr>
+                        <a id="reading-pane-link" href="#" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>{{ _('Open article in a new page.') }}
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // Reading pane is only active on lg+ screens (>= 992px). Below that we keep
+    // the original inline-collapse behavior.
+    const paneMql = window.matchMedia("(min-width: 992px)");
+    const pane = document.getElementById("reading-pane");
+    const panePlaceholder = document.getElementById("reading-pane-placeholder");
+    const paneContent = document.getElementById("reading-pane-content");
+    const paneTitle = document.getElementById("reading-pane-title");
+    const paneBody = document.getElementById("reading-pane-body");
+    const paneLink = document.getElementById("reading-pane-link");
+
+    function showInPane(link, content) {
+      paneTitle.textContent = link.getAttribute("title") || link.textContent;
+      paneBody.innerHTML = content || "";
+      paneLink.href = link.getAttribute("data-article-url") || "#";
+      panePlaceholder.classList.add("d-none");
+      paneContent.classList.remove("d-none");
+      // Highlight the active row in the list.
+      document.querySelectorAll("tr.article.active").forEach(function (r) {
+        r.classList.remove("active");
+      });
+      const row = link.closest("tr.article");
+      if (row) row.classList.add("active");
+      const card = pane.querySelector(".reading-pane-sticky");
+      if (card) card.scrollTop = 0;
+    }
+
     document.addEventListener("click", async function (event) {
-      if (event.target.hasAttribute("article-id")) {
-          const articleId = event.target.getAttribute("article-id");
-          try {
-              const response = await fetch(`/api/v2.0/article/${articleId}`);
-              if (!response.ok) {
-                  throw new Error("Failed to fetch article content");
-              }
-              const data = await response.json();
-              if (data.content) {
-                const element = document.querySelector(`[content-id="${articleId}"]`);
-                if (element) element.innerHTML = data.content;
-              } else {
-                  console.error("Content key not found in the response data.");
-              }
-          } catch (error) {
-              console.error("Error fetching article content:", error);
+      const link = event.target.closest("[article-id]");
+      if (!link) return;
+      const usePane = pane && paneMql.matches;
+      // On lg+, render into the pane instead of expanding the (hidden) collapse.
+      if (usePane) event.preventDefault();
+      const articleId = link.getAttribute("article-id");
+      try {
+          const response = await fetch(`/api/v2.0/article/${articleId}`);
+          if (!response.ok) {
+              throw new Error("Failed to fetch article content");
           }
+          const data = await response.json();
+          if (usePane) {
+            showInPane(link, data.content);
+          } else if (data.content) {
+            const element = document.querySelector(`[content-id="${articleId}"]`);
+            if (element) element.innerHTML = data.content;
+          } else {
+              console.error("Content key not found in the response data.");
+          }
+      } catch (error) {
+          console.error("Error fetching article content:", error);
       }
     });
 
@@ -396,11 +459,12 @@
         titleLink.setAttribute("data-bs-toggle", "collapse");
         titleLink.href = "#collapse-" + art.id;
         titleLink.setAttribute("article-id", art.id);
+        titleLink.setAttribute("data-article-url", art.article_url);
         titleLink.title = art.title;
         titleLink.textContent = truncate(art.title, 70);
         tdTitle.appendChild(titleLink);
         const collapse = document.createElement("div");
-        collapse.className = "collapse";
+        collapse.className = "collapse d-lg-none";
         collapse.id = "collapse-" + art.id;
         const card = document.createElement("div");
         card.className = "card card-body col-md-10 overflow-auto";
