@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-06-20 00:01+0200\n"
+"POT-Creation-Date: 2026-06-26 08:28+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -859,43 +859,53 @@ msgstr "Suivre ce flux"
 msgid "No popular feeds available."
 msgstr "Aucun flux populaire disponible."
 
-#: newspipe/templates/profile.html:4
+#: newspipe/templates/profile.html:5
 msgid "Your Profile"
 msgstr "Votre profil"
 
-#: newspipe/templates/admin/dashboard.html:16 newspipe/templates/profile.html:9
-#: newspipe/templates/profile_public.html:9
+#: newspipe/templates/admin/dashboard.html:16
+#: newspipe/templates/profile.html:13 newspipe/templates/profile_public.html:9
 msgid "Member since"
 msgstr "Membre depuis"
 
 #: newspipe/templates/admin/dashboard.html:17
-#: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:12
+#: newspipe/templates/profile.html:17 newspipe/templates/profile_public.html:12
 msgid "Last seen"
 msgstr "Dernière connexion"
 
-#: newspipe/templates/profile.html:17
+#: newspipe/templates/profile.html:25
 msgid "Edit your profile"
 msgstr "Modifier votre profil"
 
-#: newspipe/templates/profile.html:54
+#: newspipe/templates/profile.html:62
 #, python-format
 msgid "No password management for auth type %(auth)s."
 msgstr "Pas de gestion de mot de passe pour le type d'authentification %(auth)s."
 
-#: newspipe/templates/profile.html:124
+#: newspipe/templates/profile.html:132
 #, python-format
 msgid "Your profile will be available <a href=\"%(url)s\">here</a>."
 msgstr "Votre profil sera disponible <a href=\"%(url)s\">ici</a>."
 
-#: newspipe/templates/profile.html:134
+#: newspipe/templates/profile.html:142
 msgid "Uncheck if you are using your own crawler."
 msgstr "Décochez si vous utilisez votre propre aspirateur de flux."
 
-#: newspipe/templates/profile.html:152
+#: newspipe/templates/profile.html:159
+msgid "Danger zone"
+msgstr "Zone de danger"
+
+#: newspipe/templates/profile.html:162
+msgid "Once you delete your account, there is no going back."
+msgstr ""
+"Une fois votre compte supprimé, il n'y a pas de retour en arrière "
+"possible."
+
+#: newspipe/templates/profile.html:164
 msgid "You are going to delete your account."
 msgstr "Vous êtes sur le point de supprimer votre compte."
 
-#: newspipe/templates/profile.html:155
+#: newspipe/templates/profile.html:167
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
@@ -1374,3 +1384,6 @@ msgstr "Accès refusé."
 
 #~ msgid "about this instance."
 #~ msgstr "sur cette instance."
+
+#~ msgid "Import & export"
+#~ msgstr "Importer et exporter"

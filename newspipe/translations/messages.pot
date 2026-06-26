@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-20 00:01+0200\n"
+"POT-Creation-Date: 2026-06-26 08:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -836,43 +836,51 @@ msgstr ""
 msgid "No popular feeds available."
 msgstr ""
 
-#: newspipe/templates/profile.html:4
+#: newspipe/templates/profile.html:5
 msgid "Your Profile"
 msgstr ""
 
-#: newspipe/templates/admin/dashboard.html:16 newspipe/templates/profile.html:9
-#: newspipe/templates/profile_public.html:9
+#: newspipe/templates/admin/dashboard.html:16
+#: newspipe/templates/profile.html:13 newspipe/templates/profile_public.html:9
 msgid "Member since"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:17
-#: newspipe/templates/profile.html:10 newspipe/templates/profile_public.html:12
+#: newspipe/templates/profile.html:17 newspipe/templates/profile_public.html:12
 msgid "Last seen"
 msgstr ""
 
-#: newspipe/templates/profile.html:17
+#: newspipe/templates/profile.html:25
 msgid "Edit your profile"
 msgstr ""
 
-#: newspipe/templates/profile.html:54
+#: newspipe/templates/profile.html:62
 #, python-format
 msgid "No password management for auth type %(auth)s."
 msgstr ""
 
-#: newspipe/templates/profile.html:124
+#: newspipe/templates/profile.html:132
 #, python-format
 msgid "Your profile will be available <a href=\"%(url)s\">here</a>."
 msgstr ""
 
-#: newspipe/templates/profile.html:134
+#: newspipe/templates/profile.html:142
 msgid "Uncheck if you are using your own crawler."
 msgstr ""
 
-#: newspipe/templates/profile.html:152
+#: newspipe/templates/profile.html:159
+msgid "Danger zone"
+msgstr ""
+
+#: newspipe/templates/profile.html:162
+msgid "Once you delete your account, there is no going back."
+msgstr ""
+
+#: newspipe/templates/profile.html:164
 msgid "You are going to delete your account."
 msgstr ""
 
-#: newspipe/templates/profile.html:155
+#: newspipe/templates/profile.html:167
 msgid "Delete your account"
 msgstr ""
 
