@@ -93,15 +93,46 @@ def register_feed_error(up_feed, feed, error_message):
         )
 
 
+def mark_feed_healthy(up_feed):
+    """Clear the error state on ``up_feed`` after a successful fetch.
+
+    Re-enables a feed that had been auto-disabled after too many errors but is
+    now reachable again; a no-op in effect for already-enabled feeds.
+    """
+    up_feed["error_count"] = 0
+    up_feed["last_error"] = ""
+    up_feed["enabled"] = True
+    up_feed["auto_disabled"] = False
+
+
 async def parse_feed(feed, session, timeout=10):
     """Fetch and parse a feed asynchronously; update DB, return list of articles."""
     async with sem:
         up_feed = {"last_retrieved": datetime.now(timezone.utc)}
         articles = []
 
+        # Send cached validators so unchanged feeds can answer 304 Not Modified
+        # instead of re-sending the whole body.
+        request_headers = {}
+        if feed.etag:
+            request_headers["If-None-Match"] = feed.etag
+        if feed.last_modified:
+            request_headers["If-Modified-Since"] = feed.last_modified
+
         try:
             logger.info(f"Retrieving feed {feed.link}")
-            async with session.get(feed.link, timeout=timeout) as resp:
+            async with session.get(
+                feed.link, timeout=timeout, headers=request_headers
+            ) as resp:
+                if resp.status == 304:
+                    # Not modified since the last fetch: nothing new to parse.
+                    logger.info(f"Feed not modified: {feed.link}")
+                    mark_feed_healthy(up_feed)
+                    await asyncio.to_thread(
+                        FeedController().update, {"id": feed.id}, up_feed
+                    )
+                    return []
+
                 if resp.status != 200:
                     logger.error(f"Error when retrieving feed {feed.link}")
                     register_feed_error(up_feed, feed, f"HTTP {resp.status}")
@@ -109,6 +140,10 @@ async def parse_feed(feed, session, timeout=10):
                         FeedController().update, {"id": feed.id}, up_feed
                     )
                     return []
+
+                # Persist the new validators for the next conditional request.
+                up_feed["etag"] = resp.headers.get("ETag", "")
+                up_feed["last_modified"] = resp.headers.get("Last-Modified", "")
 
                 content = await resp.read()
                 parsed_feed = feedparser.parse(io.BytesIO(content))
@@ -131,12 +166,7 @@ async def parse_feed(feed, session, timeout=10):
         if parsed_feed.entries:
             articles = parsed_feed.entries
 
-        up_feed["error_count"] = 0
-        up_feed["last_error"] = ""
-        # Re-enable a feed that had been auto-disabled after too many errors
-        # but is now reachable again. No-op for already-enabled feeds.
-        up_feed["enabled"] = True
-        up_feed["auto_disabled"] = False
+        mark_feed_healthy(up_feed)
 
         try:
             # construct_feed_from performs blocking (requests) HTTP calls to
