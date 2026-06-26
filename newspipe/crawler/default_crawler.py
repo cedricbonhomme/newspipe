@@ -139,7 +139,12 @@ async def parse_feed(feed, session, timeout=10):
         up_feed["auto_disabled"] = False
 
         try:
-            up_feed.update(construct_feed_from(feed.link, parsed_feed))
+            # construct_feed_from performs blocking (requests) HTTP calls to
+            # fetch site metadata and the favicon; run it in a thread so it does
+            # not stall the event loop and serialize the whole crawl.
+            up_feed.update(
+                await asyncio.to_thread(construct_feed_from, feed.link, parsed_feed)
+            )
             if feed.title and "title" in up_feed:
                 del up_feed["title"]
         except Exception as meta_err:
