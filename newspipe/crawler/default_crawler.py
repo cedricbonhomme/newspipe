@@ -76,14 +76,25 @@ sem = asyncio.Semaphore(10)  # max concurrent requests
 # Serialize blocking DB operations. The producer (feed updates) and the consumer
 # (article inserts) run concurrently and both write through worker threads; with
 # SQLite's single-writer model that races into "database is locked" errors, so
-# all DB access is funnelled through this lock.
+# DB access is funnelled through this lock. Backends that handle concurrent
+# writes (e.g. PostgreSQL) skip the lock for better throughput (see _SERIALIZE_DB).
 db_lock = asyncio.Lock()
+
+_SERIALIZE_DB = application.config.get("SQLALCHEMY_DATABASE_URI", "").startswith(
+    "sqlite"
+)
 
 
 async def run_db(func, *args, **kwargs):
-    """Run a blocking DB call in a worker thread, serialized via ``db_lock``."""
-    async with db_lock:
-        return await asyncio.to_thread(func, *args, **kwargs)
+    """Run a blocking DB call in a worker thread.
+
+    On SQLite (single-writer) the call is serialized via ``db_lock`` to avoid
+    "database is locked" errors; on other backends the lock is skipped.
+    """
+    if _SERIALIZE_DB:
+        async with db_lock:
+            return await asyncio.to_thread(func, *args, **kwargs)
+    return await asyncio.to_thread(func, *args, **kwargs)
 
 
 async def read_capped(resp, max_bytes):
