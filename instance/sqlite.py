@@ -49,6 +49,8 @@ HTTP_PROXY = ""
 CRAWLER_USER_AGENT = "Newspipe (https://github.com/cedricbonhomme/newspipe)"
 CRAWLER_TIMEOUT = 30
 CRAWLER_RESOLVE_ARTICLE_URL = False
+# Maximum number of feeds fetched concurrently.
+CRAWLER_MAX_CONCURRENCY = 10
 # Maximum feed body size accepted by the crawler, in bytes (default 10 MiB).
 # Larger responses are rejected to avoid exhausting memory.
 CRAWLER_MAX_FEED_SIZE = 10 * 1024 * 1024

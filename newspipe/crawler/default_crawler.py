@@ -71,7 +71,8 @@ crawler_logger.propagate = False
 logger = crawler_logger
 
 
-sem = asyncio.Semaphore(10)  # max concurrent requests
+# Limit concurrent feed fetches; configurable via CRAWLER_MAX_CONCURRENCY.
+sem = asyncio.Semaphore(application.config.get("CRAWLER_MAX_CONCURRENCY", 10))
 
 # Serialize blocking DB operations. The producer (feed updates) and the consumer
 # (article inserts) run concurrently and both write through worker threads; with
