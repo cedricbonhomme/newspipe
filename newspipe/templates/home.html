@@ -26,6 +26,40 @@
     #reading-pane-body { overflow-wrap: break-word; }
     tr.article.active { --bs-table-bg-state: var(--bs-primary-bg-subtle); }
     tr.article { cursor: pointer; }
+
+    /* Resizable list/pane split (lg and up). Width is driven by --pane-width
+       and persisted in localStorage; the gutter in between is draggable. */
+    @media (min-width: 992px) {
+        .reading-layout { display: flex; align-items: stretch; }
+        .reading-list { flex: 1 1 auto; min-width: 0; }
+        #reading-pane.reading-pane {
+            flex: 0 0 var(--pane-width, 42%);
+            min-width: 260px;
+            max-width: 70%;
+        }
+        .reading-gutter {
+            flex: 0 0 12px;
+            cursor: col-resize;
+            position: relative;
+            touch-action: none;
+        }
+        .reading-gutter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            transform: translateX(-50%);
+            background: var(--np-border);
+            border-radius: 1px;
+        }
+        .reading-gutter:hover::before,
+        .reading-gutter.dragging::before {
+            background: var(--np-accent);
+            width: 3px;
+        }
+    }
 </style>
 
 <div class="container-fluid">
@@ -195,8 +229,10 @@
             </ul>
         </div>
 
-        <!-- Article list (middle column) -->
-        <div class="col-12 col-lg-5">
+        <!-- Reading area: list + draggable gutter + pane -->
+        <div class="col-12 col-lg-10">
+          <div class="reading-layout">
+            <div class="reading-list">
             <div id="filters" data-filter="{{ filter_ }}">
                 <ul class="nav nav-tabs ml-auto">
                     <li id="tab-all" class="nav-item">
@@ -289,11 +325,15 @@
                     </div>
                 </div>
             {% endif %}
-        </div>
+            </div><!-- /.reading-list -->
 
-        <!-- Reading pane (right column, lg and up) -->
-        <div id="reading-pane" class="col-lg-5 d-none d-lg-block">
-            <div class="card shadow-sm rounded-3 reading-pane-sticky">
+            <div class="reading-gutter d-none d-lg-block" id="reading-gutter"
+                 role="separator" aria-orientation="vertical"
+                 title="{{ _('Drag to resize (double-click to reset)') }}"></div>
+
+            <!-- Reading pane (right column, lg and up) -->
+            <div id="reading-pane" class="reading-pane d-none d-lg-block">
+              <div class="card shadow-sm rounded-3 reading-pane-sticky">
                 <div class="card-body p-4">
                     <div id="reading-pane-placeholder" class="text-center text-muted py-5">
                         <i class="bi bi-book display-4 d-block mb-3"></i>
@@ -308,8 +348,10 @@
                         </a>
                     </article>
                 </div>
-            </div>
-        </div>
+              </div>
+            </div><!-- /#reading-pane -->
+          </div><!-- /.reading-layout -->
+        </div><!-- /.col-lg-10 -->
     </div>
 {% endif %}
 </div>
@@ -325,6 +367,44 @@
     const paneTitle = document.getElementById("reading-pane-title");
     const paneBody = document.getElementById("reading-pane-body");
     const paneLink = document.getElementById("reading-pane-link");
+
+    // --- Resizable pane: drag the gutter to set the pane width (persisted) ---
+    const layout = document.querySelector(".reading-layout");
+    const gutter = document.getElementById("reading-gutter");
+    if (layout && gutter && pane) {
+      const saved = localStorage.getItem("np-pane-width");
+      if (saved) layout.style.setProperty("--pane-width", saved);
+      let dragging = false;
+      gutter.addEventListener("pointerdown", function (e) {
+        dragging = true;
+        gutter.classList.add("dragging");
+        gutter.setPointerCapture(e.pointerId);
+        document.body.style.userSelect = "none";
+        e.preventDefault();
+      });
+      gutter.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        const rect = layout.getBoundingClientRect();
+        let w = rect.right - e.clientX;
+        w = Math.max(260, Math.min(rect.width * 0.7, w));
+        layout.style.setProperty("--pane-width", w + "px");
+      });
+      function endDrag(e) {
+        if (!dragging) return;
+        dragging = false;
+        gutter.classList.remove("dragging");
+        document.body.style.userSelect = "";
+        try { gutter.releasePointerCapture(e.pointerId); } catch (_) {}
+        const w = layout.style.getPropertyValue("--pane-width").trim();
+        if (w) localStorage.setItem("np-pane-width", w);
+      }
+      gutter.addEventListener("pointerup", endDrag);
+      gutter.addEventListener("pointercancel", endDrag);
+      gutter.addEventListener("dblclick", function () {
+        layout.style.removeProperty("--pane-width");
+        localStorage.removeItem("np-pane-width");
+      });
+    }
 
     function showInPane(link, content) {
       paneTitle.textContent = link.getAttribute("title") || link.textContent;
