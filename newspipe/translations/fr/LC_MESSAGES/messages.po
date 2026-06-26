@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-06-26 08:30+0200\n"
+"POT-Creation-Date: 2026-06-26 08:51+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -249,7 +249,7 @@ msgid "feed(s)."
 msgstr "flux."
 
 #: newspipe/templates/category_public.html:56
-#: newspipe/templates/edit_feed.html:10
+#: newspipe/templates/edit_feed.html:10 newspipe/templates/edit_feed.html:11
 msgid "View feed"
 msgstr "Voir le flux"
 
@@ -290,33 +290,41 @@ msgstr ""
 msgid "Import bookmarks from Pinboard"
 msgstr "Importer les marque-pages depuis Pinboard"
 
-#: newspipe/templates/edit_feed.html:20
+#: newspipe/templates/edit_feed.html:22
+msgid "Feed source"
+msgstr "Source du flux"
+
+#: newspipe/templates/edit_feed.html:26
 msgid "Enter the URL of the website or the URL of the feed (RSS/ATOM)."
 msgstr "Entrez l’URL du site ou l’URL du flux (RSS/ATOM)."
 
-#: newspipe/templates/edit_feed.html:51
+#: newspipe/templates/edit_feed.html:52 newspipe/templates/feed.html:42
+msgid "Feed details"
+msgstr "Détails du flux"
+
+#: newspipe/templates/edit_feed.html:59
 msgid "Will be retrieved automatically but you can specify a custom title."
 msgstr ""
 "Sera récupéré automatiquement mais vous pouvez spécifier un titre "
 "personnalisé."
 
-#: newspipe/templates/edit_feed.html:60
+#: newspipe/templates/edit_feed.html:68
 msgid "Optional"
 msgstr "Optionnel"
 
-#: newspipe/templates/edit_feed.html:63
+#: newspipe/templates/edit_feed.html:71
 msgid "Create a new category"
 msgstr "Créer une nouvelle catégorie"
 
-#: newspipe/templates/edit_feed.html:76
+#: newspipe/templates/edit_feed.html:83
 msgid "Description of the feed."
 msgstr "Description du flux."
 
-#: newspipe/templates/edit_feed.html:88
+#: newspipe/templates/edit_feed.html:94
 msgid "If unchecked, this feed won't be retrieved."
 msgstr "Si décoché, ce flux ne sera plus récupéré."
 
-#: newspipe/templates/edit_feed.html:96
+#: newspipe/templates/edit_feed.html:102
 #, python-format
 msgid ""
 "If checked, this feed won't be listed on <a href='%(url)s'>your profile "
@@ -325,21 +333,21 @@ msgstr ""
 "Si coché, ce flux ne sera pas listé sur <a href='%(url)s'>votre page de "
 "profil</a>."
 
-#: newspipe/templates/edit_feed.html:98
+#: newspipe/templates/edit_feed.html:104
 msgid "Check this box if there is a private token in the link of the feed."
 msgstr "Cochez cette case si le lien du flux contient un jeton privé."
 
-#: newspipe/templates/edit_feed.html:106
+#: newspipe/templates/edit_feed.html:114
 msgid "Filters"
 msgstr "Filtres"
 
-#: newspipe/templates/edit_feed.html:107
+#: newspipe/templates/edit_feed.html:117
 msgid "Here you can define actions to perform on newly retrieved items."
 msgstr ""
 "Ici, vous pouvez définir les actions à effectuer sur les nouveaux "
 "articles récupérés."
 
-#: newspipe/templates/edit_feed.html:109
+#: newspipe/templates/edit_feed.html:126
 msgid "Add filter"
 msgstr "Ajouter un filtre"
 
@@ -356,10 +364,6 @@ msgstr "Vous êtes sur le point de supprimer ce flux."
 #: newspipe/templates/feed.html:23 newspipe/templates/feed_list.html:66
 msgid "Delete this feed"
 msgstr "Supprimer ce flux"
-
-#: newspipe/templates/feed.html:42
-msgid "Feed details"
-msgstr "Détails du flux"
 
 #: newspipe/templates/feed.html:60
 msgid "Private feed"
@@ -479,9 +483,14 @@ msgstr "Vous êtes sur le point de supprimer le flux :"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: newspipe/templates/feed_list.html:118
+#: newspipe/templates/feed_list.html:120
 msgid "You have no feeds yet. Start by adding one!"
 msgstr "Vous n'avez pas encore de flux. Commencez par en ajouter un !"
+
+#: newspipe/templates/feed_list.html:122 newspipe/templates/feeds.html:9
+#: newspipe/templates/layout.html:71 newspipe/web/views/feed.py:223
+msgid "Add a feed"
+msgstr "Ajouter un flux"
 
 #: newspipe/templates/feed_list_per_categories.html:11
 #: newspipe/templates/inactives.html:24 newspipe/templates/user_stream.html:14
@@ -497,11 +506,6 @@ msgstr "Flux"
 #, python-format
 msgid "You are subscribed to %(feed_count)d feeds."
 msgstr "Vous êtes abonné à %(feed_count)d flux."
-
-#: newspipe/templates/feeds.html:9 newspipe/templates/layout.html:71
-#: newspipe/web/views/feed.py:223
-msgid "Add a feed"
-msgstr "Ajouter un flux"
 
 #: newspipe/templates/history.html:20 newspipe/templates/layout.html:69
 msgid "History"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-26 08:30+0200\n"
+"POT-Creation-Date: 2026-06-26 08:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -240,7 +240,7 @@ msgid "feed(s)."
 msgstr ""
 
 #: newspipe/templates/category_public.html:56
-#: newspipe/templates/edit_feed.html:10
+#: newspipe/templates/edit_feed.html:10 newspipe/templates/edit_feed.html:11
 msgid "View feed"
 msgstr ""
 
@@ -277,50 +277,58 @@ msgstr ""
 msgid "Import bookmarks from Pinboard"
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:20
+#: newspipe/templates/edit_feed.html:22
+msgid "Feed source"
+msgstr ""
+
+#: newspipe/templates/edit_feed.html:26
 msgid "Enter the URL of the website or the URL of the feed (RSS/ATOM)."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:51
+#: newspipe/templates/edit_feed.html:52 newspipe/templates/feed.html:42
+msgid "Feed details"
+msgstr ""
+
+#: newspipe/templates/edit_feed.html:59
 msgid "Will be retrieved automatically but you can specify a custom title."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:60
+#: newspipe/templates/edit_feed.html:68
 msgid "Optional"
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:63
+#: newspipe/templates/edit_feed.html:71
 msgid "Create a new category"
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:76
+#: newspipe/templates/edit_feed.html:83
 msgid "Description of the feed."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:88
+#: newspipe/templates/edit_feed.html:94
 msgid "If unchecked, this feed won't be retrieved."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:96
+#: newspipe/templates/edit_feed.html:102
 #, python-format
 msgid ""
 "If checked, this feed won't be listed on <a href='%(url)s'>your profile "
 "page</a>."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:98
+#: newspipe/templates/edit_feed.html:104
 msgid "Check this box if there is a private token in the link of the feed."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:106
+#: newspipe/templates/edit_feed.html:114
 msgid "Filters"
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:107
+#: newspipe/templates/edit_feed.html:117
 msgid "Here you can define actions to perform on newly retrieved items."
 msgstr ""
 
-#: newspipe/templates/edit_feed.html:109
+#: newspipe/templates/edit_feed.html:126
 msgid "Add filter"
 msgstr ""
 
@@ -336,10 +344,6 @@ msgstr ""
 
 #: newspipe/templates/feed.html:23 newspipe/templates/feed_list.html:66
 msgid "Delete this feed"
-msgstr ""
-
-#: newspipe/templates/feed.html:42
-msgid "Feed details"
 msgstr ""
 
 #: newspipe/templates/feed.html:60
@@ -458,8 +462,13 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: newspipe/templates/feed_list.html:118
+#: newspipe/templates/feed_list.html:120
 msgid "You have no feeds yet. Start by adding one!"
+msgstr ""
+
+#: newspipe/templates/feed_list.html:122 newspipe/templates/feeds.html:9
+#: newspipe/templates/layout.html:71 newspipe/web/views/feed.py:223
+msgid "Add a feed"
 msgstr ""
 
 #: newspipe/templates/feed_list_per_categories.html:11
@@ -475,11 +484,6 @@ msgstr ""
 #: newspipe/templates/feeds.html:6
 #, python-format
 msgid "You are subscribed to %(feed_count)d feeds."
-msgstr ""
-
-#: newspipe/templates/feeds.html:9 newspipe/templates/layout.html:71
-#: newspipe/web/views/feed.py:223
-msgid "Add a feed"
 msgstr ""
 
 #: newspipe/templates/history.html:20 newspipe/templates/layout.html:69

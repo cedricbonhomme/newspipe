@@ -3,12 +3,12 @@
 {% block content %}
 <div class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="mb-0">{{ action }}</h3>
+        <h1 class="h3 mb-0"><i class="bi bi-rss me-2 text-primary"></i>{{ action }}</h1>
         {% if feed %}
             <a href="{{ url_for('feed.feed', feed_id=feed.id) }}"
-              class="btn btn-sm btn-outline-primary me-2"
+              class="btn btn-sm btn-outline-primary"
               title="{{ _('View feed') }}">
-                <i class="bi bi-eye"></i>
+                <i class="bi bi-eye me-1"></i>{{ _('View feed') }}
             </a>
         {% endif %}
     </div>
@@ -16,106 +16,116 @@
     <form action="" method="POST" name="save" novalidate>
         {{ form.hidden_tag() }}
 
-        <p class="text-muted">
-            {{ _("Enter the URL of the website or the URL of the feed (RSS/ATOM).") }}
-        </p>
-
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <label for="{{ form.site_link.id }}" class="form-label">{{ form.site_link.label }}</label>
-                {{ form.site_link(class_="form-control", placeholder="https://example.com") }}
-                {% for error in form.site_link.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
+        <!-- Feed source -->
+        <div class="card shadow-sm rounded-3 mb-4">
+            <div class="card-header">
+                <h2 class="h5 mb-0"><i class="bi bi-link-45deg me-2 text-primary"></i>{{ _('Feed source') }}</h2>
             </div>
+            <div class="card-body p-4">
+                <p class="text-muted">
+                    {{ _("Enter the URL of the website or the URL of the feed (RSS/ATOM).") }}
+                </p>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.site_link.id }}" class="form-label">{{ form.site_link.label }}</label>
+                        {{ form.site_link(class_="form-control", placeholder="https://example.com") }}
+                        {% for error in form.site_link.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
 
-            <div class="col-md-6">
-                <label for="{{ form.link.id }}" class="form-label">{{ form.link.label }}</label>
-                {{ form.link(class_="form-control", placeholder="https://example.com/feed") }}
-                {% for error in form.link.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="mb-3">
-            {{ form.submit(class_="btn btn-primary") }}
-        </div>
-
-        <hr />
-
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <label for="{{ form.title.id }}" class="form-label">{{ form.title.label }}</label>
-                {{ form.title(class_="form-control",
-                              placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
-                {% for error in form.title.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
-            </div>
-
-            <div class="col-md-6">
-                <label for="{{ form.category_id.id }}" class="form-label">{{ form.category_id.label }}</label>
-                <div class="input-group">
-                    {{ form.category_id(class_="form-select", placeholder=_('Optional')) }}
-                    <a href="{{ url_for('category.form') }}"
-                       class="btn btn-outline-secondary"
-                       title="{{ _('Create a new category') }}">
-                        <i class="bi bi-plus" aria-hidden="true"></i>
-                    </a>
+                    <div class="col-md-6">
+                        <label for="{{ form.link.id }}" class="form-label">{{ form.link.label }}</label>
+                        {{ form.link(class_="form-control", placeholder="https://example.com/feed") }}
+                        {% for error in form.link.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
-                {% for error in form.category_id.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
+                {{ form.submit(class_="btn btn-primary") }}
             </div>
         </div>
 
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <label for="{{ form.description.id }}" class="form-label">{{ form.description.label }}</label>
-                {{ form.description(class_="form-control", placeholder=_('Description of the feed.')) }}
-                {% for error in form.description.errors %}
-                    <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
+        <!-- Feed details -->
+        <div class="card shadow-sm rounded-3 mb-4">
+            <div class="card-header">
+                <h2 class="h5 mb-0"><i class="bi bi-info-circle me-2 text-primary"></i>{{ _('Feed details') }}</h2>
             </div>
-        </div>
+            <div class="card-body p-4">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.title.id }}" class="form-label">{{ form.title.label }}</label>
+                        {{ form.title(class_="form-control",
+                                      placeholder=_('Will be retrieved automatically but you can specify a custom title.')) }}
+                        {% for error in form.title.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
 
-        <div class="row g-3 mb-4">
-            <div class="col-md-6 form-check">
-                {{ form.enabled(class_="form-check-input") }}
-                <label for="{{ form.enabled.id }}" class="form-check-label">{{ form.enabled.label }}</label>
-                <div class="form-text">
-                    {{ _("If unchecked, this feed won't be retrieved.") }}
+                    <div class="col-md-6">
+                        <label for="{{ form.category_id.id }}" class="form-label">{{ form.category_id.label }}</label>
+                        <div class="input-group">
+                            {{ form.category_id(class_="form-select", placeholder=_('Optional')) }}
+                            <a href="{{ url_for('category.form') }}"
+                               class="btn btn-outline-secondary"
+                               title="{{ _('Create a new category') }}">
+                                <i class="bi bi-plus" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {% for error in form.category_id.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.description.id }}" class="form-label">{{ form.description.label }}</label>
+                    {{ form.description(class_="form-control", placeholder=_('Description of the feed.')) }}
+                    {% for error in form.description.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6 form-check">
+                        {{ form.enabled(class_="form-check-input") }}
+                        <label for="{{ form.enabled.id }}" class="form-check-label">{{ form.enabled.label }}</label>
+                        <div class="form-text">
+                            {{ _("If unchecked, this feed won't be retrieved.") }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 form-check">
+                        {{ form.private(class_="form-check-input") }}
+                        <label for="{{ form.private.id }}" class="form-check-label">{{ form.private.label }}</label>
+                        <div class="form-text">
+                            {{ _("If checked, this feed won't be listed on <a href='%(url)s'>your profile page</a>.", url=url_for('user.profile_public', nickname=current_user.nickname))|safe }}
+                            <br>
+                            {{ _("Check this box if there is a private token in the link of the feed.") }}
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-6 form-check">
-                {{ form.private(class_="form-check-input") }}
-                <label for="{{ form.private.id }}" class="form-check-label">{{ form.private.label }}</label>
-                <div class="form-text">
-                    {{ _("If checked, this feed won't be listed on <a href='%(url)s'>your profile page</a>.", url=url_for('user.profile_public', nickname=current_user.nickname))|safe }}
-                    <br>
-                    {{ _("Check this box if there is a private token in the link of the feed.") }}
-                </div>
+        <!-- Filters -->
+        <div class="card shadow-sm rounded-3 mb-4">
+            <div class="card-header">
+                <h2 class="h5 mb-0"><i class="bi bi-funnel me-2 text-primary"></i>{{ _("Filters") }}</h2>
             </div>
-        </div>
-
-        <hr />
-
-        <div class="mb-3">
-            <h4>{{ _("Filters") }}</h4>
-            <p class="form-text">{{ _("Here you can define actions to perform on newly retrieved items.") }}</p>
-            <button type="button" class="btn btn-sm btn-outline-primary" id="add-feed-filter-row">
-                <i class="bi bi-plus"></i> {{ _("Add filter") }}
-            </button>
-        </div>
-
-        <div id="filters-container" class="mb-4">
-            {% if feed %}
-                {% for filter_ in feed.filters or [] %}
-                    {{ filter_row(filter_) }}
-                {% endfor %}
-            {% endif %}
+            <div class="card-body p-4">
+                <p class="form-text mt-0">{{ _("Here you can define actions to perform on newly retrieved items.") }}</p>
+                <div id="filters-container" class="mb-3">
+                    {% if feed %}
+                        {% for filter_ in feed.filters or [] %}
+                            {{ filter_row(filter_) }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="add-feed-filter-row">
+                    <i class="bi bi-plus me-1"></i>{{ _("Add filter") }}
+                </button>
+            </div>
         </div>
 
         <div class="mb-3">
