@@ -33,7 +33,7 @@ from datetime import datetime, timedelta, timezone
 import aiohttp
 import feedparser
 
-from newspipe.bootstrap import application
+from newspipe.bootstrap import application, db
 from newspipe.controllers import ArticleController, FeedController
 from newspipe.lib.article_utils import construct_article, extract_id
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
@@ -71,31 +71,39 @@ crawler_logger.propagate = False
 logger = crawler_logger
 
 
+# The producer and consumer coroutines share one Flask-SQLAlchemy Session. With
+# expire-on-commit enabled, every commit (e.g. a producer's feed update) expires
+# all loaded instances, so a later attribute read on the consumer side -- such as
+# ``user.id`` or ``feed.link`` -- silently emits a reload query. Run outside the
+# db_lock on the event loop, that reload races whatever write is in flight on the
+# shared Session and corrupts its state. Disabling expiry keeps already-loaded
+# attributes readable without hitting the DB. Scoped to the crawler process: this
+# module is only imported by the fetch_asyncio command, never by the web app.
+db.session.configure(expire_on_commit=False)
+
+
 # Limit concurrent feed fetches; configurable via CRAWLER_MAX_CONCURRENCY.
 sem = asyncio.Semaphore(application.config.get("CRAWLER_MAX_CONCURRENCY", 10))
 
 # Serialize blocking DB operations. The producer (feed updates) and the consumer
-# (article inserts) run concurrently and both write through worker threads; with
-# SQLite's single-writer model that races into "database is locked" errors, so
-# DB access is funnelled through this lock. Backends that handle concurrent
-# writes (e.g. PostgreSQL) skip the lock for better throughput (see _SERIALIZE_DB).
+# (article inserts) run concurrently and dispatch their writes to worker threads
+# via asyncio.to_thread. Flask-SQLAlchemy hands every coroutine and every worker
+# thread the *same* scoped Session (the app context propagates into the threads),
+# and a Session is not safe for concurrent use on any backend -- overlapping
+# access corrupts its transaction state ("session is in 'prepared' state",
+# "commit() is already in progress"). All DB access is therefore funnelled
+# through this lock, regardless of backend.
 db_lock = asyncio.Lock()
-
-_SERIALIZE_DB = application.config.get("SQLALCHEMY_DATABASE_URI", "").startswith(
-    "sqlite"
-)
 
 
 async def run_db(func, *args, **kwargs):
-    """Run a blocking DB call in a worker thread.
+    """Run a blocking DB call in a worker thread, serialized via ``db_lock``.
 
-    On SQLite (single-writer) the call is serialized via ``db_lock`` to avoid
-    "database is locked" errors; on other backends the lock is skipped.
+    The lock guards the single shared SQLAlchemy Session against concurrent use
+    by the producer and consumer coroutines (and their worker threads).
     """
-    if _SERIALIZE_DB:
-        async with db_lock:
-            return await asyncio.to_thread(func, *args, **kwargs)
-    return await asyncio.to_thread(func, *args, **kwargs)
+    async with db_lock:
+        return await asyncio.to_thread(func, *args, **kwargs)
 
 
 class FeedTooLargeError(Exception):
@@ -289,7 +297,7 @@ async def insert_articles(queue, nb_producers=1):
         if entry_ids:
             try:
                 existing_ids = await run_db(
-                    lambda: {
+                    lambda art_contr=art_contr, feed=feed, entry_ids=entry_ids: {
                         existing.entry_id
                         for existing in art_contr.read(
                             feed_id=feed.id, entry_id__in=entry_ids
