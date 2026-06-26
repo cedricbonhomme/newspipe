@@ -25,6 +25,7 @@
     #reading-pane-body :is(img, video, iframe, table) { max-width: 100%; height: auto; }
     #reading-pane-body { overflow-wrap: break-word; }
     tr.article.active { --bs-table-bg-state: var(--bs-primary-bg-subtle); }
+    tr.article { cursor: pointer; }
 </style>
 
 <div class="container-fluid">
@@ -342,12 +343,29 @@
     }
 
     document.addEventListener("click", async function (event) {
-      const link = event.target.closest("[article-id]");
+      // Let the read/like buttons and any other link (feed link, "open in new
+      // page") behave normally instead of opening the article.
+      if (event.target.closest("button, a:not([article-id])")) return;
+      // Open on a click anywhere on the row, not just on the title link.
+      const directLink = event.target.closest("[article-id]");
+      const row = event.target.closest("tr.article");
+      const link = directLink || (row ? row.querySelector("[article-id]") : null);
       if (!link) return;
+
       const usePane = pane && paneMql.matches;
-      // On lg+, render into the pane instead of expanding the (hidden) collapse.
-      if (usePane) event.preventDefault();
       const articleId = link.getAttribute("article-id");
+      if (usePane) {
+        // On lg+, render into the pane instead of expanding the (hidden) collapse.
+        event.preventDefault();
+      } else if (!directLink) {
+        // Small screens: a click off the title link must also toggle the inline
+        // collapse, which Bootstrap only wires up on the title link itself.
+        const collapse = document.getElementById("collapse-" + articleId);
+        if (collapse) {
+          collapse.classList.toggle("show");
+          if (!collapse.classList.contains("show")) return; // closed: nothing to load
+        }
+      }
       try {
           const response = await fetch(`/api/v2.0/article/${articleId}`);
           if (!response.ok) {
