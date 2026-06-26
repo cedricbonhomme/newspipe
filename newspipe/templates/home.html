@@ -18,6 +18,9 @@
         top: 1rem;
         max-height: calc(100vh - 2rem);
         overflow-y: auto;
+        /* Line the pane up with the article list table, which sits below the
+           filter tabs (~2.5rem) and the .table-responsive margin (0.75rem). */
+        margin-top: calc(2.5rem + 0.75rem + 1px);
     }
     #reading-pane-body :is(img, video, iframe, table) { max-width: 100%; height: auto; }
     #reading-pane-body { overflow-wrap: break-word; }
