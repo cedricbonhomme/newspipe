@@ -40,6 +40,14 @@
             max-height: calc(100vh - 90px);
             overflow-y: auto;
         }
+        /* Let .reading-list (not .table-responsive, which is overflow:hidden by
+           default) be the scroll context so the header can pin to it. */
+        .reading-list .table-responsive { overflow: visible; }
+        .reading-list thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
         #reading-pane.reading-pane {
             flex: 0 0 var(--pane-width, 42%);
             min-width: 260px;
