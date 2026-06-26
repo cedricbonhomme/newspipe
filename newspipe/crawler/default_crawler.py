@@ -73,6 +73,39 @@ logger = crawler_logger
 
 sem = asyncio.Semaphore(10)  # max concurrent requests
 
+# Serialize blocking DB operations. The producer (feed updates) and the consumer
+# (article inserts) run concurrently and both write through worker threads; with
+# SQLite's single-writer model that races into "database is locked" errors, so
+# all DB access is funnelled through this lock.
+db_lock = asyncio.Lock()
+
+
+async def run_db(func, *args, **kwargs):
+    """Run a blocking DB call in a worker thread, serialized via ``db_lock``."""
+    async with db_lock:
+        return await asyncio.to_thread(func, *args, **kwargs)
+
+
+async def read_capped(resp, max_bytes):
+    """Read a response body, raising ValueError if it exceeds ``max_bytes``.
+
+    Guards against a malicious or misbehaving feed exhausting memory with an
+    unbounded body. Checks the advertised Content-Length first, then enforces
+    the limit while streaming in case the header is missing or lies.
+    """
+    if resp.content_length is not None and resp.content_length > max_bytes:
+        raise ValueError(
+            f"declared body size {resp.content_length} exceeds limit {max_bytes}"
+        )
+    chunks = []
+    total = 0
+    async for chunk in resp.content.iter_chunked(8192):
+        total += len(chunk)
+        if total > max_bytes:
+            raise ValueError(f"body exceeds size limit {max_bytes}")
+        chunks.append(chunk)
+    return b"".join(chunks)
+
 
 def register_feed_error(up_feed, feed, error_message):
     """Record a fetch error on ``up_feed`` and disable the feed if it has
@@ -128,30 +161,29 @@ async def parse_feed(feed, session, timeout=10):
                     # Not modified since the last fetch: nothing new to parse.
                     logger.info(f"Feed not modified: {feed.link}")
                     mark_feed_healthy(up_feed)
-                    await asyncio.to_thread(
-                        FeedController().update, {"id": feed.id}, up_feed
-                    )
+                    await run_db(FeedController().update, {"id": feed.id}, up_feed)
                     return []
 
                 if resp.status != 200:
                     logger.error(f"Error when retrieving feed {feed.link}")
                     register_feed_error(up_feed, feed, f"HTTP {resp.status}")
-                    await asyncio.to_thread(
-                        FeedController().update, {"id": feed.id}, up_feed
-                    )
+                    await run_db(FeedController().update, {"id": feed.id}, up_feed)
                     return []
 
-                # Persist the new validators for the next conditional request.
+                content = await read_capped(
+                    resp,
+                    application.config.get("CRAWLER_MAX_FEED_SIZE", 10 * 1024 * 1024),
+                )
+                # Persist the new validators only after the body is accepted, so
+                # a rejected (oversized) response does not poison the cache.
                 up_feed["etag"] = resp.headers.get("ETag", "")
                 up_feed["last_modified"] = resp.headers.get("Last-Modified", "")
-
-                content = await resp.read()
                 parsed_feed = feedparser.parse(io.BytesIO(content))
 
         except Exception as e:
             register_feed_error(up_feed, feed, str(e))
             logger.exception(f"Error fetching/parsing feed {feed.link}: {e}")
-            await asyncio.to_thread(FeedController().update, {"id": feed.id}, up_feed)
+            await run_db(FeedController().update, {"id": feed.id}, up_feed)
             return []
 
         if not is_parsing_ok(parsed_feed):
@@ -160,7 +192,7 @@ async def parse_feed(feed, session, timeout=10):
                 feed,
                 str(parsed_feed.get("bozo_exception", "Unknown parse error")),
             )
-            await asyncio.to_thread(FeedController().update, {"id": feed.id}, up_feed)
+            await run_db(FeedController().update, {"id": feed.id}, up_feed)
             return []
 
         if parsed_feed.entries:
@@ -180,7 +212,7 @@ async def parse_feed(feed, session, timeout=10):
         except Exception as meta_err:
             logger.exception(f"Error constructing feed metadata: {meta_err}")
 
-        await asyncio.to_thread(FeedController().update, {"id": feed.id}, up_feed)
+        await run_db(FeedController().update, {"id": feed.id}, up_feed)
         return articles
 
 
@@ -219,7 +251,7 @@ async def insert_articles(queue, nb_producers=1):
 
             try:
                 # run blocking DB query in thread
-                existing_article_req = await asyncio.to_thread(
+                existing_article_req = await run_db(
                     art_contr.read,
                     user_id=user.id,
                     feed_id=feed.id,
@@ -234,7 +266,7 @@ async def insert_articles(queue, nb_producers=1):
                 continue
 
             try:
-                await asyncio.to_thread(art_contr.create, **new_article)
+                await run_db(art_contr.create, **new_article)
                 logger.debug("New article added: %s", new_article["link"])
             except Exception as e:
                 logger.exception("Error inserting article: %s", e)
