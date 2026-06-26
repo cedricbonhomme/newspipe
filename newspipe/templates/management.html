@@ -2,12 +2,16 @@
 {% block content %}
 <div class="container my-4">
 
+    <h1 class="h3 mb-4">
+        <i class="bi bi-hdd-stack me-2 text-primary"></i>{{ _('Your data') }}
+    </h1>
+
     <!-- Subscriptions -->
-    <div class="card mb-4">
+    <div class="card shadow-sm rounded-3 mb-4">
         <div class="card-header">
-            <h4 class="mb-0">{{ _('Your subscriptions') }}</h4>
+            <h2 class="h5 mb-0"><i class="bi bi-rss me-2 text-primary"></i>{{ _('Your subscriptions') }}</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <p>{{ _('You are subscribed to') }} {{ nb_feeds }} <a href="{{ prefix() }}/feeds">{{ _('feeds') }}</a>.
                <a href="{{ url_for('feed.form') }}">{{ _('Add') }}</a> {{ _('a feed') }}.</p>
             <p>{{ nb_articles | numberformat }} {{ _('articles are stored in the database with') }}
@@ -18,28 +22,28 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="weeks" value="10">
                 <button type="submit" class="btn btn-warning">
-                    <i class="bi bi-trash-fill"></i> {{ _('Delete articles older than 10 weeks') }}
+                    <i class="bi bi-trash-fill me-1"></i>{{ _('Delete articles older than 10 weeks') }}
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Data management -->
-    <div class="card mb-4">
+    <!-- Import & export -->
+    <div class="card shadow-sm rounded-3 mb-4">
         <div class="card-header">
-            <h4 class="mb-0">{{ _('Your data') }}</h4>
+            <h2 class="h5 mb-0"><i class="bi bi-arrow-down-up me-2 text-primary"></i>{{ _('Import & export') }}</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
 
             <div class="row g-4">
 
                 <!-- Articles Import -->
                 <div class="col-md-6">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-upload display-4 mb-2"></i>
-                            <h5 class="card-title">{{ _('Import Articles') }}</h5>
-                            <p class="card-text">{{ _('Import a Newspipe account (*.json).') }}</p>
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body p-4">
+                            <i class="bi bi-upload display-4 mb-2 text-primary"></i>
+                            <h3 class="h5 card-title">{{ _('Import Articles') }}</h3>
+                            <p class="card-text text-muted">{{ _('Import a Newspipe account (*.json).') }}</p>
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="input-group">
@@ -53,23 +57,23 @@
 
                 <!-- Articles Export -->
                 <div class="col-md-6">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-download display-4 mb-2"></i>
-                            <h5 class="card-title">{{ _('Export Articles') }}</h5>
-                            <p class="card-text">{{ _('Export your newspipe account to JSON.') }}</p>
-                            <a href="{{ url_for('articles.export') }}" class="btn btn-primary"><i class="bi bi-download"></i> {{ _('Export') }}</a>
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body p-4">
+                            <i class="bi bi-download display-4 mb-2 text-success"></i>
+                            <h3 class="h5 card-title">{{ _('Export Articles') }}</h3>
+                            <p class="card-text text-muted">{{ _('Export your newspipe account to JSON.') }}</p>
+                            <a href="{{ url_for('articles.export') }}" class="btn btn-primary"><i class="bi bi-download me-1"></i>{{ _('Export') }}</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Feeds Import -->
                 <div class="col-md-6">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-upload display-4 mb-2"></i>
-                            <h5 class="card-title">{{ _('Import Feeds') }}</h5>
-                            <p class="card-text">{{ _('Import feeds from OPML (*.xml or *.opml).') }}</p>
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body p-4">
+                            <i class="bi bi-upload display-4 mb-2 text-primary"></i>
+                            <h3 class="h5 card-title">{{ _('Import Feeds') }}</h3>
+                            <p class="card-text text-muted">{{ _('Import feeds from OPML (*.xml or *.opml).') }}</p>
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="input-group">
@@ -83,12 +87,12 @@
 
                 <!-- Feeds Export -->
                 <div class="col-md-6">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-download display-4 mb-2"></i>
-                            <h5 class="card-title">{{ _('Export Feeds') }}</h5>
-                            <p class="card-text">{{ _('Export feeds to OPML.') }}</p>
-                            <form action="{{ url_for('feeds.export') }}" method="GET">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body p-4">
+                            <i class="bi bi-download display-4 mb-2 text-success"></i>
+                            <h3 class="h5 card-title">{{ _('Export Feeds') }}</h3>
+                            <p class="card-text text-muted">{{ _('Export feeds to OPML.') }}</p>
+                            <form action="{{ url_for('feeds.export') }}" method="GET" class="text-start">
                                 <div class="form-check mb-2">
                                     <input type="checkbox" class="form-check-input" name="includedisabled" checked>
                                     <label class="form-check-label">{{ _('Include disabled feeds') }}</label>
@@ -103,26 +107,26 @@
                                     <input type="checkbox" class="form-check-input" name="includeprivate" checked>
                                     <label class="form-check-label">{{ _('Include private feeds') }}</label>
                                 </div>
-                                <button class="btn btn-primary" type="submit"><i class="bi bi-download"></i> {{ _('Export') }}</button>
+                                <button class="btn btn-primary" type="submit"><i class="bi bi-download me-1"></i>{{ _('Export') }}</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
                 <!-- Bookmarks -->
-                <div class="col-md-12">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-bookmark-fill display-4 mb-2"></i>
-                            <h5 class="card-title">{{ _('Your Bookmarks') }}</h5>
-                            <p class="card-text">{{ _('You have') }} {{ nb_bookmarks | numberformat }} <a href="{{ url_for('bookmarks.list_')}}">{{ _('bookmarks') }}</a>.</p>
+                <div class="col-12">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body p-4">
+                            <i class="bi bi-bookmark-fill display-4 mb-2 text-warning"></i>
+                            <h3 class="h5 card-title">{{ _('Your Bookmarks') }}</h3>
+                            <p class="card-text text-muted">{{ _('You have') }} {{ nb_bookmarks | numberformat }} <a href="{{ url_for('bookmarks.list_')}}">{{ _('bookmarks') }}</a>.</p>
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary"><i class="bi bi-download"></i> {{ _('Export JSON') }}</a>
+                                <a href="{{ url_for('bookmarks.export') }}" class="btn btn-primary"><i class="bi bi-download me-1"></i>{{ _('Export JSON') }}</a>
                                 <form action="{{ url_for('bookmarks.delete_all') }}" method="post" class="d-inline"
                                       onsubmit="return confirm('{{ _('You are going to delete all bookmarks.') }}');">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <button type="submit" class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> {{ _('Delete all') }}
+                                        <i class="bi bi-trash-fill me-1"></i>{{ _('Delete all') }}
                                     </button>
                                 </form>
                             </div>

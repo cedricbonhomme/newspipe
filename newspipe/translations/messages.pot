@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-26 08:28+0200\n"
+"POT-Creation-Date: 2026-06-26 08:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -639,7 +639,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: newspipe/templates/layout.html:139 newspipe/templates/management.html:30
+#: newspipe/templates/layout.html:139 newspipe/templates/management.html:6
 msgid "Your data"
 msgstr ""
 
@@ -700,123 +700,127 @@ msgstr ""
 msgid "mark as favorite"
 msgstr ""
 
-#: newspipe/templates/management.html:8
+#: newspipe/templates/management.html:12
 msgid "Your subscriptions"
 msgstr ""
 
-#: newspipe/templates/management.html:11
+#: newspipe/templates/management.html:15
 msgid "You are subscribed to"
 msgstr ""
 
-#: newspipe/templates/management.html:11
+#: newspipe/templates/management.html:15
 msgid "feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:12 newspipe/templates/popular.html:37
+#: newspipe/templates/management.html:16 newspipe/templates/popular.html:37
 msgid "Add"
 msgstr ""
 
-#: newspipe/templates/management.html:12
+#: newspipe/templates/management.html:16
 msgid "a feed"
 msgstr ""
 
-#: newspipe/templates/management.html:13
+#: newspipe/templates/management.html:17
 msgid "articles are stored in the database with"
 msgstr ""
 
-#: newspipe/templates/management.html:14
+#: newspipe/templates/management.html:18
 msgid "unread articles"
 msgstr ""
 
-#: newspipe/templates/management.html:15 newspipe/templates/management.html:118
+#: newspipe/templates/management.html:19 newspipe/templates/management.html:122
 msgid "You have"
 msgstr ""
 
-#: newspipe/templates/management.html:15
+#: newspipe/templates/management.html:19
 msgid "categories"
 msgstr ""
 
-#: newspipe/templates/management.html:17
+#: newspipe/templates/management.html:21
 msgid "You are going to delete old articles."
 msgstr ""
 
-#: newspipe/templates/management.html:21
+#: newspipe/templates/management.html:25
 msgid "Delete articles older than 10 weeks"
 msgstr ""
 
-#: newspipe/templates/management.html:41
+#: newspipe/templates/management.html:34
+msgid "Import & export"
+msgstr ""
+
+#: newspipe/templates/management.html:45
 msgid "Import Articles"
 msgstr ""
 
-#: newspipe/templates/management.html:42
+#: newspipe/templates/management.html:46
 msgid "Import a Newspipe account (*.json)."
 msgstr ""
 
-#: newspipe/templates/management.html:47 newspipe/templates/management.html:77
+#: newspipe/templates/management.html:51 newspipe/templates/management.html:81
 msgid "OK"
 msgstr ""
 
-#: newspipe/templates/management.html:59
+#: newspipe/templates/management.html:63
 msgid "Export Articles"
 msgstr ""
 
-#: newspipe/templates/management.html:60
+#: newspipe/templates/management.html:64
 msgid "Export your newspipe account to JSON."
 msgstr ""
 
-#: newspipe/templates/management.html:61 newspipe/templates/management.html:106
+#: newspipe/templates/management.html:65 newspipe/templates/management.html:110
 msgid "Export"
 msgstr ""
 
-#: newspipe/templates/management.html:71
+#: newspipe/templates/management.html:75
 msgid "Import Feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:72
+#: newspipe/templates/management.html:76
 msgid "Import feeds from OPML (*.xml or *.opml)."
 msgstr ""
 
-#: newspipe/templates/management.html:89
+#: newspipe/templates/management.html:93
 msgid "Export Feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:90
+#: newspipe/templates/management.html:94
 msgid "Export feeds to OPML."
 msgstr ""
 
-#: newspipe/templates/management.html:94
+#: newspipe/templates/management.html:98
 msgid "Include disabled feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:98
+#: newspipe/templates/management.html:102
 msgid "Newspipe encountered too many problems when retrieving these feeds."
 msgstr ""
 
-#: newspipe/templates/management.html:99
+#: newspipe/templates/management.html:103
 msgid "Include dead feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:104
+#: newspipe/templates/management.html:108
 msgid "Include private feeds"
 msgstr ""
 
-#: newspipe/templates/management.html:117
+#: newspipe/templates/management.html:121
 msgid "Your Bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:118
+#: newspipe/templates/management.html:122
 msgid "bookmarks"
 msgstr ""
 
-#: newspipe/templates/management.html:120
+#: newspipe/templates/management.html:124
 msgid "Export JSON"
 msgstr ""
 
-#: newspipe/templates/management.html:122
+#: newspipe/templates/management.html:126
 msgid "You are going to delete all bookmarks."
 msgstr ""
 
-#: newspipe/templates/management.html:125
+#: newspipe/templates/management.html:129
 msgid "Delete all"
 msgstr ""
 
