@@ -31,7 +31,15 @@
        and persisted in localStorage; the gutter in between is draggable. */
     @media (min-width: 992px) {
         .reading-layout { display: flex; align-items: stretch; }
-        .reading-list { flex: 1 1 auto; min-width: 0; }
+        .reading-list {
+            flex: 1 1 auto;
+            min-width: 0;
+            /* Independent, fixed-height scroll region like the sidebar, so the
+               list scrolls (and triggers infinite scroll) without moving the
+               whole page. */
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
         #reading-pane.reading-pane {
             flex: 0 0 var(--pane-width, 42%);
             min-width: 260px;
@@ -492,15 +500,22 @@
       let hasMore = {{ (articles | count >= per_page) | tojson }};
       let loading = false;
 
+      // On lg+, the list scrolls inside .reading-list, so the infinite-scroll
+      // observer watches that container instead of the viewport.
+      const scrollRoot = window.matchMedia("(min-width: 992px)").matches
+        ? document.querySelector(".reading-list")
+        : null;
+
       function truncate(str, n) {
         str = str || "";
         return str.length > n ? str.slice(0, n) + "…" : str;
       }
 
       function sentinelVisible() {
-        const rect = sentinel.getBoundingClientRect();
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-        return rect.top < vh + 300;
+        const bottom = scrollRoot
+          ? scrollRoot.getBoundingClientRect().bottom
+          : (window.innerHeight || document.documentElement.clientHeight);
+        return sentinel.getBoundingClientRect().top < bottom + 300;
       }
 
       function buildArticleRow(art) {
@@ -634,7 +649,7 @@
       if (hasMore && "IntersectionObserver" in window) {
         observer = new IntersectionObserver(function (entries) {
           if (entries[0].isIntersecting) loadMore();
-        }, { rootMargin: "300px" });
+        }, { root: scrollRoot, rootMargin: "300px" });
         observer.observe(sentinel);
       }
     }
