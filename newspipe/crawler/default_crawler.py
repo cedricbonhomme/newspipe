@@ -257,25 +257,36 @@ async def insert_articles(queue, nb_producers=1):
 
         art_contr = ArticleController(user.id)
 
-        for article in articles:
-            new_article = await construct_article(article, feed)
+        # Resolve every entry id once and fetch the already-known ones in a
+        # single query, instead of one lookup per article. construct_article is
+        # deferred until after dedup so we never build (and possibly fetch) an
+        # article that already exists.
+        articles_by_id = [(article, extract_id(article)) for article in articles]
+        entry_ids = [entry_id for _, entry_id in articles_by_id]
 
+        existing_ids = set()
+        if entry_ids:
             try:
-                # run blocking DB query in thread
-                existing_article_req = await run_db(
-                    art_contr.read,
-                    user_id=user.id,
-                    feed_id=feed.id,
-                    entry_id=extract_id(article),
+                existing_ids = await run_db(
+                    lambda: {
+                        existing.entry_id
+                        for existing in art_contr.read(
+                            feed_id=feed.id, entry_id__in=entry_ids
+                        ).all()
+                    }
                 )
             except Exception as e:
-                logger.exception("Error checking for existing article: %s", e)
+                logger.exception("Error checking for existing articles: %s", e)
                 continue
 
-            exist = existing_article_req.count() != 0
-            if exist:
+        seen = set()
+        for article, entry_id in articles_by_id:
+            # Skip ids that already exist or are duplicated within this batch.
+            if entry_id in existing_ids or entry_id in seen:
                 continue
+            seen.add(entry_id)
 
+            new_article = await construct_article(article, feed)
             try:
                 await run_db(art_contr.create, **new_article)
                 logger.debug("New article added: %s", new_article["link"])
