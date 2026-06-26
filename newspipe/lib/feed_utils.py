@@ -1,13 +1,16 @@
 import html
 import logging
 import urllib
+import warnings
 
 import feedparser
 import requests
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
+from bs4 import XMLParsedAsHTMLWarning
 
 from newspipe.bootstrap import application
+from newspipe.lib.url_validation import SSRFError
 from newspipe.lib.url_validation import validate_url
 from newspipe.lib.utils import rebuild_url
 from newspipe.lib.utils import try_get_icon_url
@@ -15,6 +18,9 @@ from newspipe.lib.utils import try_keys
 
 logger = logging.getLogger(__name__)
 logging.captureWarnings(True)
+# Feeds frequently point to pages that are XML rather than HTML; parsing them
+# with the HTML parser still works, so silence the noisy BeautifulSoup warning.
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 ACCEPTED_MIMETYPES = (
     "application/rss+xml",
     "application/rdf+xml",
@@ -58,6 +64,11 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             fp_parsed = feedparser.parse(
                 response.content, request_headers=response.headers
             )
+        except SSRFError as error:
+            # A dead or unresolvable URL is expected for stale feeds; log it
+            # concisely without a stack trace.
+            logger.warning("skipping %r: %s", url, error)
+            fp_parsed = {"bozo": True}
         except Exception:
             logger.exception("failed to retrieve that url")
             fp_parsed = {"bozo": True}
@@ -97,6 +108,11 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
     except requests.exceptions.InvalidSchema:
         return feed
     except requests.exceptions.ConnectionError:
+        return feed
+    except SSRFError as error:
+        # A dead or unresolvable site link is expected for stale feeds; log it
+        # concisely without a stack trace.
+        logger.warning("skipping %r: %s", feed["site_link"], error)
         return feed
     except Exception:
         logger.exception("failed to retrieve %r", feed["site_link"])

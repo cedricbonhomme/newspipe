@@ -18,7 +18,11 @@ SECRET_KEY = "LCx3BchmHRxFzkEv4BqQJyeXRLXenf"
 SECURITY_PASSWORD_SALT = "L8gTsyrpRQEF8jNWQPyvRfv7U5kJkD"
 
 # Database
-SQLALCHEMY_DATABASE_URI = "sqlite:///newspipe.db"
+# Use an absolute path derived from this config file's own location (the instance
+# directory) so the database resolves to the same file whether loaded by the app
+# or the flask CLI, regardless of the current working directory.
+_INSTANCE_DIR = os.path.dirname(os.path.abspath(__file__))
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(_INSTANCE_DIR, "newspipe.db")
 
 # Security
 CONTENT_SECURITY_POLICY = {
@@ -46,6 +50,9 @@ CRAWLER_USER_AGENT = "Newspipe (https://github.com/cedricbonhomme/newspipe)"
 CRAWLER_TIMEOUT = 30
 CRAWLER_RESOLVE_ARTICLE_URL = False
 FEED_REFRESH_INTERVAL = 0
+# Number of days before a feed auto-disabled (after DEFAULT_MAX_ERROR errors)
+# is retried, in case the source has recovered.
+DISABLED_FEED_RETRY_INTERVAL = 7
 
 # Notification
 MAIL_SERVER = "localhost"

@@ -58,6 +58,9 @@ class Feed(db.Model, RightMixin):  # type: ignore[name-defined]
     # error logging
     last_error = db.Column(db.String(), default="")
     error_count = db.Column(db.Integer(), default=0)
+    # set by the crawler when a feed is disabled after too many errors;
+    # distinguishes auto-disabled feeds from feeds the user disabled manually
+    auto_disabled = db.Column(db.Boolean(), default=False)
 
     # foreign keys
     icon_url = db.Column(db.String(), db.ForeignKey("icon.url"), default=None)
@@ -101,7 +104,7 @@ class Feed(db.Model, RightMixin):  # type: ignore[name-defined]
 
     @staticmethod
     def _fields_base_read():
-        return {"id", "user_id", "icon_url", "last_retrieved"}
+        return {"id", "user_id", "icon_url", "last_retrieved", "auto_disabled"}
 
     @validates("title")
     def validates_title(self, key, value):
