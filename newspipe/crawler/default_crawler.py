@@ -98,15 +98,29 @@ async def run_db(func, *args, **kwargs):
     return await asyncio.to_thread(func, *args, **kwargs)
 
 
+class FeedTooLargeError(Exception):
+    """Raised when a feed body exceeds the configured size limit."""
+
+
+# Expected, non-exceptional fetch failures: network problems and oversized
+# bodies. These are logged concisely (no stack trace) since they are a normal
+# part of crawling the open web.
+EXPECTED_FETCH_ERRORS = (
+    aiohttp.ClientError,
+    asyncio.TimeoutError,
+    FeedTooLargeError,
+)
+
+
 async def read_capped(resp, max_bytes):
-    """Read a response body, raising ValueError if it exceeds ``max_bytes``.
+    """Read a response body, raising FeedTooLargeError if it exceeds ``max_bytes``.
 
     Guards against a malicious or misbehaving feed exhausting memory with an
     unbounded body. Checks the advertised Content-Length first, then enforces
     the limit while streaming in case the header is missing or lies.
     """
     if resp.content_length is not None and resp.content_length > max_bytes:
-        raise ValueError(
+        raise FeedTooLargeError(
             f"declared body size {resp.content_length} exceeds limit {max_bytes}"
         )
     chunks = []
@@ -114,7 +128,7 @@ async def read_capped(resp, max_bytes):
     async for chunk in resp.content.iter_chunked(8192):
         total += len(chunk)
         if total > max_bytes:
-            raise ValueError(f"body exceeds size limit {max_bytes}")
+            raise FeedTooLargeError(f"body exceeds size limit {max_bytes}")
         chunks.append(chunk)
     return b"".join(chunks)
 
@@ -192,6 +206,12 @@ async def parse_feed(feed, session, timeout=10):
                 up_feed["last_modified"] = resp.headers.get("Last-Modified", "")
                 parsed_feed = feedparser.parse(io.BytesIO(content))
 
+        except EXPECTED_FETCH_ERRORS as error:
+            # Routine network/size problems: record concisely, no stack trace.
+            register_feed_error(up_feed, feed, str(error))
+            logger.warning(f"Could not retrieve feed {feed.link}: {error}")
+            await run_db(FeedController().update, {"id": feed.id}, up_feed)
+            return []
         except Exception as e:
             register_feed_error(up_feed, feed, str(e))
             logger.exception(f"Error fetching/parsing feed {feed.link}: {e}")
