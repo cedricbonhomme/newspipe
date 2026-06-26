@@ -265,11 +265,14 @@ async def retrieve_feed(queue, users, feed_id=None, num_workers=1):
                     asyncio.create_task(parse_feed_with_user(user, feed, session))
                 )
 
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-
-        for result in results:
-            if isinstance(result, Exception):
-                logger.exception(f"Error fetching feed: {result}")
+        # Enqueue each feed's result as soon as it finishes, rather than waiting
+        # for every fetch to complete, so the consumer can insert articles while
+        # the remaining feeds are still being retrieved.
+        for completed in asyncio.as_completed(tasks):
+            try:
+                result = await completed
+            except Exception as error:
+                logger.exception(f"Error fetching feed: {error}")
                 continue
             # always a tuple (user, feed, articles)
             await queue.put(result)
