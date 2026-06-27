@@ -570,6 +570,10 @@ msgstr ""
 msgid "Open article in a new page."
 msgstr ""
 
+#: newspipe/templates/home.html:350
+msgid "Open on the website."
+msgstr ""
+
 #: newspipe/templates/inactives.html:7
 msgid "Inactive feeds"
 msgstr ""

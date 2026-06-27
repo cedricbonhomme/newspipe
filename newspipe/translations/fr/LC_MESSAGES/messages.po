@@ -591,6 +591,10 @@ msgstr "Sélectionnez un article pour le lire ici."
 msgid "Open article in a new page."
 msgstr "Ouvrir l'article dans une nouvelle page."
 
+#: newspipe/templates/home.html:350
+msgid "Open on the website."
+msgstr "Ouvrir sur le site web."
+
 #: newspipe/templates/inactives.html:7
 msgid "Inactive feeds"
 msgstr "Flux inactifs"

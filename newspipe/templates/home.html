@@ -362,6 +362,9 @@
                         <a id="reading-pane-link" href="#" class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-box-arrow-up-right me-1"></i>{{ _('Open article in a new page.') }}
                         </a>
+                        <a id="reading-pane-source" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-globe me-1"></i>{{ _('Open on the website.') }}
+                        </a>
                     </article>
                 </div>
               </div>
@@ -383,6 +386,7 @@
     const paneTitle = document.getElementById("reading-pane-title");
     const paneBody = document.getElementById("reading-pane-body");
     const paneLink = document.getElementById("reading-pane-link");
+    const paneSource = document.getElementById("reading-pane-source");
 
     // --- Resizable pane: drag the gutter to set the pane width (persisted) ---
     const layout = document.querySelector(".reading-layout");
@@ -422,10 +426,18 @@
       });
     }
 
-    function showInPane(link, content) {
+    function showInPane(link, data) {
       paneTitle.textContent = link.getAttribute("title") || link.textContent;
-      paneBody.innerHTML = content || "";
+      paneBody.innerHTML = (data && data.content) || "";
       paneLink.href = link.getAttribute("data-article-url") || "#";
+      const sourceUrl = data && data.link;
+      if (sourceUrl) {
+        paneSource.href = sourceUrl;
+        paneSource.classList.remove("d-none");
+      } else {
+        paneSource.href = "#";
+        paneSource.classList.add("d-none");
+      }
       panePlaceholder.classList.add("d-none");
       paneContent.classList.remove("d-none");
       // Highlight the active row in the list.
@@ -469,7 +481,7 @@
           }
           const data = await response.json();
           if (usePane) {
-            showInPane(link, data.content);
+            showInPane(link, data);
           } else if (data.content) {
             const element = document.querySelector(`[content-id="${articleId}"]`);
             if (element) element.innerHTML = data.content;
