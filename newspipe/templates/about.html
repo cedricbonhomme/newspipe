@@ -20,11 +20,7 @@
                     <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2 text-primary"></i>{{ _('About') }}</h2>
                     <p>{{ _('Newspipe is a news reader.') }}</p>
                     <p>
-                        {{ _('This software is released under the AGPLv3 license. You are welcome to copy, modify, or redistribute the') }}
-                        <a href="https://github.com/cedricbonhomme/newspipe" target="_blank" rel="noopener noreferrer">source code</a>
-                        {{ _('according to the') }}
-                        <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener noreferrer">Affero GPL</a>
-                        {{ _('license.') }}
+                        {{ _('This software is released under the AGPLv3 license. You are welcome to copy, modify, or redistribute the %(source_start)ssource code%(source_end)s according to the %(license_start)sAffero GPL%(license_end)s license.', source_start=("<a href='%s' target='_blank' rel='noopener noreferrer'>" % 'https://github.com/cedricbonhomme/newspipe')|safe, source_end='</a>'|safe, license_start=("<a href='%s' target='_blank' rel='noopener noreferrer'>" % 'https://www.gnu.org/licenses/agpl-3.0.html')|safe, license_end='</a>'|safe) }}
                     </p>
                     <p class="mb-3">
                         {{ _('Found a bug? Report it') }}

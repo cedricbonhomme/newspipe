@@ -32,20 +32,15 @@ msgid "Newspipe is a news reader."
 msgstr "Newspipe est un lecteur de nouvelles."
 
 #: newspipe/templates/about.html:23
+#, python-format
 msgid ""
 "This software is released under the AGPLv3 license. You are welcome to "
-"copy, modify, or redistribute the"
+"copy, modify, or redistribute the %(source_start)ssource code%(source_end)s "
+"according to the %(license_start)sAffero GPL%(license_end)s license."
 msgstr ""
-"Ce logiciel est publié sous licence AGPLv3. Vous pouvez le copier, le "
-"modifier ou le redistribuer"
-
-#: newspipe/templates/about.html:25
-msgid "according to the"
-msgstr "conformément à la"
-
-#: newspipe/templates/about.html:27
-msgid "license."
-msgstr "licence."
+"Ce logiciel est publié sous licence AGPLv3. Vous pouvez copier, modifier ou "
+"redistribuer le %(source_start)scode source%(source_end)s conformément à la "
+"licence %(license_start)sAffero GPL%(license_end)s."
 
 #: newspipe/templates/about.html:30
 msgid "Found a bug? Report it"
