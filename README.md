@@ -5,7 +5,7 @@
 **A self-hosted web news aggregator — own your feeds, your data, and your reading.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
-[![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue.svg)](https://www.python.org)
+[![Python](https://img.shields.io/badge/python-%3E%3D3.12-blue.svg)](https://www.python.org)
 ![Version](https://img.shields.io/badge/version-11.3.0-informational.svg)
 [![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/commits/master)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
