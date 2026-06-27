@@ -113,6 +113,7 @@ def list_(per_page, status="all"):
         pagination=pagination,
         tag=tag,
         query=query,
+        status=status,
     )
 
 

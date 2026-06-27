@@ -161,6 +161,14 @@ msgstr "Public"
 msgid "Unread"
 msgstr "Non lus"
 
+#: newspipe/templates/bookmarks.html:12
+msgid "Bookmark filters"
+msgstr "Filtres des marque-pages"
+
+#: newspipe/templates/popular.html:8
+msgid "Time filter"
+msgstr "Filtre temporel"
+
 #: newspipe/templates/bookmarks.html:41
 msgid "Search bookmarks..."
 msgstr "Rechercher dans les marque-pages..."

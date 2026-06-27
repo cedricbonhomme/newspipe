@@ -2,44 +2,26 @@
 {% block content %}
 <div class="container my-4">
 
-    <!-- Top bar with pagination info and filters -->
-    <div class="row align-items-center mb-3">
-        <div class="col-auto me-auto">
-            <small class="text-muted">{{ pagination.info }}</small>
-        </div>
-        <div class="col-auto">
+    <!-- Page header: title, filters and search -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 class="h4 mb-0">
+            <i class="bi bi-bookmark-star text-primary me-2"></i>{{ _('Bookmarks') }}
+        </h1>
+        <div class="d-flex flex-wrap align-items-center gap-2">
             {% if current_user.is_authenticated %}
-                <div class="btn-group btn-group-sm" role="group" aria-label="Bookmark filters">
-                    <a class="btn btn-outline-secondary" href="{{ url_for('bookmarks.list_') }}">{{ _('All') }}</a>
-                    <a class="btn btn-outline-secondary" href="{{ url_for('bookmarks.list_') + 'private' }}">{{ _('Private') }}</a>
-                    <a class="btn btn-outline-secondary" href="{{ url_for('bookmarks.list_') + 'public' }}">{{ _('Public') }}</a>
-                    <a class="btn btn-outline-secondary" href="{{ url_for('bookmarks.list_') + 'unread' }}">{{ _('Unread') }}</a>
+                <div class="btn-group btn-group-sm" role="group" aria-label="{{ _('Bookmark filters') }}">
+                    <a class="btn btn-outline-secondary {% if status == 'all' %}active{% endif %}" href="{{ url_for('bookmarks.list_', status='all') }}">{{ _('All') }}</a>
+                    <a class="btn btn-outline-secondary {% if status == 'private' %}active{% endif %}" href="{{ url_for('bookmarks.list_', status='private') }}">{{ _('Private') }}</a>
+                    <a class="btn btn-outline-secondary {% if status == 'public' %}active{% endif %}" href="{{ url_for('bookmarks.list_', status='public') }}">{{ _('Public') }}</a>
+                    <a class="btn btn-outline-secondary {% if status == 'unread' %}active{% endif %}" href="{{ url_for('bookmarks.list_', status='unread') }}">{{ _('Unread') }}</a>
                 </div>
             {% endif %}
-        </div>
-    </div>
-
-    <!-- Tag and search query indicators -->
-    <div class="row mb-3">
-        <div class="col-auto me-auto">
-            {% if tag %}
-                <span class="badge bg-info text-dark me-2">
-                    <i class="bi bi-tag me-1"></i>{{ tag }}
-                </span>
-            {% endif %}
-            {% if query %}
-                <span class="badge bg-secondary">
-                    <i class="bi bi-search me-1"></i>{{ query }}
-                </span>
-            {% endif %}
-        </div>
-        <div class="col-auto">
-            <form method="get" class="input-group input-group-sm">
+            <form method="get" class="input-group input-group-sm bookmarks-search">
                 <input type="text"
                       name="query"
                       class="form-control"
-                      placeholder="{{ _('Search bookmarks...') }}"
-                      style="max-width: 200px;">
+                      value="{{ query or '' }}"
+                      placeholder="{{ _('Search bookmarks...') }}">
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-search"></i>
                 </button>
@@ -47,87 +29,104 @@
         </div>
     </div>
 
-    <!-- Pagination links (top) -->
-    <div class="row mb-3">
-        <div class="col">
-            <div class="d-flex overflow-auto" style="white-space: nowrap;">
-                {{ pagination.links }}
-            </div>
-        </div>
-    </div>
-
-    <!-- Bookmarks list -->
-    <div class="row">
-        <div class="col">
-            {% if bookmarks %}
-                <ul class="list-group">
-                {% for bookmark in bookmarks %}
-                    <li class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class="mb-1">
-                                    <a href="{{ bookmark.href }}"
-                                       rel="noopener noreferrer"
-                                       target="_blank"
-                                       class="text-decoration-none">
-                                        {{ bookmark.title }}
-                                    </a>
-                                </h5>
-                                {% if bookmark.description %}
-                                    <p class="text-muted mb-1">{{ bookmark.description }}</p>
-                                {% endif %}
-                                <div class="mb-1">
-                                    {% for tag in bookmark.tags %}
-                                        <a href="{{ url_for('bookmarks.list_', tag=tag.text) }}" class="badge bg-light text-dark me-1">
-                                            <i class="bi bi-tag me-1"></i>{{ tag.text }}
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                                <small class="text-muted">{{ bookmark.time | datetime }}</small>
-                            </div>
-                            <div class="ms-3 text-nowrap">
-                                <!-- Copy link button -->
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-secondary me-2 copy-btn"
-                                        data-href="{{ bookmark.href }}"
-                                        title="{{ _('Copy link') }}">
-                                    <i class="bi bi-clipboard"></i>
-                                </button>
-                                {% if current_user.is_authenticated %}
-                                    <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}" class="text-muted me-2">
-                                        <i class="bi bi-pencil"></i> {{ _('Edit') }}
-                                    </a>
-                                    <form action="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}" method="post" class="d-inline">
-                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-link text-muted p-0">
-                                            <i class="bi bi-trash"></i> {{ _('Delete') }}
-                                        </button>
-                                    </form>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <div class="alert alert-info d-flex align-items-center" role="alert">
-                    <i class="bi bi-bookmark-x me-2"></i>
-                    <div>{{ _('No bookmarks found.') }}</div>
-                </div>
+    <!-- Result count and active tag / query indicators -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+        <small class="text-muted">{{ pagination.info }}</small>
+        <div>
+            {% if tag %}
+                <span class="badge rounded-pill text-bg-light border me-1">
+                    <i class="bi bi-tag me-1"></i>{{ tag }}
+                </span>
+            {% endif %}
+            {% if query %}
+                <span class="badge rounded-pill text-bg-light border">
+                    <i class="bi bi-search me-1"></i>{{ query }}
+                </span>
             {% endif %}
         </div>
     </div>
 
-    <!-- Pagination links (bottom) -->
-    <div class="row mt-3">
-        <div class="col">
-            <div class="d-flex overflow-auto" style="white-space: nowrap;">
-                {{ pagination.links }}
-            </div>
+    <!-- Pagination links (top) -->
+    {% if pagination.links %}
+        <div class="d-flex overflow-auto mb-3 bookmarks-pagination">{{ pagination.links }}</div>
+    {% endif %}
+
+    <!-- Bookmarks list -->
+    {% if bookmarks %}
+        <ul class="list-group">
+        {% for bookmark in bookmarks %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div class="min-w-0">
+                        <h2 class="h6 mb-1">
+                            <a href="{{ bookmark.href }}"
+                               rel="noopener noreferrer"
+                               target="_blank"
+                               class="text-decoration-none">
+                                {{ bookmark.title }}
+                            </a>
+                        </h2>
+                        {% if bookmark.description %}
+                            <p class="text-muted small mb-1">{{ bookmark.description }}</p>
+                        {% endif %}
+                        {% if bookmark.tags %}
+                            <div class="mb-1">
+                                {% for tag in bookmark.tags %}
+                                    <a href="{{ url_for('bookmarks.list_', tag=tag.text) }}" class="badge rounded-pill text-bg-light border text-decoration-none me-1">
+                                        <i class="bi bi-tag me-1"></i>{{ tag.text }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <small class="text-muted">{{ bookmark.time | datetime }}</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                        <!-- Copy link button -->
+                        <button type="button"
+                                class="btn btn-sm btn-outline-secondary copy-btn"
+                                data-href="{{ bookmark.href }}"
+                                title="{{ _('Copy link') }}">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('bookmark.form', bookmark_id=bookmark.id) }}"
+                               class="btn btn-sm btn-outline-secondary"
+                               title="{{ _('Edit') }}">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form action="{{ url_for('bookmark.delete', bookmark_id=bookmark.id) }}" method="post" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        title="{{ _('Delete') }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+            <i class="bi bi-bookmark-x me-2"></i>
+            <div>{{ _('No bookmarks found.') }}</div>
         </div>
-    </div>
+    {% endif %}
+
+    <!-- Pagination links (bottom) -->
+    {% if pagination.links %}
+        <div class="d-flex overflow-auto mt-3 bookmarks-pagination">{{ pagination.links }}</div>
+    {% endif %}
 
 </div><!-- /.container -->
+
+<style>
+    .bookmarks-search .form-control { max-width: 220px; }
+    .bookmarks-pagination { white-space: nowrap; }
+    .min-w-0 { min-width: 0; }
+</style>
 
 <!-- Copy link script -->
 <script>

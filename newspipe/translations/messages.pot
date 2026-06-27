@@ -153,6 +153,14 @@ msgstr ""
 msgid "Unread"
 msgstr ""
 
+#: newspipe/templates/bookmarks.html:12
+msgid "Bookmark filters"
+msgstr ""
+
+#: newspipe/templates/popular.html:8
+msgid "Time filter"
+msgstr ""
+
 #: newspipe/templates/bookmarks.html:41
 msgid "Search bookmarks..."
 msgstr ""
