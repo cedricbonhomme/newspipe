@@ -43,6 +43,7 @@ poetry shell
 pybabel compile -d newspipe/translations
 export NEWSPIPE_CONFIG=sqlite.py
 flask db_init
+flask db stamp head
 flask create_admin --nickname <nickname> --password <password>
 flask run --debug
 ```
