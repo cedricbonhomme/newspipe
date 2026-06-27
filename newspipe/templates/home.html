@@ -430,12 +430,22 @@
       paneTitle.textContent = link.getAttribute("title") || link.textContent;
       paneBody.innerHTML = (data && data.content) || "";
       paneLink.href = link.getAttribute("data-article-url") || "#";
-      const sourceUrl = data && data.link;
-      if (sourceUrl) {
-        paneSource.href = sourceUrl;
+      // data.link comes from crawled feed content, so it is attacker-controlled.
+      // Only accept http(s) URLs; reject javascript:/data:/etc. to avoid XSS.
+      let safeUrl = null;
+      if (data && data.link) {
+        try {
+          const u = new URL(data.link, window.location.origin);
+          if (u.protocol === "http:" || u.protocol === "https:") {
+            safeUrl = u.href;
+          }
+        } catch (_) { /* malformed URL: leave the button hidden */ }
+      }
+      if (safeUrl) {
+        paneSource.href = safeUrl;
         paneSource.classList.remove("d-none");
       } else {
-        paneSource.href = "#";
+        paneSource.removeAttribute("href");
         paneSource.classList.add("d-none");
       }
       panePlaceholder.classList.add("d-none");
