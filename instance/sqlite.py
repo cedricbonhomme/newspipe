@@ -73,8 +73,8 @@ PLATFORM_URL = "https://www.newspipe.org"
 
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname("."))
-LANGUAGES = {"en": "English", "fr": "French"}
-TIME_ZONE = {"en": "US/Eastern", "fr": "Europe/Paris"}
+LANGUAGES = {"en": "English", "fr": "French", "de": "German"}
+TIME_ZONE = {"en": "US/Eastern", "fr": "Europe/Paris", "de": "Europe/Berlin"}
 ADMIN_EMAIL = "admin@admin.localhost"
 LOG_LEVEL = "info"
 LOG_PATH = "./var/newspipe.log"
