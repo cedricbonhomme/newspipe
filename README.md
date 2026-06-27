@@ -32,7 +32,7 @@ Built with [Flask](http://flask.pocoo.org) · [asyncio](https://www.python.org/d
 
 ## 🚀 Quick start
 
-Assuming you already have `git`, `poetry`, `npm`, and `Python >= 3.10` installed:
+Assuming you already have `git`, `poetry`, `npm`, and `Python >= 3.12` installed:
 
 ```bash
 git clone https://github.com/cedricbonhomme/newspipe
