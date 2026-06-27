@@ -930,6 +930,10 @@ msgstr "Sie werden Ihr Konto löschen."
 msgid "Delete your account"
 msgstr "Ihr Konto löschen"
 
+#: newspipe/templates/profile_public.html:11
+msgid "View stream"
+msgstr "Stream anzeigen"
+
 #: newspipe/templates/profile_public.html:15 newspipe/web/forms.py:261
 msgid "Bio"
 msgstr "Bio"

@@ -907,6 +907,10 @@ msgstr ""
 msgid "Delete your account"
 msgstr ""
 
+#: newspipe/templates/profile_public.html:11
+msgid "View stream"
+msgstr ""
+
 #: newspipe/templates/profile_public.html:15 newspipe/web/forms.py:261
 msgid "Bio"
 msgstr ""

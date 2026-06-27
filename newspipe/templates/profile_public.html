@@ -1,32 +1,74 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container my-4">
-  <h1 class="h3 mb-4">{{ user.nickname }} / <a href="{{ url_for('user.user_stream', nickname=user.nickname) }}">stream</a></h1>
 
-  <div class="row g-4">
-    <div class="col-md-6">
-      <p class="mb-1">
-        <i class="bi bi-calendar-event"></i>&nbsp;{{ _('Member since') }}: {{ user.date_created | datetime }}
-      </p>
-      <p>
-        <i class="bi bi-clock"></i>&nbsp;{{ _('Last seen') }}: {{ user.last_seen | datetime }}
-      </p>
-      {% if user.bio %}
-        <h2 class="h5 mt-3">{{ _('Bio') }}</h2>
-        <p>{{ user.bio }}</p>
-      {% endif %}
+    <!-- Page header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h1 class="h4 mb-0">
+            <i class="bi bi-person-circle text-primary me-2"></i>{{ user.nickname }}
+        </h1>
+        <a href="{{ url_for('user.user_stream', nickname=user.nickname) }}"
+           class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-card-list me-1"></i>{{ _('View stream') }}
+        </a>
     </div>
-    <div class="col-md-6">
-      <ul class="list-group">
-        {% if user.webpage %}<li class="list-group-item"><i class="bi bi-globe" aria-hidden="true"></i> <a href="{{ user.webpage | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.webpage | safe }}</a></li>{% endif %}
-        {% if user.mastodon %}<li class="list-group-item"><i class="bi bi-mastodon" aria-hidden="true"></i> <a href="{{ user.mastodon | safe }}" rel="noopener noreferrer me" target="_blank">{{ user.mastodon | safe }}</a></li>{% endif %}
-        {% if user.github %}<li class="list-group-item"><i class="bi bi-github" aria-hidden="true"></i> <a href="https://github.com/{{ user.github }}" rel="noopener noreferrer me" target="_blank">https://github.com/{{ user.github }}</a></li>{% endif %}
-        {% if user.linkedin %}<li class="list-group-item"><i class="bi bi-linkedin" aria-hidden="true"></i> <a href="https://www.linkedin.com/in/{{ user.linkedin | safe }}" rel="noopener noreferrer me" target="_blank">https://www.linkedin.com/in/{{ user.linkedin }}</a></li>{% endif %}
-      </ul>
-    </div>
-  </div>
 
-  <h2 class="h4 mt-4 mb-3">{{ _('Feeds') }}</h2>
-  {% include "feed_list_per_categories.html" %}
+    <div class="row g-4">
+        <!-- Profile details -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="mb-2">
+                        <i class="bi bi-calendar-event text-secondary me-2"></i>{{ _('Member since') }}: {{ user.date_created | datetime }}
+                    </p>
+                    <p class="{% if user.bio %}mb-3{% else %}mb-0{% endif %}">
+                        <i class="bi bi-clock text-secondary me-2"></i>{{ _('Last seen') }}: {{ user.last_seen | datetime }}
+                    </p>
+                    {% if user.bio %}
+                        <h2 class="h6 mb-1">{{ _('Bio') }}</h2>
+                        <p class="text-muted mb-0">{{ user.bio }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Social and web links -->
+        {% if user.webpage or user.mastodon or user.github or user.linkedin %}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    {% if user.webpage %}
+                        <li class="list-group-item text-truncate">
+                            <i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>
+                            <a href="{{ user.webpage | safe }}" rel="noopener noreferrer me" target="_blank" class="text-decoration-none">{{ user.webpage | safe }}</a>
+                        </li>
+                    {% endif %}
+                    {% if user.mastodon %}
+                        <li class="list-group-item text-truncate">
+                            <i class="bi bi-mastodon text-primary me-2" aria-hidden="true"></i>
+                            <a href="{{ user.mastodon | safe }}" rel="noopener noreferrer me" target="_blank" class="text-decoration-none">{{ user.mastodon | safe }}</a>
+                        </li>
+                    {% endif %}
+                    {% if user.github %}
+                        <li class="list-group-item text-truncate">
+                            <i class="bi bi-github text-primary me-2" aria-hidden="true"></i>
+                            <a href="https://github.com/{{ user.github }}" rel="noopener noreferrer me" target="_blank" class="text-decoration-none">https://github.com/{{ user.github }}</a>
+                        </li>
+                    {% endif %}
+                    {% if user.linkedin %}
+                        <li class="list-group-item text-truncate">
+                            <i class="bi bi-linkedin text-primary me-2" aria-hidden="true"></i>
+                            <a href="https://www.linkedin.com/in/{{ user.linkedin | safe }}" rel="noopener noreferrer me" target="_blank" class="text-decoration-none">https://www.linkedin.com/in/{{ user.linkedin }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Feeds -->
+    <h2 class="h5 mt-4 mb-3">
+        <i class="bi bi-rss text-warning me-2"></i>{{ _('Feeds') }}
+    </h2>
+    {% include "feed_list_per_categories.html" %}
 </div><!-- /.container -->
 {% endblock %}

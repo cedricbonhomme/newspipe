@@ -932,6 +932,10 @@ msgstr "Vous êtes sur le point de supprimer votre compte."
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
+#: newspipe/templates/profile_public.html:11
+msgid "View stream"
+msgstr "Voir le flux"
+
 #: newspipe/templates/profile_public.html:15 newspipe/web/forms.py:261
 msgid "Bio"
 msgstr "Biographie"
