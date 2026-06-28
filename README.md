@@ -27,6 +27,8 @@ Built with [Flask](http://flask.pocoo.org) · [asyncio](https://www.python.org/d
 - 🔍 **Search & favorites** — find and bookmark the articles that matter
 - 💤 **Inactive feed detection** — keep your feed list clean
 - 🔖 **Bookmarks** — full bookmark management, with import from Pinboard
+- 📝 **Notes** — write notes on articles and review them all on a dedicated page
+- 🌍 **Internationalization** — available in English, French, and German
 - 🔐 **LDAP** — optional LDAP authentication (see the example config)
 - 🌗 **Themes** — light and dark interfaces out of the box
 
