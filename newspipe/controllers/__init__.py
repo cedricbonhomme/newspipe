@@ -5,6 +5,7 @@ from .user import UserController, LdapuserController
 from .icon import IconController
 from .bookmark import BookmarkController
 from .tag import BookmarkTagController
+from .note import ArticleNoteController
 
 __all__ = [
     "FeedController",
@@ -15,4 +16,5 @@ __all__ = [
     "IconController",
     "BookmarkController",
     "BookmarkTagController",
+    "ArticleNoteController",
 ]

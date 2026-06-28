@@ -365,6 +365,21 @@
                         <a id="reading-pane-source" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary">
                             <i class="bi bi-globe me-1"></i>{{ _('Open on the website.') }}
                         </a>
+
+                        <section id="reading-pane-notes" class="mt-4">
+                            <h3 class="h6 text-muted">
+                                <i class="bi bi-journal-text me-1"></i>{{ _('Notes') }}
+                            </h3>
+                            <ul id="notes-list" class="list-unstyled mb-3"></ul>
+                            <form id="note-form">
+                                <textarea id="note-input" class="form-control form-control-sm mb-2" rows="2"
+                                          maxlength="5000"
+                                          placeholder="{{ _('Write a note…') }}"></textarea>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-plus-lg me-1"></i>{{ _('Add note') }}
+                                </button>
+                            </form>
+                        </section>
                     </article>
                 </div>
               </div>
@@ -387,6 +402,109 @@
     const paneBody = document.getElementById("reading-pane-body");
     const paneLink = document.getElementById("reading-pane-link");
     const paneSource = document.getElementById("reading-pane-source");
+    const notesList = document.getElementById("notes-list");
+    const noteForm = document.getElementById("note-form");
+    const noteInput = document.getElementById("note-input");
+
+    // --- Notes -------------------------------------------------------------
+    const csrfToken = {{ csrf_token() | tojson }};
+    const articleBase = {{ prefix() | tojson }} + "/article";
+    let currentArticleId = null;
+
+    function renderNote(note) {
+      const li = document.createElement("li");
+      li.className = "border-bottom pb-2 mb-2";
+      li.dataset.noteId = note.id;
+
+      const body = document.createElement("div");
+      body.className = "d-flex justify-content-between align-items-start";
+
+      const text = document.createElement("div");
+      text.className = "small";
+      text.style.whiteSpace = "pre-wrap";
+      text.style.overflowWrap = "break-word";
+      text.textContent = note.content;
+      body.appendChild(text);
+
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "btn btn-link btn-sm text-danger p-0 ms-2 note-delete";
+      delBtn.title = {{ _('Delete this note') | tojson }};
+      const delIcon = document.createElement("i");
+      delIcon.className = "bi bi-trash";
+      delIcon.setAttribute("aria-hidden", "true");
+      delBtn.appendChild(delIcon);
+      body.appendChild(delBtn);
+
+      li.appendChild(body);
+
+      if (note.created_date) {
+        const date = document.createElement("div");
+        date.className = "text-muted";
+        date.style.fontSize = "0.75rem";
+        try {
+          date.textContent = DateTime.fromISO(note.created_date).toRelative();
+        } catch (e) {
+          date.textContent = note.created_date;
+        }
+        li.appendChild(date);
+      }
+      return li;
+    }
+
+    async function loadNotes(articleId) {
+      notesList.innerHTML = "";
+      try {
+        const resp = await fetch(`${articleBase}/${articleId}/notes`);
+        if (!resp.ok) throw new Error("Failed to load notes");
+        const data = await resp.json();
+        data.notes.forEach(function (note) {
+          notesList.appendChild(renderNote(note));
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    if (noteForm) {
+      noteForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const content = noteInput.value.trim();
+        if (!content || currentArticleId === null) return;
+        try {
+          const resp = await fetch(`${articleBase}/${currentArticleId}/notes`, {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+            body: new URLSearchParams({ content: content }),
+          });
+          if (!resp.ok) throw new Error("Failed to add note");
+          const data = await resp.json();
+          notesList.appendChild(renderNote(data.note));
+          noteInput.value = "";
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
+
+    if (notesList) {
+      notesList.addEventListener("click", async function (event) {
+        const btn = event.target.closest(".note-delete");
+        if (!btn) return;
+        const li = btn.closest("[data-note-id]");
+        if (!li) return;
+        try {
+          const resp = await fetch(`${articleBase}/note/${li.dataset.noteId}/delete`, {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },
+          });
+          if (!resp.ok) throw new Error("Failed to delete note");
+          li.remove();
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
 
     // --- Resizable pane: drag the gutter to set the pane width (persisted) ---
     const layout = document.querySelector(".reading-layout");
@@ -427,6 +545,9 @@
     }
 
     function showInPane(link, data) {
+      currentArticleId = link.getAttribute("article-id");
+      if (noteInput) noteInput.value = "";
+      loadNotes(currentArticleId);
       paneTitle.textContent = link.getAttribute("title") || link.textContent;
       paneBody.innerHTML = (data && data.content) || "";
       paneLink.href = link.getAttribute("data-article-url") || "#";

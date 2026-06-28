@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-4">
+
+    <!-- Page header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 class="h4 mb-0">
+            <i class="bi bi-journal-text text-primary me-2"></i>{{ _('My notes') }}
+        </h1>
+        <small class="text-muted">{{ pagination.info }}</small>
+    </div>
+
+    <!-- Pagination links (top) -->
+    {% if pagination.links %}
+        <div class="d-flex overflow-auto mb-3 notes-pagination">{{ pagination.links }}</div>
+    {% endif %}
+
+    <!-- Notes list -->
+    {% if notes %}
+        <ul class="list-group">
+        {% for note in notes %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div class="min-w-0">
+                        <p class="mb-1 notes-content">{{ note.content }}</p>
+                        {% if note.article %}
+                            <h2 class="h6 mb-1">
+                                <a href="{{ url_for('article.article', article_id=note.article_id) }}"
+                                   class="text-decoration-none">
+                                    <i class="bi bi-link-45deg me-1"></i>{{ note.article.title | truncate(80, True, '…') }}
+                                </a>
+                            </h2>
+                        {% endif %}
+                        <small class="text-muted">{{ note.created_date | datetime }}</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                        <form action="{{ url_for('user.delete_note', note_id=note.id) }}" method="post" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit"
+                                    class="btn btn-sm btn-outline-danger"
+                                    title="{{ _('Delete') }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+            <i class="bi bi-journal-x me-2"></i>
+            <div>{{ _('You have not written any notes yet.') }}</div>
+        </div>
+    {% endif %}
+
+    <!-- Pagination links (bottom) -->
+    {% if pagination.links %}
+        <div class="d-flex overflow-auto mt-3 notes-pagination">{{ pagination.links }}</div>
+    {% endif %}
+
+</div><!-- /.container -->
+
+<style>
+    .notes-pagination { white-space: nowrap; }
+    .notes-content { white-space: pre-wrap; overflow-wrap: break-word; }
+    .min-w-0 { min-width: 0; }
+</style>
+{% endblock %}

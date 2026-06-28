@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-27 23:04+0200\n"
+"POT-Creation-Date: 2026-06-28 10:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Because RSS still rocks."
 msgstr ""
 
-#: newspipe/templates/about.html:20 newspipe/templates/layout.html:145
-#: newspipe/templates/layout.html:152
+#: newspipe/templates/about.html:20 newspipe/templates/layout.html:146
+#: newspipe/templates/layout.html:153
 msgid "About"
 msgstr ""
 
@@ -110,22 +110,22 @@ msgid "Delete this article"
 msgstr ""
 
 #: newspipe/templates/article.html:37 newspipe/templates/home.html:311
-#: newspipe/templates/home.html:524
+#: newspipe/templates/home.html:645
 msgid "One of your favorites"
 msgstr ""
 
 #: newspipe/templates/article.html:41 newspipe/templates/home.html:313
-#: newspipe/templates/home.html:525
+#: newspipe/templates/home.html:646
 msgid "Click if you like this article"
 msgstr ""
 
 #: newspipe/templates/article.html:47 newspipe/templates/home.html:306
-#: newspipe/templates/home.html:523
+#: newspipe/templates/home.html:644
 msgid "Mark this article as unread"
 msgstr ""
 
 #: newspipe/templates/article.html:51 newspipe/templates/home.html:308
-#: newspipe/templates/home.html:522
+#: newspipe/templates/home.html:643
 msgid "Mark this article as read"
 msgstr ""
 
@@ -176,6 +176,7 @@ msgid "Edit"
 msgstr ""
 
 #: newspipe/templates/bookmarks.html:101 newspipe/templates/feed_list.html:91
+#: newspipe/templates/notes.html:41
 msgid "Delete"
 msgstr ""
 
@@ -199,7 +200,7 @@ msgid "Name"
 msgstr ""
 
 #: newspipe/templates/categories.html:20 newspipe/templates/layout.html:64
-#: newspipe/templates/layout.html:66 newspipe/templates/profile_public.html:29
+#: newspipe/templates/layout.html:66 newspipe/templates/profile_public.html:70
 msgid "Feeds"
 msgstr ""
 
@@ -570,12 +571,28 @@ msgstr ""
 msgid "Select an article to read it here."
 msgstr ""
 
-#: newspipe/templates/home.html:363 newspipe/templates/home.html:526
+#: newspipe/templates/home.html:363 newspipe/templates/home.html:647
 msgid "Open article in a new page."
 msgstr ""
 
 #: newspipe/templates/home.html:366
 msgid "Open on the website."
+msgstr ""
+
+#: newspipe/templates/home.html:371
+msgid "Notes"
+msgstr ""
+
+#: newspipe/templates/home.html:377
+msgid "Write a note…"
+msgstr ""
+
+#: newspipe/templates/home.html:379
+msgid "Add note"
+msgstr ""
+
+#: newspipe/templates/home.html:432
+msgid "Delete this note"
 msgstr ""
 
 #: newspipe/templates/inactives.html:7
@@ -654,23 +671,27 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: newspipe/templates/layout.html:139 newspipe/templates/management.html:6
+#: newspipe/templates/layout.html:139 newspipe/templates/notes.html:8
+msgid "My notes"
+msgstr ""
+
+#: newspipe/templates/layout.html:140 newspipe/templates/management.html:6
 msgid "Your data"
 msgstr ""
 
-#: newspipe/templates/layout.html:142
+#: newspipe/templates/layout.html:143
 msgid "Dashboard"
 msgstr ""
 
-#: newspipe/templates/layout.html:146
+#: newspipe/templates/layout.html:147
 msgid "Logout"
 msgstr ""
 
-#: newspipe/templates/layout.html:150 newspipe/web/views/bookmark.py:89
+#: newspipe/templates/layout.html:151 newspipe/web/views/bookmark.py:89
 msgid "Recent bookmarks"
 msgstr ""
 
-#: newspipe/templates/layout.html:151 newspipe/templates/popular.html:6
+#: newspipe/templates/layout.html:152 newspipe/templates/popular.html:6
 msgid "Popular feeds"
 msgstr ""
 
@@ -839,6 +860,10 @@ msgstr ""
 msgid "Delete all"
 msgstr ""
 
+#: newspipe/templates/notes.html:53
+msgid "You have not written any notes yet."
+msgstr ""
+
 #: newspipe/templates/popular.html:8
 msgid "Time filter"
 msgstr ""
@@ -864,12 +889,12 @@ msgid "Your Profile"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:20
-#: newspipe/templates/profile.html:13 newspipe/templates/profile_public.html:9
+#: newspipe/templates/profile.html:13 newspipe/templates/profile_public.html:22
 msgid "Member since"
 msgstr ""
 
 #: newspipe/templates/admin/dashboard.html:21
-#: newspipe/templates/profile.html:17 newspipe/templates/profile_public.html:12
+#: newspipe/templates/profile.html:17 newspipe/templates/profile_public.html:25
 msgid "Last seen"
 msgstr ""
 
@@ -907,11 +932,11 @@ msgstr ""
 msgid "Delete your account"
 msgstr ""
 
-#: newspipe/templates/profile_public.html:11
+#: newspipe/templates/profile_public.html:12
 msgid "View stream"
 msgstr ""
 
-#: newspipe/templates/profile_public.html:15 newspipe/web/forms.py:261
+#: newspipe/templates/profile_public.html:28 newspipe/web/forms.py:261
 msgid "Bio"
 msgstr ""
 
@@ -1143,7 +1168,7 @@ msgstr ""
 msgid "Some errors were found"
 msgstr ""
 
-#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:194
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:231
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr ""
@@ -1172,7 +1197,7 @@ msgstr ""
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr ""
 
-#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:121
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:122
 msgid "Fetching articles…"
 msgstr ""
 
@@ -1180,17 +1205,26 @@ msgstr ""
 msgid "The manual retrieving of news is only available for administrator."
 msgstr ""
 
-#: newspipe/web/views/article.py:76
+#: newspipe/web/views/article.py:97
+msgid "A note cannot be empty."
+msgstr ""
+
+#: newspipe/web/views/article.py:102
+#, python-format
+msgid "A note cannot exceed %(max)d characters."
+msgstr ""
+
+#: newspipe/web/views/article.py:129
 #, python-format
 msgid "Article %(article_title)s deleted"
 msgstr ""
 
-#: newspipe/web/views/article.py:138
+#: newspipe/web/views/article.py:191
 #, python-format
 msgid "%(count)d articles deleted"
 msgstr ""
 
-#: newspipe/web/views/article.py:157
+#: newspipe/web/views/article.py:210
 msgid "Error when exporting articles."
 msgstr ""
 
@@ -1322,45 +1356,49 @@ msgstr ""
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr ""
 
-#: newspipe/web/views/user.py:38 newspipe/web/views/user.py:63
+#: newspipe/web/views/user.py:39 newspipe/web/views/user.py:64
 msgid "You must set your profile to public."
 msgstr ""
 
-#: newspipe/web/views/user.py:114 newspipe/web/views/user.py:128
-#: newspipe/web/views/user.py:136
+#: newspipe/web/views/user.py:115 newspipe/web/views/user.py:129
+#: newspipe/web/views/user.py:137
 msgid "File not allowed."
 msgstr ""
 
-#: newspipe/web/views/user.py:120
+#: newspipe/web/views/user.py:121
 msgid "feeds imported."
 msgstr ""
 
-#: newspipe/web/views/user.py:123
+#: newspipe/web/views/user.py:124
 msgid "Impossible to import the new feeds."
 msgstr ""
 
-#: newspipe/web/views/user.py:132
+#: newspipe/web/views/user.py:133
 msgid "Account imported."
 msgstr ""
 
-#: newspipe/web/views/user.py:134
+#: newspipe/web/views/user.py:135
 msgid "Impossible to import the account."
 msgstr ""
 
 #: newspipe/web/views/user.py:188
+msgid "Note deleted."
+msgstr ""
+
+#: newspipe/web/views/user.py:225
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr ""
 
-#: newspipe/web/views/user.py:215
+#: newspipe/web/views/user.py:252
 msgid "Your account has been deleted."
 msgstr ""
 
-#: newspipe/web/views/user.py:232
+#: newspipe/web/views/user.py:269
 msgid "Your account has been confirmed."
 msgstr ""
 
-#: newspipe/web/views/user.py:234
+#: newspipe/web/views/user.py:271
 msgid "Impossible to confirm this account."
 msgstr ""
 

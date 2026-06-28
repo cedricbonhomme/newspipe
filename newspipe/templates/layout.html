@@ -136,6 +136,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navUser">
                   <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">{{ _('Profile') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('user.notes') }}">{{ _('My notes') }}</a></li>
                   <li><a class="dropdown-item" href="{{ url_for('user.management') }}">{{ _('Your data') }}</a></li>
                   {% if current_user.is_admin %}
                     <li><hr class="dropdown-divider"></li>
