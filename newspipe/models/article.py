@@ -64,6 +64,12 @@ class Article(db.Model, RightMixin):
         foreign_keys="[ArticleTag.article_id]",
     )
     tags = association_proxy("tag_objs", "text")
+    notes = db.relationship(
+        "ArticleNote",
+        back_populates="article",
+        cascade="all,delete-orphan",
+        order_by="ArticleNote.created_date",
+    )
 
     __table_args__ = (
         #     ForeignKeyConstraint([user_id], ["user.id"], ondelete="CASCADE"),

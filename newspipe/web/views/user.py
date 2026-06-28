@@ -12,6 +12,7 @@ from flask_paginate import Pagination
 
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
+from newspipe.controllers import ArticleNoteController
 from newspipe.controllers import BookmarkController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
@@ -150,6 +151,42 @@ def management():
         nb_categories=nb_categories,
         nb_bookmarks=nb_bookmarks,
     )
+
+
+@user_bp.route("/notes", methods=["GET"])
+@login_required
+def notes():
+    """
+    Display all the notes written by the current user, newest first.
+    """
+    query = ArticleNoteController(current_user.id).read_ordered_desc()
+
+    page, per_page, offset = get_page_args()
+    pagination = Pagination(
+        page=page,
+        total=query.count(),
+        css_framework="bootstrap5",
+        search=False,
+        record_name="notes",
+        per_page=per_page,
+    )
+
+    return render_template(
+        "notes.html",
+        notes=query.offset(offset).limit(per_page).all(),
+        pagination=pagination,
+    )
+
+
+@user_bp.route("/notes/<int:note_id>/delete", methods=["POST"])
+@login_required
+def delete_note(note_id):
+    """
+    Delete one of the current user's notes from the "My notes" page.
+    """
+    ArticleNoteController(current_user.id).delete(note_id)
+    flash(gettext("Note deleted."), "success")
+    return redirect(url_for("user.notes"))
 
 
 @user_bp.route("/profile", methods=["GET", "POST"])

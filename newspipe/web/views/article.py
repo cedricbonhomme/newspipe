@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from flask import Blueprint
 from flask import flash
+from flask import jsonify
 from flask import make_response
 from flask import redirect
 from flask import render_template
@@ -14,10 +15,12 @@ from flask_login import login_required
 
 from newspipe.bootstrap import db
 from newspipe.controllers import ArticleController
+from newspipe.controllers import ArticleNoteController
 from newspipe.controllers import UserController
 from newspipe.lib.data import export_json
 from newspipe.lib.utils import clear_string
 from newspipe.lib.utils import safe_redirect_url
+from newspipe.models.note import MAX_NOTE_LENGTH
 from newspipe.web.lib.view_utils import etag_match
 
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
@@ -63,6 +66,56 @@ def article_pub(article_id=None):
     return render_template(
         "article_pub.html", head_titles=[clear_string(article.title)], article=article
     )
+
+
+def _note_to_dict(note):
+    return {
+        "id": note.id,
+        "content": note.content,
+        "created_date": note.created_date.isoformat() if note.created_date else None,
+    }
+
+
+@article_bp.route("/<int:article_id>/notes", methods=["GET"])
+@login_required
+def notes(article_id):
+    """Return the notes of an article as JSON, used by the reading pane."""
+    # Ensures the article exists and belongs to the current user (404/403).
+    ArticleController(current_user.id).get(id=article_id)
+    note_contr = ArticleNoteController(current_user.id)
+    article_notes = note_contr.read_ordered(article_id=article_id).all()
+    return jsonify(notes=[_note_to_dict(note) for note in article_notes])
+
+
+@article_bp.route("/<int:article_id>/notes", methods=["POST"])
+@login_required
+def add_note(article_id):
+    """Create a note on an article."""
+    ArticleController(current_user.id).get(id=article_id)
+    content = (request.form.get("content") or "").strip()
+    if not content:
+        return jsonify(error=gettext("A note cannot be empty.")), 400
+    if len(content) > MAX_NOTE_LENGTH:
+        return (
+            jsonify(
+                error=gettext(
+                    "A note cannot exceed %(max)d characters.", max=MAX_NOTE_LENGTH
+                )
+            ),
+            400,
+        )
+    note = ArticleNoteController(current_user.id).create(
+        content=content, article_id=article_id
+    )
+    return jsonify(note=_note_to_dict(note)), 201
+
+
+@article_bp.route("/note/<int:note_id>/delete", methods=["POST"])
+@login_required
+def delete_note(note_id):
+    """Delete a note."""
+    ArticleNoteController(current_user.id).delete(note_id)
+    return jsonify(success=True)
 
 
 @article_bp.route("/delete/<int:article_id>", methods=["POST"])

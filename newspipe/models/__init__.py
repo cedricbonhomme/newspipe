@@ -39,6 +39,7 @@ from .bookmark import Bookmark
 from .category import Category
 from .feed import Feed
 from .icon import Icon
+from .note import ArticleNote
 from .role import Role
 from .tag import ArticleTag, BookmarkTag
 from .user import User
@@ -51,6 +52,7 @@ __all__ = [
     "Icon",
     "Category",
     "Bookmark",
+    "ArticleNote",
     "ArticleTag",
     "BookmarkTag",
 ]
