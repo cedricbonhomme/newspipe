@@ -1,6 +1,32 @@
 Newspipe Changelog
 ==================
 
+## 12.1.0 (2026-06-28)
+
+### New
+
+- Users can now write personal notes on articles.
+- Added a German translation of the application.
+- Added a three-column reading layout to the home page.
+
+### Improvements
+
+- Modernized and harmonized many pages: the user profile, data management, feeds list, feed detail and duplicates, feed create/edit, admin dashboard, bookmarks, popular, and public profile pages.
+- Added a button to open an article on its original website.
+- The home reading pane is now aligned with the article list, has a draggable width, scrolls in its own region, and keeps the article list header pinned while scrolling.
+- An article can now be opened by clicking anywhere on its row.
+- The crawler now uses conditional requests (ETag / Last-Modified), streams feed results to the consumer as they complete, batches the per-article dedup lookups, caps the feed body size, and makes the fetch concurrency configurable.
+- The crawler now auto-disables repeatedly failing feeds and retries them weekly, and logs expected fetch failures concisely.
+- The minimum supported version of Python is now 3.12.0.
+- Updated Python dependencies.
+- Fixed the French grammar of the AGPL notice on the about page.
+
+### Fixes
+
+- Reject non-http(s) article links in the reading pane.
+- Serialize all database access in the crawler to protect the shared Session (only on SQLite) and run the blocking `construct_feed_from` in a thread.
+
+
 ## 12.0.0 (2026-06-20)
 
 ### Improvements
