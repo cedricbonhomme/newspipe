@@ -49,6 +49,14 @@ class User(db.Model, UserMixin, RightMixin):
     pwdhash = db.Column(db.String())
     external_auth = db.Column(db.String(), default="", nullable=True)
 
+    # two-factor authentication (TOTP)
+    totp_secret = db.Column(db.String(), default=None, nullable=True)
+    totp_enabled = db.Column(db.Boolean(), default=False)
+    # timestep of the last accepted TOTP code, to prevent replay
+    last_totp = db.Column(db.Integer(), default=None, nullable=True)
+    # JSON list of hashed one-time recovery codes
+    recovery_codes = db.Column(db.String(), default=None, nullable=True)
+
     automatic_crawling = db.Column(db.Boolean(), default=True)
 
     is_public_profile = db.Column(db.Boolean(), default=False)

@@ -75,6 +75,12 @@ MAIL_DEFAULT_SENDER = "admin@admin.localhost"
 TOKEN_VALIDITY_PERIOD = 3600
 PLATFORM_URL = "https://www.newspipe.org"
 
+# Issuer name displayed in the two-factor authentication application of the
+# users (below the TOTP code). It is recommended to use the public address of
+# your instance: users having accounts on several Newspipe instances will
+# easily find the right entry.
+TOTP_ISSUER = "www.newspipe.org"
+
 # Misc
 BASE_DIR = os.path.abspath(os.path.dirname("."))
 LANGUAGES = {"en": "English", "fr": "French", "de": "German"}

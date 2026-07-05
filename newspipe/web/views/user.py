@@ -18,6 +18,7 @@ from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
 from newspipe.lib import misc_utils
+from newspipe.lib import twofactor
 from newspipe.lib.data import import_json
 from newspipe.lib.data import import_opml
 from newspipe.web.forms import ProfileForm
@@ -240,6 +241,143 @@ def profile():
         return render_template(
             "profile.html", user=user, form=form, nick_disabled=bool(user.external_auth)
         )
+
+
+def _render_two_factor(user, new_codes=None):
+    qrcode_svg = None
+    if user.totp_secret and not user.totp_enabled:
+        qrcode_svg = twofactor.qrcode_svg(user)
+    return render_template(
+        "two_factor.html",
+        user=user,
+        qrcode_svg=qrcode_svg,
+        new_codes=new_codes,
+        nb_recovery_codes=twofactor.remaining_recovery_codes(user),
+    )
+
+
+@user_bp.route("/two_factor", methods=["GET"])
+@login_required
+def two_factor():
+    """
+    Display the two-factor authentication management page.
+    """
+    user = UserController(current_user.id).get(id=current_user.id)
+    return _render_two_factor(user)
+
+
+@user_bp.route("/two_factor/enable", methods=["POST"])
+@login_required
+def two_factor_enable():
+    """
+    Start the enrollment: generate a secret, to be confirmed with a code.
+    """
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
+    if user.totp_enabled:
+        flash(gettext("Two-factor authentication is already enabled."), "warning")
+    else:
+        user_contr.update(
+            {"id": user.id},
+            {"totp_secret": twofactor.generate_totp_secret(), "totp_enabled": False},
+        )
+    return redirect(url_for("user.two_factor"))
+
+
+@user_bp.route("/two_factor/confirm", methods=["POST"])
+@login_required
+def two_factor_confirm():
+    """
+    Complete the enrollment by verifying a first TOTP code, then display
+    the recovery codes (only once).
+    """
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
+    if user.totp_enabled or not user.totp_secret:
+        return redirect(url_for("user.two_factor"))
+
+    counter = twofactor.verify_totp(user, request.form.get("code", ""))
+    if counter is None:
+        flash(gettext("Invalid code."), "danger")
+        return redirect(url_for("user.two_factor"))
+
+    codes, hashes = twofactor.generate_recovery_codes()
+    user_contr.update(
+        {"id": user.id},
+        {"totp_enabled": True, "last_totp": counter, "recovery_codes": hashes},
+    )
+    flash(gettext("Two-factor authentication is now enabled."), "success")
+    return _render_two_factor(user, new_codes=codes)
+
+
+@user_bp.route("/two_factor/cancel", methods=["POST"])
+@login_required
+def two_factor_cancel():
+    """
+    Abort a pending (unconfirmed) enrollment.
+    """
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
+    if not user.totp_enabled:
+        user_contr.update({"id": user.id}, {"totp_secret": None})
+    return redirect(url_for("user.two_factor"))
+
+
+@user_bp.route("/two_factor/disable", methods=["POST"])
+@login_required
+def two_factor_disable():
+    """
+    Disable two-factor authentication; requires a valid TOTP or recovery code.
+    """
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
+    if not user.totp_enabled:
+        return redirect(url_for("user.two_factor"))
+
+    code = request.form.get("code", "")
+    if (
+        twofactor.verify_totp(user, code) is None
+        and twofactor.consume_recovery_code(user, code) is None
+    ):
+        flash(gettext("Invalid code."), "danger")
+        return redirect(url_for("user.two_factor"))
+
+    user_contr.update(
+        {"id": user.id},
+        {
+            "totp_secret": None,
+            "totp_enabled": False,
+            "last_totp": None,
+            "recovery_codes": None,
+        },
+    )
+    flash(gettext("Two-factor authentication has been disabled."), "success")
+    return redirect(url_for("user.two_factor"))
+
+
+@user_bp.route("/two_factor/recovery", methods=["POST"])
+@login_required
+def two_factor_recovery():
+    """
+    Regenerate the recovery codes; requires a valid TOTP code.
+    """
+    user_contr = UserController(current_user.id)
+    user = user_contr.get(id=current_user.id)
+    if not user.totp_enabled:
+        return redirect(url_for("user.two_factor"))
+
+    counter = twofactor.verify_totp(user, request.form.get("code", ""))
+    if counter is None:
+        flash(gettext("Invalid code."), "danger")
+        return redirect(url_for("user.two_factor"))
+
+    codes, hashes = twofactor.generate_recovery_codes()
+    user_contr.update({"id": user.id}, {"last_totp": counter, "recovery_codes": hashes})
+    flash(
+        gettext("New recovery codes generated. The old ones are no longer valid."),
+        "success",
+    )
+    return _render_two_factor(user, new_codes=codes)
 
 
 @user_bp.route("/delete_account", methods=["POST"])

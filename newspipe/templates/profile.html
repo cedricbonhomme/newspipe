@@ -153,6 +153,26 @@
         </div>
     </div>
 
+    <!-- Security -->
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0"><i class="bi bi-shield-lock me-2 text-primary"></i>{{ _('Security') }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <p class="mb-3">
+                {{ _('Two-factor authentication') }}:
+                {% if user.totp_enabled %}
+                    <span class="badge text-bg-success">{{ _('enabled') }}</span>
+                {% else %}
+                    <span class="badge text-bg-secondary">{{ _('disabled') }}</span>
+                {% endif %}
+            </p>
+            <a href="{{ url_for('user.two_factor') }}" class="btn btn-outline-primary">
+                <i class="bi bi-shield-lock me-1"></i>{{ _('Manage two-factor authentication') }}
+            </a>
+        </div>
+    </div>
+
     <!-- Danger zone -->
     <div class="card shadow-sm rounded-3 border-danger">
         <div class="card-header bg-danger-subtle text-danger-emphasis">

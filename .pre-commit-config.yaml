@@ -10,6 +10,11 @@ repos:
     rev: v3.16.0
     hooks:
       - id: reorder-python-imports
+        # Alembic migrations start with a module docstring directly followed
+        # by imports: reorder-python-imports strips the blank line between
+        # them while black (>=24) re-inserts it, so the two hooks never
+        # converge on these generated files.
+        exclude: ^migrations/
   - repo: https://github.com/psf/black
     rev: 26.3.1
     hooks:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-06-28 10:40+0200\n"
+"POT-Creation-Date: 2026-07-05 11:22+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -159,7 +159,7 @@ msgstr "Filtres des marque-pages"
 msgid "All"
 msgstr "Tous"
 
-#: newspipe/templates/bookmarks.html:14 newspipe/web/forms.py:313
+#: newspipe/templates/bookmarks.html:14 newspipe/web/forms.py:325
 msgid "Private"
 msgstr "Privé"
 
@@ -446,8 +446,8 @@ msgstr "Statut"
 #: newspipe/templates/feed_list.html:8
 #: newspipe/templates/feed_list_per_categories.html:22
 #: newspipe/templates/feed_list_simple.html:7
-#: newspipe/templates/user_stream.html:34 newspipe/web/forms.py:304
-#: newspipe/web/forms.py:341
+#: newspipe/templates/user_stream.html:34 newspipe/web/forms.py:316
+#: newspipe/web/forms.py:353
 msgid "Title"
 msgstr "Titre"
 
@@ -665,7 +665,7 @@ msgstr "Catégories"
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
 
-#: newspipe/templates/layout.html:94 newspipe/web/forms.py:322
+#: newspipe/templates/layout.html:94 newspipe/web/forms.py:334
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
@@ -733,6 +733,21 @@ msgstr "Votre mot de passe"
 #: newspipe/web/forms.py:82
 msgid "Sign up"
 msgstr "S'inscrire"
+
+#: newspipe/templates/login_2fa.html:9 newspipe/templates/profile.html:163
+#: newspipe/templates/two_factor.html:5
+msgid "Two-factor authentication"
+msgstr "Authentification à deux facteurs"
+
+#: newspipe/templates/login_2fa.html:12
+msgid "Enter the code from your authenticator application."
+msgstr "Entrez le code fourni par votre application d'authentification."
+
+#: newspipe/templates/login_2fa.html:30
+msgid "Lost your device? You can enter one of your recovery codes instead."
+msgstr ""
+"Vous avez perdu votre appareil ? Vous pouvez entrer l'un de vos codes de "
+"récupération à la place."
 
 #: newspipe/templates/macros.html:9
 msgid "simple match"
@@ -941,20 +956,36 @@ msgid "Uncheck if you are using your own crawler."
 msgstr "Décochez si vous utilisez votre propre aspirateur de flux."
 
 #: newspipe/templates/profile.html:159
+msgid "Security"
+msgstr "Sécurité"
+
+#: newspipe/templates/profile.html:165
+msgid "enabled"
+msgstr "activée"
+
+#: newspipe/templates/profile.html:167
+msgid "disabled"
+msgstr "désactivée"
+
+#: newspipe/templates/profile.html:171
+msgid "Manage two-factor authentication"
+msgstr "Gérer l'authentification à deux facteurs"
+
+#: newspipe/templates/profile.html:179
 msgid "Danger zone"
 msgstr "Zone de danger"
 
-#: newspipe/templates/profile.html:162
+#: newspipe/templates/profile.html:182
 msgid "Once you delete your account, there is no going back."
 msgstr ""
 "Une fois votre compte supprimé, il n'y a pas de retour en arrière "
 "possible."
 
-#: newspipe/templates/profile.html:164
+#: newspipe/templates/profile.html:184
 msgid "You are going to delete your account."
 msgstr "Vous êtes sur le point de supprimer votre compte."
 
-#: newspipe/templates/profile.html:167
+#: newspipe/templates/profile.html:187
 msgid "Delete your account"
 msgstr "Supprimer votre compte"
 
@@ -962,7 +993,7 @@ msgstr "Supprimer votre compte"
 msgid "View stream"
 msgstr "Voir le flux"
 
-#: newspipe/templates/profile_public.html:28 newspipe/web/forms.py:261
+#: newspipe/templates/profile_public.html:28 newspipe/web/forms.py:273
 msgid "Bio"
 msgstr "Biographie"
 
@@ -986,6 +1017,108 @@ msgstr "Minimum 20 caractères."
 msgid "Already have an account? Log in"
 msgstr "Déjà un compte ? Connectez-vous"
 
+#: newspipe/templates/two_factor.html:12
+msgid "Your recovery codes"
+msgstr "Vos codes de récupération"
+
+#: newspipe/templates/two_factor.html:16
+msgid ""
+"Store these recovery codes in a safe place. Each code can only be used "
+"once, and they are only displayed now."
+msgstr ""
+"Conservez ces codes de récupération en lieu sûr. Chaque code ne peut être"
+" utilisé qu'une seule fois et ils ne sont affichés que maintenant."
+
+#: newspipe/templates/two_factor.html:33
+msgid "Two-factor authentication is enabled on your account."
+msgstr "L'authentification à deux facteurs est activée sur votre compte."
+
+#: newspipe/templates/two_factor.html:36
+#, python-format
+msgid "%(nb)d recovery code(s) remaining."
+msgstr "%(nb)d code(s) de récupération restant(s)."
+
+#: newspipe/templates/two_factor.html:43
+msgid "Regenerate recovery codes"
+msgstr "Régénérer les codes de récupération"
+
+#: newspipe/templates/two_factor.html:46
+msgid ""
+"Generate a new set of recovery codes. The current codes will no longer be"
+" valid."
+msgstr ""
+"Générer un nouveau jeu de codes de récupération. Les codes actuels ne "
+"seront plus valides."
+
+#: newspipe/templates/two_factor.html:51 newspipe/templates/two_factor.html:70
+msgid "Authentication code"
+msgstr "Code d'authentification"
+
+#: newspipe/templates/two_factor.html:54
+msgid "Regenerate"
+msgstr "Régénérer"
+
+#: newspipe/templates/two_factor.html:62
+msgid "Disable two-factor authentication"
+msgstr "Désactiver l'authentification à deux facteurs"
+
+#: newspipe/templates/two_factor.html:65
+msgid ""
+"Enter a code from your authenticator application or one of your recovery "
+"codes."
+msgstr ""
+"Entrez un code de votre application d'authentification ou l'un de vos "
+"codes de récupération."
+
+#: newspipe/templates/two_factor.html:73
+msgid "Disable"
+msgstr "Désactiver"
+
+#: newspipe/templates/two_factor.html:83
+msgid "Scan the QR code"
+msgstr "Scannez le code QR"
+
+#: newspipe/templates/two_factor.html:86
+msgid ""
+"Scan this QR code with your authenticator application (FreeOTP, Aegis, "
+"etc.), then enter the generated code to confirm."
+msgstr ""
+"Scannez ce code QR avec votre application d'authentification (FreeOTP, "
+"Aegis, etc.), puis entrez le code généré pour confirmer."
+
+#: newspipe/templates/two_factor.html:91
+msgid "If you cannot scan the QR code, enter this secret manually:"
+msgstr "Si vous ne pouvez pas scanner le code QR, entrez ce secret manuellement :"
+
+#: newspipe/templates/two_factor.html:101
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: newspipe/templates/two_factor.html:106
+msgid "Cancel enrollment"
+msgstr "Annuler l'activation"
+
+#: newspipe/templates/two_factor.html:117
+msgid "Two-factor authentication is not enabled on your account."
+msgstr "L'authentification à deux facteurs n'est pas activée sur votre compte."
+
+#: newspipe/templates/two_factor.html:120
+msgid ""
+"With two-factor authentication, signing in requires a time-based code "
+"from an authenticator application in addition to your password."
+msgstr ""
+"Avec l'authentification à deux facteurs, la connexion nécessite, en plus "
+"de votre mot de passe, un code temporaire fourni par une application "
+"d'authentification."
+
+#: newspipe/templates/two_factor.html:125
+msgid "Enable two-factor authentication"
+msgstr "Activer l'authentification à deux facteurs"
+
+#: newspipe/templates/two_factor.html:133
+msgid "Back to your profile"
+msgstr "Retour à votre profil"
+
 #: newspipe/templates/user_stream.html:21
 msgid "Articles from the category"
 msgstr "Articles de la catégorie"
@@ -1003,8 +1136,8 @@ msgid "Add a new user"
 msgstr "Ajouter un nouvel utilisateur"
 
 #: newspipe/templates/admin/dashboard.html:19 newspipe/web/forms.py:61
-#: newspipe/web/forms.py:127 newspipe/web/forms.py:228
-#: newspipe/web/forms.py:254
+#: newspipe/web/forms.py:139 newspipe/web/forms.py:240
+#: newspipe/web/forms.py:266
 msgid "Nickname"
 msgstr "Pseudonyme"
 
@@ -1056,7 +1189,7 @@ msgstr "Erreur interne du serveur"
 msgid "Something bad just happened!"
 msgstr "Quelque chose s'est mal passé !"
 
-#: newspipe/web/forms.py:62 newspipe/web/forms.py:130 newspipe/web/forms.py:229
+#: newspipe/web/forms.py:62 newspipe/web/forms.py:142 newspipe/web/forms.py:241
 msgid "Please enter your nickname."
 msgstr "Veuillez entrer votre pseudonyme."
 
@@ -1072,12 +1205,12 @@ msgstr ""
 "Veuillez entrer votre adresse courriel (uniquement pour l'activation du "
 "compte, ne sera pas stockée)."
 
-#: newspipe/web/forms.py:76 newspipe/web/forms.py:134 newspipe/web/forms.py:231
-#: newspipe/web/forms.py:258 newspipe/web/forms.py:259
+#: newspipe/web/forms.py:76 newspipe/web/forms.py:146 newspipe/web/forms.py:243
+#: newspipe/web/forms.py:270 newspipe/web/forms.py:271
 msgid "Password"
 msgstr "Mot de passe"
 
-#: newspipe/web/forms.py:78 newspipe/web/forms.py:136
+#: newspipe/web/forms.py:78 newspipe/web/forms.py:148
 msgid "Please enter a password."
 msgstr "Veuillez entrer un mot de passe."
 
@@ -1089,21 +1222,33 @@ msgstr ""
 "Ce pseudonyme contient des caractères invalides. Veuillez utiliser "
 "uniquement des lettres, des chiffres, des tirets et des tirets bas."
 
-#: newspipe/web/forms.py:139
+#: newspipe/web/forms.py:107
+msgid "Code"
+msgstr "Code"
+
+#: newspipe/web/forms.py:108
+msgid "Please enter a code."
+msgstr "Veuillez entrer un code."
+
+#: newspipe/web/forms.py:110
+msgid "Verify"
+msgstr "Vérifier"
+
+#: newspipe/web/forms.py:151
 msgid "Log In"
 msgstr "Se connecter"
 
-#: newspipe/web/forms.py:232 newspipe/web/forms.py:260
+#: newspipe/web/forms.py:244 newspipe/web/forms.py:272
 msgid "Automatic crawling"
 msgstr "Récupération automatique"
 
-#: newspipe/web/forms.py:233 newspipe/web/forms.py:273
-#: newspipe/web/forms.py:309 newspipe/web/forms.py:329
-#: newspipe/web/forms.py:348
+#: newspipe/web/forms.py:245 newspipe/web/forms.py:285
+#: newspipe/web/forms.py:321 newspipe/web/forms.py:341
+#: newspipe/web/forms.py:360
 msgid "Save"
 msgstr "Enregistrer"
 
-#: newspipe/web/forms.py:240 newspipe/web/forms.py:294
+#: newspipe/web/forms.py:252 newspipe/web/forms.py:306
 msgid ""
 "This nickname has invalid characters. Please use letters, numbers, dots "
 "and underscores only."
@@ -1111,83 +1256,83 @@ msgstr ""
 "Ce pseudonyme contient des caractères invalides. Veuillez utiliser "
 "uniquement des lettres, des chiffres, des points et des tirets bas."
 
-#: newspipe/web/forms.py:262
+#: newspipe/web/forms.py:274
 msgid "Webpage"
 msgstr "Page web"
 
-#: newspipe/web/forms.py:272
+#: newspipe/web/forms.py:284
 msgid "Public profile"
 msgstr "Profil public"
 
-#: newspipe/web/forms.py:279
+#: newspipe/web/forms.py:291
 msgid "Passwords aren't the same."
 msgstr "Les mots de passe ne sont pas identiques."
 
-#: newspipe/web/forms.py:285
+#: newspipe/web/forms.py:297
 msgid "Password must be between 20 and 500 characters."
 msgstr "Le mot de passe doit contenir entre 20 et 500 caractères."
 
-#: newspipe/web/forms.py:305
+#: newspipe/web/forms.py:317
 msgid "Feed link"
 msgstr "Lien du flux"
 
-#: newspipe/web/forms.py:306
+#: newspipe/web/forms.py:318
 msgid "Site link"
 msgstr "Lien du site"
 
-#: newspipe/web/forms.py:307 newspipe/web/forms.py:343
+#: newspipe/web/forms.py:319 newspipe/web/forms.py:355
 msgid "Description"
 msgstr "Description"
 
-#: newspipe/web/forms.py:308
+#: newspipe/web/forms.py:320
 msgid "Check for updates"
 msgstr "Vérifier les mises à jour"
 
-#: newspipe/web/forms.py:311
+#: newspipe/web/forms.py:323
 msgid "Category of the feed"
 msgstr "Catégorie du flux"
 
-#: newspipe/web/forms.py:328
+#: newspipe/web/forms.py:340
 msgid "Feeds in this category"
 msgstr "Flux dans cette catégorie"
 
-#: newspipe/web/forms.py:338
+#: newspipe/web/forms.py:350
 msgid "URL"
 msgstr "URL"
 
-#: newspipe/web/forms.py:339
+#: newspipe/web/forms.py:351
 msgid "Please enter an URL."
 msgstr "Veuillez entrer une URL."
 
-#: newspipe/web/forms.py:345
+#: newspipe/web/forms.py:357
 msgid "Tags"
 msgstr "Mots-clés"
 
-#: newspipe/web/forms.py:346
+#: newspipe/web/forms.py:358
 msgid "To read"
 msgstr "À lire"
 
-#: newspipe/web/forms.py:347
+#: newspipe/web/forms.py:359
 msgid "Shared"
 msgstr "Partagé"
 
-#: newspipe/web/forms.py:353
+#: newspipe/web/forms.py:365
 msgid "Subject"
 msgstr "Sujet"
 
-#: newspipe/web/forms.py:354
+#: newspipe/web/forms.py:366
 msgid "Please enter a subject."
 msgstr "Veuillez entrer un sujet."
 
-#: newspipe/web/forms.py:357
+#: newspipe/web/forms.py:369
 msgid "Message"
 msgstr "Message"
 
-#: newspipe/web/forms.py:358
+#: newspipe/web/forms.py:370
 msgid "Please enter a content."
 msgstr "Veuillez entrer un contenu."
 
-#: newspipe/web/forms.py:360
+#: newspipe/web/forms.py:372
 msgid "Send"
 msgstr "Envoyer"
 
@@ -1200,7 +1345,7 @@ msgstr "Modifier l'utilisateur <i>%(nick)s</i>"
 msgid "Some errors were found"
 msgstr "Des erreurs ont été trouvées"
 
-#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:231
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:232
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "L'utilisateur %(nick)s a été mis à jour avec succès"
@@ -1231,7 +1376,7 @@ msgstr "Cet utilisateur n'existe pas."
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr "L'utilisateur %(nickname)s a été %(is_active)s avec succès"
 
-#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:122
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:123
 msgid "Fetching articles…"
 msgstr "Récupération des articles…"
 
@@ -1381,62 +1526,92 @@ msgstr "Le flux %(feed_title)r a été créé avec succès."
 msgid "No duplicates in the feed \"{}\"."
 msgstr "Aucun doublon dans le flux « {} »."
 
-#: newspipe/web/views/session_mgmt.py:114
+#: newspipe/web/views/session_mgmt.py:119
+msgid "Your login attempt has expired. Please sign in again."
+msgstr "Votre tentative de connexion a expiré. Veuillez vous reconnecter."
+
+#: newspipe/web/views/session_mgmt.py:143
+#, python-format
+msgid "You have %(nb)d recovery code(s) left."
+msgstr "Il vous reste %(nb)d code(s) de récupération."
+
+#: newspipe/web/views/session_mgmt.py:150 newspipe/web/views/user.py:301
+#: newspipe/web/views/user.py:342 newspipe/web/views/user.py:371
+msgid "Invalid code."
+msgstr "Code invalide."
+
+#: newspipe/web/views/session_mgmt.py:185
 msgid "Self-registration is disabled."
 msgstr "L'auto-inscription est désactivée."
 
-#: newspipe/web/views/session_mgmt.py:132
+#: newspipe/web/views/session_mgmt.py:203
 #, python-format
 msgid "Problem while sending activation email: %(error)s"
 msgstr "Problème lors de l'envoi du courriel d'activation : %(error)s"
 
-#: newspipe/web/views/session_mgmt.py:139
+#: newspipe/web/views/session_mgmt.py:210
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courriel pour le confirmer."
 
-#: newspipe/web/views/user.py:39 newspipe/web/views/user.py:64
+#: newspipe/web/views/user.py:40 newspipe/web/views/user.py:65
 msgid "You must set your profile to public."
 msgstr "Vous devez rendre votre profil public."
 
-#: newspipe/web/views/user.py:115 newspipe/web/views/user.py:129
-#: newspipe/web/views/user.py:137
+#: newspipe/web/views/user.py:116 newspipe/web/views/user.py:130
+#: newspipe/web/views/user.py:138
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: newspipe/web/views/user.py:121
+#: newspipe/web/views/user.py:122
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: newspipe/web/views/user.py:124
+#: newspipe/web/views/user.py:125
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: newspipe/web/views/user.py:133
+#: newspipe/web/views/user.py:134
 msgid "Account imported."
 msgstr "Compte importé."
 
-#: newspipe/web/views/user.py:135
+#: newspipe/web/views/user.py:136
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: newspipe/web/views/user.py:188
+#: newspipe/web/views/user.py:189
 msgid "Note deleted."
 msgstr "Note supprimée."
 
-#: newspipe/web/views/user.py:225
+#: newspipe/web/views/user.py:226
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr "Problème lors de la mise à jour de votre profil : %(error)s"
 
-#: newspipe/web/views/user.py:252
+#: newspipe/web/views/user.py:278
+msgid "Two-factor authentication is already enabled."
+msgstr "L'authentification à deux facteurs est déjà activée."
+
+#: newspipe/web/views/user.py:309
+msgid "Two-factor authentication is now enabled."
+msgstr "L'authentification à deux facteurs est maintenant activée."
+
+#: newspipe/web/views/user.py:354
+msgid "Two-factor authentication has been disabled."
+msgstr "L'authentification à deux facteurs a été désactivée."
+
+#: newspipe/web/views/user.py:377
+msgid "New recovery codes generated. The old ones are no longer valid."
+msgstr "Nouveaux codes de récupération générés. Les anciens ne sont plus valides."
+
+#: newspipe/web/views/user.py:390
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: newspipe/web/views/user.py:269
+#: newspipe/web/views/user.py:407
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: newspipe/web/views/user.py:271
+#: newspipe/web/views/user.py:409
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 
