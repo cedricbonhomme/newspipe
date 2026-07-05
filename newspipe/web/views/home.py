@@ -33,10 +33,13 @@ def home():
     art_contr = ArticleController(current_user.id)
     categories = {cat.id: cat for cat in category_contr.read().all()}
 
-    unread = art_contr.count_by_feed(readed=False)
-    nb_unread = art_contr.read_light(readed=False).count()
+    # Articles set aside as "read later" are excluded from the unread badges
+    # so they stay consistent with the default Unread view.
+    not_rl = art_contr.not_read_later_filter()
+    unread = art_contr.count_by_feed(readed=False, **not_rl)
+    nb_unread = art_contr.read_light(readed=False, **not_rl).count()
 
-    unread_by_cat = art_contr.count_by_category(readed=False)
+    unread_by_cat = art_contr.count_by_category(readed=False, **not_rl)
 
     feeds = {
         feed.id: feed
@@ -56,7 +59,9 @@ def home():
         for catid, category in categories.items()
     }
 
-    filters, filter_, feed_id, category_id, liked = _articles_filters(request.args)
+    filters, filter_, feed_id, category_id, liked, read_later = _articles_filters(
+        request.args
+    )
     query = request.args.get("query", "")
     search_title = request.args.get("search_title", "off")
     search_content = request.args.get("search_content", "off")
@@ -74,17 +79,20 @@ def home():
         feed=feed_id,
         category=category_id,
         liked=liked,
+        read_later=read_later,
         query=query,
         search_title=search_title,
         search_content=search_content,
     ):
         return (
-            "?filter_=%s&feed=%d&category=%d&liked=%s&query=%s&search_title=%s&search_content=%s"
+            "?filter_=%s&feed=%d&category=%d&liked=%s&read_later=%s"
+            "&query=%s&search_title=%s&search_content=%s"
             % (
                 filter_,
                 feed,
                 category,
                 1 if liked else 0,
+                1 if read_later else 0,
                 query,
                 search_title,
                 search_content,
@@ -104,6 +112,7 @@ def home():
         feeds_by_cat=feeds_by_cat,
         unread_by_cat=unread_by_cat,
         liked=liked,
+        read_later=read_later,
         unread=dict(unread),
         articles=articles,
         in_error=in_error,
@@ -118,9 +127,16 @@ def _articles_filters(args):
     feed_id = int(args.get("feed", 0))
     category_id = int(args.get("category", 0))
     liked = int(args.get("liked", 0)) == 1
+    read_later = int(args.get("read_later", 0)) == 1
 
-    if filter_ in ("read", "unread"):
+    if read_later:
+        # An article leaves the "read later" view once read (issue #29).
+        filters["readed"] = False
+        filters["read_later_until__gt"] = datetime.utcnow()
+    elif filter_ in ("read", "unread"):
         filters["readed"] = filter_ == "read"
+        if filter_ == "unread":
+            filters.update(ArticleController.not_read_later_filter())
     if feed_id:
         filters["feed_id"] = feed_id
     if category_id:
@@ -128,7 +144,7 @@ def _articles_filters(args):
     if liked:
         filters["like"] = True
 
-    return filters, filter_, feed_id, category_id, liked
+    return filters, filter_, feed_id, category_id, liked, read_later
 
 
 @current_app.route("/home/articles")
@@ -137,7 +153,7 @@ def _articles_filters(args):
 def home_articles():
     """Return a page of articles as JSON, used for infinite scrolling."""
     art_contr = ArticleController(current_user.id)
-    filters, filter_, feed_id, _, _ = _articles_filters(request.args)
+    filters, filter_, feed_id, _, _, _ = _articles_filters(request.args)
 
     try:
         offset = max(0, int(request.args.get("offset", 0)))
@@ -158,6 +174,7 @@ def home_articles():
                 "feed_id": art.feed_id,
                 "readed": art.readed,
                 "like": art.like,
+                "read_later": art.read_later,
                 "title": art.title,
                 "bold": filter_ == "all" and not art.readed,
                 "date_iso": art.date.isoformat(),
@@ -263,6 +280,9 @@ def get_article(article_id, parse=False):
 def mark_all_as_read():
     filters = _get_filters(request.json)
     acontr = ArticleController(current_user.id)
+    if filters.get("readed") is False:
+        # Don't silently mark articles set aside as "read later" as read.
+        filters.update(acontr.not_read_later_filter())
     processed_articles = _articles_to_json(acontr.read_light(**filters))
     acontr.update(filters, {"readed": True})
     return processed_articles

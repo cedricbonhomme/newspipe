@@ -249,7 +249,7 @@
         <div class="col-12 col-lg-10">
           <div class="reading-layout">
             <div class="reading-list">
-            <div id="filters" data-filter="{{ filter_ }}">
+            <div id="filters" data-filter="{{ filter_ }}" data-read-later="{{ 1 if read_later else 0 }}">
                 <ul class="nav nav-tabs ml-auto">
                     <li id="tab-all" class="nav-item">
                         <a class="nav-link {% if filter_ == 'all' %}active{% endif %}" href="{{ gen_url(filter_='all') }}">{{ _('All') }}</a>
@@ -262,6 +262,9 @@
                     </li>
                     <li id="tab-liked" class="px-5 nav-item">
                         <a class="nav-link {% if liked %}active{% endif %}" href="{{ gen_url(liked=not liked) }}"><i class="bi bi-star-fill" aria-hidden="true"></i>&nbsp;{{ _('Liked') }}</a>
+                    </li>
+                    <li id="tab-read-later" class="nav-item">
+                        <a class="nav-link {% if read_later %}active{% endif %}" href="{{ gen_url(read_later=not read_later) }}"><i class="bi bi-clock-history" aria-hidden="true"></i>&nbsp;{{ _('Read later') }}</a>
                     </li>
                 </ul>
             </div>
@@ -312,6 +315,18 @@
                                     {% else %}
                                         <button type="button" class="btn btn-link btn-xs"><i class="bi bi-star like" aria-hidden="true" title="{{ _('Click if you like this article') }}"></i></button>
                                     {% endif %}
+                                    <span class="dropdown d-inline">
+                                        <button type="button" class="btn btn-link btn-xs" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                            <i class="bi {{ 'bi-clock-fill' if article.read_later else 'bi-clock' }} read-later-toggle" aria-hidden="true" title="{{ _('Read later') }}"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><button type="button" class="dropdown-item read-later-option" data-days="1">{{ _('1 day') }}</button></li>
+                                            <li><button type="button" class="dropdown-item read-later-option" data-days="10">{{ _('10 days') }}</button></li>
+                                            <li><button type="button" class="dropdown-item read-later-option" data-days="30">{{ _('1 month') }}</button></li>
+                                            <li class="read-later-cancel {{ '' if article.read_later else 'd-none' }}"><hr class="dropdown-divider"></li>
+                                            <li class="read-later-cancel {{ '' if article.read_later else 'd-none' }}"><button type="button" class="dropdown-item read-later-option" data-days="0">{{ _('Remove from read later') }}</button></li>
+                                        </ul>
+                                    </span>
                                 </th>
                                 {% if not feed_id %}
                                 <td>
@@ -645,6 +660,11 @@
         favorite: {{ _('One of your favorites') | tojson }},
         like: {{ _('Click if you like this article') | tojson }},
         openInPage: {{ _('Open article in a new page.') | tojson }},
+        readLater: {{ _('Read later') | tojson }},
+        oneDay: {{ _('1 day') | tojson }},
+        tenDays: {{ _('10 days') | tojson }},
+        oneMonth: {{ _('1 month') | tojson }},
+        removeReadLater: {{ _('Remove from read later') | tojson }},
       };
 
       let nextOffset = {{ articles | count }};
@@ -696,6 +716,50 @@
         likeIcon.title = art.like ? I18N.favorite : I18N.like;
         likeBtn.appendChild(likeIcon);
         th.appendChild(likeBtn);
+        // read-later dropdown (options handled by articles.js delegation)
+        const rlSpan = document.createElement("span");
+        rlSpan.className = "dropdown d-inline";
+        const rlBtn = document.createElement("button");
+        rlBtn.type = "button";
+        rlBtn.className = "btn btn-link btn-xs";
+        rlBtn.setAttribute("data-bs-toggle", "dropdown");
+        rlBtn.setAttribute("data-bs-display", "static");
+        rlBtn.setAttribute("aria-expanded", "false");
+        const rlIcon = document.createElement("i");
+        rlIcon.className = (art.read_later ? "bi bi-clock-fill" : "bi bi-clock") + " read-later-toggle";
+        rlIcon.setAttribute("aria-hidden", "true");
+        rlIcon.title = I18N.readLater;
+        rlBtn.appendChild(rlIcon);
+        rlSpan.appendChild(rlBtn);
+        const rlMenu = document.createElement("ul");
+        rlMenu.className = "dropdown-menu";
+        [[1, I18N.oneDay], [10, I18N.tenDays], [30, I18N.oneMonth]].forEach(([days, label]) => {
+          const li = document.createElement("li");
+          const item = document.createElement("button");
+          item.type = "button";
+          item.className = "dropdown-item read-later-option";
+          item.dataset.days = days;
+          item.textContent = label;
+          li.appendChild(item);
+          rlMenu.appendChild(li);
+        });
+        const dividerLi = document.createElement("li");
+        dividerLi.className = "read-later-cancel" + (art.read_later ? "" : " d-none");
+        const divider = document.createElement("hr");
+        divider.className = "dropdown-divider";
+        dividerLi.appendChild(divider);
+        rlMenu.appendChild(dividerLi);
+        const cancelLi = document.createElement("li");
+        cancelLi.className = "read-later-cancel" + (art.read_later ? "" : " d-none");
+        const cancelItem = document.createElement("button");
+        cancelItem.type = "button";
+        cancelItem.className = "dropdown-item read-later-option";
+        cancelItem.dataset.days = 0;
+        cancelItem.textContent = I18N.removeReadLater;
+        cancelLi.appendChild(cancelItem);
+        rlMenu.appendChild(cancelLi);
+        rlSpan.appendChild(rlMenu);
+        th.appendChild(rlSpan);
         tr.appendChild(th);
 
         // feed cell (only when not viewing a single feed)

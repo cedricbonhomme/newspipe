@@ -26,6 +26,8 @@ from newspipe.web.lib.view_utils import etag_match
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
 article_bp = Blueprint("article", __name__, url_prefix="/article")
 
+READ_LATER_ALLOWED_DAYS = (1, 10, 30)
+
 
 @article_bp.route("/redirect/<int:article_id>", methods=["GET"])
 @login_required
@@ -118,6 +120,24 @@ def delete_note(note_id):
     return jsonify(success=True)
 
 
+@article_bp.route("/read_later/<int:article_id>", methods=["POST"])
+@login_required
+def read_later(article_id):
+    """Set aside an article to read later for the given number of days
+    (0 clears it)."""
+    art_contr = ArticleController(current_user.id)
+    art_contr.get(id=article_id)
+    try:
+        days = int(request.form.get("days", 0))
+    except (TypeError, ValueError):
+        return jsonify(error=gettext("Invalid duration.")), 400
+    if days != 0 and days not in READ_LATER_ALLOWED_DAYS:
+        return jsonify(error=gettext("Invalid duration.")), 400
+    until = datetime.utcnow() + timedelta(days=days) if days else None
+    art_contr.update({"id": article_id}, {"read_later_until": until})
+    return jsonify(read_later_until=until.isoformat() if until else None)
+
+
 @article_bp.route("/delete/<int:article_id>", methods=["POST"])
 @login_required
 def delete(article_id=None):
@@ -156,6 +176,9 @@ def mark_as(new_value="read", feed_id=None, article_id=None):
     readed = new_value == "read"
     art_contr = ArticleController(current_user.id)
     filters = {"readed": not readed}
+    if readed and article_id is None:
+        # Bulk mark-as-read must not touch articles set aside as "read later".
+        filters.update(art_contr.not_read_later_filter())
     if feed_id is not None:
         filters["feed_id"] = feed_id
         message = "Feed marked as %s."

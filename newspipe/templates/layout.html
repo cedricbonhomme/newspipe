@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Newspipe - A news reader." />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% endif %}</title>
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 
