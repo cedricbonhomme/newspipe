@@ -52,6 +52,14 @@ document.querySelectorAll(".open-article").forEach(el => {
 });
 
 
+// True when the current view is the "read later" one; its articles are not
+// counted in the unread badges.
+function is_read_later_view() {
+    var filters = document.getElementById("filters");
+    return filters != null && filters.getAttribute("data-read-later") == "1";
+}
+
+
 // Mark an article as read or unread from the home page (event-delegated so it
 // also works for rows added by infinite scroll).
 document.addEventListener("click", function(event) {
@@ -75,7 +83,9 @@ document.addEventListener("click", function(event) {
             node.classList.remove('bi-envelope-open');
             node.classList.add('bi-check-lg');
         }
-        change_unread_counter(feed_id, 1);
+        if (!is_read_later_view()) {
+            change_unread_counter(feed_id, 1);
+        }
     }
     else {
         data = JSON.stringify({readed: true})
@@ -86,7 +96,9 @@ document.addEventListener("click", function(event) {
             node.classList.remove('bi-check-lg');
             node.classList.add('bi-envelope-open');
         }
-        change_unread_counter(feed_id, -1);
+        if (!is_read_later_view()) {
+            change_unread_counter(feed_id, -1);
+        }
     }
 
     // sends the updates to the server
@@ -183,6 +195,65 @@ document.addEventListener("click", function(event) {
     });;
 });
 
+
+
+// Set aside an article to read later, or remove it from read later
+// (event-delegated so it also works for rows added by infinite scroll and for
+// the article page).
+document.addEventListener("click", function(event) {
+    var node = event.target.closest(".read-later-option");
+    if (!node) return;
+    var container = node.closest("[data-article]");
+    if (!container) return;
+    var article_id = container.getAttribute("data-article");
+    var feed_id = container.getAttribute("data-bs-feed");
+    var days = parseInt(node.dataset.days, 10);
+
+    var dropdown = node.closest(".dropdown");
+    var icon = dropdown.querySelector(".read-later-toggle");
+    // Rows are only removed on the home page list, never on the article page.
+    var row = node.closest("tr.article");
+
+    if (days > 0) {
+        icon.classList.remove("bi-clock");
+        icon.classList.add("bi-clock-fill");
+        dropdown.querySelectorAll(".read-later-cancel").forEach(function(el) {
+            el.classList.remove("d-none");
+        });
+        if (row && !is_read_later_view()) {
+            var filter = document.getElementById("filters").getAttribute("data-filter");
+            if (filter == "unread") {
+                row.remove();
+                change_unread_counter(feed_id, -1);
+            }
+        }
+    }
+    else {
+        icon.classList.remove("bi-clock-fill");
+        icon.classList.add("bi-clock");
+        dropdown.querySelectorAll(".read-later-cancel").forEach(function(el) {
+            el.classList.add("d-none");
+        });
+        if (row && is_read_later_view()) {
+            row.remove();
+            change_unread_counter(feed_id, 1);
+        }
+    }
+
+    // sends the updates to the server
+    var csrf_token = document.querySelector('meta[name="csrf-token"]').content;
+    fetch(prefix + "/article/read_later/" + article_id, {
+      method: "POST",
+      headers: {
+        'X-CSRFToken': csrf_token,
+      },
+      body: new URLSearchParams({days: days})
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+});
 
 
     // Delete all duplicate articles (used in the page /duplicates)

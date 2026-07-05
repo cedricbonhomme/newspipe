@@ -40,7 +40,7 @@ class AbstractController:
         """
         db_filters = set()
         for key, value in filters.items():
-            if key == "__or__":
+            if key.startswith("__or__"):
                 db_filters.add(or_(*self._to_filters(**value)))
             elif key.endswith("__gt"):
                 db_filters.add(getattr(self._db_cls, key[:-4]) > value)

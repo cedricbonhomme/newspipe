@@ -46,6 +46,7 @@ class Article(db.Model, RightMixin):
     content = db.Column(db.String())
     readed = db.Column(db.Boolean(), default=False)
     like = db.Column(db.Boolean(), default=False)
+    read_later_until = db.Column(db.DateTime(), nullable=True, default=None)
     date = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_date = db.Column(db.DateTime(), default=datetime.utcnow)
     retrieved_date = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -99,6 +100,7 @@ class Article(db.Model, RightMixin):
             "content",
             "date",
             "retrieved_date",
+            "read_later_until",
             "user_id",
             "tags",
         }
@@ -106,6 +108,13 @@ class Article(db.Model, RightMixin):
     @staticmethod
     def _fields_api_write():
         return {"tags"}
+
+    @property
+    def read_later(self):
+        return (
+            self.read_later_until is not None
+            and self.read_later_until > datetime.utcnow()
+        )
 
     @validates("content")
     def validate_content(self, key, value):

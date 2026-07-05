@@ -27,6 +27,16 @@ class ArticleController(AbstractController):
                 continue
             yield id_
 
+    @staticmethod
+    def not_read_later_filter():
+        """Filter excluding articles currently set aside as "read later"."""
+        return {
+            "__or__read_later": {
+                "read_later_until": None,
+                "read_later_until__lt": datetime.utcnow(),
+            }
+        }
+
     def count_by_category(self, **filters):
         return self._count_by(Article.category_id, filters)
 

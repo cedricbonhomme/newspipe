@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-07-05 11:22+0200\n"
+"POT-Creation-Date: 2026-07-05 22:10+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Because RSS still rocks."
 msgstr "Parce que le RSS, ça déchire toujours."
 
-#: newspipe/templates/about.html:20 newspipe/templates/layout.html:146
-#: newspipe/templates/layout.html:153
+#: newspipe/templates/about.html:20 newspipe/templates/layout.html:147
+#: newspipe/templates/layout.html:154
 msgid "About"
 msgstr "À propos"
 
@@ -117,34 +117,59 @@ msgstr "depuis"
 msgid "Delete this article"
 msgstr "Supprimer cet article"
 
-#: newspipe/templates/article.html:37 newspipe/templates/home.html:311
-#: newspipe/templates/home.html:645
+#: newspipe/templates/article.html:37 newspipe/templates/home.html:314
+#: newspipe/templates/home.html:660
 msgid "One of your favorites"
 msgstr "Un de vos favoris"
 
-#: newspipe/templates/article.html:41 newspipe/templates/home.html:313
-#: newspipe/templates/home.html:646
+#: newspipe/templates/article.html:41 newspipe/templates/home.html:316
+#: newspipe/templates/home.html:661
 msgid "Click if you like this article"
 msgstr "Cliquez si vous aimez cet article"
 
-#: newspipe/templates/article.html:47 newspipe/templates/home.html:306
-#: newspipe/templates/home.html:644
+#: newspipe/templates/article.html:47 newspipe/templates/home.html:267
+#: newspipe/templates/home.html:320 newspipe/templates/home.html:663
+msgid "Read later"
+msgstr "À lire plus tard"
+
+#: newspipe/templates/article.html:50 newspipe/templates/home.html:323
+#: newspipe/templates/home.html:664
+msgid "1 day"
+msgstr "1 jour"
+
+#: newspipe/templates/article.html:51 newspipe/templates/home.html:324
+#: newspipe/templates/home.html:665
+msgid "10 days"
+msgstr "10 jours"
+
+#: newspipe/templates/article.html:52 newspipe/templates/home.html:325
+#: newspipe/templates/home.html:666
+msgid "1 month"
+msgstr "1 mois"
+
+#: newspipe/templates/article.html:54 newspipe/templates/home.html:327
+#: newspipe/templates/home.html:667
+msgid "Remove from read later"
+msgstr "Ne plus lire plus tard"
+
+#: newspipe/templates/article.html:60 newspipe/templates/home.html:309
+#: newspipe/templates/home.html:659
 msgid "Mark this article as unread"
 msgstr "Marquer cet article comme non lu"
 
-#: newspipe/templates/article.html:51 newspipe/templates/home.html:308
-#: newspipe/templates/home.html:643
+#: newspipe/templates/article.html:64 newspipe/templates/home.html:311
+#: newspipe/templates/home.html:658
 msgid "Mark this article as read"
 msgstr "Marquer cet article comme lu"
 
-#: newspipe/templates/article.html:67 newspipe/templates/article.html:72
+#: newspipe/templates/article.html:80 newspipe/templates/article.html:85
 #: newspipe/templates/article_pub.html:32
 #: newspipe/templates/article_pub.html:37
 msgid "Share on"
 msgstr "Partager sur"
 
-#: newspipe/templates/bookmarks.html:8 newspipe/templates/layout.html:104
-#: newspipe/templates/layout.html:106 newspipe/web/views/bookmark.py:58
+#: newspipe/templates/bookmarks.html:8 newspipe/templates/layout.html:105
+#: newspipe/templates/layout.html:107 newspipe/web/views/bookmark.py:58
 msgid "Bookmarks"
 msgstr "Marque-pages"
 
@@ -209,8 +234,8 @@ msgstr "Aucune catégorie"
 msgid "Name"
 msgstr "Nom"
 
-#: newspipe/templates/categories.html:20 newspipe/templates/layout.html:64
-#: newspipe/templates/layout.html:66 newspipe/templates/profile_public.html:70
+#: newspipe/templates/categories.html:20 newspipe/templates/layout.html:65
+#: newspipe/templates/layout.html:67 newspipe/templates/profile_public.html:70
 msgid "Feeds"
 msgstr "Flux"
 
@@ -431,11 +456,11 @@ msgstr "entre"
 msgid "and"
 msgstr "et"
 
-#: newspipe/templates/feed.html:138 newspipe/templates/home.html:297
+#: newspipe/templates/feed.html:138 newspipe/templates/home.html:300
 msgid "Article"
 msgstr "Article"
 
-#: newspipe/templates/feed.html:139 newspipe/templates/home.html:298
+#: newspipe/templates/feed.html:139 newspipe/templates/home.html:301
 msgid "Date"
 msgstr "Date"
 
@@ -494,7 +519,7 @@ msgid "You have no feeds yet. Start by adding one!"
 msgstr "Vous n'avez pas encore de flux. Commencez par en ajouter un !"
 
 #: newspipe/templates/feed_list.html:122 newspipe/templates/feeds.html:9
-#: newspipe/templates/layout.html:71 newspipe/web/views/feed.py:223
+#: newspipe/templates/layout.html:72 newspipe/web/views/feed.py:223
 msgid "Add a feed"
 msgstr "Ajouter un flux"
 
@@ -504,7 +529,7 @@ msgid "Filter"
 msgstr "Filtrer"
 
 #: newspipe/templates/feed_list_per_categories.html:24
-#: newspipe/templates/home.html:295
+#: newspipe/templates/home.html:298
 msgid "Feed"
 msgstr "Flux"
 
@@ -513,7 +538,7 @@ msgstr "Flux"
 msgid "You are subscribed to %(feed_count)d feeds."
 msgstr "Vous êtes abonné à %(feed_count)d flux."
 
-#: newspipe/templates/history.html:20 newspipe/templates/layout.html:69
+#: newspipe/templates/history.html:20 newspipe/templates/layout.html:70
 msgid "History"
 msgstr "Historique"
 
@@ -521,7 +546,7 @@ msgstr "Historique"
 msgid "all years"
 msgstr "toutes les années"
 
-#: newspipe/templates/history.html:34 newspipe/templates/home.html:339
+#: newspipe/templates/history.html:34 newspipe/templates/home.html:354
 msgid "Loading…"
 msgstr "Chargement…"
 
@@ -561,7 +586,7 @@ msgid "Mark this feed as unread"
 msgstr "Marquer ce flux comme non lu"
 
 #: newspipe/templates/home.html:145 newspipe/templates/home.html:192
-#: newspipe/templates/home.html:239 newspipe/templates/home.html:278
+#: newspipe/templates/home.html:239 newspipe/templates/home.html:281
 msgid "Mark this feed as read"
 msgstr "Marquer ce flux comme lu"
 
@@ -577,43 +602,43 @@ msgstr "Lus"
 msgid "Liked"
 msgstr "Favoris"
 
-#: newspipe/templates/home.html:284
+#: newspipe/templates/home.html:287
 msgid "Mark all as read"
 msgstr "Tout marquer comme lu"
 
-#: newspipe/templates/home.html:289
+#: newspipe/templates/home.html:292
 msgid "Mark all as unread"
 msgstr "Tout marquer comme non lu"
 
-#: newspipe/templates/home.html:348
+#: newspipe/templates/home.html:363
 msgid "Drag to resize (double-click to reset)"
 msgstr "Glisser pour redimensionner (double-clic pour réinitialiser)"
 
-#: newspipe/templates/home.html:356
+#: newspipe/templates/home.html:371
 msgid "Select an article to read it here."
 msgstr "Sélectionnez un article pour le lire ici."
 
-#: newspipe/templates/home.html:363 newspipe/templates/home.html:647
+#: newspipe/templates/home.html:378 newspipe/templates/home.html:662
 msgid "Open article in a new page."
 msgstr "Ouvrir l'article dans une nouvelle page."
 
-#: newspipe/templates/home.html:366
+#: newspipe/templates/home.html:381
 msgid "Open on the website."
 msgstr "Ouvrir sur le site web."
 
-#: newspipe/templates/home.html:371
+#: newspipe/templates/home.html:386
 msgid "Notes"
 msgstr "Notes"
 
-#: newspipe/templates/home.html:377
+#: newspipe/templates/home.html:392
 msgid "Write a note…"
 msgstr "Écrire une note…"
 
-#: newspipe/templates/home.html:379
+#: newspipe/templates/home.html:394
 msgid "Add note"
 msgstr "Ajouter une note"
 
-#: newspipe/templates/home.html:432
+#: newspipe/templates/home.html:447
 msgid "Delete this note"
 msgstr "Supprimer cette note"
 
@@ -633,87 +658,87 @@ msgstr "jours"
 msgid "No inactive feeds."
 msgstr "Aucun flux inactif."
 
-#: newspipe/templates/layout.html:40
+#: newspipe/templates/layout.html:41
 msgid "Toggle navigation"
 msgstr "Afficher/masquer la navigation"
 
-#: newspipe/templates/layout.html:52
+#: newspipe/templates/layout.html:53
 msgid "Switch theme"
 msgstr "Changer de thème"
 
-#: newspipe/templates/layout.html:58
+#: newspipe/templates/layout.html:59
 msgid "Fetch"
 msgstr "Récupérer"
 
-#: newspipe/templates/layout.html:67
+#: newspipe/templates/layout.html:68
 msgid "Inactive"
 msgstr "Inactifs"
 
-#: newspipe/templates/layout.html:68
+#: newspipe/templates/layout.html:69
 msgid "Popular"
 msgstr "Populaire"
 
-#: newspipe/templates/layout.html:75
+#: newspipe/templates/layout.html:76
 msgid "Site or feed URL"
 msgstr "URL du site ou du flux"
 
-#: newspipe/templates/layout.html:85 newspipe/templates/layout.html:87
+#: newspipe/templates/layout.html:86 newspipe/templates/layout.html:88
 msgid "Categories"
 msgstr "Catégories"
 
-#: newspipe/templates/layout.html:89 newspipe/web/views/category.py:58
+#: newspipe/templates/layout.html:90 newspipe/web/views/category.py:58
 msgid "Add a category"
 msgstr "Ajouter une catégorie"
 
-#: newspipe/templates/layout.html:94 newspipe/web/forms.py:334
+#: newspipe/templates/layout.html:95 newspipe/web/forms.py:334
 msgid "Category name"
 msgstr "Nom de la catégorie"
 
-#: newspipe/templates/layout.html:107 newspipe/web/views/bookmark.py:125
+#: newspipe/templates/layout.html:108 newspipe/web/views/bookmark.py:125
 msgid "Add a bookmark"
 msgstr "Ajouter un marque-page"
 
-#: newspipe/templates/layout.html:113
+#: newspipe/templates/layout.html:114
 msgid "Search"
 msgstr "Rechercher"
 
-#: newspipe/templates/layout.html:117
+#: newspipe/templates/layout.html:118
 msgid "Query"
 msgstr "Requête"
 
-#: newspipe/templates/layout.html:122
+#: newspipe/templates/layout.html:123
 msgid "Search in title"
 msgstr "Rechercher dans le titre"
 
-#: newspipe/templates/layout.html:126
+#: newspipe/templates/layout.html:127
 msgid "Search in content"
 msgstr "Rechercher dans le contenu"
 
-#: newspipe/templates/layout.html:138
+#: newspipe/templates/layout.html:139
 msgid "Profile"
 msgstr "Profil"
 
-#: newspipe/templates/layout.html:139 newspipe/templates/notes.html:8
+#: newspipe/templates/layout.html:140 newspipe/templates/notes.html:8
 msgid "My notes"
 msgstr "Mes notes"
 
-#: newspipe/templates/layout.html:140 newspipe/templates/management.html:6
+#: newspipe/templates/layout.html:141 newspipe/templates/management.html:6
 msgid "Your data"
 msgstr "Vos données"
 
-#: newspipe/templates/layout.html:143
+#: newspipe/templates/layout.html:144
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: newspipe/templates/layout.html:147
+#: newspipe/templates/layout.html:148
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: newspipe/templates/layout.html:151 newspipe/web/views/bookmark.py:89
+#: newspipe/templates/layout.html:152 newspipe/web/views/bookmark.py:89
 msgid "Recent bookmarks"
 msgstr "Marque-pages récents"
 
-#: newspipe/templates/layout.html:152 newspipe/templates/popular.html:6
+#: newspipe/templates/layout.html:153 newspipe/templates/popular.html:6
 msgid "Popular feeds"
 msgstr "Flux populaires"
 
@@ -1386,26 +1411,30 @@ msgstr ""
 "La récupération manuelle des nouvelles est uniquement disponible pour "
 "l'administrateur."
 
-#: newspipe/web/views/article.py:97
+#: newspipe/web/views/article.py:99
 msgid "A note cannot be empty."
 msgstr "Une note ne peut pas être vide."
 
-#: newspipe/web/views/article.py:102
+#: newspipe/web/views/article.py:104
 #, python-format
 msgid "A note cannot exceed %(max)d characters."
 msgstr "Une note ne peut pas dépasser %(max)d caractères."
 
-#: newspipe/web/views/article.py:129
+#: newspipe/web/views/article.py:133 newspipe/web/views/article.py:135
+msgid "Invalid duration."
+msgstr "Durée invalide."
+
+#: newspipe/web/views/article.py:149
 #, python-format
 msgid "Article %(article_title)s deleted"
 msgstr "L'article %(article_title)s a été supprimé"
 
-#: newspipe/web/views/article.py:191
+#: newspipe/web/views/article.py:214
 #, python-format
 msgid "%(count)d articles deleted"
 msgstr "%(count)d articles supprimés"
 
-#: newspipe/web/views/article.py:210
+#: newspipe/web/views/article.py:233
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'exportation des articles."
 

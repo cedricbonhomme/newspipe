@@ -42,6 +42,19 @@
                 </a>
               {% endif %}
 
+              <span class="dropdown d-inline me-2">
+                <button type="button" class="btn btn-link text-muted text-decoration-none p-0" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                  <i class="bi {{ 'bi-clock-fill' if article.read_later else 'bi-clock' }} read-later-toggle" aria-hidden="true" title="{{ _('Read later') }}"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button type="button" class="dropdown-item read-later-option" data-days="1">{{ _('1 day') }}</button></li>
+                  <li><button type="button" class="dropdown-item read-later-option" data-days="10">{{ _('10 days') }}</button></li>
+                  <li><button type="button" class="dropdown-item read-later-option" data-days="30">{{ _('1 month') }}</button></li>
+                  <li class="read-later-cancel {{ '' if article.read_later else 'd-none' }}"><hr class="dropdown-divider"></li>
+                  <li class="read-later-cancel {{ '' if article.read_later else 'd-none' }}"><button type="button" class="dropdown-item read-later-option" data-days="0">{{ _('Remove from read later') }}</button></li>
+                </ul>
+              </span>
+
               {% if article.readed %}
                 <a href="#" class="text-muted text-decoration-none">
                   <i class="bi bi-square readed-article-page" aria-hidden="true" title="{{ _('Mark this article as unread') }}"></i>
