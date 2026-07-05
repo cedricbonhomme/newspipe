@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">
+                        <i class="bi bi-shield-lock me-2 text-primary"></i>{{ _('Two-factor authentication') }}
+                    </h3>
+                    <p class="text-muted">
+                        {{ _('Enter the code from your authenticator application.') }}
+                    </p>
+                    <form action="{{ url_for('login_2fa') }}" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            {{ form.code.label(class_="form-label") }}
+                            {{ form.code(class_="form-control", autofocus=True, autocomplete="one-time-code", placeholder="123456") }}
+                            {% for message in form.code.errors %}
+                                <div class="invalid-feedback d-block">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            {{ form.submit(class_="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                    <p class="text-muted small mb-0">
+                        {{ _('Lost your device? You can enter one of your recovery codes instead.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

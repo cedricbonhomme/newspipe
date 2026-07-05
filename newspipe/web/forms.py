@@ -98,6 +98,18 @@ class SignupForm(FlaskForm):
         return validated
 
 
+class TwoFactorForm(FlaskForm):
+    """
+    Second authentication factor: a TOTP code or a recovery code.
+    """
+
+    code = StringField(
+        lazy_gettext("Code"),
+        [validators.DataRequired(lazy_gettext("Please enter a code."))],
+    )
+    submit = SubmitField(lazy_gettext("Verify"))
+
+
 class RedirectForm(FlaskForm):
     """
     Secure back redirects with WTForms.

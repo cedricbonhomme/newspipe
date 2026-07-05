@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime
 from datetime import timezone
@@ -25,9 +26,11 @@ from werkzeug.security import generate_password_hash
 
 from newspipe.bootstrap import application
 from newspipe.controllers import UserController
+from newspipe.lib import twofactor
 from newspipe.notifications import notifications
 from newspipe.web.forms import SigninForm
 from newspipe.web.forms import SignupForm
+from newspipe.web.forms import TwoFactorForm
 from newspipe.web.views.common import admin_role
 from newspipe.web.views.common import api_role
 from newspipe.web.views.common import login_user_bundle
@@ -75,7 +78,15 @@ def login():
 
     form = SigninForm()
 
-    if request.method == "POST" and form.validate():  # fixes an issue in flask-wtf
+    if (
+        request.method == "POST" and form.validate() and form.user is not None
+    ):  # fixes an issue in flask-wtf
+        if form.user.totp_enabled:
+            # password OK but a second factor is required: defer the login
+            session["twofactor_user_id"] = form.user.id
+            session["twofactor_since"] = datetime.now(timezone.utc).timestamp()
+            return redirect(url_for("login_2fa"))
+
         login_user_bundle(form.user)
 
         UserController(current_user.id).update(
@@ -89,6 +100,66 @@ def login():
         form=form,
         self_registration=application.config["SELF_REGISTRATION"],
     )
+
+
+TWOFACTOR_TIMEOUT = 300  # seconds granted to enter the second factor
+
+
+@current_app.route("/login/2fa", methods=["GET", "POST"])
+def login_2fa():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
+    user_id = session.get("twofactor_user_id")
+    since = session.get("twofactor_since", 0)
+    elapsed = datetime.now(timezone.utc).timestamp() - since
+    if user_id is None or elapsed > TWOFACTOR_TIMEOUT:
+        session.pop("twofactor_user_id", None)
+        session.pop("twofactor_since", None)
+        flash(gettext("Your login attempt has expired. Please sign in again."), "info")
+        return redirect(url_for("login"))
+
+    ucontr = UserController(user_id, ignore_context=True)
+    try:
+        user = ucontr.get(id=user_id, is_active=True)
+    except NotFound:
+        session.pop("twofactor_user_id", None)
+        session.pop("twofactor_since", None)
+        return redirect(url_for("login"))
+
+    form = TwoFactorForm()
+    if request.method == "POST" and form.validate():
+        counter = twofactor.verify_totp(user, form.code.data)
+        if counter is not None:
+            # remember the accepted timestep so the same code cannot be replayed
+            ucontr.update({"id": user.id}, {"last_totp": counter})
+            return complete_2fa_login(user)
+
+        remaining_codes = twofactor.consume_recovery_code(user, form.code.data)
+        if remaining_codes is not None:
+            ucontr.update({"id": user.id}, {"recovery_codes": remaining_codes})
+            flash(
+                gettext(
+                    "You have %(nb)d recovery code(s) left.",
+                    nb=len(json.loads(remaining_codes)),
+                ),
+                "warning",
+            )
+            return complete_2fa_login(user)
+
+        flash(gettext("Invalid code."), "danger")
+
+    return render_template("login_2fa.html", form=form)
+
+
+def complete_2fa_login(user):
+    session.pop("twofactor_user_id", None)
+    session.pop("twofactor_since", None)
+    login_user_bundle(user)
+    UserController(user.id).update(
+        {"id": user.id}, {"last_seen": datetime.now(timezone.utc)}
+    )
+    return redirect(url_for("home"))
 
 
 @current_app.route("/logout")

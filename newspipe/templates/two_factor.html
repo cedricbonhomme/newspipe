@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-4">
+    <h1 class="h3 mb-4">
+        <i class="bi bi-shield-lock me-2 text-primary"></i>{{ _('Two-factor authentication') }}
+    </h1>
+
+    {% if new_codes %}
+    <!-- One-time display of the recovery codes -->
+    <div class="card shadow-sm rounded-3 mb-4 border-warning">
+        <div class="card-header bg-warning-subtle">
+            <h2 class="h5 mb-0"><i class="bi bi-life-preserver me-2"></i>{{ _('Your recovery codes') }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <p>
+                {{ _('Store these recovery codes in a safe place. Each code can only be used once, and they are only displayed now.') }}
+            </p>
+            <ul class="list-unstyled row row-cols-2 row-cols-md-5 g-2 mb-0">
+                {% for code in new_codes %}
+                <li class="col"><code>{{ code }}</code></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if user.totp_enabled %}
+    <!-- 2FA is enabled -->
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-body p-4">
+            <p class="mb-0">
+                <i class="bi bi-check-circle-fill me-2 text-success"></i>
+                {{ _('Two-factor authentication is enabled on your account.') }}
+            </p>
+            <p class="mb-0 mt-2 text-muted">
+                {{ _('%(nb)d recovery code(s) remaining.', nb=nb_recovery_codes) }}
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0"><i class="bi bi-arrow-repeat me-2 text-primary"></i>{{ _('Regenerate recovery codes') }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <p class="text-muted">{{ _('Generate a new set of recovery codes. The current codes will no longer be valid.') }}</p>
+            <form action="{{ url_for('user.two_factor_recovery') }}" method="post" class="row g-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="col-auto">
+                    <input type="text" name="code" class="form-control" autocomplete="one-time-code"
+                           placeholder="{{ _('Authentication code') }}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-primary">{{ _('Regenerate') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm rounded-3 border-danger">
+        <div class="card-header bg-danger-subtle text-danger-emphasis">
+            <h2 class="h5 mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ _('Disable two-factor authentication') }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <p class="text-muted">{{ _('Enter a code from your authenticator application or one of your recovery codes.') }}</p>
+            <form action="{{ url_for('user.two_factor_disable') }}" method="post" class="row g-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="col-auto">
+                    <input type="text" name="code" class="form-control" autocomplete="one-time-code"
+                           placeholder="{{ _('Authentication code') }}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-danger">{{ _('Disable') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% elif qrcode_svg %}
+    <!-- Enrollment pending: scan the QR code and confirm -->
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0"><i class="bi bi-qr-code me-2 text-primary"></i>{{ _('Scan the QR code') }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <p>{{ _('Scan this QR code with your authenticator application (FreeOTP, Aegis, etc.), then enter the generated code to confirm.') }}</p>
+            <div class="mb-3" style="max-width: 260px;">
+                {{ qrcode_svg | safe }}
+            </div>
+            <p class="text-muted small">
+                {{ _('If you cannot scan the QR code, enter this secret manually:') }}
+                <code>{{ user.totp_secret }}</code>
+            </p>
+            <form action="{{ url_for('user.two_factor_confirm') }}" method="post" class="row g-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="col-auto">
+                    <input type="text" name="code" class="form-control" autocomplete="one-time-code"
+                           inputmode="numeric" placeholder="123456" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">{{ _('Confirm') }}</button>
+                </div>
+            </form>
+            <form action="{{ url_for('user.two_factor_cancel') }}" method="post" class="mt-3">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-link text-muted p-0">{{ _('Cancel enrollment') }}</button>
+            </form>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- 2FA is disabled -->
+    <div class="card shadow-sm rounded-3 mb-4">
+        <div class="card-body p-4">
+            <p>
+                <i class="bi bi-shield-slash me-2 text-muted"></i>
+                {{ _('Two-factor authentication is not enabled on your account.') }}
+            </p>
+            <p class="text-muted">
+                {{ _('With two-factor authentication, signing in requires a time-based code from an authenticator application in addition to your password.') }}
+            </p>
+            <form action="{{ url_for('user.two_factor_enable') }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-shield-lock me-1"></i>{{ _('Enable two-factor authentication') }}
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('user.profile') }}" class="btn btn-link p-0">
+        <i class="bi bi-arrow-left me-1"></i>{{ _('Back to your profile') }}
+    </a>
+</div>
+{% endblock %}
