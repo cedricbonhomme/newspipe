@@ -244,7 +244,7 @@ API authentication uses API tokens (users need `is_api=True` flag).
 
 ## Important Notes
 
-- The project requires Python >= 3.10
+- The project requires Python >= 3.13
 - Minimum Poetry version 2.0 is required
 - When modifying models, always create a migration
 - All HTML content is sanitized using bleach (see `newspipe/lib/sanitizers.py`)

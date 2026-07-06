@@ -5,7 +5,7 @@
 **A self-hosted web news aggregator — own your feeds, your data, and your reading.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
-[![Python](https://img.shields.io/badge/python-%3E%3D3.12-blue.svg)](https://www.python.org)
+[![Python](https://img.shields.io/badge/python-%3E%3D3.13-blue.svg)](https://www.python.org)
 [![Version](https://img.shields.io/github/release/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/releases/latest)
 [![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/commits/master)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
@@ -34,7 +34,7 @@ Built with [Flask](http://flask.pocoo.org) · [asyncio](https://www.python.org/d
 
 ## 🚀 Quick start
 
-Assuming you already have `git`, `poetry`, `npm`, and `Python >= 3.12` installed:
+Assuming you already have `git`, `poetry`, `npm`, and `Python >= 3.13` installed:
 
 ```bash
 git clone https://github.com/cedricbonhomme/newspipe
@@ -89,7 +89,7 @@ for example every three hours:
 When using cron it is usually best to be explicit about the command location:
 
 ```bash
-0 */3 * * * FLASK_APP=app.py /home/cedric/.cache/pypoetry/virtualenvs/newspipe-19mdZ4UL-py3.12/bin/flask fetch_asyncio
+0 */3 * * * FLASK_APP=app.py /home/cedric/.cache/pypoetry/virtualenvs/newspipe-19mdZ4UL-py3.13/bin/flask fetch_asyncio
 ```
 
 ## 📄 License
