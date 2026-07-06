@@ -1,6 +1,22 @@
 Newspipe Changelog
 ==================
 
+## 12.2.0 (2026-07-06)
+
+### New
+
+- Added support for two-factor authentication (TOTP).
+- Added "read later" support: articles can now be snoozed with a per-article duration.
+
+### Improvements
+
+- The minimum supported version of Python is now 3.13.
+
+### Fixes
+
+- Fixed the crawler on Python 3.14 by using `asyncio.run()` in `fetch_asyncio`.
+
+
 ## 12.1.0 (2026-06-28)
 
 ### New
