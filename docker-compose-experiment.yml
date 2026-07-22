@@ -1,0 +1,18 @@
+# Infraestructura del experimento de modernización (Strangler Fig).
+# Base de datos PostgreSQL compartida por el código legado y el migrado.
+#
+#   docker compose -f docker-compose-experiment.yml up -d
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: newspipe
+      POSTGRES_PASSWORD: newspipe
+      POSTGRES_DB: newspipe
+    ports:
+      - "5432:5432"
+    volumes:
+      - newspipe-pgdata:/var/lib/postgresql/data
+
+volumes:
+  newspipe-pgdata:
