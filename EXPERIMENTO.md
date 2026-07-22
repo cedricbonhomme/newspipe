@@ -89,8 +89,7 @@ idempotente, se puede correr las veces que haga falta.
 ## 6. Grabar el video de demostración
 
 El guion escena por escena, con los comandos exactos para pegar y la narración sugerida,
-está en `semana-8/guion-video-demostracion.md` del repositorio de documentos del equipo
-(no en este repo de código).
+está en `docs/semana-8/guion-video-demostracion.md` de este mismo repositorio.
 
 Los puntos clave que el video debe mostrar:
 

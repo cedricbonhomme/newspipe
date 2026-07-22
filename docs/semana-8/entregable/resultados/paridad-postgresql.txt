@@ -1,0 +1,18 @@
+PASS  R1 GET /feeds mismo status  [200 vs 200]
+PASS  R1 GET /feeds paridad de payload
+PASS  R1 GET /feeds scoping por usuario (apiuser solo ve lo suyo)  [legado=[3, 4, 5, 6] moderno=[3, 4, 5, 6]]
+PASS  R1 POST /feed (legado) responde 201  [201]
+PASS  R1 POST /feed (fachada) responde 201  [201]
+PASS  R1 misma BD: ambos feeds visibles por ambas rutas  [legado ve [3, 4, 5, 6, 7, 8], moderno ve [3, 4, 5, 6, 7, 8]]
+PASS  R2 GET /articles mismo status  [200 vs 200]
+PASS  R2 GET /articles paridad de payload
+PASS  R2 GET /articles?feed_id=1 paridad
+PASS  R2 GET /articles?readed=true paridad
+PASS  R2 GET /article/1 mismo status  [200 vs 200]
+PASS  R2 GET /article/1 paridad
+PASS  R2 GET /article/9999 responde 404 en la fachada  [404]
+PASS  Convivencia: GET /feed/1 (no migrado) delegado al legado  [200 vs 200]
+PASS  Convivencia: web legada /login servida por la fachada  [200]
+PASS  OpenAPI generado con los 4 endpoints migrados  [paths=['/api/v2.0/article/{article_id}', '/api/v2.0/articles', '/api/v2.0/feed', '/api/v2.0/feeds']]
+
+Resultado: 16/16 verificaciones exitosas
