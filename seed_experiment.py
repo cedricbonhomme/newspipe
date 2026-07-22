@@ -1,19 +1,29 @@
 #! /usr/bin/env python
 """Seed data for the modernization experiment (Strangler Fig, R1 feeds / R2 articles).
 
-Creates two feeds and four articles for the admin user so that the legacy API
-and the FastAPI increment can be compared against the same database.
+Creates the two test users (admin/admin123 and apiuser/api123), two feeds and
+four articles, so that the legacy API and the FastAPI increment can be compared
+against the same database. Idempotent: safe to run more than once.
 
 Usage:
-    NEWSPIPE_CONFIG=sqlite.py python seed_experiment.py
+    NEWSPIPE_CONFIG=experiment-postgresql.py python seed_experiment.py
 """
 from datetime import datetime
+
+from werkzeug.security import generate_password_hash
 
 import app  # noqa: F401  (registers blueprints and the v2 API on the Flask app)
 from newspipe.bootstrap import application
 from newspipe.controllers import ArticleController
 from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
+
+USERS = [
+    # admin: dueño de los datos semilla. apiuser: rol API sin admin, lo usa
+    # parity_check.py para verificar el scoping por usuario.
+    {"nickname": "admin", "password": "admin123", "is_admin": True, "is_api": True},
+    {"nickname": "apiuser", "password": "api123", "is_admin": False, "is_api": True},
+]
 
 FEEDS = [
     {
@@ -66,8 +76,26 @@ ARTICLES = [
 ]
 
 
+def ensure_users():
+    ucontr = UserController(ignore_context=True)
+    for user in USERS:
+        try:
+            ucontr.get(nickname=user["nickname"])
+            print(f"Usuario ya existe: {user['nickname']}")
+        except Exception:
+            ucontr.create(
+                nickname=user["nickname"],
+                pwdhash=generate_password_hash(user["password"]),
+                is_admin=user["is_admin"],
+                is_api=user["is_api"],
+                is_active=True,
+            )
+            print(f"Usuario creado: {user['nickname']}")
+
+
 def seed():
     with application.app_context():
+        ensure_users()
         admin = UserController(ignore_context=True).get(nickname="admin")
         fctrl = FeedController(admin.id)
         actrl = ArticleController(admin.id)
