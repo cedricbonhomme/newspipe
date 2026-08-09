@@ -37,6 +37,7 @@ from flask import jsonify
 
 from newspipe.bootstrap import db
 from newspipe.controllers import BookmarkController, BookmarkTagController
+from newspipe.lib.url_validation import SSRFError, validate_url
 from newspipe.models import Article, Feed, User
 from newspipe.models.tag import BookmarkTag
 
@@ -82,6 +83,14 @@ def import_opml(nickname, opml_content):
                 ):
                     continue
                 try:
+                    validate_url(link)
+                except SSRFError:
+                    logger.warning(
+                        "Skipping feed with blocked URL during OPML import: %s",
+                        link,
+                    )
+                    continue
+                try:
                     site_link = subscription.htmlUrl
                 except Exception:
                     site_link = ""
@@ -118,6 +127,14 @@ def import_json(nickname, json_content):
             ).first()
             is not None
         ):
+            continue
+        try:
+            validate_url(feed["link"])
+        except SSRFError:
+            logger.warning(
+                "Skipping feed with blocked URL during JSON import: %s",
+                feed["link"],
+            )
             continue
         new_feed = Feed(
             title=feed["title"],

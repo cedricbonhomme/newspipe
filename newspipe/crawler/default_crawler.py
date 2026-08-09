@@ -32,11 +32,13 @@ from datetime import datetime, timedelta, timezone
 
 import aiohttp
 import feedparser
+from yarl import URL
 
 from newspipe.bootstrap import application, db
 from newspipe.controllers import ArticleController, FeedController
 from newspipe.lib.article_utils import construct_article, extract_id
 from newspipe.lib.feed_utils import construct_feed_from, is_parsing_ok
+from newspipe.lib.url_validation import SSRFError, validate_url
 
 # from newspipe.lib.utils import newspipe_get
 
@@ -117,7 +119,43 @@ EXPECTED_FETCH_ERRORS = (
     aiohttp.ClientError,
     asyncio.TimeoutError,
     FeedTooLargeError,
+    SSRFError,
 )
+
+# Number of redirects to follow while re-validating each hop against SSRF.
+MAX_SSRF_REDIRECTS = 5
+
+# Redirect status codes we follow manually so every hop is re-validated.
+_REDIRECT_STATUSES = frozenset({301, 302, 303, 307, 308})
+
+
+async def ssrf_guarded_get(session, url, **kwargs):
+    """GET ``url`` while enforcing SSRF validation on the initial URL and on
+    every redirect hop.
+
+    aiohttp follows redirects itself by default, which would let a validated
+    public URL bounce to an internal address (and never re-check it). We
+    disable that and follow redirects ourselves, re-running ``validate_url``
+    before each request. ``validate_url`` performs blocking DNS resolution, so
+    it runs in a worker thread to avoid stalling the event loop.
+
+    Returns an open aiohttp response positioned on a non-redirect status; the
+    caller is responsible for releasing it (e.g. via ``async with``).
+    """
+    kwargs.pop("allow_redirects", None)
+    current = url
+    for _ in range(MAX_SSRF_REDIRECTS + 1):
+        await asyncio.to_thread(validate_url, current)
+        resp = await session.get(current, allow_redirects=False, **kwargs)
+        if resp.status in _REDIRECT_STATUSES:
+            location = resp.headers.get("Location")
+            resp.release()
+            if not location:
+                raise SSRFError(f"Redirect from {current} had no Location header.")
+            current = str(URL(current).join(URL(location)))
+            continue
+        return resp
+    raise SSRFError(f"Too many redirects while fetching {url}.")
 
 
 async def read_capped(resp, max_bytes):
@@ -188,9 +226,10 @@ async def parse_feed(feed, session, timeout=10):
 
         try:
             logger.info(f"Retrieving feed {feed.link}")
-            async with session.get(
-                feed.link, timeout=timeout, headers=request_headers
-            ) as resp:
+            resp = await ssrf_guarded_get(
+                session, feed.link, timeout=timeout, headers=request_headers
+            )
+            async with resp:
                 if resp.status == 304:
                     # Not modified since the last fetch: nothing new to parse.
                     logger.info(f"Feed not modified: {feed.link}")
