@@ -1,6 +1,13 @@
 Newspipe Changelog
 ==================
 
+## 12.2.1 (2026-08-09)
+
+### Security
+
+- Fixed an authenticated server-side request forgery (SSRF) via OPML/JSON feed import and the crawler (GHSA-4vg7-v5pw-w67p). Feed URLs are now validated against private, loopback, link-local, and cloud-metadata addresses on import, and the crawler re-validates the feed URL and every redirect hop before fetching.
+
+
 ## 12.2.0 (2026-07-06)
 
 ### New
