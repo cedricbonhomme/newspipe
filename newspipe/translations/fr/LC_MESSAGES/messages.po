@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: cedric@cedricbonhomme.org\n"
-"POT-Creation-Date: 2026-07-05 22:10+0200\n"
+"POT-Creation-Date: 2026-08-20 22:57+0200\n"
 "PO-Revision-Date: 2025-09-13 18:08+0200\n"
 "Last-Translator: Cédric Bonhomme <cedric@cedricbonhomme.org>\n"
 "Language: fr\n"
@@ -1370,7 +1370,7 @@ msgstr "Modifier l'utilisateur <i>%(nick)s</i>"
 msgid "Some errors were found"
 msgstr "Des erreurs ont été trouvées"
 
-#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:232
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:238
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "L'utilisateur %(nick)s a été mis à jour avec succès"
@@ -1401,7 +1401,7 @@ msgstr "Cet utilisateur n'existe pas."
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr "L'utilisateur %(nickname)s a été %(is_active)s avec succès"
 
-#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:123
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:127
 msgid "Fetching articles…"
 msgstr "Récupération des articles…"
 
@@ -1434,7 +1434,7 @@ msgstr "L'article %(article_title)s a été supprimé"
 msgid "%(count)d articles deleted"
 msgstr "%(count)d articles supprimés"
 
-#: newspipe/web/views/article.py:233
+#: newspipe/web/views/article.py:229
 msgid "Error when exporting articles."
 msgstr "Erreur lors de l'exportation des articles."
 
@@ -1446,7 +1446,7 @@ msgstr "Modifier le marque-page"
 msgid "Bookmark successfully updated."
 msgstr "Le marque-page a été mis à jour avec succès."
 
-#: newspipe/web/views/bookmark.py:182 newspipe/web/views/bookmark.py:243
+#: newspipe/web/views/bookmark.py:182 newspipe/web/views/bookmark.py:239
 msgid "Bookmark successfully created."
 msgstr "Le marque-page a été créé avec succès."
 
@@ -1459,20 +1459,20 @@ msgstr "Le marque-page %(bookmark_name)s a été supprimé avec succès."
 msgid "Bookmarks successfully deleted."
 msgstr "Les marque-pages ont été supprimés avec succès."
 
-#: newspipe/web/views/bookmark.py:221
+#: newspipe/web/views/bookmark.py:217
 msgid "Couldn't add bookmark: url missing."
 msgstr "Impossible d'ajouter le marque-page : l'URL est manquante."
 
-#: newspipe/web/views/bookmark.py:231
+#: newspipe/web/views/bookmark.py:227
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr "Impossible d'ajouter le marque-page : le marque-page existe déjà."
 
-#: newspipe/web/views/bookmark.py:257
+#: newspipe/web/views/bookmark.py:253
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr "%(nb_bookmarks)s marque-pages importés avec succès."
 
-#: newspipe/web/views/bookmark.py:263
+#: newspipe/web/views/bookmark.py:259
 msgid "Error when importing bookmarks."
 msgstr "Erreur lors de l'importation des marque-pages."
 
@@ -1564,8 +1564,8 @@ msgstr "Votre tentative de connexion a expiré. Veuillez vous reconnecter."
 msgid "You have %(nb)d recovery code(s) left."
 msgstr "Il vous reste %(nb)d code(s) de récupération."
 
-#: newspipe/web/views/session_mgmt.py:150 newspipe/web/views/user.py:301
-#: newspipe/web/views/user.py:342 newspipe/web/views/user.py:371
+#: newspipe/web/views/session_mgmt.py:150 newspipe/web/views/user.py:307
+#: newspipe/web/views/user.py:348 newspipe/web/views/user.py:377
 msgid "Invalid code."
 msgstr "Code invalide."
 
@@ -1582,65 +1582,69 @@ msgstr "Problème lors de l'envoi du courriel d'activation : %(error)s"
 msgid "Your account has been created. Check your mail to confirm it."
 msgstr "Votre compte a été créé. Vérifiez votre courriel pour le confirmer."
 
-#: newspipe/web/views/user.py:40 newspipe/web/views/user.py:65
+#: newspipe/web/views/user.py:42 newspipe/web/views/user.py:67
 msgid "You must set your profile to public."
 msgstr "Vous devez rendre votre profil public."
 
-#: newspipe/web/views/user.py:116 newspipe/web/views/user.py:130
-#: newspipe/web/views/user.py:138
+#: newspipe/web/views/user.py:118 newspipe/web/views/user.py:136
+#: newspipe/web/views/user.py:144
 msgid "File not allowed."
 msgstr "Fichier non autorisé."
 
-#: newspipe/web/views/user.py:122
+#: newspipe/web/views/user.py:126
 msgid "feeds imported."
 msgstr "flux importés."
 
-#: newspipe/web/views/user.py:125
+#: newspipe/web/views/user.py:129
+msgid "The OPML file is too large."
+msgstr "Le fichier OPML est trop volumineux."
+
+#: newspipe/web/views/user.py:131
 msgid "Impossible to import the new feeds."
 msgstr "Impossible d'importer les nouveaux flux."
 
-#: newspipe/web/views/user.py:134
+#: newspipe/web/views/user.py:140
 msgid "Account imported."
 msgstr "Compte importé."
 
-#: newspipe/web/views/user.py:136
+#: newspipe/web/views/user.py:142
 msgid "Impossible to import the account."
 msgstr "Impossible d'importer le compte."
 
-#: newspipe/web/views/user.py:189
+#: newspipe/web/views/user.py:195
 msgid "Note deleted."
 msgstr "Note supprimée."
 
-#: newspipe/web/views/user.py:226
+#: newspipe/web/views/user.py:232
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr "Problème lors de la mise à jour de votre profil : %(error)s"
 
-#: newspipe/web/views/user.py:278
+#: newspipe/web/views/user.py:284
 msgid "Two-factor authentication is already enabled."
 msgstr "L'authentification à deux facteurs est déjà activée."
 
-#: newspipe/web/views/user.py:309
+#: newspipe/web/views/user.py:315
 msgid "Two-factor authentication is now enabled."
 msgstr "L'authentification à deux facteurs est maintenant activée."
 
-#: newspipe/web/views/user.py:354
+#: newspipe/web/views/user.py:360
 msgid "Two-factor authentication has been disabled."
 msgstr "L'authentification à deux facteurs a été désactivée."
 
-#: newspipe/web/views/user.py:377
+#: newspipe/web/views/user.py:383
 msgid "New recovery codes generated. The old ones are no longer valid."
 msgstr "Nouveaux codes de récupération générés. Les anciens ne sont plus valides."
 
-#: newspipe/web/views/user.py:390
+#: newspipe/web/views/user.py:396
 msgid "Your account has been deleted."
 msgstr "Votre compte a été supprimé."
 
-#: newspipe/web/views/user.py:407
+#: newspipe/web/views/user.py:413
 msgid "Your account has been confirmed."
 msgstr "Votre compte a été confirmé."
 
-#: newspipe/web/views/user.py:409
+#: newspipe/web/views/user.py:415
 msgid "Impossible to confirm this account."
 msgstr "Impossible de confirmer ce compte."
 

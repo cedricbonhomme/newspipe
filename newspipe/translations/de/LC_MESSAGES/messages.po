@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Newspipe\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-05 22:10+0200\n"
+"POT-Creation-Date: 2026-08-20 22:57+0200\n"
 "PO-Revision-Date: 2026-06-27 23:04+0200\n"
 "Last-Translator: Newspipe\n"
 "Language: de\n"
@@ -1372,7 +1372,7 @@ msgstr "Den Benutzer <i>%(nick)s</i> bearbeiten"
 msgid "Some errors were found"
 msgstr "Einige Fehler wurden gefunden"
 
-#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:232
+#: newspipe/web/views/admin.py:99 newspipe/web/views/user.py:238
 #, python-format
 msgid "User %(nick)s successfully updated"
 msgstr "Benutzer %(nick)s erfolgreich aktualisiert"
@@ -1401,7 +1401,7 @@ msgstr "Dieser Benutzer existiert nicht."
 msgid "User %(nickname)s successfully %(is_active)s"
 msgstr "Benutzer %(nickname)s erfolgreich %(is_active)s"
 
-#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:123
+#: newspipe/web/views/admin.py:176 newspipe/web/views/user.py:127
 msgid "Fetching articles…"
 msgstr "Artikel werden abgerufen…"
 
@@ -1434,7 +1434,7 @@ msgstr "Artikel %(article_title)s gelöscht"
 msgid "%(count)d articles deleted"
 msgstr "%(count)d Artikel gelöscht"
 
-#: newspipe/web/views/article.py:233
+#: newspipe/web/views/article.py:229
 msgid "Error when exporting articles."
 msgstr "Fehler beim Exportieren der Artikel."
 
@@ -1446,7 +1446,7 @@ msgstr "Lesezeichen bearbeiten"
 msgid "Bookmark successfully updated."
 msgstr "Lesezeichen erfolgreich aktualisiert."
 
-#: newspipe/web/views/bookmark.py:182 newspipe/web/views/bookmark.py:243
+#: newspipe/web/views/bookmark.py:182 newspipe/web/views/bookmark.py:239
 msgid "Bookmark successfully created."
 msgstr "Lesezeichen erfolgreich erstellt."
 
@@ -1459,22 +1459,22 @@ msgstr "Lesezeichen %(bookmark_name)s erfolgreich gelöscht."
 msgid "Bookmarks successfully deleted."
 msgstr "Lesezeichen erfolgreich gelöscht."
 
-#: newspipe/web/views/bookmark.py:221
+#: newspipe/web/views/bookmark.py:217
 msgid "Couldn't add bookmark: url missing."
 msgstr "Lesezeichen konnte nicht hinzugefügt werden: URL fehlt."
 
-#: newspipe/web/views/bookmark.py:231
+#: newspipe/web/views/bookmark.py:227
 msgid "Couldn't add bookmark: bookmark already exists."
 msgstr ""
 "Lesezeichen konnte nicht hinzugefügt werden: Lesezeichen existiert "
 "bereits."
 
-#: newspipe/web/views/bookmark.py:257
+#: newspipe/web/views/bookmark.py:253
 #, python-format
 msgid "%(nb_bookmarks)s bookmarks successfully imported."
 msgstr "%(nb_bookmarks)s Lesezeichen erfolgreich importiert."
 
-#: newspipe/web/views/bookmark.py:263
+#: newspipe/web/views/bookmark.py:259
 msgid "Error when importing bookmarks."
 msgstr "Fehler beim Importieren der Lesezeichen."
 
@@ -1566,8 +1566,8 @@ msgstr "Ihr Anmeldeversuch ist abgelaufen. Bitte melden Sie sich erneut an."
 msgid "You have %(nb)d recovery code(s) left."
 msgstr "Sie haben noch %(nb)d Wiederherstellungscode(s)."
 
-#: newspipe/web/views/session_mgmt.py:150 newspipe/web/views/user.py:301
-#: newspipe/web/views/user.py:342 newspipe/web/views/user.py:371
+#: newspipe/web/views/session_mgmt.py:150 newspipe/web/views/user.py:307
+#: newspipe/web/views/user.py:348 newspipe/web/views/user.py:377
 msgid "Invalid code."
 msgstr "Ungültiger Code."
 
@@ -1586,67 +1586,71 @@ msgstr ""
 "Ihr Konto wurde erstellt. Überprüfen Sie Ihre E-Mails, um es zu "
 "bestätigen."
 
-#: newspipe/web/views/user.py:40 newspipe/web/views/user.py:65
+#: newspipe/web/views/user.py:42 newspipe/web/views/user.py:67
 msgid "You must set your profile to public."
 msgstr "Sie müssen Ihr Profil auf öffentlich stellen."
 
-#: newspipe/web/views/user.py:116 newspipe/web/views/user.py:130
-#: newspipe/web/views/user.py:138
+#: newspipe/web/views/user.py:118 newspipe/web/views/user.py:136
+#: newspipe/web/views/user.py:144
 msgid "File not allowed."
 msgstr "Datei nicht erlaubt."
 
-#: newspipe/web/views/user.py:122
+#: newspipe/web/views/user.py:126
 msgid "feeds imported."
 msgstr "Feeds importiert."
 
-#: newspipe/web/views/user.py:125
+#: newspipe/web/views/user.py:129
+msgid "The OPML file is too large."
+msgstr "Die OPML-Datei ist zu groß."
+
+#: newspipe/web/views/user.py:131
 msgid "Impossible to import the new feeds."
 msgstr "Die neuen Feeds konnten nicht importiert werden."
 
-#: newspipe/web/views/user.py:134
+#: newspipe/web/views/user.py:140
 msgid "Account imported."
 msgstr "Konto importiert."
 
-#: newspipe/web/views/user.py:136
+#: newspipe/web/views/user.py:142
 msgid "Impossible to import the account."
 msgstr "Das Konto konnte nicht importiert werden."
 
-#: newspipe/web/views/user.py:189
+#: newspipe/web/views/user.py:195
 msgid "Note deleted."
 msgstr "Notiz gelöscht."
 
-#: newspipe/web/views/user.py:226
+#: newspipe/web/views/user.py:232
 #, python-format
 msgid "Problem while updating your profile: %(error)s"
 msgstr "Problem beim Aktualisieren Ihres Profils: %(error)s"
 
-#: newspipe/web/views/user.py:278
+#: newspipe/web/views/user.py:284
 msgid "Two-factor authentication is already enabled."
 msgstr "Die Zwei-Faktor-Authentifizierung ist bereits aktiviert."
 
-#: newspipe/web/views/user.py:309
+#: newspipe/web/views/user.py:315
 msgid "Two-factor authentication is now enabled."
 msgstr "Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert."
 
-#: newspipe/web/views/user.py:354
+#: newspipe/web/views/user.py:360
 msgid "Two-factor authentication has been disabled."
 msgstr "Die Zwei-Faktor-Authentifizierung wurde deaktiviert."
 
-#: newspipe/web/views/user.py:377
+#: newspipe/web/views/user.py:383
 msgid "New recovery codes generated. The old ones are no longer valid."
 msgstr ""
 "Neue Wiederherstellungscodes wurden generiert. Die alten sind nicht mehr "
 "gültig."
 
-#: newspipe/web/views/user.py:390
+#: newspipe/web/views/user.py:396
 msgid "Your account has been deleted."
 msgstr "Ihr Konto wurde gelöscht."
 
-#: newspipe/web/views/user.py:407
+#: newspipe/web/views/user.py:413
 msgid "Your account has been confirmed."
 msgstr "Ihr Konto wurde bestätigt."
 
-#: newspipe/web/views/user.py:409
+#: newspipe/web/views/user.py:415
 msgid "Impossible to confirm this account."
 msgstr "Dieses Konto konnte nicht bestätigt werden."
 

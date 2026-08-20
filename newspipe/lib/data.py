@@ -36,6 +36,7 @@ import lxml.etree
 import opml
 from flask import jsonify
 
+from newspipe.bootstrap import application
 from newspipe.bootstrap import db
 from newspipe.controllers import BookmarkController, BookmarkTagController
 from newspipe.lib.url_validation import SSRFError, validate_url
@@ -58,13 +59,42 @@ _OPML_PARSER = lxml.etree.XMLParser(
 )
 
 
+class OPMLTooLargeError(ValueError):
+    """Raised when an uploaded OPML file exceeds the configured size limit."""
+
+
+def _opml_max_size():
+    return application.config.get("OPML_MAX_SIZE", 5 * 1024 * 1024)
+
+
+def read_opml_upload(stream):
+    """Read an uploaded OPML file without buffering more than the limit.
+
+    ``import_opml`` needs the whole document in memory, and lxml then builds a
+    tree on top of it, so an unbounded upload is an easy way for a logged-in
+    user to exhaust the worker. Read one byte past the limit: that is enough
+    to tell an oversized upload apart from an acceptable one without pulling
+    the rest of it in.
+    """
+    max_bytes = _opml_max_size()
+    payload = stream.read(max_bytes + 1)
+    if len(payload) > max_bytes:
+        raise OPMLTooLargeError(f"OPML upload exceeds the {max_bytes} byte limit.")
+    return payload
+
+
 def import_opml(nickname, opml_content):
     """
     Import new feeds from an OPML file.
     """
-    user = User.query.filter(User.nickname == nickname).first()
     if isinstance(opml_content, str):
         opml_content = opml_content.encode("utf-8")
+    # Backstop for callers that did not come through read_opml_upload().
+    if len(opml_content) > _opml_max_size():
+        raise OPMLTooLargeError(
+            f"OPML content exceeds the {_opml_max_size()} byte limit."
+        )
+    user = User.query.filter(User.nickname == nickname).first()
     try:
         subscriptions = opml.Opml(lxml.etree.fromstring(opml_content, _OPML_PARSER))
     except Exception:

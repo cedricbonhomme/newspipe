@@ -54,6 +54,9 @@ CRAWLER_MAX_CONCURRENCY = 10
 # Maximum feed body size accepted by the crawler, in bytes (default 10 MiB).
 # Larger responses are rejected to avoid exhausting memory.
 CRAWLER_MAX_FEED_SIZE = 10 * 1024 * 1024
+# Maximum size of an uploaded OPML file, in bytes (default 5 MiB). A
+# subscription list with 10,000 feeds stays well under 1 MiB.
+OPML_MAX_SIZE = 5 * 1024 * 1024
 FEED_REFRESH_INTERVAL = 0
 # Number of days before a feed auto-disabled (after DEFAULT_MAX_ERROR errors)
 # is retried, in case the source has recovered.
