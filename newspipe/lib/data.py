@@ -32,6 +32,7 @@ import datetime
 import json
 import logging
 
+import lxml.etree
 import opml
 from flask import jsonify
 
@@ -43,14 +44,29 @@ from newspipe.models.tag import BookmarkTag
 
 logger = logging.getLogger(__name__)
 
+# ``opml.from_string`` parses with lxml's default parser, which is only as
+# hardened as the installed libxml2 happens to be. Parse with an explicit
+# parser instead so an uploaded OPML file can never pull in an external entity
+# (XXE), fetch a DTD over the network, or blow up memory through entity
+# expansion, whatever version we end up running against.
+_OPML_PARSER = lxml.etree.XMLParser(
+    resolve_entities=False,
+    no_network=True,
+    load_dtd=False,
+    dtd_validation=False,
+    huge_tree=False,
+)
+
 
 def import_opml(nickname, opml_content):
     """
     Import new feeds from an OPML file.
     """
     user = User.query.filter(User.nickname == nickname).first()
+    if isinstance(opml_content, str):
+        opml_content = opml_content.encode("utf-8")
     try:
-        subscriptions = opml.from_string(opml_content)
+        subscriptions = opml.Opml(lxml.etree.fromstring(opml_content, _OPML_PARSER))
     except Exception:
         logger.exception("Parsing OPML file failed:")
         raise
