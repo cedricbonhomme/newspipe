@@ -11,7 +11,7 @@ from bs4 import XMLParsedAsHTMLWarning
 
 from newspipe.bootstrap import application
 from newspipe.lib.url_validation import SSRFError
-from newspipe.lib.url_validation import validate_url
+from newspipe.lib.utils import newspipe_get
 from newspipe.lib.utils import rebuild_url
 from newspipe.lib.utils import try_get_icon_url
 from newspipe.lib.utils import try_keys
@@ -59,8 +59,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         url = fp_parsed.get("url")
     if url is not None and fp_parsed is None:
         try:
-            validate_url(url)
-            response = requests.get(url, **requests_kwargs)
+            response = newspipe_get(url, **requests_kwargs)
             fp_parsed = feedparser.parse(
                 response.content, request_headers=response.headers
             )
@@ -68,10 +67,10 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
             # A dead or unresolvable URL is expected for stale feeds; log it
             # concisely without a stack trace.
             logger.warning("skipping %r: %s", url, error)
-            fp_parsed = {"bozo": True}
+            fp_parsed = {"bozo": True, "entries": []}
         except Exception:
             logger.exception("failed to retrieve that url")
-            fp_parsed = {"bozo": True}
+            fp_parsed = {"bozo": True, "entries": []}
 
     assert url is not None and fp_parsed is not None
     feed = feed or {}
@@ -103,8 +102,7 @@ def construct_feed_from(url=None, fp_parsed=None, feed=None, query_site=True):
         return feed
 
     try:
-        validate_url(feed["site_link"])
-        response = requests.get(feed["site_link"], **requests_kwargs)
+        response = newspipe_get(feed["site_link"], **requests_kwargs)
     except requests.exceptions.InvalidSchema:
         return feed
     except requests.exceptions.ConnectionError:

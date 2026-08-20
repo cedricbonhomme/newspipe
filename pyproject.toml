@@ -63,6 +63,7 @@ black = "^26.3.1"
 pyupgrade = "^3.15.0"
 pip-audit = "^2.7.3"
 types-python-dateutil = "^2.8.19.14"
+pytest = "^9.1.1"
 
 
 [tool.poetry.group.dev]
@@ -88,3 +89,9 @@ exclude = "migrations|docs"
 
 [tool.isort]
 profile = "black"
+
+[tool.pytest.ini_options]
+# The project is normally run from a checkout rather than installed, so make
+# the repository root importable for the test modules.
+pythonpath = ["."]
+testpaths = ["tests"]
