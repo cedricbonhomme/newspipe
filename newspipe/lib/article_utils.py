@@ -21,6 +21,12 @@ from newspipe.lib.utils import newspipe_get
 
 logger = logging.getLogger(__name__)
 PROCESSED_DATE_KEYS = {"published", "created", "updated"}
+HTML_CONTENT_TYPES = {"text/html", "application/xhtml+xml"}
+
+
+def _content_richness(content):
+    """Sort key for feedparser content elements: HTML first, then longest."""
+    return content.get("type") in HTML_CONTENT_TYPES, len(content.get("value") or "")
 
 
 def extract_id(entry):
@@ -80,12 +86,24 @@ async def construct_article(entry, feed, fields=None, fetch=True):
 
 
 def get_article_content(entry):
-    content = ""
-    if entry.get("content"):
-        content = entry["content"][0]["value"]
-    elif entry.get("summary"):
-        content = entry["summary"]
-    return sanitize_html_fragment(content)
+    """Return the richest body feedparser could extract from ``entry``.
+
+    feedparser folds more than ``<content:encoded>`` into ``entry["content"]``:
+    a ``<media:description>`` (the caption of a ``<media:content>`` image) lands
+    there too, and feeds that carry both list the caption first. Taking
+    ``content[0]`` therefore stores a one-line caption as the whole article, so
+    pick the HTML payload instead, and the longest one when several qualify.
+    """
+    contents = entry.get("content") or []
+    summary = entry.get("summary") or ""
+    if contents:
+        best = max(contents, key=_content_richness)
+        value = best.get("value") or ""
+        # A non-HTML winner is a caption or a plain-text teaser; the summary may
+        # well say more, so keep whichever is longer.
+        if best.get("type") in HTML_CONTENT_TYPES or len(value) >= len(summary):
+            return sanitize_html_fragment(value)
+    return sanitize_html_fragment(summary)
 
 
 async def get_article_details(entry, fetch=True):
