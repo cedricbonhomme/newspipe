@@ -23,6 +23,21 @@ def validate_url(url):
     Raises SSRFError if validation fails.
     Returns the URL unchanged if valid.
     """
+    resolve_validated_ip(url)
+    return url
+
+
+def resolve_validated_ip(url):
+    """Validate ``url`` as :func:`validate_url` does and return the IP address
+    its hostname resolved to.
+
+    Callers that go on to make the request should connect to this exact
+    address. Letting the HTTP client resolve the hostname a second time
+    reopens a DNS-rebinding window: an attacker-controlled record can answer
+    the validation lookup with a public address and the connection lookup with
+    an internal one, so the address that is checked is never the address that
+    is used.
+    """
     parsed = urlsplit(url)
 
     if parsed.scheme not in ("http", "https"):
@@ -35,12 +50,12 @@ def validate_url(url):
     if not hostname:
         raise SSRFError("URL has no hostname.")
 
-    _check_hostname(hostname)
-    return url
+    return _check_hostname(hostname)
 
 
 def _check_hostname(hostname):
-    """Resolve a hostname and verify none of its addresses are internal."""
+    """Resolve a hostname, verify none of its addresses are internal and
+    return the first one."""
     try:
         addrinfos = socket.getaddrinfo(hostname, None, proto=socket.IPPROTO_TCP)
     except socket.gaierror as exc:
@@ -53,6 +68,8 @@ def _check_hostname(hostname):
         ip = ipaddress.ip_address(sockaddr[0])
         if _is_blocked_ip(ip):
             raise SSRFError(f"URL resolves to a blocked IP address ({ip}).")
+
+    return addrinfos[0][4][0]
 
 
 def _is_blocked_ip(ip):

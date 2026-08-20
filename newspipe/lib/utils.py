@@ -12,12 +12,13 @@ from urllib.parse import urlunparse
 from urllib.parse import urlunsplit
 
 import requests  # type: ignore[import-untyped]
+import urllib3
 from flask import request
 from flask import url_for
 from pyvulnerabilitylookup import PyVulnerabilityLookup
 
 from newspipe.bootstrap import application
-from newspipe.lib.url_validation import validate_url
+from newspipe.lib.url_validation import resolve_validated_ip
 
 logger = logging.getLogger(__name__)
 
@@ -158,8 +159,104 @@ def remove_utm_parameters(url: str) -> str:
 _MAX_REDIRECTS = 10
 
 
+class _PinnedIPHTTPConnection(urllib3.connection.HTTPConnection):
+    """Connect to a pre-validated IP instead of resolving the hostname again.
+
+    ``_dns_host`` is what urllib3 hands to ``create_connection``; ``host`` --
+    used afterwards for the Host header, the SNI name and certificate
+    validation -- is only read back once ``_new_conn`` has returned. Swapping
+    the value for the duration of the lookup therefore redirects the
+    connection without altering anything the peer gets to see.
+    """
+
+    def __init__(self, *args, pinned_ip=None, **kwargs):
+        self.pinned_ip = pinned_ip
+        super().__init__(*args, **kwargs)
+
+    def _new_conn(self):
+        if not self.pinned_ip:
+            return super()._new_conn()
+        hostname = self._dns_host
+        self._dns_host = self.pinned_ip
+        try:
+            return super()._new_conn()
+        finally:
+            self._dns_host = hostname
+
+
+class _PinnedIPHTTPSConnection(
+    _PinnedIPHTTPConnection, urllib3.connection.HTTPSConnection
+):
+    pass
+
+
+class _PinnedIPHTTPConnectionPool(urllib3.HTTPConnectionPool):
+    ConnectionCls = _PinnedIPHTTPConnection
+
+
+class _PinnedIPHTTPSConnectionPool(urllib3.HTTPSConnectionPool):
+    ConnectionCls = _PinnedIPHTTPSConnection
+
+
+_PINNED_IP_POOL_CLASSES = {
+    "http": _PinnedIPHTTPConnectionPool,
+    "https": _PinnedIPHTTPSConnectionPool,
+}
+
+
+class _PinnedIPPoolManager(urllib3.PoolManager):
+    """PoolManager handing out pools that connect to ``pinned_ip``.
+
+    The address is injected into each pool's ``conn_kw`` after the fact rather
+    than through ``connection_pool_kw``: pools are keyed by a fixed-field
+    namedtuple, so an unknown keyword there is rejected outright.
+    """
+
+    def __init__(self, pinned_ip, *args, **kwargs):
+        self.pinned_ip = pinned_ip
+        super().__init__(*args, **kwargs)
+        self.pool_classes_by_scheme = _PINNED_IP_POOL_CLASSES
+
+    def _new_pool(self, scheme, host, port, request_context=None):
+        pool = super()._new_pool(scheme, host, port, request_context)
+        pool.conn_kw["pinned_ip"] = self.pinned_ip
+        return pool
+
+
+class _PinnedIPAdapter(requests.adapters.HTTPAdapter):
+    """Transport adapter whose connections all target ``pinned_ip``."""
+
+    def __init__(self, pinned_ip, **kwargs):
+        self._pinned_ip = pinned_ip
+        super().__init__(**kwargs)
+
+    def init_poolmanager(self, connections, maxsize, block=False, **pool_kwargs):
+        self._pool_connections = connections
+        self._pool_maxsize = maxsize
+        self._pool_block = block
+        self.poolmanager = _PinnedIPPoolManager(
+            self._pinned_ip,
+            num_pools=connections,
+            maxsize=maxsize,
+            block=block,
+            **pool_kwargs,
+        )
+
+
+def _get_pinned(url, ip, **request_kwargs):
+    """GET ``url``, connecting only to ``ip``."""
+    with requests.Session() as session:
+        # Environment proxies would route the request through a resolver we do
+        # not control, silently defeating the pin. Newspipe never crawls
+        # through a proxy, so opt out of them entirely.
+        session.trust_env = False
+        session.mount("http://", _PinnedIPAdapter(ip))
+        session.mount("https://", _PinnedIPAdapter(ip))
+        return session.get(url, **request_kwargs)
+
+
 def newspipe_get(url, **kwargs):
-    validate_url(url)
+    ip = resolve_validated_ip(url)
     request_kwargs = {
         "verify": False,
         "timeout": application.config["CRAWLER_TIMEOUT"],
@@ -168,7 +265,7 @@ def newspipe_get(url, **kwargs):
     request_kwargs.update(kwargs)
     request_kwargs["allow_redirects"] = False
 
-    response = requests.get(url, **request_kwargs)
+    response = _get_pinned(url, ip, **request_kwargs)
     for _ in range(_MAX_REDIRECTS):
         if not (response.is_redirect or response.is_permanent_redirect):
             break
@@ -176,8 +273,8 @@ def newspipe_get(url, **kwargs):
         if not location:
             break
         url = urljoin(response.url, location)
-        validate_url(url)
-        response = requests.get(url, **request_kwargs)
+        ip = resolve_validated_ip(url)
+        response = _get_pinned(url, ip, **request_kwargs)
     return response
 
 

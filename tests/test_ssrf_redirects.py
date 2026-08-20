@@ -3,7 +3,7 @@
 # Validating only the URL the user supplied is not enough: an attacker-controlled
 # host that passes validation can answer with a 302 pointing at an internal
 # address. ``newspipe_get`` follows redirects itself so each hop goes through
-# ``validate_url``; these tests pin that behaviour down.
+# ``resolve_validated_ip``; these tests pin that behaviour down.
 import threading
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
@@ -13,8 +13,10 @@ import requests
 
 from newspipe.lib import feed_utils
 from newspipe.lib import utils
+from newspipe.lib.url_validation import (
+    resolve_validated_ip as real_resolve_validated_ip,
+)
 from newspipe.lib.url_validation import SSRFError
-from newspipe.lib.url_validation import validate_url as real_validate_url
 from newspipe.lib.utils import newspipe_get
 
 INTERNAL_BODY = b"internal-service-response"
@@ -76,10 +78,12 @@ def entry_url_allowed(monkeypatch):
     """
 
     def _allow(entry):
-        def fake_validate_url(url):
-            return url if url == entry else real_validate_url(url)
+        def fake_resolve_validated_ip(url):
+            if url == entry:
+                return "127.0.0.1"
+            return real_resolve_validated_ip(url)
 
-        monkeypatch.setattr(utils, "validate_url", fake_validate_url)
+        monkeypatch.setattr(utils, "resolve_validated_ip", fake_resolve_validated_ip)
 
     return _allow
 
