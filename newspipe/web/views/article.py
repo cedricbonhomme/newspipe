@@ -12,7 +12,6 @@ from flask import url_for
 from flask_babel import gettext
 from flask_login import current_user
 from flask_login import login_required
-from flask_paginate import get_page_args
 from flask_paginate import Pagination
 
 from newspipe.bootstrap import db
@@ -24,13 +23,13 @@ from newspipe.lib.utils import clear_string
 from newspipe.lib.utils import safe_redirect_url
 from newspipe.models.note import MAX_NOTE_LENGTH
 from newspipe.web.lib.view_utils import etag_match
+from newspipe.web.lib.view_utils import paginate_args
 
 articles_bp = Blueprint("articles", __name__, url_prefix="/articles")
 article_bp = Blueprint("article", __name__, url_prefix="/article")
 
 READ_LATER_ALLOWED_DAYS = (1, 10, 30)
 HISTORY_PER_PAGE = 50
-HISTORY_MAX_PER_PAGE = 200
 
 
 @article_bp.route("/redirect/<int:article_id>", methods=["GET"])
@@ -174,15 +173,9 @@ def history(year=None, month=None):
         )
 
     cntr, articles = ArticleController(current_user.id).get_history(year, month)
-    page, per_page, offset = get_page_args(
+    page, per_page, offset = paginate_args(
         per_page_parameter="per_page", per_page=HISTORY_PER_PAGE
     )
-    # Both come straight from the query string: keep the page bounded so it
-    # can't be talked into rendering a whole month, and keep the offset
-    # positive since PostgreSQL rejects a negative OFFSET.
-    per_page = min(max(per_page, 1), HISTORY_MAX_PER_PAGE)
-    page = max(page, 1)
-    offset = (page - 1) * per_page
     pagination = Pagination(
         page=page,
         # The aggregate already counted the month, so no extra COUNT query.

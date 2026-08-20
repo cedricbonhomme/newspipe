@@ -13,7 +13,6 @@ from flask import url_for
 from flask_babel import gettext
 from flask_login import current_user
 from flask_login import login_required
-from flask_paginate import get_page_args
 from flask_paginate import Pagination
 from werkzeug.exceptions import BadRequest
 
@@ -29,6 +28,7 @@ from newspipe.lib.url_validation import SSRFError
 from newspipe.lib.url_validation import validate_url
 from newspipe.web.forms import AddFeedForm
 from newspipe.web.lib.view_utils import etag_match
+from newspipe.web.lib.view_utils import paginate_args
 
 logger = logging.getLogger(__name__)
 feeds_bp = Blueprint("feeds", __name__, url_prefix="/feeds")
@@ -64,7 +64,7 @@ def feed_view(feed_id=None, user_id=None):
     articles = ArticleController(user_id).read_light(**filters)
 
     # Server-side pagination
-    page, per_page, offset = get_page_args(per_page_parameter="per_page")
+    page, per_page, offset = paginate_args(per_page_parameter="per_page")
     pagination = Pagination(
         page=page,
         total=articles.count(),

@@ -37,7 +37,7 @@ from flask import (
 )
 from flask_babel import gettext
 from flask_login import current_user, login_required
-from flask_paginate import Pagination, get_page_args
+from flask_paginate import Pagination
 from werkzeug.exceptions import BadRequest
 
 from newspipe.bootstrap import db
@@ -45,15 +45,18 @@ from newspipe.controllers import BookmarkController
 from newspipe.lib.data import export_bookmarks, import_pinboard_json
 from newspipe.lib.utils import safe_redirect_url
 from newspipe.web.forms import BookmarkForm
+from newspipe.web.lib.view_utils import paginate_args
 
 logger = logging.getLogger(__name__)
 bookmarks_bp = Blueprint("bookmarks", __name__, url_prefix="/bookmarks")
 bookmark_bp = Blueprint("bookmark", __name__, url_prefix="/bookmark")
 
+BOOKMARKS_PER_PAGE = 50
 
-@bookmarks_bp.route("/", defaults={"per_page": "50"}, methods=["GET"])
-@bookmarks_bp.route("/<string:status>", defaults={"per_page": "50"}, methods=["GET"])
-def list_(per_page, status="all"):
+
+@bookmarks_bp.route("/", methods=["GET"])
+@bookmarks_bp.route("/<string:status>", methods=["GET"])
+def list_(status="all"):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]
     user_id = None
@@ -96,7 +99,7 @@ def list_(per_page, status="all"):
         # BookmarkController(user_id).read(**filters).limit(1000)
     )
 
-    page, per_page, offset = get_page_args()
+    page, per_page, offset = paginate_args(per_page=BOOKMARKS_PER_PAGE)
     pagination = Pagination(
         page=page,
         total=bookmarks.count(),
