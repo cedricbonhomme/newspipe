@@ -4,6 +4,7 @@
 <script src="{{ url_for('static', filename='npm_components/chart.js/dist/chart.umd.js') }}"></script>
 <script src="{{ url_for('static', filename='npm_components/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js') }}"></script>
 <style>
+  .history-pagination { white-space: nowrap; }
   .chart-container {
     display: block;
     float: none;
@@ -41,6 +42,12 @@
   {% if year != None and month != None %}
   <div class="row">
     <div class="col">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+        <small class="text-muted">{{ pagination.info }}</small>
+      </div>
+      {% if pagination.links %}
+      <div class="d-flex overflow-auto mb-3 history-pagination">{{ pagination.links }}</div>
+      {% endif %}
       <ul class="list-group">
         {% set ns = namespace(day=None) %}
         {% for article in articles %}
@@ -49,6 +56,9 @@
         {% set ns.day = article.date.day %}
         {% endfor %}
       </ul>
+      {% if pagination.links %}
+      <div class="d-flex overflow-auto mt-3 history-pagination">{{ pagination.links }}</div>
+      {% endif %}
     </div>
   </div>
   {% endif %}
