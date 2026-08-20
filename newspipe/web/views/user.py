@@ -7,7 +7,6 @@ from flask import url_for
 from flask_babel import gettext
 from flask_login import current_user
 from flask_login import login_required
-from flask_paginate import get_page_args
 from flask_paginate import Pagination
 
 from newspipe.bootstrap import application
@@ -25,8 +24,11 @@ from newspipe.lib.data import OPMLTooLargeError
 from newspipe.lib.data import read_opml_upload
 from newspipe.web.forms import ProfileForm
 from newspipe.web.lib.user_utils import confirm_token
+from newspipe.web.lib.view_utils import paginate_args
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
+
+STREAM_PER_PAGE = 25
 
 
 @user_bp.route("/<string:nickname>", methods=["GET"])
@@ -53,10 +55,8 @@ def profile_public(nickname=None):
     )
 
 
-@user_bp.route(
-    "/<string:nickname>/stream", defaults={"per_page": "25"}, methods=["GET"]
-)
-def user_stream(per_page, nickname=None):
+@user_bp.route("/<string:nickname>/stream", methods=["GET"])
+def user_stream(nickname=None):
     """
     Display the stream of a user (list of articles of public feed).
     """
@@ -85,7 +85,9 @@ def user_stream(per_page, nickname=None):
     articles = ArticleController(user.id).read_ordered(**filters)
 
     # Server-side pagination
-    page, per_page, offset = get_page_args(per_page_parameter="per_page")
+    page, per_page, offset = paginate_args(
+        per_page_parameter="per_page", per_page=STREAM_PER_PAGE
+    )
     pagination = Pagination(
         page=page,
         total=articles.count(),
@@ -168,7 +170,7 @@ def notes():
     """
     query = ArticleNoteController(current_user.id).read_ordered_desc()
 
-    page, per_page, offset = get_page_args()
+    page, per_page, offset = paginate_args()
     pagination = Pagination(
         page=page,
         total=query.count(),
