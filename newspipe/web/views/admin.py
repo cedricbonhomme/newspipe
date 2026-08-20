@@ -181,8 +181,4 @@ def fetch(feed_id=None):
             ),
             "info",
         )
-    url = safe_redirect_url()
-    if url:
-        return redirect(url)
-    else:
-        return "Error"
+    return redirect(safe_redirect_url())

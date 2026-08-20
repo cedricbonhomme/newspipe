@@ -97,11 +97,42 @@ def clear_string(data):
     return p.sub("", q.sub(" ", data))
 
 
+def _is_internal_url(candidate):
+    """Return the absolute form of ``candidate`` if it points back at this
+    application, otherwise None.
+
+    A candidate is accepted when it resolves, relative to the current request,
+    to an http(s) URL on the very same host. That rejects absolute off-site
+    URLs, protocol-relative ones (``//evil.example``) and non-http schemes
+    such as ``javascript:``.
+    """
+    try:
+        resolved = urlparse(urljoin(request.host_url, candidate))
+    except ValueError:
+        return None
+    if resolved.scheme not in ("http", "https"):
+        return None
+    if resolved.netloc != urlparse(request.host_url).netloc:
+        return None
+    # Hand back the absolute URL rather than the raw candidate: a path such as
+    # "/\\evil.example" is same-host here but would be read as a
+    # protocol-relative URL by the browser if echoed verbatim in Location.
+    return resolved.geturl()
+
+
 def safe_redirect_url(default="home"):
-    next_url = request.args.get("next") or request.referrer or url_for(default)
-    if next_url and urlparse(next_url).netloc != "":
-        return next_url
-    return None
+    """Return a URL that is safe to redirect the user to.
+
+    Honours the ``next`` parameter, then the referrer, but only while they
+    stay on this host; anything else falls back to ``default``.
+    """
+    for candidate in (request.args.get("next"), request.referrer):
+        if not candidate:
+            continue
+        internal_url = _is_internal_url(candidate)
+        if internal_url:
+            return internal_url
+    return url_for(default)
 
 
 def remove_utm_parameters(url: str) -> str:

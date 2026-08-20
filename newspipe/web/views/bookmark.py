@@ -205,11 +205,7 @@ def delete_all():
     BookmarkController(current_user.id).read().delete()
     db.session.commit()
     flash(gettext("Bookmarks successfully deleted."), "success")
-    url = safe_redirect_url()
-    if url:
-        return redirect(url)
-    else:
-        return "Error"
+    return redirect(safe_redirect_url())
 
 
 @bookmark_bp.route("/bookmarklet", methods=["GET", "POST"])
@@ -262,11 +258,7 @@ def import_pinboard():
         except Exception:
             flash(gettext("Error when importing bookmarks."), "error")
 
-    url = safe_redirect_url()
-    if url:
-        return redirect(url)
-    else:
-        return "Error"
+    return redirect(safe_redirect_url())
 
 
 @bookmarks_bp.route("/export", methods=["GET"])

@@ -212,11 +212,7 @@ def expire():
     query.delete()
     db.session.commit()
     flash(gettext("%(count)d articles deleted", count=count), "info")
-    url = safe_redirect_url()
-    if url:
-        return redirect(url)
-    else:
-        return "Error"
+    return redirect(safe_redirect_url())
 
 
 @articles_bp.route("/export", methods=["GET"])
@@ -231,11 +227,7 @@ def export():
         json_result = export_json(user)
     except Exception:
         flash(gettext("Error when exporting articles."), "danger")
-        url = safe_redirect_url()
-        if url:
-            return redirect(url)
-        else:
-            return "Error"
+        return redirect(safe_redirect_url())
     response = make_response(json_result)
     response.mimetype = "application/json"
     response.headers["Content-Disposition"] = "attachment; filename=account.json"
