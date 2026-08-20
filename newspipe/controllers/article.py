@@ -85,24 +85,48 @@ class ArticleController(AbstractController):
                 pass
         return super().update(filters, attrs)
 
+    @staticmethod
+    def _period_bounds(year, month=None):
+        """Half-open [start, end) datetime range covering a year or a month.
+
+        Comparing the indexed column against a range keeps the query sargable,
+        unlike ``extract(... from date) == value`` which forces a full scan.
+        """
+        if month is None:
+            return datetime(year, 1, 1), datetime(year + 1, 1, 1)
+        if month == 12:
+            return datetime(year, 12, 1), datetime(year + 1, 1, 1)
+        return datetime(year, month, 1), datetime(year, month + 1, 1)
+
     def get_history(self, year=None, month=None):
         """
         Sort articles by year and month.
+
+        Returns a counter of articles per year (or per month when a year is
+        given) and the matching articles.  The counter is computed with a SQL
+        aggregate: materializing every row just to count them does not scale
+        past a few thousand articles.  The returned query is lazy, so callers
+        that only need the counter never pay for fetching the rows.
         """
-        articles_counter = Counter()
         articles = self.read_light()
+        # Rows with no date cannot be placed on the timeline at all.
+        counted = super().read().filter(Article.date.isnot(None))
         if year is not None:
-            articles = articles.filter(sqlalchemy.extract("year", Article.date) == year)
-            if month is not None:
-                articles = articles.filter(
-                    sqlalchemy.extract("month", Article.date) == month
-                )
-        if year is not None:
-            for article in articles.all():
-                articles_counter[article.date.month] += 1
+            start, end = self._period_bounds(year, month)
+            articles = articles.filter(Article.date >= start, Article.date < end)
+            counted = counted.filter(Article.date >= start, Article.date < end)
+            bucket = sqlalchemy.extract("month", Article.date)
         else:
-            for article in articles.all():
-                articles_counter[article.date.year] += 1
+            bucket = sqlalchemy.extract("year", Article.date)
+
+        rows = (
+            counted.with_entities(bucket.label("bucket"), func.count(Article.id))
+            .order_by(None)
+            .group_by("bucket")
+            .all()
+        )
+        # extract() yields a Decimal on PostgreSQL; the chart expects integers.
+        articles_counter = Counter({int(key): count for key, count in rows})
         return articles_counter, articles
 
     def read_light(self, **filters):

@@ -83,6 +83,9 @@ class Article(db.Model, RightMixin):
         #     Index("user_id", "feed_id"),
         #     Index("ix_article_uid_fid_eid", user_id, feed_id, entry_id),
         Index("ix_article_feed_date", "feed_id", "date"),
+        # Every user-scoped query filters on user_id; the history/stats views
+        # additionally group or range-filter on date.
+        Index("ix_article_user_date", "user_id", "date"),
     )
 
     # api whitelists

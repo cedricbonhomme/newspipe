@@ -35,11 +35,9 @@ import urllib
 from collections import Counter
 from contextlib import contextmanager
 
-import sqlalchemy
 from flask import request
 
 from newspipe.bootstrap import application
-from newspipe.controllers import ArticleController
 from newspipe.lib.utils import clear_string
 
 
@@ -110,26 +108,6 @@ def fetch(id, feed_id=None):
     if feed_id:
         cmd.extend(["--feed-id", str(feed_id)])
     return subprocess.Popen(cmd, stdout=subprocess.PIPE, env=env)
-
-
-def history(user_id, year=None, month=None):
-    """
-    Sort articles by year and month.
-    """
-    articles_counter = Counter()
-    articles = ArticleController(user_id).read()
-    if year is not None:
-        articles = articles.filter(sqlalchemy.extract("year", "Article.date") == year)
-        if month is not None:
-            articles = articles.filter(
-                sqlalchemy.extract("month", "Article.date") == month
-            )
-    for article in articles.all():
-        if year is not None:
-            articles_counter[article.date.month] += 1
-        else:
-            articles_counter[article.date.year] += 1
-    return articles_counter, articles
 
 
 def clean_url(url):
