@@ -1,6 +1,32 @@
 Newspipe Changelog
 ==================
 
+## 12.2.2 (2026-08-22)
+
+### Security
+
+- Fixed an open redirect in `safe_redirect_url()`: the same-site check was inverted, so `?next=https://evil.example` sent authenticated users off-site. Redirect targets are now resolved against the request host and only accepted when they land on an http(s) URL on the very same host.
+- The feed URL fetcher (`construct_feed_from`) now goes through `newspipe_get` and validates every redirect hop, closing the remaining SSRF gap left open by the GHSA-4vg7-v5pw-w67p fix.
+- Closed the DNS-rebinding window of the SSRF guard: the crawler and the feed importer now connect to the exact IP address that was validated (TLS verification, SNI and the Host header still use the real hostname), and no longer honour environment proxies.
+- Imported OPML files are now parsed with a hardened XML parser (entity resolution, DTD loading and network access disabled).
+- Capped the size of uploaded OPML files with the new `OPML_MAX_SIZE` setting (5 MiB by default).
+
+### Improvements
+
+- The article history page and its `/stats/history.json` chart data are now aggregated in SQL, with a new `(user_id, date)` index on articles. Run `flask db upgrade` after updating.
+- The monthly article history is now paginated (50 articles per page).
+- Added a pytest test suite covering the SSRF guard, the IP pinning, the redirect validation, the OPML import and the article content selection.
+- Updated Python and JavaScript dependencies.
+
+### Fixes
+
+- The crawler now stores the richest content of a feed entry instead of the first one, so image captions (e.g. in Ghost-generated feeds) no longer shadow the article body. This only affects newly fetched articles.
+- Bounded `page` and `per_page` in the feed, bookmark, history, user stream and notes listings: a negative offset no longer causes an error on PostgreSQL, and an arbitrarily large `per_page` no longer renders the whole listing in one page.
+- Fixed a 500 error on the bookmarks and public stream pages when `per_page` differed from the default value.
+- Fixed the day header of the monthly history page being skipped when the first article fell on the 1st.
+- Feed fetch failures no longer raise `KeyError: 'entries'`.
+
+
 ## 12.2.1 (2026-08-09)
 
 ### Security
