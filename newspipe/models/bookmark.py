@@ -63,17 +63,15 @@ class Bookmark(db.Model, RightMixin):  # type: ignore[name-defined]
 
     @validates("title")
     def validates_title(self, key, value):
-        value = value.strip()
-        assert 3 <= len(value) <= 50, AssertionError("Maximum length for title: 50")
+        value = str(value).strip()
+        assert len(value) <= 500, "Maximum length for title: 500"
         cleaned = sanitize_text(value)
         return cleaned
 
     @validates("description")
     def validates_description(self, key, value):
-        value = value.strip()
-        assert 3 <= len(value) <= 50, AssertionError(
-            "Maximum length for description: 250"
-        )
+        value = str(value).strip()
+        assert len(value) <= 500, "Maximum length for description: 500"
         cleaned = sanitize_text(value)
         return cleaned
 

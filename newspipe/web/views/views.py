@@ -51,7 +51,7 @@ def internal_server_error(error):
 
 @current_app.errorhandler(AssertionError)
 def handle_sqlalchemy_assertion_error(error):
-    return error.args[0], 400
+    return str(error) or gettext("Bad request."), 400
 
 
 @current_app.route("/popular", methods=["GET"])

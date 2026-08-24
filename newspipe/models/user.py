@@ -115,41 +115,37 @@ class User(db.Model, UserMixin, RightMixin):
     @validates("nickname")
     def validates_nickname(self, key: str, value: str) -> str:
         cleaned = re.sub("[^a-zA-Z0-9_-]", "", value.strip())
-        assert 3 <= len(cleaned) <= 30, AssertionError("Maximum length for login: 30")
+        assert 3 <= len(cleaned) <= 30, "Maximum length for login: 30"
         existing = (
             db.session.query(User)
             .filter(db.func.lower(User.nickname) == cleaned.lower())
             .first()
         )
-        assert existing is None, AssertionError("Login already taken.")
+        assert existing is None, "Login already taken."
         return re.sub("[^a-zA-Z0-9_-]", "", value.strip())
 
     @validates("bio")
     def validates_bio(self, key: str, value: str) -> str:
         cleaned = value.strip()
-        assert 0 <= len(cleaned) <= 5000, AssertionError("Maximum length for bio: 5000")
+        assert 0 <= len(cleaned) <= 5000, "Maximum length for bio: 5000"
         cleaned = sanitize_text(cleaned)
         return cleaned
 
     @validates("github")
     def validates_github(self, key: str, value: str) -> str:
-        assert 0 <= len(value) <= 39, AssertionError("Maximum length for GitHub: 39")
+        assert 0 <= len(value) <= 39, "Maximum length for GitHub: 39"
         if value.strip():
             github_regex = r"^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$"
-            assert re.match(github_regex, value) is not None, AssertionError(
-                "Invalid GitHub username."
-            )
+            assert re.match(github_regex, value) is not None, "Invalid GitHub username."
         return value
 
     @validates("linkedin")
     def validates_linkedin(self, key: str, value: str) -> str:
-        assert 0 <= len(value) <= 30, AssertionError("Maximum length for LinkedIn: 30")
+        assert 0 <= len(value) <= 30, "Maximum length for LinkedIn: 30"
         if value.strip():
             allowed = r"a-zA-Z\dàâäéèêëîïôöùûüçñÀÂÄÉÈÊËÎÏÔÖÙÛÜÇÑ"
             linkedin_regex = rf"^[{allowed}](?:[{allowed}-]{{0,28}}[{allowed}])?$"
-            assert re.match(linkedin_regex, value), AssertionError(
-                "Invalid LinkedIn username."
-            )
+            assert re.match(linkedin_regex, value), "Invalid LinkedIn username."
         return value
 
     def check_password(self, password):

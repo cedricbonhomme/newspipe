@@ -30,7 +30,7 @@ class Category(db.Model, RightMixin):  # type: ignore[name-defined]
 
     @validates("name")
     def validates_name(self, key: str, value: str) -> str:
-        assert 3 <= len(value) <= 20, AssertionError("Maximum length for name: 20")
+        assert 3 <= len(value) <= 20, "Maximum length for name: 20"
         value = value.strip()
         cleaned = sanitize_text(value)
         return cleaned
