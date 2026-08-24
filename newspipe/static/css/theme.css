@@ -372,12 +372,14 @@ a:hover {
 }
 
 /* ---- Filter tabs (All / Read / Unread / Liked) -------------------------- */
-#filters .nav-tabs {
+#filters .nav-tabs,
+.np-subnav .nav-tabs {
   --bs-nav-tabs-border-color: var(--np-border);
   border-bottom: 1px solid var(--np-border);
   gap: 0.15rem;
 }
-#filters .nav-tabs .nav-link {
+#filters .nav-tabs .nav-link,
+.np-subnav .nav-tabs .nav-link {
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--np-muted);
@@ -385,14 +387,26 @@ a:hover {
   border-radius: 0.4rem 0.4rem 0 0;
   margin-bottom: -1px;
 }
-#filters .nav-tabs .nav-link:hover {
+#filters .nav-tabs .nav-link:hover,
+.np-subnav .nav-tabs .nav-link:hover {
   color: var(--np-ink);
   background: var(--np-accent-soft);
 }
-#filters .nav-tabs .nav-link.active {
+#filters .nav-tabs .nav-link.active,
+.np-subnav .nav-tabs .nav-link.active {
   color: var(--np-accent);
   background: transparent;
   border-bottom-color: var(--np-accent);
+}
+
+/* A toolbar row whose bottom hairline is shared by the tabs and any tools
+   (search, buttons) sitting next to them, so everything lines up with the
+   content edges below. */
+.np-subnav {
+  border-bottom: 1px solid var(--np-border);
+}
+.np-subnav .nav-tabs {
+  border-bottom: 0;
 }
 
 /* ---- Article list ------------------------------------------------------- */
@@ -511,6 +525,116 @@ tr.article td a[target="_blank"] {
 /* Infinite-scroll spinner. */
 #scroll-sentinel {
   color: var(--np-muted);
+}
+
+/* ---- Bookmarks ---------------------------------------------------------- */
+.bm-search {
+  max-width: 260px;
+}
+
+/* Titles read as content (like article titles), not as bare hyperlinks. */
+.bm-title a {
+  color: var(--np-ink);
+  font-weight: 500;
+}
+.bm-title a:hover {
+  color: var(--np-accent);
+  text-decoration: none;
+}
+.bm-host {
+  font-family: var(--np-mono);
+  font-size: 0.75rem;
+  color: var(--np-muted);
+  overflow-wrap: anywhere;
+}
+
+/* Long descriptions stay to two lines so rows keep an even rhythm. */
+.bm-desc {
+  color: var(--np-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tags and active-filter chips share the sidebar pills' mono "data" voice. */
+.bm-tag,
+.bm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--np-mono);
+  font-size: 0.75rem;
+  color: var(--np-muted);
+  background: var(--np-surface-2);
+  border: 1px solid var(--np-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+.bm-tag:hover,
+.bm-chip:hover {
+  color: var(--np-accent);
+  background: var(--np-accent-soft);
+  text-decoration: none;
+}
+
+.bm-flag {
+  color: var(--np-muted);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.bm-flag-unread {
+  color: var(--np-accent);
+  background: var(--np-accent-soft);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.14rem 0.5rem;
+}
+
+/* Quiet per-row icon actions; they only speak up on hover/focus. */
+.bm-actions {
+  gap: 0.15rem;
+}
+.bm-action {
+  --bs-btn-color: var(--np-muted);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--np-accent);
+  --bs-btn-hover-bg: var(--np-accent-soft);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: var(--np-accent);
+  --bs-btn-active-bg: var(--np-accent-soft);
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-padding-y: 0.25rem;
+  --bs-btn-padding-x: 0.45rem;
+  --bs-btn-font-size: 0.9rem;
+}
+.bm-action-danger {
+  --bs-btn-hover-color: var(--bs-danger, #dc3545);
+  --bs-btn-hover-bg: rgba(220, 53, 69, 0.1);
+  --bs-btn-active-color: var(--bs-danger, #dc3545);
+  --bs-btn-active-bg: rgba(220, 53, 69, 0.1);
+}
+
+.bm-empty {
+  background: var(--np-surface);
+  border: 1px solid var(--np-border);
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.bm-empty .bi {
+  font-size: 2rem;
+  color: var(--np-muted);
+}
+
+.bm-pagination {
+  white-space: nowrap;
+}
+
+.min-w-0 {
+  min-width: 0;
 }
 
 /* ---- Toasts / alerts ---------------------------------------------------- */
