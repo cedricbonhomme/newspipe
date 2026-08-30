@@ -2,6 +2,7 @@
 {% block head %}
 {{ super() }}
 <script src="{{ url_for('static', filename='npm_components/luxon/build/global/luxon.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/notes.js') }}"></script>
 {% endblock %}
 {% block content %}
 <style>
@@ -421,105 +422,17 @@
     const noteForm = document.getElementById("note-form");
     const noteInput = document.getElementById("note-input");
 
-    // --- Notes -------------------------------------------------------------
-    const csrfToken = {{ csrf_token() | tojson }};
-    const articleBase = {{ prefix() | tojson }} + "/article";
+    // --- Notes (shared widget, see static/js/notes.js) ---------------------
     let currentArticleId = null;
-
-    function renderNote(note) {
-      const li = document.createElement("li");
-      li.className = "border-bottom pb-2 mb-2";
-      li.dataset.noteId = note.id;
-
-      const body = document.createElement("div");
-      body.className = "d-flex justify-content-between align-items-start";
-
-      const text = document.createElement("div");
-      text.className = "small";
-      text.style.whiteSpace = "pre-wrap";
-      text.style.overflowWrap = "break-word";
-      text.textContent = note.content;
-      body.appendChild(text);
-
-      const delBtn = document.createElement("button");
-      delBtn.type = "button";
-      delBtn.className = "btn btn-link btn-sm text-danger p-0 ms-2 note-delete";
-      delBtn.title = {{ _('Delete this note') | tojson }};
-      const delIcon = document.createElement("i");
-      delIcon.className = "bi bi-trash";
-      delIcon.setAttribute("aria-hidden", "true");
-      delBtn.appendChild(delIcon);
-      body.appendChild(delBtn);
-
-      li.appendChild(body);
-
-      if (note.created_date) {
-        const date = document.createElement("div");
-        date.className = "text-muted";
-        date.style.fontSize = "0.75rem";
-        try {
-          date.textContent = DateTime.fromISO(note.created_date).toRelative();
-        } catch (e) {
-          date.textContent = note.created_date;
-        }
-        li.appendChild(date);
-      }
-      return li;
-    }
-
-    async function loadNotes(articleId) {
-      notesList.innerHTML = "";
-      try {
-        const resp = await fetch(`${articleBase}/${articleId}/notes`);
-        if (!resp.ok) throw new Error("Failed to load notes");
-        const data = await resp.json();
-        data.notes.forEach(function (note) {
-          notesList.appendChild(renderNote(note));
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    if (noteForm) {
-      noteForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        const content = noteInput.value.trim();
-        if (!content || currentArticleId === null) return;
-        try {
-          const resp = await fetch(`${articleBase}/${currentArticleId}/notes`, {
-            method: "POST",
-            headers: { "X-CSRFToken": csrfToken },
-            body: new URLSearchParams({ content: content }),
-          });
-          if (!resp.ok) throw new Error("Failed to add note");
-          const data = await resp.json();
-          notesList.appendChild(renderNote(data.note));
-          noteInput.value = "";
-        } catch (e) {
-          console.error(e);
-        }
-      });
-    }
-
-    if (notesList) {
-      notesList.addEventListener("click", async function (event) {
-        const btn = event.target.closest(".note-delete");
-        if (!btn) return;
-        const li = btn.closest("[data-note-id]");
-        if (!li) return;
-        try {
-          const resp = await fetch(`${articleBase}/note/${li.dataset.noteId}/delete`, {
-            method: "POST",
-            headers: { "X-CSRFToken": csrfToken },
-          });
-          if (!resp.ok) throw new Error("Failed to delete note");
-          li.remove();
-        } catch (e) {
-          console.error(e);
-        }
-      });
-    }
+    const notesWidget = setupNotes({
+      list: notesList,
+      form: noteForm,
+      input: noteInput,
+      articleBase: {{ prefix() | tojson }} + "/article",
+      csrfToken: {{ csrf_token() | tojson }},
+      deleteTitle: {{ _('Delete this note') | tojson }},
+      getArticleId: function () { return currentArticleId; },
+    });
 
     // --- Resizable pane: drag the gutter to set the pane width (persisted) ---
     const layout = document.querySelector(".reading-layout");
@@ -562,7 +475,7 @@
     function showInPane(link, data) {
       currentArticleId = link.getAttribute("article-id");
       if (noteInput) noteInput.value = "";
-      loadNotes(currentArticleId);
+      notesWidget.loadNotes(currentArticleId);
       paneTitle.textContent = link.getAttribute("title") || link.textContent;
       paneBody.innerHTML = (data && data.content) || "";
       paneLink.href = link.getAttribute("data-article-url") || "#";

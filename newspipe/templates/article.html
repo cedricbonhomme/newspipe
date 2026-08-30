@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='npm_components/luxon/build/global/luxon.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/notes.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="container my-4 article" data-article="{{ article.id }}" id="filters" data-filter="{{ filter_ }}">
   <div class="row justify-content-center">
@@ -73,6 +78,22 @@
             {{ article.content | safe }}
           </div>
 
+          <!-- Notes -->
+          <section id="article-notes" class="border-top pt-3 mb-4">
+            <h3 class="h6 text-muted">
+              <i class="bi bi-journal-text me-1"></i>{{ _('Notes') }}
+            </h3>
+            <ul id="notes-list" class="list-unstyled mb-3"></ul>
+            <form id="note-form">
+              <textarea id="note-input" class="form-control form-control-sm mb-2" rows="2"
+                        maxlength="5000"
+                        placeholder="{{ _('Write a note…') }}"></textarea>
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-plus-lg me-1"></i>{{ _('Add note') }}
+              </button>
+            </form>
+          </section>
+
           <!-- Share Section -->
           <div class="d-flex justify-content-end gap-3 border-top pt-3">
             <a href="https://api.pinboard.in/v1/posts/add?url={{ article.link }}&description={{ article.title }}"
@@ -91,6 +112,22 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const articleId = {{ article.id | tojson }};
+    const notesWidget = setupNotes({
+      list: document.getElementById("notes-list"),
+      form: document.getElementById("note-form"),
+      input: document.getElementById("note-input"),
+      articleBase: {{ prefix() | tojson }} + "/article",
+      csrfToken: {{ csrf_token() | tojson }},
+      deleteTitle: {{ _('Delete this note') | tojson }},
+      getArticleId: function () { return articleId; },
+    });
+    notesWidget.loadNotes(articleId);
+  });
+</script>
 
 <style>
 .article-content {
