@@ -37,7 +37,6 @@ dependencies = [
     "Flask-Migrate (>=3.0.1)",
     "WTForms (>=3.1.1)",
     "python-dateutil (>=2.8.2)",
-    "psycopg2-binary (>=2.9.10)",
     "flask-talisman (>=1.1.0)",
     "feedparser (>=6.0.12)",
     "mypy (>=1.13.0)",
@@ -46,6 +45,7 @@ dependencies = [
     "bleach (>=6.2.0,<7.0.0)",
     "pyotp (>=2.10.0,<3.0.0)",
     "qrcode (>=8.2,<9.0)",
+    "psycopg[binary] (>=3.3.6,<4.0.0)",
 ]
 
 
