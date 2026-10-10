@@ -126,7 +126,7 @@ def feed_pub(feed_id=None):
     return feed_view(feed_id, None)
 
 
-@feed_bp.route("/delete/<feed_id>", methods=["POST"])
+@feed_bp.route("/delete/<int:feed_id>", methods=["POST"])
 @login_required
 def delete(feed_id=None):
     feed_contr = FeedController(current_user.id)
@@ -270,7 +270,7 @@ def process_form(feed_id=None):
         "link": form.link.data,
         "site_link": form.site_link.data,
         "filters": [],
-        "category_id": form.category_id.data,
+        "category_id": form.category_id.data or None,
         "private": form.private.data,
     }
 

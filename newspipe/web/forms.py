@@ -320,13 +320,13 @@ class AddFeedForm(FlaskForm):
     enabled = BooleanField(lazy_gettext("Check for updates"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
     category_id = SelectField(
-        lazy_gettext("Category of the feed"), [validators.Optional()]
+        lazy_gettext("Category of the feed"), [validators.Optional()], coerce=int
     )
     private = BooleanField(lazy_gettext("Private"), default=False)
 
     def set_category_choices(self, categories):
-        self.category_id.choices = [("0", "No Category")]
-        self.category_id.choices += [(str(cat.id), cat.name) for cat in categories]
+        self.category_id.choices = [(0, "No Category")]
+        self.category_id.choices += [(cat.id, cat.name) for cat in categories]
 
 
 class CategoryForm(FlaskForm):
