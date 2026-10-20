@@ -1,21 +1,41 @@
 {% if feeds.count() > 0 %}
+<div class="row g-2 mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" id="feed-filter" class="form-control"
+                   placeholder="{{ _('Filter by title or site') }}"
+                   aria-label="{{ _('Filter by title or site') }}">
+        </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-md-end">
+        <span id="feed-filter-count" class="text-muted small"></span>
+    </div>
+</div>
 <div class="table-responsive">
     <table id="table-feeds" class="table table-striped table-hover align-middle">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">{{ _('Status') }}</th>
-                <th scope="col">{{ _('Title') }}</th>
-                <th scope="col">{{ _('Site') }}</th>
-                <th scope="col">{{ _('Category') }}</th>
-                <th scope="col">{{ _('Articles') }}</th>
+                <th scope="col" class="sortable" data-sort-key="status" data-sort-type="number">{{ _('Status') }}</th>
+                <th scope="col" class="sortable" data-sort-key="title">{{ _('Title') }}</th>
+                <th scope="col" class="sortable" data-sort-key="site">{{ _('Site') }}</th>
+                <th scope="col" class="sortable" data-sort-key="category">{{ _('Category') }}</th>
+                <th scope="col" class="sortable" data-sort-key="articles" data-sort-type="number">{{ _('Articles') }}</th>
+                <th scope="col" class="sortable" data-sort-key="created">{{ _('Created') }}</th>
                 <th scope="col">{{ _('Actions') }}</th>
             </tr>
         </thead>
         <tbody>
         {% for feed in feeds %}
-            <tr class="{% if not feed.enabled %}table-warning{% endif %}">
-                <td>{{ loop.index }}</td>
+            <tr class="{% if not feed.enabled %}table-warning{% endif %}"
+                data-status="{{ 1 if feed.enabled else 0 }}"
+                data-title="{{ feed.title or '' }}"
+                data-site="{{ feed.site_link or '' }}"
+                data-category="{{ categories.get(feed.category_id, '') if feed.category_id else '' }}"
+                data-articles="{{ article_count.get(feed.id, 0) }}"
+                data-created="{{ feed.created_date.isoformat() if feed.created_date else '' }}">
+                <td class="row-index">{{ loop.index }}</td>
                 <td>
                     {% if feed.enabled %}
                         <i class="bi bi-eye text-success" title="{{ _('Feed enabled') }}" aria-label="{{ _('Feed enabled') }}"></i>
@@ -49,6 +69,11 @@
                 <td>
                     <span class="text-muted">({{ unread_article_count.get(feed.id, 0) }})</span>
                     {{ article_count.get(feed.id, 0) }}
+                </td>
+                <td class="text-nowrap">
+                    {% if feed.created_date %}
+                        <span title="{{ feed.created_date | datetime }}">{{ feed.created_date | datetimeformat(format="%Y-%m-%d") }}</span>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ url_for('feed.form', feed_id=feed.id) }}" class="text-decoration-none me-2">
@@ -96,8 +121,77 @@
   </div>
 </div>
 
+<style>
+#table-feeds th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+#table-feeds th.sortable::after { content: "\F127"; font-family: "bootstrap-icons"; margin-left: .3em; opacity: .3; }
+#table-feeds th.sortable[aria-sort="ascending"]::after { content: "\F235"; opacity: 1; }
+#table-feeds th.sortable[aria-sort="descending"]::after { content: "\F229"; opacity: 1; }
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    var table = document.getElementById("table-feeds");
+    var tbody = table.querySelector("tbody");
+    var rows = Array.from(tbody.querySelectorAll("tr"));
+    var filterInput = document.getElementById("feed-filter");
+    var filterCount = document.getElementById("feed-filter-count");
+    var countTemplate = "{{ _('%(shown)s of %(total)s feeds', shown='__SHOWN__', total='__TOTAL__') }}";
+
+    function renumber() {
+        var index = 1;
+        rows.forEach(function (row) {
+            if (!row.hidden) {
+                row.querySelector(".row-index").textContent = index++;
+            }
+        });
+    }
+
+    function applyFilter() {
+        var terms = filterInput.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        var shown = 0;
+        rows.forEach(function (row) {
+            var haystack = (row.dataset.title + " " + row.dataset.site).toLowerCase();
+            var match = terms.every(function (term) { return haystack.includes(term); });
+            row.hidden = !match;
+            if (match) shown++;
+        });
+        filterCount.textContent = terms.length
+            ? countTemplate.replace("__SHOWN__", shown).replace("__TOTAL__", rows.length)
+            : "";
+        renumber();
+    }
+
+    table.querySelectorAll("th.sortable").forEach(function (th) {
+        th.setAttribute("role", "button");
+        th.setAttribute("tabindex", "0");
+        function sort() {
+            var key = th.dataset.sortKey;
+            var numeric = th.dataset.sortType === "number";
+            var direction = th.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending";
+            table.querySelectorAll("th.sortable").forEach(function (other) { other.removeAttribute("aria-sort"); });
+            th.setAttribute("aria-sort", direction);
+            var factor = direction === "ascending" ? 1 : -1;
+            rows.sort(function (a, b) {
+                var x = a.dataset[key], y = b.dataset[key];
+                var result = numeric
+                    ? Number(x) - Number(y)
+                    : x.localeCompare(y, undefined, { sensitivity: "base", numeric: true });
+                return result * factor;
+            });
+            rows.forEach(function (row) { tbody.appendChild(row); });
+            renumber();
+        }
+        th.addEventListener("click", sort);
+        th.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                sort();
+            }
+        });
+    });
+
+    filterInput.addEventListener("input", applyFilter);
+
     var deleteModal = document.getElementById("deleteFeedModal");
     deleteModal.addEventListener("show.bs.modal", function (event) {
         var button = event.relatedTarget;
