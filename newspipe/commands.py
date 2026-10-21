@@ -72,7 +72,7 @@ def create_admin(nickname, password):
 
 
 @application.cli.command("delete_user")
-@click.option("--user-id", required=True, help="Id of the user to delete.")
+@click.option("--user-id", required=True, type=int, help="Id of the user to delete.")
 def delete_user(user_id=None):
     "Delete the user with the id specified in the command line."
     try:
@@ -139,8 +139,8 @@ def delete_read_articles():
 
 
 @application.cli.command("find_vulnerabilities")
-@click.option("--user-id", required=True, help="Id of the user")
-@click.option("--category-id", required=True, help="Id of the category")
+@click.option("--user-id", required=True, type=int, help="Id of the user")
+@click.option("--category-id", required=True, type=int, help="Id of the category")
 @click.option("--sighting-type", default="seen", help="Type of the sighting")
 def find_vulnerabilities(
     user_id: int = 0, category_id: int = 0, sighting_type: str = "seen"
@@ -177,7 +177,7 @@ def find_vulnerabilities(
 
 
 @application.cli.command("fetch_asyncio")
-@click.option("--user-id", default=None, help="Id of the user")
+@click.option("--user-id", default=None, type=int, help="Id of the user")
 @click.option("--feed-id", default=None, help="Id of the feed")
 def fetch_asyncio(user_id=None, feed_id=None):
     "Crawl the feeds with asyncio."
