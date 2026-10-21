@@ -1,10 +1,5 @@
 /*
  * Set variables here for the javascript used by newspipe.
+ * The URL prefix (PREFIX config entry) is set by layout.html.
  */
-// var prefix = "/newspipe";
-var prefix = "";
-
-/* Set exactly one trailing slash on prefix. */
-prefix = prefix.replace(/\/+$/,"/");
-
 API_ROOT = "/api/v2.0/";
