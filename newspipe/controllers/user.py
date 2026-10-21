@@ -1,6 +1,8 @@
 import logging
 from urllib.parse import urlparse
 
+import dns.exception
+import dns.resolver
 import ldap3
 from ldap3.core.exceptions import LDAPBindError
 from werkzeug.security import check_password_hash
@@ -129,19 +131,16 @@ class LdapuserController:
 
     def list_ldap_servers_for_domain(self, domain):
         # return list of hostnames from the _ldap._tcp.{domain} SRV lookup
-        try:
-            import dns
-            import dns.resolver
-        except Exception:
-            print("Need python3-dns or dnspython installed for dns lookups.")
-            return [domain]
         namelist = []
         try:
-            query = dns.resolver.query(f"_ldap._tcp.{domain}", "SRV")
+            query = dns.resolver.resolve(f"_ldap._tcp.{domain}", "SRV")
         except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer):
             # no records exist that match the request, so we were probably
             # given a specific hostname, and an empty query will trigger
             # the logic below that will add the original domain to the list.
+            query = []
+        except dns.exception.DNSException as e:
+            logger.warning(f"SRV lookup for _ldap._tcp.{domain} failed: {e}")
             query = []
         for i in query:
             namelist.append(i.target.to_text().rstrip("."))

@@ -41,6 +41,7 @@ dependencies = [
     "feedparser (>=6.0.12)",
     "mypy (>=1.13.0)",
     "ldap3 (>=2.9.1)",
+    "dnspython (>=2.1.0)",
     "pyvulnerabilitylookup (>=2.2.0)",
     "bleach (>=6.2.0,<7.0.0)",
     "pyotp (>=2.10.0,<3.0.0)",
