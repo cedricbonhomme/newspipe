@@ -1,7 +1,7 @@
 Newspipe Changelog
 ==================
 
-## Unreleased
+## 12.3.0 (2026-08-22)
 
 ### New
 
