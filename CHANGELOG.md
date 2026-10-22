@@ -1,6 +1,30 @@
 Newspipe Changelog
 ==================
 
+## Unreleased
+
+### New
+
+- The feeds list can now be sorted by status, title, site, category, number of articles or creation date, and filtered by title or site link. A new "Created" column shows when each feed was added.
+
+### Improvements
+
+- Article notes are now also displayed on the article details page, with the same add/delete form as the reading pane.
+- Modernized the bookmarks page to match the rest of the application: underlined tabs, a header with an "Add a bookmark" action, delete confirmation, visible public/private and unread state. The active search or tag is now kept when switching tabs, and the empty state is displayed correctly.
+- Bookmark titles and descriptions may now be empty and are capped at 500 characters, so bookmarklet and Pinboard imports are no longer rejected.
+- Updated the French and German translations.
+- Updated Python and JavaScript dependencies.
+
+### Fixes
+
+- Switched to psycopg 3 for PostgreSQL: SQLAlchemy 2.1 resolves `postgresql://` URLs to the psycopg dialect, which made the crawler fail with "No module named 'psycopg'".
+- Fixed editing and deleting feeds on PostgreSQL with psycopg 3 (integer/string type mismatch). "No Category" is now stored as `NULL` instead of `0`.
+- The `--user-id` and `--category-id` options of `find_vulnerabilities`, `delete_user` and `fetch_asyncio` are now parsed as integers, fixing type errors on PostgreSQL.
+- JavaScript API requests (e.g. "mark article as read") now honour the `PREFIX` setting, fixing them behind a reverse proxy (#129).
+- `dnspython` is now a declared dependency, so the LDAP `_ldap._tcp` SRV lookup works in the Poetry virtualenv. Other DNS errors now fall back to `LDAP_URI` with a logged warning instead of failing the login (#128).
+- Model validation errors now return a readable 400 error instead of a 500 (e.g. on `/bookmark/create`).
+
+
 ## 12.2.2 (2026-08-22)
 
 ### Security
