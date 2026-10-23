@@ -10,7 +10,7 @@
 [![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/commits/master)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
 
-Built with [Flask](http://flask.pocoo.org) · [asyncio](https://www.python.org/dev/peps/pep-3156/) · [SQLAlchemy](http://www.sqlalchemy.org)
+Built with [Flask](https://flask.palletsprojects.com) · [asyncio](https://peps.python.org/pep-3156) · [SQLAlchemy](https://www.sqlalchemy.org)
 
 ![Newspipe Home page](docs/static/newspipe_home-page.png "Newspipe Home page")
 
