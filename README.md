@@ -1,6 +1,8 @@
 <div align="center">
 
-# 📰 Newspipe
+<img src="newspipe/static/img/newspipe.svg" alt="Newspipe logo" width="160">
+
+# Newspipe
 
 **A self-hosted web news aggregator — own your feeds, your data, and your reading.**
 

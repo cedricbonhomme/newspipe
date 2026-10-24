@@ -142,30 +142,17 @@ a:hover {
   gap: 0.5rem;
 }
 
-/* A small "live feed" dot — the page's signature mark. */
-.navbar-brand.fw-bold::before {
-  content: "";
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--np-accent);
-  box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0.5);
+.np-logo {
+  display: block;
+  flex-shrink: 0;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .navbar-brand.fw-bold::before {
-    animation: np-pulse 2.6s ease-out infinite;
-  }
+.navbar-brand .np-logo {
+  width: 1.9rem;
+  height: 1.9rem;
 }
-@keyframes np-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0.45);
-  }
-  70% {
-    box-shadow: 0 0 0 7px rgba(var(--np-accent-rgb), 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--np-accent-rgb), 0);
-  }
+/* The navy outline of the logo fades into dark backgrounds. */
+[data-bs-theme="dark"] .np-logo {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.55));
 }
 
 .navbar-nav {

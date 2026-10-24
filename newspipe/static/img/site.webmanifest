@@ -1,0 +1,12 @@
+{
+  "name": "Newspipe",
+  "short_name": "Newspipe",
+  "icons": [
+    {"src": "icon-192.png", "type": "image/png", "sizes": "192x192"},
+    {"src": "icon-512.png", "type": "image/png", "sizes": "512x512"}
+  ],
+  "theme_color": "#1f3a5f",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
