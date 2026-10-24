@@ -132,6 +132,12 @@ def robots():
     return render_template("robots.txt"), 200, {"Content-Type": "text/plain"}
 
 
+@current_app.route("/favicon.ico", methods=["GET"])
+def favicon():
+    """Favicon at the root, for clients that don't read the HTML <link>."""
+    return current_app.send_static_file("img/favicon.ico")
+
+
 @current_app.route("/humans.txt", methods=["GET"])
 def humans():
     """Human dot txt page."""
