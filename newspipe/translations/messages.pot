@@ -27,7 +27,7 @@ msgid "About"
 msgstr ""
 
 #: newspipe/templates/about.html:21
-msgid "Newspipe is a news reader."
+msgid "Newspipe is a self-hosted, multi-user web news aggregator and RSS/Atom feed reader."
 msgstr ""
 
 #: newspipe/templates/about.html:23

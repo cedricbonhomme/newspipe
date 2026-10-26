@@ -88,6 +88,10 @@ ADMIN_EMAIL = "admin@admin.localhost"
 LOG_LEVEL = "info"
 LOG_PATH = "./var/newspipe.log"
 SELF_REGISTRATION = True
+# Let search engines index the public pages of the instance (home, about,
+# login, sign up, popular feeds) and describe Newspipe with structured data.
+# Private pages are never indexed. Leave disabled for a private instance.
+SEARCH_ENGINE_INDEXING = False
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Ldap, optional

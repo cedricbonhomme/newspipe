@@ -1,2 +1,7 @@
 User-agent: *
-Disallow: /
+{% if application.config.get("SEARCH_ENGINE_INDEXING") %}Allow: {{ prefix() }}/$
+Allow: {{ prefix() }}/about
+Allow: {{ prefix() }}/login
+Allow: {{ prefix() }}/signup
+Allow: {{ prefix() }}/popular
+{% endif %}Disallow: /
