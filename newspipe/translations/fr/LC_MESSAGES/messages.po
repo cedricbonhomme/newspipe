@@ -1704,3 +1704,59 @@ msgstr "Requête invalide."
 
 #~ msgid "about this instance."
 #~ msgstr "sur cette instance."
+
+#: newspipe/templates/landing.html
+msgid "Source code"
+msgstr "Code source"
+
+#: newspipe/templates/landing.html
+msgid "RSS and Atom"
+msgstr "RSS et Atom"
+
+#: newspipe/templates/landing.html
+msgid "Follow any website that publishes a feed, organized in categories."
+msgstr "Suivez tout site web qui publie un flux, organisé en catégories."
+
+#: newspipe/templates/landing.html
+msgid "Multi-user"
+msgstr "Multi-utilisateur"
+
+#: newspipe/templates/landing.html
+msgid "A single instance serves many users, each with their own feeds."
+msgstr "Une seule instance sert de nombreux utilisateurs, chacun avec ses propres flux."
+
+#: newspipe/templates/landing.html
+msgid "Self-hosted"
+msgstr "Auto-hébergé"
+
+#: newspipe/templates/landing.html
+msgid "Run your own instance: your feeds, your data, your reading."
+msgstr "Faites tourner votre propre instance : vos flux, vos données, vos lectures."
+
+#: newspipe/templates/landing.html
+msgid "OPML and JSON"
+msgstr "OPML et JSON"
+
+#: newspipe/templates/landing.html
+msgid "Import and export your feeds and your whole account."
+msgstr "Importez et exportez vos flux et l'intégralité de votre compte."
+
+#: newspipe/templates/landing.html
+msgid "Bookmarks and notes"
+msgstr "Marque-pages et notes"
+
+#: newspipe/templates/landing.html
+msgid "Save the articles that matter and write notes on them."
+msgstr "Conservez les articles importants et annotez-les."
+
+#: newspipe/templates/landing.html
+msgid "API"
+msgstr "API"
+
+#: newspipe/templates/landing.html
+msgid "Manage feeds programmatically and plug in your own crawler."
+msgstr "Gérez vos flux par programmation et branchez votre propre robot d'indexation."
+
+#: newspipe/templates/landing.html
+msgid "Free software released under the AGPLv3 license."
+msgstr "Logiciel libre publié sous la licence AGPLv3."

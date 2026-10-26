@@ -1,27 +1,7 @@
 {% extends "layout.html" %}
 {% block head %}
 {{ super() }}
-{% if application.config.get("SEARCH_ENGINE_INDEXING") %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Newspipe",
-  "description": "Newspipe is a self-hosted, multi-user web news aggregator and RSS/Atom feed reader.",
-  "url": "https://www.newspipe.org",
-  "applicationCategory": "NewsApplication",
-  "operatingSystem": "Linux, macOS, Windows",
-  "license": "https://www.gnu.org/licenses/agpl-3.0.html",
-  "isAccessibleForFree": true,
-  "author": {"@type": "Person", "name": "Cédric Bonhomme"},
-  "sameAs": [
-    "https://github.com/cedricbonhomme/newspipe",
-    "https://git.sr.ht/~cedric/newspipe",
-    "https://pypi.org/project/newspipe/"
-  ]
-}
-</script>
-{% endif %}
+{% if application.config.get("SEARCH_ENGINE_INDEXING") %}{% include "structured_data.html" %}{% endif %}
 {% endblock %}
 {% block content %}
 <div class="container my-5">

@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+{% include "structured_data.html" %}
+{% endblock %}
+{% block content %}
+<div class="container my-5">
+
+    <!-- Hero -->
+    <div class="text-center mb-5">
+        <img class="np-logo mx-auto" src="{{ url_for('static', filename='img/newspipe.svg') }}" alt="" width="128" height="128">
+        <h1 class="fw-bold mt-3 mb-2" style="letter-spacing:-0.02em;">Newspipe</h1>
+        <p class="lead mx-auto mb-4" style="max-width: 40rem;">{{ _('Newspipe is a self-hosted, multi-user web news aggregator and RSS/Atom feed reader.') }}</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-box-arrow-in-right me-1"></i>{{ _('Login') }}
+            </a>
+            {% if self_registration %}
+            <a href="{{ prefix() }}/signup" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-person-plus me-1"></i>{{ _('Sign up') }}
+            </a>
+            {% endif %}
+            <a href="https://github.com/cedricbonhomme/newspipe" class="btn btn-outline-secondary btn-lg" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-github me-1"></i>{{ _('Source code') }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="row g-4">
+        {% for icon, title, text in [
+            ('rss', _('RSS and Atom'), _('Follow any website that publishes a feed, organized in categories.')),
+            ('people', _('Multi-user'), _('A single instance serves many users, each with their own feeds.')),
+            ('hdd-network', _('Self-hosted'), _('Run your own instance: your feeds, your data, your reading.')),
+            ('arrow-left-right', _('OPML and JSON'), _('Import and export your feeds and your whole account.')),
+            ('bookmark-heart', _('Bookmarks and notes'), _('Save the articles that matter and write notes on them.')),
+            ('plug', _('API'), _('Manage feeds programmatically and plug in your own crawler.')),
+        ] %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-2"><i class="bi bi-{{ icon }} me-2 text-primary"></i>{{ title }}</h2>
+                    <p class="text-muted mb-0">{{ text }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <p class="text-center text-muted mt-5 mb-0">
+        {{ _('Free software released under the AGPLv3 license.') }}
+        <a href="{{ url_for('about') }}">{{ _('More information') }}</a>
+    </p>
+
+</div><!-- /.container -->
+{% endblock %}

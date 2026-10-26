@@ -1650,3 +1650,59 @@ msgstr ""
 #: newspipe/web/views/views.py:54
 msgid "Bad request."
 msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Source code"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "RSS and Atom"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Follow any website that publishes a feed, organized in categories."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Multi-user"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "A single instance serves many users, each with their own feeds."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Self-hosted"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Run your own instance: your feeds, your data, your reading."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "OPML and JSON"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Import and export your feeds and your whole account."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Bookmarks and notes"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Save the articles that matter and write notes on them."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "API"
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Manage feeds programmatically and plug in your own crawler."
+msgstr ""
+
+#: newspipe/templates/landing.html
+msgid "Free software released under the AGPLv3 license."
+msgstr ""

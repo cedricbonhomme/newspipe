@@ -26,9 +26,19 @@ PER_PAGE = 50
 
 
 @current_app.route("/")
-@login_required
 def home():
-    """Displays the home page of the connected user."""
+    """Displays the home page of the connected user.
+
+    Anonymous visitors get a public landing page when the instance is open to
+    search engines, and are sent to the login page otherwise.
+    """
+    if not current_user.is_authenticated:
+        if current_app.config.get("SEARCH_ENGINE_INDEXING"):
+            return render_template(
+                "landing.html",
+                self_registration=current_app.config["SELF_REGISTRATION"],
+            )
+        return current_app.login_manager.unauthorized()
     category_contr = CategoryController(current_user.id)
     art_contr = ArticleController(current_user.id)
     categories = {cat.id: cat for cat in category_contr.read().all()}
