@@ -1,5 +1,4 @@
-<div align="center">
-
+<div align="center" style="text-align: center;">
 <img src="https://git.sr.ht/~cedric/newspipe/blob/HEAD/newspipe/static/img/newspipe.svg" alt="Newspipe logo" width="160">
 
 # Newspipe
