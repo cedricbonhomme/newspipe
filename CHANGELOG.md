@@ -16,6 +16,10 @@ Newspipe Changelog
 
 - Emails can now be sent through any SMTP port and over an encrypted connection with the new `MAIL_PORT` (default 25), `MAIL_USE_TLS` (STARTTLS) and `MAIL_USE_SSL` (implicit TLS) settings. The certificate of the server is verified.
 
+### Fixes
+
+- Fixed account creation (`/signup`), which failed with an internal server error since Flask-WTF passes `extra_validators` to the forms' `validate()` method.
+
 
 ## 12.3.0 (2026-10-22)
 

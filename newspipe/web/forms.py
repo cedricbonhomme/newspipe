@@ -81,9 +81,9 @@ class SignupForm(FlaskForm):
     )
     submit = SubmitField(lazy_gettext("Sign up"))
 
-    def validate(self):
+    def validate(self, extra_validators=None):
         ucontr = UserController()
-        validated = super().validate()
+        validated = super().validate(extra_validators=extra_validators)
         if ucontr.read(nickname=self.nickname.data).count():
             self.nickname.errors.append("Nickname already taken")
             validated = False
@@ -154,8 +154,8 @@ class SigninForm(RedirectForm):
         super().__init__(*args, **kwargs)
         self.user = None
 
-    def validate(self):
-        validated = super().validate()
+    def validate(self, extra_validators=None):
+        validated = super().validate(extra_validators=extra_validators)
         # try ldap before doing anything else
         ldap_enabled = (
             application.config["LDAP_ENABLED"]
@@ -244,8 +244,8 @@ class UserForm(FlaskForm):
     automatic_crawling = BooleanField(lazy_gettext("Automatic crawling"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
-    def validate(self):
-        validated = super().validate()
+    def validate(self, extra_validators=None):
+        validated = super().validate(extra_validators=extra_validators)
         if self.nickname.data != User.make_valid_nickname(self.nickname.data):
             self.nickname.errors.append(
                 lazy_gettext(
@@ -284,8 +284,8 @@ class ProfileForm(FlaskForm):
     is_public_profile = BooleanField(lazy_gettext("Public profile"), default=True)
     submit = SubmitField(lazy_gettext("Save"))
 
-    def validate(self):
-        validated = super().validate()
+    def validate(self, extra_validators=None):
+        validated = super().validate(extra_validators=extra_validators)
         if self.password.data:
             if self.password.data != self.password_conf.data:
                 message = lazy_gettext("Passwords aren't the same.")
