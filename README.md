@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="newspipe/static/img/newspipe.svg" alt="Newspipe logo" width="160">
+<img src="https://git.sr.ht/~cedric/newspipe/blob/HEAD/newspipe/static/img/newspipe.svg" alt="Newspipe logo" width="160">
 
 # Newspipe
 
