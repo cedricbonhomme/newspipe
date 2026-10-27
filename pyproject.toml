@@ -6,13 +6,13 @@ build-backend = "poetry.core.masonry.api"
 [project]
 name = "Newspipe"
 version = "12.3.0"
-description = "Newspipe is a web news aggregator."
+description = "A self-hosted, multi-user web news aggregator and RSS/Atom feed reader."
 authors = [
     {name = "Cédric Bonhomme", email = "cedric@cedricbonhomme.org"}
 ]
 license = "AGPL-3.0-or-later"
 readme = "README.md"
-keywords = ["Newspipe", "RSS", "Atom", "Aggregator", "News"]
+keywords = ["Newspipe", "RSS", "Atom", "Aggregator", "News", "Feed reader", "Self-hosted"]
 
 requires-python = ">=3.13,<4.0"
 dependencies = [
@@ -51,8 +51,10 @@ dependencies = [
 
 
 [project.urls]
-Homepage = "https://github.com/cedricbonhomme/newspipe"
+Homepage = "https://www.newspipe.org"
 Repository = "https://github.com/cedricbonhomme/newspipe"
+"Source (sourcehut)" = "https://git.sr.ht/~cedric/newspipe"
+Issues = "https://github.com/cedricbonhomme/newspipe/issues"
 Changelog = "https://github.com/cedricbonhomme/newspipe/blob/master/CHANGELOG.md"
 
 
