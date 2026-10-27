@@ -12,7 +12,7 @@
 [![Python](https://img.shields.io/badge/python-%3E%3D3.13-blue.svg)](https://www.python.org)
 [![Version](https://img.shields.io/github/release/cedricbonhomme/newspipe.svg)](https://git.sr.ht/~cedric/newspipe/refs)
 [![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://git.sr.ht/~cedric/newspipe/log)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
+[![Liberapay](https://img.shields.io/badge/Liberapay-donate-F6C915?logo=liberapay&logoColor=black)](https://liberapay.com/cedricbonhomme)
 
 Built with [Flask](https://flask.palletsprojects.com) · [asyncio](https://peps.python.org/pep-3156) · [SQLAlchemy](https://www.sqlalchemy.org)
 
@@ -105,7 +105,7 @@ When using cron it is usually best to be explicit about the command location:
 
 If you enjoy Newspipe, you can support its development:
 
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
+[![Liberapay](https://img.shields.io/badge/Liberapay-donate-F6C915?logo=liberapay&logoColor=black)](https://liberapay.com/cedricbonhomme)
 
 …or with Bitcoin: `bc1q56u6sj7cvlwu58v5lemljcvkh7v2gc3tv8mj0e`
 
