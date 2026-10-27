@@ -37,7 +37,7 @@ def new_account_notification(user, email):
     plaintext = render_template(
         "emails/account_activation.txt",
         user=user,
-        platform_url=application.config["PLATFORM_URL"],
+        platform_url=application.config["PLATFORM_URL"].rstrip("/"),
         token=token,
         expire_time=expire_time,
     )
