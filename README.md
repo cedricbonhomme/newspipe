@@ -10,8 +10,8 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.13-blue.svg)](https://www.python.org)
-[![Version](https://img.shields.io/github/release/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/releases/latest)
-[![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/commits/master)
+[![Version](https://img.shields.io/github/release/cedricbonhomme/newspipe.svg)](https://git.sr.ht/~cedric/newspipe/refs)
+[![Last commit](https://img.shields.io/github/last-commit/cedricbonhomme/newspipe.svg)](https://git.sr.ht/~cedric/newspipe/log)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/cedricbonhomme)](https://github.com/sponsors/cedricbonhomme)
 
 Built with [Flask](https://flask.palletsprojects.com) · [asyncio](https://peps.python.org/pep-3156) · [SQLAlchemy](https://www.sqlalchemy.org)
@@ -41,7 +41,7 @@ Built with [Flask](https://flask.palletsprojects.com) · [asyncio](https://peps.
 Assuming you already have `git`, `poetry`, `npm`, and `Python >= 3.13` installed:
 
 ```bash
-git clone https://github.com/cedricbonhomme/newspipe
+git clone https://git.sr.ht/~cedric/newspipe
 cd newspipe/
 npm ci
 poetry install
@@ -98,7 +98,7 @@ When using cron it is usually best to be explicit about the command location:
 
 ## 📄 License
 
-[Newspipe](https://github.com/cedricbonhomme/newspipe) is released under the
+[Newspipe](https://sr.ht/~cedric/newspipe) is released under the
 [GNU Affero General Public License v3](https://www.gnu.org/licenses/agpl-3.0.html).
 
 ## 💛 Donations

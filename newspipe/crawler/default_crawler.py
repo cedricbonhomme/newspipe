@@ -2,7 +2,7 @@
 # Newspipe - A web news aggregator.
 # Copyright (C) 2010-2026 Cédric Bonhomme - https://www.cedricbonhomme.org
 #
-# For more information: https://github.com/cedricbonhomme/newspipe
+# For more information: https://sr.ht/~cedric/newspipe
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -369,7 +369,7 @@ async def retrieve_feed(queue, users, feed_id=None, num_workers=1):
     headers = {
         "User-Agent": application.config.get(
             "CRAWLER_USER_AGENT",
-            "Newspipe (https://github.com/cedricbonhomme/newspipe)",
+            "Newspipe (https://sr.ht/~cedric/newspipe)",
         )
     }
 

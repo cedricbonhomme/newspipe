@@ -52,10 +52,9 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://www.newspipe.org"
-Repository = "https://github.com/cedricbonhomme/newspipe"
-"Source (sourcehut)" = "https://git.sr.ht/~cedric/newspipe"
-Issues = "https://github.com/cedricbonhomme/newspipe/issues"
-Changelog = "https://github.com/cedricbonhomme/newspipe/blob/master/CHANGELOG.md"
+Repository = "https://sr.ht/~cedric/newspipe"
+Issues = "https://todo.sr.ht/~cedric/newspipe"
+Changelog = "https://git.sr.ht/~cedric/newspipe/tree/master/item/CHANGELOG.md"
 
 
 [tool.poetry.group.dev.dependencies]

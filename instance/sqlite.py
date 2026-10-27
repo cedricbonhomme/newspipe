@@ -46,7 +46,7 @@ CONTENT_SECURITY_POLICY = {
 CRAWLING_METHOD = "default"
 DEFAULT_MAX_ERROR = 6
 HTTP_PROXY = ""
-CRAWLER_USER_AGENT = "Newspipe (https://github.com/cedricbonhomme/newspipe)"
+CRAWLER_USER_AGENT = "Newspipe (https://sr.ht/~cedric/newspipe)"
 CRAWLER_TIMEOUT = 30
 CRAWLER_RESOLVE_ARTICLE_URL = False
 # Maximum number of feeds fetched concurrently.
