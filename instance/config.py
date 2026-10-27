@@ -109,6 +109,11 @@ OPML_MAX_SIZE = 5 * 1024 * 1024
 
 # Notifications (email)
 MAIL_SERVER = "localhost"
+MAIL_PORT = 25
+# Use STARTTLS (usually on port 587) or implicit TLS (usually on port 465).
+# The certificate of the server is verified. Enable at most one of them.
+MAIL_USE_TLS = False
+MAIL_USE_SSL = False
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 MAIL_DEFAULT_SENDER = "admin@admin.localhost"

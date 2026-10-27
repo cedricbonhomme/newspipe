@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import logging
 import smtplib
+import ssl
 from email import charset
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -73,7 +74,19 @@ def send_smtp(to="", subject="", plaintext="", html=""):
     # msg.attach(part2)
 
     try:
-        s = smtplib.SMTP(application.config["MAIL_SERVER"])
+        if application.config.get("MAIL_USE_SSL", False):
+            s = smtplib.SMTP_SSL(
+                application.config["MAIL_SERVER"],
+                application.config.get("MAIL_PORT", 465),
+                context=ssl.create_default_context(),
+            )
+        else:
+            s = smtplib.SMTP(
+                application.config["MAIL_SERVER"],
+                application.config.get("MAIL_PORT", 25),
+            )
+            if application.config.get("MAIL_USE_TLS", False):
+                s.starttls(context=ssl.create_default_context())
         if application.config["MAIL_USERNAME"] is not None:
             s.login(
                 application.config["MAIL_USERNAME"],

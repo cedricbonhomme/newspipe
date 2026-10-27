@@ -12,6 +12,10 @@ Newspipe Changelog
 
   Unauthenticated visitors are redirected to the login page. When protected, the popular feeds and bookmarks pages no longer appear in the navigation bar for unauthenticated visitors, and `/popular` is removed from `robots.txt` and the sitemap.
 
+### Improvements
+
+- Emails can now be sent through any SMTP port and over an encrypted connection with the new `MAIL_PORT` (default 25), `MAIL_USE_TLS` (STARTTLS) and `MAIL_USE_SSL` (implicit TLS) settings. The certificate of the server is verified.
+
 
 ## 12.3.0 (2026-10-22)
 
