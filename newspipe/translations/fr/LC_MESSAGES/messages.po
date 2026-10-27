@@ -1755,7 +1755,7 @@ msgstr "API"
 
 #: newspipe/templates/landing.html
 msgid "Manage feeds programmatically and plug in your own crawler."
-msgstr "Gérez vos flux par programmation et branchez votre propre robot d'indexation."
+msgstr "Gérez vos flux programmatiquement et utilisez votre propre crawler."
 
 #: newspipe/templates/landing.html
 msgid "Free software released under the AGPLv3 license."
