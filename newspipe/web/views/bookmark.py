@@ -44,6 +44,7 @@ from newspipe.bootstrap import db
 from newspipe.controllers import BookmarkController
 from newspipe.lib.data import export_bookmarks, import_pinboard_json
 from newspipe.lib.utils import safe_redirect_url
+from newspipe.web.decorators import login_required_if
 from newspipe.web.forms import BookmarkForm
 from newspipe.web.lib.view_utils import paginate_args
 
@@ -56,6 +57,7 @@ BOOKMARKS_PER_PAGE = 50
 
 @bookmarks_bp.route("/", methods=["GET"])
 @bookmarks_bp.route("/<string:status>", methods=["GET"])
+@login_required_if("PROTECT_BOOKMARKS_PAGE")
 def list_(status="all"):
     "Lists the bookmarks."
     head_titles = [gettext("Bookmarks")]

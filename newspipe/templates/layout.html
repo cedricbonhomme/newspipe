@@ -166,8 +166,12 @@
                 </ul>
               </li>
             {% else %}
+              {% if not application.config.get("PROTECT_BOOKMARKS_PAGE") %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('bookmarks.list_') }}"><i class="bi bi-bookmarks"></i>{{ _('Recent bookmarks') }}</a></li>
+              {% endif %}
+              {% if not application.config.get("PROTECT_POPULAR_PAGE") %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('popular') }}"><i class="bi bi-fire"></i>{{ _('Popular feeds') }}</a></li>
+              {% endif %}
               <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}"><i class="bi bi-info-circle"></i>{{ _('About') }}</a></li>
             {% endif %}
           </ul>

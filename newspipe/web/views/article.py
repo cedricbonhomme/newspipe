@@ -22,6 +22,7 @@ from newspipe.lib.data import export_json
 from newspipe.lib.utils import clear_string
 from newspipe.lib.utils import safe_redirect_url
 from newspipe.models.note import MAX_NOTE_LENGTH
+from newspipe.web.decorators import login_required_if
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.lib.view_utils import paginate_args
 
@@ -59,6 +60,7 @@ def article(article_id=None):
 
 
 @article_bp.route("/public/<int:article_id>", methods=["GET"])
+@login_required_if("PROTECT_USER_PAGES")
 @etag_match
 def article_pub(article_id=None):
     """

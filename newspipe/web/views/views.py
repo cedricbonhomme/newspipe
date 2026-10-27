@@ -19,6 +19,7 @@ from newspipe.bootstrap import talisman
 from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
 from newspipe.web import __version__
+from newspipe.web.decorators import login_required_if
 from newspipe.web.lib.view_utils import etag_match
 
 logger = logging.getLogger(__name__)
@@ -56,6 +57,7 @@ def handle_sqlalchemy_assertion_error(error):
 
 
 @current_app.route("/popular", methods=["GET"])
+@login_required_if("PROTECT_POPULAR_PAGE")
 @etag_match
 def popular():
     """
@@ -132,7 +134,9 @@ def sitemap():
     """Sitemap of the public pages, when the instance is open to search engines."""
     if not application.config.get("SEARCH_ENGINE_INDEXING"):
         abort(404)
-    paths = ["/", "/about", "/popular", "/login"]
+    paths = ["/", "/about", "/login"]
+    if not application.config.get("PROTECT_POPULAR_PAGE"):
+        paths.append("/popular")
     if application.config["SELF_REGISTRATION"]:
         paths.append("/signup")
     return (

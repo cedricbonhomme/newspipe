@@ -22,6 +22,7 @@ from newspipe.lib.data import import_json
 from newspipe.lib.data import import_opml
 from newspipe.lib.data import OPMLTooLargeError
 from newspipe.lib.data import read_opml_upload
+from newspipe.web.decorators import login_required_if
 from newspipe.web.forms import ProfileForm
 from newspipe.web.lib.user_utils import confirm_token
 from newspipe.web.lib.view_utils import paginate_args
@@ -32,6 +33,7 @@ STREAM_PER_PAGE = 25
 
 
 @user_bp.route("/<string:nickname>", methods=["GET"])
+@login_required_if("PROTECT_USER_PAGES")
 def profile_public(nickname=None):
     """
     Display the public profile of the user.
@@ -56,6 +58,7 @@ def profile_public(nickname=None):
 
 
 @user_bp.route("/<string:nickname>/stream", methods=["GET"])
+@login_required_if("PROTECT_USER_PAGES")
 def user_stream(nickname=None):
     """
     Display the stream of a user (list of articles of public feed).

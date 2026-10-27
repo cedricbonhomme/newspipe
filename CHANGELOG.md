@@ -1,6 +1,18 @@
 Newspipe Changelog
 ==================
 
+## Unreleased
+
+### New
+
+- Administrators can now restrict some public pages to authenticated users with three new settings, all disabled by default:
+  - `PROTECT_POPULAR_PAGE`: the popular feeds page (`/popular`).
+  - `PROTECT_BOOKMARKS_PAGE`: the bookmarks page (`/bookmarks`).
+  - `PROTECT_USER_PAGES`: the public profile pages of the users (`/user/<nickname>` and `/user/<nickname>/stream`), and the public feeds, articles and categories they expose (`/feed/public/<id>`, `/article/public/<id>` and `/category/<id>`).
+
+  Unauthenticated visitors are redirected to the login page. When protected, the popular feeds and bookmarks pages no longer appear in the navigation bar for unauthenticated visitors, and `/popular` is removed from `robots.txt` and the sitemap.
+
+
 ## 12.3.0 (2026-10-22)
 
 ### New

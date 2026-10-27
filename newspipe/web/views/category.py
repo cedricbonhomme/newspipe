@@ -12,6 +12,7 @@ from newspipe.controllers import ArticleController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
 from newspipe.lib.utils import safe_redirect_url
+from newspipe.web.decorators import login_required_if
 from newspipe.web.forms import CategoryForm
 from newspipe.web.lib.view_utils import etag_match
 
@@ -35,6 +36,7 @@ def list_():
 
 
 @category_bp.route("/<int:category_id>", methods=["GET"])
+@login_required_if("PROTECT_USER_PAGES")
 def get(category_id=0):
     """
     Display public feeds of a category.

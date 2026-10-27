@@ -26,6 +26,7 @@ from newspipe.lib import utils
 from newspipe.lib.feed_utils import construct_feed_from
 from newspipe.lib.url_validation import SSRFError
 from newspipe.lib.url_validation import validate_url
+from newspipe.web.decorators import login_required_if
 from newspipe.web.forms import AddFeedForm
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.lib.view_utils import paginate_args
@@ -114,6 +115,7 @@ def feed(feed_id=None):
 
 
 @feed_bp.route("/public/<int:feed_id>", methods=["GET"])
+@login_required_if("PROTECT_USER_PAGES")
 @etag_match
 def feed_pub(feed_id=None):
     """

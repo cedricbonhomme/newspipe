@@ -3,8 +3,8 @@ User-agent: *
 Allow: {{ prefix() }}/about
 Allow: {{ prefix() }}/login
 Allow: {{ prefix() }}/signup
-Allow: {{ prefix() }}/popular
-{% endif %}Disallow: /
+{% if not application.config.get("PROTECT_POPULAR_PAGE") %}Allow: {{ prefix() }}/popular
+{% endif %}{% endif %}Disallow: /
 {% if application.config.get("SEARCH_ENGINE_INDEXING") %}
 Sitemap: {{ public_url("/sitemap.xml") }}
 {% endif %}

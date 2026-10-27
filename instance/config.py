@@ -96,6 +96,14 @@ SELF_REGISTRATION = True
 # login, sign up, popular feeds) and describe Newspipe with structured data.
 # Private pages are never indexed. Leave disabled for a private instance.
 SEARCH_ENGINE_INDEXING = False
+# Require authentication to see the popular feeds page (/popular), the
+# bookmarks page (/bookmarks) and the public profile pages of the users
+# with the public feeds, articles and categories they expose
+# (/user/<nickname>, /user/<nickname>/stream, /feed/public/<id>,
+# /article/public/<id> and /category/<id>).
+PROTECT_POPULAR_PAGE = False
+PROTECT_BOOKMARKS_PAGE = False
+PROTECT_USER_PAGES = False
 
 # Ldap, optional
 LDAP_ENABLED = False
