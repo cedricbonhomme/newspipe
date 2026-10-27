@@ -160,4 +160,11 @@ def utility_processor():
     def prefix():
         return _prefix.rstrip("/")
 
-    return dict(prefix=prefix)
+    def public_url(path=None):
+        """Absolute URL of path (default: the current page) on the public
+        address of the instance, without query string."""
+        return application.config["PLATFORM_URL"].rstrip("/") + (
+            request.path if path is None else path
+        )
+
+    return dict(prefix=prefix, public_url=public_url)

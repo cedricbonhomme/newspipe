@@ -5,3 +5,6 @@ Allow: {{ prefix() }}/login
 Allow: {{ prefix() }}/signup
 Allow: {{ prefix() }}/popular
 {% endif %}Disallow: /
+{% if application.config.get("SEARCH_ENGINE_INDEXING") %}
+Sitemap: {{ public_url("/sitemap.xml") }}
+{% endif %}

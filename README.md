@@ -6,6 +6,8 @@
 
 **A self-hosted web news aggregator — own your feeds, your data, and your reading.**
 
+🌐 [www.newspipe.org](https://www.newspipe.org)
+
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.13-blue.svg)](https://www.python.org)
 [![Version](https://img.shields.io/github/release/cedricbonhomme/newspipe.svg)](https://github.com/cedricbonhomme/newspipe/releases/latest)

@@ -4,6 +4,7 @@ import sys
 from datetime import datetime
 from datetime import timedelta
 
+from flask import abort
 from flask import current_app
 from flask import flash
 from flask import redirect
@@ -130,6 +131,21 @@ def about_more():
 def robots():
     """Robots dot txt page."""
     return render_template("robots.txt"), 200, {"Content-Type": "text/plain"}
+
+
+@current_app.route("/sitemap.xml", methods=["GET"])
+def sitemap():
+    """Sitemap of the public pages, when the instance is open to search engines."""
+    if not application.config.get("SEARCH_ENGINE_INDEXING"):
+        abort(404)
+    paths = ["/", "/about", "/popular", "/login"]
+    if application.config["SELF_REGISTRATION"]:
+        paths.append("/signup")
+    return (
+        render_template("sitemap.xml", paths=paths),
+        200,
+        {"Content-Type": "application/xml"},
+    )
 
 
 @current_app.route("/favicon.ico", methods=["GET"])

@@ -4,9 +4,22 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Newspipe is a self-hosted, multi-user web news aggregator and RSS/Atom feed reader." />
+    {% set page_title %}Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% else %} - Self-hosted RSS/Atom news aggregator{% endif %}{% endset %}
+    {% set page_description = "Newspipe is a self-hosted, multi-user web news aggregator and RSS/Atom feed reader." %}
+    <meta name="description" content="{{ page_description }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Newspipe{% if head_titles %} - {{ ' - '.join(head_titles) }}{% else %} - Self-hosted RSS/Atom news aggregator{% endif %}</title>
+    <title>{{ page_title }}</title>
+    {% if application.config.get("SEARCH_ENGINE_INDEXING") %}
+    <link rel="canonical" href="{{ public_url() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Newspipe">
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:description" content="{{ page_description }}">
+    <meta property="og:url" content="{{ public_url() }}">
+    <meta property="og:image" content="{{ public_url('/static/img/social-preview.png') }}">
+    <meta property="og:image:alt" content="Newspipe logo">
+    <meta name="twitter:card" content="summary_large_image">
+    {% endif %}
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" sizes="48x48">
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
