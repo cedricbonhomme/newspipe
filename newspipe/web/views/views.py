@@ -18,6 +18,7 @@ from newspipe.bootstrap import application
 from newspipe.bootstrap import talisman
 from newspipe.controllers import FeedController
 from newspipe.controllers import UserController
+from newspipe.lib.security_txt import render_security_txt
 from newspipe.web import __version__
 from newspipe.web.decorators import login_required_if
 from newspipe.web.lib.view_utils import etag_match
@@ -160,5 +161,8 @@ def humans():
 
 @current_app.route("/.well-known/security.txt", methods=["GET"])
 def security():
-    """security dot txt page (RFC 9116)."""
-    return render_template("security.txt"), 200, {"Content-Type": "text/plain"}
+    """security dot txt page (RFC 9116), built from the SECURITY_TXT setting."""
+    body = render_security_txt(application.config.get("SECURITY_TXT") or {})
+    if not body:
+        abort(404)
+    return body, 200, {"Content-Type": "text/plain; charset=utf-8"}

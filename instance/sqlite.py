@@ -65,6 +65,21 @@ PROTECT_USER_PAGES = False
 # Private pages are never indexed. Leave disabled for a private instance.
 SEARCH_ENGINE_INDEXING = False
 
+# security.txt (RFC 9116), served at /.well-known/security.txt so that security
+# researchers know how to report vulnerabilities to the operator of this
+# instance. Disabled (404) when not set. Contact and Expires are required;
+# keep Expires less than a year ahead and update it before it passes.
+# A field can be given a list of values to repeat it (e.g. several Contact).
+# SECURITY_TXT = {
+#     "Contact": "mailto:security@example.org",
+#     "Expires": "2027-10-31T23:00:00.000Z",
+#     "Encryption": "https://example.org/pgp-key.txt",
+#     "Policy": "https://example.org/security-policy",
+#     "Acknowledgments": "https://example.org/hall-of-fame",
+#     "Preferred-Languages": "en",
+#     "Canonical": "https://newspipe.example.org/.well-known/security.txt",
+# }
+
 # LDAP authentication, optional
 LDAP_ENABLED = False
 # LDAP_URI will automatically try the _ldap._tcp lookups like for a kerberos domain but
