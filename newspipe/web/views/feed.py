@@ -88,6 +88,7 @@ def feed_view(feed_id=None, user_id=None):
         first_article = last_article = datetime.fromtimestamp(0)
         delta = last_article - first_article
         average = 0
+        total_articles = 0
 
     elapsed = datetime.now() - last_article
 
@@ -101,6 +102,7 @@ def feed_view(feed_id=None, user_id=None):
         first_post_date=first_article,
         end_post_date=last_article,
         average=average,
+        total_articles=total_articles,
         delta=delta,
         elapsed=elapsed,
     )
