@@ -1,24 +1,39 @@
 Newspipe Changelog
 ==================
 
-## Unreleased
+## 12.4.0 (2026-11-22)
 
 ### New
 
+- New Newspipe logo: a rolled newspaper shaped like a pipe, with news feed waves flowing out of its open end. It is now the navbar brand and the hero image of the About page. Added SVG and PNG favicons, an Apple touch icon, 192/512 px app icons and a web app manifest. The favicon is also served at `/favicon.ico`.
+- Optional search engine indexing with the new `SEARCH_ENGINE_INDEXING` setting (disabled by default, so private instances stay out of search engines). When enabled:
+  - `robots.txt` allows the home, about, login, sign up and popular pages;
+  - anonymous visitors of the home page get a public landing page presenting Newspipe instead of being redirected to the login form;
+  - `/sitemap.xml` lists the public pages and is referenced in `robots.txt`;
+  - each page declares its canonical URL based on `PLATFORM_URL`, and Open Graph and Twitter Card tags give shared links a title, a description and a preview image;
+  - the landing and About pages include schema.org `SoftwareApplication` structured data.
 - Administrators can now restrict some public pages to authenticated users with three new settings, all disabled by default:
   - `PROTECT_POPULAR_PAGE`: the popular feeds page (`/popular`).
   - `PROTECT_BOOKMARKS_PAGE`: the bookmarks page (`/bookmarks`).
   - `PROTECT_USER_PAGES`: the public profile pages of the users (`/user/<nickname>` and `/user/<nickname>/stream`), and the public feeds, articles and categories they expose (`/feed/public/<id>`, `/article/public/<id>` and `/category/<id>`).
 
   Unauthenticated visitors are redirected to the login page. When protected, the popular feeds and bookmarks pages no longer appear in the navigation bar for unauthenticated visitors, and `/popular` is removed from `robots.txt` and the sitemap.
+- `/.well-known/security.txt` (RFC 9116) is now built from the new `SECURITY_TXT` setting instead of a hard-coded template, so each instance can publish its own contact details. The page returns a 404 when the setting is not defined, and is served with `charset=utf-8`.
 
 ### Improvements
 
 - Emails can now be sent through any SMTP port and over an encrypted connection with the new `MAIL_PORT` (default 25), `MAIL_USE_TLS` (STARTTLS) and `MAIL_USE_SSL` (implicit TLS) settings. The certificate of the server is verified.
+- Cleaned and reorganized the example configuration files (`instance/config.py` and `instance/sqlite.py`): settings are grouped by topic with the same layout in both files. Removed settings that were not read anywhere: `CSRF_ENABLED`, `HTTP_PROXY`, `LOG_LEVEL`, `TIME_ZONE`, `MAIL_DEBUG`, `LDAP_GROUP_BASE`, `LDAP_GROUP_DISPLAY_ATTRIB`, `LDAP_USER_ATTRIB_MEMBEROF` and `LDAP_USER_DISPLAY_ATTRIB`.
+- The meta description, default page title and About text now describe Newspipe as a self-hosted RSS/Atom news aggregator. The package metadata points to www.newspipe.org.
+- sourcehut is now the main platform hosting the source code (https://git.sr.ht/~cedric/newspipe).
+- Updated the French translation.
+- Updated Python and JavaScript dependencies.
 
 ### Fixes
 
 - Fixed account creation (`/signup`), which failed with an internal server error since Flask-WTF passes `extra_validators` to the forms' `validate()` method.
+- Fixed the feed page, which returned a 502 on feeds with many articles: the template loaded every article of the feed into memory just to count them.
+- Fixed a missing slash in the account activation link sent by email. The trailing slash of `PLATFORM_URL` is now optional.
 
 
 ## 12.3.0 (2026-10-22)
