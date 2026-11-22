@@ -15,6 +15,8 @@
 
 Built with [Flask](https://flask.palletsprojects.com) · [asyncio](https://peps.python.org/pep-3156) · [SQLAlchemy](https://www.sqlalchemy.org)
 
+[![AI use](https://www.saywhichai.org/badge/newspipe.svg)](https://www.saywhichai.org/projects.html?project=newspipe)
+
 ![Newspipe Home page](docs/static/newspipe_home-page.png "Newspipe Home page")
 
 </div>
