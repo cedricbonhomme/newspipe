@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "Newspipe"
-version = "12.3.0"
+version = "12.4.0"
 description = "A self-hosted, multi-user web news aggregator and RSS/Atom feed reader."
 authors = [
     {name = "Cédric Bonhomme", email = "cedric@cedricbonhomme.org"}
