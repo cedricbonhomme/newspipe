@@ -1,6 +1,6 @@
 {
   "name": "newspipe",
-  "version": "12.3.0",
+  "version": "12.4.0",
   "license": "AGPL-3.0",
   "private": true,
   "packageManager": "npm@12",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.8",
+    "bootstrap": "^5.3.9",
     "bootstrap-icons": "^1.13.2",
     "chart.js": "^4.6.1",
     "chartjs-plugin-datalabels": "^2.2.0",
