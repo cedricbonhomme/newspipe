@@ -81,6 +81,7 @@ SEARCH_ENGINE_INDEXING = False
 #     "Encryption": "https://example.org/pgp-key.txt",
 #     "Policy": "https://example.org/security-policy",
 #     "Acknowledgments": "https://example.org/hall-of-fame",
+#     "GCVE": "https://example.org/api/gcve/publication",  # GCVE-BCP-03 advisory feed, if any
 #     "Preferred-Languages": "en",
 #     "Canonical": "https://newspipe.example.org/.well-known/security.txt",
 # }
