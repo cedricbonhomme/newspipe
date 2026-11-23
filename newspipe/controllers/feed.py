@@ -1,12 +1,17 @@
 import itertools
 import logging
+from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
+
+from sqlalchemy import desc
+from sqlalchemy import func
 
 from .abstract import AbstractController
 from .icon import IconController
 from newspipe.bootstrap import application
 from newspipe.lib.utils import clear_string
+from newspipe.models import Article
 from newspipe.models import Feed
 from newspipe.models import User
 
@@ -42,32 +47,64 @@ class FeedController(AbstractController):
 
     def get_duplicates(self, feed_id):
         """
-        Compare a list of documents by pair.
-        Pairs of duplicates are sorted by "retrieved date".
+        Find pairs of articles of a feed with the same title, published
+        less than a day apart, among the 1000 most recent ones.
+        Each pair is ordered by "retrieved date" (oldest first).
+
+        Only the columns the duplicates page needs are loaded, and articles
+        are grouped by cleaned title so only same-title articles are
+        compared, instead of every possible pair.
         """
+        from .article import ArticleController
+
         feed = self.get(id=feed_id)
-        duplicates = []
-        for pair in itertools.combinations(feed.articles[:1000], 2):
-            date1, date2 = pair[0].date, pair[1].date
-            if clear_string(pair[0].title) == clear_string(pair[1].title) and (
-                date1 - date2
-            ) < timedelta(days=1):
-                if pair[0].retrieved_date < pair[1].retrieved_date:
-                    duplicates.append((pair[0], pair[1]))
-                else:
-                    duplicates.append((pair[1], pair[0]))
-        return feed, duplicates
+        rows = (
+            ArticleController(self.user_id)
+            .read(feed_id=feed.id)
+            .with_entities(
+                Article.id, Article.title, Article.date, Article.retrieved_date
+            )
+            .order_by(desc(Article.date))
+            .limit(1000)
+            .all()
+        )
+        groups = defaultdict(list)
+        for index, row in enumerate(rows):
+            if row.date is not None:
+                groups[clear_string(row.title or "")].append((index, row))
+
+        found = []
+        for group in groups.values():
+            # Rows are sorted by date, newest first, as in the full listing.
+            for (i, art1), (j, art2) in itertools.combinations(group, 2):
+                if art1.date - art2.date < timedelta(days=1):
+                    if art1.retrieved_date < art2.retrieved_date:
+                        found.append(((i, j), (art1, art2)))
+                    else:
+                        found.append(((i, j), (art2, art1)))
+        found.sort(key=lambda item: item[0])
+        return feed, [pair for _, pair in found]
 
     def get_inactives(self, nb_days):
+        """
+        Return the feeds whose most recent article is older than nb_days,
+        with the time elapsed since then, most inactive first.
+        """
+        from .article import ArticleController
+
+        last_posts = dict(
+            ArticleController(self.user_id)
+            .read()
+            .with_entities(Article.feed_id, func.max(Article.date))
+            .order_by(None)
+            .group_by(Article.feed_id)
+            .all()
+        )
         today = datetime.now()
         inactives = []
         for feed in self.read():
-            try:
-                last_post = feed.articles.first().date
-            except IndexError:
-                continue
-            except Exception as e:
-                logger.exception(e)
+            last_post = last_posts.get(feed.id)
+            if last_post is None:
                 continue
             elapsed = today - last_post
             if elapsed > timedelta(days=nb_days):

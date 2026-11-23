@@ -11,10 +11,12 @@ from flask import url_for
 from flask_babel import get_locale
 from flask_login import current_user
 from flask_login import login_required
+from sqlalchemy.orm import defer
 
 from newspipe.controllers import ArticleController
 from newspipe.controllers import CategoryController
 from newspipe.controllers import FeedController
+from newspipe.models import Article
 from newspipe.web.lib.view_utils import etag_match
 from newspipe.web.views.common import jsonify
 
@@ -77,7 +79,12 @@ def home():
     search_content = request.args.get("search_content", "off")
 
     # Only load the first page; the rest is fetched on demand via /home/articles.
-    articles = art_contr.read_ordered(**filters).limit(PER_PAGE).all()
+    articles = (
+        art_contr.read_ordered(**filters)
+        .options(defer(Article.content))
+        .limit(PER_PAGE)
+        .all()
+    )
 
     in_error = {
         feed.id: feed.error_count
@@ -170,7 +177,13 @@ def home_articles():
     except (TypeError, ValueError):
         offset = 0
 
-    articles = art_contr.read_ordered(**filters).offset(offset).limit(PER_PAGE).all()
+    articles = (
+        art_contr.read_ordered(**filters)
+        .options(defer(Article.content))
+        .offset(offset)
+        .limit(PER_PAGE)
+        .all()
+    )
 
     locale = get_locale()
     feeds = {feed.id: feed for feed in current_user.feeds}
