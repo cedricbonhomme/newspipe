@@ -4,10 +4,11 @@ from datetime import timedelta
 from flask import Blueprint
 from flask import flash
 from flask import jsonify
-from flask import make_response
 from flask import redirect
 from flask import render_template
 from flask import request
+from flask import Response
+from flask import stream_with_context
 from flask import url_for
 from flask_babel import gettext
 from flask_login import current_user
@@ -253,13 +254,13 @@ def export():
     Export articles to JSON.
     """
     user = UserController(current_user.id).get(id=current_user.id)
-    json_result = {}
     try:
-        json_result = export_json(user)
+        chunks = export_json(user)
     except Exception:
         flash(gettext("Error when exporting articles."), "danger")
         return redirect(safe_redirect_url())
-    response = make_response(json_result)
-    response.mimetype = "application/json"
-    response.headers["Content-Disposition"] = "attachment; filename=account.json"
-    return response
+    return Response(
+        stream_with_context(chunks),
+        mimetype="application/json",
+        headers={"Content-Disposition": "attachment; filename=account.json"},
+    )

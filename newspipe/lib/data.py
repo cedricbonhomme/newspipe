@@ -233,10 +233,16 @@ def import_json(nickname, json_content):
 def export_json(user):
     """
     Export all articles of user in JSON.
+
+    Returns a generator of JSON text chunks, so the export can be streamed:
+    articles are fetched in batches with only the exported columns, instead
+    of materializing every article (with its content) and the whole JSON
+    document in memory. The feed metadata is read eagerly, so errors there
+    still surface before the response starts.
     """
-    articles = []
-    for feed in user.feeds:
-        articles.append(
+    feeds = [
+        (
+            feed.id,
             {
                 "title": feed.title,
                 "description": feed.description,
@@ -244,7 +250,35 @@ def export_json(user):
                 "site_link": feed.site_link,
                 "enabled": feed.enabled,
                 "created_date": feed.created_date.strftime("%s"),
-                "articles": [
+            },
+        )
+        for feed in user.feeds
+    ]
+    return _export_json_chunks(user.id, feeds)
+
+
+def _export_json_chunks(user_id, feeds, chunk_size=64 * 1024):
+    buffer, size = ["["], 1
+    try:
+        for feed_index, (feed_id, feed_meta) in enumerate(feeds):
+            # Keys are emitted sorted, as jsonify did: "articles" comes first.
+            buffer.append(("," if feed_index else "") + '{"articles": [')
+            articles = (
+                db.session.query(
+                    Article.title,
+                    Article.link,
+                    Article.content,
+                    Article.readed,
+                    Article.like,
+                    Article.date,
+                    Article.retrieved_date,
+                )
+                .filter(Article.user_id == user_id, Article.feed_id == feed_id)
+                .order_by(Article.date.desc())
+                .yield_per(500)
+            )
+            for article_index, article in enumerate(articles):
+                chunk = ("," if article_index else "") + json.dumps(
                     {
                         "title": article.title,
                         "link": article.link,
@@ -253,12 +287,22 @@ def export_json(user):
                         "like": article.like,
                         "date": article.date.strftime("%s"),
                         "retrieved_date": article.retrieved_date.strftime("%s"),
-                    }
-                    for article in feed.articles
-                ],
-            }
-        )
-    return jsonify(articles)
+                    },
+                    sort_keys=True,
+                )
+                buffer.append(chunk)
+                size += len(chunk)
+                if size >= chunk_size:
+                    yield "".join(buffer)
+                    buffer, size = [], 0
+            buffer.append("], " + json.dumps(feed_meta, sort_keys=True)[1:])
+        buffer.append("]")
+        yield "".join(buffer)
+    except Exception:
+        # The response has already started: it can't be turned into an error
+        # page any more, so at least leave a trace of the truncated export.
+        logger.exception("JSON export of user %s failed while streaming", user_id)
+        raise
 
 
 def import_pinboard_json(user, json_content):
