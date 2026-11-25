@@ -6,6 +6,7 @@ import sqlalchemy
 from sqlalchemy import asc
 from sqlalchemy import desc
 from sqlalchemy import func
+from werkzeug.exceptions import Forbidden
 
 from .abstract import AbstractController
 from newspipe.bootstrap import db
@@ -75,14 +76,11 @@ class ArticleController(AbstractController):
             feed = FeedController().get(id=attrs["feed_id"])
             assert feed.user_id == user_id, "no right on feed %r" % feed.id
             attrs["category_id"] = feed.category_id
-        if attrs.get("category_id"):
-            try:
-                cat = CategoryController().get(id=attrs["category_id"])
-                assert self.user_id is None or cat.user_id == user_id, (
-                    "no right on cat %r" % cat.id
-                )
-            except Exception:
-                pass
+        if attrs.get("category_id") and self.user_id is not None:
+            # Raises NotFound for an unknown category.
+            cat = CategoryController().get(id=attrs["category_id"])
+            if cat.user_id != user_id:
+                raise Forbidden({"message": "No right on category %r" % cat.id})
         return super().update(filters, attrs)
 
     @staticmethod
